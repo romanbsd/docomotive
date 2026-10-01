@@ -9,7 +9,7 @@ The current reading copy is [the corrected EPUB](output/reading-edition/the-natu
 Use the existing `.venv`; no activation is needed. Full extraction currently requires macOS because Apple Vision is one of the witnesses. Tesseract and RapidOCR run locally on CPU. The build can run elsewhere from the cached JSON, although fresh cross-platform OCR has not been validated.
 
 ```sh
-.venv/bin/pip install -r requirements.txt
+.venv/bin/pip install .
 brew install tesseract ocrmypdf
 .venv/bin/python scripts/bootstrap.py
 
@@ -23,7 +23,7 @@ brew install tesseract ocrmypdf
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-Java is needed for EPUBCheck. Swift/Xcode command-line tools are needed for Vision. The bootstrap downloads six public resources with expected SHA-256 checksums: three PP-OCRv4 ONNX models, the Hunspell dictionary pair, and EPUBCheck 5.4.0. It fails on changed bytes. Package pins are in `requirements.txt`; `requirements-research.lock.txt` records the entire experiment environment, including pre-existing pdf-craft dependencies, and is not a portable minimal lockfile.
+Java is needed for EPUBCheck. Swift/Xcode command-line tools are needed for Vision. The bootstrap downloads six public resources with expected SHA-256 checksums: three PP-OCRv4 ONNX models, the Hunspell dictionary pair, and EPUBCheck 5.4.0. It fails on changed bytes. Runtime package pins are in `pyproject.toml` and mirrored in the legacy `requirements.txt`. Optional extras are `visual` (WeasyPrint rendering), `research` (pdf-craft), and `kenlm` (the optional scoring adapter, not yet validated). Install extras with `.venv/bin/pip install '.[visual,research]'`; install Black with `.venv/bin/pip install --group dev`. The scripts run from this checkout; installing the project supplies its dependencies. Python 3.14 is the tested interpreter. `requirements-research.lock.txt` records the entire experiment environment, including transitive pdf-craft dependencies, and is not a portable minimal lockfile.
 
 OCR caches and generated books are ignored by Git but retained locally. Do not delete `work/` if you want to reproduce the current OCR evidence without rerunning inference. Apple Vision may need execution outside the agent sandbox to contact the local macOS service. It does not upload pages.
 
