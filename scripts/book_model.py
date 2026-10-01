@@ -9,9 +9,11 @@ from layout import excluded
 
 
 class JoinPolicy:
-    def __init__(self, protected=(), observed=(), dictionary=None):
+    def __init__(
+        self, protected=(), observed=(), dictionary=None, observed_min_count=2
+    ):
         self.words = {w.lower() for w in protected} | {
-            w.lower() for w, n in Counter(observed).items() if n >= 2
+            w.lower() for w, n in Counter(observed).items() if n >= observed_min_count
         }
         self.dictionary = dictionary
 
@@ -24,15 +26,15 @@ class JoinPolicy:
         )
 
     def boundary(self, a, b):
+        if a.endswith("\u00ad"):
+            return 1, "", "remove-discretionary"
         if a.endswith("-"):
             left = re.search(r"([\w]+)-$", a)
-            right = re.match(r"([\w]+)", b)
+            right = re.match(r"([^\W\d_]+)", b)
             if left and right:
                 combined = left[1] + right[1]
                 hyphenated = left[1] + "-" + right[1]
-                if hyphenated.lower() in self.words or (
-                    self.dictionary and self.dictionary.lookup(hyphenated.lower())
-                ):
+                if hyphenated.lower() in self.words:
                     return 0, "", "retain"
                 return (
                     (1, "", "remove") if self.accepts(combined) else (0, "", "retain")
@@ -68,7 +70,7 @@ def classify_row(page, row, book, first=False):
     text = row["text"].strip()
     if first and y < book.get("chapter_body_starts", {}).get(str(page), 0.27):
         return "excluded", "chapter-title"
-    if y < 0.035:
+    if y < book.get("upper_margin_cutoff", 0.035):
         return "excluded", "upper-margin-artifact"
     if excluded(page, row, book.get("_layout", {})):
         return "excluded", "recurring-margin"
@@ -96,7 +98,9 @@ def page_blocks(n, rows, book, audit, first, policy=None):
     blocks = []
     for col in sorted(set(r.get("column", 0) for r in body)):
         rr = [r for r in body if r.get("column", 0) == col]
-        margin = sorted(r["bbox"][0] for r in rr)[len(rr) // 5]
+        margin = book.get("paragraph_margins", {}).get(
+            str(n), sorted(r["bbox"][0] for r in rr)[len(rr) // 5]
+        )
         last = None
         for r in rr:
             text = r["text"]
@@ -105,15 +109,23 @@ def page_blocks(n, rows, book, audit, first, policy=None):
                 lo <= y <= hi
                 for lo, hi in book.get("verse_regions", {}).get(str(n), [])
             )
-            kind = (
+            kind = r.get("kind") or (
                 "verse"
                 if verse
                 else "heading" if re.fullmatch(r"CHAPTER \d+", text) else "text"
             )
-            indented = r["bbox"][0] > margin + 0.018
+            active_margin = (
+                min(
+                    (row["bbox"][0] for row in rr if row.get("kind") == "quote"),
+                    default=margin,
+                )
+                if kind == "quote"
+                else margin
+            )
+            indented = r["bbox"][0] > active_margin + 0.018
             gap = last is not None and y - last["bbox"][3] > 0.012
             hanging = n in book.get("reference_pages", [])
-            numbered = bool(re.match(r"^\d+\.\s", text)) and hanging
+            numbered = bool(re.match(r"^\d+\.\s", text)) and hanging and not indented
             new = (
                 not blocks
                 or blocks[-1]["kind"] != kind
@@ -156,6 +168,7 @@ def normalize_block(block, policy, audit):
     sources = []
     breaks = []
     seen = set()
+    inline = []
     for line in block["lines"]:
         previous = text
         trim, separator, action = (
@@ -165,6 +178,8 @@ def normalize_block(block, policy, audit):
         )
         if trim:
             text = text[:-trim]
+            for style in inline:
+                style["end"] = min(style["end"], len(text))
             for source in sources:
                 source["end"] = min(source["end"], len(text))
         start = len(text) + len(separator)
@@ -172,6 +187,10 @@ def normalize_block(block, policy, audit):
             join(previous, line["text"], audit, line["page"], policy)
             if block["kind"] != "verse"
             else text + separator + line["text"]
+        )
+        inline.extend(
+            {**style, "start": start + style["start"], "end": start + style["end"]}
+            for style in line.get("inline", [])
         )
         if line["page"] not in seen:
             breaks.append({"page": line["page"], "offset": start})
@@ -185,6 +204,8 @@ def normalize_block(block, policy, audit):
             | {"start": start, "end": len(text)}
         )
     block["text"] = text
+    if inline:
+        block["inline"] = inline
     block["sources"] = sources
     block["page_breaks"] = breaks
     opening = next(iter(block.get("lines", [])), {}).get("opening")
@@ -313,6 +334,9 @@ def replace_block(block, edit):
         for source in block["sources"]:
             source["start"] = adjust(source["start"])
             source["end"] = adjust(source["end"])
+        for style in block.get("inline", []):
+            style["start"] = adjust(style["start"])
+            style["end"] = adjust(style["end"])
         for mark in block["page_breaks"]:
             mark["offset"] = adjust(mark["offset"])
 

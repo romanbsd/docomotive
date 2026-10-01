@@ -8,7 +8,7 @@ from pathlib import Path
 from wordfreq import zipf_frequency
 from common import ROOT, read_json, write_json
 
-TOKEN = re.compile(r"\b[a-zA-ZÀ-ž]+(?:['’-][a-zA-ZÀ-ž]+)*\b")
+TOKEN = re.compile(r"[^\W\d_]+(?:['’-][^\W\d_]+)*", re.UNICODE)
 
 
 def analyze(model, book):
@@ -26,18 +26,24 @@ def analyze(model, book):
     for entry in model:
         chapter = entry["chapter"]
         reference = entry["source_pages"][0] in book.get("reference_pages", [])
-        if not reference:
+        if not reference and chapter not in book.get(
+            "statistics_excluded_chapters", []
+        ):
             documents.append(chapter)
         for index, block in enumerate(entry["blocks"] + entry["notes"]):
+            effective_chapter = block.get("source_chapter", chapter)
+            effective_reference = reference and "source_chapter" not in block
             for match in TOKEN.finditer(block["text"]):
                 value = match.group()
                 term = terms[value.lower()]
-                if reference:
+                if effective_reference or effective_chapter in book.get(
+                    "statistics_excluded_chapters", []
+                ):
                     term["reference_count"] += 1
                     continue
                 total += 1
                 term["forms"][value] += 1
-                term["chapters"][chapter] += 1
+                term["chapters"][effective_chapter] += 1
                 term["blocks"].add((chapter, index))
                 term["pages"].update(
                     s["page"]

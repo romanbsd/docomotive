@@ -99,3 +99,19 @@ Vocabulary analysis runs after complete paragraph and footnote assembly, using t
 Open [the reading-edition review sheet](output/reading-edition/proofreading-review.html) in a browser. It includes capitalized terms and footnotes, displays scan crops and all three OCR witnesses, and exports decisions as JSON. Decisions require verification and checked config overlays before application. The current reading edition has 92 lexical groups plus one repeated-word diagnostic; this is a review queue, not an error count.
 
 Manual and editorial overlays share exact occurrence checks in `scripts/common.py`. Layout classification, within-page/across-page joins, rendering and proofreading use shared source-linked text rather than independently rebuilding words from HTML. Twelve rare line joins have scan-backed decisions in `config/line-join-decisions.json`; their vocabulary is explicitly supplied by the profile. Coverage proves that every retained reconciled OCR row is represented once, not that OCR recognized every mark in the scan.
+
+## Shamanic Trance in Modern Kabbalah
+
+[The EPUB](output/shamanic-trance/shamanic-trance.epub) is built from `Shamanic trance.pdf` with its own profile and output directory:
+
+```sh
+.venv/bin/python scripts/pipeline.py 'Shamanic trance.pdf' \
+  --profile config/shamanic-trance/book.json \
+  --work work/shamanic-trance --output output/shamanic-trance
+```
+
+This input is a publisher PDF with native text. Its profile selects `text_source: native`, so the pipeline extracts text, geometry and font spans locally without OCR. It preserves italics, bold headings, superscript references, quotations and the two-column index. The book has no interior figures; its original cover and back cover are retained. The downloaded matching ISBN cover is embedded as a source reference. Open Library supplies edition metadata for ISBN-13 9780226282077, with checked author/title/publisher identity and cached provenance.
+
+All 745 numbered endnotes have individual links and backlinks. Endnote sequence checks fail on gaps, duplicates or references without targets. Index references link to individual notes where the source page/number identifies one unambiguously, otherwise to the printed page. Notes contribute vocabulary evidence to their source chapter; bibliography and index counts remain separate. Unicode modifier letters in transliterations such as `Baʿal` and `Peʿamim` stay within their words.
+
+Ten rare line-wrap joins and nine tracked-heading normalizations were inspected against the source. Hunspell's ability to accept arbitrary hyphen compounds no longer overrides a supported joined spelling. Native publisher text can supply a single complete in-book spelling as join evidence; OCR still requires recurrence. All transformations retain source-row mappings and audit records. The [proofreading sheet](output/shamanic-trance/proofreading-review.html) is offline and uses lazy image loading; it is large because of the scholarly vocabulary and source crops. Proposals remain unverified until reviewed, and no remote model was used for this book.

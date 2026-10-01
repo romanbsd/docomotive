@@ -29,6 +29,14 @@ def diagnostics(model, book):
                         for s in block["sources"]
                         if s["end"] > match.start() and s["start"] < match.end()
                     ]
+                    if (
+                        kind == "suspicious-line-punctuation"
+                        and sources
+                        and all(
+                            s["page"] in book.get("index_pages", []) for s in sources
+                        )
+                    ):
+                        continue  # dangling hyphens are valid index abbreviations
                     results.append(
                         {
                             "word": match.group(),
@@ -63,6 +71,8 @@ def make_sheet(pdf, profile, out, work):
     loaded = {}
 
     def witnesses(page, row):
+        if book.get("text_source") == "native":
+            return {"native-pdf": {"text": row["text"], "confidence": None}}
         result = {}
         for engine in ["tesseract", "vision", "rapid"]:
             key = (engine, page)
@@ -85,7 +95,12 @@ def make_sheet(pdf, profile, out, work):
                     source,
                     item["word"],
                     [
-                        (o["chapter"], o["paragraph"], o["offset"])
+                        (
+                            o["chapter"],
+                            o["paragraph"],
+                            o["offset"],
+                            [r["row_id"] for r in o["sources"]],
+                        )
                         for o in item["occurrences"]
                     ],
                 ],
@@ -111,11 +126,10 @@ def make_sheet(pdf, profile, out, work):
                     min(1, x1 + 0.015) * page.rect.width,
                     min(1, y1 + 0.012) * page.rect.height,
                 )
-                data = page.get_pixmap(dpi=180, clip=clip).pil_tobytes(
-                    format="JPEG", quality=85
-                )
+                pixmap = page.get_pixmap(dpi=180, clip=clip)
+                data = pixmap.pil_tobytes(format="JPEG", quality=85)
                 images.append(
-                    f'<figure><figcaption>PDF {n} · original page {n+book.get("printed_page_offset",0)}</figcaption><img alt="Source line for {html.escape(item["word"],quote=True)}" src="data:image/jpeg;base64,{base64.b64encode(data).decode()}"/></figure>'
+                    f'<figure><figcaption>PDF {n} · original page {n+book.get("printed_page_offset",0)}</figcaption><img loading="lazy" width="{pixmap.width}" height="{pixmap.height}" alt="Source line for {html.escape(item["word"],quote=True)}" src="data:image/jpeg;base64,{base64.b64encode(data).decode()}"/></figure>'
                 )
                 evidence.append(
                     {

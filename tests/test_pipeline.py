@@ -400,5 +400,253 @@ class WholeBookStatisticsTests(unittest.TestCase):
         self.assertFalse(edit_distance_one("drug", "mind"))
 
 
+class NativePDFTests(unittest.TestCase):
+    def test_native_corpus_rendering_preserves_all_canonical_text(self):
+        from lxml import etree
+        from render_text import notes_html
+        import json
+
+        root = Path(__file__).resolve().parents[1]
+        path = root / "output/shamanic-trance/book-model.json"
+        if not path.exists():
+            self.skipTest("Build the native PDF benchmark first")
+        model = json.loads(path.read_text())
+        book = json.loads((root / "config/shamanic-trance/book.json").read_text())
+        for chapter in model:
+            for block in chapter["blocks"]:
+                markup = block_html(block, book, set(), [], "chapter.xhtml")
+                node = etree.fromstring(
+                    (
+                        '<body xmlns:epub="http://www.idpf.org/2007/ops">'
+                        + markup
+                        + "</body>"
+                    ).encode()
+                )
+                for backlink in node.xpath('.//p[@class="note-backlinks"]'):
+                    backlink.getparent().remove(backlink)
+                for br in node.findall(".//br"):
+                    br.tail = " " + (br.tail or "")
+                self.assertEqual(
+                    " ".join("".join(node.itertext()).split()),
+                    " ".join(block["text"].split()),
+                )
+            markup = notes_html(chapter["notes"], book)
+            if markup:
+                node = etree.fromstring(
+                    (
+                        '<body xmlns:epub="http://www.idpf.org/2007/ops">'
+                        + markup
+                        + "</body>"
+                    ).encode()
+                )
+                for aside, note in zip(node.findall(".//aside"), chapter["notes"]):
+                    self.assertEqual("".join(aside.find("p").itertext()), note["text"])
+
+    def test_encoding_normalization_keeps_explicit_end_discretionary_hyphen(self):
+        from native_pdf import clean_text
+
+        self.assertEqual(clean_text("\x07ﬁeld\t"), "field ")
+        self.assertEqual(clean_text("trans\u00adformation"), "transformation")
+        self.assertEqual(join("trans\u00ad", "formation"), "transformation")
+        self.assertEqual(join("let-", "ter18"), "letter18")
+
+    def test_hunspell_compound_acceptance_cannot_keep_an_artificial_wrap(self):
+        class PermissiveDictionary:
+            def lookup(self, word):
+                return True
+
+        self.assertEqual(
+            join(
+                "friend-", "ship", policy=JoinPolicy(dictionary=PermissiveDictionary())
+            ),
+            "friendship",
+        )
+        self.assertEqual(
+            join(
+                "mind-",
+                "set",
+                policy=JoinPolicy(["mind-set"], dictionary=PermissiveDictionary()),
+            ),
+            "mind-set",
+        )
+
+    def test_native_spans_keep_italics_and_superscript_offsets(self):
+        from native_pdf import extract_page
+        from types import SimpleNamespace
+
+        page = SimpleNamespace(
+            rect=SimpleNamespace(width=100, height=100),
+            get_text=lambda mode: {
+                "blocks": [
+                    {
+                        "lines": [
+                            {
+                                "bbox": [10, 20, 80, 30],
+                                "spans": [
+                                    {
+                                        "text": "trance",
+                                        "flags": 6,
+                                        "font": "BookItalic",
+                                        "size": 9.5,
+                                    },
+                                    {
+                                        "text": "1",
+                                        "flags": 5,
+                                        "font": "Book",
+                                        "size": 5.5,
+                                    },
+                                ],
+                            }
+                        ]
+                    }
+                ]
+            },
+        )
+        rows = extract_page(page, {}, 1, [])
+        self.assertEqual(rows[0]["text"], "trance1")
+        self.assertEqual(
+            rows[0]["inline"],
+            [
+                {"start": 0, "end": 6, "tags": ["em"]},
+                {"start": 6, "end": 7, "tags": ["sup"]},
+            ],
+        )
+
+    def apparatus_fixture(self):
+        body = {
+            "text": "a1 b2",
+            "inline": [
+                {"start": 1, "end": 2, "tags": ["sup"]},
+                {"start": 4, "end": 5, "tags": ["sup"]},
+            ],
+            "kind": "text",
+        }
+
+        def note(number):
+            return {
+                "text": f"{number}. Text",
+                "kind": "text",
+                "sources": [{"page": 160, "bbox": [0.146, 0.3, 0.85, 0.32]}],
+            }
+
+        model = [
+            {"chapter": 1, "blocks": [body]},
+            {
+                "chapter": 2,
+                "blocks": [
+                    {"kind": "heading", "text": "Chapter One"},
+                    note(1),
+                    note(2),
+                ],
+            },
+        ]
+        book = {
+            "endnote_chapter": 2,
+            "endnote_sections": [
+                {"heading": "Chapter One", "source_chapter": 1, "expected_notes": 2}
+            ],
+        }
+        return model, book
+
+    def test_endnotes_require_complete_sequences_and_bidirectional_links(self):
+        from apparatus import link_endnotes
+
+        model, book = self.apparatus_fixture()
+        result = link_endnotes(model, book)
+        self.assertEqual((result["endnotes"], result["superscript_links"]), (2, 2))
+        self.assertEqual(
+            model[0]["blocks"][0]["inline"][0]["href"], "chapter-02.xhtml#endnote-1-1"
+        )
+        self.assertEqual(
+            model[1]["blocks"][1]["backlinks"], ["chapter-01.xhtml#noteref-1-1-1"]
+        )
+        model, book = self.apparatus_fixture()
+        model[1]["blocks"][2]["text"] = "3. Text"
+        with self.assertRaises(ValueError):
+            link_endnotes(model, book)
+
+    def test_orphaned_endnote_reference_fails(self):
+        from apparatus import link_endnotes
+
+        model, book = self.apparatus_fixture()
+        model[0]["blocks"][0]["text"] = "a1 b3"
+        with self.assertRaises(ValueError):
+            link_endnotes(model, book)
+
+    def test_endnote_terms_contribute_to_the_source_chapter_statistics(self):
+        from vocabulary import analyze
+
+        model = [
+            {
+                "chapter": 1,
+                "source_pages": [12],
+                "blocks": [
+                    {"text": "zorblax", "sources": [{"page": 12, "start": 0, "end": 7}]}
+                ],
+                "notes": [],
+            },
+            {
+                "chapter": 2,
+                "source_pages": [160],
+                "blocks": [
+                    {
+                        "text": "zorblax",
+                        "source_chapter": 1,
+                        "sources": [{"page": 160, "start": 0, "end": 7}],
+                    }
+                ],
+                "notes": [],
+            },
+        ]
+        stats = analyze(model, {"reference_pages": [160]})
+        term = stats["terms"]["zorblax"]
+        self.assertEqual(
+            (
+                term["count"],
+                term["chapter_df"],
+                term["page_df"],
+                term["reference_count"],
+            ),
+            (2, 1, 2, 0),
+        )
+
+    def test_transliteration_modifier_letters_are_part_of_the_word(self):
+        from vocabulary import TOKEN
+
+        self.assertEqual(
+            TOKEN.findall("Baʿal Shem Peʿamim"), ["Baʿal", "Shem", "Peʿamim"]
+        )
+
+    def test_index_reference_routes_to_endnote_and_keeps_abbreviated_range(self):
+        from lxml import etree
+
+        block = {"text": "169n97; 163–64nn50–51; ix", "kind": "text", "page_breaks": []}
+        book = {
+            "page_labels": {"10": "ix"},
+            "_index_note_refs": {
+                "169:97": "notes.xhtml#n97",
+                "163:50": "notes.xhtml#n50",
+            },
+        }
+        markup = block_html(
+            block,
+            book,
+            set(),
+            [],
+            "index.xhtml",
+            {
+                "169": "notes.xhtml#p169",
+                "163": "notes.xhtml#p163",
+                "ix": "preface.xhtml#page-10",
+            },
+        )
+        node = etree.fromstring(markup.encode())
+        self.assertEqual("".join(node.itertext()), block["text"])
+        self.assertEqual(
+            node.xpath(".//a/@href"),
+            ["notes.xhtml#n97", "notes.xhtml#n50", "preface.xhtml#page-10"],
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

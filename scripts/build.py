@@ -36,6 +36,8 @@ blockquote {margin:1em 1.5em;} .verse {margin:1em 1.5em;} .verse p {text-indent:
 img {max-width:100%; height:auto;} .facsimile {text-align:center; margin:0;}
 .publisher-mark {width:4em;} a {text-decoration:none;} sup {font-size:.75em;}
 .smallcaps {font-variant:small-caps;} .note-link {white-space:nowrap;}
+.note-backlinks {font-size:.75em; text-indent:0; margin:.2em 0 .8em;}
+.attribution {text-align:right; text-indent:0; margin:.3em 1.5em .8em;}
 """
 
 
@@ -181,43 +183,66 @@ def build(
     audit = []
     review = []
     pages = {}
-    cache = cache_path(work, "tesseract")
-    vision = cache_path(work, "vision")
-    secondary = cache_path(work, "rapid")
-    for p in [cache, vision, secondary]:
-        provenance = json.loads((p / "provenance.json").read_text())
-        if provenance["source_sha256"] != source_hash:
-            raise ValueError("OCR cache belongs to a different PDF")
-    for n in range(1, len(doc) + 1):
-        v = json.loads((cache / f"{n:04}.json").read_text())
-        r = json.loads((secondary / f"{n:04}.json").read_text())
-        vv = json.loads((vision / f"{n:04}.json").read_text())
-        if str(n) in book["index_splits"]:
-            rect = doc[n - 1].rect
-            split = book["index_splits"][str(n)] * rect.width
-            expected = [[0, 0, split, rect.height], [split, 0, rect.width, rect.height]]
-            for data in [v, r, vv]:
-                if data.get("clips") != expected:
-                    raise ValueError(
-                        f"OCR column geometry changed on page {n}; rerun extraction"
-                    )
-        # Vision handles separate reference numbers and index entries more reliably.
-        primary_name = (
-            "vision" if n in book.get("vision_primary_pages", []) else "tesseract"
-        )
-        if primary_name == "vision":
-            v, vv = vv, v
-        pages[n] = correct_page(
-            v["lines"],
-            embedded(doc[n - 1], book["index_splits"].get(str(n))),
-            merge_rows(vv["lines"]),
-            merge_rows(r["lines"]),
-            audit,
-            review,
-            n,
-            primary_name,
-            "tesseract" if primary_name == "vision" else "vision",
-        )
+    native = book.get("text_source") == "native"
+    provenance_records = []
+    if native:
+        from native_pdf import extract_page
+
+        pages = {
+            n: extract_page(doc[n - 1], book, n, audit) for n in range(1, len(doc) + 1)
+        }
+        provenance_records = [
+            {
+                "source_sha256": source_hash,
+                "engine": "native-pdf",
+                "pymupdf": pymupdf.VersionBind,
+            }
+        ]
+    else:
+        cache = cache_path(work, "tesseract")
+        vision = cache_path(work, "vision")
+        secondary = cache_path(work, "rapid")
+        for p in [cache, vision, secondary]:
+            provenance = json.loads((p / "provenance.json").read_text())
+            if provenance["source_sha256"] != source_hash:
+                raise ValueError("OCR cache belongs to a different PDF")
+        for n in range(1, len(doc) + 1):
+            v = json.loads((cache / f"{n:04}.json").read_text())
+            r = json.loads((secondary / f"{n:04}.json").read_text())
+            vv = json.loads((vision / f"{n:04}.json").read_text())
+            if str(n) in book["index_splits"]:
+                rect = doc[n - 1].rect
+                split = book["index_splits"][str(n)] * rect.width
+                expected = [
+                    [0, 0, split, rect.height],
+                    [split, 0, rect.width, rect.height],
+                ]
+                for data in [v, r, vv]:
+                    if data.get("clips") != expected:
+                        raise ValueError(
+                            f"OCR column geometry changed on page {n}; rerun extraction"
+                        )
+            # Vision handles separate reference numbers and index entries more reliably.
+            primary_name = (
+                "vision" if n in book.get("vision_primary_pages", []) else "tesseract"
+            )
+            if primary_name == "vision":
+                v, vv = vv, v
+            pages[n] = correct_page(
+                v["lines"],
+                embedded(doc[n - 1], book["index_splits"].get(str(n))),
+                merge_rows(vv["lines"]),
+                merge_rows(r["lines"]),
+                audit,
+                review,
+                n,
+                primary_name,
+                "tesseract" if primary_name == "vision" else "vision",
+            )
+        provenance_records = [
+            json.loads((p / "provenance.json").read_text())
+            for p in [cache, vision, secondary]
+        ]
     # Add page scope directly to the source rows before checked overlays.
     for n, rows in pages.items():
         for row in rows:
@@ -256,11 +281,14 @@ def build(
         if candidate["suitable_main_cover"] and suffix == ".jpg":
             files["OEBPS/cover.jpg"] = data
         break
-    files["OEBPS/publisher-mark.png"] = (
-        doc[book["publisher_mark"]["page"] - 1]
-        .get_pixmap(dpi=300, clip=pymupdf.Rect(book["publisher_mark"]["rect"]))
-        .tobytes("png")
-    )
+    publisher_image = ""
+    if book.get("publisher_mark"):
+        files["OEBPS/publisher-mark.png"] = (
+            doc[book["publisher_mark"]["page"] - 1]
+            .get_pixmap(dpi=300, clip=pymupdf.Rect(book["publisher_mark"]["rect"]))
+            .tobytes("png")
+        )
+        publisher_image = '<img class="publisher-mark" src="publisher-mark.png" alt="Publisher mark"/>'
     spine = []
     navigation = []
     page_links = []
@@ -280,7 +308,7 @@ def build(
     add(
         "title.xhtml",
         book["title"],
-        f'<div class="title"><h1>{html.escape(book["title"])}</h1><p>{html.escape(book["subtitle"])}</p><p>{html.escape(book["author"])}</p><img class="publisher-mark" src="publisher-mark.png" alt="Publisher mark"/><p>{html.escape(book["publisher"])}</p></div>',
+        f'<div class="title"><h1>{html.escape(book["title"])}</h1><p>{html.escape(book["subtitle"])}</p><p>{html.escape(book["author"])}</p>{publisher_image}<p>{html.escape(book["publisher"])}</p></div>',
     )
     add(
         "copyright.xhtml",
@@ -315,7 +343,10 @@ def build(
         else None
     )
     policy = JoinPolicy(
-        protected + book.get("line_join_words", []), observed, dictionary
+        protected + book.get("line_join_words", []),
+        observed,
+        dictionary,
+        observed_min_count=1 if native else 2,
     )
     editorial_edits = (
         json.loads((config / "editorial-proposals.json").read_text())
@@ -323,8 +354,30 @@ def build(
         else []
     )
     model = reconstruct(pages, book, policy, audit, editorial_edits)
+    from apparatus import link_endnotes
+
+    apparatus = link_endnotes(model, book)
+    write_json(out / "apparatus-analysis.json", apparatus)
     text_coverage = coverage(pages, book, model)
     write_json(out / "text-coverage.json", text_coverage)
+    note_page_refs = {}
+    ambiguous_note_refs = set()
+    for chapter in model:
+        for block in chapter["blocks"]:
+            if block.get("endnote"):
+                number = block["id"].rsplit("-", 1)[1]
+                for source in block["sources"]:
+                    key = (
+                        str(source["page"] + book.get("printed_page_offset", 0))
+                        + ":"
+                        + number
+                    )
+                    ref = f'chapter-{chapter["chapter"]:02}.xhtml#{block["id"]}'
+                    if key in note_page_refs and note_page_refs[key] != ref:
+                        ambiguous_note_refs.add(key)
+                    note_page_refs[key] = ref
+    for key in ambiguous_note_refs:
+        note_page_refs.pop(key, None)
     for chapter in model:
         start, end = chapter["source_pages"]
         name = f'chapter-{chapter["chapter"]:02}.xhtml'
@@ -332,6 +385,7 @@ def build(
         render_book = dict(
             book,
             _note_targets=chapter["note_targets"],
+            _index_note_refs=note_page_refs,
             _hanging=start in book.get("reference_pages", []),
         )
         body = ["<h1>" + html.escape(chapter["title"]) + "</h1>"]
@@ -346,11 +400,12 @@ def build(
         if start in book.get("index_pages", []):
             body = ['<div class="index">'] + body + ["</div>"]
         add(name, chapter["title"], "".join(body))
-    add(
-        "back-cover.xhtml",
-        "Back cover",
-        '<h1>Back cover</h1><div class="facsimile"><img src="back-cover.jpg" alt="Original back cover with reader endorsements"/></div>',
-    )
+    if any(name == "back-cover" for _, name in book["artwork_pages"]):
+        add(
+            "back-cover.xhtml",
+            "Back cover",
+            '<h1>Back cover</h1><div class="facsimile"><img src="back-cover.jpg" alt="Original back cover with reader endorsements"/></div>',
+        )
     nav = (
         '<nav epub:type="toc" id="toc"><h1>Contents</h1><ol>'
         + "".join(
@@ -480,6 +535,8 @@ def build(
         "source_sha256": source_hash,
         "epub_sha256": digest(target.read_bytes()),
         "source_pages": len(doc),
+        "apparatus": apparatus,
+        "ambiguous_index_note_references": sorted(ambiguous_note_refs),
         "chapter_count": len(book["chapters"]),
         "text_coverage": {
             "status": text_coverage["status"],
@@ -492,10 +549,7 @@ def build(
         "metadata_enrichment": enrichment,
         "validation": validate_epub(target),
         "excluded_pages": book["excluded_pages"],
-        "ocr_provenance": [
-            json.loads((p / "provenance.json").read_text())
-            for p in [cache, vision, secondary]
-        ],
+        "ocr_provenance": provenance_records,
         "limitations": [
             "OCR disagreements require review; automated correction is not full proofreading.",
             "Original inline italics and superscript reference typography are not fully recovered.",
@@ -508,11 +562,23 @@ def build(
             )
             if p.is_file()
         },
-        "primary_engines": {
-            "body": "Tesseract 5.5.3 English",
-            "bibliography_and_index": "Apple Vision revision 3",
-        },
+        "primary_engines": (
+            {
+                "body": "Publisher PDF native text",
+                "bibliography_and_index": "Publisher PDF native text",
+            }
+            if native
+            else {
+                "body": "Tesseract 5.5.3 English",
+                "bibliography_and_index": "Apple Vision revision 3",
+            }
+        ),
     }
+    if native:
+        result["limitations"] = [
+            "Native extraction and format normalization are not full proofreading.",
+            "Quoted and heading roles use reviewed profile/font geometry; original pagination changes with reflow.",
+        ]
     write_json(out / "report.json", result)
     print(json.dumps(result, indent=2))
 

@@ -12,7 +12,7 @@ from symspellpy import SymSpell, Verbosity
 from spylls.hunspell import Dictionary
 from wordfreq import zipf_frequency
 from common import ROOT, digest, write_json
-from vocabulary import analyze, review_signals
+from vocabulary import TOKEN, analyze, review_signals
 
 
 def main():
@@ -62,9 +62,13 @@ def main():
     write_json(args.output / "vocabulary-analysis.json", statistics)
     for entry in model:
         chapter = entry["chapter"]
-        if entry["source_pages"][0] in book.get("reference_pages", []):
-            continue
         for index, node in enumerate(entry["blocks"] + entry["notes"]):
+            if (
+                entry["source_pages"][0] in book.get("reference_pages", [])
+                and "source_chapter" not in node
+            ):
+                continue
+            chapter = node.get("source_chapter", entry["chapter"])
             text = node["text"]
             if args.languagetool_url:
                 import requests
@@ -84,7 +88,7 @@ def main():
                             "match": match,
                         }
                     )
-            for match in re.finditer(r"\b[a-zA-ZÀ-ž]+(?:['’-][a-zA-ZÀ-ž]+)*\b", text):
+            for match in TOKEN.finditer(text):
                 word = match.group()
                 low = word.lower()
                 if (

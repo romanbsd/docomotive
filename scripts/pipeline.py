@@ -44,7 +44,10 @@ def main():
 
     if a.fetch_metadata:
         run("metadata.py", "--profile", a.profile, "--cache", a.work / "metadata/cache")
-    if not a.skip_extraction:
+    import json
+
+    book = json.loads(a.profile.read_text())
+    if not a.skip_extraction and book.get("text_source") != "native":
         for engine in ["tesseract", "rapid", "vision"]:
             run(
                 "extract.py",
