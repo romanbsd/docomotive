@@ -28,8 +28,10 @@ def link_endnotes(model, book):
         match = re.match(r"^(\d+)\.\s", block["text"])
         # Numbers at the hanging content margin are citation continuations,
         # not numbered note starts. Source geometry resolves this ambiguity.
-        marker = match and block["sources"][0]["bbox"][0] < book.get(
-            "endnote_marker_limit", 0.17
+        marker = (
+            match
+            and block["sources"][0]["bbox"][0] >= book.get("endnote_marker_min", 0)
+            and block["sources"][0]["bbox"][0] < book.get("endnote_marker_limit", 0.17)
         )
         if marker:
             current = int(match[1])
@@ -74,6 +76,10 @@ def link_endnotes(model, book):
                     f'chapter-{chapter["chapter"]:02}.xhtml#{anchor}'
                 )
                 references += 1
+    for reference in book.get("frontmatter_endnotes", []):
+        key = (reference["source_chapter"], reference["number"])
+        targets[key]["backlinks"].append(reference["href"])
+        references += 1
     unlinked = [block["id"] for block in targets.values() if not block["backlinks"]]
     if unlinked:
         raise ValueError("Endnotes lack source references: " + ", ".join(unlinked))

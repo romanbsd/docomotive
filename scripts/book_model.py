@@ -70,12 +70,18 @@ def classify_row(page, row, book, first=False):
     text = row["text"].strip()
     if first and y < book.get("chapter_body_starts", {}).get(str(page), 0.27):
         return "excluded", "chapter-title"
+    if y >= book.get("bottom_margin_cutoffs", {}).get(str(page), 2):
+        return "excluded", "profile-bottom-margin"
     if y < book.get("upper_margin_cutoff", 0.035):
         return "excluded", "upper-margin-artifact"
     if excluded(page, row, book.get("_layout", {})):
         return "excluded", "recurring-margin"
     letters = [c for c in text if c.isalpha()]
-    if y < 0.10 and letters and sum(c.isupper() for c in letters) / len(letters) > 0.8:
+    if (
+        y < book.get("uppercase_margin_cutoff", 0.10)
+        and letters
+        and sum(c.isupper() for c in letters) / len(letters) > 0.8
+    ):
         return "excluded", "uppercase-margin-fallback"
     if len(text) <= 4 and y > 0.84:
         return "excluded", "short-footer-fallback"
@@ -124,7 +130,7 @@ def page_blocks(n, rows, book, audit, first, policy=None):
             )
             indented = r["bbox"][0] > active_margin + 0.018
             gap = last is not None and y - last["bbox"][3] > 0.012
-            hanging = n in book.get("reference_pages", [])
+            hanging = n in book.get("hanging_pages", book.get("reference_pages", []))
             numbered = bool(re.match(r"^\d+\.\s", text)) and hanging and not indented
             new = (
                 not blocks
@@ -146,7 +152,7 @@ def page_blocks(n, rows, book, audit, first, policy=None):
                         "lines": [r],
                         "continuation": (indented if hanging else not indented)
                         and not gap
-                        and kind == "text"
+                        and kind in ("text", "quote")
                         and not numbered,
                     }
                 )
@@ -241,7 +247,8 @@ def reconstruct(pages, book, policy, audit, editorial_edits=()):
                 bb
                 and blocks
                 and bb[0]["continuation"]
-                and blocks[-1]["kind"] == bb[0]["kind"] == "text"
+                and blocks[-1]["kind"] == bb[0]["kind"]
+                and bb[0]["kind"] in ("text", "quote")
             ):
                 continuation = bb.pop(0)
                 blocks[-1]["fragments"].extend(continuation["fragments"])

@@ -25,22 +25,50 @@ def extract_page(page, book, number, audit):
     parts = []
     for block in page.get_text("dict")["blocks"]:
         for line in block.get("lines", []):
+            if any(
+                span["font"] in book.get("native_excluded_fonts", [])
+                for span in line["spans"]
+            ):
+                audit.append(
+                    {
+                        "page": number,
+                        "kind": "excluded-native-annotation",
+                        "before": "".join(s["text"] for s in line["spans"]),
+                        "evidence": "Profile-verified publisher download watermark",
+                    }
+                )
+                continue
             text = ""
             inline = []
             sizes = []
             for span in line["spans"]:
                 value = clean_text(span["text"])
+                for before, after in book.get("native_typography", {}).items():
+                    value = value.replace(before, after)
                 start = len(text)
                 text += value
-                tags = []
+                tags = list(book.get("native_font_styles", {}).get(span["font"], []))
                 if span["flags"] & 2 or "italic" in span["font"].lower():
                     tags.append("em")
                 if span["flags"] & 16:
                     tags.append("strong")
-                if span["flags"] & 1:
+                if (
+                    span["flags"] & 1
+                    or (
+                        book.get("native_small_numeric_sup") and value.strip().isdigit()
+                    )
+                ) and span["size"] <= book.get(
+                    "native_superscript_max_size", float("inf")
+                ):
                     tags.append("sup")
                 if tags and value:
-                    inline.append({"start": start, "end": len(text), "tags": tags})
+                    inline.append(
+                        {
+                            "start": start,
+                            "end": len(text),
+                            "tags": list(dict.fromkeys(tags)),
+                        }
+                    )
                 if value.strip():
                     sizes.append(span["size"])
                 if value != span["text"]:
@@ -50,7 +78,7 @@ def extract_page(page, book, number, audit):
                             "kind": "native-encoding-normalization",
                             "before": span["text"],
                             "after": value,
-                            "evidence": "Nonprinting control, Unicode ligature or discretionary hyphen",
+                            "evidence": "Nonprinting control, Unicode ligature, discretionary hyphen or profile-verified typography",
                         }
                     )
             if not text.strip():
@@ -124,7 +152,9 @@ def extract_page(page, book, number, audit):
             "inline": inline,
             "native": True,
         }
-        if sizes and all(
+        if text in book.get("native_heading_texts", []):
+            row["kind"] = "heading"
+        elif sizes and all(
             any(abs(size - h) < 0.05 for h in book.get("native_heading_sizes", []))
             for size in sizes
         ):
@@ -132,6 +162,7 @@ def extract_page(page, book, number, audit):
         elif (
             number in book.get("native_quote_pages", [])
             and sizes
+            and not text.isdigit()
             and max(sizes) < book.get("native_body_size", 9.5) - 0.5
         ):
             row["kind"] = "quote"

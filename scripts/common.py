@@ -57,5 +57,19 @@ def apply_edits(items, edits, audit, kind):
         if count != edit.get("count", 1):
             raise ValueError(f"Correction precondition failed: {edit}, found {count}")
         for item, (text, _) in zip(targets, changes):
+            import re
+
+            after = edit.get("after", edit.get("proposal"))
+            matches = list(re.finditer(edit_pattern(edit), item["text"]))
+            for match in reversed(matches):
+                delta = len(after) - (match.end() - match.start())
+                for style in item.get("inline", []):
+                    for bound in ("start", "end"):
+                        if style[bound] >= match.end():
+                            style[bound] += delta
+                        elif style[bound] > match.start():
+                            style[bound] = match.start() + (
+                                len(after) if bound == "end" else 0
+                            )
             item["text"] = text
         audit.append(dict(edit, kind=kind, applied=True))

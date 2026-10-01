@@ -115,3 +115,19 @@ This input is a publisher PDF with native text. Its profile selects `text_source
 All 745 numbered endnotes have individual links and backlinks. Endnote sequence checks fail on gaps, duplicates or references without targets. Index references link to individual notes where the source page/number identifies one unambiguously, otherwise to the printed page. Notes contribute vocabulary evidence to their source chapter; bibliography and index counts remain separate. Unicode modifier letters in transliterations such as `Baʿal` and `Peʿamim` stay within their words.
 
 Ten rare line-wrap joins and nine tracked-heading normalizations were inspected against the source. Hunspell's ability to accept arbitrary hyphen compounds no longer overrides a supported joined spelling. Native publisher text can supply a single complete in-book spelling as join evidence; OCR still requires recurrence. All transformations retain source-row mappings and audit records. The [proofreading sheet](output/shamanic-trance/proofreading-review.html) is offline and uses lazy image loading; it is large because of the scholarly vocabulary and source crops. Proposals remain unverified until reviewed, and no remote model was used for this book.
+
+## For the Letter Kills, but the Spirit Gives Life
+
+[The EPUB](output/letter-kills/letter-kills.epub) converts the 24-page Boaz Huss advance article locally:
+
+```sh
+.venv/bin/python scripts/pipeline.py For_the_Letter_Kills_but_the_Spirit_Giv.pdf \
+  --profile config/letter-kills/book.json \
+  --work work/letter-kills --output output/letter-kills
+```
+
+The source has native text and no interior images or cover artwork. A deterministic typographic SVG cover replaces the absent cover. The EPUB retains the abstract, section navigation, quotations, inline italics, original page anchors and all 89 numbered endnotes, with backlinks including the title's funding note. Copyright is reflowed; publisher download watermarks are excluded before geometric row merging.
+
+Free Crossref DOI metadata is checked against the profile's author/title and cached with checksums. Run `scripts/metadata.py --profile config/letter-kills/book.json --cache work/letter-kills/metadata/cache --offline` to replay enrichment, or omit `--offline` to fetch an uncached response. Metadata distinguishes the 2020 advance article from the final journal publication and pagination. No ISBN is invented. The title's printed spelling “Mysticim” and other printed mistakes are retained; seven source-checked diacritic corrections restore extraction errors. German `reli-giösen` is joined using reviewed vocabulary; source-supported `re-form` remains hyphenated.
+
+The [offline proofreading sheet](output/letter-kills/proofreading-review.html) contains 136 lexical review groups. This single article is one IDF document, so chapter IDF cannot distinguish terms here; recurrence, page spread and the language-frequency prior still supply review evidence. A successful source-row coverage check and EPUBCheck do not establish complete proofreading or reader-device compatibility.

@@ -127,6 +127,66 @@ def record_url(key):
     return "https://openlibrary.org" + key + ".json"
 
 
+def enrich_doi(book, cache):
+    from urllib.parse import quote
+
+    doi = book["doi"].strip().lower()
+    if not re.fullmatch(r"10\.\d{4,9}/[^\s]+", doi):
+        raise ValueError("Invalid DOI")
+    record = cache.get("https://api.crossref.org/works/" + quote(doi, safe=""))[
+        "message"
+    ]
+    authors = [
+        " ".join([a.get("given", ""), a.get("family", "")]).strip()
+        for a in record.get("author", [])
+    ]
+    title = book["title"] + (": " + book["subtitle"] if book.get("subtitle") else "")
+    if record["DOI"].lower() != doi or not any(
+        norm(a) == norm(book["author"]) for a in authors
+    ):
+        raise ValueError("DOI identity conflicts with source profile")
+    if not any(
+        norm(t) == norm(title + book.get("metadata_title_suffix", ""))
+        for t in record.get("title", [])
+    ):
+        raise ValueError("DOI title conflicts with source profile")
+    dates = record.get("published-print", record.get("published", {})).get(
+        "date-parts", [[]]
+    )[0]
+    date = "-".join(str(v) if i == 0 else f"{v:02}" for i, v in enumerate(dates))
+    return {
+        "source_sha256": book["source_sha256"],
+        "doi": doi,
+        "authors": authors,
+        "publication_date": book["date"],
+        "final_publication_date": date,
+        "journal": record.get("container-title", [""])[0],
+        "volume": record.get("volume", ""),
+        "issue": record.get("issue", ""),
+        "page": record.get("page", ""),
+        "identifiers": {"issn": record.get("ISSN", [])},
+        "subjects": sorted(set(record.get("subject", []) + book.get("subjects", []))),
+        "description": book.get("description", ""),
+        "links": ["https://doi.org/" + doi],
+        "rights": book.get("rights", ""),
+        "covers": [],
+        "sources": cache.sources,
+        "source_version": book.get("source_version", "Article"),
+        "conflicts": (
+            [
+                {
+                    "field": "publication_date",
+                    "api": date,
+                    "source_profile": book["date"],
+                    "resolution": "Preserve advance-article source date; record final journal date separately.",
+                }
+            ]
+            if date != book["date"]
+            else []
+        ),
+    }
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--profile", type=Path, default=ROOT / "config/book.json")
@@ -134,8 +194,15 @@ def main():
     p.add_argument("--offline", action="store_true")
     a = p.parse_args()
     book = json.loads(a.profile.read_text())
-    number = isbn(book["isbn"])
     cache = Cache(a.cache, a.offline)
+    if book.get("doi") and not book.get("isbn"):
+        enrich = enrich_doi(book, cache)
+        (a.profile.parent / "enrichment.json").write_text(
+            json.dumps(enrich, ensure_ascii=False, indent=2) + "\n"
+        )
+        print(json.dumps({"doi": enrich["doi"], "journal": enrich["journal"]}))
+        return
+    number = isbn(book["isbn"])
     edition = cache.get("https://openlibrary.org/isbn/" + number + ".json")
     authors = [
         cache.get(record_url(author["key"]))["name"]

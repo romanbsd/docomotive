@@ -130,7 +130,12 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
     if block["kind"] == "quote":
         return "<blockquote><p>" + content + "</p></blockquote>"
     if block["kind"] == "heading":
-        return "<h2>" + content + "</h2>"
+        anchor = (
+            ' id="' + html.escape(block["heading_id"], quote=True) + '"'
+            if block.get("heading_id")
+            else ""
+        )
+        return "<h2" + anchor + ">" + content + "</h2>"
     css = ' class="reference"' if book.get("_hanging") else ""
     return f"<p{css}>{content}</p>"
 

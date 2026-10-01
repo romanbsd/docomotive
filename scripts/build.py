@@ -95,6 +95,22 @@ def opf_metadata(book, enrichment, uid):
             + "; ISBN-13 "
             + enrichment["isbn_13"],
         )
+    if book.get("doi"):
+        field("identifier", "https://doi.org/" + book["doi"])
+        field("source", book.get("source_version", "Article"))
+    if enrichment.get("journal"):
+        field(
+            "source",
+            enrichment["journal"]
+            + "; volume "
+            + enrichment.get("volume", "")
+            + ", issue "
+            + enrichment.get("issue", "")
+            + "; pages "
+            + enrichment.get("page", "")
+            + "; final publication "
+            + enrichment.get("final_publication_date", ""),
+        )
     for kind, values in enrichment.get("identifiers", {}).items():
         if kind.startswith("isbn"):
             continue
@@ -175,8 +191,10 @@ def build(
     )
     if enrichment and enrichment["source_sha256"] != source_hash:
         raise ValueError("Metadata enrichment belongs to a different PDF")
-    if enrichment and enrichment["isbn"] != book.get("isbn"):
+    if enrichment and enrichment.get("isbn") != book.get("isbn"):
         raise ValueError("ISBN profile changed; rerun metadata enrichment")
+    if enrichment.get("doi") and enrichment["doi"] != book.get("doi"):
+        raise ValueError("DOI profile changed; rerun metadata enrichment")
     out.mkdir(parents=True, exist_ok=True)
     files = {"OEBPS/style.css": CSS.encode()}
     doc = pymupdf.open(pdf)
@@ -291,6 +309,7 @@ def build(
         publisher_image = '<img class="publisher-mark" src="publisher-mark.png" alt="Publisher mark"/>'
     spine = []
     navigation = []
+    section_navigation = {}
     page_links = []
     model = []
 
@@ -300,15 +319,25 @@ def build(
         if nav:
             navigation.append((name, title))
 
+    cover_name = "cover.jpg"
+    if book.get("cover_source") == "typographic":
+        from title_cover import svg_cover
+
+        cover_name = "cover.svg"
+        files["OEBPS/" + cover_name] = svg_cover(book)
+    title_reference = "".join(
+        f'<sup><a epub:type="noteref" id="{r["href"].split("#")[1]}" href="chapter-{book["endnote_chapter"]:02}.xhtml#endnote-{r["source_chapter"]}-{r["number"]}">{r["number"]}</a></sup>'
+        for r in book.get("frontmatter_endnotes", [])
+    )
     add(
         "cover.xhtml",
         "Cover",
-        '<div class="facsimile"><img src="cover.jpg" alt="Original book cover"/></div>',
+        f'<div class="facsimile"><img src="{cover_name}" alt="Cover"/></div>',
     )
     add(
         "title.xhtml",
         book["title"],
-        f'<div class="title"><h1>{html.escape(book["title"])}</h1><p>{html.escape(book["subtitle"])}</p><p>{html.escape(book["author"])}</p>{publisher_image}<p>{html.escape(book["publisher"])}</p></div>',
+        f'<div class="title"><h1>{html.escape(book["title"])}</h1><p>{html.escape(book["subtitle"])}{title_reference}</p><p>{html.escape(book["author"])}</p>{publisher_image}<p>{html.escape(book["publisher"])}</p></div>',
     )
     add(
         "copyright.xhtml",
@@ -386,15 +415,25 @@ def build(
             book,
             _note_targets=chapter["note_targets"],
             _index_note_refs=note_page_refs,
-            _hanging=start in book.get("reference_pages", []),
+            _hanging=start
+            in book.get("hanging_pages", book.get("reference_pages", [])),
         )
-        body = ["<h1>" + html.escape(chapter["title"]) + "</h1>"]
+        body = (
+            ["<h1>" + html.escape(chapter["title"]) + "</h1>"]
+            if book.get("chapter_heading", True)
+            else []
+        )
         refs = (
             {label: ref for ref, label in page_links}
             if start in book.get("index_pages", [])
             else None
         )
-        for block in chapter["blocks"]:
+        for index, block in enumerate(chapter["blocks"]):
+            if book.get("section_navigation") and block["kind"] == "heading":
+                block["heading_id"] = f"section-{chapter['chapter']}-{index}"
+                section_navigation.setdefault(name, []).append(
+                    (name + "#" + block["heading_id"], block["text"])
+                )
             body.append(block_html(block, render_book, seen, page_links, name, refs))
         body.append(notes_html(chapter["notes"], book))
         if start in book.get("index_pages", []):
@@ -409,7 +448,18 @@ def build(
     nav = (
         '<nav epub:type="toc" id="toc"><h1>Contents</h1><ol>'
         + "".join(
-            f'<li><a href="{name}">{html.escape(title)}</a></li>'
+            f'<li><a href="{name}">{html.escape(title)}</a>'
+            + (
+                "<ol>"
+                + "".join(
+                    f'<li><a href="{ref}">{html.escape(label)}</a></li>'
+                    for ref, label in section_navigation[name]
+                )
+                + "</ol>"
+                if name in section_navigation
+                else ""
+            )
+            + "</li>"
             for name, title in navigation
         )
         + "</ol></nav>"
@@ -444,12 +494,13 @@ def build(
             ".css": "text/css",
             ".jpg": "image/jpeg",
             ".png": "image/png",
+            ".svg": "image/svg+xml",
             ".ncx": "application/x-dtbncx+xml",
         }[Path(path).suffix]
         properties = (
             ' properties="nav"'
             if name == "nav.xhtml"
-            else ' properties="cover-image"' if name == "cover.jpg" else ""
+            else ' properties="cover-image"' if name == cover_name else ""
         )
         manifest.append(
             f'<item id="item-{i}" href="{name}" media-type="{media}"{properties}/>'

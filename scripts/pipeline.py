@@ -32,7 +32,7 @@ def main():
     p.add_argument(
         "--fetch-metadata",
         action="store_true",
-        help="Populate cached ISBN enrichment before building; network access required for cache misses",
+        help="Populate cached ISBN or DOI enrichment before building; network access required for cache misses",
     )
     a = p.parse_args()
 
