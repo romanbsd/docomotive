@@ -1,0 +1,240 @@
+"""Offline scan-backed review sheet and inexpensive source-linked diagnostics."""
+
+import argparse
+import base64
+import html
+import json
+import re
+from pathlib import Path
+import pymupdf
+from common import ROOT, read_json, write_json, digest, file_digest, cache_path
+from ocr import nearest, merge_rows
+
+PATTERNS = {
+    "suspicious-line-punctuation": r"\b\w+-[.,;:]\s+\w+",
+    "repeated-word": r"\b([A-Za-z]{2,})\s+\1\b",
+    "mixed-script-token": r"[A-Za-z]+[\u0400-\u04ff]+|[\u0400-\u04ff]+[A-Za-z]+",
+    "digit-in-word": r"[A-Za-z]{2,}\d[A-Za-z]{2,}",
+}
+
+
+def diagnostics(model, book):
+    results = []
+    for chapter in model:
+        for index, block in enumerate(chapter["blocks"] + chapter["notes"]):
+            for kind, pattern in PATTERNS.items():
+                for match in re.finditer(pattern, block["text"], re.IGNORECASE):
+                    sources = [
+                        s
+                        for s in block["sources"]
+                        if s["end"] > match.start() and s["start"] < match.end()
+                    ]
+                    results.append(
+                        {
+                            "word": match.group(),
+                            "kind": kind,
+                            "suggestions": [],
+                            "occurrences": [
+                                {
+                                    "chapter": chapter["chapter"],
+                                    "paragraph": index,
+                                    "context": block["text"],
+                                    "offset": match.start(),
+                                    "sources": sources,
+                                    "block_kind": block["kind"],
+                                }
+                            ],
+                            "action": "scan-review-required",
+                        }
+                    )
+    return results
+
+
+def make_sheet(pdf, profile, out, work):
+    book = read_json(profile)
+    source = file_digest(pdf)
+    if source != book["source_sha256"]:
+        raise ValueError("Review source PDF mismatch")
+    candidates = read_json(out / "correction-candidates.json")["candidates"]
+    extra = diagnostics(read_json(out / "book-model.json"), book)
+    records = []
+    cards = []
+    doc = pymupdf.open(pdf)
+    loaded = {}
+
+    def witnesses(page, row):
+        result = {}
+        for engine in ["tesseract", "vision", "rapid"]:
+            key = (engine, page)
+            if key not in loaded:
+                loaded[key] = merge_rows(
+                    read_json(cache_path(work, engine) / f"{page:04}.json")["lines"]
+                )
+            hit = nearest(row, loaded[key])
+            result[engine] = (
+                None
+                if hit is None
+                else {"text": hit["text"], "confidence": hit.get("confidence")}
+            )
+        return result
+
+    for item in extra + candidates:
+        ident = digest(
+            json.dumps(
+                [
+                    source,
+                    item["word"],
+                    [
+                        (o["chapter"], o["paragraph"], o["offset"])
+                        for o in item["occurrences"]
+                    ],
+                ],
+                sort_keys=True,
+            ).encode()
+        )[:20]
+        record = {"id": ident, "source_sha256": source, **item}
+        evidence = []
+        images = []
+        # Every occurrence remains in JSON; show the first three contexts without redundant copies.
+        for occurrence in item["occurrences"][:3]:
+            seen = set()
+            for row in occurrence["sources"]:
+                if row["row_id"] in seen:
+                    continue
+                seen.add(row["row_id"])
+                n = row["page"]
+                page = doc[n - 1]
+                x0, y0, x1, y1 = row["bbox"]
+                clip = pymupdf.Rect(
+                    max(0, x0 - 0.015) * page.rect.width,
+                    max(0, y0 - 0.01) * page.rect.height,
+                    min(1, x1 + 0.015) * page.rect.width,
+                    min(1, y1 + 0.012) * page.rect.height,
+                )
+                data = page.get_pixmap(dpi=180, clip=clip).pil_tobytes(
+                    format="JPEG", quality=85
+                )
+                images.append(
+                    f'<figure><figcaption>PDF {n} · original page {n+book.get("printed_page_offset",0)}</figcaption><img alt="Source line for {html.escape(item["word"],quote=True)}" src="data:image/jpeg;base64,{base64.b64encode(data).decode()}"/></figure>'
+                )
+                evidence.append(
+                    {
+                        "page": n,
+                        "row_id": row["row_id"],
+                        "bbox": row["bbox"],
+                        "expected_source_text": row["text"],
+                        "engines": witnesses(n, row),
+                    }
+                )
+        record["evidence"] = evidence
+        records.append(record)
+        stats = item.get("statistics", {})
+        statistics_html = ""
+        if stats:
+            statistics_html = (
+                "<p>Whole-book evidence: "
+                + html.escape(
+                    f"{stats['count']} occurrences; {stats['page_df']} pages; {stats['chapter_df']} chapters; chapter IDF {stats['chapter_idf']:.2f}; general-language Zipf {stats['general_zipf']:.2f}. {item['recommendation']}."
+                )
+                + "</p>"
+            )
+            statistics_html += "<p>" + html.escape("; ".join(item["reasons"])) + "</p>"
+            if item["in_book_variants"]:
+                statistics_html += (
+                    "<p>Nearby book spellings: "
+                    + html.escape(
+                        ", ".join(
+                            f"{v['term']} ({v['count']})"
+                            for v in item["in_book_variants"]
+                        )
+                    )
+                    + "</p>"
+                )
+        options = (
+            ", ".join(s["term"] for s in item["suggestions"]) or "No automatic proposal"
+        )
+        context = item["occurrences"][0]["context"]
+        offset = item["occurrences"][0]["offset"]
+        lo = max(0, offset - 180)
+        hi = min(len(context), offset + len(item["word"]) + 180)
+        snippet = (
+            html.escape(context[lo:offset])
+            + "<mark>"
+            + html.escape(context[offset : offset + len(item["word"])])
+            + "</mark>"
+            + html.escape(context[offset + len(item["word"]) : hi])
+        )
+        comparisons = "".join(
+            "<details><summary>OCR witnesses · PDF "
+            + str(e["page"])
+            + "</summary><pre>"
+            + html.escape(json.dumps(e["engines"], ensure_ascii=False, indent=2))
+            + "</pre></details>"
+            for e in evidence
+        )
+        radios = "".join(
+            f'<label><input type="radio" name="{ident}" value="{choice}" onchange="save(this)"/> {label}</label>'
+            for choice, label in [
+                ("keep", "Keep source"),
+                ("ocr-error", "OCR error"),
+                ("printed-typo", "Printed typo"),
+                ("uncertain", "Uncertain"),
+            ]
+        )
+        cards.append(
+            f'<article id="{ident}"><h2>{html.escape(item["word"])}</h2><p>{html.escape(item.get("kind",item.get("category","lexical")))} · {len(item["occurrences"])} occurrence(s)</p><p>Proposals: {html.escape(options)}</p><p>{snippet}</p>'
+            + "".join(images)
+            + comparisons
+            + "<div>"
+            + radios
+            + '</div><label>Verified replacement / note <input class="replacement" onchange="saveNote(this)"/></label></article>'
+        )
+    payload = json.dumps(records, ensure_ascii=False).replace("<", r"\u003c")
+    javascript = """const records=PAYLOAD;const key='docomotive-proof-'+SOURCE;let decisions={};try{decisions=JSON.parse(localStorage.getItem(key)||'{}');}catch(e){}
+function persist(){try{localStorage.setItem(key,JSON.stringify(decisions));}catch(e){document.getElementById('storage-status').textContent='Browser storage unavailable; export JSON before closing.';}}
+function save(input){const id=input.name;decisions[id]={...(decisions[id]||{}),decision:input.value};persist();}
+function saveNote(input){const id=input.closest('article').id;decisions[id]={...(decisions[id]||{}),replacement_or_note:input.value};persist();}
+for(const [id,d] of Object.entries(decisions)){const a=document.getElementById(id);if(!a)continue;const r=a.querySelector('input[value="'+d.decision+'"]');if(r)r.checked=true;a.querySelector('.replacement').value=d.replacement_or_note||'';}
+function download(){const output=records.filter(r=>decisions[r.id]).map(r=>({...r,...decisions[r.id]}));const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({source_sha256:SOURCE,mode:'review-only; not automatically applied',decisions:output},null,2)],{type:'application/json'}));a.download='proofreading-decisions.json';a.click();URL.revokeObjectURL(a.href);}
+""".replace(
+        "SOURCE", json.dumps(source)
+    ).replace(
+        "PAYLOAD", payload
+    )
+    body = (
+        '<!doctype html><html lang="en"><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Scan-backed proofreading</title><style>body{font:17px/1.5 system-ui;max-width:1000px;margin:2em auto;padding:0 1em;background:#f5f4ef}article{background:white;padding:1.3em;margin:1em 0;border:1px solid #ddd}img{max-width:100%;height:auto}figure{margin:1em 0}label{display:inline-block;margin:.5em}pre{white-space:pre-wrap}input.replacement{width:25em;max-width:90%}button{padding:.6em}</style><h1>Scan-backed proofreading</h1><p>'
+        + str(len(records))
+        + ' grouped items. Decisions stay in this browser; export JSON to retain them. No requests, automatic edits or server required. OCR confidence is engine-specific, not a correctness probability.</p><p id="storage-status"></p><button onclick="download()">Export reviewed decisions</button>'
+        + "".join(cards)
+        + "<script>"
+        + javascript
+        + "</script></html>"
+    )
+    (out / "proofreading-review.html").write_text(body)
+    write_json(
+        out / "proofreading-review.json",
+        {
+            "source_sha256": source,
+            "items": records,
+            "diagnostics": len(extra),
+            "lexical_items": len(candidates),
+            "mode": "scan-review-required",
+        },
+    )
+    print(
+        f"{len(candidates)} lexical groups + {len(extra)} diagnostics; offline review sheet written"
+    )
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("pdf", type=Path)
+    p.add_argument("--profile", type=Path, default=ROOT / "config/book.json")
+    p.add_argument("--output", type=Path, default=ROOT / "output")
+    p.add_argument("--work", type=Path, default=ROOT / "work")
+    a = p.parse_args()
+    make_sheet(a.pdf, a.profile, a.output, a.work)
+
+
+if __name__ == "__main__":
+    main()

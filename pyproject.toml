@@ -1,0 +1,9 @@
+[dependency-groups]
+dev = ["black==26.5.1"]
+
+[tool.black]
+line-length = 88
+target-version = ["py314"]
+extend-exclude = '''
+/(work|output)/
+'''
