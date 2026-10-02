@@ -7,6 +7,35 @@ from native_pdf import extract_page
 from ocr import nearest
 
 
+def aligned_source(row, source):
+    candidate = nearest(row, source)
+    if not candidate:
+        return None, None
+    match = difflib.SequenceMatcher(
+        None, candidate["text"].lower(), row["text"].lower(), autojunk=False
+    )
+    # Geometry alone can pair adjacent lines; require substantial text agreement.
+    return (candidate, match) if match.ratio() >= 0.85 else (None, None)
+
+
+def attach_scan_font_metrics(rows, page, number, audit):
+    """Transfer only glyph size; hidden OCR fonts do not establish font families."""
+    source = extract_page(page, {}, number, [])
+    for row in rows:
+        candidate, match = aligned_source(row, source)
+        if candidate and candidate.get("font_size"):
+            row["scan_font_size"] = candidate["font_size"]
+            audit.append(
+                dict(
+                    page=number,
+                    kind="scan-font-size-evidence",
+                    bbox=row["bbox"],
+                    agreement=match.ratio(),
+                    font_size=candidate["font_size"],
+                )
+            )
+
+
 def attach_typography(rows, page, number, audit):
     source = extract_page(page, {}, number, [])
     sizes = [
@@ -16,13 +45,8 @@ def attach_typography(rows, page, number, audit):
     prose_left = [r["bbox"][0] for r in source if len(r["text"]) > 50]
     body_margin = statistics.median(prose_left) if prose_left else None
     for row in rows:
-        candidate = nearest(row, source)
+        candidate, match = aligned_source(row, source)
         if not candidate:
-            continue
-        match = difflib.SequenceMatcher(
-            None, candidate["text"].lower(), row["text"].lower(), autojunk=False
-        )
-        if match.ratio() < 0.85:
             continue
         styles = []
         source_styles = list(candidate.get("inline", []))

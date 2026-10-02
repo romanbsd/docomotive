@@ -89,10 +89,25 @@ def infer_paragraph_layout(rows):
             if inset <= residuals[i][1] <= 0.15 * width
             and abs(residuals[i][0] - residuals[i][1]) <= 0.02
         ]
-        offsets = [residuals[i][0] for i in run]
-        if len(matched) < 2 or max(offsets) - min(offsets) > 0.012:
+        if len(matched) < 2:
             return
-        quote_left = statistics.median(offsets)
+        quote_left = statistics.median(residuals[i][0] for i in matched)
+        offsets = [residuals[i][0] - quote_left for i in run]
+        # A run beginning inside labeled/hanging prose can look like a quote.
+        # Without type measurements, relax the old stable-margin test only
+        # when the run itself starts with a distinct paragraph indent.
+        if (
+            max(offsets) - min(offsets) > 0.012
+            and offsets[0] <= 0.018
+            and not any(rows[i].get("scan_font_size") for i in run)
+        ):
+            return
+        # A stable inset is the quotation margin; occasional deeper lines are
+        # paragraph indents. Reject wandering margins and hanging outliers.
+        if sum(abs(x) <= 0.012 for x in offsets) < 0.7 * len(run) or any(
+            x < -0.012 or x > 0.06 * width for x in offsets
+        ):
+            return
         runs.append([rows[i]["row_id"] for i in run])
         for i in run:
             evidence[rows[i]["row_id"]].update(
@@ -113,6 +128,27 @@ def infer_paragraph_layout(rows):
         if candidate:
             run.append(i)
     finish()
+    # Compare measured glyph sizes only after geometry establishes the quote.
+    # A 4% difference avoids treating OCR metric noise as a smaller typeface.
+    body_sizes = [
+        r["scan_font_size"]
+        for r in long_rows
+        if r.get("scan_font_size") and evidence[r["row_id"]].get("kind") != "quote"
+    ]
+    if len(body_sizes) >= 8:
+        body_size = statistics.median(body_sizes)
+        for ids in runs:
+            sizes = [
+                r["scan_font_size"]
+                for r in rows
+                if r["row_id"] in ids and r.get("scan_font_size")
+            ]
+            if len(sizes) >= 3:
+                scale = statistics.median(sizes) / body_size
+                # Extreme changes suggest mismatched OCR metrics, not prose.
+                if 0.8 <= scale <= 0.96:
+                    for row_id in ids:
+                        evidence[row_id]["quote_font_scale"] = round(scale, 2)
     return evidence, dict(
         status="accepted", left=left, right=right, quotation_runs=runs
     )

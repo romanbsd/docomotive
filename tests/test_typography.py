@@ -11,7 +11,7 @@ import pymupdf
 from lxml import etree
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from typography import attach_typography, verse_evidence
+from typography import attach_typography, attach_scan_font_metrics, verse_evidence
 from native_pdf import extract_page
 from ocr import merge_rows, correct_page
 from figures import outside_figures, crop_artwork
@@ -35,6 +35,22 @@ def row(text, i=0, width=0.35, italic=False, x=0.2):
 
 
 class TypographyTests(unittest.TestCase):
+    def test_scan_font_metrics_require_alignment_and_do_not_transfer_styles(self):
+        rows = [row("A matching prose line", width=0.7)]
+        source = [
+            dict(rows[0], font_size=9, inline=[dict(start=0, end=21, tags=["em"])])
+        ]
+        audit = []
+        with patch("typography.extract_page", return_value=source):
+            attach_scan_font_metrics(rows, None, 1, audit)
+        self.assertEqual(rows[0]["scan_font_size"], 9)
+        self.assertNotIn("inline", rows[0])
+        rows[0]["text"] = "Completely unrelated content"
+        rows[0].pop("scan_font_size")
+        with patch("typography.extract_page", return_value=source):
+            attach_scan_font_metrics(rows, None, 1, audit)
+        self.assertNotIn("scan_font_size", rows[0])
+
     def test_scan_artwork_ignores_visible_text_layer_overlays(self):
         image = Image.new("RGB", (100, 100), "white")
         data = io.BytesIO()
@@ -277,6 +293,25 @@ class TypographyTests(unittest.TestCase):
             primary, [], peers, disagree, [], [], 1, recover_regions=True
         )
         self.assertEqual(unchanged[0]["text"], "garbled row")
+        # Existing matching lines are retained once while the missing line is
+        # restored; a tiny extra apparatus token needs embedded corroboration.
+        primary_with_neighbor = [peers[0], primary[0]]
+        extra_marker = [peers[0], dict(peers[1], text=peers[1]["text"] + " s")]
+        restored = correct_page(
+            primary_with_neighbor,
+            peers,
+            peers,
+            extra_marker,
+            [],
+            [],
+            1,
+            recover_regions=True,
+        )
+        self.assertEqual([r["text"] for r in restored], [r["text"] for r in peers])
+        unsupported = correct_page(
+            primary, [], peers, extra_marker, [], [], 1, recover_regions=True
+        )
+        self.assertEqual(unsupported[0]["text"], "garbled row")
 
     def test_illustrated_page_has_one_anchor_even_with_two_figures(self):
         block = dict(

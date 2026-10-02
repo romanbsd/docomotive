@@ -44,6 +44,32 @@ def validate(response, questions):
     return response
 
 
+def evaluate(payload, cache):
+    """Replay a pinned, content-addressed request, or cache one validated response."""
+    if payload.get("model") != MODEL:
+        raise ValueError("Requests must pin the supported model")
+    encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True).encode()
+    fingerprint = hashlib.sha256(encoded).hexdigest()
+    cache.mkdir(parents=True, exist_ok=True)
+    cached = cache / (fingerprint + ".json")
+    if cached.exists():
+        response = validate(json.loads(cached.read_text()), payload["questions"])
+    else:
+        r = requests.post(
+            "https://api.typesafe.ai/v1/systemone",
+            headers={"Authorization": "Bearer " + key()},
+            json=payload,
+            timeout=60,
+        )
+        if r.status_code != 200:
+            raise RuntimeError(
+                f"TypeSafe request failed with HTTP {r.status_code}; response suppressed"
+            )
+        response = validate(r.json(), payload["questions"])
+        cached.write_text(json.dumps(response, ensure_ascii=False, indent=2) + "\n")
+    return fingerprint, response
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument(
@@ -101,23 +127,7 @@ def main():
         )
         print(f"{len(questions)} questions prepared; no API request sent")
         return
-    a.cache.mkdir(parents=True, exist_ok=True)
-    cached = a.cache / (fingerprint + ".json")
-    if cached.exists():
-        response = validate(json.loads(cached.read_text()), questions)
-    else:
-        r = requests.post(
-            "https://api.typesafe.ai/v1/systemone",
-            headers={"Authorization": "Bearer " + key()},
-            json=payload,
-            timeout=60,
-        )
-        if r.status_code != 200:
-            raise RuntimeError(
-                f"TypeSafe request failed with HTTP {r.status_code}; response suppressed"
-            )
-        response = validate(r.json(), questions)
-        cached.write_text(json.dumps(response, ensure_ascii=False, indent=2) + "\n")
+    fingerprint, response = evaluate(payload, a.cache)
     result = {
         "request_sha256": fingerprint,
         "request": payload,

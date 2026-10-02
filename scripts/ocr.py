@@ -108,6 +108,39 @@ def correct_page(
             and abs(r["bbox"][2] - row["bbox"][2]) < 0.05
         ]
         agreement = [nearest(r, tertiary) for r in peers]
+
+        # Old embedded OCR can corroborate a fresh line when the other fresh
+        # engine disagrees only at a tiny apparatus glyph. Prose must match
+        # exactly in two witnesses; the third may add only one digit-confusion
+        # token (a common note glyph error), never substitute prose words.
+        def agrees(r, other):
+            if not other:
+                return False
+            own, alternate = comparable(r["text"]), comparable(other["text"])
+            old = nearest(other, baseline)
+            changes = difflib.SequenceMatcher(None, own, alternate).get_opcodes()
+            return own == alternate or (
+                old
+                and comparable(old["text"]) in (own, alternate)
+                and sum(
+                    (j - i) + (l - k) for tag, i, j, k, l in changes if tag != "equal"
+                )
+                == 1
+                and all(
+                    tag == "equal"
+                    or (
+                        tag in ("insert", "delete")
+                        and (j - i) + (l - k) == 1
+                        and all(
+                            len(token) <= 3
+                            and all(c in "0123456789silobz" for c in token)
+                            for token in own[i:j] + alternate[k:l]
+                        )
+                    )
+                    for tag, i, j, k, l in changes
+                )
+            )
+
         tall = peers and row["bbox"][3] - row["bbox"][1] > 1.5 * statistics.median(
             r["bbox"][3] - r["bbox"][1] for r in peers
         )
@@ -116,7 +149,7 @@ def correct_page(
             and tall
             and all(
                 other
-                and comparable(r["text"]) == comparable(other["text"])
+                and agrees(r, other)
                 and r.get("confidence", 0) >= 0.85
                 and other.get("confidence", 0) >= 0.85
                 for r, other in zip(peers, agreement)
@@ -127,11 +160,31 @@ def correct_page(
                 comparable(" ".join(r["text"] for r in peers)),
             ).ratio()
             < 0.6
-            and not any(
-                nearest(r, [other for other in rows if other is not row]) for r in peers
+            and all(
+                not (
+                    existing := nearest(
+                        r, [other for other in rows if other is not row]
+                    )
+                )
+                or comparable(existing["text"]) == comparable(other["text"])
+                for r, other in zip(peers, agreement)
             )
         ):
-            recovered.extend(copy.deepcopy(peers))
+            recovered.extend(
+                copy.deepcopy(
+                    r
+                    if comparable(r["text"]) == comparable(other["text"])
+                    or (
+                        (old := nearest(r, baseline))
+                        and comparable(r["text"]) == comparable(old["text"])
+                    )
+                    else other
+                )
+                for r, other in zip(peers, agreement)
+                if not nearest(
+                    r, [existing for existing in rows if existing is not row]
+                )
+            )
             audit.append(
                 dict(
                     page=page,
@@ -139,7 +192,7 @@ def correct_page(
                     before=row["text"],
                     bbox=row["bbox"],
                     after=[r["text"] for r in peers],
-                    evidence=f"{secondary_name} and rapid exact lexical agreement on separate lines",
+                    evidence=f"{secondary_name}/rapid line agreement, with embedded corroboration for small discrepancies",
                 )
             )
         else:

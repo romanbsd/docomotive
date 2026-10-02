@@ -243,6 +243,8 @@ def page_blocks(n, rows, book, audit, first, policy=None):
                 )
                 if geo.get("kind") == "quote":
                     blocks[-1]["first_line_indent"] = indented
+                    if geo.get("quote_font_scale"):
+                        blocks[-1]["quote_font_scale"] = geo["quote_font_scale"]
             else:
                 block = blocks[-1]
                 frag = block["fragments"][-1]

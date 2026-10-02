@@ -161,7 +161,11 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
             is False
             else ""
         )
-        return "<blockquote><p" + indent + ">" + content + "</p></blockquote>"
+        scale = block.get("quote_font_scale")
+        size = f' style="font-size:{round(100 * scale)}%"' if scale else ""
+        return (
+            "<blockquote" + size + "><p" + indent + ">" + content + "</p></blockquote>"
+        )
     if block["kind"] == "caption":
         return '<p class="caption">' + content + "</p>"
     if block["kind"] == "heading":

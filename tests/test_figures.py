@@ -144,7 +144,9 @@ class FigureTests(unittest.TestCase):
         r = json.loads((out / "report.json").read_text())
         self.assertEqual(len(r["figures"]), 18)
         self.assertEqual(r["apparatus"]["endnotes"], 157)
-        self.assertEqual(r["apparatus"]["chapter_links"], 157)
+        self.assertEqual(
+            r["apparatus"]["chapter_links"] + r["apparatus"]["superscript_links"], 157
+        )
         m = json.loads((out / "book-model.json").read_text())
         preface = m[5]["blocks"]
         introduction = next(b for b in preface if "Kimber Award" in b["text"])
@@ -153,7 +155,17 @@ class FigureTests(unittest.TestCase):
             b for b in preface if "One of the remarkable things" in b["text"]
         )
         self.assertEqual(quotation["kind"], "quote")
-        self.assertTrue(quotation["text"].endswith("cytogenetics.'"))
+        self.assertTrue(
+            quotation["text"].endswith("cytogenetics.1")
+            if (out / "scanned-endnote-analysis.json").exists()
+            else quotation["text"].endswith("cytogenetics.'")
+        )
+        for opening in ("As the summer passed", "Most evenings"):
+            quote = next(b for b in m[16]["blocks"] if b["text"].startswith(opening))
+            self.assertEqual(quote["kind"], "quote")
+            self.assertTrue(quote["first_line_indent"])
+            self.assertTrue(0.85 <= quote["quote_font_scale"] <= 0.95)
+        self.assertIn("into which the ball all too often went.22", quote["text"])
         glossary = m[20]["blocks"]
         self.assertEqual(len(glossary), 87)
         self.assertTrue(

@@ -68,6 +68,37 @@ class ParagraphLayoutTests(unittest.TestCase):
         self.assertEqual(report["status"], "accepted")
         self.assertFalse(any(r.get("kind") == "quote" for r in evidence.values()))
 
+    def test_quote_paragraph_indents_and_smaller_source_type(self):
+        rows = scan_rows()
+        for i, row in enumerate(rows):
+            row["scan_font_size"] = 9 if 5 <= i < 11 else 10
+        rows[5]["bbox"][0] += 0.03
+        model = reconstruct(
+            {1: rows},
+            dict(chapters=[[1, 1, "Section"]], chapter_body_starts={"1": 0}),
+            JoinPolicy(),
+            [],
+        )
+        quotes = [b for b in model[0]["blocks"] if b["kind"] == "quote"]
+        self.assertEqual(len(quotes), 1)
+        self.assertEqual(len(quotes[0]["lines"]), 6)
+        self.assertTrue(quotes[0]["first_line_indent"])
+        rendered = block_html(quotes[0], {}, set(), [], "chapter.xhtml")
+        self.assertIn('<blockquote style="font-size:90%"><p>', rendered)
+
+    def test_wandering_quote_margins_are_rejected(self):
+        rows = scan_rows()
+        for i in (5, 7, 9):
+            rows[i]["bbox"][0] += 0.025
+        evidence, _ = infer_paragraph_layout(rows)
+        self.assertFalse(any(r.get("kind") == "quote" for r in evidence.values()))
+
+    def test_unmeasured_labeled_prose_is_not_promoted_by_later_indent(self):
+        rows = scan_rows()
+        rows[8]["bbox"][0] += 0.03
+        evidence, _ = infer_paragraph_layout(rows)
+        self.assertFalse(any(r.get("kind") == "quote" for r in evidence.values()))
+
     def test_sparse_pages_fall_back_without_guessing(self):
         evidence, report = infer_paragraph_layout(scan_rows()[:6])
         self.assertEqual(evidence, {})

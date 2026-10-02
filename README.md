@@ -1,180 +1,117 @@
 # Docomotive
 
-A local-first scanned-book → reflowable EPUB research pipeline. The first benchmark is Andrew Weil's *The Natural Mind*. This is a working prototype with reviewed book-specific layout, not a claim of fully automatic or fully proofread conversion.
+A local-first research pipeline for converting scanned and native-text PDFs into reflowable EPUBs with figures, quotations, linked notes, metadata and reviewable corrections. Source-specific facts live in profiles; detection, reconstruction and rendering fixes belong in shared code. Conversion is reproducible from pinned tools and cached evidence, but automated recognition and sampled review do not establish complete proofreading.
 
-The current reading copy is [the corrected EPUB](output/reading-edition/the-natural-mind-corrected.epub). The [source-spelling edition](output/the-natural-mind.epub) preserves six verified printed typos and one source line-wrap punctuation artifact. Both preserve the original cover, publisher emblem, back cover, verse, bibliography and index; the scanned book has no interior diagrams. The copyright text is reflowed without embedding the copyright-page scan. Continued footnotes are grouped and linked from their original pages. Index numbers link back to the text.
+See [docs/research.md](docs/research.md) for per-book findings, conversion recipes, measurements, artifacts and experiments.
 
-## Run
+## Setup and usage
 
-Use the existing `.venv`; no activation is needed. Full extraction currently requires macOS because Apple Vision is one of the witnesses. Tesseract and RapidOCR run locally on CPU. The build can run elsewhere from the cached JSON, although fresh cross-platform OCR has not been validated.
+Python 3.14 is the tested interpreter. Use the existing `.venv` without activation:
 
 ```sh
 .venv/bin/pip install .
 brew install tesseract ocrmypdf
 .venv/bin/python scripts/bootstrap.py
+.venv/bin/pip install --group dev
 
-# The shell expands the single input PDF without interpreting its punctuation.
-.venv/bin/python scripts/pipeline.py ./*.pdf
-
-# Reading edition: additionally apply seven source-verified editorial repairs.
-.venv/bin/python scripts/pipeline.py ./*.pdf --skip-extraction \
-  --editorial --output output/reading-edition
-
-.venv/bin/python -m unittest discover -s tests -v
-```
-
-Java is needed for EPUBCheck. Swift/Xcode command-line tools are needed for Vision. The bootstrap downloads six public resources with expected SHA-256 checksums: three PP-OCRv4 ONNX models, the Hunspell dictionary pair, and EPUBCheck 5.4.0. It fails on changed bytes. Runtime package pins are in `pyproject.toml` and mirrored in the legacy `requirements.txt`. Optional extras are `visual` (WeasyPrint rendering), `research` (pdf-craft), and `kenlm` (the optional scoring adapter, not yet validated). Install extras with `.venv/bin/pip install '.[visual,research]'`; install Black with `.venv/bin/pip install --group dev`. The scripts run from this checkout; installing the project supplies its dependencies. Python 3.14 is the tested interpreter. `requirements-research.lock.txt` records the entire experiment environment, including transitive pdf-craft dependencies, and is not a portable minimal lockfile.
-
-OCR caches and generated books are ignored by Git but retained locally. Do not delete `work/` if you want to reproduce the current OCR evidence without rerunning inference. Apple Vision may need execution outside the agent sandbox to contact the local macOS service. It does not upload pages.
-
-## Stages and artifacts
-
-| Stage | Implementation | Evidence |
-|---|---|---|
-| Render and recognize | `scripts/extract.py`: 300 dpi, source/engine/model fingerprints, resumable page JSON; index columns recognized separately | `work/ocr/*/provenance.json`, per-page geometry/confidence |
-| Align and reconcile | `scripts/ocr.py`: geometry alignment, conservative multiple-witness token edits, source-checked exact overlays with occurrence preconditions | `output/corrected-pages.json`, `corrections-applied.json`, `ocr-comparison.json` |
-| Margin inference | `scripts/layout.py`: recurring upper-margin text, OCR variant clustering, robust median/MAD position, parity, page-number offset consensus | `output/layout-analysis.json` |
-| Assemble | `scripts/book_model.py`: canonical paragraphs and continued notes, shared lexical joins, character spans back to source rows; exact row-coverage check | `output/book-model.json`, `text-coverage.json` |
-| Whole-book statistics | `scripts/vocabulary.py`: chapter TF-IDF, page/chapter spread, spelling forms, language-frequency enrichment; references/index counted separately | `output/vocabulary-analysis.json`, `protected-term-proposals.json` |
-| Suggest corrections | Hunspell via Spylls, SymSpell, word frequency and protected vocabulary; optional KenLM/LanguageTool adapters | `output/correction-candidates.json` — proposals only |
-| Proofread | Offline scan crops, OCR witnesses, proposals and whole-book evidence; export reviewed decisions | `output/proofreading-review.html`, `proofreading-review.json` |
-| Render and validate | Sorted EPUB ZIP entries, fixed timestamps, XHTML/internal-link validation, external EPUBCheck | EPUB, `report.json`, `epubcheck.json`, `preview/` |
-
-Primary body OCR is Tesseract. References/index use Vision. Paddle PP-OCRv4 through RapidOCR and the embedded OCR are witnesses. All three fresh engines were run over all 242 pages; the embedded layer is a fourth comparison source. OCRmyPDF was tested on three selected pages, not the whole book.
-
-`review-queue.json` contains unresolved engine disagreements after recorded scan decisions. An empty queue means those detected disagreements have been handled; it does **not** mean the book is error-free. The lexical queue is separate and includes legitimate terminology and printed errors. Multiple OCR engines can agree on the same mistake.
-
-## Reuse with another book
-
-Create a separate profile directory containing `book.json`, `corrections.json`, `review-decisions.json`, `protected-words.txt`, `copyright.xhtml`, and `editorial-proposals.json`. ISBN enrichment is optional; copy or generate `enrichment.json` only for the matching source. Start from `config/` and replace the source SHA-256, metadata and layout decisions. Empty correction/review/editorial arrays are valid. Then use isolated job directories:
-
-```sh
 .venv/bin/python scripts/pipeline.py /path/to/book.pdf \
   --profile profiles/my-book/book.json \
   --work work/my-book --output output/my-book
+
+# Replay complete extraction caches; apply separately reviewed editorial repairs.
+.venv/bin/python scripts/pipeline.py /path/to/book.pdf \
+  --profile profiles/my-book/book.json --work work/my-book \
+  --output output/my-book/reading-edition --skip-extraction --editorial
+
+.venv/bin/black --check scripts tests
+.venv/bin/python -m unittest discover -s tests
 ```
 
-The current profile contract describes chapter page ranges, first-body cutoffs on chapter openings, note-region starts and continuation chains, verse regions, measured column gutters, reference/index pages, engine overrides, printed-page offset, source artwork pages, and publisher-mark page/crop. Coordinates in OCR/layout are normalized; the artwork crop uses PDF points. Page numbers are 1-based PDF pages. Fields and examples are in `config/book.json`. A profile is reviewed input, not inferred truth. Artwork names currently follow the cover/title/copyright/back-cover convention; automatic discovery of those roles is future work.
+Full multi-engine extraction currently requires macOS for Apple Vision and Swift/Xcode command-line tools. Tesseract and RapidOCR run locally on CPU. Cached JSON can be built elsewhere; fresh cross-platform OCR has not been validated. Java is needed for EPUBCheck. Vision may need execution outside the agent sandbox to contact the local macOS service; it does not upload pages.
 
-For a new book, first inspect representative scans and create transcribed evaluation regions. Run individual engines with `--pages 4,21,32` before committing to full extraction. Recheck chapter openings, footnotes, columns, quotations and rare terms. Changing the source PDF requires a new profile hash. Exact text overlays fail if their expected occurrences change.
+Runtime packages are pinned in `pyproject.toml`. Dependencies include PyMuPDF, Pillow, lxml, NumPy/SciPy, RapidOCR/ONNX Runtime, Spylls, SymSpell, wordfreq and Requests. Optional extras are `visual` (WeasyPrint rendering), `research` (pdf-craft), and `kenlm` (an unevaluated scoring adapter requiring a separate language model). `requirements-research.lock.txt` records the experiment environment rather than a portable minimal lockfile. The scripts run from this checkout; installation supplies dependencies.
 
-## ISBN metadata and downloaded cover
+Bootstrap downloads checksum-verified PP-OCRv4 ONNX models, a Hunspell dictionary pair and EPUBCheck 5.4.0. OCRmyPDF, pdf-craft, Marker, Docling, LanguageTool and Morfologik have differing experiment/integration status; the [research report](docs/research.md) distinguishes tested tools from planned work.
 
-```sh
-# Free, unauthenticated Open Library ISBN/edition API + exact-source Archive cover.
-.venv/bin/python scripts/metadata.py
-# Reproduce enrichment with no network.
-.venv/bin/python scripts/metadata.py --offline
-# Or include enrichment in the coordinator (cache misses need network).
-.venv/bin/python scripts/pipeline.py ./*.pdf --skip-extraction --fetch-metadata
-```
+Keep `work/`: its OCR/model/metadata caches preserve the evidence needed for replay. Generated books and OCR caches are ignored by Git.
 
-`book.json` contains the source-verified ISBN, optional archive item identifier, and a visually approved cover URL. ISBN-10/13 check digits and API title/author/publisher identity are checked. Remote records and images are cached with URL, retrieval time and hash. `config/enrichment.json` is the frozen build input; the EPUB build itself never contacts the network. ISBN association alone does not approve a cover. Missing records, wrong editions, invalid images and placeholders are not treated as usable metadata.
+## Stages and artifacts
 
-For this scan, Open Library and the exact Internet Archive source record identify the 1972 edition, ISBN-10 **0395139368**, ISBN-13 **9780395139363**. The printed paperbound ISBN is retained as a related print identifier, rather than merging its 1973 edition record into this one. EPUB metadata includes full title, author/author sort/role, language, publisher, publication date, rights, description/note when available, 15 topical subjects, Library of Congress/Dewey classifications, LCCN, OCLC, Open Library ID, print extent/place and source links. Unsupported or absent fields are left absent; no synopsis or edition facts are invented.
+| Stage | Tools and behavior | Evidence |
+|---|---|---|
+| Recognize | 300-dpi Tesseract, Apple Vision and Paddle PP-OCRv4 through RapidOCR; native PDF extraction when configured | Per-page JSON and engine/model/source fingerprints |
+| Reconcile | Geometry alignment, conservative witness agreement, checked correction overlays | `corrected-pages.json`, `ocr-comparison.json`, `corrections-applied.json` |
+| Infer margins | Header/footer recurrence, OCR variant clustering, median/MAD, parity and page-number consensus | `layout-analysis.json` |
+| Reconstruct | Canonical paragraphs, notes, verse and figures; source-linked spans and lexical line joins | `book-model.json`, `text-coverage.json` |
+| Analyze the whole book | Chapter TF-IDF, spelling recurrence and page/chapter spread; reference/index evidence separated | `vocabulary-analysis.json`, `protected-term-proposals.json` |
+| Propose corrections | Hunspell via Spylls, SymSpell, word frequency and protected vocabulary; optional KenLM/LanguageTool adapters | `correction-candidates.json` |
+| Review | Offline scan crops, witnesses, text contexts and optional bounded Jev proposals | `proofreading-review.html`, `note-review.html`, JSON evidence |
+| Render and validate | Deterministic EPUB ZIP, XHTML/internal-link checks and EPUBCheck | EPUB, `report.json`, `epubcheck.json`, `preview/` |
 
-The matching blue cover was downloaded from the exact source item and embedded as `downloaded-cover.jpg` with a supplementary non-linear cover page. Its 180 × 278 resolution is lower than the scan, so the 1048 × 1620 scanned cover remains the main cover. A future visually approved JPEG at least 300 pixels on its short edge replaces the main cover automatically. The original ISBN API image was rejected for main-cover use: it is a 128 × 187 title-page thumbnail. A work-level cover from a revised edition was also rejected. No copyright-page scan is included.
+The primary OCR engine is profile-selected. Embedded text can be another witness; it is not assumed correct. Multiple modes of one engine are correlated observations, and even independent engines can agree on a mistake. Empty queues mean detected items were handled, not that the book is error-free.
 
-## Optional jev
+## Profiles and source evidence
 
-`scripts/jev_rank.py` uses the TypeSafe Choice primitive with pinned `jev-1.13.0`. It ranks existing dictionary candidates against text context; it cannot view the scans. Responses are schema-checked and cached by exact request hash. Nothing is automatically applied. Credentials come from `TYPESAFE_API_KEY` or `.env` and are excluded from logs, cache keys and artifacts.
+Create a profile directory with `book.json`, `corrections.json`, `review-decisions.json`, `protected-words.txt`, `copyright.xhtml` and `editorial-proposals.json`. Optional files hold reviewed line-join decisions and frozen metadata enrichment. Start from `config/book.json`, replace its source SHA-256 and all source-specific metadata/layout facts, and use isolated work/output directories. Empty correction and review arrays are valid.
 
-```sh
-# Review the exact outgoing excerpts before any network request.
-.venv/bin/python scripts/jev_rank.py --dry-run \
-  --output output/jev-request-preview.json
+Profiles describe chapter ranges, opening cutoffs, note regions, verse, columns, engine choices, printed pagination, artwork and reviewed exceptions. PDF page numbers are one-based; OCR coordinates are normalized, while publisher-mark crops use PDF points. A profile is reviewed input, not inferred truth. Artwork roles and bounds still need source inspection.
 
-# Sends those candidate contexts to TypeSafe if not already cached.
-.venv/bin/python scripts/jev_rank.py
-```
+Inspect representative pages and create transcribed evaluation regions before full OCR. Test individual engines with selected `--pages`; inspect chapter openings, notes, columns, quotations and rare terms. Changing the source requires a new profile hash. Exact overlays fail when occurrence preconditions change. OCR corrections and printed-typo editorial changes remain separate editions.
 
-The five-candidate experiment was explicitly approved and executed. All five proposed the expected lexical replacements; all five were actually printed typos, established by scan inspection. This illustrates why lexical plausibility alone cannot establish an OCR error. The default source-spelling edition preserves them; `--editorial` applies the separately recorded source-verified editorial overlay. No OpenAI-compatible fallback was used.
+## Layout, typography and note heuristics
 
-See [the research report](docs/research.md) for measurements, tested versus untested tools, limitations and the next experiments.
+Recurring margin text is clustered conservatively, with robust positions, parity and page-number consensus. Statistical recurrence is supporting evidence rather than a calibrated probability that text is a header.
+
+Scanned prose uses deterministic Theil–Sen left/right margin envelopes to compensate for skew. Sustained symmetric insets support quotations; occasional deeper first lines remain paragraph indents. Unstable, sparse, hanging and native-text layouts retain conservative fallback paths. Margin models, source rows and fallback reasons are audited.
+
+`recover_scan_font_metrics` aligns hidden PDF text with fresh OCR and transfers glyph sizes only. Smaller source-backed quote measurements yield relative EPUB font sizes; hidden OCR font names do not establish the original family. `recover_pdf_typography` separately transfers inline styles where text and geometry agree. Both require usable source evidence. Verse detection preserves short ragged runs and stanza gaps while avoiding ordinary wrapped prose.
+
+`recover_scanned_endnotes` detects raised glyphs at 400 dpi, estimates prose baselines and recognizes isolated crops locally. Character boxes anchor replacements without losing neighboring punctuation. A chapter-wide increasing sequence resets at each chapter, permits missing references, rewards consecutive numbers and rejects ambiguous assignments. Ties and order conflicts trigger tight-crop retries with single-character segmentation, multiple scales and resampling variants. Adjacent broken raised components are included before trimming the complete marker. Common glyph confusions such as 6/8 receive a smaller relative penalty than unrelated substitutions. Scores are documented heuristics, not calibrated probabilities; sequence alone does not supply unread digits. Subscripts, ordinary numbers and mathematical notation have geometric/punctuation guards.
+
+Recognition evidence and retries are cached by source, OCR/tool versions, algorithm and geometry. Sequence-score changes reuse crop evidence. Unlocated or unresolved references retain chapter-level endnote navigation and remain visible in `scanned-endnote-analysis.json`.
+
+The marker search extends beyond OCR's right edge because tiny trailing references and quotes may be absent from its text box. Short lines borrow an estimated letter height from up to three nearby long lines in the same column, while retaining their own measured baseline. This avoids treating a raised digit as body text when only two or three ordinary letters are present. The final OCR crop remains tight around the detected marker.
+
+Raised regions with no valid initial numeric reading get a tight single-character retry before being discarded: digits such as 9 and 11 may initially appear as letters or punctuation. Only numbers actually read from the crop enter sequence selection. Wider search clearance is trimmed before whole-line recognition, so extra whitespace does not disturb existing character placement.
+
+Marker placement can use a four-digit historical year as an anchor. Unpunctuated citations after capitalized names require matched surrounding prose and a gap containing no prose letters. If whole-line OCR merges a numeral into punctuation, a fallback masks the observed glyph, recognizes the remaining prose and reinserts only the crop-read number at its measured position. Tall overlapping crops receive a bounded contrast pass; chapter sequence still rejects unsupported readings.
+
+Figure extraction prefers the original raster when its transform and overlays are verified; otherwise it renders the PDF crop. Captions remain reflowable. `source_relative_figures` preserves reviewed artwork proportions. `recover_ocr_regions` replaces garbled rows where fresh engines agree on separate lines and geometry avoids duplication. An existing matching neighbor is retained once. A single extra digit-confusion token in one fresh engine requires exact lexical corroboration from embedded OCR; substitutions of prose words remain rejected.
 
 ## Whole-book proofreading
 
-Vocabulary analysis runs after complete paragraph and footnote assembly, using the same canonical text that is rendered in the EPUB. Chapters are the IDF documents; references and index are counted separately so duplicated index entries do not inflate narrative support. General-language Zipf frequency supplies an approximate background prior, not a second corpus IDF. High chapter IDF alone is not a reason to protect a token: isolated OCR mistakes also have high IDF. Recurrence and page/chapter spread propose terms for protection; a more frequent nearby spelling raises review priority. Systematic OCR errors can recur too, so these passes never add words automatically to the protected dictionary.
+Vocabulary analysis runs after complete paragraph and note assembly, using the same canonical text as EPUB rendering. Chapters are IDF documents; notes contribute to their source chapters, while references/index remain separate. General-language Zipf frequency is an approximate background prior. High IDF alone cannot protect a token: OCR mistakes can also be rare. Recurrence, spread and competing spellings propose review priorities, without automatically extending the protected dictionary.
 
-Open [the reading-edition review sheet](output/reading-edition/proofreading-review.html) in a browser. It includes capitalized terms and footnotes, displays scan crops and all three OCR witnesses, and exports decisions as JSON. Decisions require verification and checked config overlays before application. The current reading edition has 92 lexical groups plus one repeated-word diagnostic; this is a review queue, not an error count.
+Open `OUTPUT/proofreading-review.html` in a browser to compare scan crops, witnesses and suggestions and export decisions. Reviewed config overlays are required for application. Manual/editorial overlays share exact occurrence checks, and every retained source row must map once into the canonical model. Coverage cannot prove that OCR recognized every mark in the scan.
 
-Manual and editorial overlays share exact occurrence checks in `scripts/common.py`. Layout classification, within-page/across-page joins, rendering and proofreading use shared source-linked text rather than independently rebuilding words from HTML. Twelve rare line joins have scan-backed decisions in `config/line-join-decisions.json`; their vocabulary is explicitly supplied by the profile. Coverage proves that every retained reconciled OCR row is represented once, not that OCR recognized every mark in the scan.
-
-## Shamanic Trance in Modern Kabbalah
-
-[The EPUB](output/shamanic-trance/shamanic-trance.epub) is built from `Shamanic trance.pdf` with its own profile and output directory:
+For note-marker review:
 
 ```sh
-.venv/bin/python scripts/pipeline.py 'Shamanic trance.pdf' \
-  --profile config/shamanic-trance/book.json \
-  --work work/shamanic-trance --output output/shamanic-trance
+.venv/bin/python scripts/note_review.py /path/to/book.pdf \
+  --profile profiles/my-book/book.json --input output/my-book \
+  --output output/my-book/note-review.html
 ```
 
-This input is a publisher PDF with native text. Its profile selects `text_source: native`, so the pipeline extracts text, geometry and font spans locally without OCR. It preserves italics, bold headings, superscript references, quotations and the two-column index. The book has no interior figures; its original cover and back cover are retained. The downloaded matching ISBN cover is embedded as a source reference. Open Library supplies edition metadata for ISBN-13 9780226282077, with checked author/title/publisher identity and cached provenance.
+The self-contained offline sheet shows unresolved and retried locations, marker close-ups, paragraph context, recognition evidence and missing numbers by chapter.
 
-All 745 numbered endnotes have individual links and backlinks. Endnote sequence checks fail on gaps, duplicates or references without targets. Index references link to individual notes where the source page/number identifies one unambiguously, otherwise to the printed page. Notes contribute vocabulary evidence to their source chapter; bibliography and index counts remain separate. Unicode modifier letters in transliterations such as `Baʿal` and `Peʿamim` stay within their words.
+## Metadata and covers
 
-Ten rare line-wrap joins and nine tracked-heading normalizations were inspected against the source. Hunspell's ability to accept arbitrary hyphen compounds no longer overrides a supported joined spelling. Native publisher text can supply a single complete in-book spelling as join evidence; OCR still requires recurrence. All transformations retain source-row mappings and audit records. The [proofreading sheet](output/shamanic-trance/proofreading-review.html) is offline and uses lazy image loading; it is large because of the scholarly vocabulary and source crops. Proposals remain unverified until reviewed, and no remote model was used for this book.
+`scripts/metadata.py` uses free, unauthenticated Open Library ISBN/edition APIs, Crossref for DOI-only sources and reviewed source cover URLs. ISBN check digits and title/author/publisher identity are checked. Records/images are cached with provenance and hashes; `--offline` replays them. `--fetch-metadata` in the coordinator allows cache misses to fetch remotely. The EPUB build itself uses frozen enrichment and does not contact the network.
 
-## For the Letter Kills, but the Spirit Gives Life
+ISBN association does not approve a cover. Wrong editions, placeholders, conflicting records and low-resolution images require review. A supplied checked local cover or deterministic typographic cover can be used. Copyright text is reflowed without a copyright-page scan. Unsupported metadata is left absent rather than invented.
 
-[The EPUB](output/letter-kills/letter-kills.epub) converts the 24-page Boaz Huss advance article locally:
+## Optional Jev review
+
+`scripts/jev_rank.py` ranks supplied lexical candidates against context. `scripts/jev_notes.py` ranks existing OCR-backed ambiguous citation locations. Both use pinned `jev-1.13.0`, validated Choice responses and content-addressed caches. Jev accepts text rather than images; its confidence cannot establish scan fidelity. Results are review proposals, not automatic book edits.
 
 ```sh
-.venv/bin/python scripts/pipeline.py For_the_Letter_Kills_but_the_Spirit_Giv.pdf \
-  --profile config/letter-kills/book.json \
-  --work work/letter-kills --output output/letter-kills
+.venv/bin/python scripts/jev_rank.py --dry-run --output output/jev-request-preview.json
+.venv/bin/python scripts/jev_notes.py --profile profiles/my-book/book.json \
+  --input output/my-book --output output/my-book/jev-note-request-preview.json --dry-run
 ```
 
-The source has native text and no interior images or cover artwork. A deterministic typographic SVG cover replaces the absent cover. The EPUB retains the abstract, section navigation, quotations, inline italics, original page anchors and all 89 numbered endnotes, with backlinks including the title's funding note. Copyright is reflowed; publisher download watermarks are excluded before geometric row merging.
+Review and authorize the exact outgoing excerpts before omitting `--dry-run`. Credentials come from `TYPESAFE_API_KEY` or `.env` and are excluded from artifacts. A running-number conflict should first trigger better local crop recognition; semantic ranking cannot recover a digit from an image it cannot see.
 
-Free Crossref DOI metadata is checked against the profile's author/title and cached with checksums. Run `scripts/metadata.py --profile config/letter-kills/book.json --cache work/letter-kills/metadata/cache --offline` to replay enrichment, or omit `--offline` to fetch an uncached response. Metadata distinguishes the 2020 advance article from the final journal publication and pagination. No ISBN is invented. The title's printed spelling “Mysticim” and other printed mistakes are retained; seven source-checked diacritic corrections restore extraction errors. German `reli-giösen` is joined using reviewed vocabulary; source-supported `re-form` remains hyphenated.
+## Reproducibility and limits
 
-The [offline proofreading sheet](output/letter-kills/proofreading-review.html) contains 136 lexical review groups. This single article is one IDF document, so chapter IDF cannot distinguish terms here; recurrence, page spread and the language-frequency prior still supply review evidence. A successful source-row coverage check and EPUBCheck do not establish complete proofreading or reader-device compatibility.
-
-## A Feeling for the Organism
-
-[The reading edition](output/feeling-organism/reading-edition/feeling-organism-corrected.epub) converts the 276-page scanned Evelyn Fox Keller book. [The source-spelling edition](output/feeling-organism/feeling-organism.epub) retains verified printed mistakes; both correct verified OCR errors.
-
-```sh
-.venv/bin/python scripts/pipeline.py 'A feeling for the Organism.pdf' \
-  --profile config/feeling-organism/book.json \
-  --work work/feeling-organism --output output/feeling-organism
-# Reuse complete OCR caches and apply the reviewed printed-typo overlay.
-.venv/bin/python scripts/pipeline.py 'A feeling for the Organism.pdf' \
-  --profile config/feeling-organism/book.json \
-  --work work/feeling-organism --output output/feeling-organism/reading-edition \
-  --skip-extraction --editorial
-```
-
-Local Apple Vision is the selected OCR source, with Tesseract and RapidOCR/Paddle witnesses. The book includes 18 source-cropped photographs and diagrams, reflowed captions, 87 italicized glossary labels, a two-column source index reflowed into reading order, and 157 sequential endnotes. Reliable inline superscripts were unavailable: chapter-level note links and return links provide navigation without inventing reference positions.
-
-The supplied 1000 × 1500 JPEG is the cover. ISBN-13 **9780805074581** corresponds to ISBN-10 **0805074589**. Free ISBN APIs provide cached metadata, but the scan identifies the 2003 Owl Books edition; conflicting API dates and title/publisher errors remain in provenance, with explicit source-reviewed overrides. No copyright-page image is included.
-
-Reusable profile additions include checked local covers, normalized figure crops, blank-page exclusions, glossary entry boundaries, continuous indented quotation lines, explicit cross-page continuation preconditions, and chapter-level endnote navigation. The [offline proofreading sheet](output/feeling-organism/reading-edition/proofreading-review.html) retains uncertain lexical and structural proposals for review. Complete inline italics recovery and complete proofreading remain limitations; no remote inference was used.
-
-Scanned prose now uses a shared deterministic margin model: robust Theil–Sen slopes compensate for scan skew, and sustained symmetric insets supply block-quotation evidence. It runs on ordinary OCR prose columns after exclusions; native typography, hanging references, verse and reviewed paragraph margins retain their existing paths. Insufficient or unstable geometry falls back conservatively. `corrections-applied.json` records margin models, fallback reasons and source row IDs for inferred quotation runs. No title, page number or phrase is part of the detector.
-
-## Pharmako/Poeia
-
-[Corrected reading edition](output/pharmako-poeia/reading-edition/pharmako-poeia-corrected.epub) and [source-spelling edition](output/pharmako-poeia/pharmako-poeia.epub) convert the supplied 256-page Dale Pendell scan. The scanned copyright page identifies the **1995 first edition**, despite the filename's 1994. ISBN-10 **1562790692**, ISBN-13 **9781562790691**. Gary Snyder is credited for the foreword using the EPUB contributor role, rather than as a coauthor. Free Open Library metadata and the matching downloaded cover are cached for offline rebuilding. Copyright is checked reflow text, with no copyright-page image.
-
-```sh
-.venv/bin/python scripts/pipeline.py \
-  'input/Dale Pendell, Gary Snyder - Pharmako_Poeia_ Plant Powers, Poisons, and Herbcraft-Mercury House (1994).pdf' \
-  --profile config/pharmako-poeia/book.json --work work/pharmako-poeia \
-  --output output/pharmako-poeia --skip-extraction
-# Reading edition additionally corrects five scan-verified printed mistakes.
-.venv/bin/python scripts/pipeline.py \
-  'input/Dale Pendell, Gary Snyder - Pharmako_Poeia_ Plant Powers, Poisons, and Herbcraft-Mercury House (1994).pdf' \
-  --profile config/pharmako-poeia/book.json --work work/pharmako-poeia \
-  --output output/pharmako-poeia/reading-edition --skip-extraction --editorial
-```
-
-All pages have local Apple Vision, Tesseract and RapidOCR/Paddle caches. Vision supplies the primary text. The book has 54 navigable sections, 110 reviewed artwork crops (including original contents, marginal symbols, woodcuts and separate Chinese ideograms), glossary entry boundaries, and an explicit map of irregular printed pagination. The **source is incomplete**: it ends at glossary page 247 and lacks the references and credits listed in its own contents. Printed numbers also jump over pages 28, 98, 116, 144, 154, 210 and 240; their contents are not inferred. An edition note and metadata record these limitations.
-
-Generic improvements mask raw artwork OCR before horizontal line merging; preserve image-only page anchors; transfer inline styles only where fresh OCR agrees with PDF text and geometry; recognize short ragged verse and alternating indents; and preserve stanza gaps. Small-cap label/value rows and hanging italic field labels retain their entry boundaries. `recover_pdf_typography` is opt-in after verifying the hidden text's font evidence. `recover_ocr_regions` is also opt-in: tall garbled rows are replaced only when two fresh engines independently agree on each separate line, geometry matches, and adjacent retained rows would not be duplicated. Earlier profiles retain their extraction settings. `source_relative_figures` scales artwork from reviewed source proportions, with narrow ornaments floating beside the text.
-
-Artwork extraction prefers the original raster when exactly one full-page scan covers the crop with a verified unrotated transform and no visible text overlaps it. Visible reconstructed captions and labels require page rendering. Profile-reviewed font/size/pattern exclusions suppress only verified spurious overlay glyphs, without modifying source images; removal evidence is recorded. Ambiguous placements and vector pages also fall back to rendering. Candidate image bounds still require scan review: disconnected components can be separate illustrations with intervening prose, and OCR text masks can erase parts of drawings.
-
-The offline [proofreading sheet](output/pharmako-poeia/reading-edition/proofreading-review.html) and JSON retain uncertain spellings, scientific terms and OCR disagreements. Source-checked OCR overlays and reviewed vocabulary are scoped to the profile; editorial spelling changes remain a separate edition. Automated recovery and sampled visual checks are not complete proofreading. Reproduction uses pinned tools, source/config/code hashes, checksum-verified cached metadata and complete OCR caches; fresh OCR across different tool or OS versions is not guaranteed byte-identical.
+Pinned tools, source/config/code hashes, checksum-verified resources, cached responses, sorted ZIP entries and fixed timestamps support deterministic replay. Fresh OCR across OS/tool versions is not guaranteed byte-identical. EPUBCheck and source-row coverage complement lexical and visual review; neither establishes full proofreading or behavior on every reading device. Missing source pages and uncertain readings are reported rather than reconstructed without evidence.

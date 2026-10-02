@@ -14,6 +14,7 @@ dependencies = [
     "lxml==6.1.3",
     "wordfreq==3.1.1",
     "scipy==1.17.1",
+    "numpy==1.26.4",
     "rapidocr==3.9.2",
     "onnxruntime==1.30.0",
     "symspellpy==6.10.0",
