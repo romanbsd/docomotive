@@ -10,6 +10,8 @@ from pathlib import Path
 
 import pymupdf
 
+from common import load_profile
+
 
 def missing_ranges(analysis, book):
     """Bracket missing numbers using recovered neighbors or chapter boundaries."""
@@ -53,7 +55,7 @@ def main():
     p.add_argument("--input", type=Path, required=True)
     p.add_argument("--output", type=Path, required=True)
     a = p.parse_args()
-    book = json.loads(a.profile.read_text())
+    book = load_profile(a.profile)
     with a.pdf.open("rb") as f:
         if hashlib.file_digest(f, "sha256").hexdigest() != book["source_sha256"]:
             raise ValueError("Source PDF does not match the profile")

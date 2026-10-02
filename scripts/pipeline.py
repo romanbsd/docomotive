@@ -5,6 +5,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from common import load_profile
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -44,9 +46,7 @@ def main():
 
     if a.fetch_metadata:
         run("metadata.py", "--profile", a.profile, "--cache", a.work / "metadata/cache")
-    import json
-
-    book = json.loads(a.profile.read_text())
+    book = load_profile(a.profile)
     if not a.skip_extraction and book.get("text_source") != "native":
         for engine in ["tesseract", "rapid", "vision"]:
             run(
@@ -96,11 +96,7 @@ def main():
         )
     if not a.epubcheck.exists():
         raise FileNotFoundError("Install EPUBCheck or specify --epubcheck")
-    import json
-
-    slug = json.loads(a.profile.read_text())["slug"] + (
-        "-corrected" if a.editorial else ""
-    )
+    slug = book["slug"] + ("-corrected" if a.editorial else "")
     subprocess.run(
         [
             "java",

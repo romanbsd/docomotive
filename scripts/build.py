@@ -10,7 +10,7 @@ from urllib.parse import unquote, urlsplit
 from lxml import etree
 import pymupdf
 from layout import infer
-from common import ROOT, digest, write_json, apply_edits, cache_path
+from common import ROOT, digest, write_json, apply_edits, cache_path, load_profile
 from book_model import (
     JoinPolicy,
     join,
@@ -196,7 +196,7 @@ def build(
     editorial=False,
     models=ROOT / "work/models",
 ):
-    book = json.loads(profile.read_text())
+    book = load_profile(profile)
     config = profile.parent
     source_hash = digest(pdf.read_bytes())
     if source_hash != book["source_sha256"]:
@@ -241,11 +241,18 @@ def build(
             provenance = json.loads((p / "provenance.json").read_text())
             if provenance["source_sha256"] != source_hash:
                 raise ValueError("OCR cache belongs to a different PDF")
+            missing = [
+                n for n in range(1, len(doc) + 1) if not (p / f"{n:04}.json").exists()
+            ]
+            if missing:
+                raise ValueError(
+                    f"OCR cache {p} lacks {len(missing)} pages (first {missing[0]}); rerun extraction"
+                )
         for n in range(1, len(doc) + 1):
             v = json.loads((cache / f"{n:04}.json").read_text())
             r = json.loads((secondary / f"{n:04}.json").read_text())
             vv = json.loads((vision / f"{n:04}.json").read_text())
-            if str(n) in book["index_splits"]:
+            if str(n) in book.get("index_splits", {}):
                 rect = doc[n - 1].rect
                 split = book["index_splits"][str(n)] * rect.width
                 expected = [
@@ -270,7 +277,9 @@ def build(
                 merge_rows(
                     outside_figures(
                         embedded(
-                            doc[n - 1], book["index_splits"].get(str(n)), raw=True
+                            doc[n - 1],
+                            book.get("index_splits", {}).get(str(n)),
+                            raw=True,
                         ),
                         book,
                         n,
@@ -289,6 +298,11 @@ def build(
             json.loads((p / "provenance.json").read_text())
             for p in [cache, vision, secondary]
         ]
+        # Report the engines actually fingerprinted, not remembered versions.
+        engine_names = {
+            name: record.get(name, record["engine"])
+            for name, record in zip(["tesseract", "vision"], provenance_records)
+        }
     # Add page scope directly to the source rows before checked overlays.
     for n, rows in pages.items():
         for row in rows:
@@ -570,7 +584,10 @@ def build(
             ".xhtml": "application/xhtml+xml",
             ".css": "text/css",
             ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
             ".png": "image/png",
+            ".gif": "image/gif",
+            ".webp": "image/webp",
             ".svg": "image/svg+xml",
             ".ncx": "application/x-dtbncx+xml",
         }[Path(path).suffix]
@@ -617,14 +634,18 @@ def build(
     review = list({json.dumps(r, sort_keys=True): r for r in review}.values())
     decisions = json.loads((config / "review-decisions.json").read_text())
     rendered = {n for a, b, _ in book["chapters"] for n in range(a, b + 1)}
+    matched_decisions = set()
     for row in review:
-        verified = any(
-            d["page"] == row["page"]
+        matches = [
+            i
+            for i, d in enumerate(decisions)
+            if d["page"] == row["page"]
             and abs((d["bbox"][1] + d["bbox"][3]) / 2 - center(row)) < 0.005
             and abs((d["bbox"][0] + d["bbox"][2] - row["bbox"][0] - row["bbox"][2]) / 2)
             < 0.15
-            for d in decisions
-        )
+        ]
+        matched_decisions.update(matches)
+        verified = bool(matches)
         row["status"] = (
             "scan-reviewed"
             if verified
@@ -674,6 +695,13 @@ def build(
         "original_page_anchors": len(page_links),
         "correction_events": len(audit),
         "review_items": len(review),
+        # Geometry-matched decisions go stale when OCR is rerun; list them so
+        # reviewed rows cannot silently drop back into, or out of, the queue.
+        "unmatched_review_decisions": [
+            {k: d[k] for k in ("page", "bbox") if k in d}
+            for i, d in enumerate(decisions)
+            if i not in matched_decisions
+        ],
         "editorial_corrections": editorial,
         "metadata_enrichment": enrichment,
         "validation": validate_epub(target),
@@ -699,15 +727,15 @@ def build(
             if native
             else {
                 "body": (
-                    "Apple Vision revision 3"
+                    engine_names["vision"]
                     if all(
                         n in book.get("vision_primary_pages", [])
                         for a, b, _ in book["chapters"]
                         for n in range(a, b + 1)
                     )
-                    else "Tesseract 5.5.3 English"
+                    else engine_names["tesseract"]
                 ),
-                "bibliography_and_index": "Apple Vision revision 3",
+                "bibliography_and_index": engine_names["vision"],
             }
         ),
     }

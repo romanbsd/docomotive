@@ -7,7 +7,15 @@ import json
 import re
 from pathlib import Path
 import pymupdf
-from common import ROOT, read_json, write_json, digest, file_digest, cache_path
+from common import (
+    ROOT,
+    read_json,
+    write_json,
+    digest,
+    file_digest,
+    cache_path,
+    load_profile,
+)
 from ocr import nearest, merge_rows
 
 PATTERNS = {
@@ -59,7 +67,7 @@ def diagnostics(model, book):
 
 
 def make_sheet(pdf, profile, out, work):
-    book = read_json(profile)
+    book = load_profile(profile)
     source = file_digest(pdf)
     if source != book["source_sha256"]:
         raise ValueError("Review source PDF mismatch")

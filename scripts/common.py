@@ -27,6 +27,40 @@ def write_json(path, value):
     temp.replace(path)
 
 
+# Every key a profile may contain. Unknown keys fail loudly: profiles are read
+# with .get() defaults, so a misspelled key would otherwise be silently ignored.
+# "comments" is free-form reviewer documentation that no code reads.
+PROFILE_KEYS = frozenset("""
+    approved_cover_url archive_identifier artwork_overlay_exclusions artwork_pages
+    author author_sort bottom_margin_cutoffs chapter_body_starts chapter_heading
+    chapters comments continuous_indented_rows contributors cover_file
+    cover_imprint cover_source cross_page_continuations date description doi
+    endnote_chapter endnote_marker_limit endnote_marker_min endnote_reference_mode
+    endnote_sections excluded_pages figures frontmatter_endnotes glossary_pages
+    glossary_style glossary_terms hanging_pages index_pages index_splits isbn
+    language line_join_words metadata_record_overrides metadata_title_suffix
+    native_body_size native_excluded_fonts native_font_styles native_heading_sizes
+    native_heading_texts native_quote_pages native_small_numeric_sup
+    native_superscript_max_size native_typography note_continuations note_starts
+    page_labels paragraph_margins printed_page_offset publisher publisher_mark
+    quote_first_line_indent recover_ocr_regions recover_pdf_typography
+    recover_scan_font_metrics recover_scanned_endnotes reference_pages
+    related_print_isbns rights row_heading_rules row_regions section_navigation
+    slug small_caps_openings source_completeness source_note
+    source_relative_figures source_sha256 source_version
+    statistics_excluded_chapters subjects subtitle text_source title
+    upper_margin_cutoff uppercase_margin_cutoff verse_regions vision_primary_pages
+    """.split())
+
+
+def load_profile(path):
+    book = read_json(path)
+    unknown = sorted(set(book) - PROFILE_KEYS)
+    if unknown:
+        raise ValueError(f"Unknown profile keys in {path}: {', '.join(unknown)}")
+    return book
+
+
 def cache_path(work, engine):
     return ROOT / (Path(work) / (engine + "-cache.txt")).read_text().strip()
 

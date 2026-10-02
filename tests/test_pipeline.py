@@ -10,7 +10,7 @@ from layout import infer
 from jev_rank import validate, MODEL
 from book_model import JoinPolicy, reconstruct, coverage, plain_text
 from render_text import block_html
-from common import apply_edits
+from common import apply_edits, load_profile
 from proofread import diagnostics
 
 
@@ -99,6 +99,17 @@ class PipelineTests(unittest.TestCase):
                 },
                 {"q": {"criteria": {"keep": "preserve"}}},
             )
+
+    def test_profile_rejects_unknown_keys(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "book.json"
+            path.write_text(json.dumps({"slug": "x", "note_start": {}}))
+            with self.assertRaisesRegex(ValueError, "note_start"):
+                load_profile(path)
+            path.write_text(json.dumps({"slug": "x", "comments": {"any": 1}}))
+            self.assertEqual(load_profile(path)["slug"], "x")
 
     def test_isbn_check_digits(self):
         self.assertEqual(isbn("0-395-13936-8"), "0395139368")

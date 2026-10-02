@@ -6,7 +6,7 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 from wordfreq import zipf_frequency
-from common import ROOT, read_json, write_json
+from common import ROOT, read_json, write_json, load_profile
 
 TOKEN = re.compile(r"[^\W\d_]+(?:['’-][^\W\d_]+)*", re.UNICODE)
 
@@ -154,7 +154,7 @@ def main():
     p.add_argument("--profile", type=Path, default=ROOT / "config/book.json")
     p.add_argument("--output", type=Path, default=ROOT / "output")
     a = p.parse_args()
-    result = analyze(read_json(a.output / "book-model.json"), read_json(a.profile))
+    result = analyze(read_json(a.output / "book-model.json"), load_profile(a.profile))
     write_json(a.output / "vocabulary-analysis.json", result)
     print(
         f"Whole-book vocabulary: {result['token_count']} tokens across {result['documents']} narrative chapters"

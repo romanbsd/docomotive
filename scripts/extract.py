@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pymupdf
 
-from common import ROOT, file_digest as sha
+from common import ROOT, file_digest as sha, load_profile
 
 
 def main():
@@ -85,9 +85,6 @@ def main():
     )
     cache.mkdir(parents=True, exist_ok=True)
     (cache / "provenance.json").write_text(json.dumps(fingerprint, indent=2) + "\n")
-    (work / f"{args.engine}-cache.txt").write_text(str(cache) + "\n")
-    if args.engine == "vision":
-        (work / "active-cache.txt").write_text(str(cache) + "\n")
     binary = work / "vision-ocr"
     stamp = work / "swift-source.sha256"
     if args.engine == "vision" and (
@@ -110,7 +107,7 @@ def main():
             sha(ROOT / "scripts/vision_ocr.swift")
         )
     doc = pymupdf.open(args.pdf)
-    book = json.loads(args.profile.read_text())
+    book = load_profile(args.profile)
     if book["source_sha256"] != sha(args.pdf):
         raise ValueError("Profile source hash mismatch")
     numbers = (
@@ -124,13 +121,13 @@ def main():
         target = cache / f"{n:04}.json"
         page = doc[n - 1]
         # Two-column index must be recognized separately to avoid line interleaving.
-        split = book["index_splits"].get(str(n), 0.5) * page.rect.width
+        split = book.get("index_splits", {}).get(str(n), 0.5) * page.rect.width
         clips = (
             [
                 pymupdf.Rect(0, 0, split, page.rect.height),
                 pymupdf.Rect(split, 0, page.rect.width, page.rect.height),
             ]
-            if str(n) in book["index_splits"]
+            if str(n) in book.get("index_splits", {})
             else [page.rect]
         )
         if target.exists():
@@ -251,6 +248,12 @@ def main():
         temp.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
         temp.replace(target)
         print(f"OCR {n}/{len(doc)}: {len(lines)} lines", flush=True)
+    # Builds follow this pointer, so a partial or experimental run (--pages,
+    # another --dpi) must not replace a complete cache.
+    if all((cache / f"{n:04}.json").exists() for n in range(1, len(doc) + 1)):
+        (work / f"{args.engine}-cache.txt").write_text(str(cache) + "\n")
+    else:
+        print(f"Cache incomplete; {args.engine}-cache.txt not updated", flush=True)
 
 
 if __name__ == "__main__":

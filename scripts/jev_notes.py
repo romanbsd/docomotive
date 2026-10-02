@@ -6,6 +6,7 @@ import json
 import re
 from pathlib import Path
 
+from common import load_profile
 from jev_rank import MODEL, evaluate
 
 
@@ -91,7 +92,7 @@ def main():
     payload = prepare(
         json.loads((a.input / "book-model.json").read_text()),
         json.loads((a.input / "scanned-endnote-analysis.json").read_text()),
-        json.loads(a.profile.read_text()),
+        load_profile(a.profile),
     )
     fingerprint = hashlib.sha256(
         json.dumps(payload, ensure_ascii=False, sort_keys=True).encode()

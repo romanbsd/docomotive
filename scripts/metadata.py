@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 import requests
 from PIL import Image
-from common import ROOT, digest as sha
+from common import ROOT, digest as sha, load_profile
 
 
 def isbn(value):
@@ -193,7 +193,7 @@ def main():
     p.add_argument("--cache", type=Path, default=ROOT / "work/metadata/cache")
     p.add_argument("--offline", action="store_true")
     a = p.parse_args()
-    book = json.loads(a.profile.read_text())
+    book = load_profile(a.profile)
     cache = Cache(a.cache, a.offline)
     if book.get("doi") and not book.get("isbn"):
         enrich = enrich_doi(book, cache)

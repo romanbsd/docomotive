@@ -11,7 +11,7 @@ import symspellpy
 from symspellpy import SymSpell, Verbosity
 from spylls.hunspell import Dictionary
 from wordfreq import zipf_frequency
-from common import ROOT, digest, write_json
+from common import ROOT, digest, write_json, load_profile
 from vocabulary import TOKEN, analyze, review_signals
 
 
@@ -29,7 +29,7 @@ def main():
     parser.add_argument("--output", type=Path, default=ROOT / "output")
     parser.add_argument("--models", type=Path, default=ROOT / "work/models")
     args = parser.parse_args()
-    book = json.loads(args.profile.read_text())
+    book = load_profile(args.profile)
     config = args.profile.parent
     dictionary = Dictionary.from_files(str(args.models / "en_US"))
     protected = {
