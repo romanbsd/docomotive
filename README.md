@@ -154,3 +154,27 @@ The supplied 1000 × 1500 JPEG is the cover. ISBN-13 **9780805074581** correspon
 Reusable profile additions include checked local covers, normalized figure crops, blank-page exclusions, glossary entry boundaries, continuous indented quotation lines, explicit cross-page continuation preconditions, and chapter-level endnote navigation. The [offline proofreading sheet](output/feeling-organism/reading-edition/proofreading-review.html) retains uncertain lexical and structural proposals for review. Complete inline italics recovery and complete proofreading remain limitations; no remote inference was used.
 
 Scanned prose now uses a shared deterministic margin model: robust Theil–Sen slopes compensate for scan skew, and sustained symmetric insets supply block-quotation evidence. It runs on ordinary OCR prose columns after exclusions; native typography, hanging references, verse and reviewed paragraph margins retain their existing paths. Insufficient or unstable geometry falls back conservatively. `corrections-applied.json` records margin models, fallback reasons and source row IDs for inferred quotation runs. No title, page number or phrase is part of the detector.
+
+## Pharmako/Poeia
+
+[Corrected reading edition](output/pharmako-poeia/reading-edition/pharmako-poeia-corrected.epub) and [source-spelling edition](output/pharmako-poeia/pharmako-poeia.epub) convert the supplied 256-page Dale Pendell scan. The scanned copyright page identifies the **1995 first edition**, despite the filename's 1994. ISBN-10 **1562790692**, ISBN-13 **9781562790691**. Gary Snyder is credited for the foreword using the EPUB contributor role, rather than as a coauthor. Free Open Library metadata and the matching downloaded cover are cached for offline rebuilding. Copyright is checked reflow text, with no copyright-page image.
+
+```sh
+.venv/bin/python scripts/pipeline.py \
+  'input/Dale Pendell, Gary Snyder - Pharmako_Poeia_ Plant Powers, Poisons, and Herbcraft-Mercury House (1994).pdf' \
+  --profile config/pharmako-poeia/book.json --work work/pharmako-poeia \
+  --output output/pharmako-poeia --skip-extraction
+# Reading edition additionally corrects five scan-verified printed mistakes.
+.venv/bin/python scripts/pipeline.py \
+  'input/Dale Pendell, Gary Snyder - Pharmako_Poeia_ Plant Powers, Poisons, and Herbcraft-Mercury House (1994).pdf' \
+  --profile config/pharmako-poeia/book.json --work work/pharmako-poeia \
+  --output output/pharmako-poeia/reading-edition --skip-extraction --editorial
+```
+
+All pages have local Apple Vision, Tesseract and RapidOCR/Paddle caches. Vision supplies the primary text. The book has 54 navigable sections, 110 reviewed artwork crops (including original contents, marginal symbols, woodcuts and separate Chinese ideograms), glossary entry boundaries, and an explicit map of irregular printed pagination. The **source is incomplete**: it ends at glossary page 247 and lacks the references and credits listed in its own contents. Printed numbers also jump over pages 28, 98, 116, 144, 154, 210 and 240; their contents are not inferred. An edition note and metadata record these limitations.
+
+Generic improvements mask raw artwork OCR before horizontal line merging; preserve image-only page anchors; transfer inline styles only where fresh OCR agrees with PDF text and geometry; recognize short ragged verse and alternating indents; and preserve stanza gaps. Small-cap label/value rows and hanging italic field labels retain their entry boundaries. `recover_pdf_typography` is opt-in after verifying the hidden text's font evidence. `recover_ocr_regions` is also opt-in: tall garbled rows are replaced only when two fresh engines independently agree on each separate line, geometry matches, and adjacent retained rows would not be duplicated. Earlier profiles retain their extraction settings. `source_relative_figures` scales artwork from reviewed source proportions, with narrow ornaments floating beside the text.
+
+Artwork extraction prefers the original raster when exactly one full-page scan covers the crop with a verified unrotated transform and no visible text overlaps it. Visible reconstructed captions and labels require page rendering. Profile-reviewed font/size/pattern exclusions suppress only verified spurious overlay glyphs, without modifying source images; removal evidence is recorded. Ambiguous placements and vector pages also fall back to rendering. Candidate image bounds still require scan review: disconnected components can be separate illustrations with intervening prose, and OCR text masks can erase parts of drawings.
+
+The offline [proofreading sheet](output/pharmako-poeia/reading-edition/proofreading-review.html) and JSON retain uncertain spellings, scientific terms and OCR disagreements. Source-checked OCR overlays and reviewed vocabulary are scoped to the profile; editorial spelling changes remain a separate edition. Automated recovery and sampled visual checks are not complete proofreading. Reproduction uses pinned tools, source/config/code hashes, checksum-verified cached metadata and complete OCR caches; fresh OCR across different tool or OS versions is not guaranteed byte-identical.

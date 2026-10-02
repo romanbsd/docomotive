@@ -5,14 +5,6 @@ import re
 
 
 def block_html(block, book, seen, page_links, name, index_refs=None):
-    if block["kind"] == "figure":
-        return (
-            '<figure><img src="'
-            + html.escape(block["image"], quote=True)
-            + '" alt="'
-            + html.escape(block["alt"], quote=True)
-            + '"/></figure>'
-        )
     marks = []
     pages = []
     for mark in block["page_breaks"]:
@@ -27,6 +19,21 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
         page_links.append((name + "#page-" + str(n), label))
         anchor = f'<span epub:type="pagebreak" role="doc-pagebreak" id="page-{n}" aria-label="{label}"/>'
         marks.append((mark["offset"], anchor))
+    if block["kind"] == "figure":
+        return (
+            "".join(anchor for _, anchor in marks)
+            + ('<figure class="narrow">' if block.get("narrow") else "<figure>")
+            + '<img src="'
+            + html.escape(block["image"], quote=True)
+            + (
+                '" style="width:' + str(block["display_width"]) + "%"
+                if block.get("display_width") and not block.get("narrow")
+                else ""
+            )
+            + '" alt="'
+            + html.escape(block["alt"], quote=True)
+            + '"/></figure>'
+        )
     text = block["text"]
     pieces = []
     last = 0
@@ -132,7 +139,19 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
             + "</p></aside>"
         )
     if block["kind"] == "verse":
-        return '<div class="verse"><p>' + content.replace("\n", "<br/>") + "</p></div>"
+        lines = content.split("\n")
+        sources = block.get("sources", [])
+        if len(sources) == len(lines) and sources:
+            margin = min(s["bbox"][0] for s in sources)
+            lines = [
+                '<span style="padding-left:'
+                + str(round(min(5, max(0, (s["bbox"][0] - margin) * 30)), 1))
+                + 'em">'
+                + line
+                + "</span>"
+                for line, s in zip(lines, sources)
+            ]
+        return '<div class="verse"><p>' + "<br/>".join(lines) + "</p></div>"
     if block["kind"] == "attribution":
         return '<p class="attribution">' + content + "</p>"
     if block["kind"] == "quote":

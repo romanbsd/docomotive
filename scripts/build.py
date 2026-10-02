@@ -39,6 +39,8 @@ img {max-width:100%; height:auto;} .facsimile {text-align:center; margin:0;}
 .note-backlinks {font-size:.75em; text-indent:0; margin:.2em 0 .8em;}
 .attribution {text-align:right; text-indent:0; margin:.3em 1.5em .8em;}
 figure {margin:1.2em 0 .3em; text-align:center; break-inside:avoid;}
+.narrow img {max-height:16em; width:auto;}
+.narrow {float:right; width:2.5em; margin:.5em 0 .5em 1em;}
 .caption {font-size:.85em; text-indent:0; margin:0 0 1.2em;}
 """
 
@@ -76,6 +78,17 @@ def opf_metadata(book, enrichment, uid):
     meta("role", "aut", refines="#author", scheme="marc:relators")
     if book.get("author_sort"):
         meta("file-as", book["author_sort"], refines="#author")
+    for i, contributor in enumerate(book.get("contributors", []), 1):
+        identifier = f"contributor-{i}"
+        field("contributor", contributor["name"], id=identifier)
+        meta(
+            "role",
+            contributor["role"],
+            refines="#" + identifier,
+            scheme="marc:relators",
+        )
+        if contributor.get("file_as"):
+            meta("file-as", contributor["file_as"], refines="#" + identifier)
     field("language", book["language"])
     field("date", enrichment.get("publication_date", book["date"]))
     field("publisher", book["publisher"])
@@ -85,6 +98,8 @@ def opf_metadata(book, enrichment, uid):
         field("rights", book["rights"])
     if enrichment.get("description"):
         field("description", enrichment["description"])
+    if book.get("source_note"):
+        field("description", book["source_note"])
     for subject in enrichment.get("subjects", []):
         field("subject", subject)
     if enrichment.get("isbn_13"):
@@ -248,16 +263,27 @@ def build(
             )
             if primary_name == "vision":
                 v, vv = vv, v
+            from figures import outside_figures
+
             pages[n] = correct_page(
-                v["lines"],
-                embedded(doc[n - 1], book["index_splits"].get(str(n))),
-                merge_rows(vv["lines"]),
-                merge_rows(r["lines"]),
+                outside_figures(v["lines"], book, n, audit),
+                merge_rows(
+                    outside_figures(
+                        embedded(
+                            doc[n - 1], book["index_splits"].get(str(n)), raw=True
+                        ),
+                        book,
+                        n,
+                    )
+                ),
+                merge_rows(outside_figures(vv["lines"], book, n)),
+                merge_rows(outside_figures(r["lines"], book, n)),
                 audit,
                 review,
                 n,
                 primary_name,
                 "tesseract" if primary_name == "vision" else "vision",
+                recover_regions=book.get("recover_ocr_regions", False),
             )
         provenance_records = [
             json.loads((p / "provenance.json").read_text())
@@ -274,6 +300,10 @@ def build(
         "scan-verified-manual",
     )
     for n, rows in pages.items():
+        if not native and book.get("recover_pdf_typography", False):
+            from typography import attach_typography
+
+            attach_typography(rows, doc[n - 1], n, audit)
         for row in rows:
             for rule in book.get("row_heading_rules", []):
                 if n in rule["pages"] and re.fullmatch(rule["pattern"], row["text"]):
@@ -360,6 +390,14 @@ def build(
         "Copyright and permissions",
         "<h1>Copyright and permissions</h1>" + (config / "copyright.xhtml").read_text(),
     )
+    if book.get("source_note"):
+        add(
+            "edition-note.xhtml",
+            "About this edition",
+            "<h1>About this edition</h1><p>"
+            + html.escape(book["source_note"])
+            + "</p>",
+        )
     if downloaded_cover:
         files["OEBPS/downloaded-cover.xhtml"] = xhtml(
             "Online source cover",
@@ -668,6 +706,8 @@ def build(
             "Native extraction and format normalization are not full proofreading.",
             "Quoted and heading roles use reviewed profile/font geometry; original pagination changes with reflow.",
         ]
+    if book.get("source_completeness"):
+        result["source_completeness"] = book["source_completeness"]
     write_json(out / "report.json", result)
     print(json.dumps(result, indent=2))
 

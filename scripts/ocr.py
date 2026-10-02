@@ -44,7 +44,7 @@ def merge_rows(lines):
     return rows
 
 
-def embedded(page, split=None):
+def embedded(page, split=None, raw=False):
     lines = []
     for b in page.get_text("dict")["blocks"]:
         for l in b.get("lines", []):
@@ -63,7 +63,7 @@ def embedded(page, split=None):
                     "confidence": 0,
                 }
             )
-    return merge_rows(lines)
+    return lines if raw else merge_rows(lines)
 
 
 def nearest(line, rows):
@@ -90,8 +90,61 @@ def correct_page(
     page,
     primary_name="tesseract",
     secondary_name="vision",
+    recover_regions=False,
 ):
     rows = merge_rows(primary)
+    # Some engines collapse two printed lines into a confident but garbled row.
+    # Recover the region only when two fresh engines independently agree on
+    # every line, their geometry covers the tall row, and its text disagrees.
+    recovered = []
+    for row in rows:
+        peers = [
+            r
+            for r in secondary
+            if recover_regions
+            and r.get("column", 0) == row.get("column", 0)
+            and row["bbox"][1] <= center(r) <= row["bbox"][3] + 0.002
+            and abs(r["bbox"][0] - row["bbox"][0]) < 0.035
+            and abs(r["bbox"][2] - row["bbox"][2]) < 0.05
+        ]
+        agreement = [nearest(r, tertiary) for r in peers]
+        tall = peers and row["bbox"][3] - row["bbox"][1] > 1.5 * statistics.median(
+            r["bbox"][3] - r["bbox"][1] for r in peers
+        )
+        if (
+            len(peers) >= 2
+            and tall
+            and all(
+                other
+                and comparable(r["text"]) == comparable(other["text"])
+                and r.get("confidence", 0) >= 0.85
+                and other.get("confidence", 0) >= 0.85
+                for r, other in zip(peers, agreement)
+            )
+            and difflib.SequenceMatcher(
+                None,
+                comparable(row["text"]),
+                comparable(" ".join(r["text"] for r in peers)),
+            ).ratio()
+            < 0.6
+            and not any(
+                nearest(r, [other for other in rows if other is not row]) for r in peers
+            )
+        ):
+            recovered.extend(copy.deepcopy(peers))
+            audit.append(
+                dict(
+                    page=page,
+                    kind="two-witness-region-recovery",
+                    before=row["text"],
+                    bbox=row["bbox"],
+                    after=[r["text"] for r in peers],
+                    evidence=f"{secondary_name} and rapid exact lexical agreement on separate lines",
+                )
+            )
+        else:
+            recovered.append(row)
+    rows = recovered
     for row in baseline:
         if len(row["text"]) < 8 or nearest(row, rows):
             continue

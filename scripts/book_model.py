@@ -7,6 +7,7 @@ from wordfreq import zipf_frequency
 from common import digest
 from layout import excluded
 from paragraph_layout import infer_paragraph_layout
+from typography import verse_evidence
 
 
 class JoinPolicy:
@@ -105,6 +106,13 @@ def page_blocks(n, rows, book, audit, first, policy=None):
     for original in rows:
         r = copy.deepcopy(original)
         r["page"] = n
+        if n in book.get("glossary_pages", []):
+            label = re.match(r"^[A-Z][A-Z /-]{2,40}\s*:", r["text"])
+            if label:
+                r["paragraph_start"] = True
+                r.setdefault("inline", []).append(
+                    dict(start=0, end=label.end(), tags=["strong"])
+                )
         for region in book.get("row_regions", []):
             if region["page"] == n and region["lo"] <= r["bbox"][1] < region["hi"]:
                 r["kind"] = region["kind"]
@@ -129,6 +137,17 @@ def page_blocks(n, rows, book, audit, first, policy=None):
     blocks = []
     for col in sorted(set(r.get("column", 0) for r in body)):
         rr = [r for r in body if r.get("column", 0) == col]
+        inferred_verse = (
+            verse_evidence(rr, book.get("_body_width", 0.8))
+            if book.get("text_source") != "native"
+            and n not in book.get("reference_pages", [])
+            else set()
+        )
+        if inferred_verse:
+            audit.append(dict(page=n, kind="verse-layout", rows=sorted(inferred_verse)))
+            for r in rr:
+                if r["row_id"] in inferred_verse:
+                    r["kind"] = "verse"
         margin = book.get("paragraph_margins", {}).get(
             str(n), sorted(r["bbox"][0] for r in rr)[len(rr) // 5]
         )
@@ -154,7 +173,7 @@ def page_blocks(n, rows, book, audit, first, policy=None):
         for r in rr:
             text = r["text"]
             y = r["bbox"][1]
-            verse = any(
+            verse = r.get("kind") == "verse" or any(
                 lo <= y <= hi
                 for lo, hi in book.get("verse_regions", {}).get(str(n), [])
             )
@@ -204,7 +223,11 @@ def page_blocks(n, rows, book, audit, first, policy=None):
             if not hanging and last and r.get("column", 0) != last.get("column", 0):
                 new = True
             if verse:
-                new = not blocks or blocks[-1]["kind"] != "verse"
+                new = (
+                    not blocks
+                    or blocks[-1]["kind"] != "verse"
+                    or (last is not None and y - last["bbox"][3] > 0.035)
+                )
             if new:
                 blocks.append(
                     {

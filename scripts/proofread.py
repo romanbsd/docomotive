@@ -129,7 +129,7 @@ def make_sheet(pdf, profile, out, work):
                 pixmap = page.get_pixmap(dpi=180, clip=clip)
                 data = pixmap.pil_tobytes(format="JPEG", quality=85)
                 images.append(
-                    f'<figure><figcaption>PDF {n} · original page {n+book.get("printed_page_offset",0)}</figcaption><img loading="lazy" width="{pixmap.width}" height="{pixmap.height}" alt="Source line for {html.escape(item["word"],quote=True)}" src="data:image/jpeg;base64,{base64.b64encode(data).decode()}"/></figure>'
+                    f'<figure><figcaption>PDF {n} · original page {book.get("page_labels", {}).get(str(n), str(n+book.get("printed_page_offset",0)))}</figcaption><img loading="lazy" width="{pixmap.width}" height="{pixmap.height}" alt="Source line for {html.escape(item["word"],quote=True)}" src="data:image/jpeg;base64,{base64.b64encode(data).decode()}"/></figure>'
                 )
                 evidence.append(
                     {

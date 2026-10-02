@@ -1,6 +1,7 @@
 """Publisher PDF text with source geometry and explicit inline typography."""
 
 import re
+import statistics
 from ocr import center
 
 LIGATURES = str.maketrans({"ﬀ": "ff", "ﬁ": "fi", "ﬂ": "fl", "ﬃ": "ffi", "ﬄ": "ffl"})
@@ -70,7 +71,7 @@ def extract_page(page, book, number, audit):
                         }
                     )
                 if value.strip():
-                    sizes.append(span["size"])
+                    sizes.extend([span["size"]] * len(value.strip()))
                 if value != span["text"]:
                     audit.append(
                         {
@@ -108,6 +109,14 @@ def extract_page(page, book, number, audit):
                     "sizes": sizes,
                 }
             )
+            spans = line["spans"]
+            if (
+                len(spans) > 1
+                and spans[0]["text"].strip().isupper()
+                and 3 <= len(spans[0]["text"].strip()) <= 32
+                and spans[0]["size"] < 0.85 * spans[1]["size"]
+            ):
+                parts[-1]["label_end"] = len(clean_text(spans[0]["text"]).strip())
     groups = []
     for part in sorted(parts, key=lambda p: (p["column"], center(p), p["bbox"][0])):
         if (
@@ -151,7 +160,25 @@ def extract_page(page, book, number, audit):
             "column": group[0]["column"],
             "inline": inline,
             "native": True,
+            "font_size": statistics.median(sizes) if sizes else None,
         }
+        ordered = sorted(group, key=lambda p: p["bbox"][0])
+        if ordered[0].get("label_end"):
+            row["label_end"] = ordered[0]["label_end"]
+        if (
+            len(ordered) > 1
+            and (
+                ordered[0]["text"].isupper()
+                or any(
+                    s["start"] == 0
+                    and s["end"] == len(ordered[0]["text"])
+                    and "em" in s["tags"]
+                    for s in ordered[0]["inline"]
+                )
+            )
+            and ordered[1]["bbox"][0] - ordered[0]["bbox"][2] > 0.01
+        ):
+            row["label_end"] = len(ordered[0]["text"])
         if text in book.get("native_heading_texts", []):
             row["kind"] = "heading"
         elif sizes and all(
