@@ -1,0 +1,544 @@
+{
+  "pdf": "A feeling for the Organism.pdf",
+  "source_sha256": "59448237b057bd8b96cf9c5e33b50f6b43efc6e0123e170158984319b48f1a6a",
+  "cases": [
+    {
+      "name": "pdf-84-note-6",
+      "page": 84,
+      "number": 6,
+      "row": {
+        "confidence": 1,
+        "bbox": [
+          0.08641026726998224,
+          0.8708722737999695,
+          0.8026593323732306,
+          0.8977216750404157
+        ],
+        "text": "especially delighted to talk about those early years.6",
+        "column": 0,
+        "page": 84,
+        "inline": [
+          {
+            "start": 53,
+            "end": 54,
+            "tags": [
+              "sup"
+            ]
+          }
+        ],
+        "scan_font_size": 9.207706928253174
+      },
+      "marker_bbox": [
+        0.7914705882352941,
+        0.8786245821953249,
+        0.8004705882352942,
+        0.8859624055034194
+      ],
+      "control_row": {
+        "confidence": 1,
+        "bbox": [
+          0.08397431629618823,
+          0.849334070021837,
+          0.9329265948961089,
+          0.8774239825920898
+        ],
+        "text": "ing, and takes evident pleasure in telling a story. She seems",
+        "column": 0,
+        "page": 84,
+        "scan_font_size": 9.420470237731934
+      },
+      "cap_hint": null,
+      "evidence": "User-located and scan-verified reference; adjacent control row has no reference in the complete 157-marker inventory",
+      "control_cap_hint": null
+    },
+    {
+      "name": "pdf-91-note-8",
+      "page": 91,
+      "number": 8,
+      "row": {
+        "confidence": 1,
+        "bbox": [
+          0.07228916649103556,
+          0.5276162786776867,
+          0.3590361398704101,
+          0.5480442177098974
+        ],
+        "text": "paper before my talk.8",
+        "column": 0,
+        "page": 91,
+        "inline": [
+          {
+            "start": 21,
+            "end": 22,
+            "tags": [
+              "sup"
+            ]
+          }
+        ],
+        "scan_font_size": 8.578850746154785
+      },
+      "marker_bbox": [
+        0.3472736897829539,
+        0.5301435406698565,
+        0.355214399152991,
+        0.5365231259968102
+      ],
+      "control_row": {
+        "confidence": 1,
+        "bbox": [
+          0.07228916101518523,
+          0.5087209304780894,
+          0.8481927740209594,
+          0.5276360541581003
+        ],
+        "text": "have had it if he had told me about the Creighton-McClintock",
+        "column": 0,
+        "page": 91,
+        "scan_font_size": 8.651011943817139
+      },
+      "cap_hint": 40.0,
+      "evidence": "User-located and scan-verified reference; adjacent control row has no reference in the complete 157-marker inventory",
+      "control_cap_hint": null
+    },
+    {
+      "name": "pdf-107-note-11",
+      "page": 107,
+      "number": 11,
+      "row": {
+        "bbox": [
+          0.08674698917809573,
+          0.7616279071040735,
+          0.13975903540021756,
+          0.779069766965694
+        ],
+        "confidence": 1,
+        "text": "it.11",
+        "column": 0,
+        "page": 107,
+        "inline": [
+          {
+            "start": 3,
+            "end": 5,
+            "tags": [
+              "sup"
+            ]
+          }
+        ]
+      },
+      "marker_bbox": [
+        0.11964002117522499,
+        0.7639553429027113,
+        0.13658020116463737,
+        0.7703349282296651
+      ],
+      "control_row": {
+        "bbox": [
+          0.08896117283971539,
+          0.7370631032622622,
+          0.8676751577932149,
+          0.760684591852892
+        ],
+        "confidence": 1,
+        "text": "her grant. Says she has bought no clothes for years and looks",
+        "column": 0,
+        "page": 107,
+        "scan_font_size": 8.188873291015625
+      },
+      "cap_hint": 40.0,
+      "evidence": "User-located and scan-verified reference; adjacent control row has no reference in the complete 157-marker inventory",
+      "control_cap_hint": null
+    },
+    {
+      "name": "pdf-111-note-1",
+      "page": 111,
+      "number": 1,
+      "row": {
+        "text": "ship,1 and the rank hardly commensurate with either her scien-",
+        "bbox": [
+          0.025884244966656207,
+          0.7822935783344773,
+          0.8798295264756038,
+          0.8162167112244131
+        ],
+        "confidence": 1,
+        "column": 0,
+        "page": 111,
+        "inline": [
+          {
+            "start": 5,
+            "end": 6,
+            "tags": [
+              "sup"
+            ]
+          }
+        ],
+        "scan_font_size": 9.520509719848633
+      },
+      "marker_bbox": [
+        0.09370037056643726,
+        0.7955342902711324,
+        0.10058231868713605,
+        0.8022328548644339
+      ],
+      "control_row": {
+        "text": "The salary was not much of an improvement over her fellow-",
+        "bbox": [
+          0.026190917634380157,
+          0.7669054615269381,
+          0.8774357593458577,
+          0.7946785401339913
+        ],
+        "confidence": 1,
+        "column": 0,
+        "page": 111,
+        "scan_font_size": 9.545696258544922
+      },
+      "cap_hint": null,
+      "evidence": "User-located and scan-verified reference; adjacent control row has no reference in the complete 157-marker inventory",
+      "control_cap_hint": null
+    },
+    {
+      "name": "pdf-128-note-9",
+      "page": 128,
+      "number": 9,
+      "row": {
+        "confidence": 1,
+        "bbox": [
+          0.1397590373703569,
+          0.3660714283970099,
+          0.3638554243645829,
+          0.3839285712541528
+        ],
+        "text": "natural selection.9",
+        "column": 0,
+        "page": 128,
+        "inline": [
+          {
+            "start": 18,
+            "end": 19,
+            "tags": [
+              "sup"
+            ]
+          }
+        ],
+        "scan_font_size": 7.896176815032959
+      },
+      "marker_bbox": [
+        0.35100000000000003,
+        0.36880538018075365,
+        0.36000000000000004,
+        0.37518609610083586
+      ],
+      "control_row": {
+        "confidence": 1,
+        "bbox": [
+          0.13975902945119795,
+          0.34736394528046766,
+          0.9180722828781196,
+          0.3662790697714262
+        ],
+        "text": "nomena, and a reaffirmation of the overwhelming importance of",
+        "column": 0,
+        "page": 128,
+        "scan_font_size": 8.965152740478516
+      },
+      "cap_hint": 40.0,
+      "evidence": "User-located and scan-verified reference; adjacent control row has no reference in the complete 157-marker inventory",
+      "control_cap_hint": null
+    },
+    {
+      "name": "pdf-161-note-3",
+      "page": 161,
+      "number": 3,
+      "row": {
+        "text": "tations observed in other variegations.\"3 Though she could not",
+        "confidence": 0.8681433155555556,
+        "bbox": [
+          0.05010585744530699,
+          0.7435133985538069,
+          0.8927311220889202,
+          0.7613781369629945
+        ],
+        "column": 0,
+        "page": 161,
+        "inline": [
+          {
+            "start": 40,
+            "end": 41,
+            "tags": [
+              "sup"
+            ]
+          }
+        ],
+        "scan_font_size": 9.31430721282959
+      },
+      "marker_bbox": [
+        0.58284806776072,
+        0.743859649122807,
+        0.5913181577554262,
+        0.7508771929824561
+      ],
+      "control_row": {
+        "text": "“breakage itself [in these plants] corresponds to the ‘gene’ mu-",
+        "confidence": 0.947219177,
+        "bbox": [
+          0.05081157374735356,
+          0.7222458528285836,
+          0.8927311220889202,
+          0.741811994895789
+        ],
+        "column": 0,
+        "page": 161,
+        "scan_font_size": 9.04136848449707
+      },
+      "cap_hint": null,
+      "evidence": "User-located and scan-verified reference; adjacent control row has no reference in the complete 157-marker inventory",
+      "control_cap_hint": null
+    },
+    {
+      "name": "pdf-178-note-5",
+      "page": 178,
+      "number": 5,
+      "row": {
+        "confidence": 1,
+        "text": "less frequently discussed, partly because they are less visible.5",
+        "bbox": [
+          0.08668440505675734,
+          0.12787768044980752,
+          0.9422617959131572,
+          0.15175751341173993
+        ],
+        "column": 0,
+        "page": 178,
+        "inline": [
+          {
+            "start": 64,
+            "end": 65,
+            "tags": [
+              "sup"
+            ]
+          }
+        ],
+        "scan_font_size": 9.022314071655273
+      },
+      "marker_bbox": [
+        0.9296470588235294,
+        0.12920949738166543,
+        0.9381176470588236,
+        0.13622828489375588
+      ],
+      "control_row": {
+        "confidence": 1,
+        "text": "suasion and acceptance (in making an argument convincing) is",
+        "bbox": [
+          0.08674699474163677,
+          0.10884353727344187,
+          0.9397590151378816,
+          0.12797619033466634
+        ],
+        "column": 0,
+        "page": 178,
+        "scan_font_size": 9.109506607055664
+      },
+      "cap_hint": null,
+      "evidence": "User-located and scan-verified reference; adjacent control row has no reference in the complete 157-marker inventory",
+      "control_cap_hint": null
+    },
+    {
+      "name": "pdf-197-note-23",
+      "page": 197,
+      "number": 23,
+      "row": {
+        "confidence": 1,
+        "bbox": [
+          0.03373496350588819,
+          0.4302325579024928,
+          0.8795180626386896,
+          0.45068027189066073
+        ],
+        "text": "understanding the really important issues of genetics.23 As he",
+        "column": 0,
+        "page": 197,
+        "inline": [
+          {
+            "start": 54,
+            "end": 56,
+            "tags": [
+              "sup"
+            ]
+          }
+        ],
+        "scan_font_size": 9.125802040100098
+      },
+      "marker_bbox": [
+        0.7713075701429327,
+        0.43157894736842106,
+        0.7919534145050291,
+        0.43859649122807015
+      ],
+      "control_row": {
+        "confidence": 1,
+        "bbox": [
+          0.03132530636760391,
+          0.4098639452380741,
+          0.8795180459215532,
+          0.4287790697290327
+        ],
+        "text": "he thought that biochemistry was not likely to be useful in",
+        "column": 0,
+        "page": 197,
+        "scan_font_size": 9.32625961303711
+      },
+      "cap_hint": null,
+      "evidence": "User-located and scan-verified reference; adjacent control row has no reference in the complete 157-marker inventory",
+      "control_cap_hint": null
+    },
+    {
+      "name": "pdf-199-note-28",
+      "page": 199,
+      "number": 28,
+      "row": {
+        "confidence": 1,
+        "text": "tion\" in 1953.28 Its implications were quickly followed up by the",
+        "bbox": [
+          0.040963879668808406,
+          0.5624999997823378,
+          0.8891566192227577,
+          0.5829081630476439
+        ],
+        "column": 0,
+        "page": 199,
+        "inline": [
+          {
+            "start": 14,
+            "end": 16,
+            "tags": [
+              "sup"
+            ]
+          }
+        ],
+        "scan_font_size": 9.341484069824219
+      },
+      "marker_bbox": [
+        0.22657490735839067,
+        0.5639553429027113,
+        0.24775013234515617,
+        0.5709728867623605
+      ],
+      "control_row": {
+        "confidence": 1,
+        "text": "sequence of bases is the code that carries the genetic informa-",
+        "bbox": [
+          0.04096388088594514,
+          0.5420918368506119,
+          0.8915662608610421,
+          0.562500000115918
+        ],
+        "column": 0,
+        "page": 199,
+        "scan_font_size": 9.249013900756836
+      },
+      "cap_hint": null,
+      "evidence": "User-located and scan-verified reference; adjacent control row has no reference in the complete 157-marker inventory",
+      "control_cap_hint": null
+    },
+    {
+      "name": "pdf-206-note-3",
+      "page": 206,
+      "number": 3,
+      "row": {
+        "text": "lished.3",
+        "confidence": 1,
+        "bbox": [
+          0.1277108453298745,
+          0.25436046559244563,
+          0.22168674642916156,
+          0.271802325454066
+        ],
+        "column": 0,
+        "page": 206,
+        "inline": [
+          {
+            "start": 7,
+            "end": 8,
+            "tags": [
+              "sup"
+            ]
+          }
+        ],
+        "scan_font_size": 7.979705810546875
+      },
+      "marker_bbox": [
+        0.20963472736897829,
+        0.2555023923444976,
+        0.21704605611434621,
+        0.2618819776714514
+      ],
+      "control_row": {
+        "text": "other organisms, for their prevalence in maize is now well estab-",
+        "confidence": 1,
+        "bbox": [
+          0.1277108353829248,
+          0.23384353726132945,
+          0.9060240888098464,
+          0.2529761903225539
+        ],
+        "column": 0,
+        "page": 206,
+        "scan_font_size": 8.403114318847656
+      },
+      "cap_hint": 39.0,
+      "evidence": "User-located and scan-verified reference; adjacent control row has no reference in the complete 157-marker inventory",
+      "control_cap_hint": null
+    },
+    {
+      "name": "pdf-220-note-12",
+      "page": 220,
+      "number": 12,
+      "row": {
+        "text": "ments of prokaryotic origin is open to speculation.12",
+        "confidence": 1,
+        "bbox": [
+          0.12530121754840395,
+          0.18313953457884935,
+          0.7759036147407523,
+          0.2036564629402361
+        ],
+        "column": 0,
+        "page": 220,
+        "inline": [
+          {
+            "start": 51,
+            "end": 53,
+            "tags": [
+              "sup"
+            ]
+          }
+        ],
+        "scan_font_size": 8.224845886230469
+      },
+      "marker_bbox": [
+        0.756,
+        0.18631690486640148,
+        0.7724117647058824,
+        0.19237858499047963
+      ],
+      "control_row": {
+        "text": "eukaryotic elements have any relationship to the known IS ele-",
+        "confidence": 1,
+        "bbox": [
+          0.12771084965200089,
+          0.16279069769465915,
+          0.9060241030789226,
+          0.181686046418713
+        ],
+        "column": 0,
+        "page": 220,
+        "scan_font_size": 8.433961868286133
+      },
+      "cap_hint": null,
+      "evidence": "User-located and scan-verified reference; adjacent control row has no reference in the complete 157-marker inventory",
+      "control_cap_hint": null
+    }
+  ]
+}

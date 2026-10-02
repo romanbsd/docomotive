@@ -83,7 +83,13 @@ Verification: 103 tests pass, `black --check` clean. All five books rebuilt with
 - Scanned-note detection and retry fingerprints now include the English traineddata checksum from Tesseract's actual search directory, honoring `TESSDATA_PREFIX`. Full-page Tesseract extraction uses the same checksum helper. This deliberately caused one fresh Organism note pass while preserving full-page caches. The hand-listed detector-function fingerprint remains unchanged.
 - The Organism cover had moved into `input/`; its profile path was repaired after verifying the existing checksum. The image content and EPUB cover are unchanged.
 
-Type-scale thresholds, adaptive binarization and broader OCR/layout redesign remain deferred. The regression script above supersedes the regression portion of the earlier deferred list.
+Type-scale thresholds, production adaptive binarization and broader OCR/layout redesign remain deferred. The regression script above supersedes the regression portion of the earlier deferred list.
+
+### Adaptive-binarization evaluation
+
+An offline, source-checksummed benchmark now compares the current note-crop path, fixed 150/180 cutoffs, Otsu and Sauvola (61/91-pixel windows) on eleven difficult Organism markers and eleven adjacent prose controls, with original and deterministic faded/uneven inputs. NumPy/SciPy supply the threshold calculations; local Tesseract supplies raw readings. Cached observations and a visual sheet preserve the evidence without changing production behavior. See [the research results](research.md#note-crop-binarization-experiment).
+
+Otsu supplies expected raw readings at detected regions for 10/11 originals versus 7/11 for the current path, and 9/11 synthetic derivatives versus 0/11. Neither produces numeric candidates on the selected controls, but Otsu retains one extra numeric noise region on an original positive crop. Sauvola performs poorly at the tested settings. These are pre-placement observations, not recovered-reference counts; the existing full pipeline already recovers 157/157. A broader independent dataset and full acceptance/regression evaluation are required before adopting an adaptive retry.
 
 Verification: all 114 tests pass; Black and `git diff --check` pass. The full regression run passes all seven cases with unchanged EPUBs, canonical artifacts, coverage, figures and note statistics against independently captured pre-change builds (`work/regression/run-xonkoyzz/report.json`). The fresh Organism note pass still recovers 157/157 references. A deliberately altered baseline produces exit status 1 and names `artifacts.book-model.json` without changing the baseline. A real one-page Tesseract run writes its page cache but does not publish a cache pointer. Tests also exercise corrupt JSON, wrong page identity, invalid geometry, concurrent atomic publication, failed-publication cleanup, and refusal to accept any baseline after a failed batch.
 

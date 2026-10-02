@@ -50,6 +50,19 @@ Cases are declared in `tests/book-cases.json`; compact baselines live in `tests/
 
 Profiles reject unknown keys, missing required fields, incorrect basic types, invalid normalized geometry and invalid page/chapter references. PDF bounds are checked when the source is opened. Cache preflight validates readable page JSON, page identity, dimensions, text rows, bounding boxes and confidences before reconstruction. A cache is selected only after every page passes; partial experiments retain the previous pointer. JSON and pointer writes use unique atomic staging files. Scanned-note caches include the actual Tesseract English traineddata checksum; changing that model reruns note recognition without invalidating full-page OCR caches.
 
+## Local binarization experiments
+
+```sh
+.venv/bin/python scripts/binarization_experiment.py
+# Supply another annotated crop set without changing the production pipeline.
+.venv/bin/python scripts/binarization_experiment.py \
+  --manifest tests/binarization-cases.json --output work/binarization-experiment
+```
+
+This offline benchmark compares the current note-crop path, fixed thresholds, Otsu and two Sauvola window sizes using NumPy/SciPy and local Tesseract. Its source-checksummed manifest records marker boxes, adjacent prose controls and fixed short-line height hints. Original crops and deterministic synthetic fading are scored separately. Detection, expected digits among raw OCR alternatives, oracle-box recognition and extra numeric regions are separate measures; none represents accepted note placement or complete proofreading.
+
+`report.json` records tool/model/code fingerprints and raw observations; `review.html` displays each input and thresholded crop. Cached observations allow repeatable comparisons. Production recognition, chapter sequencing and acceptance remain unchanged. The default manifest is a small one-book research sample; see the [measured results and limitations](docs/research.md#note-crop-binarization-experiment).
+
 ## Stages and artifacts
 
 | Stage | Tools and behavior | Evidence |

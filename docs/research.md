@@ -272,3 +272,26 @@ PDF 111's blurry digit was fragmented by the original dark-ink threshold. Tall o
 Both EPUB editions now contain all 157 inline references and backlinks. The missing-reference table is empty. Two extra pixel candidates remain rejected by chapter order and visible in the review sheet; they are not missing notes. Source-row coverage and canonical/rendered text checks pass. EPUBCheck reports zero errors and warnings for both editions, and all 102 tests and Black checks pass. Same-profile/cache comparisons using the previous OCR module confirm byte-identical EPUBs and unchanged canonical models, corrected rows and coverage for The Natural Mind, Shamanic Trance, For the Letter Kills, and Pharmako/Poeia; comparison evidence is in `work/feeling-organism/seven-backward-compatibility.json`.
 
 A repeat build of the source edition is byte-identical; its hashes are recorded in `work/feeling-organism/seven-repeat-verification.json`.
+
+## Note-crop binarization experiment
+
+After committing input-integrity and review-binding work, a local benchmark compared six threshold paths on eleven difficult Organism markers and eleven adjacent prose controls. The manifest in `tests/binarization-cases.json` fixes the source checksum, row geometry, complete marker boxes and neighboring cap-height hints. Original inputs and a deterministic faded/uneven derivative are separate conditions. The 22 original crops were visually inspected; some crops retain neighboring-line fragments, deliberately exposing the detector to realistic noise. All OCR ran locally with the existing Tesseract model; no new dependency or external request was required.
+
+Run `.venv/bin/python scripts/binarization_experiment.py`. The [visual comparison](../work/binarization-experiment/review.html) and [raw report](../work/binarization-experiment/report.json) retain 264 method/sample observations, crop hashes, model/tool/code provenance and reusable recognition caches. The current path preserves grayscale recognition except for its existing tall/faint binary fallback. Otsu uses a histogram threshold; Sauvola uses local mean/variance with k=0.2, R=127.5 and fixed 61/91-pixel windows. These settings follow the documented [threshold formulas](https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.threshold_sauvola); they are experimental settings, not a fitted production policy.
+
+Each cell below is original / synthetically faded. “Expected read” means the expected number occurs among raw OCR alternatives at a detected region covering at least 60% of the annotated full marker. It is an optimistic observation measure, not a selected or accepted reference. Controls contain no annotated marker on their selected prose row. Extra numeric regions count raw candidates outside the target, including noise in positive crops.
+
+| Method | Full marker detected / 11 | Expected read / 11 | Controls with numeric candidates / 11 | Extra numeric regions |
+|---|---:|---:|---:|---:|
+| Current path | 10 / 0 | 7 / 0 | 0 / 0 | 2 / 0 |
+| Fixed 150 | 9 / 0 | 9 / 0 | 0 / 0 | 2 / 0 |
+| Fixed 180 | 11 / 1 | 9 / 1 | 0 / 2 | 1 / 3 |
+| Otsu | 11 / 10 | 10 / 9 | 0 / 0 | 1 / 1 |
+| Sauvola 61 | 3 / 3 | 3 / 2 | 0 / 0 | 0 / 0 |
+| Sauvola 91 | 3 / 3 | 2 / 3 | 0 / 0 | 0 / 0 |
+
+Otsu supplied the correct alternatives for the original 9 on PDF 128 and 5 on PDF 178, and found the complete 12 on PDF 220 where the baseline region covers only its first digit. It still read the original PDF 84 marker as 8 rather than 6. Under synthetic fading it failed to read the blurry PDF 111 digit 1 and fragmented PDF 220's 12. The original PDF 111 crop still produced an extra numeric noise region. Sauvola's tested settings lost many real markers, so it is not a useful default on this sample.
+
+The existing production pipeline already recovers all 157 references through tight retries, placement and chapter sequence; this benchmark deliberately omits those steps. It does not demonstrate a further production coverage gain. One selected book and eleven negative controls are insufficient to estimate false acceptance reliably, and synthetic fading is not evidence from another scan. Keep production defaults unchanged. The next useful experiment is a larger independently annotated set across books/type scales, followed by a bounded Otsu retry comparison through full placement/sequence checks and the seven-case regression gate.
+
+Verification: 128 tests pass, Black is clean and all eleven complete marker boxes lie within their source crops. Cached replay reproduces the report and visual sheet byte-for-byte. This research-only change does not rebuild or alter published EPUBs; the seven-case production regression passed before commit `3ec72d2`.
