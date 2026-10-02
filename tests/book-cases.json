@@ -1,0 +1,51 @@
+[
+  {
+    "name": "natural",
+    "pdf": "The natural mind_ a new way of looking at drugs and the higher consciousness{Weil, Andrew}(2012){107143047} libgen.li.pdf",
+    "profile": "config/book.json",
+    "work": "work",
+    "editorial": false
+  },
+  {
+    "name": "natural-reading",
+    "pdf": "The natural mind_ a new way of looking at drugs and the higher consciousness{Weil, Andrew}(2012){107143047} libgen.li.pdf",
+    "profile": "config/book.json",
+    "work": "work",
+    "editorial": true
+  },
+  {
+    "name": "shamanic",
+    "pdf": "Shamanic trance.pdf",
+    "profile": "config/shamanic-trance/book.json",
+    "work": "work/shamanic-trance",
+    "editorial": false
+  },
+  {
+    "name": "letter",
+    "pdf": "For_the_Letter_Kills_but_the_Spirit_Giv.pdf",
+    "profile": "config/letter-kills/book.json",
+    "work": "work/letter-kills",
+    "editorial": false
+  },
+  {
+    "name": "organism",
+    "pdf": "A feeling for the Organism.pdf",
+    "profile": "config/feeling-organism/book.json",
+    "work": "work/feeling-organism",
+    "editorial": false
+  },
+  {
+    "name": "organism-reading",
+    "pdf": "A feeling for the Organism.pdf",
+    "profile": "config/feeling-organism/book.json",
+    "work": "work/feeling-organism",
+    "editorial": true
+  },
+  {
+    "name": "pharmako",
+    "pdf": "input/Dale Pendell, Gary Snyder - Pharmako_Poeia_ Plant Powers, Poisons, and Herbcraft-Mercury House (1994).pdf",
+    "profile": "config/pharmako-poeia/book.json",
+    "work": "work/pharmako-poeia",
+    "editorial": false
+  }
+]

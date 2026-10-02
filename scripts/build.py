@@ -22,6 +22,9 @@ from book_model import (
 )
 from render_text import block_html, notes_html
 from ocr import center, merge_rows, embedded, correct_page
+from ocr_cache import preflight_cache
+from profile_validation import validate_profile
+from review_decisions import match_decisions
 
 CSS = """body {font-family:serif; line-height:1.45; margin:5%;}
 h1 {font-size:1.6em; text-align:center; margin:2em 0; font-weight:normal;}
@@ -215,6 +218,7 @@ def build(
     out.mkdir(parents=True, exist_ok=True)
     files = {"OEBPS/style.css": CSS.encode()}
     doc = pymupdf.open(pdf)
+    validate_profile(book, profile, page_count=len(doc))
     audit = []
     review = []
     pages = {}
@@ -238,16 +242,7 @@ def build(
         vision = cache_path(work, "vision")
         secondary = cache_path(work, "rapid")
         for p in [cache, vision, secondary]:
-            provenance = json.loads((p / "provenance.json").read_text())
-            if provenance["source_sha256"] != source_hash:
-                raise ValueError("OCR cache belongs to a different PDF")
-            missing = [
-                n for n in range(1, len(doc) + 1) if not (p / f"{n:04}.json").exists()
-            ]
-            if missing:
-                raise ValueError(
-                    f"OCR cache {p} lacks {len(missing)} pages (first {missing[0]}); rerun extraction"
-                )
+            preflight_cache(p, len(doc), source_hash)
         for n in range(1, len(doc) + 1):
             v = json.loads((cache / f"{n:04}.json").read_text())
             r = json.loads((secondary / f"{n:04}.json").read_text())
@@ -634,18 +629,23 @@ def build(
     review = list({json.dumps(r, sort_keys=True): r for r in review}.values())
     decisions = json.loads((config / "review-decisions.json").read_text())
     rendered = {n for a, b, _ in book["chapters"] for n in range(a, b + 1)}
-    matched_decisions = set()
-    for row in review:
-        matches = [
-            i
-            for i, d in enumerate(decisions)
-            if d["page"] == row["page"]
-            and abs((d["bbox"][1] + d["bbox"][3]) / 2 - center(row)) < 0.005
-            and abs((d["bbox"][0] + d["bbox"][2] - row["bbox"][0] - row["bbox"][2]) / 2)
-            < 0.15
-        ]
-        matched_decisions.update(matches)
+    decision_bindings = match_decisions(review, decisions, source_hash)
+    if decision_bindings["legacy"] or decision_bindings["issues"]:
+        print(
+            f"Review decisions: {len(decision_bindings['legacy'])} legacy geometry-only; "
+            f"{len(decision_bindings['issues'])} unmatched, changed or uncertain",
+            flush=True,
+        )
+    matched_decisions = decision_bindings["matched"]
+    for index, row in enumerate(review):
+        matches = decision_bindings["matches"].get(index, [])
         verified = bool(matches)
+        if verified:
+            row["review_binding"] = (
+                "source-and-text"
+                if any(i not in decision_bindings["legacy"] for i in matches)
+                else "legacy-geometry-only"
+            )
         row["status"] = (
             "scan-reviewed"
             if verified
@@ -701,6 +701,15 @@ def build(
             {k: d[k] for k in ("page", "bbox") if k in d}
             for i, d in enumerate(decisions)
             if i not in matched_decisions
+        ],
+        "review_decision_issues": decision_bindings["issues"],
+        "legacy_review_decisions": [
+            dict(
+                index=i,
+                page=decisions[i]["page"],
+                reason="geometry-only; source/text not bound",
+            )
+            for i in decision_bindings["legacy"]
         ],
         "editorial_corrections": editorial,
         "metadata_enrichment": enrichment,

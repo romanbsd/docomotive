@@ -22,6 +22,7 @@ from scipy.ndimage import find_objects, label
 from scipy.stats import theilslopes
 
 from common import digest, write_json
+from ocr_cache import traineddata_digest
 
 
 def components(image):
@@ -683,6 +684,7 @@ def recover_endnotes(pages, doc, book, work, source_hash, audit, review):
         .stdout.decode()
         .splitlines()[0]
     )
+    model_hash = traineddata_digest()
     # Fingerprint detection semantics, not comments. Sequence tuning reuses the
     # cached pixel/OCR evidence; changed detection code or inputs invalidate it.
     cache = (
@@ -692,6 +694,7 @@ def recover_endnotes(pages, doc, book, work, source_hash, audit, review):
             (
                 source_hash
                 + version
+                + model_hash
                 + pymupdf.VersionBind
                 + np.__version__
                 + "".join(
@@ -748,6 +751,7 @@ def recover_endnotes(pages, doc, book, work, source_hash, audit, review):
                 (
                     source_hash
                     + version
+                    + model_hash
                     + pymupdf.VersionBind
                     + "".join(
                         ast.dump(
@@ -812,7 +816,11 @@ def recover_endnotes(pages, doc, book, work, source_hash, audit, review):
         )
     return dict(
         provenance=dict(
-            source_sha256=source_hash, tesseract=version, dpi=400, cache=str(cache)
+            source_sha256=source_hash,
+            tesseract=version,
+            eng_traineddata_sha256=model_hash,
+            dpi=400,
+            cache=str(cache),
         ),
         expected=sum(s["expected_notes"] for s in book["endnote_sections"]),
         candidates=records,

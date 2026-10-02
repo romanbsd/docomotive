@@ -35,6 +35,21 @@ Bootstrap downloads checksum-verified PP-OCRv4 ONNX models, a Hunspell dictionar
 
 Keep `work/`: its OCR/model/metadata caches preserve the evidence needed for replay. Generated books and OCR caches are ignored by Git.
 
+## Regression checks
+
+```sh
+# Rebuild all five books (seven source/reading edition cases) from existing OCR.
+.venv/bin/python scripts/regression.py
+# Select a case for a focused check.
+.venv/bin/python scripts/regression.py --book organism
+# After inspecting intended differences, explicitly accept selected baselines.
+.venv/bin/python scripts/regression.py --book organism --accept-baseline
+```
+
+Cases are declared in `tests/book-cases.json`; compact baselines live in `tests/baselines/books.json`. Source PDFs, profiles, covers and complete extraction caches must be available locally. Builds go into unique directories under `work/regression/`, with per-case logs and a JSON report naming changed artifacts. Comparisons cover canonical models, corrected rows, text, coverage, apparatus, note/backlink counts, figure inventory, EPUB members and package hashes. Volatile build reports are excluded. Missing inputs or failed builds fail the check; a failed batch never updates baselines. Baseline acceptance is explicit and must accompany review of the intended changes. This is a reproducibility/content-regression check, not a whole-book OCR accuracy measurement or EPUBCheck run.
+
+Profiles reject unknown keys, missing required fields, incorrect basic types, invalid normalized geometry and invalid page/chapter references. PDF bounds are checked when the source is opened. Cache preflight validates readable page JSON, page identity, dimensions, text rows, bounding boxes and confidences before reconstruction. A cache is selected only after every page passes; partial experiments retain the previous pointer. JSON and pointer writes use unique atomic staging files. Scanned-note caches include the actual Tesseract English traineddata checksum; changing that model reruns note recognition without invalidating full-page OCR caches.
+
 ## Stages and artifacts
 
 | Stage | Tools and behavior | Evidence |
@@ -83,6 +98,16 @@ Figure extraction prefers the original raster when its transform and overlays ar
 Vocabulary analysis runs after complete paragraph and note assembly, using the same canonical text as EPUB rendering. Chapters are IDF documents; notes contribute to their source chapters, while references/index remain separate. General-language Zipf frequency is an approximate background prior. High IDF alone cannot protect a token: OCR mistakes can also be rare. Recurrence, spread and competing spellings propose review priorities, without automatically extending the protected dictionary.
 
 Open `OUTPUT/proofreading-review.html` in a browser to compare scan crops, witnesses and suggestions and export decisions. Reviewed config overlays are required for application. Manual/editorial overlays share exact occurrence checks, and every retained source row must map once into the canonical model. Coverage cannot prove that OCR recognized every mark in the scan.
+
+Scan acknowledgements in `review-decisions.json` are separate from text corrections. New entries bind the source PDF, exact reviewed text and OCR witness/glyph evidence with SHA-256 hashes. Changed evidence returns to review even if geometry matches. Identical evidence can follow a shifted row; repeated identical locations require unique geometric disambiguation. Legacy entries keep their historical effect but are labeled `legacy-geometry-only` and listed in `report.json`, alongside mismatch reasons. They are not silently upgraded.
+
+```sh
+.venv/bin/python scripts/review_decisions.py /path/to/book.pdf \
+  --profile profiles/my-book/book.json --input output/my-book \
+  --output output/my-book/scan-review.html
+```
+
+The offline sheet shows scan crops and witnesses. Choose Reviewed only after checking them, then export selected decisions and merge them into the profile's decision array, replacing the corresponding reviewed legacy entries. Unselected/pending and Uncertain records never acknowledge a row. Decisions acknowledge recognition evidence; corrections still require the separate exact-overlay workflow.
 
 For note-marker review:
 

@@ -1,0 +1,1410 @@
+{
+  "format": 1,
+  "cases": {
+    "natural": {
+      "source_sha256": "8d5a7f67e67a73c39d0d0b0cb8be42c3eb6a6304b07239122760e31bd757c0f2",
+      "slug": "the-natural-mind",
+      "editorial": false,
+      "artifacts": {
+        "book-model.json": "16cf188fbccc42a4335e4ba4af964f66b2665e8f651e2306ddf7059f639ea891",
+        "corrected-pages.json": "b491bee5b1ea24338dca5ef27c464a57af006b36079acf1a38714f3478f9c67f",
+        "text-coverage.json": "ac6a7b23b5258fe5a4bffde4543f4b0d5b73128410393bd4a6d90928171551b0",
+        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
+        "the-natural-mind.txt": "0234203bca766b9a9caf4ede645b92aea46cd3b6e0835108ba24e66baf78e027"
+      },
+      "epub_sha256": "8fac58cd36e90d1e2f69018432c3d11c62146dd9578dd8c9d7c4d78cd2d86847",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/back-cover.jpg": "36c9c269d3e206541658357de6046cf960079c3eadf1f19566c0e264c579bc2a",
+        "OEBPS/back-cover.xhtml": "ce53a2beafa07bcb527dc1a8d1014e59cd5d712a7e9d500b0182c6efc04b920c",
+        "OEBPS/chapter-01.xhtml": "71da6172b0376b79026c07ccf232ddb4f44e82104f43355e7a22b3d8a3254e87",
+        "OEBPS/chapter-02.xhtml": "7cb4a13b680dd41f9aa52ebfbdb3514c93fda6a08cfb58edfb8fffa2c60218bf",
+        "OEBPS/chapter-03.xhtml": "bca0735eb5387c14e495ce17d7b4221cc27061031de20efbce391bb2caa26354",
+        "OEBPS/chapter-04.xhtml": "74a5b8504e6f9ac11e2879830680107a470fb5b5cc7d5321d428e02e5d3e496d",
+        "OEBPS/chapter-05.xhtml": "57da25fbb66561ba64eed0c68bba48af2ba5e3276de574d0da590e71e8665bea",
+        "OEBPS/chapter-06.xhtml": "3b01afcd72dee61b0613caabceefd03b351a657158bdfae23412d1db84cfdc13",
+        "OEBPS/chapter-07.xhtml": "dde83e52f3c41767a412ad7bfdc4e9fb7dcb0a2fb956118bd6464fef02d33e8c",
+        "OEBPS/chapter-08.xhtml": "b207efcb3531b30a8dce36f20f1b938659368f75d4ef41200305991c5cd42471",
+        "OEBPS/chapter-09.xhtml": "911412435b2044e42c9588a2db7aa5e55ce6e5d37ee1bfe932a17ad59affa67b",
+        "OEBPS/chapter-10.xhtml": "8a8b1c3e81e410572908153e560a7a46f8a6d0cdeb03386a5d148325feac2a47",
+        "OEBPS/chapter-11.xhtml": "ea929dc57c6bc01e1942f690a6035c6fa10980d36525f5d9448fe75be7ea9e54",
+        "OEBPS/chapter-12.xhtml": "82c44829c226d3014a485c8faad9384a65cf2063ad6c496f7cf831c08d94c047",
+        "OEBPS/chapter-13.xhtml": "b4b7c6a95dbdaebbaceb7109b492293efda935c92a476c5e5a2084a4319983c5",
+        "OEBPS/chapter-14.xhtml": "94a581e238f4d069c0fa1dcfbb3996cb99a94eeef9820722bbd4d3d89c60f540",
+        "OEBPS/content.opf": "d76f8216107f475fb3a4c80f81ddbf3538debb3d12e29dd24f20027e2cf66ee6",
+        "OEBPS/copyright.xhtml": "2337f63e0b8f9c4fe3927e92d548bb7809d759c47b73cb44947e561c1b2062f0",
+        "OEBPS/cover.jpg": "8448c2fd8739b2a2460af406516d4e57634b83e015616a217312e333a215c299",
+        "OEBPS/cover.xhtml": "96294fa69c0536d4c04532bdb681541af9f4f091e264f3536c70efa52c6ecf4c",
+        "OEBPS/downloaded-cover.jpg": "a05b55216eb0f97c99d5b916a27f92cce8149d509814a8c2b548451c32e779bc",
+        "OEBPS/downloaded-cover.xhtml": "ba52f47bcefd0a43687b104e3c6bacc674c9da61b9076ca6ac0806eed9778cc8",
+        "OEBPS/nav.xhtml": "7506b989d7865cb3572a83b91616b75aab5988e14d87b20b6fbeedf5033e9bca",
+        "OEBPS/publisher-mark.png": "fefd6f7296149a23ae59022b08ccc93d28c09449c9e32606af57b65a4f4ff766",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/title.xhtml": "9de2a0c0fb05f5fda722cd62a109746c43cc9614a8ca8baa91b9cbe396f72008",
+        "OEBPS/toc.ncx": "4c7e9f0347267d001e46f7b73b15e404517ad5bfe8fec088edd17a99c538b9f9",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 581,
+        "body": 7128,
+        "note": 254
+      },
+      "chapters": [
+        {
+          "title": "1. What This Book Is About",
+          "sha256": "025bcb294d88fab3670a658d312b998918fc02479bf815bd39e049250d430c87",
+          "blocks": 34
+        },
+        {
+          "title": "2. Why People Take Drugs",
+          "sha256": "f821c32aa5e31c6d7eeaaf3f4ec16054d73ab9b5b7666737ef904ce98da6e165",
+          "blocks": 44
+        },
+        {
+          "title": "3. Is Anything Wrong with It?",
+          "sha256": "0f1a3d1280f046443dee07542138cf84c56706e4717c69b25346936f9d763467",
+          "blocks": 64
+        },
+        {
+          "title": "4. What No One Wants to Know about Marihuana",
+          "sha256": "22a2ef944eebba622406b06769116b28ac1a91a7e3c9c113ae664faaf81c1911",
+          "blocks": 53
+        },
+        {
+          "title": "5. Clues from the Amazon",
+          "sha256": "fd9e0a1aa435a77556be931a32ffb1e5000629db330a3af05d4ae95ed7906155",
+          "blocks": 47
+        },
+        {
+          "title": "6. The Topography of Straightland",
+          "sha256": "c1b0c3590c2c4c3de60db2edeba60e43fec6ac2350275fc5c188fe0f08cf708f",
+          "blocks": 85
+        },
+        {
+          "title": "7. A Trip to Stonesville",
+          "sha256": "3067de05055297215c041acaeb426b948875a78c7eb9353966d7f69e8ccd6d8c",
+          "blocks": 118
+        },
+        {
+          "title": "8. The Only Solution to the Drug Problem",
+          "sha256": "50dbaaefa9144e2883417a79fc539b853ec884e751f6912e6e9cc258925e3af7",
+          "blocks": 33
+        },
+        {
+          "title": "9. Where to Go from Here",
+          "sha256": "8c687ef2dfe1194cb031b752e8472f39db914742af2e4ff7526254d561df55e2",
+          "blocks": 13
+        },
+        {
+          "title": "Acknowledgments",
+          "sha256": "394a67c5a815db742ab01696f446172c1f7133f7cbdd1feba9ee7084e767d862",
+          "blocks": 7
+        },
+        {
+          "title": "Afterword",
+          "sha256": "20d018c7f4abc6bcd9006f451494cd34c3b9fd7d35000d7a4ecd431c7a0bbedb",
+          "blocks": 15
+        },
+        {
+          "title": "Works Cited",
+          "sha256": "31cafe140dfd617bee7fe70db469347fead52554d2326a8216d4db07955ab75d",
+          "blocks": 54
+        },
+        {
+          "title": "Suggested Reading",
+          "sha256": "92a620d4c1e73b0c16b24b1298eb9d8b3fa86ca4dc04deaf9c2587fe7bd247ad",
+          "blocks": 7
+        },
+        {
+          "title": "Index",
+          "sha256": "b8f89d865d530331c88e645259c1c5bf91fa8d6a822b374f919bbaa8b062d936",
+          "blocks": 352
+        }
+      ],
+      "noterefs": 0,
+      "backlinks": 0,
+      "figures": []
+    },
+    "natural-reading": {
+      "source_sha256": "8d5a7f67e67a73c39d0d0b0cb8be42c3eb6a6304b07239122760e31bd757c0f2",
+      "slug": "the-natural-mind",
+      "editorial": true,
+      "artifacts": {
+        "book-model.json": "2335cb15748a055b6117e957a5d4a2c39a1e348f10362ddb612eafcda913ee6b",
+        "corrected-pages.json": "b491bee5b1ea24338dca5ef27c464a57af006b36079acf1a38714f3478f9c67f",
+        "text-coverage.json": "ac6a7b23b5258fe5a4bffde4543f4b0d5b73128410393bd4a6d90928171551b0",
+        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
+        "the-natural-mind.txt": "d10907386b2ce908e9045cc90aad840ec27eae8f8f2f178564d1481d086b6c4a"
+      },
+      "epub_sha256": "2334e704c44abe4427cae0afcd466f5ef0651036c17b00d849e0fde59d8b4345",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/back-cover.jpg": "36c9c269d3e206541658357de6046cf960079c3eadf1f19566c0e264c579bc2a",
+        "OEBPS/back-cover.xhtml": "ce53a2beafa07bcb527dc1a8d1014e59cd5d712a7e9d500b0182c6efc04b920c",
+        "OEBPS/chapter-01.xhtml": "71da6172b0376b79026c07ccf232ddb4f44e82104f43355e7a22b3d8a3254e87",
+        "OEBPS/chapter-02.xhtml": "c59b059180d2570873a551d5de927243c5d528a339365e048c1799ecc0e0eea8",
+        "OEBPS/chapter-03.xhtml": "67ed27a7222a781c65131f80d5fac8673c8be901cfc16c8c528cdbb521db4f4d",
+        "OEBPS/chapter-04.xhtml": "74a5b8504e6f9ac11e2879830680107a470fb5b5cc7d5321d428e02e5d3e496d",
+        "OEBPS/chapter-05.xhtml": "57da25fbb66561ba64eed0c68bba48af2ba5e3276de574d0da590e71e8665bea",
+        "OEBPS/chapter-06.xhtml": "3b01afcd72dee61b0613caabceefd03b351a657158bdfae23412d1db84cfdc13",
+        "OEBPS/chapter-07.xhtml": "f13c4d4f75f47a88e7ecee4a9ef659e9293666ab617afe4f3ec45e991173db89",
+        "OEBPS/chapter-08.xhtml": "b207efcb3531b30a8dce36f20f1b938659368f75d4ef41200305991c5cd42471",
+        "OEBPS/chapter-09.xhtml": "0317b0325bc004dea1f82f2bafa1177e2707896a990e6d56cc14ae704d63ef5f",
+        "OEBPS/chapter-10.xhtml": "8a8b1c3e81e410572908153e560a7a46f8a6d0cdeb03386a5d148325feac2a47",
+        "OEBPS/chapter-11.xhtml": "ea929dc57c6bc01e1942f690a6035c6fa10980d36525f5d9448fe75be7ea9e54",
+        "OEBPS/chapter-12.xhtml": "82c44829c226d3014a485c8faad9384a65cf2063ad6c496f7cf831c08d94c047",
+        "OEBPS/chapter-13.xhtml": "b4b7c6a95dbdaebbaceb7109b492293efda935c92a476c5e5a2084a4319983c5",
+        "OEBPS/chapter-14.xhtml": "94a581e238f4d069c0fa1dcfbb3996cb99a94eeef9820722bbd4d3d89c60f540",
+        "OEBPS/content.opf": "d76f8216107f475fb3a4c80f81ddbf3538debb3d12e29dd24f20027e2cf66ee6",
+        "OEBPS/copyright.xhtml": "2337f63e0b8f9c4fe3927e92d548bb7809d759c47b73cb44947e561c1b2062f0",
+        "OEBPS/cover.jpg": "8448c2fd8739b2a2460af406516d4e57634b83e015616a217312e333a215c299",
+        "OEBPS/cover.xhtml": "96294fa69c0536d4c04532bdb681541af9f4f091e264f3536c70efa52c6ecf4c",
+        "OEBPS/downloaded-cover.jpg": "a05b55216eb0f97c99d5b916a27f92cce8149d509814a8c2b548451c32e779bc",
+        "OEBPS/downloaded-cover.xhtml": "ba52f47bcefd0a43687b104e3c6bacc674c9da61b9076ca6ac0806eed9778cc8",
+        "OEBPS/nav.xhtml": "7506b989d7865cb3572a83b91616b75aab5988e14d87b20b6fbeedf5033e9bca",
+        "OEBPS/publisher-mark.png": "fefd6f7296149a23ae59022b08ccc93d28c09449c9e32606af57b65a4f4ff766",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/title.xhtml": "9de2a0c0fb05f5fda722cd62a109746c43cc9614a8ca8baa91b9cbe396f72008",
+        "OEBPS/toc.ncx": "4c7e9f0347267d001e46f7b73b15e404517ad5bfe8fec088edd17a99c538b9f9",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 581,
+        "body": 7128,
+        "note": 254
+      },
+      "chapters": [
+        {
+          "title": "1. What This Book Is About",
+          "sha256": "025bcb294d88fab3670a658d312b998918fc02479bf815bd39e049250d430c87",
+          "blocks": 34
+        },
+        {
+          "title": "2. Why People Take Drugs",
+          "sha256": "07fa31b15a7c737c3fcea6d07d8741a415ebc9b1bba1706d3d1d92fc6d1301d7",
+          "blocks": 44
+        },
+        {
+          "title": "3. Is Anything Wrong with It?",
+          "sha256": "3991249e933fcd65dc6c4090b6993426936bde1b87f2b66b344c25047a7541cd",
+          "blocks": 64
+        },
+        {
+          "title": "4. What No One Wants to Know about Marihuana",
+          "sha256": "22a2ef944eebba622406b06769116b28ac1a91a7e3c9c113ae664faaf81c1911",
+          "blocks": 53
+        },
+        {
+          "title": "5. Clues from the Amazon",
+          "sha256": "fd9e0a1aa435a77556be931a32ffb1e5000629db330a3af05d4ae95ed7906155",
+          "blocks": 47
+        },
+        {
+          "title": "6. The Topography of Straightland",
+          "sha256": "c1b0c3590c2c4c3de60db2edeba60e43fec6ac2350275fc5c188fe0f08cf708f",
+          "blocks": 85
+        },
+        {
+          "title": "7. A Trip to Stonesville",
+          "sha256": "2f309659458154f484cab40f6a46dc946707c286c7409be8233c1f07d22a10e3",
+          "blocks": 118
+        },
+        {
+          "title": "8. The Only Solution to the Drug Problem",
+          "sha256": "50dbaaefa9144e2883417a79fc539b853ec884e751f6912e6e9cc258925e3af7",
+          "blocks": 33
+        },
+        {
+          "title": "9. Where to Go from Here",
+          "sha256": "ce14ec36e9b8adbdfa3abde6732f79c24dcc21b3f6880fda8af3d1d7965d275f",
+          "blocks": 13
+        },
+        {
+          "title": "Acknowledgments",
+          "sha256": "394a67c5a815db742ab01696f446172c1f7133f7cbdd1feba9ee7084e767d862",
+          "blocks": 7
+        },
+        {
+          "title": "Afterword",
+          "sha256": "20d018c7f4abc6bcd9006f451494cd34c3b9fd7d35000d7a4ecd431c7a0bbedb",
+          "blocks": 15
+        },
+        {
+          "title": "Works Cited",
+          "sha256": "31cafe140dfd617bee7fe70db469347fead52554d2326a8216d4db07955ab75d",
+          "blocks": 54
+        },
+        {
+          "title": "Suggested Reading",
+          "sha256": "92a620d4c1e73b0c16b24b1298eb9d8b3fa86ca4dc04deaf9c2587fe7bd247ad",
+          "blocks": 7
+        },
+        {
+          "title": "Index",
+          "sha256": "b8f89d865d530331c88e645259c1c5bf91fa8d6a822b374f919bbaa8b062d936",
+          "blocks": 352
+        }
+      ],
+      "noterefs": 0,
+      "backlinks": 0,
+      "figures": []
+    },
+    "shamanic": {
+      "source_sha256": "41b6ceef0f3eb6ad5cac685fc6dc1881ed9c9d35a83f6d9fcc3921c5bfd04cc4",
+      "slug": "shamanic-trance",
+      "editorial": false,
+      "artifacts": {
+        "book-model.json": "e25c1e298153b0c7718f57e7a56ebac948371b6f6ca24cef45d3e5fadfd1d7b2",
+        "corrected-pages.json": "fa08fabee461164014c831928d9d43612a019e591e1689689742c9c2a1ec8202",
+        "text-coverage.json": "f7aa643f21ae8733c5796b4348872aa8f65258b982e2fbd8e950a55bfa47a457",
+        "apparatus-analysis.json": "42be793ac6464a2eaf883ea9a2ac9be33e6031a5ee79105cd41f283b3f108776",
+        "shamanic-trance.txt": "dc58a88dab489b91e53ca006e81d660eaf6735b5e22935df8e5ba98a259b3e5f"
+      },
+      "epub_sha256": "77be1b49fd0a19165947f589267eeb74be778dc119e6457dacf8ad6d684903bd",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/back-cover.jpg": "3c4f70eaf78334a38c39e51409f9c34f17bdc401d7c5387668d42a2c23e80b18",
+        "OEBPS/back-cover.xhtml": "ce53a2beafa07bcb527dc1a8d1014e59cd5d712a7e9d500b0182c6efc04b920c",
+        "OEBPS/chapter-01.xhtml": "ceea6ade9ca4ec5461cfecde5a9ec0223c03968bffaa52215254fece8cba0f26",
+        "OEBPS/chapter-02.xhtml": "cf3d038b08aa3e03c7095ccc2362f9695c3eaf53b6197b567190b205797a2041",
+        "OEBPS/chapter-03.xhtml": "f6843bfe073221a5b925f9db6a2d5f104ba6b1f217c4b7d9867d438a6d894398",
+        "OEBPS/chapter-04.xhtml": "cde3748f3f2a63e8693fd004788d441dd980b505a638911494cc301acd64f5cb",
+        "OEBPS/chapter-05.xhtml": "9e5cc7c4b2064129a30667675645b38806a2feb2bc77f2d03811d372fec03e5e",
+        "OEBPS/chapter-06.xhtml": "227fe580fdbe9ea07f23ac856ee01d210d1844490ce56c418c95b2cc0bb69dd7",
+        "OEBPS/chapter-07.xhtml": "f6c37ebc5b265d1687e663997cbdf9a45b07bf149c224324812acf89d5b52392",
+        "OEBPS/chapter-08.xhtml": "2242c2e855b5fdd397736812d151112afd3ff55f82bd0de3bb1d7432bd2321f1",
+        "OEBPS/chapter-09.xhtml": "81754ff4572220f138ac6b42041fa822c92d54870de4f07b470926f64ed36d53",
+        "OEBPS/chapter-10.xhtml": "d0e061719652659c9256714be4ea984d4efd02e3406f640184ae144e6b9f6153",
+        "OEBPS/chapter-11.xhtml": "04e64d0f46b5d168787b6664b8451c20d9543bf6eab23a6da4d02903d7964599",
+        "OEBPS/chapter-12.xhtml": "8d773b2470c9d347901cb08e648adcd51d5a7290a7ff105433c105e4f85c9b82",
+        "OEBPS/chapter-13.xhtml": "d1a7b1bb075208f330200f4d5fbbcea6c7759d1469decaa4040d1f4e8c1af16d",
+        "OEBPS/content.opf": "aa3f5ff58959e2c5808e973d21fcb1c98400891afca11b95b1a8ddad19c1d332",
+        "OEBPS/copyright.xhtml": "47ad1f954b79652862c3345efbc596f501188b9ff1f5b1eb794ddfb4c2f370e8",
+        "OEBPS/cover.jpg": "0f01d9935794404031176881bef8255c3325194d5db96deefb8bb5c1de126fc2",
+        "OEBPS/cover.xhtml": "96294fa69c0536d4c04532bdb681541af9f4f091e264f3536c70efa52c6ecf4c",
+        "OEBPS/downloaded-cover.jpg": "f6b8cb658d6cda066d908bd13e8c510e9e226458e4ce440283b083d09e1dc0a8",
+        "OEBPS/downloaded-cover.xhtml": "ba52f47bcefd0a43687b104e3c6bacc674c9da61b9076ca6ac0806eed9778cc8",
+        "OEBPS/nav.xhtml": "02e0ca9425462ab19e325e4c76195414f54fe1c36a81644509d36c9038eb0715",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/title.xhtml": "00a483182a50a2c24d328f2ab306f65484952fe005a769e38edbf063efa3d245",
+        "OEBPS/toc.ncx": "75d562db6598ec89f46b1e4584144ce3033f50cd5b9096b86a4f97bc23a19e35",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 324,
+        "body": 12163,
+        "note": 4
+      },
+      "chapters": [
+        {
+          "title": "Dedication",
+          "sha256": "f2e06de6fa0f132a97aee36ffec18ae1e32e967094b36024169e96670d7c0ed5",
+          "blocks": 1
+        },
+        {
+          "title": "Preface",
+          "sha256": "17c438ffa5d47a01a0c30552c3b47c96c7be884d5c238eb13f7c8698db6b0da7",
+          "blocks": 3
+        },
+        {
+          "title": "1. Theory of Shamanism, Trance, and Modern Kabbalah",
+          "sha256": "670eae9fd81f25c122178aedf3e3322dc8490e04bd0f96917815f21d9c37cb09",
+          "blocks": 54
+        },
+        {
+          "title": "2. The Shamanic Process: Descent and Fiery Transformations",
+          "sha256": "f13de89951453eba7acaa53ddba20c85a1f918e5d948801941f05523f7cd6913",
+          "blocks": 85
+        },
+        {
+          "title": "3. Empowerment through Trance",
+          "sha256": "8217756376ef4281aa8b68affe2bc474977bae52f939dd3ddf7cab9dbdd79fd9",
+          "blocks": 88
+        },
+        {
+          "title": "4. Shamanic Hasidism",
+          "sha256": "274884a28897e103d2b47325f8a6578995ea15b973e4b8d8734ea22c4df73e6d",
+          "blocks": 65
+        },
+        {
+          "title": "5. Hasidic Trance",
+          "sha256": "9be4dea11dad5e584d2afa50d1e60d04da7af7b2453c55b947ead75126bfeb9a",
+          "blocks": 60
+        },
+        {
+          "title": "6. Trance and the Nomian",
+          "sha256": "61730b9e8b8ef80a5ed17093c1a61e7895e5a56a8dd6c00651641f75e8e66297",
+          "blocks": 63
+        },
+        {
+          "title": "Epilogue",
+          "sha256": "a255896fc083145996459093ef7cf3d85e15346bb20f7fe800b411e50311e7ab",
+          "blocks": 6
+        },
+        {
+          "title": "Appendix: Psychoanalysis and Hasidism",
+          "sha256": "ae0bb3356ce1e51241930f9d05a8f49b32cd3985163a0d1b8715a1056dd4cedb",
+          "blocks": 5
+        },
+        {
+          "title": "Notes",
+          "sha256": "a9738f470a8e4d5792e3eed89c3472d960cf888b9f147457e7683195e8b64ff9",
+          "blocks": 753
+        },
+        {
+          "title": "Bibliography",
+          "sha256": "ae3232fafaaaf3d7364e2c51de43d44ad088fd76dae928fa8fa5a3ed3e71ebcb",
+          "blocks": 724
+        },
+        {
+          "title": "Index",
+          "sha256": "e3e91e28c36aeae222d6e8e1e253911519e5c58e54f57a3dfb2123193b1c8021",
+          "blocks": 632
+        }
+      ],
+      "noterefs": 745,
+      "backlinks": 745,
+      "figures": []
+    },
+    "letter": {
+      "source_sha256": "d6b2a44e168adde1670c4d776f43007538369a0528beea71098eca38cde084a9",
+      "slug": "letter-kills",
+      "editorial": false,
+      "artifacts": {
+        "book-model.json": "0287682aa1231f6203a123e1a0161ead68a4020f00c2f434f617d80a429a5638",
+        "corrected-pages.json": "b4bbf1c3ed7771c69b763d58e26e6ed302a3d85e9339be220fe2da6a8c601f89",
+        "text-coverage.json": "c801735f6c2757518e475916fb16644e8769a9271b23addcabb8796ab4eb1fa4",
+        "apparatus-analysis.json": "13a2cfd29fd482168bedda5416fdc6ad7fcf49d5b47b72d38439e8029031f181",
+        "letter-kills.txt": "eea707392c4e66496c40fe6c5700c855ffaa19695bc2df157cadf4148171e075"
+      },
+      "epub_sha256": "2c78aaf31cd113b46cbf220ddaf7680ed0488e5f068fa0a9062b49695d36c27c",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/chapter-01.xhtml": "147df7017e090b9c8efbdc18f20276983176f3e4d4c85c9ab1c60ad5cf79bc60",
+        "OEBPS/chapter-02.xhtml": "3adacaa2f202cbfded63a063deba9a885c4518f4d635a5b61dc8ce75a3d8fa02",
+        "OEBPS/content.opf": "80f0f2a46d69b65e0b30ed7663e224399abc94d6f3e18be72b7492dbb98627f6",
+        "OEBPS/copyright.xhtml": "430e8f61d12361b0dc1c2e54af473478efa631401fedf464ad31b31c8e6db103",
+        "OEBPS/cover.svg": "fcfc863e5fc9abbc1b35f3523276a62656f656635208c084c073bcb04c069987",
+        "OEBPS/cover.xhtml": "c529c8d82642d312b75e596f37b6b58eb29104360a7cf20de6310d727e576c4a",
+        "OEBPS/nav.xhtml": "17fc72f2690c8319de2e00a161fd6b5dd626257fd0d051d6190e59ed411ee0cd",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/title.xhtml": "aa75de6f33d32a29bd01f0ff169a7432c455d596a49bf20d6aacecff29612456",
+        "OEBPS/toc.ncx": "73e497f6f99542c8cf8f2f6ed92dc0f36e72b46ed3be939a83d8f1f7b8728107",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 30,
+        "body": 977
+      },
+      "chapters": [
+        {
+          "title": "Article",
+          "sha256": "2e3fea0880043611e86caeaeb3d31380d83945b8f80b582d8742c933d1dfa8b0",
+          "blocks": 83
+        },
+        {
+          "title": "Notes",
+          "sha256": "3703c50b204fc9b2b7dd5e298bf4ee6d701d5188ec4471c5696a42de4383dbb3",
+          "blocks": 91
+        }
+      ],
+      "noterefs": 88,
+      "backlinks": 89,
+      "figures": []
+    },
+    "organism": {
+      "source_sha256": "59448237b057bd8b96cf9c5e33b50f6b43efc6e0123e170158984319b48f1a6a",
+      "slug": "feeling-organism",
+      "editorial": false,
+      "artifacts": {
+        "book-model.json": "1d83e4a60f1fa544c0b2b714f271025ea431b0a8693d1993e8b400d5ac4cbc1e",
+        "corrected-pages.json": "8bbc26a5c402346b2b152d649b22047c84e12047c4c08d1013743cf8f2d02176",
+        "text-coverage.json": "126af5942e89c2dbacd9017d3c987a6087fc121d99594dab1de190c59422aee6",
+        "apparatus-analysis.json": "5baff273484bb0ed41599589e1ffae2dd9e5f5213dcd2b539989276759a2c5ee",
+        "feeling-organism.txt": "ce0260614b3fbb4104d0aea35272c759cf3b5cbf4cba8515aed0a52e599c331c"
+      },
+      "epub_sha256": "cd094061418838697b0632fc41b0bdb99fd4074f46eb8565b1c7d13234aa634e",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/back-cover.jpg": "d10d77b23956fe886764d764f5a95ec9f5c583a027bab774ebcabad3e53db006",
+        "OEBPS/back-cover.xhtml": "ce53a2beafa07bcb527dc1a8d1014e59cd5d712a7e9d500b0182c6efc04b920c",
+        "OEBPS/chapter-01.xhtml": "5e8de070b119a7905d1e9c028a2d9869aca525e1e7934f2ad75e8e5deae129dd",
+        "OEBPS/chapter-02.xhtml": "52010c3155b664e3141e7f5c1ba9274586dcaea0e086fdd187796a942c44e373",
+        "OEBPS/chapter-03.xhtml": "b6133420b9faaec7e9343226cf88cc8b2278c9c5a2ee7b9c2284b7bb01e79e12",
+        "OEBPS/chapter-04.xhtml": "c03185880b49ff68ef285234bf6ed15e80823184e97cf82e29eba97c28f2e8fe",
+        "OEBPS/chapter-05.xhtml": "766001413dd684b4e9f65979cfd4ddf3e75756bed93e3862f33bb7ed7a6c198d",
+        "OEBPS/chapter-06.xhtml": "7c8b66783bc62c0a77c851513511763c0565eab0ba1c4405eab38eb98589761a",
+        "OEBPS/chapter-07.xhtml": "80459b6d4184a4456d7e95432d02f8ee150e83e26ee8aac32b851893095239be",
+        "OEBPS/chapter-08.xhtml": "b348bb9e7cf0fe37973027701b7041a0c579cd7e1b457f7f3e53d4abc2548b90",
+        "OEBPS/chapter-09.xhtml": "7e2cda1f5921a5aa0f8933a0afdbe52cd7be8c5f2ffbb5e6df2bb47534e0673c",
+        "OEBPS/chapter-10.xhtml": "21a8ac92d898f26f44217ce7b2d85fdc348327847d9e0b746fe93165c26b4e58",
+        "OEBPS/chapter-11.xhtml": "f4eefbf778a275b4efaaf79d49abf9b9605fb55cce46b59ee4096f8c310eb0e6",
+        "OEBPS/chapter-12.xhtml": "db1f5fc8995eec0e3f55c466b49d1f85c1b35871fd2785780ca2263c3601aea5",
+        "OEBPS/chapter-13.xhtml": "b9db4d6af638a70e9882c580e4cd371bd3b2554eb7dfe38e755d2629d29f5a3e",
+        "OEBPS/chapter-14.xhtml": "3ec7af617b143e22281d254e04b599f5b3f8cfab3d40d7458ff12bb861db354e",
+        "OEBPS/chapter-15.xhtml": "ec2c88df3dd7298861a8be5377c70e0a5fe3ce42bb0cf191e503fd37baee1167",
+        "OEBPS/chapter-16.xhtml": "36c8e1ca1dae7b0275e074d36ab5526f87af88f6806ac5fb62d9462c08fc8f16",
+        "OEBPS/chapter-17.xhtml": "ca772bd0bf384cb2928b643ad13507c7638242824d874b95bac567aa10efe799",
+        "OEBPS/chapter-18.xhtml": "8af218b739f8247a94d3dee517ec5442942d618a2549c45c4da049e7e3b57d0c",
+        "OEBPS/chapter-19.xhtml": "09bd1e9cf63679b42de8b02573f2625e25ec9f40c3b68ad84fd836a95cf48ec3",
+        "OEBPS/chapter-20.xhtml": "a3379dadd3eb6bc89ea20fb55c46056b37ef51d1074f050ffb6c08f2a0815a0c",
+        "OEBPS/chapter-21.xhtml": "047cc574cce0b9a3a089aa2b0379ce16499abd737fb91ab42f452a82221e1221",
+        "OEBPS/chapter-22.xhtml": "4c4c26a4ed88f00b04cfa1f44baf35d60d00f4682386876ec00d0e109c8b5932",
+        "OEBPS/content.opf": "febd74e7584c7d5f3618e8c8040dbeaa7854728db9fa711a2a160f01b46846f1",
+        "OEBPS/copyright.xhtml": "479ac194e8a99a0e163d2fc9fdeb9ed238a8b1532b4a02a35a5e9b2915c3db8f",
+        "OEBPS/cover.jpg": "4ef4864e7def7dde4b6a9ca7288e39efc74cf77d943bec9f0532e91d27489a13",
+        "OEBPS/cover.xhtml": "80e56da05a64b970e2e4a2a61f62b428618ec89c6c19c63b921b4d0c8b687dea",
+        "OEBPS/figure-004.jpg": "f9370efd509aa5fccd1692990e626e75cc816adcda06141746e999276a71bda0",
+        "OEBPS/figure-008.jpg": "7c779e66e81063d5ef3f8b89f4cb051dcff053c249679efde647e5727b3e69c2",
+        "OEBPS/figure-044.jpg": "36acb1f5b5f0b0d1acae433474d631d4c5345a80482b4327449e2773dc278cd7",
+        "OEBPS/figure-051.jpg": "938d14bcd09b6798374443f1058b96dc86ca2cf80ad7a7395dd724443ed50ef4",
+        "OEBPS/figure-053.jpg": "f5447a020da588d435be738cfe87c0f48f3801a88abb127651644a84749b1a0b",
+        "OEBPS/figure-057.jpg": "d63d6508dd11fae33f56b9581b796d462808ac2a3c316be230c8d519677d16ad",
+        "OEBPS/figure-059.jpg": "c651e0134767295dc5705703e0e2d5f290fd2b05f5c7550d6d35d733e2b23549",
+        "OEBPS/figure-064.jpg": "dc0b186c0a09f7f221f481d95b0b89eb80ffce7ef8328df33fa736b8eec5d353",
+        "OEBPS/figure-073.jpg": "b19b1c6eab2327df0786de89a74d347cdf0c9b7252649ae7045ea39a06f0529d",
+        "OEBPS/figure-075.jpg": "7a2746b91ffd5eba35cfe87ae36f3543077d1a25b0351f525506b19910667b20",
+        "OEBPS/figure-081.jpg": "3fe7a1326f03dfd624531503a530a6b8215b097f88ebf667cbbce7127d0ea5da",
+        "OEBPS/figure-088.jpg": "36e4d50ec04fca3691b964da7eb84b0e17ed8a1dab492e81e4bd83712e640a64",
+        "OEBPS/figure-114.jpg": "3bb754c469b4aa6ca38249ea35b2baf1bd103ba48bad471265abe4c34529082b",
+        "OEBPS/figure-163.jpg": "1af1d3ae534c7538cdc90b8245cf30b6eacc0ec769a6617b12afaaef09f3fdbe",
+        "OEBPS/figure-195.jpg": "666c092015cd08fb80e5b95353539a293cb774045d0f4e1970da2526c95275c6",
+        "OEBPS/figure-215.jpg": "f7af784cba42efe32e1750c5b58f3f546506af35e36dbf16c625abd76d5a597c",
+        "OEBPS/figure-224.jpg": "735ce2a86b172262058d86fd3559b8d9bd19dc37dd1145765b4574ade4b2a2c4",
+        "OEBPS/figure-226.jpg": "dec648b79b9fe9308dfc6485739367d2046556a54be17e2575de6f8e66e7ada2",
+        "OEBPS/nav.xhtml": "37b9eeafcc735f580a0cc2c96f4f9104ca9c34374a9ec2c99b0f953a316f6e84",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/title.xhtml": "08fe7d497f557437285a2f12be31b9640ac0d6428b45a15490f50f67d7a5262a",
+        "OEBPS/toc.ncx": "08fb9e78d39056f2ef46f7b47da2d324b5e1a411d272e8469e5ddf42bbf90d4d",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 458,
+        "body": 8124
+      },
+      "chapters": [
+        {
+          "title": "Barbara McClintock: graduation portrait",
+          "sha256": "197ca34581afcc99b3fb5c547069831781b262117b665d73b831851522e813e4",
+          "blocks": 2
+        },
+        {
+          "title": "Dedication",
+          "sha256": "f5df8767a2923311a0ab9c228d887ca74ed34bb002572f72f24f54d5f1fef5d2",
+          "blocks": 1
+        },
+        {
+          "title": "The 1983 Nobel Prize",
+          "sha256": "4637bf38024223e6aadc6652048b980595c488dd79e201750f5a77b41031b468",
+          "blocks": 2
+        },
+        {
+          "title": "Author’s Note on the Tenth Anniversary Edition",
+          "sha256": "d48e3a17ba891b8c49755f64c7b2ed8b8b3aae4c79372dd133cbc7a71eb2a6a5",
+          "blocks": 2
+        },
+        {
+          "title": "Foreword",
+          "sha256": "1a283a7fc95379c09623470e605d481e522e7cd4a321f4ea64f5e6dea6cac21c",
+          "blocks": 13
+        },
+        {
+          "title": "Preface",
+          "sha256": "9a388979e3d618c8a74abfa7ea142c6d630bea23444cca7a8ca295809f2cd028",
+          "blocks": 23
+        },
+        {
+          "title": "Acknowledgements",
+          "sha256": "290d9ad6971e8480905a1cfb234b5bc0a6a958254dc5e491c3db08a31cdb891d",
+          "blocks": 8
+        },
+        {
+          "title": "1. A Historical Overview",
+          "sha256": "3e3edf82821dcb701ebea67061560779848697373eafb7066a7fd74cff5e5b77",
+          "blocks": 33
+        },
+        {
+          "title": "2. The Capacity to Be Alone",
+          "sha256": "e5275f7d0a35242ff4dea13a0840fd525dd530ee2508941925cea4c9e3455e32",
+          "blocks": 66
+        },
+        {
+          "title": "3. Becoming a Scientist",
+          "sha256": "e5917f93970103ec6db329bb61df9d426206fd061bac83e9542ca16d0b67402f",
+          "blocks": 60
+        },
+        {
+          "title": "4. A Career for Women",
+          "sha256": "7271e313760a9653f86bb0dd3227c3717ba6159365bf00929cffb1a12fabd1dd",
+          "blocks": 41
+        },
+        {
+          "title": "5. 1936–1941: University of Missouri",
+          "sha256": "06d40ca5a2efd04fbf4f11f0cf90cb0c9150a19a3fdbadd5116fbcf86f13c399",
+          "blocks": 25
+        },
+        {
+          "title": "6. Interlude: A Sketch of the Terrain",
+          "sha256": "4ecd70da5c7b83f6314397237748fb4ebc0f912fc2b883deb170a725eda0eaa0",
+          "blocks": 51
+        },
+        {
+          "title": "7. Cold Spring Harbor",
+          "sha256": "68ef1f2d1d3bd38e692e4998e20525a413432f382ca6f85c751f047939517309",
+          "blocks": 39
+        },
+        {
+          "title": "8. Transposition",
+          "sha256": "d35142e2e497bd62a95eafe86e88001c4f20f8c2ebc38bcb3e0001d13e1465ba",
+          "blocks": 50
+        },
+        {
+          "title": "9. A Different Language",
+          "sha256": "16626f80bfcae4e8bfe8fceeb7d48f8ef21f4a97ec06b8990d59ac0bdb3b2000",
+          "blocks": 41
+        },
+        {
+          "title": "10. Molecular Biology",
+          "sha256": "27cc2dbbaa34612217da7cf66d390ccb45fc07c33a5f0879cd3f6967b4437efa",
+          "blocks": 46
+        },
+        {
+          "title": "11. Transposition Rediscovered",
+          "sha256": "fa4d1ee95e40753a791213bab8ffc94a6147970b597eab77bc4045f0526bc19c",
+          "blocks": 64
+        },
+        {
+          "title": "12. A Feeling for the Organism",
+          "sha256": "478dcd1b39cc860323c9948c490e904fbf8555a86bde851662c5fb457d3ee5d3",
+          "blocks": 34
+        },
+        {
+          "title": "Notes",
+          "sha256": "ebe6927448f34d2ac86a6d127290250020c02ac0c14e33cd2c64f1d4d1ee24f2",
+          "blocks": 170
+        },
+        {
+          "title": "Glossary",
+          "sha256": "d27e12150ea3baf39575a0c8dfedd12b69bc2376d3586501c076c5f82fef028d",
+          "blocks": 87
+        },
+        {
+          "title": "Index",
+          "sha256": "6c652912f19496673f928213b95769ef3ca3a700d0708be599c7120488dc6a72",
+          "blocks": 378
+        }
+      ],
+      "noterefs": 157,
+      "backlinks": 157,
+      "figures": [
+        "figure-004.jpg",
+        "figure-008.jpg",
+        "figure-044.jpg",
+        "figure-051.jpg",
+        "figure-053.jpg",
+        "figure-057.jpg",
+        "figure-059.jpg",
+        "figure-064.jpg",
+        "figure-073.jpg",
+        "figure-075.jpg",
+        "figure-081.jpg",
+        "figure-088.jpg",
+        "figure-114.jpg",
+        "figure-163.jpg",
+        "figure-195.jpg",
+        "figure-215.jpg",
+        "figure-224.jpg",
+        "figure-226.jpg"
+      ]
+    },
+    "organism-reading": {
+      "source_sha256": "59448237b057bd8b96cf9c5e33b50f6b43efc6e0123e170158984319b48f1a6a",
+      "slug": "feeling-organism",
+      "editorial": true,
+      "artifacts": {
+        "book-model.json": "c264c239a4580e3b1b706334193350da7c0c7e0fc42a8b15c23d6a86cfc6456d",
+        "corrected-pages.json": "8bbc26a5c402346b2b152d649b22047c84e12047c4c08d1013743cf8f2d02176",
+        "text-coverage.json": "126af5942e89c2dbacd9017d3c987a6087fc121d99594dab1de190c59422aee6",
+        "apparatus-analysis.json": "5baff273484bb0ed41599589e1ffae2dd9e5f5213dcd2b539989276759a2c5ee",
+        "feeling-organism.txt": "150e3fecdeacd6120d774c0329e6f078f361276958d841bd084f1faa1e7dce4c"
+      },
+      "epub_sha256": "3ff27fc1bdab2a7a09f536aa2b7bdca2625c30c0a5f60c0947a1b74fa69340c0",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/back-cover.jpg": "d10d77b23956fe886764d764f5a95ec9f5c583a027bab774ebcabad3e53db006",
+        "OEBPS/back-cover.xhtml": "ce53a2beafa07bcb527dc1a8d1014e59cd5d712a7e9d500b0182c6efc04b920c",
+        "OEBPS/chapter-01.xhtml": "5e8de070b119a7905d1e9c028a2d9869aca525e1e7934f2ad75e8e5deae129dd",
+        "OEBPS/chapter-02.xhtml": "52010c3155b664e3141e7f5c1ba9274586dcaea0e086fdd187796a942c44e373",
+        "OEBPS/chapter-03.xhtml": "b6133420b9faaec7e9343226cf88cc8b2278c9c5a2ee7b9c2284b7bb01e79e12",
+        "OEBPS/chapter-04.xhtml": "c03185880b49ff68ef285234bf6ed15e80823184e97cf82e29eba97c28f2e8fe",
+        "OEBPS/chapter-05.xhtml": "766001413dd684b4e9f65979cfd4ddf3e75756bed93e3862f33bb7ed7a6c198d",
+        "OEBPS/chapter-06.xhtml": "7c8b66783bc62c0a77c851513511763c0565eab0ba1c4405eab38eb98589761a",
+        "OEBPS/chapter-07.xhtml": "80459b6d4184a4456d7e95432d02f8ee150e83e26ee8aac32b851893095239be",
+        "OEBPS/chapter-08.xhtml": "b348bb9e7cf0fe37973027701b7041a0c579cd7e1b457f7f3e53d4abc2548b90",
+        "OEBPS/chapter-09.xhtml": "3b440a4f5605d13445354c5c8a9c8cdc7bd85498d581340203d6d2fd97c97c4e",
+        "OEBPS/chapter-10.xhtml": "21a8ac92d898f26f44217ce7b2d85fdc348327847d9e0b746fe93165c26b4e58",
+        "OEBPS/chapter-11.xhtml": "9ab45be46993b5950b2f39f97722669a347bab31b2dd8658de9d843ad2acd0a7",
+        "OEBPS/chapter-12.xhtml": "db1f5fc8995eec0e3f55c466b49d1f85c1b35871fd2785780ca2263c3601aea5",
+        "OEBPS/chapter-13.xhtml": "b9db4d6af638a70e9882c580e4cd371bd3b2554eb7dfe38e755d2629d29f5a3e",
+        "OEBPS/chapter-14.xhtml": "3ec7af617b143e22281d254e04b599f5b3f8cfab3d40d7458ff12bb861db354e",
+        "OEBPS/chapter-15.xhtml": "ec2c88df3dd7298861a8be5377c70e0a5fe3ce42bb0cf191e503fd37baee1167",
+        "OEBPS/chapter-16.xhtml": "36c8e1ca1dae7b0275e074d36ab5526f87af88f6806ac5fb62d9462c08fc8f16",
+        "OEBPS/chapter-17.xhtml": "d5da8fdb9b32092596a5322f4aff5935cd95043fd8994cd066187d193913844f",
+        "OEBPS/chapter-18.xhtml": "76073c8e4e039aebe3b4b1ae7a6bc4e58794db36a006a5f2a32ee7ae5c0ab35e",
+        "OEBPS/chapter-19.xhtml": "09bd1e9cf63679b42de8b02573f2625e25ec9f40c3b68ad84fd836a95cf48ec3",
+        "OEBPS/chapter-20.xhtml": "14f3909d3348197b901389b440e9f865b08c818008710b885d78d6102d098e27",
+        "OEBPS/chapter-21.xhtml": "832b66a50830a144621cdde3875b1640e4b700d20aacfeca4f83da4521653181",
+        "OEBPS/chapter-22.xhtml": "4c4c26a4ed88f00b04cfa1f44baf35d60d00f4682386876ec00d0e109c8b5932",
+        "OEBPS/content.opf": "febd74e7584c7d5f3618e8c8040dbeaa7854728db9fa711a2a160f01b46846f1",
+        "OEBPS/copyright.xhtml": "479ac194e8a99a0e163d2fc9fdeb9ed238a8b1532b4a02a35a5e9b2915c3db8f",
+        "OEBPS/cover.jpg": "4ef4864e7def7dde4b6a9ca7288e39efc74cf77d943bec9f0532e91d27489a13",
+        "OEBPS/cover.xhtml": "80e56da05a64b970e2e4a2a61f62b428618ec89c6c19c63b921b4d0c8b687dea",
+        "OEBPS/figure-004.jpg": "f9370efd509aa5fccd1692990e626e75cc816adcda06141746e999276a71bda0",
+        "OEBPS/figure-008.jpg": "7c779e66e81063d5ef3f8b89f4cb051dcff053c249679efde647e5727b3e69c2",
+        "OEBPS/figure-044.jpg": "36acb1f5b5f0b0d1acae433474d631d4c5345a80482b4327449e2773dc278cd7",
+        "OEBPS/figure-051.jpg": "938d14bcd09b6798374443f1058b96dc86ca2cf80ad7a7395dd724443ed50ef4",
+        "OEBPS/figure-053.jpg": "f5447a020da588d435be738cfe87c0f48f3801a88abb127651644a84749b1a0b",
+        "OEBPS/figure-057.jpg": "d63d6508dd11fae33f56b9581b796d462808ac2a3c316be230c8d519677d16ad",
+        "OEBPS/figure-059.jpg": "c651e0134767295dc5705703e0e2d5f290fd2b05f5c7550d6d35d733e2b23549",
+        "OEBPS/figure-064.jpg": "dc0b186c0a09f7f221f481d95b0b89eb80ffce7ef8328df33fa736b8eec5d353",
+        "OEBPS/figure-073.jpg": "b19b1c6eab2327df0786de89a74d347cdf0c9b7252649ae7045ea39a06f0529d",
+        "OEBPS/figure-075.jpg": "7a2746b91ffd5eba35cfe87ae36f3543077d1a25b0351f525506b19910667b20",
+        "OEBPS/figure-081.jpg": "3fe7a1326f03dfd624531503a530a6b8215b097f88ebf667cbbce7127d0ea5da",
+        "OEBPS/figure-088.jpg": "36e4d50ec04fca3691b964da7eb84b0e17ed8a1dab492e81e4bd83712e640a64",
+        "OEBPS/figure-114.jpg": "3bb754c469b4aa6ca38249ea35b2baf1bd103ba48bad471265abe4c34529082b",
+        "OEBPS/figure-163.jpg": "1af1d3ae534c7538cdc90b8245cf30b6eacc0ec769a6617b12afaaef09f3fdbe",
+        "OEBPS/figure-195.jpg": "666c092015cd08fb80e5b95353539a293cb774045d0f4e1970da2526c95275c6",
+        "OEBPS/figure-215.jpg": "f7af784cba42efe32e1750c5b58f3f546506af35e36dbf16c625abd76d5a597c",
+        "OEBPS/figure-224.jpg": "735ce2a86b172262058d86fd3559b8d9bd19dc37dd1145765b4574ade4b2a2c4",
+        "OEBPS/figure-226.jpg": "dec648b79b9fe9308dfc6485739367d2046556a54be17e2575de6f8e66e7ada2",
+        "OEBPS/nav.xhtml": "37b9eeafcc735f580a0cc2c96f4f9104ca9c34374a9ec2c99b0f953a316f6e84",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/title.xhtml": "08fe7d497f557437285a2f12be31b9640ac0d6428b45a15490f50f67d7a5262a",
+        "OEBPS/toc.ncx": "08fb9e78d39056f2ef46f7b47da2d324b5e1a411d272e8469e5ddf42bbf90d4d",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 458,
+        "body": 8124
+      },
+      "chapters": [
+        {
+          "title": "Barbara McClintock: graduation portrait",
+          "sha256": "197ca34581afcc99b3fb5c547069831781b262117b665d73b831851522e813e4",
+          "blocks": 2
+        },
+        {
+          "title": "Dedication",
+          "sha256": "f5df8767a2923311a0ab9c228d887ca74ed34bb002572f72f24f54d5f1fef5d2",
+          "blocks": 1
+        },
+        {
+          "title": "The 1983 Nobel Prize",
+          "sha256": "4637bf38024223e6aadc6652048b980595c488dd79e201750f5a77b41031b468",
+          "blocks": 2
+        },
+        {
+          "title": "Author’s Note on the Tenth Anniversary Edition",
+          "sha256": "d48e3a17ba891b8c49755f64c7b2ed8b8b3aae4c79372dd133cbc7a71eb2a6a5",
+          "blocks": 2
+        },
+        {
+          "title": "Foreword",
+          "sha256": "1a283a7fc95379c09623470e605d481e522e7cd4a321f4ea64f5e6dea6cac21c",
+          "blocks": 13
+        },
+        {
+          "title": "Preface",
+          "sha256": "9a388979e3d618c8a74abfa7ea142c6d630bea23444cca7a8ca295809f2cd028",
+          "blocks": 23
+        },
+        {
+          "title": "Acknowledgements",
+          "sha256": "290d9ad6971e8480905a1cfb234b5bc0a6a958254dc5e491c3db08a31cdb891d",
+          "blocks": 8
+        },
+        {
+          "title": "1. A Historical Overview",
+          "sha256": "3e3edf82821dcb701ebea67061560779848697373eafb7066a7fd74cff5e5b77",
+          "blocks": 33
+        },
+        {
+          "title": "2. The Capacity to Be Alone",
+          "sha256": "898cc612b4df1115c7137b6b277630045bacc568d79eabea05124374e7126fe0",
+          "blocks": 66
+        },
+        {
+          "title": "3. Becoming a Scientist",
+          "sha256": "e5917f93970103ec6db329bb61df9d426206fd061bac83e9542ca16d0b67402f",
+          "blocks": 60
+        },
+        {
+          "title": "4. A Career for Women",
+          "sha256": "65089001fba84c35aff8d115bf6b714312d93ccd0859501ea22e5fc91495ff0d",
+          "blocks": 41
+        },
+        {
+          "title": "5. 1936–1941: University of Missouri",
+          "sha256": "06d40ca5a2efd04fbf4f11f0cf90cb0c9150a19a3fdbadd5116fbcf86f13c399",
+          "blocks": 25
+        },
+        {
+          "title": "6. Interlude: A Sketch of the Terrain",
+          "sha256": "4ecd70da5c7b83f6314397237748fb4ebc0f912fc2b883deb170a725eda0eaa0",
+          "blocks": 51
+        },
+        {
+          "title": "7. Cold Spring Harbor",
+          "sha256": "68ef1f2d1d3bd38e692e4998e20525a413432f382ca6f85c751f047939517309",
+          "blocks": 39
+        },
+        {
+          "title": "8. Transposition",
+          "sha256": "d35142e2e497bd62a95eafe86e88001c4f20f8c2ebc38bcb3e0001d13e1465ba",
+          "blocks": 50
+        },
+        {
+          "title": "9. A Different Language",
+          "sha256": "16626f80bfcae4e8bfe8fceeb7d48f8ef21f4a97ec06b8990d59ac0bdb3b2000",
+          "blocks": 41
+        },
+        {
+          "title": "10. Molecular Biology",
+          "sha256": "b97fb658e6cae8c1b47c6a4273bd569ba88af9c758231db737be3712fbc3636d",
+          "blocks": 46
+        },
+        {
+          "title": "11. Transposition Rediscovered",
+          "sha256": "4765d2ff013c901fdebf57a1a319c7fda49cb95db6484c500f85fdda2f6e555a",
+          "blocks": 64
+        },
+        {
+          "title": "12. A Feeling for the Organism",
+          "sha256": "478dcd1b39cc860323c9948c490e904fbf8555a86bde851662c5fb457d3ee5d3",
+          "blocks": 34
+        },
+        {
+          "title": "Notes",
+          "sha256": "d1740f269067fc4b4ae19e91297f005611da541651c636cd25e8b75c1f190225",
+          "blocks": 170
+        },
+        {
+          "title": "Glossary",
+          "sha256": "92edf43bfc607a866b41b721634bffd9a04a6a5efbe8b65ed0d4133a0101ab76",
+          "blocks": 87
+        },
+        {
+          "title": "Index",
+          "sha256": "6c652912f19496673f928213b95769ef3ca3a700d0708be599c7120488dc6a72",
+          "blocks": 378
+        }
+      ],
+      "noterefs": 157,
+      "backlinks": 157,
+      "figures": [
+        "figure-004.jpg",
+        "figure-008.jpg",
+        "figure-044.jpg",
+        "figure-051.jpg",
+        "figure-053.jpg",
+        "figure-057.jpg",
+        "figure-059.jpg",
+        "figure-064.jpg",
+        "figure-073.jpg",
+        "figure-075.jpg",
+        "figure-081.jpg",
+        "figure-088.jpg",
+        "figure-114.jpg",
+        "figure-163.jpg",
+        "figure-195.jpg",
+        "figure-215.jpg",
+        "figure-224.jpg",
+        "figure-226.jpg"
+      ]
+    },
+    "pharmako": {
+      "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+      "slug": "pharmako-poeia",
+      "editorial": false,
+      "artifacts": {
+        "book-model.json": "f7baf82aaa84db143f6d9b4560b70311d7a2e6d0ecd6612c175db72f288fa750",
+        "corrected-pages.json": "75fa92eed709708d7f4b01549b6dfac4c4af3b92b37757a96121471720343760",
+        "text-coverage.json": "308ba59d481e5234c4d7fb154a98a6c001ad916641f934486afa749e44f2ba8b",
+        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
+        "pharmako-poeia.txt": "7b066b84d42667fb7305b4d5738d18626b9d0f3eec47d4af8e3b0358c43fcbd1"
+      },
+      "epub_sha256": "a7eb8a7715f5bb69cab8fc77e4624aa72918f677d5f5484e5d3dfba4964d529b",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/back-cover.jpg": "19e72223b58228d14897e7724c53954ba6dc7b1c737da0841d48bf449a3fde27",
+        "OEBPS/back-cover.xhtml": "ce53a2beafa07bcb527dc1a8d1014e59cd5d712a7e9d500b0182c6efc04b920c",
+        "OEBPS/chapter-01.xhtml": "b6c45c5d7491ab59cdc9f12f891f2faee1211d268b7057c4dfc50fb940e0b693",
+        "OEBPS/chapter-02.xhtml": "511b591f79de704606c50f6592ddc8180e555c248449b1aee9d8b585f78bd339",
+        "OEBPS/chapter-03.xhtml": "e50a989fe1d26d7a36624c42a38d223f96dc2854353db8066ffd928690d68b77",
+        "OEBPS/chapter-04.xhtml": "256340bef05659678b42d08d1b94fbac9d332dc9939678cb71516e403fc6e7e1",
+        "OEBPS/chapter-05.xhtml": "4622d0cc9cdc7cfb2742ffdb4216427d4fcaf5b2240a0b658fa4599d958046d9",
+        "OEBPS/chapter-06.xhtml": "4919757de2ed6955ee75c235555bdac68d444987d184a6e8fe93f6c83a91c4e7",
+        "OEBPS/chapter-07.xhtml": "a3320cc6ea5c05b5646607b73985e816fe22d9b21db61f1f8a5a9983a17d986d",
+        "OEBPS/chapter-08.xhtml": "4cc8160bd1f2a46640253705caaa0001f6dd5d15b9140627b38455cecc4fa9f4",
+        "OEBPS/chapter-09.xhtml": "3643933eb6a01ac8806cca6c029f673ab17b683f554159ec1ec1c71baa7eefe9",
+        "OEBPS/chapter-10.xhtml": "1bb1d8cb27cfffb341c1425a8d9cf7eba6a8296409da196feaa29e2a67ed4d40",
+        "OEBPS/chapter-11.xhtml": "0b71448ef29441fa64e9d25bc860d943e82cf9d684575c0991ff7cc58dbeb80c",
+        "OEBPS/chapter-12.xhtml": "b66a8bbf5705a31b0212a884e523720194225e60ddfb120d9974eef704261a41",
+        "OEBPS/chapter-13.xhtml": "70a82608d95771dc28ea9a8f1048162f505ec3a2d41cef1b0edb29efec0a3026",
+        "OEBPS/chapter-14.xhtml": "6835e1579c167266a154c3a0ac42c6a88873b4dba834c3aadd2ea8a36b6c3920",
+        "OEBPS/chapter-15.xhtml": "4e5c90d02336154f8937f000be4a0fa700d9329e97c3334f0249dcb13e20ba9c",
+        "OEBPS/chapter-16.xhtml": "2277c16c00ebb97cabba236e85b997f71e397ae85b99f4e606b511526c8e7c66",
+        "OEBPS/chapter-17.xhtml": "e3a65a39b0d65405fe8d97e5a2f73bf925ab5278668aeb4a6c9e81c490f1e6c4",
+        "OEBPS/chapter-18.xhtml": "16aae90252bbff1ea2e03db043cd33fa19d1561202bf10f3e40cc49c29ba5e96",
+        "OEBPS/chapter-19.xhtml": "f8c4f6454565dcdef59eff7238f1e4ae6ca2cb23def0c58f81311934d9c6f472",
+        "OEBPS/chapter-20.xhtml": "a6545eb576102bc0051fe5f88ca7eff5758b337197fbdcc40b6f04a5101e0fb0",
+        "OEBPS/chapter-21.xhtml": "61ea55eb3ff5d0c9f743f99ebaa872c75923c4ba190ff19ef407264f46b2958e",
+        "OEBPS/chapter-22.xhtml": "758157bdaa38095055b50dd53fb992226ef9e11b3e2b4ac0014078c81dd549dd",
+        "OEBPS/chapter-23.xhtml": "89e6b30dac63e2e39e24d7178c0dc3cc5761c93fd0696f16ed542a730e25b7db",
+        "OEBPS/chapter-24.xhtml": "46e9903b0cd86c2b027966098b0b56bb4a566f92e08eb0cb66a5acb8e5d07950",
+        "OEBPS/chapter-25.xhtml": "53bec8f10e2345318b9ea6c0e9be73ebf0e4216f685b451bd86e8907324978ec",
+        "OEBPS/chapter-26.xhtml": "8c36d851eeffd05c00d9e6917dba8e98cc6fe0691b7b69726c980e8469ffec2a",
+        "OEBPS/chapter-27.xhtml": "e1bda69dc9a48f9a2e264a67ce027bfee431702be659f0c33f043c5e2be86a7a",
+        "OEBPS/chapter-28.xhtml": "5b735779235716990207992609f5580a02194c7b878627e8b2a352d30b7cad3c",
+        "OEBPS/chapter-29.xhtml": "1f3b3f0e5d56ff64312b78976e683990a8a9d13ef9344fd270c6a0bae411348f",
+        "OEBPS/chapter-30.xhtml": "3bbd8d99c40c860284916a7dc865b3c886af0365ee70c9023baeedfb1b167627",
+        "OEBPS/chapter-31.xhtml": "45eba83b83f2ae4cce2b5c5d8d5d7104a7dc7c3b759304ad1f58b2f4d4d5fd91",
+        "OEBPS/chapter-32.xhtml": "67aefb93123ac74a6c25ff772fa75f36eb51547bb2a1693b94f12b6e25bc6179",
+        "OEBPS/chapter-33.xhtml": "b579203e1673cd7199c36ca1fefbb61d302c5b2771991267b2d01e5b75ac4de6",
+        "OEBPS/chapter-34.xhtml": "a88408c74c0fd639fc66541e53247db2d1a0567f4717040b07e31cf8e6247f09",
+        "OEBPS/chapter-35.xhtml": "03a03bed660d0552601c2bf627c01e495eb7091eba681a11a5650b134f9079cf",
+        "OEBPS/chapter-36.xhtml": "f1d13063b31fc7d134c31ef066e90032303e6c5613f19eba88cd384fab6309cf",
+        "OEBPS/chapter-37.xhtml": "8978b4ffd632d2880ed0bb7cc98ca7696e930568496b9563004999b0af231e9a",
+        "OEBPS/chapter-38.xhtml": "14314f3f055c009e82c366d70597c945cfef288eded00119d4ab724a0ba178d6",
+        "OEBPS/chapter-39.xhtml": "ec998f65357fd53f121f05db1d59eab76fc4e27b968e00d3ef9c870a7f4a07b8",
+        "OEBPS/chapter-40.xhtml": "4b51c64841cdd7aa02de3f43d859296562a582b8533477d85bb967165e43cd9d",
+        "OEBPS/chapter-41.xhtml": "ef08421b4d746a665c637a597aaa5c465c18d7d183bbe1f39339b515fab6225d",
+        "OEBPS/chapter-42.xhtml": "c58381b771aebb3197350fb8759bc4ce853b315de54910cab7fcbaeb02388229",
+        "OEBPS/chapter-43.xhtml": "92b0f517da95bdb83b429dec9969d5de6f332fb224b702c07091830f9ffc4b6d",
+        "OEBPS/chapter-44.xhtml": "48f99d05f55562763174db98f05a0583e5b84e26f69a67b0e6125b295107a287",
+        "OEBPS/chapter-45.xhtml": "bf9586e3814c8cb68cd0d518b6d188357d963eaf9b1534aeff01ccc2e78c4348",
+        "OEBPS/chapter-46.xhtml": "5995fd976beea63058c000837c7d0850ad511d84be9e0c02a0cbecb2c80fe8be",
+        "OEBPS/chapter-47.xhtml": "2de48ac35ce616f25d4a20adda951204904caa5c2314d0f10ed1775780a9e296",
+        "OEBPS/chapter-48.xhtml": "368a1805801342452c7ea09cc92ac31e6cff2c0b50dcca48e71c6015c3b05c0f",
+        "OEBPS/chapter-49.xhtml": "6b0dff731c5584880528c35e2d7f4932278ff377f757ffcd31c5cde5ee1ab3b9",
+        "OEBPS/chapter-50.xhtml": "d0549668d34e54c21a449b9b524f2587ef46da1788136ebf1b6bd34a14b97ca0",
+        "OEBPS/chapter-51.xhtml": "88a1229250b1c090135a5136333040fd3679422fcc1049b7fff0baaec776fa32",
+        "OEBPS/chapter-52.xhtml": "1b68bb61c149030f5a9ff54d86ff716fc54bf818cd3b6ebc2d02eaf2bf7f71aa",
+        "OEBPS/chapter-53.xhtml": "ed68d0b5c1b4761aa984d779d6f7a14f557266e0c9c262613149a54994774350",
+        "OEBPS/chapter-54.xhtml": "2a02677bb08b7c98cf3618333810e3dc17b8b37367b662d89d4ff680369011a4",
+        "OEBPS/content.opf": "b5fe9771f6d6c5f6017e065c3d4aef198c1a4f1996c7dcab8a67415d5c8ec25d",
+        "OEBPS/contents-008.jpg": "c0c2a7b8c8349721a4e31fbbc6b6d06d1c0ac32723b9c9788e3dd1b4d0cff575",
+        "OEBPS/contents-009.jpg": "bf72d16a20d31223e9c94f2cdbea223b680017f1ef510b68334dd507625d3e97",
+        "OEBPS/contents-010.jpg": "560cf98376ff8e0c3f5d402264f81b61cc281f51c70772e499888d702ce5af1b",
+        "OEBPS/contents-011.jpg": "0c0a25ff29eccc0f8b08313d64695361b96635a79702d1dac0855ea1531f4375",
+        "OEBPS/contents-012.jpg": "a1e7d3d69af3e5c07deb21544c11ee4d614217a782c8f1b6dc3dde555e768dd5",
+        "OEBPS/contents-013.jpg": "7baf5aa519c1f29b27333196b001eec2f406bdc750527b0e3dbe5e666065cc48",
+        "OEBPS/copyright.xhtml": "80b593a86e959c5e29fafc774253a39acd38e2f610181a0a0e880ad6f64c4bc1",
+        "OEBPS/cover.jpg": "0b7abc9ddda6420ad61b644c5b0223aacda0bfe82b4db87b75c245b2394760bf",
+        "OEBPS/cover.xhtml": "96294fa69c0536d4c04532bdb681541af9f4f091e264f3536c70efa52c6ecf4c",
+        "OEBPS/downloaded-cover.jpg": "0b7abc9ddda6420ad61b644c5b0223aacda0bfe82b4db87b75c245b2394760bf",
+        "OEBPS/downloaded-cover.xhtml": "ba52f47bcefd0a43687b104e3c6bacc674c9da61b9076ca6ac0806eed9778cc8",
+        "OEBPS/edition-note.xhtml": "676564351a74a88e015e7d4a2c02d91229c72a6502ffc05475b7d4325a0c8063",
+        "OEBPS/figure-003.jpg": "4ed976438f70bf35a06e12100c3214d65570eb27377f3cd27e706be3acad3e4c",
+        "OEBPS/figure-004.jpg": "b2363c394f3f3f1ac5d10059b1f524f24566bf736073bcd35331a3f0956d27b0",
+        "OEBPS/figure-014.jpg": "9b99f6ace1da9a6607f1c1d34d420de6fd806276ab1bbb3abb54bb4169f9227f",
+        "OEBPS/figure-016.jpg": "930859f7487a224c36e498aa0971e2493033dc0d50b978c51488cef7efcb2f79",
+        "OEBPS/figure-018.jpg": "1093e76fc5ed56acc63b070b395671941b3afb59da4c0c4ab4eff255139de5bd",
+        "OEBPS/figure-021.jpg": "92c8856a7d62e96a0e77d74fa0722a607c4138271e1e8abb8f1e64665fa3f446",
+        "OEBPS/figure-022.jpg": "8ce90d2d91bb849692ac55bda851f6f0371fa46ee30f4f48e90442ef922c0d28",
+        "OEBPS/figure-023.jpg": "c1cf485bcd6f5f06268c26ce2eda114b21efb5712a1982ab2f0041d923979940",
+        "OEBPS/figure-024.jpg": "c98b46a68e50099010a090d205fed0ccc10be5f473fc4b771a9116874bbfd14c",
+        "OEBPS/figure-025.jpg": "5bc9b55a127133d6632336938f21aae52941579fc4711e631997b77480cfa662",
+        "OEBPS/figure-026.jpg": "da52b5fef1bf49e0761d108cae6467693065efbef1731fd67cfef600d44a21f1",
+        "OEBPS/figure-027.jpg": "841ef4564165fdb2fe1e4a9ac5f3ea7f02c938ee87fe0dfef33937c528ff7421",
+        "OEBPS/figure-030.jpg": "47cf0dee943b8c05aea579ccd8b7670d430efc0c28b37f84f434bae77711a788",
+        "OEBPS/figure-032.jpg": "825fd3a6eb2fde4a6e3f28b479329b3a0dc078ccfd31d4de3c3fa808f6b21949",
+        "OEBPS/figure-033.jpg": "b8b7b0154cb0ff808b2b81dbff7166c1dca5f999220c604162caa73e09972fde",
+        "OEBPS/figure-034-moon.jpg": "03365102b9848fd077f5429ab640ea4a29230a54f4d08f616d72a0a435de5665",
+        "OEBPS/figure-034.jpg": "5ecbd49e4a33e12630a3869c67d4985615b92faf0048620d1e01a167abde021d",
+        "OEBPS/figure-036.jpg": "9c229d86a9cd2edffbafa42b200a48e13321b4cc0447e935a7a8fcdefa383203",
+        "OEBPS/figure-037.jpg": "c0d419beb8c36bb48764e0db5e08769316520260eebfe383ffa914bc43156517",
+        "OEBPS/figure-039.jpg": "118faad4a7f8fe76db36f20dea32a4421c7c7eeb38ce614508f28214f361d33f",
+        "OEBPS/figure-042.jpg": "076cfa7388ae8c1119e5147aeaf27c847f38059d59d9b2d573b959e9076d8b11",
+        "OEBPS/figure-043.jpg": "5ddfe8f8051d7809a56b754c5f47e9827ad8a0e2464e6aec7bdc360a97cf3842",
+        "OEBPS/figure-045.jpg": "0ee4fac01f05ad8b2819fd9eae2b2cee0a800a5b3cb5787e5a4ab3f0cb7da47a",
+        "OEBPS/figure-047.jpg": "96cb8f8b49824cb5829f13678ef784548218b53f12dbff2e5907a61312c450dc",
+        "OEBPS/figure-048.jpg": "c6540ac8f143e7d17ab678c8f177cbd4955b1fdc178f357e8eade6370d3194fd",
+        "OEBPS/figure-051.jpg": "b9497e6ccfd0faae18051db201c663fb000b0813607d5ddd107a7206d1cff230",
+        "OEBPS/figure-052.jpg": "2bb24b4ff83104dce1799cea5bab89cacf8834e09b2d6afadd04e7e1a8beb253",
+        "OEBPS/figure-054.jpg": "a7ed75e120196eada6c47ccf47d081acd169b26b064e8407c041a205c899c642",
+        "OEBPS/figure-056.jpg": "cd465b5221b85575c833e5d271479f7e3541d331e894f6a6b25bab8f033cda17",
+        "OEBPS/figure-063.jpg": "dc90133c408b742fd88c5ba1a26d971b9f4b2f32efe450bde185ce238b5ba473",
+        "OEBPS/figure-064.jpg": "b584a080ce0c3d12cf7d610513aae9a27bbf39ec5e16c8077383a3fca083253d",
+        "OEBPS/figure-065.jpg": "c9fc0cac5fd0f346c673ab45dc42bd207f4d359d4b41dd3526d13279f51f2524",
+        "OEBPS/figure-067.jpg": "84aa43c40076d2c5a40a8d3ab6ed38da15ca40f114b983b7b22c756e3b44228c",
+        "OEBPS/figure-068.jpg": "96e676871cf7a7b8953def54abd86cb6bc60c13ef7b4d520f194768f94b21395",
+        "OEBPS/figure-069.jpg": "a82756ab93895e5519ace077ad4422f35154118b692ed5c825f21a32added17e",
+        "OEBPS/figure-075.jpg": "d3962b298f2a55092927407084e5b7897d544bdf61dfa1818ecd71a12b7b85e5",
+        "OEBPS/figure-076.jpg": "add498b469eeb34dc5a1adfcd6633735ccec898f4b4b770a00fd8ac2552ca3af",
+        "OEBPS/figure-079.jpg": "6c6b0b4bf5212b510035ab93c2fb6a9f9260cf95c7caa7ad4f4cc356cbf1f03e",
+        "OEBPS/figure-081.jpg": "94f49b2f4c54890eb12ef5234c82b268a8a047612abeb2fa32a9e86cda63f1cd",
+        "OEBPS/figure-082.jpg": "02779e3038ffd0926a3756fed7d393061d55d6b1d903e8a5ff40914442ca0f30",
+        "OEBPS/figure-083.jpg": "996d794300c457079f34ab4e3b338a033f59df310705afb342269eb837c91a4e",
+        "OEBPS/figure-084.jpg": "8746287d63bc42cc56f95e8f382f4c97e784978e6f12423885b1fe21847699d3",
+        "OEBPS/figure-088.jpg": "31b4e50cfb973641f8e5008ab0b28e2c7b6ec69ba725466c20a53565e78bf3ba",
+        "OEBPS/figure-089.jpg": "d0e8e14397549120309a99273b42545eb2c846539430c59b39034f8a473235de",
+        "OEBPS/figure-090.jpg": "8eda8abd8354f1ecfc9b148aa5ccd6c93e5eb9dfe5b073861817235d61d9a577",
+        "OEBPS/figure-092.jpg": "77210aeaea2d8941504a33525e57c5b8affcaf33bd318a97939974753ece245c",
+        "OEBPS/figure-093.jpg": "593b8a2b2e98fd7db1800c01f9b306268680b7aa40cc29ebad04e1906678407f",
+        "OEBPS/figure-094.jpg": "182ff5dd0c927aceb1557bb6efdd50085c61ae5c53cebdee5e1dd0deccf551e8",
+        "OEBPS/figure-096.jpg": "294f517c13016235008f126b432c91e2a891dfe4d81cd0de8c4817f1e96f0faf",
+        "OEBPS/figure-097.jpg": "9e3efdb07d0ea10ae6d66840a57b7515cf810fd1d2f317ddc18bdbc9ead37f2f",
+        "OEBPS/figure-099.jpg": "55dc4f90d02b1ba91b19ccb2d7dfbef83b68022d1111615fc855298cb6e5ae32",
+        "OEBPS/figure-101.jpg": "e00b0dad4c9024bbcec254b123bf4de5977e6e5d7f73ca1720933a8caf1369ef",
+        "OEBPS/figure-105.jpg": "7b01c9d9dc325b8f6c61c2cdde2ee0f307230d31056c3d40fd2164dac07ab02b",
+        "OEBPS/figure-109.jpg": "d4e97f019511b9035655b710d136ea3550a94b3039598a9d9cc4fbad45ee3e42",
+        "OEBPS/figure-111.jpg": "cb395dca50e8adabd4df58c5d051616667da4363b3f358b0d552cdec264c20f3",
+        "OEBPS/figure-115.jpg": "5d97a333cca65ef766d990232bff9dc789045d144b63f81c538efad426e053d3",
+        "OEBPS/figure-116.jpg": "1dc625b74641fc7c5faa2db5b1c5a6bb2293cdec62803b5089fded684b5fa264",
+        "OEBPS/figure-119.jpg": "71faa4a5328bca6e17a62ea2af299f877753241176a30d184c61a40f7537f1cd",
+        "OEBPS/figure-120.jpg": "f5d061441d2c5a54cbb92d09176c8eeffa8a36944882b60ed44ea92cdd4bdaee",
+        "OEBPS/figure-121.jpg": "9eda1a8df25acb4ef8cf3a1b8e94a34d25cf2b11e7aef6b23e64385d3bf63fa9",
+        "OEBPS/figure-127.jpg": "4cca41a73f955ba13333c8eeefa9124e1d030507727d81506a97e0baa892b667",
+        "OEBPS/figure-128.jpg": "1ead25d1b84235716265da501f9a943bf344d31d9db5815b4b2a6a9fcf7cfa37",
+        "OEBPS/figure-131.jpg": "f53b2d5bdcff4e1fe973e0a05ec468b10266d54dae4774b36f529002b5279392",
+        "OEBPS/figure-134.jpg": "9058afe6dfdb337387a7cae926b829adb62b03ad0dec7c300827e2f3011e024e",
+        "OEBPS/figure-140.jpg": "8a8b238183bc47ed6d342a607e4db81e9affa1894f05080f26d1a698810a6bdc",
+        "OEBPS/figure-147.jpg": "78daccaecf588db4836a8bc9f90445546bc9b456142a343f35abf27b22f7a547",
+        "OEBPS/figure-150.jpg": "5f0f3ee06eec1d70b095aa8c75def0b3458e95c7a24e54f31b11150eb7c9210f",
+        "OEBPS/figure-154.jpg": "f5e7cdf450ab7ca107d0bd696a272715e55cfed89d4b20d370fb7540ff80655c",
+        "OEBPS/figure-162.jpg": "4cb38facc20481df3f2d1e2a5c980aec53f01ac1104aed4d08da7775e510ec04",
+        "OEBPS/figure-170.jpg": "c4c2e6905b79762785171fd16f8ab7d42d661324b6706d363fad0bc5f32ef40f",
+        "OEBPS/figure-172.jpg": "0e3871f10d954816563f60afff1774f6e72fc6057c317f889f6e421da8980d17",
+        "OEBPS/figure-177.jpg": "a6863da6d8702af2f0b22713bc99a260df2b810dbc049bff4f69abcc9797a732",
+        "OEBPS/figure-184.jpg": "40dbe6361cc846f369df6940afe1f693120f979454cc90e1659b7f606ff0ce50",
+        "OEBPS/figure-186.jpg": "934015354617620690d5bfcc8e6325028a88664fba6c7a64e3ea635d6d2e59fd",
+        "OEBPS/figure-189.jpg": "4d9901ac4d1887544185c1966cd12ef9fec84ab44b77eba87e76c50df9d4adb9",
+        "OEBPS/figure-192-medicine.jpg": "ffc4e30becd6f87dd5ae298589c733b7cc842d2a3bb57f0834b4c860c4602363",
+        "OEBPS/figure-192.jpg": "a1cafe939aef723055a8b385fffffe5362aeabe64970e0a8a9d2e704a603a0f3",
+        "OEBPS/figure-196.jpg": "41c9270031fa4f1f138aa2cfcab1bc9106b3399599113767a39747044a5fffb6",
+        "OEBPS/figure-198.jpg": "91af608327f7f4ec8dc590876afc33346760615fa08b970785b7fa9e009b6cdb",
+        "OEBPS/figure-199.jpg": "145e0f4d2cc4503256be6711b483492b6566c2242bc108aca825c79033c869d1",
+        "OEBPS/figure-216.jpg": "579dfeaa869791b9c34812d52b27c198e93f4af27547d7a275bd77d595889acf",
+        "OEBPS/figure-217.jpg": "89612b63ef32f594c49ae7e30357fa56023794f06cc1cfe81a412968190be95f",
+        "OEBPS/figure-219.jpg": "369d4b05092852c3e3492b2a7f214c6ffaed814e07b0f8a1a3f7fac496bb2cef",
+        "OEBPS/figure-220.jpg": "b32a99048b79a2ae6e5af5f8e4720c9e54c9301f13b0d0b251c75de8be9bde42",
+        "OEBPS/figure-221.jpg": "9b92751a3593f0459ae770b2e578361cdca7385f1137734c8c289e3e98aeee71",
+        "OEBPS/figure-222.jpg": "d791755147f6f531b2361f405c61d9ab7644198f481c11855c6fb05a3342001e",
+        "OEBPS/figure-224.jpg": "a9a85518e2e545fd488722e2df3ebcd81b7493669d64be882e138e2e8c0c4d54",
+        "OEBPS/figure-226.jpg": "474be5f487fafb2d31fc5ad272f7aed5175f967343b0a2a4beea819ab8672176",
+        "OEBPS/figure-227.jpg": "45722d4ecfed345fc8de017eef30531899d168374ac29fe5a68cdfc352da1997",
+        "OEBPS/figure-231.jpg": "121288279993996e2f7a5be76579489c3b82e2897433d6b58efc2a77d9755f8e",
+        "OEBPS/figure-235.jpg": "6815689111841f050d8f9d1e29add630a722514ba3315723eda44affcb333b00",
+        "OEBPS/figure-240.jpg": "feb8c55062619a3082d14436aacb7ecad1759b868c135ff496b419231ec46df5",
+        "OEBPS/figure-248.jpg": "eef2000fafd3b35ff132229f28ca33bfe2509188fde838f94ea49d1b682d4c75",
+        "OEBPS/nav.xhtml": "73110ddb7e98d970dc67573cfee87b779dd8b932cd695ac871dbe8f0950f1876",
+        "OEBPS/ornament-019.jpg": "33ccb69eb32de78d41e3672679b6148afb5bf0d6f39ca51b3d7a247111ca910b",
+        "OEBPS/ornament-044.jpg": "81a787c75a8020f9dfb7d397a8d4b4b2ea99a99e8f7473f0506a5a8c8238a9b5",
+        "OEBPS/ornament-066.jpg": "cc71a6c3c8dd7b8328f611c34e4867146ab945416fbfacc25c9caeadf0338efd",
+        "OEBPS/ornament-113.jpg": "3ceab1e3fb8307884c556fdc74e66e304fd55bbda0a014e6506d50bf760e4f35",
+        "OEBPS/ornament-130.jpg": "ba8df246d23621f00e52347aed82ef4c88f7abd73b3075d640e30f0c6caf18da",
+        "OEBPS/ornament-157.jpg": "93ef2d40bc7246607e4d3f99b97204ce037e0bfa1dfcd0b253498bd7cb60594c",
+        "OEBPS/ornament-166.jpg": "d39cb23e2703b049b349db079969d96347f9a8518d4b7d9ca8cd1a5849c5e370",
+        "OEBPS/ornament-188.jpg": "b53d8a841a91c2e8658959942b95a8cb9a18656ebbabd784e0920564b72efb07",
+        "OEBPS/ornament-221.jpg": "2b3db06640d0ec533c8e772299a9314af146918325b4ec758e62ec388ed2bf5a",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/symbol-mercury.jpg": "bc0a2281a9b352fe4397602aa56e168b5471799ade6027ef8f79af9932d4254a",
+        "OEBPS/symbol-sulphur.jpg": "d11debcdb3698253608d90f9363a4ce8b3a3fa4debb5434ad69627d05020eb1c",
+        "OEBPS/title.xhtml": "733f1e5525d983fbd31603720d6a7e5f257df9d1b4f60691d529776340005a42",
+        "OEBPS/toc.ncx": "822e0bd1f3e33c6c7005ea3fd4e3cf8a41ef7eb09345698b60c1e8d15ccb873c",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 338,
+        "body": 8248
+      },
+      "chapters": [
+        {
+          "title": "The pharmako mandala",
+          "sha256": "1f920581370deb477d3b12e0ecf75cbad8fb512414431ca0f926f5d18b165ce4",
+          "blocks": 1
+        },
+        {
+          "title": "Original illustrated title page",
+          "sha256": "f76e2fe51a8ac5d2307904316ca99461d22fbd4bba90a66497e2bed6ffab406c",
+          "blocks": 1
+        },
+        {
+          "title": "Publisher’s Note",
+          "sha256": "1cd5e0a7c644074c40830bdcf3999843dd0a33420f41d28ce3e1dae523a36c6d",
+          "blocks": 7
+        },
+        {
+          "title": "Dedication",
+          "sha256": "f03ed6989fc45907fe0a116f9260c97b4c171d82c18c1a121a047e19a598ea47",
+          "blocks": 1
+        },
+        {
+          "title": "Original Contents and Contents of Volume Two",
+          "sha256": "47ace4cf80cd3bb1c8e2ed142642336b852bb158966440444a516e1923ace1cb",
+          "blocks": 6
+        },
+        {
+          "title": "Foreword by Gary Snyder",
+          "sha256": "2d661d6f4f7fd9b9ae62c8c3ae1477078ac1c84f32394324f5033608d7471903",
+          "blocks": 4
+        },
+        {
+          "title": "The Root of Evil",
+          "sha256": "847f9efe83400d81de9526e17c34a3dca082300867495bbdf798f471ab800a0b",
+          "blocks": 2
+        },
+        {
+          "title": "Prelude",
+          "sha256": "f10abc63df973a2cba7dc9240dd519dbb6c4ccc22365dd4bb17635b55c51a33b",
+          "blocks": 1
+        },
+        {
+          "title": "The pharmako mandala",
+          "sha256": "05b94dc4041b8709ffaf8a7e378f8017ebbdf301d88761b185174f3bb643b172",
+          "blocks": 1
+        },
+        {
+          "title": "Bring Them On, the Power Plants",
+          "sha256": "38a1c0cf2419897ef14831f887d4a4fa5a2a55e0628a7e0cac94d81a04c115fa",
+          "blocks": 2
+        },
+        {
+          "title": "On the Nature of Poison I",
+          "sha256": "b622d7ec038f738264c525ee750ec5204cd3e28dd2ed7db019e006dad3267e58",
+          "blocks": 23
+        },
+        {
+          "title": "Plant People",
+          "sha256": "22441e5e4c65ff91271786fccf3d67aa04e292449477c61a903746d934bb9f8b",
+          "blocks": 13
+        },
+        {
+          "title": "Plants as Teachers",
+          "sha256": "c0652dbe7b1cfdd09388ca37dc750fb11670991e93e65c85c067cc5ff83008f7",
+          "blocks": 15
+        },
+        {
+          "title": "On the Nature of the Ally",
+          "sha256": "2822f88d4aa20f25ef5610c58999e899b00dc09ec59f4d3956532df78077c9e3",
+          "blocks": 19
+        },
+        {
+          "title": "The Mad River Plant: Prunus emarginata",
+          "sha256": "2b01f47d49db35cf9938aa3ccfb3a17d3a702f5fe35cbf06d59e87d0c324344a",
+          "blocks": 11
+        },
+        {
+          "title": "The Great Work",
+          "sha256": "6b6c3c5fad7dbbbd406aba6a7d56dac313c8a800813e93177b0b1c629421fe8f",
+          "blocks": 26
+        },
+        {
+          "title": "Sun Medicine / Moon Medicine",
+          "sha256": "a6fa472118746831bba9d1714558132dc16ffd9d84d3ef648935df2704aa7dec",
+          "blocks": 21
+        },
+        {
+          "title": "Bulrush: Scirpus atrovirens",
+          "sha256": "5a69610515d05db536144cbb7b36624a2832203a6b3ed945c9783d4dac6432ca",
+          "blocks": 11
+        },
+        {
+          "title": "Methodology I",
+          "sha256": "52bfe9a96ae086103789935a2d7ceb951915ad30d364a3160ad4c343908eea58",
+          "blocks": 7
+        },
+        {
+          "title": "Ground State Calibration",
+          "sha256": "27939f0fc26be619c9763f42314d7821759939c3ea9f41a61a4dae29c878db68",
+          "blocks": 8
+        },
+        {
+          "title": "Methodology II",
+          "sha256": "b9483d8af74750b6765d1ca2158717e68a8ed8bcb8bb2f3a6704a4be75ed61f6",
+          "blocks": 12
+        },
+        {
+          "title": "Thanatopathia",
+          "sha256": "24e3467b07c7510ef8d62ced1a27db82820ddb868f7e439724f0f91b7ffc2165",
+          "blocks": 15
+        },
+        {
+          "title": "Tobacco: Nicotiana tabacum",
+          "sha256": "32e091b8a97382019fa3dafa09acfd00394561c1c3647d9b9efe6f309809abf8",
+          "blocks": 70
+        },
+        {
+          "title": "Phenomenological Taxonomy of Psychotropes",
+          "sha256": "d08e947f560e436402620c962cba1ca819f6ae6b6b4a697e1aab9a3f186c5fe0",
+          "blocks": 25
+        },
+        {
+          "title": "Pituri: Duboisia hopwoodii",
+          "sha256": "98f1a8b66951f4c204ced47346a59b21da8fb76016855f499bf41910d23bbce6",
+          "blocks": 14
+        },
+        {
+          "title": "Killing Time",
+          "sha256": "32c0394b73f8979611afcbb1dc690aec6a5689912fcdd20c95749eb6e9872691",
+          "blocks": 33
+        },
+        {
+          "title": "Inebriantia",
+          "sha256": "e5734598f378088ac52c80368cafdc78ed2cbc969e2fd04bcaaeec8248f8ad1e",
+          "blocks": 17
+        },
+        {
+          "title": "Yeast: Saccharomyces cerevisiae",
+          "sha256": "357bc363d44ea74a76107c41d37ec951032b8122fb7d2ce71bcc8afc8f5462bf",
+          "blocks": 43
+        },
+        {
+          "title": "Wine: Vitis vinifera",
+          "sha256": "3621848efdc270d025704774e8f544278097aaf6ad3ab5f407a1bd270f60d4b4",
+          "blocks": 42
+        },
+        {
+          "title": "Beer: Hordeum vulgare",
+          "sha256": "6b3e1c6943bc98fb0f9eeb66999cc5712b8c72ac0314e8a7cbaa7f1c667abeb1",
+          "blocks": 42
+        },
+        {
+          "title": "Aqua Vitae",
+          "sha256": "56967fb64b5e417df06ba4f5dc790f561908fb920dde323ad73734b4b8db0105",
+          "blocks": 45
+        },
+        {
+          "title": "The Alcoholic Muse",
+          "sha256": "853f065ece75fab6a685cea5010ee824a7fa4e49e61dd8b5a7a9b04ed01568af",
+          "blocks": 26
+        },
+        {
+          "title": "The Poison Path I",
+          "sha256": "f05a7f267852463a67c8776be39709efa9f1556836cfe0508aa5e556a7fc246e",
+          "blocks": 9
+        },
+        {
+          "title": "Æther",
+          "sha256": "ced082627960fbf0b5faa330024a58d0d6e9b419ba86c8994218dc38482833a1",
+          "blocks": 54
+        },
+        {
+          "title": "Fossil Fuel",
+          "sha256": "f1118d3a89953e5efb86d72d82d6e8b1805674a7387b486e62b3a8bb80e82edd",
+          "blocks": 32
+        },
+        {
+          "title": "Mead and the Divine Madness",
+          "sha256": "adc06454a412424169f614ccd197988b5f01c46fb76cde68088885bd5f48d124",
+          "blocks": 32
+        },
+        {
+          "title": "On the Seduction of Angels",
+          "sha256": "5c0b72d42574fcead8aae739105ab96d5dbdc29449c2ac9e1c58ba2e7a73d3cf",
+          "blocks": 33
+        },
+        {
+          "title": "Absinthe: Artemisia absinthium",
+          "sha256": "adc99b0406b9903d8c0015c619d085b826b34c398cffe33449cef239a44959f2",
+          "blocks": 93
+        },
+        {
+          "title": "Calea zacatechichi",
+          "sha256": "37eddc6d8205f1dfbd9a00464c665ec6ba5bb25aa3d7e309663a54e8813ec4dc",
+          "blocks": 21
+        },
+        {
+          "title": "Euphorica",
+          "sha256": "81a707c684d16e25642d58edccb5d0f3ae4182157c6cc497ed35e07a982bcfc9",
+          "blocks": 11
+        },
+        {
+          "title": "Opium: Papaver somniferum",
+          "sha256": "6e82841a7e6c657da3b7135f63de42ccadfbd786cc692bc211fa381a78a2f49b",
+          "blocks": 108
+        },
+        {
+          "title": "Heroin and the Nature of Addiction",
+          "sha256": "362100eb81b483788a9084a05c43a58f29f44fe0fe619769d494e20b87994f79",
+          "blocks": 50
+        },
+        {
+          "title": "The Perfume of Poison",
+          "sha256": "075040ba39c6cd65e751423990ffe621cd84c199b9ea1e5fb4ef3eae580b3c9b",
+          "blocks": 12
+        },
+        {
+          "title": "Kava kava: Piper methysticum",
+          "sha256": "1df44794cbdaa8919a979d7b0a31b81f0e96221ae89cd416815a1e6871e29458",
+          "blocks": 43
+        },
+        {
+          "title": "On Poisoning Wells",
+          "sha256": "03f85f8257667a3c32cb214a73551648ce2f61587f11c43ddfcd22ec6e6ed076",
+          "blocks": 7
+        },
+        {
+          "title": "Ska Pastora: Salvia divinorum",
+          "sha256": "aec09fecbf68d570da1f44ef45a756b9e3d2d7c2d1123692ec0c1716d797139a",
+          "blocks": 163
+        },
+        {
+          "title": "On Wildness in Plants",
+          "sha256": "ddec40aa83259366deab734b5426890a7090dfb1fe5b56a3b966e43db4d9992d",
+          "blocks": 5
+        },
+        {
+          "title": "On Camp Followers",
+          "sha256": "86745c7da1793cc748ec2c945d8bc7ce7d6f552cdcb56a1509df7ebc9d09a796",
+          "blocks": 7
+        },
+        {
+          "title": "Marijuana: Cannabis sativa",
+          "sha256": "80bbd145a8f000625ce70c4c5b37a0620aa504d4754683bb9acf27461da396ca",
+          "blocks": 211
+        },
+        {
+          "title": "Die Giftküche",
+          "sha256": "64d2d8c1f26bbb96c607c672e8c95f38d996d3f235252a9421e6dad36eb4f160",
+          "blocks": 18
+        },
+        {
+          "title": "Reveries on the Green Man: Miscellaneous Plants",
+          "sha256": "2c4518660ca5132dd3c92602c5fa8ba4f9e1428058a4188657338285d514608a",
+          "blocks": 105
+        },
+        {
+          "title": "Nitrous Oxide",
+          "sha256": "89f7799f7e2aea33be5978d297dd6a244261ead9369dd12685e8160f35252147",
+          "blocks": 69
+        },
+        {
+          "title": "The Poison Path II",
+          "sha256": "a36f98b7941828775b1aaab5d8f69e72e87d615568a7ecb808b73bc27eb108a1",
+          "blocks": 32
+        },
+        {
+          "title": "Glossary",
+          "sha256": "aee0db656aa65efeedef2a8bdad775cfd94e820c4954e9426e38cee1a747186b",
+          "blocks": 152
+        }
+      ],
+      "noterefs": 0,
+      "backlinks": 0,
+      "figures": [
+        "contents-008.jpg",
+        "contents-009.jpg",
+        "contents-010.jpg",
+        "contents-011.jpg",
+        "contents-012.jpg",
+        "contents-013.jpg",
+        "figure-003.jpg",
+        "figure-004.jpg",
+        "figure-014.jpg",
+        "figure-016.jpg",
+        "figure-018.jpg",
+        "figure-021.jpg",
+        "figure-022.jpg",
+        "figure-023.jpg",
+        "figure-024.jpg",
+        "figure-025.jpg",
+        "figure-026.jpg",
+        "figure-027.jpg",
+        "figure-030.jpg",
+        "figure-032.jpg",
+        "figure-033.jpg",
+        "figure-034-moon.jpg",
+        "figure-034.jpg",
+        "figure-036.jpg",
+        "figure-037.jpg",
+        "figure-039.jpg",
+        "figure-042.jpg",
+        "figure-043.jpg",
+        "figure-045.jpg",
+        "figure-047.jpg",
+        "figure-048.jpg",
+        "figure-051.jpg",
+        "figure-052.jpg",
+        "figure-054.jpg",
+        "figure-056.jpg",
+        "figure-063.jpg",
+        "figure-064.jpg",
+        "figure-065.jpg",
+        "figure-067.jpg",
+        "figure-068.jpg",
+        "figure-069.jpg",
+        "figure-075.jpg",
+        "figure-076.jpg",
+        "figure-079.jpg",
+        "figure-081.jpg",
+        "figure-082.jpg",
+        "figure-083.jpg",
+        "figure-084.jpg",
+        "figure-088.jpg",
+        "figure-089.jpg",
+        "figure-090.jpg",
+        "figure-092.jpg",
+        "figure-093.jpg",
+        "figure-094.jpg",
+        "figure-096.jpg",
+        "figure-097.jpg",
+        "figure-099.jpg",
+        "figure-101.jpg",
+        "figure-105.jpg",
+        "figure-109.jpg",
+        "figure-111.jpg",
+        "figure-115.jpg",
+        "figure-116.jpg",
+        "figure-119.jpg",
+        "figure-120.jpg",
+        "figure-121.jpg",
+        "figure-127.jpg",
+        "figure-128.jpg",
+        "figure-131.jpg",
+        "figure-134.jpg",
+        "figure-140.jpg",
+        "figure-147.jpg",
+        "figure-150.jpg",
+        "figure-154.jpg",
+        "figure-162.jpg",
+        "figure-170.jpg",
+        "figure-172.jpg",
+        "figure-177.jpg",
+        "figure-184.jpg",
+        "figure-186.jpg",
+        "figure-189.jpg",
+        "figure-192-medicine.jpg",
+        "figure-192.jpg",
+        "figure-196.jpg",
+        "figure-198.jpg",
+        "figure-199.jpg",
+        "figure-216.jpg",
+        "figure-217.jpg",
+        "figure-219.jpg",
+        "figure-220.jpg",
+        "figure-221.jpg",
+        "figure-222.jpg",
+        "figure-224.jpg",
+        "figure-226.jpg",
+        "figure-227.jpg",
+        "figure-231.jpg",
+        "figure-235.jpg",
+        "figure-240.jpg",
+        "figure-248.jpg",
+        "ornament-019.jpg",
+        "ornament-044.jpg",
+        "ornament-066.jpg",
+        "ornament-113.jpg",
+        "ornament-130.jpg",
+        "ornament-157.jpg",
+        "ornament-166.jpg",
+        "ornament-188.jpg",
+        "ornament-221.jpg",
+        "symbol-mercury.jpg",
+        "symbol-sulphur.jpg"
+      ]
+    }
+  }
+}

@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,12 +20,29 @@ def read_json(path):
     return json.loads(Path(path).read_text())
 
 
-def write_json(path, value):
+def write_text_atomic(path, text):
+    """Publish a complete file; concurrent writers never share a staging name."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temp = path.with_suffix(path.suffix + ".tmp")
-    temp.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
-    temp.replace(path)
+    temp = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            delete=False,
+        ) as stream:
+            temp = Path(stream.name)
+            stream.write(text)
+        temp.replace(path)
+    finally:
+        if temp is not None:
+            temp.unlink(missing_ok=True)
+
+
+def write_json(path, value):
+    write_text_atomic(path, json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
 # Every key a profile may contain. Unknown keys fail loudly: profiles are read
@@ -55,9 +73,14 @@ PROFILE_KEYS = frozenset("""
 
 def load_profile(path):
     book = read_json(path)
+    if not isinstance(book, dict):
+        raise ValueError(f"Profile {path}: expected an object")
     unknown = sorted(set(book) - PROFILE_KEYS)
     if unknown:
         raise ValueError(f"Unknown profile keys in {path}: {', '.join(unknown)}")
+    from profile_validation import validate_profile
+
+    validate_profile(book, path)
     return book
 
 

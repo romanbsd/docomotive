@@ -108,7 +108,19 @@ class PipelineTests(unittest.TestCase):
             path.write_text(json.dumps({"slug": "x", "note_start": {}}))
             with self.assertRaisesRegex(ValueError, "note_start"):
                 load_profile(path)
-            path.write_text(json.dumps({"slug": "x", "comments": {"any": 1}}))
+            path.write_text(
+                json.dumps(
+                    {
+                        "slug": "x",
+                        "comments": {"any": 1},
+                        "title": "Book",
+                        "author": "Author",
+                        "language": "en",
+                        "source_sha256": "a" * 64,
+                        "chapters": [[1, 1, "Chapter"]],
+                    }
+                )
+            )
             self.assertEqual(load_profile(path)["slug"], "x")
 
     def test_isbn_check_digits(self):

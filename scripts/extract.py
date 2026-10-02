@@ -11,7 +11,9 @@ from pathlib import Path
 
 import pymupdf
 
-from common import ROOT, file_digest as sha, load_profile
+from common import ROOT, file_digest as sha, load_profile, write_json
+from ocr_cache import publish_cache, traineddata_digest, read_ocr_page
+from profile_validation import validate_profile
 
 
 def main():
@@ -28,8 +30,21 @@ def main():
     args = parser.parse_args()
     work = args.work.resolve()
     work.mkdir(exist_ok=True)
+    book = load_profile(args.profile)
+    doc = pymupdf.open(args.pdf)
+    validate_profile(book, args.profile, page_count=len(doc))
+    source_hash = sha(args.pdf)
+    if book["source_sha256"] != source_hash:
+        raise ValueError("Profile source hash mismatch")
+    numbers = (
+        list(map(int, args.pages.split(",")))
+        if args.pages
+        else list(range(1, len(doc) + 1))
+    )
+    if any(not 1 <= n <= len(doc) for n in numbers):
+        raise ValueError("Requested OCR page is outside the source PDF")
     fingerprint = {
-        "source_sha256": sha(args.pdf),
+        "source_sha256": source_hash,
         "dpi": args.dpi,
         "pymupdf": pymupdf.VersionBind,
         "platform": platform.platform(),
@@ -44,14 +59,7 @@ def main():
         fingerprint["tesseract"] = subprocess.check_output(
             ["tesseract", "--version"], text=True
         ).splitlines()[0]
-        prefix = Path(
-            subprocess.check_output(
-                ["brew", "--prefix", "tesseract"], text=True
-            ).strip()
-        )
-        fingerprint["eng_traineddata_sha256"] = sha(
-            prefix / "share/tessdata/eng.traineddata"
-        )
+        fingerprint["eng_traineddata_sha256"] = traineddata_digest()
     if args.engine == "rapid":
         from rapidocr import RapidOCR, LangRec, OCRVersion, ModelType
         import importlib.metadata
@@ -84,7 +92,7 @@ def main():
         ]
     )
     cache.mkdir(parents=True, exist_ok=True)
-    (cache / "provenance.json").write_text(json.dumps(fingerprint, indent=2) + "\n")
+    write_json(cache / "provenance.json", fingerprint)
     binary = work / "vision-ocr"
     stamp = work / "swift-source.sha256"
     if args.engine == "vision" and (
@@ -106,18 +114,7 @@ def main():
         (work / "swift-source.sha256").write_text(
             sha(ROOT / "scripts/vision_ocr.swift")
         )
-    doc = pymupdf.open(args.pdf)
-    book = load_profile(args.profile)
-    if book["source_sha256"] != sha(args.pdf):
-        raise ValueError("Profile source hash mismatch")
-    numbers = (
-        list(map(int, args.pages.split(",")))
-        if args.pages
-        else list(range(1, len(doc) + 1))
-    )
     for n in numbers:
-        if not 1 <= n <= len(doc):
-            raise ValueError(f"Invalid page {n}")
         target = cache / f"{n:04}.json"
         page = doc[n - 1]
         # Two-column index must be recognized separately to avoid line interleaving.
@@ -131,7 +128,7 @@ def main():
             else [page.rect]
         )
         if target.exists():
-            cached = json.loads(target.read_text())
+            cached = read_ocr_page(target, n)
             if cached.get("clips") == [list(c) for c in clips] or (
                 len(clips) == 1 and "clips" not in cached
             ):
@@ -244,16 +241,11 @@ def main():
             "clips": [list(c) for c in clips],
             "lines": lines,
         }
-        temp = target.with_suffix(".tmp")
-        temp.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
-        temp.replace(target)
+        write_json(target, data)
         print(f"OCR {n}/{len(doc)}: {len(lines)} lines", flush=True)
     # Builds follow this pointer, so a partial or experimental run (--pages,
     # another --dpi) must not replace a complete cache.
-    if all((cache / f"{n:04}.json").exists() for n in range(1, len(doc) + 1)):
-        (work / f"{args.engine}-cache.txt").write_text(str(cache) + "\n")
-    else:
-        print(f"Cache incomplete; {args.engine}-cache.txt not updated", flush=True)
+    publish_cache(work, args.engine, cache, len(doc), fingerprint["source_sha256"])
 
 
 if __name__ == "__main__":
