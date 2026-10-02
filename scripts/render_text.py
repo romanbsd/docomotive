@@ -5,6 +5,14 @@ import re
 
 
 def block_html(block, book, seen, page_links, name, index_refs=None):
+    if block["kind"] == "figure":
+        return (
+            '<figure><img src="'
+            + html.escape(block["image"], quote=True)
+            + '" alt="'
+            + html.escape(block["alt"], quote=True)
+            + '"/></figure>'
+        )
     marks = []
     pages = []
     for mark in block["page_breaks"]:
@@ -128,7 +136,15 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
     if block["kind"] == "attribution":
         return '<p class="attribution">' + content + "</p>"
     if block["kind"] == "quote":
-        return "<blockquote><p>" + content + "</p></blockquote>"
+        indent = (
+            ' class="noindent"'
+            if block.get("first_line_indent", book.get("quote_first_line_indent"))
+            is False
+            else ""
+        )
+        return "<blockquote><p" + indent + ">" + content + "</p></blockquote>"
+    if block["kind"] == "caption":
+        return '<p class="caption">' + content + "</p>"
     if block["kind"] == "heading":
         anchor = (
             ' id="' + html.escape(block["heading_id"], quote=True) + '"'

@@ -131,3 +131,26 @@ The source has native text and no interior images or cover artwork. A determinis
 Free Crossref DOI metadata is checked against the profile's author/title and cached with checksums. Run `scripts/metadata.py --profile config/letter-kills/book.json --cache work/letter-kills/metadata/cache --offline` to replay enrichment, or omit `--offline` to fetch an uncached response. Metadata distinguishes the 2020 advance article from the final journal publication and pagination. No ISBN is invented. The title's printed spelling “Mysticim” and other printed mistakes are retained; seven source-checked diacritic corrections restore extraction errors. German `reli-giösen` is joined using reviewed vocabulary; source-supported `re-form` remains hyphenated.
 
 The [offline proofreading sheet](output/letter-kills/proofreading-review.html) contains 136 lexical review groups. This single article is one IDF document, so chapter IDF cannot distinguish terms here; recurrence, page spread and the language-frequency prior still supply review evidence. A successful source-row coverage check and EPUBCheck do not establish complete proofreading or reader-device compatibility.
+
+## A Feeling for the Organism
+
+[The reading edition](output/feeling-organism/reading-edition/feeling-organism-corrected.epub) converts the 276-page scanned Evelyn Fox Keller book. [The source-spelling edition](output/feeling-organism/feeling-organism.epub) retains verified printed mistakes; both correct verified OCR errors.
+
+```sh
+.venv/bin/python scripts/pipeline.py 'A feeling for the Organism.pdf' \
+  --profile config/feeling-organism/book.json \
+  --work work/feeling-organism --output output/feeling-organism
+# Reuse complete OCR caches and apply the reviewed printed-typo overlay.
+.venv/bin/python scripts/pipeline.py 'A feeling for the Organism.pdf' \
+  --profile config/feeling-organism/book.json \
+  --work work/feeling-organism --output output/feeling-organism/reading-edition \
+  --skip-extraction --editorial
+```
+
+Local Apple Vision is the selected OCR source, with Tesseract and RapidOCR/Paddle witnesses. The book includes 18 source-cropped photographs and diagrams, reflowed captions, 87 italicized glossary labels, a two-column source index reflowed into reading order, and 157 sequential endnotes. Reliable inline superscripts were unavailable: chapter-level note links and return links provide navigation without inventing reference positions.
+
+The supplied 1000 × 1500 JPEG is the cover. ISBN-13 **9780805074581** corresponds to ISBN-10 **0805074589**. Free ISBN APIs provide cached metadata, but the scan identifies the 2003 Owl Books edition; conflicting API dates and title/publisher errors remain in provenance, with explicit source-reviewed overrides. No copyright-page image is included.
+
+Reusable profile additions include checked local covers, normalized figure crops, blank-page exclusions, glossary entry boundaries, continuous indented quotation lines, explicit cross-page continuation preconditions, and chapter-level endnote navigation. The [offline proofreading sheet](output/feeling-organism/reading-edition/proofreading-review.html) retains uncertain lexical and structural proposals for review. Complete inline italics recovery and complete proofreading remain limitations; no remote inference was used.
+
+Scanned prose now uses a shared deterministic margin model: robust Theil–Sen slopes compensate for scan skew, and sustained symmetric insets supply block-quotation evidence. It runs on ordinary OCR prose columns after exclusions; native typography, hanging references, verse and reviewed paragraph margins retain their existing paths. Insufficient or unstable geometry falls back conservatively. `corrections-applied.json` records margin models, fallback reasons and source row IDs for inferred quotation runs. No title, page number or phrase is part of the detector.

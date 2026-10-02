@@ -80,6 +80,12 @@ def link_endnotes(model, book):
         key = (reference["source_chapter"], reference["number"])
         targets[key]["backlinks"].append(reference["href"])
         references += 1
+    chapter_links = 0
+    if book.get("endnote_reference_mode") == "chapter":
+        for key, target in targets.items():
+            if not target["backlinks"]:
+                target["backlinks"].append(f"chapter-{key[0]:02}.xhtml#chapter-start")
+                chapter_links += 1
     unlinked = [block["id"] for block in targets.values() if not block["backlinks"]]
     if unlinked:
         raise ValueError("Endnotes lack source references: " + ", ".join(unlinked))
@@ -87,6 +93,7 @@ def link_endnotes(model, book):
         "status": "passed",
         "endnotes": len(targets),
         "superscript_links": references,
+        "chapter_links": chapter_links,
         "section_counts": counts,
         "unlinked_endnotes": unlinked,
     }

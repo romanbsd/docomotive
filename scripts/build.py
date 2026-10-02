@@ -38,6 +38,8 @@ img {max-width:100%; height:auto;} .facsimile {text-align:center; margin:0;}
 .smallcaps {font-variant:small-caps;} .note-link {white-space:nowrap;}
 .note-backlinks {font-size:.75em; text-indent:0; margin:.2em 0 .8em;}
 .attribution {text-align:right; text-indent:0; margin:.3em 1.5em .8em;}
+figure {margin:1.2em 0 .3em; text-align:center; break-inside:avoid;}
+.caption {font-size:.85em; text-indent:0; margin:0 0 1.2em;}
 """
 
 
@@ -271,6 +273,11 @@ def build(
         audit,
         "scan-verified-manual",
     )
+    for n, rows in pages.items():
+        for row in rows:
+            for rule in book.get("row_heading_rules", []):
+                if n in rule["pages"] and re.fullmatch(rule["pattern"], row["text"]):
+                    row["kind"] = "heading"
     write_json(out / "corrected-pages.json", pages)
     layout = infer(pages)
     write_json(out / "layout-analysis.json", layout)
@@ -284,6 +291,15 @@ def build(
             doc[n - 1].get_pixmap(dpi=200).pil_tobytes(format="JPEG", quality=90)
         )
     downloaded_cover = None
+    if book.get("cover_file"):
+        from metadata import cover_info
+
+        cover = book["cover_file"]
+        data = (ROOT / cover["path"]).read_bytes()
+        info = cover_info(data)
+        if info["sha256"] != cover["sha256"] or info["format"] != "JPEG":
+            raise ValueError("Supplied cover checksum or format changed")
+        files["OEBPS/cover.jpg"] = data
     for candidate in enrichment.get("covers", []):
         if not candidate.get("accepted"):
             continue
@@ -383,6 +399,9 @@ def build(
         else []
     )
     model = reconstruct(pages, book, policy, audit, editorial_edits)
+    from figures import incorporate_figures
+
+    figure_report = incorporate_figures(model, book, doc, files)
     from apparatus import link_endnotes
 
     apparatus = link_endnotes(model, book)
@@ -423,6 +442,16 @@ def build(
             if book.get("chapter_heading", True)
             else []
         )
+        if book.get("endnote_reference_mode") == "chapter":
+            if body:
+                body[0] = body[0].replace("<h1>", '<h1 id="chapter-start">', 1)
+            if any(
+                s["source_chapter"] == chapter["chapter"]
+                for s in book["endnote_sections"]
+            ):
+                body.append(
+                    f'<p class="noindent"><a href="chapter-{book["endnote_chapter"]:02}.xhtml#endnote-{chapter["chapter"]}-1">Notes for this chapter</a></p>'
+                )
         refs = (
             {label: ref for ref, label in page_links}
             if start in book.get("index_pages", [])
@@ -586,6 +615,7 @@ def build(
         "source_sha256": source_hash,
         "epub_sha256": digest(target.read_bytes()),
         "source_pages": len(doc),
+        "figures": figure_report,
         "apparatus": apparatus,
         "ambiguous_index_note_references": sorted(ambiguous_note_refs),
         "chapter_count": len(book["chapters"]),
@@ -620,7 +650,15 @@ def build(
             }
             if native
             else {
-                "body": "Tesseract 5.5.3 English",
+                "body": (
+                    "Apple Vision revision 3"
+                    if all(
+                        n in book.get("vision_primary_pages", [])
+                        for a, b, _ in book["chapters"]
+                        for n in range(a, b + 1)
+                    )
+                    else "Tesseract 5.5.3 English"
+                ),
                 "bibliography_and_index": "Apple Vision revision 3",
             }
         ),

@@ -208,6 +208,22 @@ def main():
         cache.get(record_url(author["key"]))["name"]
         for author in edition.get("authors", [])
     ]
+    overrides = []
+    for override in book.get("metadata_record_overrides", []):
+        field = override["field"]
+        if edition.get(field) != override["before"]:
+            raise ValueError("Metadata override precondition changed: " + field)
+        if not override.get("evidence"):
+            raise ValueError("Metadata override lacks source evidence")
+        edition = dict(edition, **{field: override["after"]})
+        overrides.append(
+            {
+                "field": field,
+                "api": override["before"],
+                "source_profile": override["after"],
+                "resolution": override["evidence"],
+            }
+        )
     verify_edition(edition, book, authors)
     work = (
         cache.get(record_url(edition["works"][0]["key"]))
@@ -270,7 +286,7 @@ def main():
         + (["https://openlibrary.org" + work["key"]] if work else []),
         "rights": book.get("rights", ""),
         "covers": [],
-        "conflicts": [],
+        "conflicts": overrides,
     }
     if published != book["date"]:
         enrich["conflicts"].append(

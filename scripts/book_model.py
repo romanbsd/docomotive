@@ -6,6 +6,7 @@ from collections import Counter
 from wordfreq import zipf_frequency
 from common import digest
 from layout import excluded
+from paragraph_layout import infer_paragraph_layout
 
 
 class JoinPolicy:
@@ -68,6 +69,14 @@ def row_id(page, row, source=""):
 def classify_row(page, row, book, first=False):
     y = row["bbox"][1]
     text = row["text"].strip()
+    if str(page) in book.get("excluded_pages", {}):
+        return "excluded", "profile-excluded-page"
+    for figure in book.get("figures", []):
+        x0, y0, x1, y1 = figure["rect"]
+        cx = (row["bbox"][0] + row["bbox"][2]) / 2
+        cy = (row["bbox"][1] + row["bbox"][3]) / 2
+        if figure["page"] == page and x0 <= cx <= x1 and y0 <= cy <= y1:
+            return "excluded", "preserved-figure-region"
     if first and y < book.get("chapter_body_starts", {}).get(str(page), 0.27):
         return "excluded", "chapter-title"
     if y >= book.get("bottom_margin_cutoffs", {}).get(str(page), 2):
@@ -96,6 +105,22 @@ def page_blocks(n, rows, book, audit, first, policy=None):
     for original in rows:
         r = copy.deepcopy(original)
         r["page"] = n
+        for region in book.get("row_regions", []):
+            if region["page"] == n and region["lo"] <= r["bbox"][1] < region["hi"]:
+                r["kind"] = region["kind"]
+        for term in sorted(
+            book.get("glossary_terms", {}).get(str(n), []), key=len, reverse=True
+        ):
+            if re.match(r"^" + re.escape(term) + r"(?=\s|[:;]|$)", r["text"]):
+                r["paragraph_start"] = True
+                r.setdefault("inline", []).append(
+                    {
+                        "start": 0,
+                        "end": len(term),
+                        "tags": [book.get("glossary_style", "strong")],
+                    }
+                )
+                break
         r.setdefault("row_id", row_id(n, r, book.get("source_sha256", "")))
         role, reason = classify_row(n, r, book, first)
         if role == "excluded":
@@ -107,6 +132,24 @@ def page_blocks(n, rows, book, audit, first, policy=None):
         margin = book.get("paragraph_margins", {}).get(
             str(n), sorted(r["bbox"][0] for r in rr)[len(rr) // 5]
         )
+        geometry = {}
+        hanging = n in book.get("hanging_pages", book.get("reference_pages", []))
+        if (
+            book.get("text_source") != "native"
+            and not hanging
+            and str(n) not in book.get("paragraph_margins", {})
+            and str(n) not in book.get("glossary_terms", {})
+        ):
+            layout_rows = [
+                r
+                for r in rr
+                if not any(
+                    lo <= r["bbox"][1] <= hi
+                    for lo, hi in book.get("verse_regions", {}).get(str(n), [])
+                )
+            ]
+            geometry, evidence = infer_paragraph_layout(layout_rows)
+            audit.append(dict(page=n, kind="paragraph-layout", column=col, **evidence))
         last = None
         for r in rr:
             text = r["text"]
@@ -120,6 +163,9 @@ def page_blocks(n, rows, book, audit, first, policy=None):
                 if verse
                 else "heading" if re.fullmatch(r"CHAPTER \d+", text) else "text"
             )
+            geo = geometry.get(r["row_id"], {}) if kind == "text" else {}
+            if geo.get("kind"):
+                kind = r["kind"] = geo["kind"]
             active_margin = (
                 min(
                     (row["bbox"][0] for row in rr if row.get("kind") == "quote"),
@@ -129,16 +175,31 @@ def page_blocks(n, rows, book, audit, first, policy=None):
                 else margin
             )
             indented = r["bbox"][0] > active_margin + 0.018
+            if geo:
+                indented = geo["left_offset"] > 0.018
             gap = last is not None and y - last["bbox"][3] > 0.012
-            hanging = n in book.get("hanging_pages", book.get("reference_pages", []))
+            paragraph_indent = indented
+            if book.get("continuous_indented_rows") and last is not None:
+                paragraph_indent = (
+                    indented and abs(r["bbox"][0] - last["bbox"][0]) > 0.012
+                )
+            if geo and last is not None and last.get("row_id") in geometry:
+                paragraph_indent = (
+                    indented
+                    and abs(
+                        geo["left_offset"] - geometry[last["row_id"]]["left_offset"]
+                    )
+                    > 0.012
+                )
             numbered = bool(re.match(r"^\d+\.\s", text)) and hanging and not indented
             new = (
                 not blocks
                 or blocks[-1]["kind"] != kind
                 or kind == "heading"
-                or (not indented if hanging else indented)
+                or (not indented if hanging else paragraph_indent)
                 or gap
                 or numbered
+                or r.get("paragraph_start", False)
             )
             if not hanging and last and r.get("column", 0) != last.get("column", 0):
                 new = True
@@ -153,9 +214,12 @@ def page_blocks(n, rows, book, audit, first, policy=None):
                         "continuation": (indented if hanging else not indented)
                         and not gap
                         and kind in ("text", "quote")
-                        and not numbered,
+                        and not numbered
+                        and not r.get("paragraph_start", False),
                     }
                 )
+                if geo.get("kind") == "quote":
+                    blocks[-1]["first_line_indent"] = indented
             else:
                 block = blocks[-1]
                 frag = block["fragments"][-1]
@@ -239,6 +303,18 @@ def reconstruct(pages, book, policy, audit, editorial_edits=()):
         note_rows = []
         for n in range(start, end + 1):
             bb, nn = page_blocks(n, pages[n], book, audit, n == start, policy)
+            boundary = book.get("cross_page_continuations", {}).get(str(n))
+            if boundary:
+                if (
+                    not blocks
+                    or not bb
+                    or not blocks[-1]["lines"][-1]["text"].endswith(boundary["before"])
+                    or not bb[0]["lines"][0]["text"].startswith(boundary["after"])
+                ):
+                    raise ValueError(
+                        f"Cross-page continuation precondition changed: {n}"
+                    )
+                bb[0]["continuation"] = True
             if n == start and bb and bb[0]["lines"]:
                 bb[0]["lines"][0]["opening"] = book.get("small_caps_openings", {}).get(
                     str(n)
