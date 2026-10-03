@@ -11,7 +11,12 @@ import pymupdf
 from lxml import etree
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from typography import attach_typography, attach_scan_font_metrics, verse_evidence
+from typography import (
+    attach_typography,
+    attach_scan_font_metrics,
+    verse_evidence,
+    image_only_headings,
+)
 from native_pdf import extract_page
 from ocr import merge_rows, correct_page
 from figures import outside_figures, crop_artwork
@@ -35,6 +40,86 @@ def row(text, i=0, width=0.35, italic=False, x=0.2):
 
 
 class TypographyTests(unittest.TestCase):
+    def test_sparse_image_epigraph_requires_credit_alignment_and_quote(self):
+        rows = [
+            row('A quotation ends here."', 0, width=0.7, x=0.1),
+            row("(A Source Author)", 1, x=0.7),
+        ]
+        audit = []
+        image_only_headings(
+            rows,
+            {"chapters": [[1, 1, "Epigraphs"]], "chapter_body_starts": {"1": 0}},
+            1,
+            audit,
+        )
+        self.assertEqual(rows[1]["kind"], "attribution")
+        rows[1].pop("kind")
+        rows[0]["text"] = "An ordinary prose line."
+        image_only_headings(
+            rows,
+            {"chapters": [[1, 1, "Epigraphs"]], "chapter_body_starts": {"1": 0}},
+            1,
+            [],
+        )
+        self.assertNotIn("kind", rows[1])
+
+    def test_optional_prose_indent_uses_reconstructed_source_evidence(self):
+        block = dict(
+            kind="text", text="Source paragraph", page_breaks=[], continuation=True
+        )
+        self.assertIn(
+            'class="noindent"',
+            block_html(block, {"source_prose_indents": True}, set(), [], "test"),
+        )
+        self.assertNotIn('class="noindent"', block_html(block, {}, set(), [], "test"))
+        block["continuation"] = False
+        self.assertNotIn(
+            'class="noindent"',
+            block_html(block, {"source_prose_indents": True}, set(), [], "test"),
+        )
+        block["continuation"] = True
+        self.assertIn(
+            'class="reference"',
+            block_html(
+                block,
+                {"source_prose_indents": True, "_hanging": True},
+                set(),
+                [],
+                "test",
+            ),
+        )
+
+    def test_image_heading_uses_center_pitch_and_rejects_sentence_tails(self):
+        rows = [
+            row(
+                "A substantial prose line with enough words for estimating the body line pitch.",
+                i,
+                width=0.7,
+                x=0.1,
+            )
+            for i in range(12)
+        ]
+        rows[4]["text"] = "A Section Heading"
+        rows[4]["bbox"][1] += 0.005
+        rows[4]["bbox"][3] += 0.005
+        rows[6]["text"] = "ordinary wrapped words"
+        rows[8]["text"] = "A sentence ends here."
+        audit = []
+        image_only_headings(
+            rows, {"chapters": [[1, 2, "Test"]], "upper_margin_cutoff": 0.05}, 2, audit
+        )
+        self.assertEqual(
+            [r["text"] for r in rows if r.get("kind") == "heading"],
+            ["A Section Heading"],
+        )
+        self.assertEqual(len(audit), 1)
+        for r in rows:
+            r.pop("kind", None)
+        image_only_headings(
+            rows, {"chapters": [[1, 2, "Test"]], "reference_pages": [2]}, 2, []
+        )
+        self.assertFalse(any(r.get("kind") == "heading" for r in rows))
+
     def test_scan_font_metrics_require_alignment_and_do_not_transfer_styles(self):
         rows = [row("A matching prose line", width=0.7)]
         source = [

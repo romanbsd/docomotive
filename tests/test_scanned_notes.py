@@ -4,6 +4,8 @@ import json
 import io
 import sys
 import unittest
+import tempfile
+from types import SimpleNamespace
 from unittest.mock import patch
 from pathlib import Path
 
@@ -21,6 +23,9 @@ from scanned_notes import (
     line_crop,
     glyph_readings,
     marker_context,
+    absorb_marker_fragments,
+    recover_reference_markers,
+    RapidMarkerRecognizer,
 )
 
 
@@ -39,6 +44,135 @@ def characters(text):
 
 
 class ScannedNotesTests(unittest.TestCase):
+    def test_recognition_only_fallback_keeps_observed_digits(self):
+        image = Image.new("L", (100, 60), 255)
+        with patch("scanned_notes.tesseract", return_value=b"||") as local:
+            readings = glyph_readings(
+                image, (20, 10, 40, 40), 20, recognizer=lambda crop: ["11", "11"]
+            )
+        self.assertEqual(readings, ["||", "||", "||", "11", "11"])
+        self.assertEqual(local.call_count, 3)
+
+    def test_recognition_only_confidence_gate_and_modes(self):
+        recognizer = RapidMarkerRecognizer.__new__(RapidMarkerRecognizer)
+        recognizer.provenance = dict(padding=[5, 20], minimum_score=0.75)
+        from unittest.mock import Mock
+
+        recognizer.engine = Mock(
+            side_effect=[
+                SimpleNamespace(txts=("11",), scores=(0.81,)),
+                SimpleNamespace(txts=("12",), scores=(0.7,)),
+            ]
+        )
+        self.assertEqual(recognizer(Image.new("L", (20, 30), 255)), ["11"])
+        self.assertTrue(
+            all(
+                call.kwargs == dict(use_det=False, use_cls=False, use_rec=True)
+                for call in recognizer.engine.call_args_list
+            )
+        )
+
+    def test_reference_counter_requires_fresh_aligned_digit_and_restores_margin(self):
+        book = dict(
+            chapters=[[1, 1, "References"]],
+            endnote_chapter=1,
+            endnote_sections=[
+                dict(heading="Section", expected_notes=2, source_chapter=1)
+            ],
+        )
+        doc = pymupdf.open()
+        doc.new_page(width=600, height=800)
+        for observed, accepted in [
+            ("1. Source content here", True),
+            ("3. Source content here", False),
+            ("1. Unrelated source words", False),
+        ]:
+            pages = {
+                1: [
+                    dict(text="Section", kind="heading", bbox=[0.3, 0.1, 0.6, 0.13]),
+                    dict(text="Source content here", bbox=[0.2, 0.2, 0.6, 0.23]),
+                    dict(text="2. Next entry", bbox=[0.1, 0.25, 0.5, 0.28]),
+                ]
+            }
+            with (
+                tempfile.TemporaryDirectory() as work,
+                patch("scanned_notes.traineddata_digest", return_value="fixture"),
+                patch(
+                    "scanned_notes.subprocess.run",
+                    return_value=SimpleNamespace(stdout=b"fixture"),
+                ),
+                patch(
+                    "scanned_notes.character_line",
+                    return_value=(observed, characters(observed)),
+                ),
+            ):
+                audit = []
+                recover_reference_markers(pages, doc, book, work, audit)
+            self.assertEqual(pages[1][1]["text"].startswith("1. "), accepted)
+            if accepted:
+                self.assertLess(pages[1][1]["bbox"][0], 0.2)
+                self.assertEqual(len(audit), 1)
+            else:
+                self.assertEqual(audit, [])
+
+    def test_detached_marker_is_excluded_only_after_verified_recovery(self):
+        from book_model import classify_row
+
+        pages = {
+            1: [
+                dict(text="Prose4", bbox=[0.1, 0.2, 0.8, 0.25]),
+                dict(text="4", bbox=[0.8, 0.19, 0.82, 0.21]),
+                dict(text="5", bbox=[0.84, 0.19, 0.86, 0.21]),
+            ]
+        }
+        marker = dict(
+            page=1,
+            row=0,
+            number=4,
+            bbox=[0.8, 0.19, 0.82, 0.21],
+            status="sequence-ambiguous",
+        )
+        audit = []
+        absorb_marker_fragments(pages, [marker], audit)
+        self.assertNotIn("kind", pages[1][1])
+        marker["status"] = "applied"
+        absorb_marker_fragments(pages, [marker], audit)
+        self.assertEqual(
+            classify_row(1, pages[1][1], {}),
+            ("excluded", "represented-by-recovered-note"),
+        )
+        self.assertNotIn("kind", pages[1][2])
+        self.assertEqual(len(audit), 1)
+
+    def test_variable_crop_reconnects_vertical_breaks_without_joining_digits(self):
+        image = Image.new("L", (200, 100), 255)
+        draw = ImageDraw.Draw(image)
+        for x in (50, 60):
+            draw.rectangle((x, 25, x + 3, 32), fill=170)
+            draw.rectangle((x, 35, x + 3, 43), fill=170)
+        row = dict(text="short tail", bbox=[0.1, 0.2, 0.8, 0.5])
+        raw, _, _ = line_crop(image, row)
+        changed, _, _ = line_crop(image, row, variable=True)
+        from scanned_notes import components
+
+        self.assertEqual(components(raw), [])
+        self.assertEqual(len(components(changed)), 2)
+        self.assertTrue(all(b[3] - b[1] == 19 for b in components(changed)))
+
+    def test_variable_superscripts_keep_narrow_ones_and_larger_raised_digits(self):
+        image = Image.new("L", (600, 100), 255)
+        draw = ImageDraw.Draw(image)
+        for x in range(10, 410, 25):
+            draw.rectangle((x, 30, x + 15, 69), fill=0)
+        draw.rectangle((450, 15, 453, 39), fill=0)
+        draw.rectangle((480, 10, 494, 39), fill=0)
+        draw.rectangle((510, 55, 513, 69), fill=0)
+        self.assertEqual(raised_regions(image), [])
+        self.assertEqual(
+            raised_regions(image, variable=True),
+            [(450, 15, 454, 40), (480, 10, 495, 40)],
+        )
+
     def test_year_anchor_preserves_year_before_note(self):
         witness = "before 1920.7 These women"
         at = witness.index("7")

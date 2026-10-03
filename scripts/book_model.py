@@ -87,6 +87,8 @@ def row_id(page, row, source=""):
 def classify_row(page, row, book, first=False):
     y = row["bbox"][1]
     text = row["text"].strip()
+    if row.get("kind") == "absorbed-note-marker":
+        return "excluded", "represented-by-recovered-note"
     if str(page) in book.get("excluded_pages", {}):
         return "excluded", "profile-excluded-page"
     for figure in book.get("figures", []):

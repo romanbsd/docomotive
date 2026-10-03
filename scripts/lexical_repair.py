@@ -6,6 +6,7 @@ accepted spellings, protected terms, references, or an uncorroborated guess.
 
 import difflib
 import math
+import inspect
 import re
 import subprocess
 from collections import Counter
@@ -192,6 +193,60 @@ class CropRecognizer:
             raise ValueError("Cannot fingerprint local Tesseract English model")
         self.model_hash = digest((Path(match[1]) / "eng.traineddata").read_bytes())
 
+    def line_words(self, page, row):
+        """Image-only fallback: fresh line OCR supplies geometry, not old votes."""
+        from scanned_notes import character_line
+
+        rect = (
+            pymupdf.Rect(
+                row["bbox"][0] * page.rect.width - 2,
+                row["bbox"][1] * page.rect.height - 2,
+                row["bbox"][2] * page.rect.width + 2,
+                row["bbox"][3] * page.rect.height + 2,
+            )
+            & page.rect
+        )
+        pix = page.get_pixmap(
+            matrix=pymupdf.Matrix(600 / 72, 600 / 72),
+            clip=rect,
+            colorspace=pymupdf.csGRAY,
+        )
+        key = digest(
+            pix.samples
+            + self.version.encode()
+            + self.model_hash.encode()
+            + Path(inspect.getsourcefile(character_line)).read_bytes()
+            + b"lexical-line-geometry-v1"
+        )
+        path = self.work / ("line-" + key + ".json")
+        if path.exists():
+            data = read_json(path)
+            text, chars = data["text"], data["characters"]
+        else:
+            text, chars = character_line(
+                Image.frombytes("L", (pix.width, pix.height), pix.samples)
+            )
+            write_json(path, dict(text=text, characters=chars))
+        words = []
+        for match in TOKEN.finditer(text):
+            boxes = [
+                c["bbox"]
+                for c in chars
+                if c["end"] > match.start() and c["start"] < match.end()
+            ]
+            if boxes:
+                # Pixel edges convert back to PDF points before word cropping.
+                words.append(
+                    (
+                        rect.x0 + min(b[0] for b in boxes) * rect.width / pix.width,
+                        rect.y0 + min(b[1] for b in boxes) * rect.height / pix.height,
+                        rect.x0 + max(b[2] for b in boxes) * rect.width / pix.width,
+                        rect.y0 + max(b[3] for b in boxes) * rect.height / pix.height,
+                        match.group(),
+                    )
+                )
+        return words
+
     def __call__(self, row, word, candidate):
         page = self.doc[row["page"] - 1]
         cy = (row["bbox"][1] + row["bbox"][3]) / 2
@@ -204,6 +259,9 @@ class CropRecognizer:
             and row["bbox"][0] - 0.02 <= w[0] / page.rect.width <= row["bbox"][2]
         ]
 
+        image_only = not words
+        if image_only:
+            words = self.line_words(page, row)
         if not words:
             return dict(readings=[], reason="no-word-geometry")
         located = locate_word(
@@ -256,7 +314,7 @@ class CropRecognizer:
             readings.append(result.stdout.strip())
         evidence = dict(
             readings=readings,
-            embedded_word=located[4],
+            embedded_word="" if image_only else located[4],
             cache_key=key,
             crop_sha256=digest((self.work / (key + ".png")).read_bytes()),
             traineddata_sha256=self.model_hash,
@@ -266,6 +324,8 @@ class CropRecognizer:
             dpi=600,
             segmentation_modes=[8, 13],
         )
+        if image_only:
+            evidence["geometry_source"] = "local-line-ocr"
         write_json(cache, evidence)
         return evidence
 

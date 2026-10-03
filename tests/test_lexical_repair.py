@@ -1,9 +1,12 @@
 import sys
+import shutil
+import tempfile
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from lexical_repair import ContextRanker, repair, locate_word
+from lexical_repair import ContextRanker, CropRecognizer, repair, locate_word
+import pymupdf
 
 
 class TestDictionary:
@@ -104,6 +107,31 @@ class LexicalRepairTests(unittest.TestCase):
     def test_ambiguous_crop_position_abstains(self):
         words = [(0, 0, 0, 0, w) for w in "some amnesia here some amnesia here".split()]
         self.assertIsNone(locate_word("some amnesta here", words, "amnesta", "amnesia"))
+
+    @unittest.skipUnless(
+        shutil.which("tesseract"), "Local OCR integration requires Tesseract"
+    )
+    def test_image_only_crop_uses_fresh_geometry_without_embedded_vote(self):
+        native = pymupdf.open()
+        page = native.new_page(width=300, height=100)
+        page.insert_text((20, 50), "extreme beliefs", fontsize=16)
+        pixels = page.get_pixmap(dpi=300)
+        scan = pymupdf.open()
+        scanned = scan.new_page(width=300, height=100)
+        scanned.insert_image(scanned.rect, stream=pixels.tobytes("png"))
+        self.assertEqual(scanned.get_text("words"), [])
+        row = dict(page=1, text="extreme beliets", bbox=[0.06, 0.32, 0.5, 0.53])
+        with tempfile.TemporaryDirectory() as work:
+            recognizer = CropRecognizer(scan, work)
+            result = recognizer(row, "beliets", "beliefs")
+            self.assertEqual(result["geometry_source"], "local-line-ocr")
+            self.assertEqual(result["embedded_word"], "")
+            self.assertTrue(
+                all("beliefs" in reading.lower() for reading in result["readings"])
+            )
+            self.assertEqual(recognizer(row, "beliets", "beliefs"), result)
+        scan.close()
+        native.close()
 
 
 if __name__ == "__main__":

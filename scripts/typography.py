@@ -7,6 +7,105 @@ from native_pdf import extract_page
 from ocr import nearest
 
 
+def image_only_headings(rows, book, number, audit):
+    """Isolated short labels between prose lines; no title/phrase whitelist."""
+    if number in book.get("reference_pages", []) or str(number) in book.get(
+        "excluded_pages", {}
+    ):
+        return
+    first = number in {a for a, _, _ in book["chapters"]}
+    cutoff = (
+        book.get("chapter_body_starts", {}).get(str(number), 0.27)
+        if first
+        else book.get("upper_margin_cutoff", 0.035)
+    )
+    body = sorted(
+        (r for r in rows if r["bbox"][1] >= cutoff and r["bbox"][3] < 0.96),
+        key=lambda r: r["bbox"][1],
+    )
+    for i, r in enumerate(body):
+        # An isolated parenthesized credit at the far right after a closing
+        # quote has source alignment evidence, even on sparse epigraph leaves.
+        if (
+            i
+            and r.get("kind", "text") == "text"
+            and re.fullmatch(r"\([A-Z][^()]{2,70}\)", r["text"].strip())
+            and r["bbox"][0] >= 0.65
+            and re.search(r'["”]$', body[i - 1]["text"].strip())
+            and r["bbox"][1] > body[i - 1]["bbox"][1]
+        ):
+            r["kind"] = "attribution"
+            audit.append(
+                dict(
+                    page=number,
+                    kind="image-only-attribution",
+                    text=r["text"],
+                    bbox=r["bbox"],
+                    evidence="right-aligned parenthesized credit after closing quote",
+                )
+            )
+    long = [r for r in body if len(r["text"]) >= 60]
+    if len(long) < 6:
+        return
+    margin = sorted(r["bbox"][0] for r in long)[len(long) // 5]
+    heights = [r["bbox"][3] - r["bbox"][1] for r in long]
+    height = statistics.median(heights)
+    # OCR boxes can overlap vertically; center pitch is more stable than edge gaps.
+    pitches = [
+        (b["bbox"][1] + b["bbox"][3] - a["bbox"][1] - a["bbox"][3]) / 2
+        for a, b in zip(body, body[1:])
+        if len(a["text"]) >= 60 and len(b["text"]) >= 60 and b["bbox"][1] > a["bbox"][1]
+    ]
+    if len(pitches) < 4:
+        return
+    pitch = statistics.median(pitches)
+    for i, r in enumerate(body[:-1]):
+        text = r["text"].strip()
+        following = body[i + 1]
+        previous = body[i - 1] if i else None
+        # Headings have prose on the next line, no sentence-ending punctuation,
+        # and extra clearance above. An ordinary short paragraph tail does not.
+        if (
+            r.get("kind", "text") != "text"
+            or not 3 <= len(text) <= 55
+            or not text[0].isupper()
+            or re.search(r'[.!?;:,"”]$', text)
+            or len(following["text"]) < 60
+            or not following["text"][0].isupper()
+            or abs(r["bbox"][0] - margin) > 0.015
+            or abs(following["bbox"][0] - margin) > 0.015
+            or not 0.6 * height <= r["bbox"][3] - r["bbox"][1] <= 1.6 * height
+            or not 0.65 * pitch
+            <= (
+                following["bbox"][1]
+                + following["bbox"][3]
+                - r["bbox"][1]
+                - r["bbox"][3]
+            )
+            / 2
+            <= 1.55 * pitch
+        ):
+            continue
+        if previous and (
+            not re.search(r'[.!?]["”’]?(?:\d+)?$', previous["text"].strip())
+            # A 15% extra line pitch distinguishes a separated label from prose.
+            or (r["bbox"][1] + r["bbox"][3] - previous["bbox"][1] - previous["bbox"][3])
+            / 2
+            < 1.15 * pitch
+        ):
+            continue
+        r["kind"] = "heading"
+        audit.append(
+            dict(
+                page=number,
+                kind="image-only-subheading",
+                text=text,
+                bbox=r["bbox"],
+                evidence="short margin-aligned label, prose neighbor and extra preceding spacing",
+            )
+        )
+
+
 def aligned_source(row, source):
     candidate = nearest(row, source)
     if not candidate:

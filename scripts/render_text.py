@@ -178,6 +178,10 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
         )
         return "<h2" + anchor + ">" + content + "</h2>"
     css = ' class="reference"' if book.get("_hanging") else ""
+    if not css and book.get("source_prose_indents") and block.get("continuation"):
+        # Reconstruction measures whether the first source line is indented;
+        # a heading or added notes link must not introduce a new leading indent.
+        css = ' class="noindent"'
     if block.get("index_indent_em") is not None:
         css += f' style="margin-left:{1.25 + block["index_indent_em"]}em"'
     return f"<p{css}>{content}</p>"

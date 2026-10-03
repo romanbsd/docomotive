@@ -91,8 +91,10 @@ def main():
         # Candidate text precedes the edit; canonical sources contain the
         # corrected row. Stable page/row identity supplies its current text.
         current_text = corrected[str(n)][c["row"]]["text"]
-        label = book.get("page_labels", {}).get(
-            str(n), str(n + book.get("printed_page_offset", 0))
+        label = str(
+            book.get("page_labels", {}).get(
+                str(n), str(n + book.get("printed_page_offset", 0))
+            )
         )
         parts.append(
             f'<section id="pdf-{n}-row-{c["row"]}"><h2>PDF {n} · printed {escape(label)}</h2>'

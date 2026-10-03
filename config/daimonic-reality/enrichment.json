@@ -1,0 +1,96 @@
+{
+  "source_sha256": "4670a8cc961b42034a19060b95fd3de216badf63c39762d4c00e96024f080525",
+  "isbn": "9780937663097",
+  "isbn_13": "9780937663097",
+  "edition_key": "/books/OL3577953M",
+  "authors": [
+    "Patrick Harpur"
+  ],
+  "publication_date": "2003",
+  "publication_date_raw": "2003",
+  "description": "Includes bibliographical references (p. 309-313) and index.\nOriginally published: Viking, 1994.",
+  "subjects": [
+    "Apparitions",
+    "Apparitions.",
+    "Demonen",
+    "Het Bovennatuurlijke",
+    "Mythen",
+    "Parapsychology",
+    "Supernatural",
+    "Supernatural.",
+    "Visions",
+    "Visions."
+  ],
+  "identifiers": {
+    "isbn_10": [
+      "0937663093"
+    ],
+    "isbn_13": [
+      "9780937663097"
+    ],
+    "lccn": [
+      "2002155152"
+    ],
+    "oclc": [],
+    "openlibrary": [
+      "OL3577953M"
+    ]
+  },
+  "classifications": {
+    "lc_classifications": [
+      "BF1411 .H365 2003"
+    ],
+    "dewey_decimal_class": [
+      "133"
+    ]
+  },
+  "publication_places": [
+    "Ravensdale, WA"
+  ],
+  "print_pages": 329,
+  "links": [
+    "https://openlibrary.org/books/OL3577953M",
+    "https://openlibrary.org/works/OL2439914W"
+  ],
+  "rights": "",
+  "covers": [
+    {
+      "width": 314,
+      "height": 475,
+      "format": "JPEG",
+      "sha256": "dc1351042c959a85550ab03c9368b343dd1b0b91b0f10fec4e437edf61adca75",
+      "suitable_main_cover": true,
+      "url": "https://covers.openlibrary.org/b/isbn/9780937663097-L.jpg?default=false",
+      "path": "config/daimonic-reality/cover.jpg",
+      "accepted": true,
+      "reason": "Profile-approved cover visually checked against scan"
+    }
+  ],
+  "conflicts": [],
+  "sources": [
+    {
+      "url": "https://openlibrary.org/isbn/9780937663097.json",
+      "resolved_url": "https://openlibrary.org/books/OL3577953M.json",
+      "sha256": "6c1cf3cde7b546fe55037d9a28e3fde618cf57b25d640a04572edfdaa57ec5a6",
+      "retrieved_at": "2026-10-03T13:29:22.427781+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/authors/OL337476A.json",
+      "resolved_url": "https://openlibrary.org/authors/OL337476A.json",
+      "sha256": "89dbbe37f16c11b0a5839162f7c40615f444ae324d09e0ee63b6685aed7d1fe0",
+      "retrieved_at": "2026-10-03T13:29:23.815142+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/works/OL2439914W.json",
+      "resolved_url": "https://openlibrary.org/works/OL2439914W.json",
+      "sha256": "ef6ebbf81c16401efda6f4e75e844b58c578128cd35757afdcad1dbbaeecf00e",
+      "retrieved_at": "2026-10-03T13:29:24.520769+00:00"
+    },
+    {
+      "url": "https://covers.openlibrary.org/b/isbn/9780937663097-L.jpg?default=false",
+      "resolved_url": "https://ia801403.us.archive.org/view_archive.php?archive=/33/items/olcovers71/olcovers71-L.zip&file=715616-L.jpg",
+      "sha256": "dc1351042c959a85550ab03c9368b343dd1b0b91b0f10fec4e437edf61adca75",
+      "retrieved_at": "2026-10-03T13:29:27.218805+00:00"
+    }
+  ]
+}

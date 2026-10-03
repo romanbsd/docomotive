@@ -1,0 +1,152 @@
+[
+  {
+    "page": 6,
+    "bbox": [
+      0.8226164106564013,
+      0.32848837238826567,
+      0.9623059863502506,
+      0.3473837205138661
+    ],
+    "text": "(Tamblichus)",
+    "decision": "reviewed",
+    "format_version": 1,
+    "source_sha256": "4670a8cc961b42034a19060b95fd3de216badf63c39762d4c00e96024f080525",
+    "text_sha256": "4e6f4d8959ae26daac142dae21b19a1a7214dc4d0dc527daec8d8a606ae2eff3",
+    "evidence_sha256": "2b15ecd135d53042c58456304015ffbd2199fbb99bbc7adb1da20ec56d1d37d0"
+  },
+  {
+    "page": 22,
+    "bbox": [
+      0.4226327935864664,
+      0.5232558144160712,
+      0.7159353320775058,
+      0.5421511624916322
+    ],
+    "text": "(C. G. Jung, CW 5, 8388)",
+    "decision": "reviewed",
+    "format_version": 1,
+    "source_sha256": "4670a8cc961b42034a19060b95fd3de216badf63c39762d4c00e96024f080525",
+    "text_sha256": "8ebe9604317aaa82a5bcf8a07d2fa5f424abd964e221bf050dde9622045a124b",
+    "evidence_sha256": "c7fc1cecda9eee507f4a28d620e3d1efa44d7f44a06d0c481aba40126c063907"
+  },
+  {
+    "page": 31,
+    "bbox": [
+      0.04819656828862892,
+      0.30475070461047993,
+      0.9392130156909985,
+      0.329436819708
+    ],
+    "text": "a sort of \"muted whining how!\" and saw a whitish light plunging downwards",
+    "decision": "reviewed",
+    "format_version": 1,
+    "source_sha256": "4670a8cc961b42034a19060b95fd3de216badf63c39762d4c00e96024f080525",
+    "text_sha256": "ad9cf341ab8b6f3808ba059200a7845d357ec8c8fb473830df5a39f4f80c9f07",
+    "evidence_sha256": "ff0cd0e83c3787f23e1f4e434d9d044d833ac8a5d918734b5952ed8b95da269a"
+  },
+  {
+    "page": 34,
+    "bbox": [
+      0.030805689873537895,
+      0.12060301496189563,
+      0.954976291752058,
+      0.142441860587053
+    ],
+    "text": "not exclusively, visual - they can i be abstractions, patterns, ideas,",
+    "decision": "reviewed",
+    "format_version": 1,
+    "source_sha256": "4670a8cc961b42034a19060b95fd3de216badf63c39762d4c00e96024f080525",
+    "text_sha256": "a1765fde6d0779d87220883c14486481005512476a7891915fb48e82e0763f18",
+    "evidence_sha256": "aa33ed3b14e6849ac1ba4bf19a1f5d06a9f483ba1d41bc6ec7bf282d5af17783"
+  },
+  {
+    "page": 48,
+    "bbox": [
+      0.04424779858277691,
+      0.16261925438148395,
+      0.9314159290016949,
+      0.17877906964452905
+    ],
+    "text": "case — some of the very earliest fairies to be mentioned, I, the Portunes, were",
+    "decision": "reviewed",
+    "format_version": 1,
+    "source_sha256": "4670a8cc961b42034a19060b95fd3de216badf63c39762d4c00e96024f080525",
+    "text_sha256": "f4e2faf163d6261284204552ff2058daa3eb86cbe1666d7239b6aeeb0082be65",
+    "evidence_sha256": "139dafc7a04d0d8d554b9e50a5841e04f82ede2967a9366cc67b9a157539b392"
+  },
+  {
+    "page": 59,
+    "bbox": [
+      0.03872438587580108,
+      0.25145348928045874,
+      0.9589977105934472,
+      0.27189939318094924
+    ],
+    "text": "to the divine. According to lamblichus, we are assigned a daimon at birth to",
+    "decision": "reviewed",
+    "format_version": 1,
+    "source_sha256": "4670a8cc961b42034a19060b95fd3de216badf63c39762d4c00e96024f080525",
+    "text_sha256": "55a879bd1eb86e8adc69afa7a7ef487cff9e93efbddb9b27bddf38de013ef065",
+    "evidence_sha256": "5bbb521ae00e9b946177408f0dd2184db7ea952dbb02bdc9552dac8b1d4c2e8a"
+  },
+  {
+    "page": 60,
+    "bbox": [
+      0.1017843800551501,
+      0.8472390813488614,
+      0.9596118435128115,
+      0.877584156957804
+    ],
+    "text": "\"T've never seen a ghost, but I did see a fairy. It was on the Berkshire",
+    "decision": "reviewed",
+    "format_version": 1,
+    "source_sha256": "4670a8cc961b42034a19060b95fd3de216badf63c39762d4c00e96024f080525",
+    "text_sha256": "3cdac9b29a0aa06a66e274961306e6349a56badf7e42de34784d1e2c2b434e99",
+    "evidence_sha256": "e58a8acc581b4247a817c6048e15ec18f213e7f2720a8acd4b75b394359cdfd1"
+  },
+  {
+    "page": 84,
+    "bbox": [
+      0.07087503524055387,
+      0.726144503123615,
+      0.9553566582848623,
+      0.7647158617411179
+    ],
+    "text": "governors\"...') lamblichus notes that each daimonic nature is allotted its",
+    "decision": "reviewed",
+    "format_version": 1,
+    "source_sha256": "4670a8cc961b42034a19060b95fd3de216badf63c39762d4c00e96024f080525",
+    "text_sha256": "30bca79676abb0aaf4700ab62d7c7a3dce485b8d99ef810c4263097d79514282",
+    "evidence_sha256": "4d2822fe045ad27d14d54df2bc6d0d7391db3be0f9a910a9f2e2a1b90eacd478"
+  },
+  {
+    "page": 185,
+    "bbox": [
+      0.05466973493118901,
+      0.930232558048692,
+      0.9658314154104964,
+      0.9476744185138082
+    ],
+    "text": "even Mad Hatterish nature evident in their Lewis Carrollian name. l",
+    "decision": "reviewed",
+    "format_version": 1,
+    "source_sha256": "4670a8cc961b42034a19060b95fd3de216badf63c39762d4c00e96024f080525",
+    "text_sha256": "47c12fcbcad710c72ec78ae8e3a743c00eed52c9a3f874958dbc423dbe1e70f1",
+    "evidence_sha256": "7068581c0f3423fe804450cc65b8e25b2d60a8a8bbfcce44c6cc044fc8ef9046"
+  },
+  {
+    "page": 268,
+    "bbox": [
+      0.0410958832056378,
+      0.17718236831278156,
+      0.9589041057084242,
+      0.19922212630759573
+    ],
+    "text": "was preceded or at least balanced I, we remember, by a corresponding descent",
+    "decision": "reviewed",
+    "format_version": 1,
+    "source_sha256": "4670a8cc961b42034a19060b95fd3de216badf63c39762d4c00e96024f080525",
+    "text_sha256": "810712c63f74a3f4e6d01fa70ac15a76e50f885899fff51fe5bab19249bcb87f",
+    "evidence_sha256": "06490a487bb8a7ca9abe887be75a16b1dbe5f3a61b8074f6892a37f05a5d1f73"
+  }
+]

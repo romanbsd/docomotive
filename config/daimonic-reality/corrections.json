@@ -1,0 +1,132 @@
+[
+  {
+    "page": 6,
+    "before": "(Tamblichus)",
+    "after": "(Iamblichus)",
+    "bbox": [
+      0.8226164106564013,
+      0.32848837238826567,
+      0.9623059863502506,
+      0.3473837205138661
+    ],
+    "exact_row": true,
+    "reason": "Visually checked printed line in work/daimonic-reality/word-review-0/1/2.png; source reading retained, not editorial rewriting."
+  },
+  {
+    "page": 22,
+    "before": "(C. G. Jung, CW 5, 8388)",
+    "after": "(C. G. Jung, CW 5, §388)",
+    "bbox": [
+      0.4226327935864664,
+      0.5232558144160712,
+      0.7159353320775058,
+      0.5421511624916322
+    ],
+    "exact_row": true,
+    "reason": "Visually checked printed line in work/daimonic-reality/word-review-0/1/2.png; source reading retained, not editorial rewriting."
+  },
+  {
+    "page": 31,
+    "before": "a sort of \"muted whining how!\" and saw a whitish light plunging downwards",
+    "after": "a sort of \"muted whining how\" and saw a whitish light plunging downwards",
+    "bbox": [
+      0.04819656828862892,
+      0.30475070461047993,
+      0.9392130156909985,
+      0.329436819708
+    ],
+    "exact_row": true,
+    "reason": "Visually checked printed line in work/daimonic-reality/word-review-0/1/2.png; source reading retained, not editorial rewriting."
+  },
+  {
+    "page": 34,
+    "before": "not exclusively, visual - they can i be abstractions, patterns, ideas,",
+    "after": "not exclusively, visual - they can be abstractions, patterns, ideas,",
+    "bbox": [
+      0.030805689873537895,
+      0.12060301496189563,
+      0.954976291752058,
+      0.142441860587053
+    ],
+    "exact_row": true,
+    "reason": "Visually checked printed line in work/daimonic-reality/word-review-0/1/2.png; source reading retained, not editorial rewriting."
+  },
+  {
+    "page": 48,
+    "before": "case — some of the very earliest fairies to be mentioned, I, the Portunes, were",
+    "after": "case — some of the very earliest fairies to be mentioned, the Portunes, were",
+    "bbox": [
+      0.04424779858277691,
+      0.16261925438148395,
+      0.9314159290016949,
+      0.17877906964452905
+    ],
+    "exact_row": true,
+    "reason": "Visually checked printed line in work/daimonic-reality/word-review-0/1/2.png; source reading retained, not editorial rewriting."
+  },
+  {
+    "page": 59,
+    "before": "to the divine. According to lamblichus, we are assigned a daimon at birth to",
+    "after": "to the divine. According to Iamblichus, we are assigned a daimon at birth to",
+    "bbox": [
+      0.03872438587580108,
+      0.25145348928045874,
+      0.9589977105934472,
+      0.27189939318094924
+    ],
+    "exact_row": true,
+    "reason": "Visually checked printed line in work/daimonic-reality/word-review-0/1/2.png; source reading retained, not editorial rewriting."
+  },
+  {
+    "page": 60,
+    "before": "\"T've never seen a ghost, but I did see a fairy. It was on the Berkshire",
+    "after": "\"I've never seen a ghost, but I did see a fairy. It was on the Berkshire",
+    "bbox": [
+      0.1017843800551501,
+      0.8472390813488614,
+      0.9596118435128115,
+      0.877584156957804
+    ],
+    "exact_row": true,
+    "reason": "Visually checked printed line in work/daimonic-reality/word-review-0/1/2.png; source reading retained, not editorial rewriting."
+  },
+  {
+    "page": 84,
+    "before": "governors\"...') lamblichus notes that each daimonic nature is allotted its",
+    "after": "governors\"...') Iamblichus notes that each daimonic nature is allotted its",
+    "bbox": [
+      0.07087503524055387,
+      0.726144503123615,
+      0.9553566582848623,
+      0.7647158617411179
+    ],
+    "exact_row": true,
+    "reason": "Visually checked printed line in work/daimonic-reality/word-review-0/1/2.png; source reading retained, not editorial rewriting."
+  },
+  {
+    "page": 185,
+    "before": "even Mad Hatterish nature evident in their Lewis Carrollian name. l",
+    "after": "even Mad Hatterish nature evident in their Lewis Carrollian name. I",
+    "bbox": [
+      0.05466973493118901,
+      0.930232558048692,
+      0.9658314154104964,
+      0.9476744185138082
+    ],
+    "exact_row": true,
+    "reason": "Visually checked printed line in work/daimonic-reality/word-review-0/1/2.png; source reading retained, not editorial rewriting."
+  },
+  {
+    "page": 268,
+    "before": "was preceded or at least balanced I, we remember, by a corresponding descent",
+    "after": "was preceded or at least balanced, we remember, by a corresponding descent",
+    "bbox": [
+      0.0410958832056378,
+      0.17718236831278156,
+      0.9589041057084242,
+      0.19922212630759573
+    ],
+    "exact_row": true,
+    "reason": "Visually checked printed line in work/daimonic-reality/word-review-0/1/2.png; source reading retained, not editorial rewriting."
+  }
+]

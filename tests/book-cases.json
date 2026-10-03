@@ -68,5 +68,12 @@
     "profile": "config/otherworlds/book.json",
     "work": "work/otherworlds",
     "editorial": false
+  },
+  {
+    "name": "daimonic-reality",
+    "pdf": "input/Patrick Harpur - Daimonic Reality_ A Field Guide to the Otherworld (2003).pdf",
+    "profile": "config/daimonic-reality/book.json",
+    "work": "work/daimonic-reality",
+    "editorial": false
   }
 ]

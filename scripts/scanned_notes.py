@@ -18,10 +18,10 @@ import numpy as np
 import pymupdf
 from PIL import Image, ImageOps
 from lxml import etree
-from scipy.ndimage import find_objects, label
+from scipy.ndimage import find_objects, label, binary_closing
 from scipy.stats import theilslopes
 
-from common import digest, write_json
+from common import ROOT, digest, write_json, file_digest
 from ocr_cache import traineddata_digest
 
 
@@ -67,7 +67,7 @@ def prose_baseline(boxes, cap_hint=None):
     return cap, baseline, slope
 
 
-def raised_regions(image, cap_hint=None):
+def raised_regions(image, cap_hint=None, variable=False):
     """Find small connected glyphs whose bottoms sit above the prose baseline."""
     boxes = components(image)
     model = prose_baseline(boxes, cap_hint)
@@ -79,9 +79,11 @@ def raised_regions(image, cap_hint=None):
     candidates = sorted(
         b
         for b in boxes
-        if 0.38 * cap < b[3] - b[1] < 0.66 * cap
+        if 0.38 * cap < b[3] - b[1] < (0.76 if variable else 0.66) * cap
         and b[3] < baseline + slope * (b[0] + b[2]) / 2 - 0.25 * cap
-        and b[2] - b[0] > 0.18 * cap
+        # Narrow serif 1s can be only 7% of a normal capital's height. The
+        # optional wider size range still requires raised ink and fresh OCR.
+        and b[2] - b[0] > (0.07 if variable else 0.18) * cap
     )
     groups = []
     for box in candidates:
@@ -300,10 +302,14 @@ def marker_context(crop, box, digits):
     )
 
 
-def line_crop(image, row, marker_right=None):
+def line_crop(image, row, marker_right=None, variable=False):
     width, height = image.size
     x0, y0, x1, y1 = row["bbox"]
-    left, top = max(0, int(x0 * width) - 3), max(0, int(y0 * height) - 8)
+    top_pad = 8
+    if variable and len(row["text"]) < 40:
+        # Short OCR tails often exclude the top of a separately recognized note.
+        top_pad = max(top_pad, round(0.3 * (y1 - y0) * height))
+    left, top = max(0, int(x0 * width) - 3), max(0, int(y0 * height) - top_pad)
     # OCR often omits trailing quotes and superscripts from the text box.
     # One line-height of clearance fits a short raised number; the baseline
     # model and vertical clipping keep neighboring prose out.
@@ -313,18 +319,22 @@ def line_crop(image, row, marker_right=None):
         if marker_right is None
         else max(int(x1 * width) + 8, round(marker_right) + 2)
     )
-    return (
-        image.crop(
-            (
-                left,
-                top,
-                min(width, right),
-                min(height, int(y1 * height) + 3),
-            )
-        ),
-        left,
-        top,
+    crop = image.crop(
+        (
+            left,
+            top,
+            min(width, right),
+            min(height, int(y1 * height) + 3),
+        )
     )
+    if variable:
+        # Light, compressed scans break small strokes. At this pass's 400 dpi,
+        # reconnect only two-pixel vertical breaks; do not join adjacent digits.
+        ink = binary_closing(
+            np.asarray(crop.convert("L")) < 200, structure=np.ones((3, 1))
+        )
+        crop = Image.fromarray(np.where(ink, 0, 255).astype(np.uint8))
+    return crop, left, top
 
 
 def nearby_cap(row, rows, image):
@@ -350,13 +360,60 @@ def nearby_cap(row, rows, image):
     return float(np.median(caps)) if caps else None
 
 
-def glyph_readings(crop, box, maximum):
+class RapidMarkerRecognizer:
+    """Recognition-only English CTC; detector boxes cannot establish tiny digits."""
+
+    def __init__(self, models):
+        import importlib.metadata
+        from rapidocr import RapidOCR, LangRec, OCRVersion, ModelType
+
+        models = Path(models).resolve()
+        self.provenance = dict(
+            rapidocr=importlib.metadata.version("rapidocr"),
+            onnxruntime=importlib.metadata.version("onnxruntime"),
+            models={p.name: file_digest(p) for p in sorted(models.glob("*.onnx"))},
+            minimum_score=0.75,
+            padding=[5, 20],
+            mode="recognition-only English PP-OCRv4",
+        )
+        self.engine = RapidOCR(
+            params={
+                "Rec.lang_type": LangRec.EN,
+                "Rec.ocr_version": OCRVersion.PPOCRV4,
+                "Rec.model_type": ModelType.MOBILE,
+                "Global.model_root_dir": str(models),
+                "Rec.model_path": str(models / "en_PP-OCRv4_rec_mobile.onnx"),
+                "Det.model_path": str(models / "ch_PP-OCRv4_det_mobile.onnx"),
+                "Cls.model_path": str(models / "ch_ppocr_mobile_v2.0_cls_mobile.onnx"),
+                "EngineConfig.onnxruntime.intra_op_num_threads": 4,
+                "EngineConfig.onnxruntime.inter_op_num_threads": 1,
+            }
+        )
+
+    def __call__(self, image):
+        readings = []
+        for pad in self.provenance["padding"]:
+            result = self.engine(
+                np.asarray(ImageOps.expand(image.convert("L"), border=pad, fill=255)),
+                use_det=False,
+                use_cls=False,
+                use_rec=True,
+            )
+            # Scores are model confidence, not calibrated correctness odds.
+            if result.txts and result.scores[0] >= self.provenance["minimum_score"]:
+                readings.append(result.txts[0].strip())
+        return readings
+
+
+def glyph_readings(crop, box, maximum, recognizer=None):
     x, y, xx, yy = box
     glyph = crop.crop((x - 2, y - 2, xx + 2, yy + 2))
     glyph = ImageOps.expand(
         glyph.resize((glyph.width * 4, glyph.height * 4)), border=30, fill=255
     )
     readings = [tesseract(glyph, psm).decode().strip() for psm in (7, 13, 8)]
+    if recognizer is not None:
+        readings.extend(recognizer(crop.crop(box)))
     if any(v.isascii() and v.isdigit() and 1 <= int(v) <= maximum for v in readings):
         return readings
     # Geometrically raised digits can be read as letters (9/a/o, 11/ll).
@@ -374,7 +431,7 @@ def glyph_readings(crop, box, maximum):
     return readings
 
 
-def page_candidates(page, rows, maximum):
+def page_candidates(page, rows, maximum, variable=False, recognizer=None):
     # 400 dpi supplies enough pixels for tiny note digits without replacing the
     # existing whole-page OCR. Only small glyph crops are recognized again.
     image = Image.open(io.BytesIO(page.get_pixmap(dpi=400).tobytes("png"))).convert("L")
@@ -383,7 +440,7 @@ def page_candidates(page, rows, maximum):
     for index, row in enumerate(rows):
         if len(row["text"]) < 3 or row.get("kind", "text") != "text":
             continue
-        crop, left, top = line_crop(image, row)
+        crop, left, top = line_crop(image, row, variable=variable)
         cap = nearby_cap(row, rows, image) if len(row["text"]) < 40 else None
         model = prose_baseline(components(crop), cap)
         faint = model and crop.height > 2.4 * model[0]
@@ -392,12 +449,14 @@ def page_candidates(page, rows, maximum):
             # A bounded darker-ink threshold reconnects them; fresh OCR and
             # chapter order must still support the reading and its placement.
             crop = crop.point(lambda p: 0 if p < 180 else 255)
-        regions = raised_regions(crop, cap)
+        regions = raised_regions(crop, cap, variable=variable)
         if not regions:
             continue
         # Search clearance is not OCR context. Trim it after locating ink;
         # extra blank space can change whole-line recognition and placement.
-        crop, left, top = line_crop(image, row, left + max(b[2] for b in regions))
+        crop, left, top = line_crop(
+            image, row, left + max(b[2] for b in regions), variable=variable
+        )
         if faint:
             crop = crop.point(lambda p: 0 if p < 180 else 255)
         witness = chars = None
@@ -406,7 +465,7 @@ def page_candidates(page, rows, maximum):
             x, y, xx, yy = box
             # Line, raw-line, and word segmentation provide complementary reads;
             # they are modes of one local engine, not independent OCR engines.
-            readings = glyph_readings(crop, box, maximum)
+            readings = glyph_readings(crop, box, maximum, recognizer=recognizer)
             if not any(
                 v.isascii() and v.isdigit() and 1 <= int(v) <= maximum for v in readings
             ):
@@ -677,7 +736,164 @@ def select_sequence(candidates, maximum):
             p.update(option, status="selected", sequence_score=best)
 
 
-def recover_endnotes(pages, doc, book, work, source_hash, audit, review):
+def absorb_marker_fragments(pages, records, audit):
+    """Account for a detached OCR digit already represented by a recovered note."""
+    for marker in records:
+        if marker["status"] != "applied":
+            continue
+        a = marker["bbox"]
+        for index, row in enumerate(pages[marker["page"]]):
+            if index == marker["row"] or not row["text"].strip().isdigit():
+                continue
+            b = row["bbox"]
+            overlap = max(0, min(a[2], b[2]) - max(a[0], b[0])) * max(
+                0, min(a[3], b[3]) - max(a[1], b[1])
+            )
+            area = min((a[2] - a[0]) * (a[3] - a[1]), (b[2] - b[0]) * (b[3] - b[1]))
+            # Require most of the smaller box, not mere proximity to a digit.
+            if area > 0 and overlap / area >= 0.6:
+                row["kind"] = "absorbed-note-marker"
+                audit.append(
+                    dict(
+                        page=marker["page"],
+                        kind="absorbed-note-marker",
+                        text=row["text"],
+                        bbox=b,
+                        number=marker["number"],
+                        target_row=marker["row"],
+                    )
+                )
+
+
+def recover_reference_markers(
+    pages, doc, book, work, audit, models=ROOT / "work/models"
+):
+    """Read lost hanging entry numbers; sequence never supplies unobserved digits."""
+    sections = {s["heading"]: s for s in book["endnote_sections"]}
+    first, last, _ = book["chapters"][book["endnote_chapter"] - 1]
+    expected = None
+    number = 0
+    recognizer = (
+        RapidMarkerRecognizer(models)
+        if book.get("recover_variable_superscripts")
+        else None
+    )
+    version = subprocess.run(
+        ["tesseract", "--version"], capture_output=True, check=True
+    ).stdout
+    fingerprint = digest(
+        version
+        + traineddata_digest().encode()
+        + Path(__file__).read_bytes()
+        + json.dumps(
+            recognizer.provenance if recognizer else {}, sort_keys=True
+        ).encode()
+    )
+    for page_number in range(first, last + 1):
+        rows = pages[page_number]
+        starts = [r["bbox"][0] for r in rows if re.match(r"^\d+[.,]\s", r["text"])]
+        if not starts:
+            continue
+        # A page-specific marker envelope survives cropping and gradual skew.
+        margin = float(np.percentile(starts, 20))
+        page = doc[page_number - 1]
+        for row in rows:
+            if row.get("kind") == "heading":
+                expected = sections[row["text"]]["expected_notes"]
+                number = 0
+                continue
+            if (
+                expected is None
+                or number >= expected
+                or row["bbox"][1] < book.get("upper_margin_cutoff", 0.035)
+            ):
+                continue
+            match = re.match(r"^(\d+)\.\s", row["text"])
+            if (
+                match
+                and int(match[1]) == number + 1
+                and row["bbox"][0] < book.get("endnote_marker_limit", 0.17)
+            ):
+                number += 1
+                continue
+            x0, y0, x1, y1 = row["bbox"]
+            clip = (
+                pymupdf.Rect(
+                    max(0, margin - 0.015) * page.rect.width,
+                    max(0, y0 * page.rect.height - 2),
+                    x1 * page.rect.width + 2,
+                    y1 * page.rect.height + 2,
+                )
+                & page.rect
+            )
+            pix = page.get_pixmap(dpi=400, clip=clip)
+            key = digest(pix.samples + fingerprint.encode())
+            path = Path(work) / "reference-markers" / (key + ".json")
+            if path.exists():
+                evidence = json.loads(path.read_text())
+            else:
+                image = Image.open(io.BytesIO(pix.tobytes("png")))
+                text, chars = character_line(image)
+                evidence = dict(text=text, chars=chars)
+                write_json(path, evidence)
+            observed = re.match(r"^([0-9IlT]{1,3})[.,]\s+", evidence["text"])
+            if not observed:
+                continue
+            tail = re.sub(r"^[0-9IlT]{1,3}[.,]?\s+", "", row["text"])
+            source_tail = evidence["text"][observed.end() :]
+            letters = lambda value: re.sub(r"\W", "", value).lower()
+            # Keep all wording, and reject a number found on an adjacent line.
+            if (
+                difflib.SequenceMatcher(
+                    None, letters(tail), letters(source_tail), autojunk=False
+                ).ratio()
+                < 0.9
+            ):
+                continue
+            chars = [c for c in evidence["chars"] if c["start"] < len(observed[1])]
+            if not chars:
+                continue
+            digits = observed[1]
+            if not digits.isdigit() or int(digits) != number + 1:
+                # Il/11 and T/7 need a newly read digit crop, not substitution.
+                box = (
+                    min(c["bbox"][0] for c in chars),
+                    min(c["bbox"][1] for c in chars),
+                    max(c["bbox"][2] for c in chars),
+                    max(c["bbox"][3] for c in chars),
+                )
+                if "marker_readings" not in evidence:
+                    image = Image.open(io.BytesIO(pix.tobytes("png"))).convert("L")
+                    evidence["marker_readings"] = glyph_readings(
+                        image, box, expected, recognizer=recognizer
+                    )
+                    write_json(path, evidence)
+                if evidence["marker_readings"].count(str(number + 1)) < 2:
+                    continue
+            before = row["text"]
+            row["text"] = str(number + 1) + ". " + tail
+            row["bbox"][0] = (
+                (pix.x + min(c["bbox"][0] for c in chars))
+                / (400 / 72)
+                / page.rect.width
+            )
+            audit.append(
+                dict(
+                    page=page_number,
+                    kind="source-reference-marker",
+                    before=before,
+                    after=row["text"],
+                    source_reading=evidence["text"],
+                    bbox=row["bbox"],
+                    crop_key=key,
+                )
+            )
+            number += 1
+
+
+def recover_endnotes(
+    pages, doc, book, work, source_hash, audit, review, models=ROOT / "work/models"
+):
     """Apply only source-read, uniquely placed, chapter-ordered note markers."""
     version = (
         subprocess.run(["tesseract", "--version"], capture_output=True, check=True)
@@ -685,6 +901,11 @@ def recover_endnotes(pages, doc, book, work, source_hash, audit, review):
         .splitlines()[0]
     )
     model_hash = traineddata_digest()
+    recognizer = (
+        RapidMarkerRecognizer(models)
+        if book.get("recover_variable_superscripts")
+        else None
+    )
     # Fingerprint detection semantics, not comments. Sequence tuning reuses the
     # cached pixel/OCR evidence; changed detection code or inputs invalidate it.
     cache = (
@@ -697,6 +918,15 @@ def recover_endnotes(pages, doc, book, work, source_hash, audit, review):
                 + model_hash
                 + pymupdf.VersionBind
                 + np.__version__
+                + (
+                    json.dumps(recognizer.provenance, sort_keys=True)
+                    + ast.dump(
+                        ast.parse(inspect.getsource(RapidMarkerRecognizer)),
+                        include_attributes=False,
+                    )
+                    if recognizer
+                    else ""
+                )
                 + "".join(
                     ast.dump(ast.parse(inspect.getsource(f)), include_attributes=False)
                     for f in (
@@ -725,7 +955,16 @@ def recover_endnotes(pages, doc, book, work, source_hash, audit, review):
             rows = pages[number]
             key = digest(
                 json.dumps(
-                    dict(rows=rows, maximum=section["expected_notes"]), sort_keys=True
+                    dict(
+                        rows=rows,
+                        maximum=section["expected_notes"],
+                        **(
+                            {"variable": True}
+                            if book.get("recover_variable_superscripts")
+                            else {}
+                        ),
+                    ),
+                    sort_keys=True,
                 ).encode()
             )[:16]
             path = cache / f"{number:04}-{key}.json"
@@ -733,10 +972,27 @@ def recover_endnotes(pages, doc, book, work, source_hash, audit, review):
                 found = json.loads(path.read_text())
             else:
                 found = page_candidates(
-                    doc[number - 1], rows, section["expected_notes"]
+                    doc[number - 1],
+                    rows,
+                    section["expected_notes"],
+                    variable=book.get("recover_variable_superscripts", False),
+                    recognizer=recognizer,
                 )
                 write_json(path, found)
             candidates.extend(dict(p, page=number, chapter=chapter_id) for p in found)
+        if book.get("recover_variable_superscripts"):
+            from book_model import classify_row
+
+            # Wider glyph limits also see chapter numbers. Source-region
+            # classification excludes those before they influence the counter.
+            candidates = [
+                p
+                for p in candidates
+                if classify_row(
+                    p["page"], pages[p["page"]][p["row"]], book, p["page"] == chapter[0]
+                )[0]
+                == "body"
+            ]
         select_sequence(candidates, section["expected_notes"])
         # Chapter order triggers additional observation, rather than treating
         # missing OCR alternatives as proof that an expected digit is absent.
@@ -814,6 +1070,8 @@ def recover_endnotes(pages, doc, book, work, source_hash, audit, review):
             f'Scanned notes: {section["heading"]}: {sum(p["status"] == "applied" for p in candidates)}/{section["expected_notes"]}',
             flush=True,
         )
+    if book.get("recover_variable_superscripts"):
+        absorb_marker_fragments(pages, records, audit)
     return dict(
         provenance=dict(
             source_sha256=source_hash,
@@ -821,6 +1079,7 @@ def recover_endnotes(pages, doc, book, work, source_hash, audit, review):
             eng_traineddata_sha256=model_hash,
             dpi=400,
             cache=str(cache),
+            **({"rapid_marker": recognizer.provenance} if recognizer else {}),
         ),
         expected=sum(s["expected_notes"] for s in book["endnote_sections"]),
         candidates=records,

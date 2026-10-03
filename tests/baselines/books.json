@@ -2001,6 +2001,261 @@
         "table-2-first.jpg",
         "table-2.jpg"
       ]
+    },
+    "daimonic-reality": {
+      "source_sha256": "4670a8cc961b42034a19060b95fd3de216badf63c39762d4c00e96024f080525",
+      "slug": "daimonic-reality",
+      "editorial": false,
+      "artifacts": {
+        "book-model.json": "3e63a5913785663b86a90a369e7684e11192a787eb27630985f732280231732b",
+        "corrected-pages.json": "3cafdac5eb188d0bf541ac8ca26114d8cba124c147f85f4207bd84939886df7d",
+        "text-coverage.json": "6069b9af9e92a8360822913d2efdd1e2e391445bb6a4c71e7263d0d129130de3",
+        "apparatus-analysis.json": "099b4ee1339cab9123fc62068ae0c2d0384bfa219b0472b5788c0fcb44a3cb34",
+        "daimonic-reality.txt": "6383f35e96e6a70ac1eafc62d563eb8714dce5a4024f2bcb850bedd91b6285ea",
+        "lexical-repair.json": "f1b9149788aca79f2d54741a4c1eca5f2e3e27ed565701b58d78dbe7cd16b101"
+      },
+      "epub_sha256": "3d39d3c52614945fde120c89714b0495e18c081d7bd4d85b21a3ff1e0c810e14",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/back-cover.jpg": "86eba4ffa0023adedfcb092128331203bae0f86d69cf434d42eaec3bcaff1184",
+        "OEBPS/back-cover.xhtml": "ce53a2beafa07bcb527dc1a8d1014e59cd5d712a7e9d500b0182c6efc04b920c",
+        "OEBPS/chapter-01.xhtml": "83856488a889c1e82d5429fe1ba358ba8bdc2937bd8ffa1a36fa8f91d9225aeb",
+        "OEBPS/chapter-02.xhtml": "0f8ded079210dc9cb2d87f58e17c544b153ed52d336da97c258dd35995e98d16",
+        "OEBPS/chapter-03.xhtml": "fed1cca86700bad983912d78b523d2bf31094a459e4f608f3892b57b3ac0bfda",
+        "OEBPS/chapter-04.xhtml": "6d964aa0eecf6a19f7663a0fc56bab85947ca195bd548e7b20c688929bace24d",
+        "OEBPS/chapter-05.xhtml": "3767d757b61354d08321bed1fd38ca5d922056ce8bd40dd6917a4a04fcfedf54",
+        "OEBPS/chapter-06.xhtml": "a12d23cfa540c62182465df46498919c96de4232e05b7dadfe179aa12daab5e4",
+        "OEBPS/chapter-07.xhtml": "25b9061e329224f9a11eea3b991de39ca1b27bb2fe768936928cfaa1c7b48508",
+        "OEBPS/chapter-08.xhtml": "8263d0ec2610c5df564dac081fdbd77fd7bdb952255985e90a328e8f1dee055f",
+        "OEBPS/chapter-09.xhtml": "2bb0fbeac3504b0c770b69320c4258d82dad845c8eb35f31536b188249270205",
+        "OEBPS/chapter-10.xhtml": "d44165f26215bf2cbbf0cad7e8157cb1c16772bceecf8c4cc21e6fecbf997336",
+        "OEBPS/chapter-11.xhtml": "20fcd4612511eae613102074df5f437973535f3b5e6a6a63b46c40da7a9cd5fc",
+        "OEBPS/chapter-12.xhtml": "9d16fb50d9c64844f8f0eca2bb7bc60c034c6c4d9ef1985cf1e8cb23a1eb814d",
+        "OEBPS/chapter-13.xhtml": "10e4b4e1b4e29ba158fb414e58ddf3d4339065f4614e44af25609135f410b6d2",
+        "OEBPS/chapter-14.xhtml": "7968241985d711a5465a40e33569d0aef1e2c1b2eacccc4637c79c8e357606fe",
+        "OEBPS/chapter-15.xhtml": "9e132154065df5ac87f792cc7c97abcd62248cff3af022d05fe67ee611bc6d85",
+        "OEBPS/chapter-16.xhtml": "6e001da52ac3c82475e670ebb57913f4f13df8a903c003c37aa0f1c741bb1f80",
+        "OEBPS/chapter-17.xhtml": "0deaebef08a169830e8f97aa32d7f7df5ad2bf825a77d74dcc558e10b2e16ae5",
+        "OEBPS/chapter-18.xhtml": "4d5d095bd3c1ee532bd2605b2c8d438842ca2262895aeb6ccf59990f1dfc3a37",
+        "OEBPS/chapter-19.xhtml": "4071df55887440a19fbd009df4d556b404ed555f43076fc6ebb0ee4f47a14118",
+        "OEBPS/chapter-20.xhtml": "077c053c1df460271f35c52bfe444015a3142cadb0653d32187bd7182720a1ea",
+        "OEBPS/chapter-21.xhtml": "83f9538fa24750b8962ed91c824175aed167253da121fc0702e5eccdba06bb19",
+        "OEBPS/chapter-22.xhtml": "597b59571085d9a7b9995e04126193513073bc8b0ac9384c9f3322cb6c609f02",
+        "OEBPS/chapter-23.xhtml": "f6ae18709052bbabc45ec3760c57622b3478ad9572dbae0f59bdba109ed76323",
+        "OEBPS/chapter-24.xhtml": "f1c445991db934be6893c9fcf8e1018291d5519ba66c26f3e66923bfc2dfd79a",
+        "OEBPS/chapter-25.xhtml": "d73bc534d203abf944e197a67d759b0effef83d29e3408ee358366ae3601ae9c",
+        "OEBPS/chapter-26.xhtml": "d9ca01b49aa623ccb0ba4116b0aae296f3482ed01c988a7bb9c94ef4fe0f387c",
+        "OEBPS/chapter-27.xhtml": "363d92beb3b407e731f68a85c444ce79d18c436cee2ac2c3c7062cafa6857f57",
+        "OEBPS/chapter-28.xhtml": "a85719bb8a8bda19f9b1dd86ee64f0b26c1cebaeca737387fe5d102697effb9a",
+        "OEBPS/chapter-29.xhtml": "70e917c0e2befc5722f4b507f8b7e3db3523cdc28009c4e3ca1d570373d30e6a",
+        "OEBPS/chapter-30.xhtml": "2fc9539a5d3dd4d2ff28f73008010e2f4844890e2e039ac763130a80534bf1a5",
+        "OEBPS/chapter-31.xhtml": "7c1071a311f1a3e304b4da239eda097b71701d09d6016e5207b7d0cd9fd6bdb2",
+        "OEBPS/chapter-32.xhtml": "7759e89cf59096d7546c0e44cd81216f3de2ef073c3369d7a0bd533bdc926f88",
+        "OEBPS/content.opf": "334eeb6ec4c82f7fbd4035dbe5be38af3266dac5503e86b71b14b0c7f6dc21d6",
+        "OEBPS/copyright.xhtml": "7a768db03b66c786fa8c23b72a4191cf96d1ac07763205d836a06cfb0baa651e",
+        "OEBPS/cover.jpg": "dc1351042c959a85550ab03c9368b343dd1b0b91b0f10fec4e437edf61adca75",
+        "OEBPS/cover.xhtml": "96294fa69c0536d4c04532bdb681541af9f4f091e264f3536c70efa52c6ecf4c",
+        "OEBPS/downloaded-cover.jpg": "dc1351042c959a85550ab03c9368b343dd1b0b91b0f10fec4e437edf61adca75",
+        "OEBPS/downloaded-cover.xhtml": "ba52f47bcefd0a43687b104e3c6bacc674c9da61b9076ca6ac0806eed9778cc8",
+        "OEBPS/edition-note.xhtml": "fdb929ce1866abfb88b27d54a91007bdcec1eec910db53fc9b2ffeb048d6d215",
+        "OEBPS/figure-1.jpg": "1ec5f1b12b08c5110ce86b4cb419b7f700a14d95499a8893f53084a75a161391",
+        "OEBPS/figure-10.jpg": "e64082daa88e3d27545cf84f3c5a818cee99943065916e210ab6e28688b30763",
+        "OEBPS/figure-11.jpg": "648b224eba6181634fd36884a3a5e6922e36b8ea430e8a9b020da80dc640389b",
+        "OEBPS/figure-2.jpg": "0f11ac0245c32d2a47eacf8ffa0c5c8e84daf174fcd94d78db85273a6b4b8bf9",
+        "OEBPS/figure-3.jpg": "495a39aa67fae9bb497e3bd7c0cb8747d748911e6cdffedace27b33346c9596a",
+        "OEBPS/figure-4.jpg": "5614d5cc0f6db99984a8da1a26ea4c3e034de97249ebef4d05f683c5a6db2f90",
+        "OEBPS/figure-5.jpg": "ebc6ddfa98f905c3325c78a1bdf9c0a271c36aa4bd668a17335185326688f910",
+        "OEBPS/figure-6.jpg": "4852802a55e90069d838b5c01bb695aa587d71451221c7868d5d90d294f6fc78",
+        "OEBPS/figure-7.jpg": "345cfe5e50e03120fdea36a87bb4ea96c6b969d1960ac1efbebb6b5220d07b56",
+        "OEBPS/figure-8.jpg": "b7f08cac87f60e8725fd1ce054156daed5e2cadf3321daffaeb60d321d11dd9b",
+        "OEBPS/figure-9.jpg": "26f0af4017dd7072c550d3fa2d5046cd4a05b10705fec2a4a7d12e7ed4332422",
+        "OEBPS/nav.xhtml": "cb2bf2ffe9192451a3a6bd891b8796631e0df41e598af33e451aaf00334d83ef",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/title.xhtml": "03aac177d0041b1cf9395f6b54d56c935f067c5705c34f61d58e92d25226fb3e",
+        "OEBPS/toc.ncx": "8420ec50f6c0a2891e9940f5b273a768b672b487249044b56d75f1e8b646ed07",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 509,
+        "body": 10043
+      },
+      "chapters": [
+        {
+          "title": "Other Books by Patrick Harpur",
+          "sha256": "61ed624fc62a9cdf17e34f267eb84babbde5bbc6b96494c08536a6b3b2dce80f",
+          "blocks": 2
+        },
+        {
+          "title": "Dedication",
+          "sha256": "9dcaa4aa7d22269baf7a211e10291c4ec16dc0b353e29ef4b998ea1bd5f70531",
+          "blocks": 1
+        },
+        {
+          "title": "Epigraphs",
+          "sha256": "2168b2ca97ae56f7b3542789f8251ca4b11eef9072f26ce20c4d50088ee4b03f",
+          "blocks": 6
+        },
+        {
+          "title": "Acknowledgments",
+          "sha256": "50823e1dd8302edb48507f60d686219bdc560f9cdff2dbbd530615858c35e5a9",
+          "blocks": 6
+        },
+        {
+          "title": "Introduction",
+          "sha256": "ca6fa80e08ab57790938955a672aca98b749e360d2f49267d3c1d5b3923d1f43",
+          "blocks": 36
+        },
+        {
+          "title": "Part One: Apparitions",
+          "sha256": "7cec9b101264e4add173510865d000f083b46959ca9e928d2c564ff6ef47fad0",
+          "blocks": 2
+        },
+        {
+          "title": "1. Lights",
+          "sha256": "7742a6fc765bb0e89529098d0979b8118912ec7c506ea4b72899ba16775a6baf",
+          "blocks": 28
+        },
+        {
+          "title": "2. UFOs",
+          "sha256": "202e928041ae7a2422a0b8ab8560df36dbba95becce1b03a77b12fa563192bee",
+          "blocks": 37
+        },
+        {
+          "title": "3. Aliens and Fairies",
+          "sha256": "b018c50f41c13c5250c26fe13ff00240d3a350034a2e11c1a216a3a0106082ce",
+          "blocks": 53
+        },
+        {
+          "title": "4. Daimons",
+          "sha256": "c8d6db056c4a82144a296bcdfcf70b26f67353815f60d7bbf0d6e0d7ae0271ef",
+          "blocks": 52
+        },
+        {
+          "title": "5. A Little History of Daimons",
+          "sha256": "9e2dc9c23a0f8fb957011f3c044cb3f1bdd7d72f084c780a458cca083cb4c24c",
+          "blocks": 46
+        },
+        {
+          "title": "6. Beasts",
+          "sha256": "79bcac6f7c789e1caee6a0744cd177abd28c9d4b5c3eefe07a04e55c095af2ba",
+          "blocks": 42
+        },
+        {
+          "title": "Part Two: Vision",
+          "sha256": "a1ef375dea865812d0c781763cc1acebc627a897e8511877f17dde2c6e807158",
+          "blocks": 3
+        },
+        {
+          "title": "7. Seeing Things",
+          "sha256": "b3d46e596e2a5eb54c7838557ae5237af433348b5aba00b47c56845cb49fac9f",
+          "blocks": 37
+        },
+        {
+          "title": "8. Ladies",
+          "sha256": "7c9c07693b2b3143bf1f2e76b8ca5eea75197ef2b1f2bba68b61d65d28e52dc3",
+          "blocks": 48
+        },
+        {
+          "title": "9. Imagining Things",
+          "sha256": "fcc0cd60f189a6481c48e53344cc503bceed98d224f9ef7e67b13e216481f265",
+          "blocks": 46
+        },
+        {
+          "title": "10. Daimonic Traces",
+          "sha256": "fb9a95e00ac7eb2b4d47c1236013035f30a6f113f9e281e48bb363d48f8df882",
+          "blocks": 34
+        },
+        {
+          "title": "11. Circles",
+          "sha256": "3b1bd34c170632d9f06df5f4e1d3fff2e934af9d5662fe15406c3bf14752694a",
+          "blocks": 38
+        },
+        {
+          "title": "12. Structures",
+          "sha256": "3c0a6edce478fdda1343c30f691a0c66a4a8c18b3fa9be8089b12924b3fa9ae9",
+          "blocks": 42
+        },
+        {
+          "title": "13. The Otherworld",
+          "sha256": "8309242a689e6a8a871c381f14f4cd0ed9e122581127e23a81573864ebed4fa4",
+          "blocks": 29
+        },
+        {
+          "title": "Part Three: Otherworld Journeys",
+          "sha256": "a3f66d79b10d78d23f4362cbb6f2d15cb6d639db5c154bb8c6e6361bf59790b5",
+          "blocks": 4
+        },
+        {
+          "title": "14. Missing Time",
+          "sha256": "5557f5fdbaf5df377a2c8dacbc16b10ea86bbde0e698c8e52942e92161989cd6",
+          "blocks": 29
+        },
+        {
+          "title": "15. Supernatural Branding",
+          "sha256": "47bd6c8cf2103bcb81104e264e35ddca51e808520913071a1b73ccd12ff630ae",
+          "blocks": 54
+        },
+        {
+          "title": "16. Changelings",
+          "sha256": "9a477afd11064351fea6449efc1c3cdb0502e29d40f991a885dd0a66ef3e00b8",
+          "blocks": 62
+        },
+        {
+          "title": "17. Human Demons",
+          "sha256": "b835596d84b994ae9bfc47810ac8258cfb668a109e38b043b981388cf46d3ee3",
+          "blocks": 31
+        },
+        {
+          "title": "18. Daimonic Humans",
+          "sha256": "50635049cdb0be31602837da84520f53d30c0fa12f720622b3f5d8ac26bc8ed7",
+          "blocks": 58
+        },
+        {
+          "title": "19. Soul and Body",
+          "sha256": "80f21f50e1ab524879da0b6064ff09a5db9f46a8ae4517008ff033442a9f34da",
+          "blocks": 53
+        },
+        {
+          "title": "20. Approaching the Otherworld",
+          "sha256": "02467e9c837041fed1462fb3f76f36d8e7289ff8e04dd7778377bf3bf278214f",
+          "blocks": 49
+        },
+        {
+          "title": "Epilogue: The Golden Chain",
+          "sha256": "66da1d2f271ad3cd858e174e7e9f46ece3f51b78828b83cf352070dd9d11c319",
+          "blocks": 10
+        },
+        {
+          "title": "References",
+          "sha256": "3b4ce9c5badcb71a80be038987287e8398152e2c9ee0091c378f9e716712850b",
+          "blocks": 499
+        },
+        {
+          "title": "Select Bibliography",
+          "sha256": "53178911b388734ff90b7cafd0e97934b56f58d7d38299625c95e0a18f5bad36",
+          "blocks": 126
+        },
+        {
+          "title": "Publisher Information",
+          "sha256": "1cd325aadd1669ec96c460759ee122d3345c4b8dc44e00ba5f30c2bc66613c83",
+          "blocks": 16
+        }
+      ],
+      "noterefs": 404,
+      "backlinks": 477,
+      "figures": [
+        "figure-1.jpg",
+        "figure-10.jpg",
+        "figure-11.jpg",
+        "figure-2.jpg",
+        "figure-3.jpg",
+        "figure-4.jpg",
+        "figure-5.jpg",
+        "figure-6.jpg",
+        "figure-7.jpg",
+        "figure-8.jpg",
+        "figure-9.jpg"
+      ]
     }
   }
 }

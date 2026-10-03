@@ -340,16 +340,28 @@ def build(
             for rule in book.get("row_heading_rules", []):
                 if n in rule["pages"] and re.fullmatch(rule["pattern"], row["text"]):
                     row["kind"] = "heading"
+    if not native and book.get("recover_reference_markers", False):
+        from scanned_notes import recover_reference_markers
+
+        recover_reference_markers(pages, doc, book, work, audit, models=models)
     if not native and book.get("recover_scanned_endnotes", False):
         from scanned_notes import recover_endnotes
 
-        recovered = recover_endnotes(pages, doc, book, work, source_hash, audit, review)
+        recovered = recover_endnotes(
+            pages, doc, book, work, source_hash, audit, review, models=models
+        )
         write_json(out / "scanned-endnote-analysis.json", recovered)
     if not native and book.get("recover_scan_font_metrics", False):
         from typography import attach_scan_font_metrics
 
         for n, rows in pages.items():
             attach_scan_font_metrics(rows, doc[n - 1], n, audit)
+    if not native and book.get("recover_image_only_headings", False):
+        from typography import image_only_headings
+
+        for n, rows in pages.items():
+            if not doc[n - 1].get_text("words"):
+                image_only_headings(rows, book, n, audit)
     write_json(out / "corrected-pages.json", pages)
     layout = infer(pages)
     write_json(out / "layout-analysis.json", layout)
