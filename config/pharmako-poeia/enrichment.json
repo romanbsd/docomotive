@@ -1,0 +1,103 @@
+{
+  "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+  "isbn": "1562790692",
+  "isbn_13": "9781562790691",
+  "edition_key": "/books/OL1121782M",
+  "authors": [
+    "Dale Pendell"
+  ],
+  "publication_date": "1995",
+  "publication_date_raw": "1995",
+  "description": "A guide to psychoactive plants.",
+  "subjects": [
+    "History",
+    "Homeopathic Pharmacopoeias",
+    "Materia Medica",
+    "Materia medica, Vegetable",
+    "Materia medica, Vegetable.",
+    "Medicinal plants",
+    "Medicinal plants.",
+    "Plant Preparations",
+    "Poisonous plants",
+    "Poisons",
+    "Psychotropic Drugs",
+    "Psychotropic plants",
+    "Toxic Plants",
+    "Vegetable Materia medica"
+  ],
+  "identifiers": {
+    "isbn_10": [
+      "1562790692"
+    ],
+    "isbn_13": [
+      "9781562790691"
+    ],
+    "lccn": [
+      "94048573"
+    ],
+    "oclc": [
+      "33061102",
+      "31776659"
+    ],
+    "openlibrary": [
+      "OL1121782M"
+    ]
+  },
+  "classifications": {
+    "lc_classifications": [
+      "RS164 .P447 1995"
+    ],
+    "dewey_decimal_class": [
+      "615/.32"
+    ]
+  },
+  "publication_places": [
+    "San Francisco"
+  ],
+  "print_pages": 304,
+  "links": [
+    "https://openlibrary.org/books/OL1121782M",
+    "https://openlibrary.org/works/OL3528543W"
+  ],
+  "rights": "Copyright © 1995 by Dale Pendell. Foreword copyright © 1995 by Gary Snyder. All rights reserved.",
+  "covers": [
+    {
+      "width": 348,
+      "height": 475,
+      "format": "JPEG",
+      "sha256": "0b7abc9ddda6420ad61b644c5b0223aacda0bfe82b4db87b75c245b2394760bf",
+      "suitable_main_cover": true,
+      "url": "https://covers.openlibrary.org/b/isbn/1562790692-L.jpg?default=false",
+      "path": "work/pharmako-poeia/metadata/assets/0b7abc9ddda6420ad61b644c5b0223aacda0bfe82b4db87b75c245b2394760bf.jpg",
+      "accepted": true,
+      "reason": "Profile-approved cover visually checked against scan"
+    }
+  ],
+  "conflicts": [],
+  "sources": [
+    {
+      "url": "https://openlibrary.org/isbn/1562790692.json",
+      "resolved_url": "https://openlibrary.org/books/OL1121782M.json",
+      "sha256": "a1737e09fe64edfcc7f436e6067d5c5b988f0a745a5aae72a6d0f36a749f7021",
+      "retrieved_at": "2026-10-02T09:20:08.472469+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/authors/OL591171A.json",
+      "resolved_url": "https://openlibrary.org/authors/OL591171A.json",
+      "sha256": "b08d7ea5b9728df47a40bd182f8d2d65d6cad83aa875d5e721ebfb7c476b2eaf",
+      "retrieved_at": "2026-10-02T09:20:09.138441+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/works/OL3528543W.json",
+      "resolved_url": "https://openlibrary.org/works/OL3528543W.json",
+      "sha256": "5ea2946b3369b2794f77a8ac388de15a74dfb0cbc9ebd73b161d2f9af3ddc2db",
+      "retrieved_at": "2026-10-02T09:20:09.984790+00:00"
+    },
+    {
+      "url": "https://covers.openlibrary.org/b/isbn/1562790692-L.jpg?default=false",
+      "resolved_url": "https://ia800806.us.archive.org/view_archive.php?archive=/17/items/olcovers79/olcovers79-L.zip&file=795742-L.jpg",
+      "sha256": "0b7abc9ddda6420ad61b644c5b0223aacda0bfe82b4db87b75c245b2394760bf",
+      "retrieved_at": "2026-10-02T09:20:13.264433+00:00"
+    }
+  ]
+}

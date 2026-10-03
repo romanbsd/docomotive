@@ -1,0 +1,95 @@
+{
+  "source_sha256": "41b6ceef0f3eb6ad5cac685fc6dc1881ed9c9d35a83f6d9fcc3921c5bfd04cc4",
+  "isbn": "0226282074",
+  "isbn_13": "9780226282077",
+  "edition_key": "/books/OL24412633M",
+  "authors": [
+    "Jonathan Garb"
+  ],
+  "publication_date": "2011",
+  "publication_date_raw": "2011",
+  "description": "Includes bibliographical references and index.",
+  "subjects": [
+    "Cabala",
+    "Judaism",
+    "Mysticism",
+    "Shamanism",
+    "Spirituality"
+  ],
+  "identifiers": {
+    "isbn_10": [
+      "0226282074"
+    ],
+    "isbn_13": [
+      "9780226282077"
+    ],
+    "lccn": [
+      "2010034612"
+    ],
+    "oclc": [
+      "657080696"
+    ],
+    "openlibrary": [
+      "OL24412633M"
+    ]
+  },
+  "classifications": {
+    "lc_classifications": [
+      "BM526 .G373 2011",
+      "BM526.G373 2011"
+    ],
+    "dewey_decimal_class": [
+      "296.1/6"
+    ]
+  },
+  "publication_places": [
+    "Chicago",
+    "London"
+  ],
+  "print_pages": 288,
+  "links": [
+    "https://openlibrary.org/books/OL24412633M",
+    "https://openlibrary.org/works/OL15445079W"
+  ],
+  "rights": "Copyright © 2011 by The University of Chicago. All rights reserved.",
+  "covers": [
+    {
+      "width": 268,
+      "height": 400,
+      "format": "JPEG",
+      "sha256": "f6b8cb658d6cda066d908bd13e8c510e9e226458e4ce440283b083d09e1dc0a8",
+      "suitable_main_cover": false,
+      "url": "https://covers.openlibrary.org/b/isbn/0226282074-L.jpg?default=false",
+      "path": "work/shamanic-trance/metadata/assets/f6b8cb658d6cda066d908bd13e8c510e9e226458e4ce440283b083d09e1dc0a8.jpg",
+      "accepted": true,
+      "reason": "Visually checked matching title/author/artwork against PDF front cover"
+    }
+  ],
+  "conflicts": [],
+  "sources": [
+    {
+      "url": "https://openlibrary.org/isbn/0226282074.json",
+      "resolved_url": "https://openlibrary.org/books/OL24412633M.json",
+      "sha256": "edf5e76dbac4adf7050704162de50ce9e2db107e9529c048d50669eba452ec1b",
+      "retrieved_at": "2026-10-01T14:44:22.818440+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/authors/OL5663863A.json",
+      "resolved_url": "https://openlibrary.org/authors/OL5663863A.json",
+      "sha256": "4cf9e0689c6dacb652f683effd5f1e6a12c72f27797b5671a3fa3557c3faf575",
+      "retrieved_at": "2026-10-01T14:44:23.700785+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/works/OL15445079W.json",
+      "resolved_url": "https://openlibrary.org/works/OL15445079W.json",
+      "sha256": "e4ea9f3662c28c793f37e9cb345917c8ec045dc3aa57fa63c4eb78556b9b6230",
+      "retrieved_at": "2026-10-01T14:44:24.489724+00:00"
+    },
+    {
+      "url": "https://covers.openlibrary.org/b/isbn/0226282074-L.jpg?default=false",
+      "resolved_url": "https://covers.openlibrary.org/b/isbn/0226282074-L.jpg?default=false",
+      "sha256": "f6b8cb658d6cda066d908bd13e8c510e9e226458e4ce440283b083d09e1dc0a8",
+      "retrieved_at": "2026-10-01T14:44:25.730559+00:00"
+    }
+  ]
+}

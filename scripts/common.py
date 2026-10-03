@@ -56,15 +56,15 @@ PROFILE_KEYS = frozenset("""
     endnote_chapter endnote_marker_limit endnote_marker_min endnote_reference_mode
     endnote_sections excluded_pages figures frontmatter_endnotes glossary_pages
     glossary_style glossary_terms hanging_pages index_pages index_splits isbn
-    language line_join_words metadata_record_overrides metadata_title_suffix
+    language line_join_words metadata_record_overrides metadata_title_suffix openlibrary_edition
     native_body_size native_excluded_fonts native_font_styles native_heading_sizes
-    native_heading_texts native_quote_pages native_small_numeric_sup
+    native_heading_texts native_heading_merge native_index_indents native_list_layout native_quote_pages native_relative_font_sizes native_small_numeric_sup
     native_superscript_max_size native_typography note_continuations note_starts
     page_labels paragraph_margins printed_page_offset publisher publisher_mark
     quote_first_line_indent recover_ocr_regions recover_pdf_typography
     recover_scan_font_metrics recover_scanned_endnotes reference_pages
     related_print_isbns rights row_heading_rules row_regions section_navigation
-    slug small_caps_openings source_completeness source_note
+    scan_raster_only slug small_caps_openings source_completeness source_note
     source_relative_figures source_sha256 source_version
     statistics_excluded_chapters subjects subtitle text_source title
     upper_margin_cutoff uppercase_margin_cutoff verse_regions vision_primary_pages

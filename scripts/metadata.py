@@ -5,6 +5,7 @@ import datetime
 import io
 import json
 import re
+import unicodedata
 from pathlib import Path
 import requests
 from PIL import Image
@@ -40,15 +41,26 @@ def isbn13(value):
 
 
 def norm(value):
-    return re.sub(r"[^\w]", "", value.lower())
+    # Catalogues mix composed accents, combining accents and unaccented names.
+    value = unicodedata.normalize("NFKD", value.lower())
+    return re.sub(
+        r"[^\w]", "", "".join(c for c in value if not unicodedata.combining(c))
+    )
 
 
 def verify_edition(record, book, authors):
     identities = {
         isbn13(v) for v in record.get("isbn_10", []) + record.get("isbn_13", [])
     }
-    if isbn13(book["isbn"]) not in identities:
+    if book.get("isbn") and isbn13(book["isbn"]) not in identities:
         raise ValueError("API record does not contain the requested ISBN")
+    if book.get("openlibrary_edition"):
+        if record.get("key") != "/books/" + book["openlibrary_edition"]:
+            raise ValueError("API record does not contain the requested edition")
+        if record.get("publish_date") != book["date"]:
+            raise ValueError("Edition date conflicts with the source profile")
+    if not book.get("isbn") and not book.get("openlibrary_edition"):
+        raise ValueError("An ISBN or exact Open Library edition is required")
     if norm(record.get("title", "")) != norm(book["title"]):
         raise ValueError("ISBN title conflicts with the source profile")
     if not any(norm(a) == norm(book["author"]) for a in authors):
@@ -202,8 +214,17 @@ def main():
         )
         print(json.dumps({"doi": enrich["doi"], "journal": enrich["journal"]}))
         return
-    number = isbn(book["isbn"])
-    edition = cache.get("https://openlibrary.org/isbn/" + number + ".json")
+    number = isbn(book["isbn"]) if book.get("isbn") else None
+    edition_id = book.get("openlibrary_edition")
+    if edition_id and not re.fullmatch(r"OL\d+M", edition_id):
+        raise ValueError("Invalid Open Library edition identifier")
+    if not number and not edition_id:
+        raise ValueError("An ISBN or exact Open Library edition is required")
+    edition = cache.get(
+        "https://openlibrary.org/isbn/" + number + ".json"
+        if number
+        else "https://openlibrary.org/books/" + edition_id + ".json"
+    )
     authors = [
         cache.get(record_url(author["key"]))["name"]
         for author in edition.get("authors", [])
@@ -233,6 +254,8 @@ def main():
     archive = {}
     item = book.get("archive_identifier")
     if item:
+        if not number:
+            raise ValueError("Archive enrichment requires a source ISBN")
         if not re.fullmatch(r"[\w-]+", item):
             raise ValueError("Invalid archive identifier")
         archive = cache.get("https://archive.org/metadata/" + item).get("metadata", {})
@@ -263,7 +286,7 @@ def main():
     enrich = {
         "source_sha256": book["source_sha256"],
         "isbn": number,
-        "isbn_13": isbn13(number),
+        "isbn_13": isbn13(number) if number else None,
         "edition_key": edition["key"],
         "authors": authors,
         "publication_date": date,
@@ -272,7 +295,9 @@ def main():
         "subjects": subjects,
         "identifiers": {
             "isbn_10": edition.get("isbn_10", []),
-            "isbn_13": sorted(set(edition.get("isbn_13", []) + [isbn13(number)])),
+            "isbn_13": sorted(
+                set(edition.get("isbn_13", []) + ([isbn13(number)] if number else []))
+            ),
             "lccn": edition.get("lccn", []),
             "oclc": edition.get("oclc_numbers", []),
             "openlibrary": [edition["key"].split("/")[-1]],
@@ -288,6 +313,8 @@ def main():
         "covers": [],
         "conflicts": overrides,
     }
+    if edition_id:
+        enrich["openlibrary_edition"] = edition_id
     if published != book["date"]:
         enrich["conflicts"].append(
             {
@@ -298,7 +325,15 @@ def main():
             }
         )
     # Exact ISBN image first; exact scanned archive item second. Work-level covers can be another edition.
-    urls = ["https://covers.openlibrary.org/b/isbn/" + number + "-L.jpg?default=false"]
+    urls = (
+        ["https://covers.openlibrary.org/b/isbn/" + number + "-L.jpg?default=false"]
+        if number
+        else [
+            "https://covers.openlibrary.org/b/olid/"
+            + edition_id
+            + "-L.jpg?default=false"
+        ]
+    )
     if item:
         urls.append("https://archive.org/services/img/" + item)
     for url in urls:

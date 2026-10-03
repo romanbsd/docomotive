@@ -5,6 +5,36 @@ import statistics
 from ocr import center
 
 LIGATURES = str.maketrans({"ﬀ": "ff", "ﬁ": "fi", "ﬂ": "fl", "ﬃ": "ffi", "ﬄ": "ffl"})
+LIST_MARKER = re.compile(r"^(?:[•▪●◦]|\d{1,3}[.)])\s+")
+
+
+def attach_list_layout(rows):
+    """Preserve visible markers; source geometry bounds hanging continuations."""
+    active = None
+    for row in rows:
+        marker = LIST_MARKER.match(row["text"])
+        if marker and row.get("list_text_left") is not None:
+            row["kind"] = "list-item"
+            active = row
+        elif active and not marker:
+            # A wrapped item aligns with its text, not its marker. Allow small
+            # coordinate noise, but reject body margins, font changes and gaps.
+            wraps = (
+                row["column"] == active["column"]
+                and abs(row["bbox"][0] - active["list_text_left"]) <= 0.008
+                and abs(row["font_size"] - active["font_size"]) < 0.15
+                and -0.005 <= row["bbox"][1] - active["bbox"][3] <= 0.02
+                and row.get("kind") != "heading"
+            )
+            if wraps:
+                row["kind"] = "list-item"
+                row["list_continuation"] = True
+                row["list_text_left"] = active["list_text_left"]
+                active = row
+            else:
+                active = None
+        else:
+            active = None
 
 
 def clean_text(text):
@@ -117,6 +147,27 @@ def extract_page(page, book, number, audit):
                 and spans[0]["size"] < 0.85 * spans[1]["size"]
             ):
                 parts[-1]["label_end"] = len(clean_text(spans[0]["text"]).strip())
+            if book.get("native_list_layout"):
+                marker = LIST_MARKER.match(text)
+                if marker:
+                    # Separately positioned marker/body spans give a measured
+                    # hanging indent. Single-span markers need character boxes.
+                    prefix = marker.end()
+                    consumed = 0
+                    text_left = None
+                    for span in spans:
+                        value = clean_text(span["text"])
+                        if consumed >= prefix and value.strip():
+                            text_left = span["bbox"][0] / page.rect.width
+                            break
+                        consumed += len(value)
+                    if text_left is not None:
+                        parts[-1]["list_text_left"] = text_left
+    # Mask diagram labels before horizontal merging: otherwise a label can
+    # widen a nearby prose row and make the whole row look like artwork.
+    from figures import outside_figures
+
+    parts = outside_figures(parts, book, number, audit)
     groups = []
     for part in sorted(parts, key=lambda p: (p["column"], center(p), p["bbox"][0])):
         if (
@@ -163,6 +214,8 @@ def extract_page(page, book, number, audit):
             "font_size": statistics.median(sizes) if sizes else None,
         }
         ordered = sorted(group, key=lambda p: p["bbox"][0])
+        if ordered[0].get("list_text_left") is not None:
+            row["list_text_left"] = ordered[0]["list_text_left"]
         if ordered[0].get("label_end"):
             row["label_end"] = ordered[0]["label_end"]
         if (
@@ -197,9 +250,16 @@ def extract_page(page, book, number, audit):
             text
             and len(text) < 150
             and inline
-            and all("strong" in style["tags"] for style in inline)
-            and sum(style["end"] - style["start"] for style in inline)
-            >= len(text.strip())
+            # Spaces introduced between positioned spans need no font style;
+            # every actual glyph must still carry bold evidence.
+            and all(
+                c.isspace()
+                or any(
+                    "strong" in style["tags"] and style["start"] <= i < style["end"]
+                    for style in inline
+                )
+                for i, c in enumerate(text)
+            )
         ):
             row["kind"] = "heading"
         if (
@@ -208,5 +268,35 @@ def extract_page(page, book, number, audit):
             and len(text) < 160
         ):
             row["kind"] = "attribution"
+        if row.get("kind") == "quote" and book.get("native_relative_font_sizes"):
+            # Relative native size respects the reader's chosen base font;
+            # clamp extreme annotation sizes instead of shrinking prose away.
+            row["quote_font_scale"] = min(
+                1, max(0.65, row["font_size"] / book.get("native_body_size", 9.5))
+            )
+        if re.fullmatch(r"FIGURE\s+\d+(?:\.\d+)?", text, re.I) and any(
+            f["page"] == number and 0 <= row["bbox"][1] - f["rect"][3] <= 0.025
+            for f in book.get("figures", [])
+        ):
+            row["kind"] = "caption"
+        elif (
+            rows
+            and rows[-1].get("kind") == "caption"
+            and (
+                row["column"] == rows[-1]["column"]
+                and abs(row["bbox"][0] - rows[-1]["bbox"][0]) < 0.01
+                and 0 <= row["bbox"][1] - rows[-1]["bbox"][3] < 0.01
+                and row["font_size"] <= rows[-1]["font_size"] + 0.1
+            )
+        ):
+            # A small, aligned line directly under a figure label is its
+            # caption continuation; larger or separated prose ends the run.
+            row["kind"] = "caption"
         rows.append(row)
+    if book.get("native_list_layout"):
+        # Only measured multi-span markers participate; prose numbers in one
+        # font span do not provide enough evidence for an item boundary.
+        candidates = [r for r in rows if r.get("list_text_left") is not None]
+        if candidates:
+            attach_list_layout(rows)
     return rows

@@ -1,0 +1,51 @@
+[
+  {
+    "page": 7,
+    "before": "Zosc _zydowska",
+    "after": "Zość żydowska",
+    "count": 1,
+    "evidence": "Checked against rendered publisher PDF; encoded diacritic restored, printed spelling preserved"
+  },
+  {
+    "page": 20,
+    "before": "fu¨r",
+    "after": "für",
+    "count": 1,
+    "evidence": "Checked against rendered publisher PDF; encoded diacritic restored, printed spelling preserved"
+  },
+  {
+    "page": 20,
+    "before": "Ju¨dische",
+    "after": "Jüdische",
+    "count": 1,
+    "evidence": "Checked against rendered publisher PDF; encoded diacritic restored, printed spelling preserved"
+  },
+  {
+    "page": 20,
+    "before": "gio¨sen",
+    "after": "giösen",
+    "count": 1,
+    "evidence": "Checked against rendered publisher PDF; encoded diacritic restored, printed spelling preserved"
+  },
+  {
+    "page": 22,
+    "before": "Hebr€aer, u¨bersetzt",
+    "after": "Hebräer, übersetzt",
+    "count": 1,
+    "evidence": "Checked against rendered publisher PDF; encoded diacritic restored, printed spelling preserved"
+  },
+  {
+    "page": 22,
+    "before": "Hebr€ar,” Jahrbu¨cher fu¨r",
+    "after": "Hebrär,” Jahrbücher für",
+    "count": 1,
+    "evidence": "Checked against rendered publisher PDF; encoded diacritic restored, printed spelling preserved"
+  },
+  {
+    "page": 22,
+    "before": "€altesten",
+    "after": "ältesten",
+    "count": 1,
+    "evidence": "Checked against rendered publisher PDF; encoded diacritic restored, printed spelling preserved"
+  }
+]

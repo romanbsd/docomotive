@@ -1,0 +1,1131 @@
+{
+  "title": "A Feeling for the Organism",
+  "subtitle": "The Life and Work of Barbara McClintock",
+  "author": "Evelyn Fox Keller",
+  "author_sort": "Keller, Evelyn Fox",
+  "language": "en",
+  "date": "2003",
+  "publisher": "Henry Holt and Company",
+  "isbn": "0805074589",
+  "rights": "Copyright © 1983 by W. H. Freeman and Company. All rights reserved.",
+  "slug": "feeling-organism",
+  "source_sha256": "59448237b057bd8b96cf9c5e33b50f6b43efc6e0123e170158984319b48f1a6a",
+  "chapters": [
+    [
+      4,
+      4,
+      "Barbara McClintock: graduation portrait"
+    ],
+    [
+      7,
+      7,
+      "Dedication"
+    ],
+    [
+      8,
+      8,
+      "The 1983 Nobel Prize"
+    ],
+    [
+      9,
+      9,
+      "Author’s Note on the Tenth Anniversary Edition"
+    ],
+    [
+      13,
+      17,
+      "Foreword"
+    ],
+    [
+      19,
+      25,
+      "Preface"
+    ],
+    [
+      27,
+      29,
+      "Acknowledgements"
+    ],
+    [
+      33,
+      46,
+      "1. A Historical Overview"
+    ],
+    [
+      47,
+      70,
+      "2. The Capacity to Be Alone"
+    ],
+    [
+      71,
+      94,
+      "3. Becoming a Scientist"
+    ],
+    [
+      95,
+      110,
+      "4. A Career for Women"
+    ],
+    [
+      111,
+      120,
+      "5. 1936–1941: University of Missouri"
+    ],
+    [
+      121,
+      138,
+      "6. Interlude: A Sketch of the Terrain"
+    ],
+    [
+      139,
+      152,
+      "7. Cold Spring Harbor"
+    ],
+    [
+      153,
+      170,
+      "8. Transposition"
+    ],
+    [
+      171,
+      184,
+      "9. A Different Language"
+    ],
+    [
+      185,
+      202,
+      "10. Molecular Biology"
+    ],
+    [
+      203,
+      228,
+      "11. Transposition Rediscovered"
+    ],
+    [
+      229,
+      240,
+      "12. A Feeling for the Organism"
+    ],
+    [
+      241,
+      251,
+      "Notes"
+    ],
+    [
+      253,
+      260,
+      "Glossary"
+    ],
+    [
+      261,
+      267,
+      "Index"
+    ]
+  ],
+  "printed_page_offset": -32,
+  "page_labels": {
+    "4": "frontispiece",
+    "7": "dedication",
+    "8": "Nobel Prize",
+    "9": "author’s note",
+    "13": "xi",
+    "14": "xii",
+    "15": "xiii",
+    "16": "xiv",
+    "17": "xv",
+    "19": "xvii",
+    "20": "xviii",
+    "21": "xix",
+    "22": "xx",
+    "23": "xxi",
+    "24": "xxii",
+    "25": "xxiii",
+    "27": "xxv",
+    "28": "xxvi",
+    "29": "xxvii"
+  },
+  "index_splits": {
+    "261": 0.485,
+    "262": 0.485,
+    "263": 0.485,
+    "264": 0.485,
+    "265": 0.485,
+    "266": 0.485,
+    "267": 0.485
+  },
+  "reference_pages": [
+    241,
+    242,
+    243,
+    244,
+    245,
+    246,
+    247,
+    248,
+    249,
+    250,
+    251,
+    261,
+    262,
+    263,
+    264,
+    265,
+    266,
+    267
+  ],
+  "index_pages": [
+    261,
+    262,
+    263,
+    264,
+    265,
+    266,
+    267
+  ],
+  "artwork_pages": [
+    [
+      1,
+      "cover"
+    ],
+    [
+      276,
+      "back-cover"
+    ]
+  ],
+  "note_starts": {},
+  "note_continuations": {},
+  "verse_regions": {
+    "139": [
+      [
+        0.32,
+        0.38
+      ]
+    ],
+    "229": [
+      [
+        0.28,
+        0.41
+      ]
+    ]
+  },
+  "excluded_pages": {
+    "2": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "3": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "5": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "6": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "10": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "11": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "12": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "18": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "26": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "30": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "31": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "32": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "70": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "94": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "110": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "120": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "138": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "152": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "184": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "202": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "228": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "240": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "252": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "268": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "269": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "270": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "271": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "272": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "273": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "274": "Blank, scan show-through, replaced frontmatter, or archive artifact",
+    "275": "Blank, scan show-through, replaced frontmatter, or archive artifact"
+  },
+  "upper_margin_cutoff": 0.08,
+  "chapter_body_starts": {
+    "33": 0.3,
+    "47": 0.3,
+    "71": 0.3,
+    "95": 0.3,
+    "111": 0.3,
+    "121": 0.3,
+    "139": 0.3,
+    "153": 0.3,
+    "171": 0.3,
+    "185": 0.3,
+    "203": 0.3,
+    "229": 0.3,
+    "13": 0.3,
+    "19": 0.3,
+    "27": 0.3,
+    "4": 0,
+    "7": 0,
+    "8": 0,
+    "9": 0.3,
+    "241": 0.28,
+    "253": 0.32,
+    "261": 0.32
+  },
+  "vision_primary_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    128,
+    129,
+    130,
+    131,
+    132,
+    133,
+    134,
+    135,
+    136,
+    137,
+    138,
+    139,
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152,
+    153,
+    154,
+    155,
+    156,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    164,
+    165,
+    166,
+    167,
+    168,
+    169,
+    170,
+    171,
+    172,
+    173,
+    174,
+    175,
+    176,
+    177,
+    178,
+    179,
+    180,
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    187,
+    188,
+    189,
+    190,
+    191,
+    192,
+    193,
+    194,
+    195,
+    196,
+    197,
+    198,
+    199,
+    200,
+    201,
+    202,
+    203,
+    204,
+    205,
+    206,
+    207,
+    208,
+    209,
+    210,
+    211,
+    212,
+    213,
+    214,
+    215,
+    216,
+    217,
+    218,
+    219,
+    220,
+    221,
+    222,
+    223,
+    224,
+    225,
+    226,
+    227,
+    228,
+    229,
+    230,
+    231,
+    232,
+    233,
+    234,
+    235,
+    236,
+    237,
+    238,
+    239,
+    240,
+    241,
+    242,
+    243,
+    244,
+    245,
+    246,
+    247,
+    248,
+    249,
+    250,
+    251,
+    252,
+    253,
+    254,
+    255,
+    256,
+    257,
+    258,
+    259,
+    260,
+    261,
+    262,
+    263,
+    264,
+    265,
+    266,
+    267,
+    268,
+    269,
+    270,
+    271,
+    272,
+    273,
+    274,
+    275,
+    276
+  ],
+  "archive_identifier": "feelingfororgani0000kell_o0m3",
+  "figures": [
+    {
+      "page": 4,
+      "rect": [
+        0.035,
+        0.12,
+        0.96,
+        0.85
+      ],
+      "alt": "Graduation portrait, Cornell University, 1923",
+      "name": "figure-004"
+    },
+    {
+      "page": 8,
+      "rect": [
+        0.035,
+        0.08,
+        0.96,
+        0.83
+      ],
+      "alt": "Barbara McClintock receiving the Nobel Prize, 1983",
+      "name": "figure-008"
+    },
+    {
+      "page": 44,
+      "rect": [
+        0.035,
+        0.1,
+        0.96,
+        0.79
+      ],
+      "alt": "McClintock and Walter Gilbert at Harvard Commencement",
+      "name": "figure-044"
+    },
+    {
+      "page": 51,
+      "rect": [
+        0.035,
+        0.54,
+        0.96,
+        0.82
+      ],
+      "alt": "The McClintock family",
+      "name": "figure-051"
+    },
+    {
+      "page": 53,
+      "rect": [
+        0.035,
+        0.11,
+        0.96,
+        0.83
+      ],
+      "alt": "Barbara McClintock as a child",
+      "name": "figure-053"
+    },
+    {
+      "page": 57,
+      "rect": [
+        0.035,
+        0.11,
+        0.96,
+        0.725
+      ],
+      "alt": "Thomas Henry McClintock",
+      "name": "figure-057"
+    },
+    {
+      "page": 59,
+      "rect": [
+        0.035,
+        0.12,
+        0.96,
+        0.37
+      ],
+      "alt": "The McClintock family outdoors",
+      "name": "figure-059"
+    },
+    {
+      "page": 64,
+      "rect": [
+        0.035,
+        0.3,
+        0.96,
+        0.855
+      ],
+      "alt": "Barbara McClintock at her parents’ home",
+      "name": "figure-064"
+    },
+    {
+      "page": 73,
+      "rect": [
+        0.035,
+        0.235,
+        0.96,
+        0.775
+      ],
+      "alt": "Stages of mitosis",
+      "name": "figure-073"
+    },
+    {
+      "page": 75,
+      "rect": [
+        0.035,
+        0.11,
+        0.96,
+        0.74
+      ],
+      "alt": "Stages of meiosis",
+      "name": "figure-075"
+    },
+    {
+      "page": 81,
+      "rect": [
+        0.035,
+        0.11,
+        0.96,
+        0.555
+      ],
+      "alt": "Cornell maize cytogeneticists",
+      "name": "figure-081"
+    },
+    {
+      "page": 88,
+      "rect": [
+        0.035,
+        0.09,
+        0.96,
+        0.625
+      ],
+      "alt": "The life cycle of corn",
+      "name": "figure-088"
+    },
+    {
+      "page": 114,
+      "rect": [
+        0.035,
+        0.095,
+        0.96,
+        0.475
+      ],
+      "alt": "The breakage-fusion-bridge cycle",
+      "name": "figure-114"
+    },
+    {
+      "page": 163,
+      "rect": [
+        0.035,
+        0.1,
+        0.96,
+        0.54
+      ],
+      "alt": "McClintock working at Cold Spring Harbor",
+      "name": "figure-163"
+    },
+    {
+      "page": 195,
+      "rect": [
+        0.035,
+        0.09,
+        0.96,
+        0.35
+      ],
+      "alt": "Gene conference, Shelter Island, 1949",
+      "name": "figure-195"
+    },
+    {
+      "page": 215,
+      "rect": [
+        0.035,
+        0.1,
+        0.96,
+        0.57
+      ],
+      "alt": "McClintock in her laboratory, 1963",
+      "name": "figure-215"
+    },
+    {
+      "page": 224,
+      "rect": [
+        0.035,
+        0.1,
+        0.96,
+        0.6
+      ],
+      "alt": "McClintock at Cold Spring Harbor, 1980",
+      "name": "figure-224"
+    },
+    {
+      "page": 226,
+      "rect": [
+        0.035,
+        0.1,
+        0.96,
+        0.615
+      ],
+      "alt": "McClintock’s plant course, 1981",
+      "name": "figure-226"
+    }
+  ],
+  "row_regions": [
+    {
+      "page": 4,
+      "lo": 0.85,
+      "hi": 0.95,
+      "kind": "caption"
+    },
+    {
+      "page": 8,
+      "lo": 0.83,
+      "hi": 0.9299999999999999,
+      "kind": "caption"
+    },
+    {
+      "page": 44,
+      "lo": 0.79,
+      "hi": 0.89,
+      "kind": "caption"
+    },
+    {
+      "page": 51,
+      "lo": 0.82,
+      "hi": 0.9199999999999999,
+      "kind": "caption"
+    },
+    {
+      "page": 53,
+      "lo": 0.83,
+      "hi": 0.9299999999999999,
+      "kind": "caption"
+    },
+    {
+      "page": 57,
+      "lo": 0.725,
+      "hi": 0.825,
+      "kind": "caption"
+    },
+    {
+      "page": 59,
+      "lo": 0.37,
+      "hi": 0.43,
+      "kind": "caption"
+    },
+    {
+      "page": 64,
+      "lo": 0.855,
+      "hi": 0.955,
+      "kind": "caption"
+    },
+    {
+      "page": 73,
+      "lo": 0.775,
+      "hi": 0.935,
+      "kind": "caption"
+    },
+    {
+      "page": 75,
+      "lo": 0.74,
+      "hi": 0.94,
+      "kind": "caption"
+    },
+    {
+      "page": 81,
+      "lo": 0.555,
+      "hi": 0.66,
+      "kind": "caption"
+    },
+    {
+      "page": 88,
+      "lo": 0.625,
+      "hi": 0.94,
+      "kind": "caption"
+    },
+    {
+      "page": 163,
+      "lo": 0.54,
+      "hi": 0.64,
+      "kind": "caption"
+    },
+    {
+      "page": 195,
+      "lo": 0.35,
+      "hi": 0.51,
+      "kind": "caption"
+    },
+    {
+      "page": 215,
+      "lo": 0.57,
+      "hi": 0.6699999999999999,
+      "kind": "caption"
+    },
+    {
+      "page": 224,
+      "lo": 0.6,
+      "hi": 0.7,
+      "kind": "caption"
+    },
+    {
+      "page": 226,
+      "lo": 0.615,
+      "hi": 0.715,
+      "kind": "caption"
+    },
+    {
+      "page": 114,
+      "lo": 0.475,
+      "hi": 0.91,
+      "kind": "caption"
+    },
+    {
+      "page": 219,
+      "lo": 0.86,
+      "hi": 0.95,
+      "kind": "quote"
+    },
+    {
+      "page": 220,
+      "lo": 0.11,
+      "hi": 0.21,
+      "kind": "quote"
+    }
+  ],
+  "metadata_record_overrides": [
+    {
+      "field": "title",
+      "before": "A Feeling for the Organism, 10th Aniversary Edittion",
+      "after": "A Feeling for the Organism",
+      "evidence": "Source title page and copyright ISBN verified. API title includes misspelled edition wording."
+    },
+    {
+      "field": "publishers",
+      "before": [
+        "Times Books"
+      ],
+      "after": [
+        "Henry Holt and Company"
+      ],
+      "evidence": "The scanned copyright page names Henry Holt and Company; API publisher conflicts."
+    }
+  ],
+  "section_navigation": true,
+  "cover_file": {
+    "path": "input/a feeling for the organism.jpg",
+    "sha256": "4ef4864e7def7dde4b6a9ca7288e39efc74cf77d943bec9f0532e91d27489a13",
+    "evidence": "User supplied; visually checked against the scanned tenth-anniversary cover"
+  },
+  "row_heading_rules": [
+    {
+      "pages": [
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251
+      ],
+      "pattern": "^(?:Preface|Chapter \\d+)$"
+    }
+  ],
+  "endnote_chapter": 20,
+  "endnote_reference_mode": "chapter",
+  "endnote_sections": [
+    {
+      "heading": "Preface",
+      "source_chapter": 6,
+      "expected_notes": 6
+    },
+    {
+      "heading": "Chapter 1",
+      "source_chapter": 8,
+      "expected_notes": 16
+    },
+    {
+      "heading": "Chapter 2",
+      "source_chapter": 9,
+      "expected_notes": 4
+    },
+    {
+      "heading": "Chapter 3",
+      "source_chapter": 10,
+      "expected_notes": 9
+    },
+    {
+      "heading": "Chapter 4",
+      "source_chapter": 11,
+      "expected_notes": 12
+    },
+    {
+      "heading": "Chapter 5",
+      "source_chapter": 12,
+      "expected_notes": 5
+    },
+    {
+      "heading": "Chapter 6",
+      "source_chapter": 13,
+      "expected_notes": 13
+    },
+    {
+      "heading": "Chapter 7",
+      "source_chapter": 14,
+      "expected_notes": 4
+    },
+    {
+      "heading": "Chapter 8",
+      "source_chapter": 15,
+      "expected_notes": 15
+    },
+    {
+      "heading": "Chapter 9",
+      "source_chapter": 16,
+      "expected_notes": 14
+    },
+    {
+      "heading": "Chapter 10",
+      "source_chapter": 17,
+      "expected_notes": 30
+    },
+    {
+      "heading": "Chapter 11",
+      "source_chapter": 18,
+      "expected_notes": 20
+    },
+    {
+      "heading": "Chapter 12",
+      "source_chapter": 19,
+      "expected_notes": 9
+    }
+  ],
+  "paragraph_margins": {
+    "241": 0.051,
+    "242": 0.095,
+    "243": 0.053,
+    "244": 0.093,
+    "245": 0.047,
+    "246": 0.084,
+    "247": 0.051,
+    "248": 0.082,
+    "249": 0.048,
+    "250": 0.08,
+    "251": 0.065
+  },
+  "hanging_pages": [
+    241,
+    242,
+    243,
+    244,
+    245,
+    246,
+    247,
+    248,
+    249,
+    250,
+    251,
+    261,
+    262,
+    263,
+    264,
+    265,
+    266,
+    267
+  ],
+  "glossary_terms": {
+    "253": [
+      "Acentric fragments",
+      "Allele",
+      "Anaphase",
+      "Asci",
+      "Bacteriophages (phages)",
+      "Biometrics",
+      "Centromere"
+    ],
+    "254": [
+      "Chiasmata (cross points)",
+      "Chromatid",
+      "Chromomeres",
+      "Chromosome",
+      "Cistron",
+      "Crossing over",
+      "Cytogenetics",
+      "Cytology",
+      "Deletion (deficiency)",
+      "Determination events",
+      "Diakinesis",
+      "Dicentric",
+      "Differentiation"
+    ],
+    "255": [
+      "Diploid",
+      "Diplotene",
+      "Dissociation",
+      "DNA (deoxyribonucleic acid)",
+      "Drosophila",
+      "Endosperm",
+      "Enzyme",
+      "Eukaryotes",
+      "Gamete",
+      "Gametophyte"
+    ],
+    "256": [
+      "Gene (hereditary factor)",
+      "Gene locus (gene site)",
+      "Genetic code (chemical code)",
+      "Genome (chromosomal complement)",
+      "Haploid",
+      "Heterozygous",
+      "Homologous chromosomes",
+      "Homozygous",
+      "Hybrid",
+      "Interphase",
+      "Inversion",
+      "Lamarckism"
+    ],
+    "257": [
+      "Life cycle",
+      "Linkage",
+      "Linkage group",
+      "Linkage map (chromosome map)",
+      "Lysenkoism",
+      "Lysis",
+      "Meiosis",
+      "Mendelism",
+      "Metaphase",
+      "Microtubules",
+      "Mitosis",
+      "Molecular biology"
+    ],
+    "258": [
+      "Mosaicism",
+      "Mutation",
+      "Nucleolus",
+      "Nucleoprotein",
+      "Nucleotides",
+      "Nucleus",
+      "Operator gene",
+      "Operon",
+      "Pachytene",
+      "Perithecium (fruiting body)",
+      "Phenotype",
+      "Plasmid"
+    ],
+    "259": [
+      "Prokaryotes",
+      "Prophase",
+      "Recombination",
+      "Regulator gene",
+      "Repressor",
+      "Ribosomes",
+      "Ring chromosome",
+      "RNA (ribonucleic acid)",
+      "Semiconservative replication",
+      "Somatic (cells)"
+    ],
+    "260": [
+      "Spindle",
+      "Structural gene",
+      "Synapsis (conjugation)",
+      "Systematics",
+      "Telophase",
+      "Transduction",
+      "Translocation",
+      "Variegation",
+      "Viruses",
+      "Zygote",
+      "Zygotene"
+    ]
+  },
+  "continuous_indented_rows": true,
+  "glossary_style": "em",
+  "cross_page_continuations": {
+    "220": {
+      "before": "analo-",
+      "after": "gous",
+      "evidence": "Source quotation crosses from printed page 187 to 188"
+    }
+  },
+  "recover_scanned_endnotes": true,
+  "recover_scan_font_metrics": true,
+  "recover_ocr_regions": true
+}

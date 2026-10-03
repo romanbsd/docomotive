@@ -1,0 +1,38 @@
+[
+  {
+    "page": 84,
+    "before": "approachd",
+    "after": "approached",
+    "bbox": [
+      0.12393493415956625,
+      0.2795363352652697,
+      0.8845855925639038,
+      0.3000445831475702
+    ],
+    "reason": "Printed misspelling verified against original scan; preserved in the faithful edition, optional editorial proposal only."
+  },
+  {
+    "page": 127,
+    "before": "omnious",
+    "after": "ominous",
+    "bbox": [
+      0.12006196746707977,
+      0.5871600534997771,
+      0.8838109992254067,
+      0.6076683013820776
+    ],
+    "reason": "Printed misspelling verified against original scan; preserved in the faithful edition, optional editorial proposal only."
+  },
+  {
+    "page": 176,
+    "before": "subleties",
+    "after": "subtleties",
+    "bbox": [
+      0.11928737412858248,
+      0.7917967008470798,
+      0.8783888458559257,
+      0.8149799375835934
+    ],
+    "reason": "Printed misspelling verified against original scan; preserved in the faithful edition, optional editorial proposal only."
+  }
+]

@@ -228,6 +228,28 @@ def page_blocks(n, rows, book, audit, first, policy=None):
                     or blocks[-1]["kind"] != "verse"
                     or (last is not None and y - last["bbox"][3] > 0.035)
                 )
+            if kind == "list-item":
+                # Item markers start blocks; measured hanging lines belong to
+                # that item even when their indentation changes from line one.
+                new = (
+                    not blocks
+                    or blocks[-1]["kind"] != "list-item"
+                    or not r.get("list_continuation")
+                )
+            if (
+                book.get("native_heading_merge")
+                and kind == "heading"
+                and blocks
+                and last
+                and last.get("native")
+                and r.get("native")
+                and blocks[-1]["kind"] == "heading"
+                and abs(r["font_size"] - last["font_size"]) < 0.15
+                # Wrapped title lines overlap or nearly touch vertically.
+                # Independently spaced headings keep their own boundaries.
+                and -0.015 <= y - last["bbox"][3] <= 0.005
+            ):
+                new = False
             if new:
                 blocks.append(
                     {
@@ -245,6 +267,18 @@ def page_blocks(n, rows, book, audit, first, policy=None):
                     blocks[-1]["first_line_indent"] = indented
                     if geo.get("quote_font_scale"):
                         blocks[-1]["quote_font_scale"] = geo["quote_font_scale"]
+                elif kind == "quote" and r.get("quote_font_scale"):
+                    blocks[-1]["quote_font_scale"] = r["quote_font_scale"]
+                    blocks[-1]["first_line_indent"] = indented
+                if n in book.get("index_pages", []) and book.get(
+                    "native_index_indents"
+                ):
+                    # Map normalized source indents to a roughly 40-em text
+                    # measure, preserving child-entry hierarchy at reader sizes.
+                    left = min(row["bbox"][0] for row in rr)
+                    blocks[-1]["index_indent_em"] = round(
+                        min(4, max(0, (r["bbox"][0] - left) * 40)), 2
+                    )
             else:
                 block = blocks[-1]
                 frag = block["fragments"][-1]

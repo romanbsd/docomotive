@@ -47,5 +47,19 @@
     "profile": "config/pharmako-poeia/book.json",
     "work": "work/pharmako-poeia",
     "editorial": false
+  },
+  {
+    "name": "skilled-helper",
+    "pdf": "input/Gerard Egan Robert J. Reese - The Skilled Helper (2019, Cengage Learning).pdf",
+    "profile": "config/skilled-helper/book.json",
+    "work": "work/skilled-helper",
+    "editorial": false
+  },
+  {
+    "name": "wizard-upper-amazon",
+    "pdf": "input/Manuel Córdova-Ríos_ F. Bruce Lamb - Wizard of the Upper Amazon-Kingsport Press (1971).pdf",
+    "profile": "config/wizard-upper-amazon/book.json",
+    "work": "work/wizard-upper-amazon",
+    "editorial": false
   }
 ]

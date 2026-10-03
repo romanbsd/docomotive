@@ -1,0 +1,1330 @@
+[
+  {
+    "page": 6,
+    "bbox": [
+      0.12121213387402761,
+      0.15106951905900823,
+      0.8863636390047598,
+      0.17296511638429757
+    ],
+    "text": "jos in Matto Grosso, Brazil. Córdova replied that he",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "3a9beb87940d00355755548e31ec334e5232baeaa4914922f141c77be4bc7f69",
+    "evidence_sha256": "0c1fb7fc3312c52685442e5950ca121005666f84d4d6924688fe24bc7960f18d",
+    "reason": "Reading checked against original scan; accented names or OCR typography differences are correct."
+  },
+  {
+    "page": 8,
+    "bbox": [
+      0.15404039915170464,
+      0.38226744171890015,
+      0.8838383765637837,
+      0.4041889480464289
+    ],
+    "text": "Córdova's background for making such a critical",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "b2eace5edab269085a01afad46d72f261ebbec3ea2e836e4506a9f377514c7e0",
+    "evidence_sha256": "a95b74e47542628e81838418dedea98012e29f8d8cb6dc45ecc1720ff8ea1dcc",
+    "reason": "Reading checked against original scan; accented names or OCR typography differences are correct."
+  },
+  {
+    "page": 8,
+    "bbox": [
+      0.1136363578683167,
+      0.5872093022203535,
+      0.8813131217276433,
+      0.6091800358221328
+    ],
+    "text": "of Córdova's life as a young man in the forest came",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "219715a9f75cb97c65c21c28bf05b24747940baf47c75142b1c8884a081f9cdb",
+    "evidence_sha256": "92d02466a75f0ae98ff2137614f64698ceac02a556b0fc1d4d89ecfdc587d731",
+    "reason": "Reading checked against original scan; accented names or OCR typography differences are correct."
+  },
+  {
+    "page": 9,
+    "bbox": [
+      0.116161629963733,
+      0.607397504744503,
+      0.8762626176372769,
+      0.62790697639982
+    ],
+    "text": "for a critical review of the manuscript; María Luisa",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "d855502dd07771522c4ca5e1dad63b7dbc7f171bb015f278b4c40787cdf27348",
+    "evidence_sha256": "74581652c8c6cec362303f76ca0a33bd7b2e65d3eaee91d1cbd10de784437ef2",
+    "reason": "Reading checked against original scan; accented names or OCR typography differences are correct."
+  },
+  {
+    "page": 9,
+    "bbox": [
+      0.1161616195072643,
+      0.630813953523111,
+      0.8787878659094026,
+      0.6541889479064623
+    ],
+    "text": "Muñoz of the University of Puerto Rico, Dorothy",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "ffcc5dde3d68b5a3cb245cf8cc75c6ebe70dd7c2f3b54868bf6b5ced570b3985",
+    "evidence_sha256": "15d3207a9b0a4268709f02b40aa4073f34b1e7e908424cb0ee4cdd34838f8aca",
+    "reason": "Reading checked against original scan; accented names or OCR typography differences are correct."
+  },
+  {
+    "page": 62,
+    "bbox": [
+      0.1177381874515879,
+      0.6125724476148016,
+      0.8822618125484121,
+      0.6326348640213999
+    ],
+    "text": "was also well aware that by comparison my knowl-",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "9090a3725e23f9e45511f65e4b979ad2a4f56f5e885f41dedc86bef2cddd6fe0",
+    "evidence_sha256": "e82fc0e5c85dd61b99c5e6ee565669831ccf91c71a0396f449562d072f22f23c",
+    "reason": "Reading checked against original scan; accented names or OCR typography differences are correct."
+  },
+  {
+    "page": 214,
+    "bbox": [
+      0.11616162768602574,
+      0.10739750433672934,
+      0.8611111102288372,
+      0.1337209299152904
+    ],
+    "text": "Manuel Córdova-Rios was born in 1887 in",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "1691684d306a18a4f98494ec9d857882225723e6fa72bab32405fb7a8b715bf1",
+    "evidence_sha256": "dcec4f8a07c0045a0ec12fc0608a1ddd1175127480e38144c9ef799c12df4636",
+    "reason": "Reading checked against original scan; accented names or OCR typography differences are correct."
+  },
+  {
+    "page": 214,
+    "bbox": [
+      0.11603745048729276,
+      0.22804441653173968,
+      0.8814248290972483,
+      0.2485931214304583
+    ],
+    "text": "Colombia and Brazil as well as Peru. Sr. Córdova-Rios",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "dd1ebe35b257462111c2198883dfb09e3cbe8a41bc5ed7eb7ebb59444340a9b7",
+    "evidence_sha256": "c811c6ce2243352947e1a7c7161e0838eb2c792df32f756cda2229a3bd0fa670",
+    "reason": "Reading checked against original scan; accented names or OCR typography differences are correct."
+  },
+  {
+    "page": 9,
+    "bbox": [
+      0.11363636670231053,
+      0.7339572190635445,
+      0.8787878718330431,
+      0.758912655783687
+    ],
+    "text": "Marvin Ginsky of U.S. Plywood-Champion Papers",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "cd3f727c48b7562904985b3ad4cda370694fdbcfc0c49bfd9b57b007f9bc120a",
+    "evidence_sha256": "e35de2d10748cb1e533f86bbd19cf68864cd586c562da1010fc5b746ea514142",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 20,
+    "bbox": [
+      0.12083656080557706,
+      0.5349977708426215,
+      0.8822618125484121,
+      0.5510477039679001
+    ],
+    "text": "would Jet me have no more water. Pieces of smoked",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "908173b68da000f1d54f5e623eb753f25669f4b1d27a00b90bfbb67065c3ea16",
+    "evidence_sha256": "de2463783d35edeec12a0de92b01a5f5a8246b8d14f500e835df30d1a96ac76c",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 24,
+    "bbox": [
+      0.12161115414407435,
+      0.22648238965670978,
+      0.8838109992254067,
+      0.24699063753901027
+    ],
+    "text": "was 2 loud squawking of macaws and almost immedi-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "53dfd1d00ae7d80f0534824623259d85f657bc724b47e664054f2bebf04beb15",
+    "evidence_sha256": "2ea521252f42f0fc3e92a4d050fd8bd7e959e4af36eca2671003c65eb1e064b4",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 32,
+    "bbox": [
+      0.11928737412858248,
+      0.5617476593847526,
+      0.8838109992254067,
+      0.5813642443156487
+    ],
+    "text": "black. I learned later that this was called paka nizpo",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "2702c908041d1ba56f03429b70631543f7603c2849982c57923ab8c42347024b",
+    "evidence_sha256": "25eb6c06fafba4e85f250cc4257594ed1c64a8ef5855e3a6ed8e09a5d1d122b6",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 37,
+    "bbox": [
+      0.1177381874515879,
+      0.22737405260811414,
+      0.8838109992254067,
+      0.24788230049041463
+    ],
+    "text": "ing it to me, he held up his own in front and imdi-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "e713113917d8b04f8b9d4b1bdfb7fc797ac35949f7be88c1dce5d4d98a428b8a",
+    "evidence_sha256": "d95b89c467f8c4379aa36378c24ef852d1c4309b94ad43f215c4b769e2b7795a",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 39,
+    "bbox": [
+      0.11696359411309062,
+      0.792242532322782,
+      0.879163439194423,
+      0.8131966116807846
+    ],
+    "text": "intelligible chant was also sung by Nixi Kuma off",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "6fa3a576db689804ecb99647e5e9f5b09a92d92c996ff47744b97e58154e03ed",
+    "evidence_sha256": "4ed059c17282b7bca22dd813fd53e8b275fc7262db7addb3c5cbae3d92652528",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 42,
+    "bbox": [
+      0.2974438419829589,
+      0.311636201515827,
+      0.6235476374903176,
+      0.3294694605439144
+    ],
+    "text": "Nizi honi,* vision vine",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "ff3eb03965c35c22db6d7298cc5d693f605492a07ce3bcbc1e462f53dc035e2d",
+    "evidence_sha256": "399dad55a54b0fba6e779676256dca5329ea708e615d01b7c4290e951b7e6ddc",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 43,
+    "bbox": [
+      0.15259488768396592,
+      0.27909050378956757,
+      0.8822618125484121,
+      0.29959875167186806
+    ],
+    "text": "A slow fire was started under the pot and the cock-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "cebd25e29673ceca3a489e1b19ad581ccadb6ddd0338cb43ed4424bd9b5015cb",
+    "evidence_sha256": "8f8be44b6d22a42dcbb067d116763ace5033691221960c308e11953c15a48d18",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 45,
+    "bbox": [
+      0.11851278079008519,
+      0.637539010254124,
+      0.8807126258714174,
+      0.6576014266607223
+    ],
+    "text": "surely been affected by iuaibo (evil spirits). The",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "b602ee6c7ef229f2fc5f4ac7c16bf666ed8f190fc380dbd6b3717eee3cebf3c8",
+    "evidence_sha256": "75b960ef8070818e168ef48ba10c26704df473d24ea0de8c93000aafbe32e696",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 47,
+    "bbox": [
+      0.15491866769945778,
+      0.22648238965670978,
+      0.8838109992254067,
+      0.24609897458760588
+    ],
+    "text": "Each of us drank his cupful of honi zuma, the",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "f543769230317303fe973c242251a7272a1f825ac99d7acd583282baf18da91e",
+    "evidence_sha256": "9cc9b72292d7f66c638368de78dc19a2f1ed448242fadc2876717a4173fcdcd6",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 51,
+    "bbox": [
+      0.15801704105344694,
+      0.5613018279090504,
+      0.8814872192099148,
+      0.5844850646455639
+    ],
+    "text": "Xumv’s knowledge of the forest for several days’",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "b0ac0518a963c377a12098ef273b9aac31e81623ad3fea0afff8bab71530eb11",
+    "evidence_sha256": "5514b10747672eb65483dae9096642d77e91bc5a1c2fca8c9879bf6cf3cb554d",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 52,
+    "bbox": [
+      0.12121213233710855,
+      0.5218023258517389,
+      0.876262602553464,
+      0.539244185921517
+    ],
+    "text": "SHORTIY after the second session of visions with",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "1d9ef5612f8c42850cb7ba067502557e5008c4701e4eb3f865898a3c2fe0e213",
+    "evidence_sha256": "6c58a1876e1c9f078747a1c7eb1fe3cf76657ab2ef9d0d22fff6d2aaec128950",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 60,
+    "bbox": [
+      0.1177381874515879,
+      0.7476593847525635,
+      0.879163439194423,
+      0.7677218011591619
+    ],
+    "text": "opening—hbeing very careful not to disturb any-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "a8cf7d309216e359c1c0e77f62ec016445bc342bbdefd5d90ff5d2f0334e786c",
+    "evidence_sha256": "b0ee9118bd915356f3a269e8764a03107f0ff491d48a7109c285cbe08af935f5",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 61,
+    "bbox": [
+      0.12083656080557706,
+      0.1966116807846634,
+      0.8845855925639038,
+      0.21444493981275078
+    ],
+    "text": "his name, ‘traxo, taaxo, txaxo,’ over and over to",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "2f3308e4a9a19770549a34b26ec9b3b3f82307db5a015afd5f1a30e14e5d1897",
+    "evidence_sha256": "ed9f1a7b8aeddff2b62d478da01c4c7c831a97a1c94c0953f2f0aa31268e9c4d",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 61,
+    "bbox": [
+      0.12161115414407435,
+      0.32189032545697727,
+      0.8822618125484121,
+      0.3410610789121712
+    ],
+    "text": "sneeze that he was very close, and I was ready. Ina",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "838a0ba3e0743011794b85cb306d612f5b8f2510d491e1ecb712aed43b9ae89f",
+    "evidence_sha256": "44c08f73e0fda75a3eaee3e3ed0eb163c189721e95e5ee347488b7b7ef789a27",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 64,
+    "bbox": [
+      0.1177381874515879,
+      0.7155595185020063,
+      0.8814872192099148,
+      0.7351761034329024
+    ],
+    "text": "feeling of satisfaction. Nixi and T’xaxo both showed",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "c8a71d13b07fcd935f23fe44b2f84a0458cd133559679bdeda0fccfba576fe84",
+    "evidence_sha256": "727ccfdfa7b9f18ae92578ea6b67476a6aeb5d289d9e9fa73826d2bc6209d928",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 67,
+    "bbox": [
+      0.15491866769945778,
+      0.6638430673205529,
+      0.8807126258714174,
+      0.6821221578243424
+    ],
+    "text": "“T saw the bush he likes to live on over there,”",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "f8f1a9ffd726841138b8b7a4d05c818acd6f0a3b09bfe1aaf337a7bdede71547",
+    "evidence_sha256": "3033f6d71bb15790906b6ac5a1c19dfc995d9ee3ce49e5b855b8e95526979159",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 71,
+    "bbox": [
+      0.11696359411309062,
+      0.7400802496656264,
+      0.876839659178931,
+      0.7605884975479269
+    ],
+    "text": "mediate hubbub started. Chief Kumu was waiting",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "286ad48bed11ba942255eeb42c68823f6a8c8819606fb8173a7d657ca7e3e384",
+    "evidence_sha256": "fe4f5fe25a10bd535e6489cb6e74c5eff83558ab0f2d3545df250841c1f38678",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 72,
+    "bbox": [
+      0.1262587141750581,
+      0.27819884083816315,
+      0.8845855925639038,
+      0.3004904146232724
+    ],
+    "text": "but it seemed to me that Xumu deliberately built wp",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "08bf7f4e10f139d5d1562966cde026b0c9f6814c8610a4ed170cf19222b45515",
+    "evidence_sha256": "e6c1a8f769d9f27e9be4f13fa567c5d7b6794ac12b2b313cfb74b11aba4f626d",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 75,
+    "bbox": [
+      0.1235494597041809,
+      0.5953358332236675,
+      0.8814887068591489,
+      0.6186856572348871
+    ],
+    "text": "means of hunting stories. Whenever & group of men",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "f89aef1f9b8de3dc11e08a3d34f67c7c56239393297832656341a50488b18e5e",
+    "evidence_sha256": "97e36cf02f6e82987453eaa34fa524073220555ab3117e987dfa85da46627d9c",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 78,
+    "bbox": [
+      0.15491866769945778,
+      0.6990637539010254,
+      0.8814872192099148,
+      0.7191261703076237
+    ],
+    "text": "“JT knew if I shot a monkey the jaguar would get",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "9c89f3989a5c47d30ce43ede8ca844fc7b1091558533a754fc675e49989c8684",
+    "evidence_sha256": "7a11e149ced39bd6b077ff97d3a37df81a4c6d80f8feef54792565e258b14d2b",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 84,
+    "bbox": [
+      0.15646785437645236,
+      0.6388765046812305,
+      0.8799380325329204,
+      0.6589389210878288
+    ],
+    "text": "“T chose three men to go with me to find him. We",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "34d6e55a1a81c1c7098ffc6b39bd3f3810923456e6654933dc2de08b4532defe",
+    "evidence_sha256": "c7b7aedd7ecd9ad02b3e843235735e22c18caaa87d2187f7c2c8aebe103a3311",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 84,
+    "bbox": [
+      0.11928737412858248,
+      0.7160053499777084,
+      0.8776142525174284,
+      0.7347302719572002
+    ],
+    "text": "dream that showed me where to lock, and we went",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "a9b27f7a6bb66064547af91d01245ee608c0e67b8990864f9a896993911a54ca",
+    "evidence_sha256": "989bd608a171197e56547ef00159ac185188d260efc649b9957cc46873f9e57c",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 87,
+    "bbox": [
+      0.11868687356642678,
+      0.49554367179808556,
+      0.8787878612399705,
+      0.5174418607035804
+    ],
+    "text": "OF TEN in the afternoon groups of men and boys",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "2f46d683df0e68876e0760d0343c97b3fd1237b3c3f8137edea6c8c2d2b4982a",
+    "evidence_sha256": "9ca31f509076305c3875e4f6a43b926129e8eede4c074917c6b4542b093b4ce8",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 87,
+    "bbox": [
+      0.11616163280464221,
+      0.8648255814402787,
+      0.8762626204781861,
+      0.8895348834891234
+    ],
+    "text": "by. Io let one go by without catching it was reason",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "203b3224a794d1304ff60927873b4f2c4dae42f7e85b4d82eb1a24b75162b96e",
+    "evidence_sha256": "933c96155624f8a84919ce0c4e8e20934f3931f790249b13957911c8a6394dd9",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 88,
+    "bbox": [
+      0.12006196746707977,
+      0.4850646455639768,
+      0.8822618125484121,
+      0.5051270619705751
+    ],
+    "text": "T had seen any of our equipment, and it was a shock.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "fce247a7b47e6c59878c18e03fbe66b2a0665a7da84f091e3a25c95e32a0bad6",
+    "evidence_sha256": "2e9eb8a91c321db0a63af77d91d646de0ab3cfc176984d98692dea9bf5e24e1e",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 94,
+    "bbox": [
+      0.12006196746707977,
+      0.7231386535889434,
+      0.8760650658404338,
+      0.7409719126170308
+    ],
+    "text": "ever, I learned that in the forest one must never he",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "427ac33dd93896aeb1fc3e0ce96687ba18aacaae9eb00c4fb76f1f62134eb66b",
+    "evidence_sha256": "c23eeaa80893acc3127ab2ca4dd4471de73bbcc01f162a4888c0619c6535acd2",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 96,
+    "bbox": [
+      0.11868687542651521,
+      0.5101744184412839,
+      0.8762626043714649,
+      0.5320855618478986
+    ],
+    "text": "AFTER IHE RAID, since the enemy invading",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "47d4bc9910b7bf794c1c16eb8403655e8ebd17d41dc04fab1b6f2f5af33024db",
+    "evidence_sha256": "b3f5518d73de21a26374238e2a86ac0b212b3077f2857a5a447c51548819c6b4",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 104,
+    "bbox": [
+      0.12238574748257164,
+      0.330806954971021,
+      0.8838109992254067,
+      0.35086937137761925
+    ],
+    "text": "wil find this second cup even more illuminating. Lis-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "dba6229c9b50b05acf2d2f8e090aa73a3820b2d9f82f95d98ab6fd63b4624c95",
+    "evidence_sha256": "ac6cbb02149b6f7b512b5063fb28d6cf90453b1aa914a2aea9be4c0459ac96d8",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 105,
+    "bbox": [
+      0.1177381874515879,
+      0.8689255461435578,
+      0.879163439194423,
+      0.8885421310744539
+    ],
+    "text": "reality. We soon walked, at Kumu’s usual measured,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "9d12daa6a3505f9da269c30d3487e5004ead3fcbe7eebd55158016b5c56fb13a",
+    "evidence_sha256": "52fb537e34fec002756c39905ea8c011c5ea1a0ce00a1067c611046bf73c309f",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 107,
+    "bbox": [
+      0.11696359411309062,
+      0.09897458760588497,
+      0.879163439194423,
+      0.12037449843958983
+    ],
+    "text": "yoyance in anticipating events and the reactions of",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "7758c628390d6196371e68b7e8be7c0eaf236cc4455b900caa080e66c54e1a80",
+    "evidence_sha256": "2dc0a655936c55d4f71d09f9906c138dd1160a3a9d6efccbcf1d1aac26fb214d",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 108,
+    "bbox": [
+      0.12373739278762606,
+      0.5187165771965834,
+      0.8813131217325759,
+      0.5406976745692539
+    ],
+    "text": "SEVERAI weeks after my last session of visions,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "9983c594a109f24d162f677db2be366d96be18d4799f936b1883a2e6d44013d3",
+    "evidence_sha256": "59a8ef1280e9c53eb9c3a0dd25e49aa42050f1a5b3d7fb8b2d798d379029a12e",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 114,
+    "bbox": [
+      0.11851278079008519,
+      0.09897458760588497,
+      0.8845855925639038,
+      0.11948283548818546
+    ],
+    "text": "get me by, though—TI could hardly go into a trading",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "0aa324d96663088f2d9a3a6cf65b2b32dd7a114048047470f36f3501646da324",
+    "evidence_sha256": "6f709adac82c8832d4e833f87e54e9326ac6428279b7e6ccb85d137b2a400479",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 117,
+    "bbox": [
+      0.15724244771494966,
+      0.4453856442264824,
+      0.25484120836560803,
+      0.46321890325456977
+    ],
+    "text": "“VYes,.”?",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "b5f6d4351913fee07bdc5bc470c33246535a1a9c8bbdf57cc4c46552888628e8",
+    "evidence_sha256": "9270ba95ceced3fbb1d98045fa3b08be276b6c1d37adbf5b0d6e2cb3fed5030f",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 119,
+    "bbox": [
+      0.15491866769945778,
+      0.6977262594739189,
+      0.8783888458559257,
+      0.7168970129291128
+    ],
+    "text": "He wrote down the balance, and I signed it ina",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "03e4c8350ce0fe56591bad51ca1d7fa78022fff1a9ce6150243ef87d377d6660",
+    "evidence_sha256": "ddda8b89459ed5829a48bdf8a9cc39589863c3fd1a76f486fb0ed150a4ad00ca",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 120,
+    "bbox": [
+      0.11928737412858248,
+      0.6892554614355774,
+      0.7846630518977536,
+      0.7048595630851539
+    ],
+    "text": "but I assured them there was no reason to he.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "d6fc00de3d926c8ebbe0e1791439953668cb91ed6ffd819ca40a09d407bb33d5",
+    "evidence_sha256": "e9dd9d9088bebc13f6be375c254917996ae818e9d756b450f98ad1722dba0025",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 126,
+    "bbox": [
+      0.12161115414407435,
+      0.6116807846633973,
+      0.8799380325329204,
+      0.6317432010699956
+    ],
+    "text": "of the body of tzazo the deer, others xoko the alli-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "6d8eeb82b60f906ec6d31497457f331420192706cdff00a6385000ecdef0f81e",
+    "evidence_sha256": "ed7b856d919011f42b1195b2636426c85eff7aed172a6f9b647190248ae64612",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 132,
+    "bbox": [
+      0.12393493415956625,
+      0.4850646455639768,
+      0.8830364058869093,
+      0.5051270619705751
+    ],
+    "text": "“J will show the people how to understand it,” he",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "799237b6e0e3485ecffc3c37a5f8d0474e51c054dd2570c3d1739ebc7846f558",
+    "evidence_sha256": "aeddcd97cf7b0eb0c03902c42f88bd34f4ade5ea4a9602e5ac3bbe618c17d557",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 133,
+    "bbox": [
+      0.11928737412858248,
+      0.7668301382077575,
+      0.879163439194423,
+      0.7868925546143558
+    ],
+    "text": "his name; Apo, the Angry One, was called Kano,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "08f2832e61f24211b3a99625c2cfe74ff914dab30a486b813f42fa2d8c9d5995",
+    "evidence_sha256": "28a573725a449632aec6fa2059f9fa6ad0cbc0c3e329ce5ff6428333aed001e1",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 133,
+    "bbox": [
+      0.11851278079008519,
+      0.8439589835042354,
+      0.879163439194423,
+      0.862238074008025
+    ],
+    "text": "woman. Kano lived without a woman with Tiwa, but",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "611077b623910c2f9c97ee2d93af2da01f811c545a09ba096776d9f2866d624c",
+    "evidence_sha256": "15b67fc5544609f977238ae2fa98d64894ba2dc7e0b8512fe7e47eb07a65a990",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 134,
+    "bbox": [
+      0.12316034082106896,
+      0.5871600534997771,
+      0.8799380325329204,
+      0.6067766384306732
+    ],
+    "text": "him for this. Kano, mean and angry, armed himself",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "1355dc21bf1deec4d9c2b9c098e5f2d8590bead4f2ff11c950995899323f1426",
+    "evidence_sha256": "3089626f5826919e0cb9ff73c945553a462038dce787f539d10ed50919171cf8",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 135,
+    "bbox": [
+      0.15491866769945778,
+      0.1761034329023629,
+      0.8822618125484121,
+      0.19527418635755683
+    ],
+    "text": "Mano, the Angry One, went into a rage and",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "ac9f76114e0eef4433c50222d8dde2dad2cf16fb4a7d7129bee8a91715563ab0",
+    "evidence_sha256": "9022fa7051ecf418ad9df2258c40d5649ef567ce84735d7655604823f0b5216c",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 135,
+    "bbox": [
+      0.15569326103795508,
+      0.25234061524743645,
+      0.8822618125484121,
+      0.2710655372269282
+    ],
+    "text": "Tiwa ran for his bow and arrows, but Kano shot",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "8dadda881683ca40d261cb76d640e65535bad10b3d61cbabd0046211055e0cf1",
+    "evidence_sha256": "578f4376a536e1ecfb919bceab54e5e728a8386cc304c0b14a71891535b525dd",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 135,
+    "bbox": [
+      0.11928737412858248,
+      0.30405706642888986,
+      0.8822618125484121,
+      0.3227819884083816
+    ],
+    "text": "not shoot, but he shouted as he fell. Then Kano, the",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "d4904bbc0180cc266d9010ff92cb5555b68f9166b6d9636fc0fe36f38ab94a20",
+    "evidence_sha256": "9406e327bc7ed12ba469b5aa2c64bc16d4f10bd370e83a5402d69429e28dc11d",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 135,
+    "bbox": [
+      0.1177381874515879,
+      0.637539010254124,
+      0.8807126258714174,
+      0.6584930896121266
+    ],
+    "text": "him. Kano went and got his weapons and returned,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "7c0967de47cdd9106bc146b5256aad31856cc6f8e7fa1d17bdfde476be06fc5b",
+    "evidence_sha256": "205a5611385dc802d4b39afcb997479157a168692aaacbce7488279ff0990241",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 137,
+    "bbox": [
+      0.1611154144074361,
+      0.17521176995095855,
+      0.8830364058869093,
+      0.19527418635755683
+    ],
+    "text": "From the other rivers, Kano’s people now speak",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "e0b6b5c7f87d2c225bc5d438749ece48d6dfb17ff734325c155e4414672d413d",
+    "evidence_sha256": "bd74e2719be89ce62a9722876f81865b0d53be891e33be18e1485505b6373b3c",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 137,
+    "bbox": [
+      0.12470952749806354,
+      0.2518947837717343,
+      0.8830364058869093,
+      0.2724030316540348
+    ],
+    "text": "great chief was killed. If Kano, the Angry One, had",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "68c4e44bb176ccfdbb100ac6b625cf0e176448b3732910b80ddd613ba9ed86b0",
+    "evidence_sha256": "ccbc412886e7e79112bfc92bb1a66e424fcded0968179f0f930c5dc1cf49dbca",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 142,
+    "bbox": [
+      0.11616162194605642,
+      0.6918604649902872,
+      0.8762626096196005,
+      0.7136627909274869
+    ],
+    "text": "Kumu in advance through one of his old women, and",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "89176860a0e3595caef3515689721fcdcfefd561f97e2973d56e516a80deec12",
+    "evidence_sha256": "134037970c9979f7b3a9f99abd67525f139561603bb8e05fecc010b19f646449",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 146,
+    "bbox": [
+      0.11928737412858248,
+      0.22737405260811414,
+      0.879163439194423,
+      0.24743646901471245
+    ],
+    "text": "women prepared a large quantity of hutto extract.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "d66cae956e2a68cdf15266c3b8a289f0b8a45cd2eaff1f04fd87fc48be2a01ad",
+    "evidence_sha256": "803ecca0bc21528d5e110bae7b7bec5486457e6a9b188e377b3f75dcf4d2eb7b",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 150,
+    "bbox": [
+      0.11868688931540387,
+      0.514534883482466,
+      0.8762626182603535,
+      0.5365418898573759
+    ],
+    "text": "II was customary for the families to continue to",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "26e21084ae49c9bd0c6c6d1d7677e1c88c4264a74f7eea298db7285da99a4ec5",
+    "evidence_sha256": "66acf67706751ab90fb358dae8abc333ab76d7e9504d21bf6e3af183e604b887",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 156,
+    "bbox": [
+      0.12238574748257164,
+      0.4846188140882746,
+      0.8783888458559257,
+      0.5046812304948729
+    ],
+    "text": "pulled it wp for protection, there was a movement.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "f69f9594c327b9cea208e084cc2c3fca89e9c01b3264e27dfe785cb76ad1f4cf",
+    "evidence_sha256": "5f632f5c6c0d8210a16bf151d5df2335d26caf0fe179b7407e98e5b1e4b8d6ca",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 161,
+    "bbox": [
+      0.15956622773044152,
+      0.14979937583593403,
+      0.8814872192099148,
+      0.1707534551939367
+    ],
+    "text": "“JT am an old man. Without a strong chief you will",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "e875e83fd506e19d60380d8de876207c742360148c93d75f62e59aa2bd1562e1",
+    "evidence_sha256": "073bf2c772b5aa51962a7dca52f9bc82a118a1da58ce33b6fdef2b1c5fee8f3f",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 162,
+    "bbox": [
+      0.12006196746707977,
+      0.30405706642888986,
+      0.8830364058869093,
+      0.3241194828354882
+    ],
+    "text": "raid, but it was clear that Kumu supported the",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "d7ad71f030c0053019cfbb9ea825ec63de490065c6e0911b871254761d066ffc",
+    "evidence_sha256": "1200526111a3599636a5738f44eff6d28e351a0937b60406899c2f8029606310",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 176,
+    "bbox": [
+      0.1177381874515879,
+      0.8435131520285332,
+      0.8783888458559257,
+      0.8653588943379402
+    ],
+    "text": "velop the contro] that had seemed so easy when old",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "b07ba96f632732f5ef41bb6cb9d3a4901929e19c5c5dc48d5c97dc013700c564",
+    "evidence_sha256": "d0fb29b96ff5c196efafa3bec099b67041d4f8e61f04840adaa49d9aeabbb402",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 177,
+    "bbox": [
+      0.1262587141750581,
+      0.2518947837717343,
+      0.8807126258714174,
+      0.27284886312973694
+    ],
+    "text": "apart to prevent a build-up of intensity by aceumu-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "aa17a1b603fd2236b5b45d8d83d44d1e45959318574054ed3de855580346edfb",
+    "evidence_sha256": "79603869e19a3b7c240cc4e4add911a263aaf3c16a3e75695a4a52e42b65d57b",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 178,
+    "bbox": [
+      0.11851278079008519,
+      0.7409719126170308,
+      0.8760650658404338,
+      0.7610343290236291
+    ],
+    "text": "again. Sickness, they believed, came from Juxibo,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "e1c6e772e5aeed3ddf8d823317b77ec0f805ee7125de7d2b50ab30a2d208c832",
+    "evidence_sha256": "a7651ad02b570b7c17bc72358b7b13447975273f675cbcc71926f11a069c3117",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 180,
+    "bbox": [
+      0.12106283819652505,
+      0.515676637754794,
+      0.8789747801500128,
+      0.5395453158426506
+    ],
+    "text": "AS NEARIX as I can determine from the maps of",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "0619ef414384de06acdecb8db57b57198a33a9ab6b9f9c5ad5c69b9abe3a0d52",
+    "evidence_sha256": "f5a3f5a9cbbb46fa11f8352c766bc69a46c9acda3fc91d30ab7253dd575ec8c8",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 195,
+    "bbox": [
+      0.15879163439194424,
+      0.6397681676326349,
+      0.8822618125484121,
+      0.6576014266607223
+    ],
+    "text": "The final visions I had had of Kumu and the",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "772407a60ddad9d4a223996c6df821080b58dc2d8728f02c6eda8245b1d60395",
+    "evidence_sha256": "e76b17cbe4ca37145d1f5505867fb5eb58944290615a16ae151029c9154f858b",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 199,
+    "bbox": [
+      0.12083656080557706,
+      0.4065983058403923,
+      0.8807126258714174,
+      0.427552385198395
+    ],
+    "text": "vealed forest chaos. Of to our left was a strip of",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "d26368519aa63d0b07015b3f5aab014f77b0a7fdd53d139b7eb8b8267c8ef001",
+    "evidence_sha256": "10d63218b0973f870b20d225944f5e468ef5792f44e3326a400f45913a683d5b",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 200,
+    "bbox": [
+      0.15956622773044152,
+      0.5349977708426215,
+      0.8799380325329204,
+      0.5550601872492198
+    ],
+    "text": "“Tt?s not worth much,” he said. “If prices con-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "32287b62b8fea6bff4f48cf0abad99eb84f069fce82bdafcf9559d74c960b8a4",
+    "evidence_sha256": "6d522b086717a0b734c9bd08276e225ead885437898f25247b954d1ecb741b74",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 201,
+    "bbox": [
+      0.15801704105344694,
+      0.33036112349531876,
+      0.879163439194423,
+      0.3522068658047258
+    ],
+    "text": "“Tt is empty—all yours if you wish. Why? Where",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "3e13ad1b51fde1434e0828558c403e6d413e446e1f499dd5541600de87b986f8",
+    "evidence_sha256": "b55bf85bc3e380dad3c190e60ffad41583dfdf307a9294cec29c94ac5bb8ee58",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 201,
+    "bbox": [
+      0.15801704105344694,
+      0.38207757467677217,
+      0.8807126258714174,
+      0.4021399910833705
+    ],
+    "text": "“J will be back before dark. Prepare my balance",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "30df986bfc910494ffa31092c3cff17fb9a0a3cf1458c1ceefcccb1a99a9415a",
+    "evidence_sha256": "9641c69bda5f2a2302bd75000476b01b36c93c817844bcdd541eb2f62f5bec84",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 204,
+    "bbox": [
+      0.12373738486236104,
+      0.5203488370677374,
+      0.8787878550787165,
+      0.5423351159008648
+    ],
+    "text": "THE RIo Puros was a meandering stream,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "dafd7e4c8834167ee2c97835790193da74020add569d8fae6a3f8c3126a3f139",
+    "evidence_sha256": "99ea36372902de9cf10989b4e315225f12a9c72a018ec9dda715f9fb2ab6eacd",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 205,
+    "bbox": [
+      0.11851278079008519,
+      0.1761034329023629,
+      0.8822618125484121,
+      0.19438252340615247
+    ],
+    "text": "the Brazilians, and in this border area both Ian-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "e1449f81745cb08676ca62ea13fe50029001c5629b05641cc320299accfe6cae",
+    "evidence_sha256": "dc3a7264dc627915d30b24b081adb6bfd1a01af52111efaa25cbac1823be22bb",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 206,
+    "bbox": [
+      0.11928737412858248,
+      0.7146678555506019,
+      0.879163439194423,
+      0.7356219349086045
+    ],
+    "text": "Filé, the company launch that had brought me",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "1ca2be4448b13ee58859941de821b982736da613e16b26a5f359af9360932427",
+    "evidence_sha256": "9ae75ae902f426f41e3b093f451f90bfbe75853ed413dc3b9baadbbb1ddfce52",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 208,
+    "bbox": [
+      0.12161115414407435,
+      0.5604101649576461,
+      0.8830364058869093,
+      0.5804725813642443
+    ],
+    "text": "and I was swept into the abrago of my father’s",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "54bc4af134e52f4c89cc72882ddd075d8918738881e28b4fef45fa1cbcd43bae",
+    "evidence_sha256": "f255e5a5a0addfed729b3e6bb695e8df0b911c29cf3f8a9c5d5c3429d529ce85",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 211,
+    "bbox": [
+      0.1180753708624337,
+      0.7988065760888154,
+      0.8842949439867079,
+      0.8288225997212798
+    ],
+    "text": "probably gaje, identified as Prestonia amazonica, &",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "43231b8f19f563413e6ae1738ee8bc4ad0b30bfe7bbd85b55adc094133a58a72",
+    "evidence_sha256": "469fa2b98bddbaf2d993dbc4ebb0f71baec4920fd7607f69f9e8c032593ba574",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 212,
+    "bbox": [
+      0.11928737412858248,
+      0.2857779759251003,
+      0.876839659178931,
+      0.3089612126616139
+    ],
+    "text": "relationship between honi zuma or ayahuasca and",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "1ee99b74012245320833228f9a907aa65c9db8fe150cde88d43cc1b342c46984",
+    "evidence_sha256": "1de6f87e3976534c66c14138da7ade8ae828b621b027351586faaea33c9907ca",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 212,
+    "bbox": [
+      0.12083656080557706,
+      0.40436914846188143,
+      0.8776142525174284,
+      0.42621489077128843
+    ],
+    "text": "thesized from ergot in 1948 by Dr. Albert Hofmann,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "d35b371b3c12fe8252ea76a90b7cdba607bbb12b17efecd7395d1a1df73653cf",
+    "evidence_sha256": "0980a628a05d151e7021cea010783c150f1e18265908710b42756b38bdc25fe2",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 212,
+    "bbox": [
+      0.15569326103795508,
+      0.7717342844404815,
+      0.8830364058869093,
+      0.7913508693713777
+    ],
+    "text": "Included are harmine from Banisteriopsis (hont",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "1256e103cfb263aa0388525335a6fb76ff74b54e726c397bbe4e156a96009155",
+    "evidence_sha256": "839d532414167a5f8183a97a5895640b3de2478ac94da95f783894f8593024a4",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 212,
+    "bbox": [
+      0.12238574748257164,
+      0.7931341952741864,
+      0.8776142525174284,
+      0.8189924208649131
+    ],
+    "text": "zuma), bufotenine from the mushroom (or fungus)",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "cc11408f96533da07502073f652ec7dd41e66e54422461407165d7a9b299a5a1",
+    "evidence_sha256": "f74c31f51c27c088db37910b00982b9705bea21c99c7d8acbd0d19786a25d563",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 213,
+    "bbox": [
+      0.1254841208365608,
+      0.21890325456977264,
+      0.8822618125484121,
+      0.23762817654926438
+    ],
+    "text": "Williamsti. Therefore, the formerly held theory that",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "c10db5102f0c080e068c40f74f7b452e68a677b41ae4820b0533706fbf6d951e",
+    "evidence_sha256": "1fff86e0d841b8f5fcbae40f91da56495be785b23d0a01c4fb97596096324dfc",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 213,
+    "bbox": [
+      0.1541440743609605,
+      0.5786892554614356,
+      0.8760650658404338,
+      0.5974141774409273
+    ],
+    "text": "Schultes, R. E., 1968. “Botanical Sources of the",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "0acae7aac90abe56ca37eed811e37073da093010d1ac4d4d5e3cd5d669dd953e",
+    "evidence_sha256": "7db0c6b83fca45d8f867bfbcadab5210d58e86cba69db977d6fc8434629c9ed9",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 213,
+    "bbox": [
+      0.15182029434546862,
+      0.6500222915737851,
+      0.876839659178931,
+      0.6700847079803834
+    ],
+    "text": "—____, 1963. “Hallucinogenic Plants of the New",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "f857638b66fd337b3d15393d4431ffe2a992da27c68ef59ef0b9bd1bad6723c3",
+    "evidence_sha256": "96a64adc1ea0af4737ead8b2002ed11ef161ac8e904f557aa351a12c63f5ef28",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  },
+  {
+    "page": 213,
+    "bbox": [
+      0.11851278079008519,
+      0.6740971912617031,
+      0.7296669248644462,
+      0.693267944716897
+    ],
+    "text": "World,” The Harvard Review, I(4) 718-82.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "text_sha256": "f81f17c8d25b1b02c334be8c018e91c2fadb42a6b5c5b27cd908dd3b7d2c8b5b",
+    "evidence_sha256": "f2893a2cbd00068d2d89d7bcb3c0583a20aef5e0ebd14fb9402d9003ea837a78",
+    "reason": "Visually checked against original scan pixels; exact corrected text and geometry are recorded in corrections.json."
+  }
+]

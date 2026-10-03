@@ -1405,6 +1405,367 @@
         "symbol-mercury.jpg",
         "symbol-sulphur.jpg"
       ]
+    },
+    "skilled-helper": {
+      "source_sha256": "b0895556f39a537c409e5006554b7dc134389e0d33fcb123470ac4ccf321ac1d",
+      "slug": "skilled-helper",
+      "editorial": false,
+      "artifacts": {
+        "book-model.json": "5a948078f1f704a1140a80beef40c2ba80bc9076342699f9b7241ba749357d92",
+        "corrected-pages.json": "60578e90e21182381552e37aa4d2fba18f8bc5b3c8920a8480007a5b313e44ae",
+        "text-coverage.json": "d7074e2a63126eda2ca5b6ab58613106a1c2690da6d8884e3a313b866f216fad",
+        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
+        "skilled-helper.txt": "eb99a789be5737fb36620488bc88e0cbd050ad6282ab46a5e7c5c868ee954a8c"
+      },
+      "epub_sha256": "baf60b8304332875dfc342ad8f45fc077ba3ce94b7a9232949c853eb44b50bd0",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/chapter-01.xhtml": "4fd624883d8449ab94e35735b8115097b613ec4f78b3ee4c86ad1fb4d76fa9a7",
+        "OEBPS/chapter-02.xhtml": "5ae44ea423e9824c8932059e8c9f21c2f360345bf0017a147d4054406e9d7915",
+        "OEBPS/chapter-03.xhtml": "be7c98805e868e0b03d682f459006f7b50b343f399b3caa4abff32c9de6a4c7d",
+        "OEBPS/chapter-04.xhtml": "e8fd7d3ff1af92aed679f392684193137c57931c8e86a28b386f365284f96815",
+        "OEBPS/chapter-05.xhtml": "a9ab20b7e9ccac84aac8d0a35dee0679a2c3db7ca601a958f1896cd90b23a683",
+        "OEBPS/chapter-06.xhtml": "9c9143826ad0cf46353551f7e7ab0893966881a1ea86a10649f829578b16789a",
+        "OEBPS/chapter-07.xhtml": "1e88ba5ef2eee634afc3957d806743afe27b86fb3323743b49c782fe5b78dca5",
+        "OEBPS/chapter-08.xhtml": "4172b3b7de7c159cd2054b0c11aa7bad308ff416fa6c51419d07b11c8fd4e330",
+        "OEBPS/chapter-09.xhtml": "0dd51188c3ffa007c8163bc52f8273a6b5415572be8001694432ea24b7b7c422",
+        "OEBPS/chapter-10.xhtml": "340814db4995c724d1aaed320140ab3f02fcb1bef89d3da22672e6870ec137b8",
+        "OEBPS/chapter-11.xhtml": "d8b8f62a9f673782bab9d66539238f134cac08b34d47a59fd577417156df9262",
+        "OEBPS/chapter-12.xhtml": "ea6991de2ae94578b454c1a90904248e085fbc61105256853557809619ce618e",
+        "OEBPS/chapter-13.xhtml": "607517c86148c28f118697727d0213338c4769fc4eabc403843cfd9165c51437",
+        "OEBPS/chapter-14.xhtml": "897cd6a78dab8270ad772bbe1833cd566ea44884c41cd266cbd80022b87c17bd",
+        "OEBPS/chapter-15.xhtml": "6eaef31ca0ce3620b53a56fe4d522765fbd564dabe5e1fe1d0908f41d9d5ad8c",
+        "OEBPS/chapter-16.xhtml": "6dafecf90ea2300946a00cf26ccfbcb16e9336bd4f6fcaefbb776d02f08b9892",
+        "OEBPS/chapter-17.xhtml": "1767790621a03af4a6c202ea8e76d42f7ec2db21812d328622ef185197cf6bf2",
+        "OEBPS/chapter-18.xhtml": "79538582fb422344132a58872b797d88f17d641ad3745eea7e7089f6d228cb5d",
+        "OEBPS/chapter-19.xhtml": "eec36cb3998e4575ce45a33a1d1fa3cf107a4fec06f52706cb1374e7618e517f",
+        "OEBPS/chapter-20.xhtml": "dbc546dd81e26c169bc121fa6a0e839578a5ef7a105f5ed5be2f5df5136dd731",
+        "OEBPS/content.opf": "37460e9e0bda3a230eec11a21a41a86a2f7d7bf44b7d54164ce0d810794034ee",
+        "OEBPS/copyright.xhtml": "5e1211732d36247857872e0b18eef87180c8eb23b86c1d90763e5fdca27851dc",
+        "OEBPS/cover.jpg": "227bee28c8400b24431d7469181c80e1f26dd16537318a103fa1e713accaa557",
+        "OEBPS/cover.xhtml": "96294fa69c0536d4c04532bdb681541af9f4f091e264f3536c70efa52c6ecf4c",
+        "OEBPS/downloaded-cover.jpg": "757bc56537ead4eb21e78cb9ba81c7590a02ee1d76fb3f616bc41b9de5236f9c",
+        "OEBPS/downloaded-cover.xhtml": "ba52f47bcefd0a43687b104e3c6bacc674c9da61b9076ca6ac0806eed9778cc8",
+        "OEBPS/edition-note.xhtml": "1de7370f259f95745b3d3accf175dedae22d6dbea9a54a997cf937e408a39f2a",
+        "OEBPS/figure-1-1.jpg": "2dbe7f786870e095395b0e74b8c52e085de928a07cfdf4b72a9948de4d1ba489",
+        "OEBPS/figure-10-1.jpg": "67c734a09635bdf6737df64a5748c24ebfa344b1d2ac8523fea3e7cbfd41a915",
+        "OEBPS/figure-11-1.jpg": "029b67bc8ff6a6cdb05a7987a624ca3f3d3b962c4b3a60fcabdb81e599b571c7",
+        "OEBPS/figure-2-1.jpg": "cf3f0424b1bce596c4c50b885f7daf2f315496e2a0c4c4bdfaa876c0361bc330",
+        "OEBPS/figure-2-2.jpg": "64fffc90fc36d6ef75dd7ea6b110a90fc03ef6052c159249d81b9d4e24b85a02",
+        "OEBPS/figure-2-3.jpg": "f6c5e00f7e43c03c88f6ed28409a5c4661a4bef51da4e2716971de6901f07bd5",
+        "OEBPS/figure-2-4.jpg": "444fef289ae0f8c690c8bb9a0e1ae6c6ce939be1b9be1cbe2ba67f112cfad6a1",
+        "OEBPS/figure-8-1.jpg": "214a96ba9e9fcf2a4c7275edc92834aefd7ebe90caeabe9a8f9c2ceda9a74a18",
+        "OEBPS/figure-9-1.jpg": "c82d1f1a766854e6cba59541d5409ff17b3b5066e2a562a959f88246df1e00ca",
+        "OEBPS/figure-model.jpg": "4ab51edfa5e8b48ef10ad7c65cf411568dbfa09a71adea50adc3965b7874d19f",
+        "OEBPS/nav.xhtml": "ec3754f1827ad8167c3cf05f1e39921d2f05c3da6e2076df1628d1da89977c40",
+        "OEBPS/style.css": "a30699baeb11c15256e2d394c28c72062875278a5052cf599854341419556da5",
+        "OEBPS/title.xhtml": "6a8daf2f94da847bc01f18de680c310f63451899cacbd457078836f61913b017",
+        "OEBPS/toc.ncx": "eb2537822a081cb36a440a11894df7691f73ae3492e31ae5bed4e3731a5d348c",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 1580,
+        "body": 21651
+      },
+      "chapters": [
+        {
+          "title": "The Skilled Helper Model",
+          "sha256": "d88ddb88055537642dc5a781040c0f82d798baf04d2bb73892ffdbbe69288236",
+          "blocks": 1
+        },
+        {
+          "title": "Preface and Guide to the 11th Edition",
+          "sha256": "30fa30140f4d819d73b727662480401a1e91d8f86e3cee48bd14b66f86e23b87",
+          "blocks": 42
+        },
+        {
+          "title": "A Chapter-by-Chapter Guide to the 11th Edition",
+          "sha256": "f21e89bfa7fdc3ce0c66a503ebb476f21157eb02cf6fbd75f3489a01286aecd8",
+          "blocks": 34
+        },
+        {
+          "title": "Part I: The Power of Basics",
+          "sha256": "fceee395dde77b055ae083186cd2ea2eb8596884256fd95d174619bff0085015",
+          "blocks": 3
+        },
+        {
+          "title": "Chapter 1: The Power of Basics: Explore the Ingredients of Successful Helping",
+          "sha256": "8ebfa452a04bbe89bfba811bb0ad8957b9616fe1e9f0d8079d36837ce0d0d467",
+          "blocks": 239
+        },
+        {
+          "title": "Chapter 2: Review the Problem-Management & Opportunity-Development Process",
+          "sha256": "77fcfb850f92fcc23e7558d64c9ae0f560413415f3010f9fc916fd217d91ee0e",
+          "blocks": 154
+        },
+        {
+          "title": "Chapter 3: Commit Yourself to the Helping Relationship and the Values That Drive It",
+          "sha256": "eff91700df8d8bfca7b5b99c81465d7bbb289c2368f728bfcf26ccefac417a8b",
+          "blocks": 213
+        },
+        {
+          "title": "Part II: The Therapeutic Dialogue: Master Communication and Relationship-Building Skills",
+          "sha256": "416a8dcd4ec07a44a3f719c24e349c1956d4e2abacd8c4476e18308f2b9eb5d5",
+          "blocks": 5
+        },
+        {
+          "title": "Chapter 4: Therapeutic Presence: Tune in to Clients and Listen Carefully",
+          "sha256": "4b91b7b00efc2a0c17e0a8331d96b72c3b0dd6d6ec15e86f4b17317205c00a10",
+          "blocks": 240
+        },
+        {
+          "title": "Chapter 5: Empathic Responding: Work at Mutual Understanding",
+          "sha256": "48d4f47264714a563eba213dd15937b3ed2d52b6b7d8d876f378cf2a30249419",
+          "blocks": 231
+        },
+        {
+          "title": "Chapter 6: Master the Art of Probing and Summarizing",
+          "sha256": "188c79598546d9f2b9ba6940b060bcbce953f064377b6cee219858796e796e04",
+          "blocks": 212
+        },
+        {
+          "title": "Chapter 7: Help Clients Challenge Themselves: From New Perspectives to New Behavior",
+          "sha256": "fa2fd5d8b95eeac2b093572c4392ecc1a40895f03c4cc40791cfca46400cab8d",
+          "blocks": 339
+        },
+        {
+          "title": "Part III: The Stages and Tasks of the Problem-Management and Opportunity-Development Model",
+          "sha256": "61d8e85c047de94540e5ea9ba77c0b4bd251bc0f7a080d01c3052fcebf7600f1",
+          "blocks": 10
+        },
+        {
+          "title": "Chapter 8: The Action Arrow: Right from the Beginning Help Clients Turn Talk into Life-Enhancing Action",
+          "sha256": "240330d35b1d943f5af84071dad57a5fcbf66ba5137fb2946372d925ae99e5a0",
+          "blocks": 302
+        },
+        {
+          "title": "Chapter 9: The Three Tasks of Stage I: Help Clients Tell the Story, the Real Story, and the Right Story",
+          "sha256": "311fee8143d0a434811d1625b1274ff0b321948f9776dfcedc6c53a628d55a24",
+          "blocks": 306
+        },
+        {
+          "title": "Chapter 10: Stage II: Help Clients Design and Set Problem-Managing Goals",
+          "sha256": "3a865eef89a713d1fc39f833dca486e4555f0f0a2def5430acfb0bcbf12d0608",
+          "blocks": 343
+        },
+        {
+          "title": "Chapter 11: Stage III: Planning-Help Clients Design the Way Forward",
+          "sha256": "8c6f49a8d665b6c69c1186ed030d887a79a5ccd41345c5a482db6a41834b53d8",
+          "blocks": 316
+        },
+        {
+          "title": "References",
+          "sha256": "9c6a292ff8b02da5b925c8e50e6f69b7271114ea5237a6536c519c504c822de4",
+          "blocks": 823
+        },
+        {
+          "title": "Name Index",
+          "sha256": "2fa7c6ec9dfd778ae3c59a59cd4f1b698974d6e157beab23d0c161d7d9bea41c",
+          "blocks": 1040
+        },
+        {
+          "title": "Subject Index",
+          "sha256": "1931b2ef108e01cbe5ae7f544e838855cb1e1f69b4df79a01c186cc8b2134c1f",
+          "blocks": 1111
+        }
+      ],
+      "noterefs": 0,
+      "backlinks": 0,
+      "figures": [
+        "figure-1-1.jpg",
+        "figure-10-1.jpg",
+        "figure-11-1.jpg",
+        "figure-2-1.jpg",
+        "figure-2-2.jpg",
+        "figure-2-3.jpg",
+        "figure-2-4.jpg",
+        "figure-8-1.jpg",
+        "figure-9-1.jpg",
+        "figure-model.jpg"
+      ]
+    },
+    "wizard-upper-amazon": {
+      "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+      "slug": "wizard-upper-amazon",
+      "editorial": false,
+      "artifacts": {
+        "book-model.json": "3a5885502c59f44c54b6d7dcd6906fab4e8355a1023ef9dd0ca6955fa519ef97",
+        "corrected-pages.json": "19a03391bfee101e454cf198d8d47eb133e55f7cf6e276762a6c3077640788f1",
+        "text-coverage.json": "2ef15f2e4579cf7a734275355b373e08a6f21e2f4567e831ae3d8b560fa919d9",
+        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
+        "wizard-upper-amazon.txt": "b8361d76a45818c6ea0132e688ef8f01da76c6fd52187fbc7e527b41bd043b18"
+      },
+      "epub_sha256": "476b74d1d055b99399f47304f5caf061274b78a8b8f22cf9538207fdd255b937",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/back-jacket-flap.jpg": "fe85c71bc035591efdd49ddca2adade3590dd792f160c2eaead0ae9d43586174",
+        "OEBPS/chapter-01.xhtml": "e31d33144569717a2f98a40a7fbb7981ee6589e1e8e3f16064dcdd783f933169",
+        "OEBPS/chapter-02.xhtml": "e4559d58a0364618c659a7c21c1fdd32a67aa5cdf3d73c5a4e7a6f15d8ef6b93",
+        "OEBPS/chapter-03.xhtml": "54a7561382e659e160fda8a9f020bd0eb69eaf5636a3ea4a4342c93d440f0ae7",
+        "OEBPS/chapter-04.xhtml": "0e0046434af1629a78c4cc45c62d61c8ef1f1828b19601a5ce77fc4fb2c63c0d",
+        "OEBPS/chapter-05.xhtml": "432015bbe498b6087381ca4b69facc276cb049bd4e54bcb5fe26acc5a964089c",
+        "OEBPS/chapter-06.xhtml": "a5e15733e40a4156fdd99a9b7674472ad9cbcea7d3e6d963552d9b34b8e1b860",
+        "OEBPS/chapter-07.xhtml": "ac24761d0c2ac919e7f772348cfa4e2e93cc9d03158e470651cab83dcd1e5aeb",
+        "OEBPS/chapter-08.xhtml": "02903537314ea03a4db5bbdca17e439b0d4af4279667c6e7a22c0f65fa1b2f5c",
+        "OEBPS/chapter-09.xhtml": "d070ee50834823a0ee8868274aca2f92b3ca6e3c09b9b105ef3b7fe2553e9868",
+        "OEBPS/chapter-10.xhtml": "061cf474f6ceece1d27389d28ef4a13e3178c6a736d6f0b34190595082ade3bb",
+        "OEBPS/chapter-11.xhtml": "a440c776212e12231dacbc1f0bd8c2cf3a7b58bd8a2e37108b0b488e22a100a3",
+        "OEBPS/chapter-12.xhtml": "69acd4138e9af9510410a0636f5918c43edb12b914bf2992fc7cb04639216b0b",
+        "OEBPS/chapter-13.xhtml": "7781893e6ab283dddc44664bcabf79971b71a974ddd5dd13e2fc6624ab9eee17",
+        "OEBPS/chapter-14.xhtml": "9b16aafe32c96b9f43b425d10f2c215154cf0e9168731f54d16747bca164872f",
+        "OEBPS/chapter-15.xhtml": "5327306fe1ec2cdcebebab443ec5dbe4d24f2e73f84b3da34d789a6cd3a1a7c8",
+        "OEBPS/chapter-16.xhtml": "4830bc93d36b98dc128034dd6f5de1fc5ee3ceff5951b763b1f2164ab03824c6",
+        "OEBPS/chapter-17.xhtml": "96cd0ce4d4fb86d4598917dca612775a688e009df129fe33201110d3e93d045b",
+        "OEBPS/chapter-18.xhtml": "3c46ae7f4cd703472323f0a8d35ab09cae408e7e444b9f00f04b8138a1b41d33",
+        "OEBPS/chapter-19.xhtml": "550708130c7e4a843cb2286b38f7e92a17eba07853ad49b327ea549916b46a6c",
+        "OEBPS/chapter-20.xhtml": "0ef59559dfb1a58f22600f0d8797642f2d3cd5f99e660202707a3b1676b80b48",
+        "OEBPS/chapter-21.xhtml": "50c055e2ec18eaa43ed0b996c5539a04ddafedc60bc3eef12fd43a6b1a612d13",
+        "OEBPS/chapter-22.xhtml": "48f9b2824fd4b4bb1e95d40cbc23b33801491e5da4cc75b5e6d3efcabe97c286",
+        "OEBPS/chapter-23.xhtml": "bc1247ab8be6d3bc056a7e8d41fc13f8ac19dce2eca8568063ceffbec74cfe5b",
+        "OEBPS/chemical-structures.jpg": "317b5c5844bc9fcffddaf8e5240fe4e96b98731afe9bb2ea605c93309d172223",
+        "OEBPS/content.opf": "9d98520f9c324fd2a4053036655df1e3f4cb961a9fa2d6b69fab5bbc78d44c14",
+        "OEBPS/copyright.xhtml": "c78b1c77bdce117d8ccd441f5d343dfb22d2e0bfec93c8c12e3761f6c9bc18c4",
+        "OEBPS/cover.jpg": "0aef4f696d972490a55f13c75788a0f0538a9d2fb911cbc5a556348ce77aac59",
+        "OEBPS/cover.xhtml": "80e56da05a64b970e2e4a2a61f62b428618ec89c6c19c63b921b4d0c8b687dea",
+        "OEBPS/edition-note.xhtml": "30a8edb99b58982a1d271a39166757ae2a6e76ea30953c57ce37ad7a150cf8e0",
+        "OEBPS/front-jacket-flap.jpg": "bda2251048ddc055fb3c0d40bbb013b2af4abdde47a006ea9f2f001dca45b783",
+        "OEBPS/nav.xhtml": "904f0bdffe6232520bcf720d9ee9b26159f125abc52a3c95c540a23ad4c6bfd4",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/title.xhtml": "cedb4227482ebf5d72fca0d23eb56b731d282f7aa41fcf725cbe25e3363fbb17",
+        "OEBPS/toc.ncx": "e35fbcb98b4ff1f004eb3b4e0ee5008791c37a7d3702ab1a84ce78480e9009af",
+        "OEBPS/travel-map.jpg": "9e8d5d40e7fef634b3e488cb8a6bf6c766c59b8e1c18b2116c239b9eab3e1c46",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 480,
+        "body": 5947,
+        "note": 3
+      },
+      "chapters": [
+        {
+          "title": "Front jacket flap",
+          "sha256": "4139ad8205c43d4c12df7bc30c44b4ce9f190b48450b6d71fafa2e81ba8f28c0",
+          "blocks": 1
+        },
+        {
+          "title": "Foreword",
+          "sha256": "57b5ac97868e648e66086b42322d96f842dd4d959b4ddbb15af2f75c48ae09bb",
+          "blocks": 15
+        },
+        {
+          "title": "Acknowledgments",
+          "sha256": "8fc04464d3bb992c33079be4918802eee027c9232153c2f0989922b7ec70c429",
+          "blocks": 2
+        },
+        {
+          "title": "Map: Córdova’s Travel Route",
+          "sha256": "8b0775e6a65ab886b8aa6b9a8b163a090a5c4b82ba4908a73e35b440359a0fc8",
+          "blocks": 1
+        },
+        {
+          "title": "Caucho Camp",
+          "sha256": "3f2e4fd631e960bd37d0fc91da57c5ab8cdbc92a0cf3a9efff182665a07e0b23",
+          "blocks": 41
+        },
+        {
+          "title": "Strange Village",
+          "sha256": "dc610881453bcd55a47b78a71fe2c01e40b6005419a8a932e74712e59c4fe96e",
+          "blocks": 24
+        },
+        {
+          "title": "Visions",
+          "sha256": "e357e16cb07c77ae59b2722a26127ee7328e53a68e329f8fd2c8c49bd0adb799",
+          "blocks": 71
+        },
+        {
+          "title": "Hunting Camp",
+          "sha256": "e867859c64eed1828b12eb8ff2b8dad7d2f60a0668839c305c05adf8b6507ffa",
+          "blocks": 80
+        },
+        {
+          "title": "Hunting Stories",
+          "sha256": "9de9bc8118664ada30eac959cfb4c1bfe0bbcc529139325a37955c26daea6ed1",
+          "blocks": 40
+        },
+        {
+          "title": "Invasion",
+          "sha256": "d6d55f512ad15d41a20a7140e1c7384dbb1caba08494dfcd19640f68b4e81fc1",
+          "blocks": 28
+        },
+        {
+          "title": "Apprenticeship",
+          "sha256": "9c15dd63caab68dfe6248b07f5f65034ecea0096ebc7c36592beab0efdb9104c",
+          "blocks": 45
+        },
+        {
+          "title": "Indian Caucho",
+          "sha256": "a3b859eff0b389eb8d689313a8d99f491c6812cfc7ad2b66cb7dbff45783ddf3",
+          "blocks": 88
+        },
+        {
+          "title": "Legends",
+          "sha256": "f994d96f6698aaafdee1f5eb14d0874e51f9511ff935c489362cb43c26416ae4",
+          "blocks": 74
+        },
+        {
+          "title": "Marriage",
+          "sha256": "5c066ce49eed700479cc7b55de5af71ee86a99c4cf4988ef381af3c239069ed6",
+          "blocks": 24
+        },
+        {
+          "title": "Jaguars",
+          "sha256": "ba3fe9842651299eaf78d3e47c1f4361c29f4b6f3a93650bf78b1dad4e434436",
+          "blocks": 24
+        },
+        {
+          "title": "Assassin",
+          "sha256": "ccae3a4aab484324131ad51ad357ab51e4fc6ebaf1ee2e695b0dca6f7ebb0ad4",
+          "blocks": 44
+        },
+        {
+          "title": "Transition",
+          "sha256": "96f29ad039b89e42f36b691455c79a80afb1c67f8826f37baaa02fc70e6cae79",
+          "blocks": 34
+        },
+        {
+          "title": "Frustration",
+          "sha256": "daeb7e487661bfe468351db07efb8e291583440a10f8210097e2c074f456f3a5",
+          "blocks": 36
+        },
+        {
+          "title": "Release",
+          "sha256": "cbe81b797c0a2a3b64a8e1cdfc7e7167a323bcb15fd90b1c0424d7cb509c4a9a",
+          "blocks": 46
+        },
+        {
+          "title": "Return",
+          "sha256": "32d7999b51609a0075c81059c84a559766d62bc1b7f3e24319a882e952029527",
+          "blocks": 18
+        },
+        {
+          "title": "Appendix: The Relationship of Various Vision-Causing Extracts",
+          "sha256": "bac487fd5048aa129811fe7aa069e93fd98e9ffa77f3c057870810789b1336ab",
+          "blocks": 16
+        },
+        {
+          "title": "About the Authors",
+          "sha256": "c737d3b57208653ba6e0d1459984dae39caed9f433bd979bfa91b78195a10902",
+          "blocks": 2
+        },
+        {
+          "title": "Back jacket flap",
+          "sha256": "d4ff2a68ddd5c271808e18839cef1f5ebb25da79d236ca721f89baf3236abd96",
+          "blocks": 1
+        }
+      ],
+      "noterefs": 0,
+      "backlinks": 0,
+      "figures": [
+        "back-jacket-flap.jpg",
+        "chemical-structures.jpg",
+        "front-jacket-flap.jpg",
+        "travel-map.jpg"
+      ]
     }
   }
 }

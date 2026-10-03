@@ -1,0 +1,133 @@
+{
+  "source_sha256": "59448237b057bd8b96cf9c5e33b50f6b43efc6e0123e170158984319b48f1a6a",
+  "isbn": "0805074589",
+  "isbn_13": "9780805074581",
+  "edition_key": "/books/OL7932980M",
+  "authors": [
+    "Evelyn Fox Keller"
+  ],
+  "publication_date": "2003",
+  "publication_date_raw": "February 15, 1984",
+  "description": "xxvii, 235 pages : 21 cm\n\"I have decided to let this book stand as I initially wrote it\"--Author's note to the 10th anniversary ed\nIncludes bibliographical references and index\nAn historical overview -- The capacity to be alone -- Becoming a scientist -- A career for women -- 1936-1941: University of Missouri -- Interlude: a sketch of the terrain -- Cold Spring Harbor -- Transposition -- A different language -- Molecular biology -- Transposition rediscovered -- A feeling for the organism",
+  "subjects": [
+    "Biography & Autobiography",
+    "Biography/Autobiography",
+    "General",
+    "Historical - General",
+    "Science",
+    "Science / General",
+    "Scientists, biography"
+  ],
+  "identifiers": {
+    "isbn_10": [
+      "0805074589"
+    ],
+    "isbn_13": [
+      "9780805074581"
+    ],
+    "lccn": [],
+    "oclc": [],
+    "openlibrary": [
+      "OL7932980M"
+    ]
+  },
+  "classifications": {
+    "lc_classifications": [
+      ""
+    ],
+    "dewey_decimal_class": []
+  },
+  "publication_places": [],
+  "print_pages": 272,
+  "links": [
+    "https://openlibrary.org/books/OL7932980M",
+    "https://openlibrary.org/works/OL3522450W"
+  ],
+  "rights": "Copyright © 1983 by W. H. Freeman and Company. All rights reserved.",
+  "covers": [
+    {
+      "width": 319,
+      "height": 475,
+      "format": "JPEG",
+      "sha256": "5150e156c015c17bbb9bc4504581fc54c946276925a12c1d3ba0ace36944450c",
+      "suitable_main_cover": true,
+      "url": "https://covers.openlibrary.org/b/isbn/0805074589-L.jpg?default=false",
+      "path": "work/feeling-organism/metadata/assets/5150e156c015c17bbb9bc4504581fc54c946276925a12c1d3ba0ace36944450c.jpg",
+      "accepted": false,
+      "reason": "Requires visual edition/cover-role review; ISBN association alone is insufficient"
+    },
+    {
+      "width": 180,
+      "height": 282,
+      "format": "JPEG",
+      "sha256": "d9302333ab66dcb289e996530c85198ad9c16e3d443eb6be02e25fd22d716678",
+      "suitable_main_cover": false,
+      "url": "https://archive.org/services/img/feelingfororgani0000kell_o0m3",
+      "path": "work/feeling-organism/metadata/assets/d9302333ab66dcb289e996530c85198ad9c16e3d443eb6be02e25fd22d716678.jpg",
+      "accepted": false,
+      "reason": "Requires visual edition/cover-role review; ISBN association alone is insufficient"
+    }
+  ],
+  "conflicts": [
+    {
+      "field": "title",
+      "api": "A Feeling for the Organism, 10th Aniversary Edittion",
+      "source_profile": "A Feeling for the Organism",
+      "resolution": "Source title page and copyright ISBN verified. API title includes misspelled edition wording."
+    },
+    {
+      "field": "publishers",
+      "api": [
+        "Times Books"
+      ],
+      "source_profile": [
+        "Henry Holt and Company"
+      ],
+      "resolution": "The scanned copyright page names Henry Holt and Company; API publisher conflicts."
+    },
+    {
+      "field": "publication_date",
+      "api": "February 15, 1984",
+      "source_profile": "2003",
+      "resolution": "Preserve normalized source-profile date unless API is ISO formatted; retain raw edition date."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://openlibrary.org/isbn/0805074589.json",
+      "resolved_url": "https://openlibrary.org/books/OL7932980M.json",
+      "sha256": "32b6ea2a280636bccb5c5ac02484131086d0576eb2c3d83e04aed5e5d58d01a4",
+      "retrieved_at": "2026-10-01T19:58:44.949825+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/authors/OL589785A.json",
+      "resolved_url": "https://openlibrary.org/authors/OL589785A.json",
+      "sha256": "b0ae12c8a20f1db61e997974a5cbcb35fedabc9c8ca0e2a07b68c4343a3af784",
+      "retrieved_at": "2026-10-01T19:58:45.590850+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/works/OL3522450W.json",
+      "resolved_url": "https://openlibrary.org/works/OL3522450W.json",
+      "sha256": "fe3a4a4ad59cdd5004481143e98e437574ff1a2e2338214392887760e9267030",
+      "retrieved_at": "2026-10-01T20:03:25.099392+00:00"
+    },
+    {
+      "url": "https://archive.org/metadata/feelingfororgani0000kell_o0m3",
+      "resolved_url": "https://archive.org/metadata/feelingfororgani0000kell_o0m3",
+      "sha256": "3a17a9ae9264034abea99ad555ca0b79340be58b6f9eafd979261cc629a0915a",
+      "retrieved_at": "2026-10-01T20:00:43.066113+00:00"
+    },
+    {
+      "url": "https://covers.openlibrary.org/b/isbn/0805074589-L.jpg?default=false",
+      "resolved_url": "https://ia800100.us.archive.org/view_archive.php?archive=/15/items/olcovers58/olcovers58-L.zip&file=581201-L.jpg",
+      "sha256": "5150e156c015c17bbb9bc4504581fc54c946276925a12c1d3ba0ace36944450c",
+      "retrieved_at": "2026-10-01T20:03:27.915279+00:00"
+    },
+    {
+      "url": "https://archive.org/services/img/feelingfororgani0000kell_o0m3",
+      "resolved_url": "https://archive.org/services/img/feelingfororgani0000kell_o0m3",
+      "sha256": "d9302333ab66dcb289e996530c85198ad9c16e3d443eb6be02e25fd22d716678",
+      "retrieved_at": "2026-10-01T20:03:29.234740+00:00"
+    }
+  ]
+}

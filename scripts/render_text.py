@@ -168,6 +168,8 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
         )
     if block["kind"] == "caption":
         return '<p class="caption">' + content + "</p>"
+    if block["kind"] == "list-item":
+        return '<p class="source-list-item">' + content + "</p>"
     if block["kind"] == "heading":
         anchor = (
             ' id="' + html.escape(block["heading_id"], quote=True) + '"'
@@ -176,6 +178,8 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
         )
         return "<h2" + anchor + ">" + content + "</h2>"
     css = ' class="reference"' if book.get("_hanging") else ""
+    if block.get("index_indent_em") is not None:
+        css += f' style="margin-left:{1.25 + block["index_indent_em"]}em"'
     return f"<p{css}>{content}</p>"
 
 

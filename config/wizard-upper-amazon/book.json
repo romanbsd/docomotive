@@ -1,0 +1,326 @@
+{
+  "title": "Wizard of the Upper Amazon",
+  "subtitle": "",
+  "author": "Manuel Córdova-Ríos",
+  "language": "en",
+  "date": "1971",
+  "publisher": "Atheneum",
+  "slug": "wizard-upper-amazon",
+  "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+  "chapters": [
+    [
+      2,
+      2,
+      "Front jacket flap"
+    ],
+    [
+      4,
+      8,
+      "Foreword"
+    ],
+    [
+      9,
+      9,
+      "Acknowledgments"
+    ],
+    [
+      12,
+      12,
+      "Map: Córdova’s Travel Route"
+    ],
+    [
+      13,
+      25,
+      "Caucho Camp"
+    ],
+    [
+      26,
+      32,
+      "Strange Village"
+    ],
+    [
+      33,
+      51,
+      "Visions"
+    ],
+    [
+      52,
+      74,
+      "Hunting Camp"
+    ],
+    [
+      75,
+      86,
+      "Hunting Stories"
+    ],
+    [
+      87,
+      95,
+      "Invasion"
+    ],
+    [
+      96,
+      107,
+      "Apprenticeship"
+    ],
+    [
+      108,
+      129,
+      "Indian Caucho"
+    ],
+    [
+      130,
+      141,
+      "Legends"
+    ],
+    [
+      142,
+      149,
+      "Marriage"
+    ],
+    [
+      150,
+      157,
+      "Jaguars"
+    ],
+    [
+      158,
+      169,
+      "Assassin"
+    ],
+    [
+      170,
+      179,
+      "Transition"
+    ],
+    [
+      180,
+      191,
+      "Frustration"
+    ],
+    [
+      192,
+      203,
+      "Release"
+    ],
+    [
+      204,
+      210,
+      "Return"
+    ],
+    [
+      211,
+      213,
+      "Appendix: The Relationship of Various Vision-Causing Extracts"
+    ],
+    [
+      214,
+      214,
+      "About the Authors"
+    ],
+    [
+      215,
+      215,
+      "Back jacket flap"
+    ]
+  ],
+  "printed_page_offset": -10,
+  "artwork_pages": [
+    [
+      1,
+      "cover"
+    ]
+  ],
+  "author_sort": "Córdova-Ríos, Manuel",
+  "openlibrary_edition": "OL2561783M",
+  "contributors": [
+    {
+      "name": "F. Bruce Lamb",
+      "role": "aut",
+      "file_as": "Lamb, F. Bruce"
+    },
+    {
+      "name": "Ava Morgan",
+      "role": "ill"
+    }
+  ],
+  "rights": "Copyright © 1971 by F. Bruce Lamb. All rights reserved.",
+  "excluded_pages": {
+    "3": "Copyright transcribed as reflowable text; no copyright scan included",
+    "10": "Original contents replaced by EPUB navigation",
+    "11": "Duplicate of source cover"
+  },
+  "chapter_body_starts": {
+    "13": 0.49,
+    "26": 0.49,
+    "33": 0.49,
+    "52": 0.49,
+    "75": 0.49,
+    "87": 0.49,
+    "96": 0.49,
+    "108": 0.49,
+    "130": 0.49,
+    "142": 0.49,
+    "150": 0.49,
+    "158": 0.49,
+    "170": 0.49,
+    "180": 0.49,
+    "192": 0.49,
+    "204": 0.49,
+    "211": 0.49,
+    "2": 0,
+    "4": 0.43,
+    "9": 0.51,
+    "12": 0,
+    "214": 0,
+    "215": 0
+  },
+  "upper_margin_cutoff": 0.083,
+  "uppercase_margin_cutoff": 0.16,
+  "bottom_margin_cutoffs": {
+    "4": 0.857
+  },
+  "page_labels": {
+    "4": "v",
+    "5": "vi",
+    "6": "vii",
+    "7": "viii",
+    "8": "ix",
+    "9": "xi",
+    "10": "xiii"
+  },
+  "figures": [
+    {
+      "page": 2,
+      "name": "front-jacket-flap",
+      "rect": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "alt": "Original front jacket flap and book description"
+    },
+    {
+      "page": 12,
+      "name": "travel-map",
+      "rect": [
+        0.09,
+        0.065,
+        0.91,
+        0.937
+      ],
+      "alt": "Map by Ava Morgan showing Córdova’s travel route through the upper Amazon"
+    },
+    {
+      "page": 212,
+      "name": "chemical-structures",
+      "rect": [
+        0.1,
+        0.548,
+        0.91,
+        0.765
+      ],
+      "alt": "Original explanation and diagrams of the indole ring and common amine side chain, with chemical subscripts"
+    },
+    {
+      "page": 215,
+      "name": "back-jacket-flap",
+      "rect": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "alt": "Original back jacket flap, with author biographies and book description"
+    }
+  ],
+  "source_relative_figures": true,
+  "source_version": "First Edition statement; copyright 1971. Atheneum catalog record OL2561783M. Kingsport Press is the printer.",
+  "source_note": "Converted from the supplied scan. The source has no publisher title page or printed ISBN. The copyright page states First Edition and copyright 1971; public catalog metadata associates the 203-page edition with Atheneum. The map, jacket flaps and chemical diagrams are preserved as source images. No ISBN from a later edition has been assigned.",
+  "source_completeness": {
+    "evidence": "PDF 1 and 11 repeat the jacket cover; PDF 3 is copyright, with no publisher title page in the scan. Body pages 3–203 are present.",
+    "missing": "Publisher title page; no assertion that omitted blank leaves contain text."
+  },
+  "metadata_record_overrides": [
+    {
+      "field": "lccn",
+      "before": [
+        "85100951"
+      ],
+      "after": [
+        "73139314"
+      ],
+      "evidence": "Copyright page PDF 3 visibly prints Library of Congress catalog card number 73–139314; catalog record number retained in cached API provenance."
+    }
+  ],
+  "comments": {
+    "layout": "Chapter starts verified against source contents and rendered pages; body cutoff excludes ornamental branches. PDF 4 bottom cutoff excludes public-library stamp.",
+    "edition": "1971 Atheneum catalog record has no ISBN. Copyright LCCN differs from catalog and is preserved from scan.",
+    "scan_pixels": "Rendered PDF overlays visibly corrupt print (e.g. PDF 78 above, PDF 111 final line). Exactly one full-page original scan is placed on every page; OCR and illustrations use its pixels directly.",
+    "chemical_diagrams": "PDF 212 original pixel crop includes complete indole and amine formulas and their explanatory paragraph; chapter prose remains reflowable on either side.",
+    "footnotes": "Three source footnotes on PDF 33, 42 and 47; footer boundaries checked against the scan.",
+    "primary_ocr": "Tesseract has fewer prose disagreements in the initial whole-book comparison (85 versus 124); Vision retains accents in front matter and reads small-cap chapter openings more consistently. Both are compared with English PP-OCRv4 and old PDF OCR before source review.",
+    "running_headers": "Fresh OCR body rows on all ordinary pages begin at y >= 0.094; header band lies above 0.083. This checked margin excludes garbled mixed-case headers that escaped uppercase detection."
+  },
+  "vision_primary_pages": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    13,
+    26,
+    33,
+    52,
+    75,
+    87,
+    96,
+    108,
+    130,
+    142,
+    150,
+    158,
+    170,
+    180,
+    192,
+    204,
+    211,
+    214
+  ],
+  "small_caps_openings": {
+    "4": "The vision-producing",
+    "13": "The haunting",
+    "26": "When my eyes",
+    "33": "After",
+    "52": "Shortly",
+    "75": "Hunting",
+    "87": "Often",
+    "96": "After the raid",
+    "108": "Several",
+    "130": "On rare",
+    "142": "The first",
+    "150": "It was",
+    "158": "The Huni Kui",
+    "170": "As I began",
+    "180": "As nearly",
+    "192": "In desperation",
+    "204": "The Rio Purus"
+  },
+  "note_starts": {
+    "33": 0.872,
+    "42": 0.862,
+    "47": 0.87
+  },
+  "scan_raster_only": true,
+  "row_heading_rules": [
+    {
+      "pages": [
+        213
+      ],
+      "pattern": "SOURCES",
+      "kind": "heading"
+    }
+  ]
+}

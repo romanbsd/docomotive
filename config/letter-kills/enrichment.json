@@ -1,0 +1,50 @@
+{
+  "source_sha256": "d6b2a44e168adde1670c4d776f43007538369a0528beea71098eca38cde084a9",
+  "doi": "10.1093/mj/kjaa017",
+  "authors": [
+    "Boaz Huss"
+  ],
+  "publication_date": "2020-12-21",
+  "final_publication_date": "2021-01-22",
+  "journal": "Modern Judaism - A Journal of Jewish Ideas and Experience",
+  "volume": "41",
+  "issue": "1",
+  "page": "47-70",
+  "identifiers": {
+    "issn": [
+      "0276-1114",
+      "1086-3273"
+    ]
+  },
+  "subjects": [
+    "Gershom Scholem",
+    "Halakha",
+    "Hasidism",
+    "Jewish mysticism",
+    "Kabbalah",
+    "Wissenschaft des Judentums"
+  ],
+  "description": "In the 19th century, some Jewish scholars of the Wissenschaft des Judentums movement presented Kabbalah as the vital, spiritual and mystical aspect of Judaism, and juxtaposed it to legalistic, conservative, and petrified Halakha. Jewish neo-romantic and Zionist thinkers adopted this perception, which Christian Kabbalists and Hebraists first formulated in the Renaissance period. The assumption concerning the distinction and tension between Jewish mysticism and Halakha had a significant impact on the modern academic study of Judaism and it still governs the academic discipline of Jewish mysticism that Gershom Scholem and his disciples founded. This article argues that the modern identification of Kabbala as Jewish mysticism, and the assumed dichotomy between spiritual, vital Kabbalah, and dogmatic, petrified Halakha are a modern Jewish adaptation of the Pauline antithesis between the letter that kills and the Spirit that gives life.",
+  "links": [
+    "https://doi.org/10.1093/mj/kjaa017"
+  ],
+  "rights": "© The Author(s) 2020. Published by Oxford University Press. All rights reserved.",
+  "covers": [],
+  "sources": [
+    {
+      "url": "https://api.crossref.org/works/10.1093%2Fmj%2Fkjaa017",
+      "resolved_url": "https://api.crossref.org/works/10.1093%2Fmj%2Fkjaa017",
+      "sha256": "772381e6faf0ecfada1d7eac16ef1d2acd46b62a2bb5cd05f543ef3216244475",
+      "retrieved_at": "2026-10-01T16:03:50.676726+00:00"
+    }
+  ],
+  "source_version": "Advance article, 2020; source pagination 1–24. Final journal pagination 47–70.",
+  "conflicts": [
+    {
+      "field": "publication_date",
+      "api": "2021-01-22",
+      "source_profile": "2020-12-21",
+      "resolution": "Preserve advance-article source date; record final journal date separately."
+    }
+  ]
+}

@@ -147,6 +147,25 @@ class PipelineTests(unittest.TestCase):
                 ["Andrew Weil"],
             )
 
+    def test_exact_non_isbn_edition_checks_identity_and_date(self):
+        book = {
+            "openlibrary_edition": "OL123M",
+            "title": "Example",
+            "author": "Manuel Córdova-Ríos",
+            "publisher": "Publisher",
+            "date": "1971",
+        }
+        record = {
+            "key": "/books/OL123M",
+            "title": "Example",
+            "publishers": ["Publisher"],
+            "publish_date": "1971",
+        }
+        verify_edition(record, book, ["Manuel Co\u0301rdova-Ri\u0301os"])
+        for field, value in [("key", "/books/OL456M"), ("publish_date", "1975")]:
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                verify_edition(dict(record, **{field: value}), book, [book["author"]])
+
     def test_metadata_is_escaped(self):
         from lxml import etree
 
@@ -424,6 +443,228 @@ class WholeBookStatisticsTests(unittest.TestCase):
 
 
 class NativePDFTests(unittest.TestCase):
+    def test_native_bold_heading_can_contain_unstyled_positioned_spaces(self):
+        from native_pdf import extract_page
+        from types import SimpleNamespace
+
+        def line(text, box, size):
+            return dict(
+                bbox=box,
+                spans=[dict(text=text, bbox=box, font="Bold", size=size, flags=16)],
+            )
+
+        page = SimpleNamespace(
+            rect=SimpleNamespace(width=100, height=100),
+            get_text=lambda mode: dict(
+                blocks=[
+                    dict(
+                        lines=[
+                            line("A heading", [10, 20, 40, 25], 14),
+                            line("LO 1.1", [60, 20, 80, 25], 9),
+                        ]
+                    )
+                ]
+            ),
+        )
+        row = extract_page(page, {}, 1, [])[0]
+        self.assertEqual(row["text"], "A heading LO 1.1")
+        self.assertEqual(row["kind"], "heading")
+
+    def test_index_child_indent_survives_wrapped_entry_reconstruction(self):
+        rows = [
+            dict(text="Action", bbox=[0.1, 0.2, 0.8, 0.215], column=0),
+            dict(text="helping clients to", bbox=[0.126, 0.23, 0.8, 0.245], column=0),
+            dict(text="act, 21–23", bbox=[0.152, 0.25, 0.8, 0.265], column=0),
+            dict(text="Alliance, 24", bbox=[0.1, 0.28, 0.8, 0.295], column=0),
+        ]
+        book = dict(
+            text_source="native",
+            chapters=[[1, 1, "Index"]],
+            index_pages=[1],
+            hanging_pages=[1],
+            native_index_indents=True,
+            chapter_body_starts={"1": 0},
+            paragraph_margins={"1": 0.126},
+        )
+        blocks = reconstruct({1: rows}, book, JoinPolicy(), [])[0]["blocks"]
+        self.assertEqual(
+            [b["text"] for b in blocks],
+            ["Action", "helping clients to act, 21–23", "Alliance, 24"],
+        )
+        self.assertEqual([b["index_indent_em"] for b in blocks], [0, 1.04, 0])
+        self.assertIn(
+            "margin-left:2.29em",
+            block_html(blocks[1], dict(book, _hanging=True), set(), [], "index.xhtml"),
+        )
+
+    def test_wrapped_native_heading_merge_is_opt_in_and_keeps_spaced_headings(self):
+        rows = [
+            dict(
+                text="A long heading",
+                bbox=[0.1, 0.2, 0.8, 0.22],
+                column=0,
+                kind="heading",
+                native=True,
+                font_size=14,
+            ),
+            dict(
+                text="with a second line",
+                bbox=[0.1, 0.218, 0.8, 0.238],
+                column=0,
+                kind="heading",
+                native=True,
+                font_size=14,
+            ),
+            dict(
+                text="A separate heading",
+                bbox=[0.1, 0.27, 0.8, 0.29],
+                column=0,
+                kind="heading",
+                native=True,
+                font_size=14,
+            ),
+        ]
+        book = dict(
+            text_source="native",
+            chapters=[[1, 1, "Test"]],
+            chapter_body_starts={"1": 0},
+        )
+        original = reconstruct({1: rows}, book, JoinPolicy(), [])
+        merged = reconstruct(
+            {1: rows}, dict(book, native_heading_merge=True), JoinPolicy(), []
+        )
+        self.assertEqual(len(original[0]["blocks"]), 3)
+        self.assertEqual(
+            [b["text"] for b in merged[0]["blocks"]],
+            ["A long heading with a second line", "A separate heading"],
+        )
+
+    def test_native_lists_keep_wrapped_items_separate_from_body(self):
+        from native_pdf import extract_page
+        from types import SimpleNamespace
+
+        def span(text, x0, x1, y):
+            return dict(
+                text=text, bbox=[x0, y, x1, y + 2], font="Book", size=10, flags=0
+            )
+
+        def line(spans):
+            return dict(
+                bbox=[
+                    spans[0]["bbox"][0],
+                    spans[0]["bbox"][1],
+                    spans[-1]["bbox"][2],
+                    spans[-1]["bbox"][3],
+                ],
+                spans=spans,
+            )
+
+        page = SimpleNamespace(
+            rect=SimpleNamespace(width=100, height=100),
+            get_text=lambda mode: dict(
+                blocks=[
+                    dict(
+                        lines=[
+                            line(
+                                [
+                                    span("1. ", 10, 14, 20),
+                                    span("First item with", 15, 80, 20),
+                                ]
+                            ),
+                            line([span("a wrapped ending.", 15, 80, 23)]),
+                            line(
+                                [
+                                    span("2. ", 10, 14, 26),
+                                    span("Second item.", 15, 80, 26),
+                                ]
+                            ),
+                            line([span("Ordinary prose follows.", 10, 80, 29)]),
+                        ]
+                    )
+                ]
+            ),
+        )
+        book = dict(
+            native_list_layout=True,
+            text_source="native",
+            chapters=[[1, 1, "Test"]],
+            chapter_body_starts={"1": 0},
+            upper_margin_cutoff=0,
+        )
+        rows = extract_page(page, book, 1, [])
+        model = reconstruct({1: rows}, book, JoinPolicy(), [])
+        blocks = model[0]["blocks"]
+        self.assertEqual(
+            [b["kind"] for b in blocks], ["list-item", "list-item", "text"]
+        )
+        self.assertEqual(
+            [b["text"] for b in blocks],
+            [
+                "1. First item with a wrapped ending.",
+                "2. Second item.",
+                "Ordinary prose follows.",
+            ],
+        )
+        self.assertIn(
+            'class="source-list-item"',
+            block_html(blocks[0], book, set(), [], "test.xhtml"),
+        )
+        self.assertNotIn("list_text_left", extract_page(page, {}, 1, [])[0])
+
+    def test_coauthor_metadata_uses_creator_with_author_role(self):
+        from build import opf_metadata
+        from lxml import etree
+
+        book = dict(
+            title="Test",
+            author="First Author",
+            language="en",
+            date="2019",
+            publisher="Test",
+            contributors=[
+                dict(name="Second Author", role="aut"),
+                dict(name="Editor", role="edt"),
+            ],
+        )
+        metadata = etree.fromstring(opf_metadata(book, {}, "test-id").encode())
+        ns = {"dc": "http://purl.org/dc/elements/1.1/"}
+        self.assertEqual(
+            metadata.xpath("dc:creator/text()", namespaces=ns),
+            ["First Author", "Second Author"],
+        )
+        self.assertEqual(
+            metadata.xpath("dc:contributor/text()", namespaces=ns), ["Editor"]
+        )
+
+    def test_native_figure_labels_cannot_merge_into_adjacent_prose(self):
+        from native_pdf import extract_page
+        from types import SimpleNamespace
+
+        def line(text, box):
+            return dict(
+                bbox=box, spans=[dict(text=text, font="Book", size=10, flags=0)]
+            )
+
+        page = SimpleNamespace(
+            rect=SimpleNamespace(width=100, height=100),
+            get_text=lambda mode: dict(
+                blocks=[
+                    dict(
+                        lines=[
+                            line("Retained prose", [10, 20, 40, 25]),
+                            line("Diagram label", [60, 20, 90, 25]),
+                        ]
+                    )
+                ]
+            ),
+        )
+        book = dict(figures=[dict(page=1, name="diagram", rect=[0.5, 0.1, 1, 0.4])])
+        audit = []
+        rows = extract_page(page, book, 1, audit)
+        self.assertEqual([r["text"] for r in rows], ["Retained prose"])
+        self.assertEqual(rows[0]["bbox"], [0.1, 0.2, 0.4, 0.25])
+        self.assertEqual(audit[0]["kind"], "excluded-figure-ocr")
+
     def test_native_corpus_rendering_preserves_all_canonical_text(self):
         from lxml import etree
         from render_text import notes_html

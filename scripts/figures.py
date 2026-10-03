@@ -7,8 +7,16 @@ from PIL import Image
 from common import digest
 
 
-def crop_artwork(page, rect, dpi=300, excluded_overlays=()):
+def crop_artwork(page, rect, dpi=300, excluded_overlays=(), raster_only=False):
     """Use isolated scan pixels only when no visible labels would be lost."""
+    if raster_only:
+        # Explicit source-reviewed mode: discard reconstructed PDF text overlays.
+        from scan_pixels import isolated_scan
+
+        result, evidence = isolated_scan(page, rect)
+        out = io.BytesIO()
+        result.save(out, format="JPEG", quality=95)
+        return out.getvalue(), evidence
     images = page.get_image_info(xrefs=True)
     scans = [
         im
@@ -123,7 +131,10 @@ def incorporate_figures(model, book, doc, files):
         )
         image = figure["name"] + ".jpg"
         data, crop_evidence = crop_artwork(
-            source, rect, excluded_overlays=book.get("artwork_overlay_exclusions", [])
+            source,
+            rect,
+            excluded_overlays=book.get("artwork_overlay_exclusions", []),
+            raster_only=book.get("scan_raster_only", False),
         )
         path = "OEBPS/" + image
         if path in files:

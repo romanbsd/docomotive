@@ -1,0 +1,128 @@
+{
+  "source_sha256": "8d5a7f67e67a73c39d0d0b0cb8be42c3eb6a6304b07239122760e31bd757c0f2",
+  "isbn": "0395139368",
+  "isbn_13": "9780395139363",
+  "edition_key": "/books/OL4919777M",
+  "authors": [
+    "Andrew Weil"
+  ],
+  "publication_date": "1972",
+  "publication_date_raw": "1972",
+  "description": "Bibliography: p. 215-219",
+  "subjects": [
+    "Altered states of consciousness",
+    "Conscience",
+    "Consciousness",
+    "Drug abuse",
+    "Drug addiction",
+    "Hallucinogens",
+    "Health",
+    "Mysticism",
+    "Narcotic habit",
+    "Psychology",
+    "Psychopharmacology",
+    "Psychotropes",
+    "Psychotropic drugs",
+    "Substance-Related Disorders",
+    "Toxicomanie"
+  ],
+  "identifiers": {
+    "isbn_10": [
+      "0395139368"
+    ],
+    "isbn_13": [
+      "9780395139363"
+    ],
+    "lccn": [
+      "76189331"
+    ],
+    "oclc": [
+      "380789"
+    ],
+    "openlibrary": [
+      "OL4919777M"
+    ]
+  },
+  "classifications": {
+    "lc_classifications": [
+      "BF207 .W44 1972",
+      "RC566 W44",
+      "RC566 .W44"
+    ],
+    "dewey_decimal_class": [
+      "613.8/3"
+    ]
+  },
+  "publication_places": [
+    "Boston"
+  ],
+  "print_pages": 229,
+  "links": [
+    "https://openlibrary.org/books/OL4919777M",
+    "https://openlibrary.org/works/OL145316W"
+  ],
+  "rights": "Copyright © 1972 by Andrew Weil. All rights reserved.",
+  "covers": [
+    {
+      "width": 128,
+      "height": 187,
+      "format": "JPEG",
+      "sha256": "579702f93fc3816cf2a19002aa0d3b4cd63b08a204e86796fee150340dc119cc",
+      "suitable_main_cover": false,
+      "url": "https://covers.openlibrary.org/b/isbn/0395139368-L.jpg?default=false",
+      "path": "work/metadata/assets/579702f93fc3816cf2a19002aa0d3b4cd63b08a204e86796fee150340dc119cc.jpg",
+      "accepted": false,
+      "reason": "Requires visual edition/cover-role review; ISBN association alone is insufficient"
+    },
+    {
+      "width": 180,
+      "height": 278,
+      "format": "JPEG",
+      "sha256": "a05b55216eb0f97c99d5b916a27f92cce8149d509814a8c2b548451c32e779bc",
+      "suitable_main_cover": false,
+      "url": "https://archive.org/services/img/naturalmindneww00weil",
+      "path": "work/metadata/assets/a05b55216eb0f97c99d5b916a27f92cce8149d509814a8c2b548451c32e779bc.jpg",
+      "accepted": true,
+      "reason": "Profile-approved cover visually checked against scan"
+    }
+  ],
+  "conflicts": [],
+  "sources": [
+    {
+      "url": "https://openlibrary.org/isbn/0395139368.json",
+      "resolved_url": "https://openlibrary.org/books/OL4919777M.json",
+      "sha256": "b24157345749e0ae9693ee137d45270eeaf08959014b3eb0637b92d9a1a50af5",
+      "retrieved_at": "2026-10-01T13:42:27.541999+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/authors/OL44846A.json",
+      "resolved_url": "https://openlibrary.org/authors/OL44846A.json",
+      "sha256": "149e307b8206c4c9ea48d9ff25336e53e1d4d23634a69eee620f1530dae69b3a",
+      "retrieved_at": "2026-10-01T13:42:28.216153+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/works/OL145316W.json",
+      "resolved_url": "https://openlibrary.org/works/OL145316W.json",
+      "sha256": "48cd064e62778883f0df5faf7a02f0f6145c9dc2c425a4555ed6d6b611693020",
+      "retrieved_at": "2026-10-01T13:42:28.954105+00:00"
+    },
+    {
+      "url": "https://archive.org/metadata/naturalmindneww00weil",
+      "resolved_url": "https://archive.org/metadata/naturalmindneww00weil",
+      "sha256": "54064031dd481da88c9cae0a07671fe6915e7bfacbffd38b1ce3398306bd4bc8",
+      "retrieved_at": "2026-10-01T13:42:29.644484+00:00"
+    },
+    {
+      "url": "https://covers.openlibrary.org/b/isbn/0395139368-L.jpg?default=false",
+      "resolved_url": "https://ia600908.us.archive.org/view_archive.php?archive=/24/items/olcovers445/olcovers445-L.zip&file=4458974-L.jpg",
+      "sha256": "579702f93fc3816cf2a19002aa0d3b4cd63b08a204e86796fee150340dc119cc",
+      "retrieved_at": "2026-10-01T13:42:31.798857+00:00"
+    },
+    {
+      "url": "https://archive.org/services/img/naturalmindneww00weil",
+      "resolved_url": "https://archive.org/services/img/naturalmindneww00weil",
+      "sha256": "a05b55216eb0f97c99d5b916a27f92cce8149d509814a8c2b548451c32e779bc",
+      "retrieved_at": "2026-10-01T13:42:38.823307+00:00"
+    }
+  ]
+}

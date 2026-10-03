@@ -1,0 +1,101 @@
+{
+  "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+  "isbn": null,
+  "isbn_13": null,
+  "edition_key": "/books/OL2561783M",
+  "authors": [
+    "Manuel Córdova-Ríos"
+  ],
+  "publication_date": "1971",
+  "publication_date_raw": "1971",
+  "description": "Bibliography: p. 203.",
+  "subjects": [
+    "Amahuaca Indians",
+    "Amahuaca Indians -- History",
+    "Autobiography",
+    "Biography",
+    "Córdova-Ríos, Manuel, 1887-",
+    "History",
+    "Indian captivities",
+    "Indian captivities -- Peru",
+    "Indians of South America",
+    "Indians of south america, history",
+    "Medicinal Plants",
+    "Personal narratives",
+    "Peru, biography",
+    "Shamans",
+    "Shamans -- Peru -- Biography",
+    "South American Indians",
+    "Traditional Medicine"
+  ],
+  "identifiers": {
+    "isbn_10": [],
+    "isbn_13": [],
+    "lccn": [
+      "73139314"
+    ],
+    "oclc": [
+      "2988867"
+    ],
+    "openlibrary": [
+      "OL2561783M"
+    ]
+  },
+  "classifications": {
+    "lc_classifications": [
+      "F3430.1.A5 C6 1971"
+    ],
+    "dewey_decimal_class": [
+      "985/.00498"
+    ]
+  },
+  "publication_places": [
+    "New York"
+  ],
+  "print_pages": 203,
+  "links": [
+    "https://openlibrary.org/books/OL2561783M",
+    "https://openlibrary.org/works/OL5125383W"
+  ],
+  "rights": "Copyright © 1971 by F. Bruce Lamb. All rights reserved.",
+  "covers": [
+    {
+      "url": "https://covers.openlibrary.org/b/olid/OL2561783M-L.jpg?default=false",
+      "accepted": false,
+      "error": "HTTPError"
+    }
+  ],
+  "conflicts": [
+    {
+      "field": "lccn",
+      "api": [
+        "85100951"
+      ],
+      "source_profile": [
+        "73139314"
+      ],
+      "resolution": "Copyright page PDF 3 visibly prints Library of Congress catalog card number 73–139314; catalog record number retained in cached API provenance."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://openlibrary.org/books/OL2561783M.json",
+      "resolved_url": "https://openlibrary.org/books/OL2561783M.json",
+      "sha256": "0bd978d0b65599ba3a21d867dc5a896060d6029f093a4fb1d4392770160dd3ae",
+      "retrieved_at": "2026-10-03T06:56:00.987797+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/authors/OL1130612A.json",
+      "resolved_url": "https://openlibrary.org/authors/OL1130612A.json",
+      "sha256": "700d6b6261adbb42a0c889405840e7c1d01db57f4f48f0c94a162c0fe09b008c",
+      "retrieved_at": "2026-10-03T06:56:01.707900+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/works/OL5125383W.json",
+      "resolved_url": "https://openlibrary.org/works/OL5125383W.json",
+      "sha256": "afbb965353a802999b4df5c08ca7ac6d59d1c3df56ea5e49d868c89313e25fab",
+      "retrieved_at": "2026-10-03T06:56:02.490317+00:00"
+    }
+  ],
+  "openlibrary_edition": "OL2561783M"
+}

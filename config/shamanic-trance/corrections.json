@@ -1,0 +1,65 @@
+[
+  {
+    "page": 160,
+    "before": "C h a p t e r 1 : Theory of Shama nism, Tra nc e, a nd Moder n Kabbalah",
+    "after": "Chapter 1: Theory of Shamanism, Trance, and Modern Kabbalah",
+    "count": 1,
+    "reason": "Restore tracked heading typography; checked against printed chapter titles and source rendering"
+  },
+  {
+    "page": 169,
+    "before": "C h a p t e r 2 : The Shama nic Pro cess: Des cent a nd Fiery T ra nsformatio ns",
+    "after": "Chapter 2: The Shamanic Process: Descent and Fiery Transformations",
+    "count": 1,
+    "reason": "Restore tracked heading typography; checked against printed chapter titles and source rendering"
+  },
+  {
+    "page": 185,
+    "before": "C h a p t e r 3 : E mpo werme nt thro ug h Tra nc e",
+    "after": "Chapter 3: Empowerment through Trance",
+    "count": 1,
+    "reason": "Restore tracked heading typography; checked against printed chapter titles and source rendering"
+  },
+  {
+    "page": 203,
+    "before": "C h a p t e r F o ur: Shama nic Hasidism",
+    "after": "Chapter 4: Shamanic Hasidism",
+    "count": 1,
+    "reason": "Restore tracked heading typography; checked against printed chapter titles and source rendering"
+  },
+  {
+    "page": 214,
+    "before": "C h a p t e r F i v e: Hasidi c Tra nc e",
+    "after": "Chapter 5: Hasidic Trance",
+    "count": 1,
+    "reason": "Restore tracked heading typography; checked against printed chapter titles and source rendering"
+  },
+  {
+    "page": 227,
+    "before": "C h a p t e r S i x : Tra nc e a nd the Nomian",
+    "after": "Chapter 6: Trance and the Nomian",
+    "count": 1,
+    "reason": "Restore tracked heading typography; checked against printed chapter titles and source rendering"
+  },
+  {
+    "page": 239,
+    "before": "E p i l og u e",
+    "after": "Epilogue",
+    "count": 1,
+    "reason": "Restore tracked heading typography; checked against printed chapter titles and source rendering"
+  },
+  {
+    "page": 239,
+    "before": "A p p e n d i x : P sy choa nalysis a nd Hasidism",
+    "after": "Appendix: Psychoanalysis and Hasidism",
+    "count": 1,
+    "reason": "Restore tracked heading typography; checked against printed chapter titles and source rendering"
+  },
+  {
+    "page": 242,
+    "before": "Publish ed Sourc es",
+    "after": "Published Sources",
+    "count": 1,
+    "reason": "Normalize tracked heading typography visible in source"
+  }
+]

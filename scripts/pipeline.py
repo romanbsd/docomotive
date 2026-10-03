@@ -47,6 +47,7 @@ def main():
     if a.fetch_metadata:
         run("metadata.py", "--profile", a.profile, "--cache", a.work / "metadata/cache")
     book = load_profile(a.profile)
+    run("source_diagnostics.py", a.pdf, "--output", a.output / "source-analysis.json")
     if not a.skip_extraction and book.get("text_source") != "native":
         for engine in ["tesseract", "rapid", "vision"]:
             run(

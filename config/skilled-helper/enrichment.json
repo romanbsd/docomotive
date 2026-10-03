@@ -1,0 +1,115 @@
+{
+  "source_sha256": "b0895556f39a537c409e5006554b7dc134389e0d33fcb123470ac4ccf321ac1d",
+  "isbn": "9781305865716",
+  "isbn_13": "9781305865716",
+  "edition_key": "/books/OL30358841M",
+  "authors": [
+    "Gerard Egan",
+    "Robert J. Reese"
+  ],
+  "publication_date": "2018-03-20",
+  "publication_date_raw": "Mar 20, 2018",
+  "description": "Source title: The Skilled Helper: A Problem-Management and Opportunity-Development Approach to Helping - Standalone Book (HSE 123 Interviewing Techniques)",
+  "subjects": [
+    "Arbetspsykologi",
+    "Counseling",
+    "Counseling psychology",
+    "Helping Behavior",
+    "Helping behavior",
+    "Hjälpsamhet",
+    "Psychology, applied",
+    "Psykologisk rådgivning",
+    "Psykoterapi",
+    "Society",
+    "Therapist and patient"
+  ],
+  "identifiers": {
+    "isbn_10": [
+      "1305865715"
+    ],
+    "isbn_13": [
+      "9781305865716"
+    ],
+    "lccn": [
+      "2017962286"
+    ],
+    "oclc": [],
+    "openlibrary": [
+      "OL30358841M"
+    ]
+  },
+  "classifications": {
+    "lc_classifications": [
+      "BF637.C6E39 2019"
+    ],
+    "dewey_decimal_class": []
+  },
+  "publication_places": [],
+  "print_pages": 480,
+  "links": [
+    "https://openlibrary.org/books/OL30358841M",
+    "https://openlibrary.org/works/OL19902350W"
+  ],
+  "rights": "© 2019, 2014 Cengage Learning, Inc. All rights reserved.",
+  "covers": [
+    {
+      "width": 345,
+      "height": 500,
+      "format": "JPEG",
+      "sha256": "757bc56537ead4eb21e78cb9ba81c7590a02ee1d76fb3f616bc41b9de5236f9c",
+      "suitable_main_cover": true,
+      "url": "https://covers.openlibrary.org/b/isbn/9781305865716-L.jpg?default=false",
+      "path": "work/skilled-helper/metadata/assets/757bc56537ead4eb21e78cb9ba81c7590a02ee1d76fb3f616bc41b9de5236f9c.jpg",
+      "accepted": true,
+      "reason": "Profile-approved cover visually checked against scan"
+    }
+  ],
+  "conflicts": [
+    {
+      "field": "lccn",
+      "api": null,
+      "source_profile": [
+        "2017962286"
+      ],
+      "resolution": "Source copyright page (PDF 6) explicitly prints Library of Congress Control Number: 2017962286."
+    },
+    {
+      "field": "publication_date",
+      "api": "Mar 20, 2018",
+      "source_profile": "2018-03-20",
+      "resolution": "Preserve normalized source-profile date unless API is ISO formatted; retain raw edition date."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://openlibrary.org/isbn/9781305865716.json",
+      "resolved_url": "https://openlibrary.org/books/OL30358841M.json",
+      "sha256": "7cf6e971db966fe8cee4084f04ab7108d2ba1b879dbbd1bc4c050a82069838c5",
+      "retrieved_at": "2026-10-02T20:23:47.912796+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/authors/OL389149A.json",
+      "resolved_url": "https://openlibrary.org/authors/OL389149A.json",
+      "sha256": "f4f1ad61083924f8b3f4ca125a89ffcb3ef1616592bc8d46f7260ae6d1ea5a54",
+      "retrieved_at": "2026-10-02T20:23:48.650547+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/authors/OL8286514A.json",
+      "resolved_url": "https://openlibrary.org/authors/OL8286514A.json",
+      "sha256": "ff2a20ecd6108be6e0d5a00ef168bc17d0c3830758c00d96bec81d526e3fd9ec",
+      "retrieved_at": "2026-10-02T20:23:49.317420+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/works/OL19902350W.json",
+      "resolved_url": "https://openlibrary.org/works/OL19902350W.json",
+      "sha256": "855de9232c0322a741dd9b20ba853b99dfea20fc97fec550d249c40c513fcdfa",
+      "retrieved_at": "2026-10-02T20:25:17.794923+00:00"
+    },
+    {
+      "url": "https://covers.openlibrary.org/b/isbn/9781305865716-L.jpg?default=false",
+      "resolved_url": "https://ia600404.us.archive.org/view_archive.php?archive=/33/items/l_covers_0010/l_covers_0010_45.zip&file=0010450344-L.jpg",
+      "sha256": "757bc56537ead4eb21e78cb9ba81c7590a02ee1d76fb3f616bc41b9de5236f9c",
+      "retrieved_at": "2026-10-02T20:25:20.569709+00:00"
+    }
+  ]
+}

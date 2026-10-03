@@ -1,0 +1,48 @@
+[
+  {
+    "page": 248,
+    "before": "IO. Demerec",
+    "after": "10. Demerec",
+    "count": 1,
+    "evidence": "Verified numbered note 10 in source scan; OCR used capital letters"
+  },
+  {
+    "page": 111,
+    "before": "Colurbia",
+    "after": "Columbia",
+    "count": 1,
+    "evidence": "Checked against rendered source scan; OCR error, not a printed typo",
+    "whole_word": true
+  },
+  {
+    "page": 78,
+    "before": "discoverd",
+    "after": "discovered",
+    "count": 1,
+    "evidence": "Checked against rendered source scan; OCR error, not a printed typo",
+    "whole_word": true
+  },
+  {
+    "page": 68,
+    "before": "Aying",
+    "after": "flying",
+    "count": 1,
+    "evidence": "Checked against rendered source scan; OCR error, not a printed typo",
+    "whole_word": true
+  },
+  {
+    "page": 221,
+    "before": "Alip-flop",
+    "after": "flip-flop",
+    "count": 1,
+    "evidence": "Checked against rendered source scan; OCR error, not a printed typo",
+    "whole_word": true
+  },
+  {
+    "page": 239,
+    "before": "ap-.",
+    "after": "ap-",
+    "count": 1,
+    "evidence": "Source line ends ap- followed by proach; OCR misread a scan mark as a period"
+  }
+]

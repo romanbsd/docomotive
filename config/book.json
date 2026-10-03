@@ -1,0 +1,271 @@
+{
+  "title": "The Natural Mind",
+  "subtitle": "A New Way of Looking at Drugs and the Higher Consciousness",
+  "author": "Andrew Weil",
+  "language": "en",
+  "date": "1972",
+  "publisher": "Houghton Mifflin Company",
+  "source_sha256": "8d5a7f67e67a73c39d0d0b0cb8be42c3eb6a6304b07239122760e31bd757c0f2",
+  "chapters": [
+    [
+      9,
+      24,
+      "1. What This Book Is About"
+    ],
+    [
+      25,
+      46,
+      "2. Why People Take Drugs"
+    ],
+    [
+      47,
+      80,
+      "3. Is Anything Wrong with It?"
+    ],
+    [
+      81,
+      105,
+      "4. What No One Wants to Know about Marihuana"
+    ],
+    [
+      106,
+      123,
+      "5. Clues from the Amazon"
+    ],
+    [
+      124,
+      156,
+      "6. The Topography of Straightland"
+    ],
+    [
+      157,
+      195,
+      "7. A Trip to Stonesville"
+    ],
+    [
+      196,
+      208,
+      "8. The Only Solution to the Drug Problem"
+    ],
+    [
+      209,
+      213,
+      "9. Where to Go from Here"
+    ],
+    [
+      217,
+      218,
+      "Acknowledgments"
+    ],
+    [
+      219,
+      222,
+      "Afterword"
+    ],
+    [
+      223,
+      226,
+      "Works Cited"
+    ],
+    [
+      227,
+      227,
+      "Suggested Reading"
+    ],
+    [
+      229,
+      237,
+      "Index"
+    ]
+  ],
+  "note_starts": {
+    "12": 0.52,
+    "32": 0.677,
+    "42": 0.83,
+    "55": 0.705,
+    "56": 0.712,
+    "67": 0.8,
+    "68": 0.55,
+    "73": 0.675,
+    "74": 0.75,
+    "76": 0.8,
+    "84": 0.812,
+    "88": 0.688,
+    "89": 0.51,
+    "107": 0.815,
+    "112": 0.59,
+    "132": 0.537,
+    "152": 0.8,
+    "154": 0.79,
+    "160": 0.776,
+    "172": 0.71,
+    "174": 0.81,
+    "177": 0.787,
+    "185": 0.845,
+    "186": 0.763,
+    "198": 0.712,
+    "201": 0.55,
+    "206": 0.815,
+    "207": 0.7,
+    "208": 0.435
+  },
+  "note_continuations": {
+    "68": 67,
+    "74": 73,
+    "89": 88,
+    "186": 185,
+    "207": 206,
+    "208": 207
+  },
+  "verse_regions": {
+    "114": [
+      [
+        0.535,
+        0.762
+      ]
+    ],
+    "115": [
+      [
+        0.092,
+        0.212
+      ]
+    ],
+    "163": [
+      [
+        0.6,
+        0.735
+      ]
+    ]
+  },
+  "index_splits": {
+    "229": 0.4655,
+    "230": 0.5133,
+    "231": 0.4594,
+    "232": 0.5248,
+    "233": 0.4672,
+    "234": 0.5175,
+    "235": 0.4451,
+    "236": 0.5303,
+    "237": 0.4659
+  },
+  "excluded_pages": {
+    "2": "blank",
+    "6": "blank",
+    "7": "duplicate half-title",
+    "8": "blank",
+    "214": "blank",
+    "215": "back-matter divider, titles retained in navigation",
+    "216": "blank",
+    "228": "blank",
+    "238": "blank",
+    "239": "blank",
+    "240": "blank",
+    "241": "blank",
+    "5": "printed contents replaced by linked navigation"
+  },
+  "slug": "the-natural-mind",
+  "printed_page_offset": -8,
+  "vision_primary_pages": [
+    223,
+    224,
+    225,
+    226,
+    227,
+    228,
+    229,
+    230,
+    231,
+    232,
+    233,
+    234,
+    235,
+    236,
+    237
+  ],
+  "reference_pages": [
+    223,
+    224,
+    225,
+    226,
+    227,
+    228,
+    229,
+    230,
+    231,
+    232,
+    233,
+    234,
+    235,
+    236,
+    237
+  ],
+  "index_pages": [
+    229,
+    230,
+    231,
+    232,
+    233,
+    234,
+    235,
+    236,
+    237
+  ],
+  "artwork_pages": [
+    [
+      1,
+      "cover"
+    ],
+    [
+      242,
+      "back-cover"
+    ]
+  ],
+  "publisher_mark": {
+    "page": 3,
+    "rect": [
+      140,
+      405,
+      192,
+      457
+    ]
+  },
+  "chapter_body_starts": {
+    "25": 0.24
+  },
+  "small_caps_openings": {
+    "9": "This book is an exposition",
+    "25": "The use of drugs to alter consciousness",
+    "47": "A great many arguments",
+    "81": "I progressed to marihuana from nutmeg.",
+    "106": "It was impossible to work",
+    "124": "In the first chapter",
+    "157": "Stoned thinking is",
+    "196": "As soon as we understand",
+    "209": "It would not be fair"
+  },
+  "isbn": "0395139368",
+  "related_print_isbns": [
+    {
+      "isbn": "0395166128",
+      "binding": "paperbound"
+    }
+  ],
+  "archive_identifier": "naturalmindneww00weil",
+  "rights": "Copyright © 1972 by Andrew Weil. All rights reserved.",
+  "author_sort": "Weil, Andrew",
+  "approved_cover_url": "https://archive.org/services/img/naturalmindneww00weil",
+  "line_join_words": [
+    "antianxiety",
+    "antiinflammatory",
+    "claverly",
+    "derealization",
+    "dilaudid",
+    "dimethyltryptamine",
+    "ethnobotanist",
+    "ethnopharmacology",
+    "guacamayos",
+    "nonpharmacological",
+    "ptolemaists",
+    "unsatisfactoriness"
+  ]
+}

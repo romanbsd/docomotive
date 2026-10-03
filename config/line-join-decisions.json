@@ -1,0 +1,422 @@
+[
+  {
+    "word": "antianxi-ety",
+    "joined": "antianxiety",
+    "source_lines": [
+      {
+        "page": 49,
+        "row_id": "8060799f1ac33a83e457",
+        "bbox": [
+          0.10013003901170352,
+          0.49814126394052044,
+          0.8556566970091027,
+          0.5179677819083024
+        ],
+        "text": "ceutical companies and the medical profession as “antianxi-",
+        "column": 0,
+        "start": 388,
+        "end": 447
+      },
+      {
+        "page": 49,
+        "row_id": "45066ff1c24f811a8302",
+        "bbox": [
+          0.10013003901170352,
+          0.5216852540272615,
+          0.8563068920676203,
+          0.5419248244527055
+        ],
+        "text": "ety agents.” Heroin is representative of another class of",
+        "column": 0,
+        "start": 447,
+        "end": 504
+      }
+    ],
+    "reason": "Scan montage checked: hyphen falls at the physical line end within a word, not a lexical compound."
+  },
+  {
+    "word": "antiinflam-matory",
+    "joined": "antiinflammatory",
+    "source_lines": [
+      {
+        "page": 147,
+        "row_id": "af27c98df27122be8722",
+        "bbox": [
+          0.0799739921976593,
+          0.5095723014256619,
+          0.8374512353706112,
+          0.5291242362525458
+        ],
+        "text": "inflammation occurs on the surface of the body, antiinflam-",
+        "column": 0,
+        "start": 237,
+        "end": 296
+      },
+      {
+        "page": 147,
+        "row_id": "69ef6a1ac7ba60acc618",
+        "bbox": [
+          0.07932379713914174,
+          0.5327902240325866,
+          0.8368010403120937,
+          0.5527494908350306
+        ],
+        "text": "matory medications are applied. And so on and so on: this",
+        "column": 0,
+        "start": 296,
+        "end": 353
+      }
+    ],
+    "reason": "Scan montage checked: hyphen falls at the physical line end within a word, not a lexical compound."
+  },
+  {
+    "word": "cla-verly",
+    "joined": "claverly",
+    "source_lines": [
+      {
+        "page": 37,
+        "row_id": "d61c32c3d77610419dee",
+        "bbox": [
+          0.1033810143042913,
+          0.14309278350515464,
+          0.8302990897269181,
+          0.16412371134020617
+        ],
+        "text": "During the year that our drug ring operated out of Cla-",
+        "column": 0,
+        "start": 0,
+        "end": 55
+      },
+      {
+        "page": 37,
+        "row_id": "2681c155d5b307046ca2",
+        "bbox": [
+          0.07477243172951886,
+          0.1670103092783505,
+          0.8296488946684005,
+          0.18762886597938144
+        ],
+        "text": "verly Hall, I had a chance to watch perhaps thirty mesca-",
+        "column": 0,
+        "start": 55,
+        "end": 111
+      }
+    ],
+    "reason": "Scan montage checked: hyphen falls at the physical line end within a word, not a lexical compound."
+  },
+  {
+    "word": "dere-alization",
+    "joined": "derealization",
+    "source_lines": [
+      {
+        "page": 70,
+        "row_id": "da06c463f3eadbb083db",
+        "bbox": [
+          0.19375812743823148,
+          0.18847736625514402,
+          0.9544863459037711,
+          0.20864197530864198
+        ],
+        "text": "tion (a sense of losing contact with external reality), dere-",
+        "column": 0,
+        "start": 384,
+        "end": 445
+      },
+      {
+        "page": 70,
+        "row_id": "afde06c2b1ee8f9035c5",
+        "bbox": [
+          0.19375812743823148,
+          0.21193415637860083,
+          0.9544863459037711,
+          0.23209876543209876
+        ],
+        "text": "alization (things becoming unreal and weird), and halluci-",
+        "column": 0,
+        "start": 445,
+        "end": 502
+      }
+    ],
+    "reason": "Scan montage checked: hyphen falls at the physical line end within a word, not a lexical compound."
+  },
+  {
+    "word": "dilau-did",
+    "joined": "dilaudid",
+    "source_lines": [
+      {
+        "page": 180,
+        "row_id": "1b138ab5253b76949ef1",
+        "bbox": [
+          0.1934673366834171,
+          0.13075356415478614,
+          0.928391959798995,
+          0.15030549898167006
+        ],
+        "text": "them heroin, meperidine (Demerol), hydromorphone (Dilau-",
+        "column": 0,
+        "start": 449,
+        "end": 505
+      },
+      {
+        "page": 180,
+        "row_id": "4ceddf874723f8f72935",
+        "bbox": [
+          0.19472361809045224,
+          0.1539714867617108,
+          0.9290201005025126,
+          0.1739307535641548
+        ],
+        "text": "did), and, most recently, pentazocine (Talwin), but after",
+        "column": 0,
+        "start": 505,
+        "end": 562
+      }
+    ],
+    "reason": "Scan montage checked: hyphen falls at the physical line end within a word, not a lexical compound."
+  },
+  {
+    "word": "dimeth-yltryptamine",
+    "joined": "dimethyltryptamine",
+    "source_lines": [
+      {
+        "page": 108,
+        "row_id": "d69b778311c180763a39",
+        "bbox": [
+          0.16611733684904417,
+          0.4995898277276456,
+          0.9373764007910348,
+          0.5196882690730107
+        ],
+        "text": "amounts of DMT and related hallucinogens. DMT (dimeth-",
+        "column": 0,
+        "start": 1378,
+        "end": 1432
+      },
+      {
+        "page": 108,
+        "row_id": "4eccda408fcda28ecc2e",
+        "bbox": [
+          0.16545814106789716,
+          0.5233798195242002,
+          0.936717205009888,
+          0.5434782608695652
+        ],
+        "text": "yltryptamine) has been available in synthetic form on the",
+        "column": 0,
+        "start": 1432,
+        "end": 1489
+      }
+    ],
+    "reason": "Scan montage checked: hyphen falls at the physical line end within a word, not a lexical compound."
+  },
+  {
+    "word": "ethnobota-nist",
+    "joined": "ethnobotanist",
+    "source_lines": [
+      {
+        "page": 11,
+        "row_id": "c03aa297fd6fb88a9f8c",
+        "bbox": [
+          0.09687906371911574,
+          0.3548120611317637,
+          0.8543563068920677,
+          0.3746385790995456
+        ],
+        "text": "from the point of view of a journalist, a user, an ethnobota-",
+        "column": 0,
+        "start": 238,
+        "end": 299
+      },
+      {
+        "page": 11,
+        "row_id": "ef77020d48375b5cb541",
+        "bbox": [
+          0.09752925877763328,
+          0.37794299876084264,
+          0.85370611183355,
+          0.39818256918628664
+        ],
+        "text": "nist, a physician, a laboratory pharmacologist, a “drug abuse",
+        "column": 0,
+        "start": 299,
+        "end": 360
+      }
+    ],
+    "reason": "Scan montage checked: hyphen falls at the physical line end within a word, not a lexical compound."
+  },
+  {
+    "word": "ethnopharma-cology",
+    "joined": "ethnopharmacology",
+    "source_lines": [
+      {
+        "page": 81,
+        "row_id": "ded446fa61c2876513c8",
+        "bbox": [
+          0.0858257477243173,
+          0.7595876288659794,
+          0.8413524057217165,
+          0.7797938144329897
+        ],
+        "text": "an investigation of the pharmacology and ethnopharma-",
+        "column": 0,
+        "start": 464,
+        "end": 517
+      },
+      {
+        "page": 81,
+        "row_id": "4d32bb3b2e930ef460b1",
+        "bbox": [
+          0.08647594278283485,
+          0.7826804123711341,
+          0.8407022106631988,
+          0.8028865979381443
+        ],
+        "text": "cology of nutmeg that led to a term paper, a thesis, and a",
+        "column": 0,
+        "start": 517,
+        "end": 575
+      }
+    ],
+    "reason": "Scan montage checked: hyphen falls at the physical line end within a word, not a lexical compound."
+  },
+  {
+    "word": "guaca-mayos",
+    "joined": "guacamayos",
+    "source_lines": [
+      {
+        "page": 191,
+        "row_id": "1844349320f5438a1bf3",
+        "bbox": [
+          0.1222366710013004,
+          0.7893004115226337,
+          0.8517555266579974,
+          0.8069958847736626
+        ],
+        "text": "Then came scenes of combat with the hated enemy, the Guaca-",
+        "column": 0,
+        "start": 0,
+        "end": 59
+      },
+      {
+        "page": 191,
+        "row_id": "ade960f3767898043ea7",
+        "bbox": [
+          0.09687906371911574,
+          0.808641975308642,
+          0.8511053315994799,
+          0.8271604938271605
+        ],
+        "text": "mayos . . . a procession of the feared white-robed and hooded",
+        "column": 0,
+        "start": 59,
+        "end": 120
+      }
+    ],
+    "reason": "Scan montage checked: hyphen falls at the physical line end within a word, not a lexical compound."
+  },
+  {
+    "word": "nonpharma-cological",
+    "joined": "nonpharmacological",
+    "source_lines": [
+      {
+        "page": 94,
+        "row_id": "748aaf3d68abf92fe0ee",
+        "bbox": [
+          0.1644993498049415,
+          0.2641509433962264,
+          0.9252275682704811,
+          0.28465955701394585
+        ],
+        "text": "and find it harder to progress into the realm of nonpharma-",
+        "column": 0,
+        "start": 888,
+        "end": 947
+      },
+      {
+        "page": 94,
+        "row_id": "c109bbc0ddf1196cab6d",
+        "bbox": [
+          0.16384915474642392,
+          0.28794093519278097,
+          0.9245773732119635,
+          0.30762920426579166
+        ],
+        "text": "cological alterations of consciousness. Thus, they are more",
+        "column": 0,
+        "start": 947,
+        "end": 1006
+      }
+    ],
+    "reason": "Scan montage checked: hyphen falls at the physical line end within a word, not a lexical compound."
+  },
+  {
+    "word": "ptole-maists",
+    "joined": "ptolemaists",
+    "source_lines": [
+      {
+        "page": 19,
+        "row_id": "6508c06cbb4caf24d02e",
+        "bbox": [
+          0.10759493670886078,
+          0.1463917525773196,
+          0.8443037974683544,
+          0.16783505154639175
+        ],
+        "text": "probably have as much trouble accepting it as the Ptole-",
+        "column": 0,
+        "start": 860,
+        "end": 916
+      },
+      {
+        "page": 19,
+        "row_id": "64bc14c61a85fb37334e",
+        "bbox": [
+          0.10759493670886078,
+          0.17030927835051546,
+          0.8449367088607594,
+          0.19051546391752577
+        ],
+        "text": "maists had with the heliocentric theory. But more useful",
+        "column": 0,
+        "start": 916,
+        "end": 972
+      }
+    ],
+    "reason": "Scan montage checked: hyphen falls at the physical line end within a word, not a lexical compound."
+  },
+  {
+    "word": "unsatis-factoriness",
+    "joined": "unsatisfactoriness",
+    "source_lines": [
+      {
+        "page": 141,
+        "row_id": "084af14cadff4531dc24",
+        "bbox": [
+          0.08192457737321196,
+          0.7378600823045267,
+          0.8361508452535761,
+          0.7526748971193415
+        ],
+        "text": "far worse troubles than those with insects. The unsatis-",
+        "column": 0,
+        "start": 178,
+        "end": 234
+      },
+      {
+        "page": 141,
+        "row_id": "02c50759792fc45f7c80",
+        "bbox": [
+          0.08192457737321196,
+          0.7613168724279835,
+          0.8374512353706112,
+          0.7814814814814814
+        ],
+        "text": "factoriness of many human relationships and all acts of",
+        "column": 0,
+        "start": 234,
+        "end": 289
+      }
+    ],
+    "reason": "Scan montage checked: hyphen falls at the physical line end within a word, not a lexical compound."
+  }
+]

@@ -1,0 +1,6 @@
+# Source names and domain terms; never speculative spelling corrections.
+MindTap
+Cengage
+Egan
+Reese
+Time2Track

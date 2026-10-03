@@ -1,0 +1,870 @@
+[
+  {
+    "page": 12,
+    "before": "a major story the following day under the headline: pamy POT-sMOKERS",
+    "after": "a major story the following day under the headline: DAILY POT-SMOKERS",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.1508452535760728,
+      0.8142974527526705,
+      0.9083224967490247,
+      0.8294987674609696
+    ]
+  },
+  {
+    "page": 28,
+    "before": "least, he goesaight off and does it again. Psychologists have",
+    "after": "least, he goes right off and does it again. Psychologists have",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.1508452535760728,
+      0.2321575061525841,
+      0.91222366710013,
+      0.2526661197703035
+    ]
+  },
+  {
+    "page": 31,
+    "before": "methods before they enter schoo]. Overwhelming social",
+    "after": "methods before they enter school. Overwhelming social",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.09102730819245773,
+      0.7744733581164808,
+      0.8439531859557867,
+      0.795125980999587
+    ]
+  },
+  {
+    "page": 34,
+    "before": "foundly. and yet is less toxic than any other sul atane in the",
+    "after": "foundly and yet is less toxic than any other substance in the",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.15474642392717816,
+      0.6919606234618539,
+      0.9148244473342003,
+      0.7317473338802297
+    ]
+  },
+  {
+    "page": 35,
+    "before": "about.?",
+    "after": "about.2",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.09557867360208062,
+      0.11522633744855967,
+      0.17490247074122237,
+      0.1279835390946502
+    ]
+  },
+  {
+    "page": 35,
+    "before": "ern science has added its quota of synthetics .. *",
+    "after": "ern science has added its quota of synthetics . . .3",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.09492847854356307,
+      0.6539094650205761,
+      0.6820546163849155,
+      0.6724279835390946
+    ]
+  },
+  {
+    "page": 43,
+    "before": "JO a~",
+    "after": "35",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.8192457737321197,
+      0.8629629629629629,
+      0.8472041612483745,
+      0.8769547325102881
+    ]
+  },
+  {
+    "page": 54,
+    "before": "the end of 1969.” Not surprisingly, they failed to demon-",
+    "after": "the end of 1969.2 Not surprisingly, they failed to demon-",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.1508452535760728,
+      0.6082854799015587,
+      0.91222366710013,
+      0.6283839212469237
+    ]
+  },
+  {
+    "page": 70,
+    "before": "the episodic experience of déjd-vu that everyone knows.",
+    "after": "the episodic experience of déjà-vu that everyone knows.",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.1924577373211964,
+      0.3296296296296296,
+      0.9525357607282186,
+      0.3497942386831276
+    ]
+  },
+  {
+    "page": 73,
+    "before": "was placed on large doses of chlorpromazine{ (goo milli-",
+    "after": "was placed on large doses of chlorpromazine† (900 milli-",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.07022106631989597,
+      0.6386831275720165,
+      0.827698309492848,
+      0.6592592592592592
+    ]
+  },
+  {
+    "page": 94,
+    "before": "_ the drug is almost universally smoked. Incidentally, people",
+    "after": "the drug is almost universally smoked. Incidentally, people",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.15149544863459039,
+      0.19360131255127153,
+      0.9245773732119635,
+      0.21534044298605415
+    ]
+  },
+  {
+    "page": 96,
+    "before": "I’ve leaned to do a lot of things when I’m stoned and seem to",
+    "after": "I’ve learned to do a lot of things when I’m stoned and seem to",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.16514954486345904,
+      0.7883511074651354,
+      0.9239271781534462,
+      0.810090237899918
+    ]
+  },
+  {
+    "page": 99,
+    "before": "exists when one thing is taken in relation to another. If I go ona",
+    "after": "exists when one thing is taken in relation to another. If I go on a",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.07087126137841353,
+      0.6082304526748972,
+      0.8270481144343304,
+      0.6263374485596708
+    ]
+  },
+  {
+    "page": 99,
+    "before": "now, past and present and to come.” ®",
+    "after": "now, past and present and to come.” 3",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.07217165149544863,
+      0.848559670781893,
+      0.5104031209362809,
+      0.8670781893004115
+    ]
+  },
+  {
+    "page": 105,
+    "before": "of the altar.” ®",
+    "after": "of the altar.” 8",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.07282184655396619,
+      0.5679012345679012,
+      0.24057217165149544,
+      0.5823045267489712
+    ]
+  },
+  {
+    "page": 106,
+    "before": "_spent in the Andes, far above the dense forests. Also, I paid",
+    "after": "spent in the Andes, far above the dense forests. Also, I paid",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.16384915474642392,
+      0.7292863002461034,
+      0.9330299089726918,
+      0.7493847415914684
+    ]
+  },
+  {
+    "page": 118,
+    "before": "“tight” use, by surrounding the process with ritual, and by",
+    "after": "“right” use, by surrounding the process with ritual, and by",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.1684005201560468,
+      0.2826086956521739,
+      0.9297789336801041,
+      0.30311730926989333
+    ]
+  },
+  {
+    "page": 124,
+    "before": "can mean “honest,” “not curved,” “not homosexual,” or 2 6.",
+    "after": "can mean “honest,” “not curved,” “not homosexual,” or",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.15864759427828348,
+      0.7789646672144618,
+      0.918075422626788,
+      0.7962202136400987
+    ]
+  },
+  {
+    "page": 129,
+    "before": "find on strict analysis that the real object of his meditation is “T",
+    "after": "find on strict analysis that the real object of his meditation is “I",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.08517555266579974,
+      0.3234567901234568,
+      0.8413524057217165,
+      0.34156378600823045
+    ]
+  },
+  {
+    "page": 135,
+    "before": ". . . Thad to ask him, “Did I really fly, don Juan?”",
+    "after": ". . . I had to ask him, “Did I really fly, don Juan?”",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.0858257477243173,
+      0.5558751027115859,
+      0.6924577373211963,
+      0.5776499589153656
+    ]
+  },
+  {
+    "page": 136,
+    "before": "with its heavy chain.” ?",
+    "after": "with its heavy chain.” 3",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.16644993498049415,
+      0.7063166529942576,
+      0.42912873862158646,
+      0.7243642329778507
+    ]
+  },
+  {
+    "page": 137,
+    "before": "senses. I call him illumined.” ®",
+    "after": "senses. I call him illumined.” 5",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.07889672867222579,
+      0.6685808039376538,
+      0.445157152020526,
+      0.6829368334700574
+    ]
+  },
+  {
+    "page": 138,
+    "before": "of the ego to strengthen its control 0° experience when that",
+    "after": "of the ego to strengthen its control of experience when that",
+    "reason": "Checked against 300 dpi source crop; damaged glyph inferred from visible word and context",
+    "bbox": [
+      0.17100130039011704,
+      0.12838392124692372,
+      0.9297789336801041,
+      0.14848236259228875
+    ]
+  },
+  {
+    "page": 143,
+    "before": "the key to freedoga.",
+    "after": "the key to freedom.",
+    "reason": "Checked against 300 dpi source crop; damaged glyph inferred from visible word and context",
+    "bbox": [
+      0.07672301690507152,
+      0.8391038696537678,
+      0.3107932379713914,
+      0.8606924643584521
+    ]
+  },
+  {
+    "page": 148,
+    "before": "There is much about health and illness [ still do not under-",
+    "after": "There is much about health and illness I still do not under-",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.16189856957087126,
+      0.5,
+      0.9213263979193757,
+      0.514766201804758
+    ]
+  },
+  {
+    "page": 161,
+    "before": "— Yang and Yin, in the Chinese formulation.” *",
+    "after": "— Yang and Yin, in the Chinese formulation.” 1",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.09968253968253968,
+      0.6154786150712831,
+      0.686984126984127,
+      0.6346232179226069
+    ]
+  },
+  {
+    "page": 163,
+    "before": "The dwelling of creation.*",
+    "after": "The dwelling of creation.3",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.2516254876462939,
+      0.7179591836734693,
+      0.5461638491547465,
+      0.7359183673469388
+    ]
+  },
+  {
+    "page": 172,
+    "before": "ca] advertising, although in practice the decrease in blood pressure is often",
+    "after": "cal advertising, although in practice the decrease in blood pressure is often",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.15443037974683543,
+      0.854388843314192,
+      0.8955696202531644,
+      0.8699753896636587
+    ]
+  },
+  {
+    "page": 177,
+    "before": "(Boston yetyersity Medical Center Magazine), September—October 1970,",
+    "after": "(Boston University Medical Center Magazine), September—October 1970,",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.08387516254876463,
+      0.8235051546391753,
+      0.8342002600780233,
+      0.8548453608247423
+    ]
+  },
+  {
+    "page": 184,
+    "before": "easiest to produce a convulsion). In the light of this know]-",
+    "after": "easiest to produce a convulsion). In the light of this knowl-",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.1894080996884735,
+      0.8367346938775511,
+      0.9177570093457944,
+      0.8571428571428571
+    ]
+  },
+  {
+    "page": 197,
+    "before": "many (including many ]aw-enforcement officers) that the",
+    "after": "many (including many law-enforcement officers) that the",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.0861275476660092,
+      0.7666666666666667,
+      0.8520710059171598,
+      0.7864197530864198
+    ]
+  },
+  {
+    "page": 208,
+    "before": "send him home. Body temperature can be brought under voluntary contro]",
+    "after": "send him home. Body temperature can be brought under voluntary control",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.1599471249173827,
+      0.44011484823625924,
+      0.9345670852610706,
+      0.4552912223133716
+    ]
+  },
+  {
+    "page": 209,
+    "before": "Ir WOULD NOT BE FAR to close this book without a brief word",
+    "after": "IT WOULD NOT BE FAIR to close this book without a brief word",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.07687210072895957,
+      0.3168724279835391,
+      0.8495692511597084,
+      0.33209876543209876
+    ]
+  },
+  {
+    "page": 219,
+    "before": "ers or patients to accept my view on faith any more than IJ expect",
+    "after": "ers or patients to accept my view on faith any more than I expect",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.09581993569131832,
+      0.7896466721446179,
+      0.8437299035369775,
+      0.8077239112571898
+    ]
+  },
+  {
+    "page": 224,
+    "before": "NIMH in Drug Dependence No. 2 (December 196g), p. 11.",
+    "after": "NIMH in Drug Dependence No. 2 (December 1969), p. 11.",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.17865431756232844,
+      0.34156976781940673,
+      0.890951258597764,
+      0.36482558043640734
+    ]
+  },
+  {
+    "page": 224,
+    "before": "Speech,\" Nature 222 (3 May 196g), p. 436.",
+    "after": "Speech,\" Nature 222 (3 May 1969), p. 436.",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.18097448330025717,
+      0.5305232555789492,
+      0.6728538311622329,
+      0.5525244296421192
+    ]
+  },
+  {
+    "page": 224,
+    "before": "Sagar Publications, 196g), pP. 50-51.",
+    "after": "Sagar Publications, 1969), pp. 50-51.",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.1786542981941949,
+      0.7528501629750294,
+      0.6055684289519769,
+      0.7732558135021882
+    ]
+  },
+  {
+    "page": 224,
+    "before": "7. A. I. Weil, \"Cannabis,\" Science Journal 5A:3 (September",
+    "after": "7. A. T. Weil, \"Cannabis,\" Science Journal 5A:3 (September",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.14617168280155465,
+      0.7703488375868486,
+      0.9118329546694431,
+      0.7936046502038492
+    ]
+  },
+  {
+    "page": 224,
+    "before": "196g), p. 41.",
+    "after": "1969), p. 41.",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.17865429375681086,
+      0.7935667753873814,
+      0.32482598263530055,
+      0.812499999366474
+    ]
+  },
+  {
+    "page": 225,
+    "before": "World,\" Harvard Review I:4 (1963), Pp. 19, 20.",
+    "after": "World,\" Harvard Review I:4 (1963), pp. 19, 20.",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.13068680308811306,
+      0.16612573065352632,
+      0.6831384241945622,
+      0.19170842111581265
+    ]
+  },
+  {
+    "page": 225,
+    "before": "of Knowledge (New York: Ballantine Books, 196g), pp. 127-",
+    "after": "of Knowledge (New York: Ballantine Books, 1969), pp. 127-",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.13103448134268528,
+      0.5319767444778499,
+      0.8643678358412223,
+      0.5523255809581967
+    ]
+  },
+  {
+    "page": 227,
+    "before": "York: Signet Books, 196g).",
+    "after": "York: Signet Books, 1969).",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.10829493601030342,
+      0.6031976742369948,
+      0.41935483570628646,
+      0.62223133703458
+    ]
+  },
+  {
+    "page": 229,
+    "before": "51, 58, 65п, 70, 75, 76, 107-",
+    "after": "51, 58, 65n, 70, 75, 76, 107-",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.1124958433411668,
+      0.43662551473898525,
+      0.4519229134473748,
+      0.453987729443585
+    ]
+  },
+  {
+    "page": 229,
+    "before": "108, 10g; medical dangers of,",
+    "after": "108, 109; medical dangers of,",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.5078145914960903,
+      0.3234463282101683,
+      0.8485583335778157,
+      0.3432203389508487
+    ]
+  },
+  {
+    "page": 229,
+    "before": "Arnold, Edwin, 6g",
+    "after": "Arnold, Edwin, 69",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.4810895866300789,
+      0.5649717513217655,
+      0.6792999927390463,
+      0.5833333335087431
+    ]
+  },
+  {
+    "page": 230,
+    "before": "65,65л",
+    "after": "65,65n",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.16682250113424948,
+      0.7314049588716993,
+      0.2480950004912005,
+      0.7465564735525431
+    ]
+  },
+  {
+    "page": 230,
+    "before": "Christian Scientists, 16g",
+    "after": "Christian Scientists, 169",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.1432962590518823,
+      0.7865013781948242,
+      0.3913912449048049,
+      0.8045602606689469
+    ]
+  },
+  {
+    "page": 231,
+    "before": "Crowley, Aleister, 6g",
+    "after": "Crowley, Aleister, 69",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.08039500011388181,
+      0.15955701366296116,
+      0.30435249615349325,
+      0.17775090715816577
+    ]
+  },
+  {
+    "page": 231,
+    "before": "124, 152, 168, 199л",
+    "after": "124, 152, 168, 199n",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.10719334104452027,
+      0.2526661196540301,
+      0.31966582916335473,
+      0.26964933494850896
+    ]
+  },
+  {
+    "page": 232,
+    "before": "Gautama, 36, 6g",
+    "after": "Gautama, 36, 69",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.1529820683904856,
+      0.5415001717375275,
+      0.32808459390259676,
+      0.5606274870785947
+    ]
+  },
+  {
+    "page": 232,
+    "before": "Highs, 31, 33, 55-56, go; rela-",
+    "after": "Highs, 31, 33, 55-56, 90; rela-",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.5366800038626651,
+      0.6567589580366994,
+      0.8950599987608349,
+      0.6748071978782227
+    ]
+  },
+  {
+    "page": 232,
+    "before": "Homeopathy, 169, 16gn",
+    "after": "Homeopathy, 169, 169n",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.5366799966290424,
+      0.8045602606091999,
+      0.7881399991799577,
+      0.8226221081717102
+    ]
+  },
+  {
+    "page": 233,
+    "before": "120~121",
+    "after": "120-121",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.1109328300315561,
+      0.12660089717085365,
+      0.20248050147252836,
+      0.13785174748220808
+    ]
+  },
+  {
+    "page": 233,
+    "before": "\"Light of Asia\" (Arnold), 6g",
+    "after": "\"Light of Asia\" (Arnold), 69",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.48052001049466075,
+      0.38095238105978557,
+      0.7913199972753392,
+      0.40196882664216216
+    ]
+  },
+  {
+    "page": 233,
+    "before": "41, 56, 59л, 65, 70, 73-97",
+    "after": "41, 56, 59n, 65, 70, 73-97",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.5093799971695001,
+      0.7169811321381623,
+      0.8490399971695001,
+      0.7338935572599422
+    ]
+  },
+  {
+    "page": 233,
+    "before": "with, 30, 73, 74, 81, 109, 1241,",
+    "after": "with, 30, 73, 74, 81, 109, 124n,",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.5093800174928217,
+      0.8263305324429611,
+      0.8512599910541782,
+      0.8445447089244882
+    ]
+  },
+  {
+    "page": 234,
+    "before": "fects of, 86-8g, 94-95; role of",
+    "after": "fects of, 86-89, 94-95; role of",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.17249999434325367,
+      0.3655462185350009,
+      0.5024062519911212,
+      0.38375350143076314
+    ]
+  },
+  {
+    "page": 234,
+    "before": "nology, 27, 18g",
+    "after": "nology, 27, 189",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.1745364157567951,
+      0.5317588280041115,
+      0.3343385814463327,
+      0.5508742247460469
+    ]
+  },
+  {
+    "page": 235,
+    "before": "Osteopathy, 168-16g",
+    "after": "Osteopathy, 168-169",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.06676500708081977,
+      0.6072684642926958,
+      0.2948787452003177,
+      0.6248534582512667
+    ]
+  },
+  {
+    "page": 235,
+    "before": "Practical Guide Yoga, A",
+    "after": "Practical Guide to Yoga, A",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.4589149462366613,
+      0.38468549890138526,
+      0.8275223725227644,
+      0.404558686910796
+    ]
+  },
+  {
+    "page": 235,
+    "before": "Prohibition, 18g",
+    "after": "Prohibition, 189",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.4589149375908628,
+      0.4970930235759876,
+      0.6362066356267887,
+      0.5145348834588962
+    ]
+  },
+  {
+    "page": 235,
+    "before": "Psychosis, 31, 36, 52, 65-66, 65л,",
+    "after": "Psychosis, 31, 36, 52, 65-66, 65n,",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.46351992882623855,
+      0.6816860465350637,
+      0.8273132713915563,
+      0.700581395263109
+    ]
+  },
+  {
+    "page": 235,
+    "before": "Rapture, mystic, 31, 33, g0. See",
+    "after": "Rapture, mystic, 31, 33, 90. See",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.463349564513256,
+      0.8103741565792585,
+      0.8297800028671765,
+      0.8301970462874794
+    ]
+  },
+  {
+    "page": 236,
+    "before": "Soma, 68, 6g",
+    "after": "Soma, 68, 69",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.5439010977852061,
+      0.16211659089569053,
+      0.6791368206967238,
+      0.18052300344850458
+    ]
+  },
+  {
+    "page": 236,
+    "before": "150-159",
+    "after": "158-159",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.5731607743223202,
+      0.5895402421351592,
+      0.6655338105407127,
+      0.6046221942885792
+    ]
+  },
+  {
+    "page": 237,
+    "before": "Withdrawal, sense, 12g. See also",
+    "after": "Withdrawal, sense, 129. See also",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.4859287490756026,
+      0.1910112362803974,
+      0.8508970903405361,
+      0.20795734198707938
+    ]
+  },
+  {
+    "page": 237,
+    "before": "8ın, 88, 90, 104",
+    "after": "81n, 88, 90, 104",
+    "reason": "Checked against 300 dpi source crop",
+    "bbox": [
+      0.5104083364011239,
+      0.43258426944324835,
+      0.6839908324353239,
+      0.4508426967259933
+    ]
+  },
+  {
+    "page": 108,
+    "before": "epend",
+    "after": "epená",
+    "count": 2,
+    "reason": "Scan checked: accent on final a; OCR reads accented a as d.",
+    "whole_word": true
+  },
+  {
+    "page": 110,
+    "before": "epend",
+    "after": "epená",
+    "count": 1,
+    "reason": "Scan checked: accent on final a; OCR reads accented a as d.",
+    "whole_word": true
+  },
+  {
+    "page": 113,
+    "before": "epend",
+    "after": "epená",
+    "count": 1,
+    "reason": "Scan checked: accent on final a; OCR reads accented a as d.",
+    "whole_word": true
+  },
+  {
+    "page": 114,
+    "before": "epend",
+    "after": "epená",
+    "count": 1,
+    "reason": "Scan checked: accent on final a; OCR reads accented a as d.",
+    "whole_word": true
+  },
+  {
+    "page": 118,
+    "before": "epend",
+    "after": "epená",
+    "count": 1,
+    "reason": "Scan checked: accent on final a; OCR reads accented a as d.",
+    "whole_word": true
+  },
+  {
+    "page": 108,
+    "before": "Waika",
+    "after": "Waiká",
+    "count": 2,
+    "reason": "Accent verified against source scan.",
+    "whole_word": true
+  },
+  {
+    "page": 113,
+    "before": "Waika",
+    "after": "Waiká",
+    "count": 1,
+    "reason": "Accent verified against source scan.",
+    "whole_word": true
+  },
+  {
+    "page": 114,
+    "before": "Waikas",
+    "after": "Waikás",
+    "count": 1,
+    "reason": "Accent verified against source scan.",
+    "whole_word": true
+  }
+]

@@ -38,7 +38,7 @@ Keep `work/`: its OCR/model/metadata caches preserve the evidence needed for rep
 ## Regression checks
 
 ```sh
-# Rebuild all five books (seven source/reading edition cases) from existing OCR.
+# Rebuild all six books (eight source/reading edition cases) from cached/native text.
 .venv/bin/python scripts/regression.py
 # Select a case for a focused check.
 .venv/bin/python scripts/regression.py --book organism
@@ -67,6 +67,7 @@ This offline benchmark compares the current note-crop path, fixed thresholds, Ot
 
 | Stage | Tools and behavior | Evidence |
 |---|---|---|
+| Diagnose the source | Deterministic page sampling; original scan versus composed PDF pixel comparison | `source-analysis.json` |
 | Recognize | 300-dpi Tesseract, Apple Vision and Paddle PP-OCRv4 through RapidOCR; native PDF extraction when configured | Per-page JSON and engine/model/source fingerprints |
 | Reconcile | Geometry alignment, conservative witness agreement, checked correction overlays | `corrected-pages.json`, `ocr-comparison.json`, `corrections-applied.json` |
 | Infer margins | Header/footer recurrence, OCR variant clustering, median/MAD, parity and page-number consensus | `layout-analysis.json` |
@@ -106,6 +107,10 @@ Marker placement can use a four-digit historical year as an anchor. Unpunctuated
 
 Figure extraction prefers the original raster when its transform and overlays are verified; otherwise it renders the PDF crop. Captions remain reflowable. `source_relative_figures` preserves reviewed artwork proportions. `recover_ocr_regions` replaces garbled rows where fresh engines agree on separate lines and geometry avoids duplication. An existing matching neighbor is retained once. A single extra digit-confusion token in one fresh engine requires exact lexical corroboration from embedded OCR; substitutions of prose words remain rejected.
 
+Native-text extraction masks reviewed diagram labels before horizontal merging. Positioned bold headings may contain unstyled separator spaces without losing their heading role. Optional `native_heading_merge` joins tightly wrapped heading lines with matching font sizes; `native_list_layout` preserves measured multi-span markers and hanging continuations as separate flowing items; `native_relative_font_sizes` retains relative sizes for smaller examples/quotations; `native_index_indents` preserves child-entry indentation. These options default off for existing profiles. Single-span list markers and cross-page list continuations remain conservative. Source markers currently render as hanging paragraphs rather than semantic nested lists. Mirrored references/index pages may need different reviewed gutter splits on odd and even pages.
+
+Coauthors with contributor role `aut` are emitted as EPUB creators and shown on the title page. A checksum-verified local cover takes precedence over an approved downloaded reference image, preserving its resolution.
+
 ## Whole-book proofreading
 
 Vocabulary analysis runs after complete paragraph and note assembly, using the same canonical text as EPUB rendering. Chapters are IDF documents; notes contribute to their source chapters, while references/index remain separate. General-language Zipf frequency is an approximate background prior. High IDF alone cannot protect a token: OCR mistakes can also be rare. Recurrence, spread and competing spellings propose review priorities, without automatically extending the protected dictionary.
@@ -136,6 +141,8 @@ The self-contained offline sheet shows unresolved and retried locations, marker 
 
 `scripts/metadata.py` uses free, unauthenticated Open Library ISBN/edition APIs, Crossref for DOI-only sources and reviewed source cover URLs. ISBN check digits and title/author/publisher identity are checked. Records/images are cached with provenance and hashes; `--offline` replays them. `--fetch-metadata` in the coordinator allows cache misses to fetch remotely. The EPUB build itself uses frozen enrichment and does not contact the network.
 
+For older books without a verified ISBN, `openlibrary_edition` accepts an exact edition identifier such as `OL123M`. Its record key, publication date, title, author and publisher must match the profile. This also attempts an edition-specific cover download; a later edition's ISBN or cover is never assigned merely because its title matches. Catalog name comparisons normalize Unicode accents.
+
 ISBN association does not approve a cover. Wrong editions, placeholders, conflicting records and low-resolution images require review. A supplied checked local cover or deterministic typographic cover can be used. Copyright text is reflowed without a copyright-page scan. Unsupported metadata is left absent rather than invented.
 
 ## Optional Jev review
@@ -151,5 +158,9 @@ ISBN association does not approve a cover. Wrong editions, placeholders, conflic
 Review and authorize the exact outgoing excerpts before omitting `--dry-run`. Credentials come from `TYPESAFE_API_KEY` or `.env` and are excluded from artifacts. A running-number conflict should first trigger better local crop recognition; semantic ranking cannot recover a digit from an image it cannot see.
 
 ## Reproducibility and limits
+
+The coordinator writes `source-analysis.json` before conversion. This deterministic sample diagnostic looks for an upright page scan, dense painted PDF text and substantial additional ink when compared with the same scan rendered at identical placement. It flags possible reconstructed OCR overlays for review; hidden OCR, occluded text and a few genuine captions do not suffice. It is a warning, not permission to discard annotations or a guarantee about unsampled pages. Run it separately with `scripts/source_diagnostics.py PDF --output REPORT.json`.
+
+After checking the original pixels, `scan_raster_only: true` makes fresh OCR, figures and facsimiles use the embedded page scan directly. It fails unless each requested crop has exactly one upright dominant scan covering it. OCR caches fingerprint this mode and the scan extraction helper; changing the mode requires re-extraction. The default preserves rendered PDF content, including genuine overlays. Original scan resolution is retained rather than upscaled into invented detail.
 
 Pinned tools, source/config/code hashes, checksum-verified resources, cached responses, sorted ZIP entries and fixed timestamps support deterministic replay. Fresh OCR across OS/tool versions is not guaranteed byte-identical. EPUBCheck and source-row coverage complement lexical and visual review; neither establishes full proofreading or behavior on every reading device. Missing source pages and uncertain readings are reported rather than reconstructed without evidence.

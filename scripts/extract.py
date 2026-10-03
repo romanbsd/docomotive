@@ -51,6 +51,9 @@ def main():
         "engine": "Apple Vision accurate en-US revision 3 language correction",
         "engine_source_sha256": sha(ROOT / "scripts/vision_ocr.swift"),
     }
+    if book.get("scan_raster_only"):
+        fingerprint["page_pixels"] = "isolated-scan"
+        fingerprint["scan_pixels_sha256"] = sha(ROOT / "scripts/scan_pixels.py")
     engine = None
     if args.engine == "tesseract":
         fingerprint["engine"] = (
@@ -136,7 +139,14 @@ def main():
         lines = []
         for col, clip in enumerate(clips):
             image = cache / f"{n:04}-{col}.png"
-            page.get_pixmap(dpi=args.dpi, clip=clip).save(image)
+            if book.get("scan_raster_only"):
+                from scan_pixels import isolated_scan
+
+                pixels, _ = isolated_scan(page, clip)
+                # Preserve the original sampling: increasing DPI cannot add detail.
+                pixels.save(image)
+            else:
+                page.get_pixmap(dpi=args.dpi, clip=clip).save(image)
             if args.engine == "tesseract":
                 from PIL import Image
 

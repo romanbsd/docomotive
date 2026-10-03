@@ -83,7 +83,11 @@ def opf_metadata(book, enrichment, uid):
         meta("file-as", book["author_sort"], refines="#author")
     for i, contributor in enumerate(book.get("contributors", []), 1):
         identifier = f"contributor-{i}"
-        field("contributor", contributor["name"], id=identifier)
+        field(
+            "creator" if contributor["role"] == "aut" else "contributor",
+            contributor["name"],
+            id=identifier,
+        )
         meta(
             "role",
             contributor["role"],
@@ -118,6 +122,8 @@ def opf_metadata(book, enrichment, uid):
     if book.get("doi"):
         field("identifier", "https://doi.org/" + book["doi"])
         field("source", book.get("source_version", "Article"))
+    elif book.get("source_version"):
+        field("source", book["source_version"])
     if enrichment.get("journal"):
         field(
             "source",
@@ -213,10 +219,16 @@ def build(
         raise ValueError("Metadata enrichment belongs to a different PDF")
     if enrichment and enrichment.get("isbn") != book.get("isbn"):
         raise ValueError("ISBN profile changed; rerun metadata enrichment")
+    if enrichment.get("openlibrary_edition") != book.get("openlibrary_edition"):
+        raise ValueError("Edition profile changed; rerun metadata enrichment")
     if enrichment.get("doi") and enrichment["doi"] != book.get("doi"):
         raise ValueError("DOI profile changed; rerun metadata enrichment")
     out.mkdir(parents=True, exist_ok=True)
     files = {"OEBPS/style.css": CSS.encode()}
+    if book.get("native_list_layout"):
+        files[
+            "OEBPS/style.css"
+        ] += b"\n.source-list-item {text-indent:-1.3em; margin:.35em 0 .35em 1.3em;}\n"
     doc = pymupdf.open(pdf)
     validate_profile(book, profile, page_count=len(doc))
     audit = []
@@ -242,7 +254,11 @@ def build(
         vision = cache_path(work, "vision")
         secondary = cache_path(work, "rapid")
         for p in [cache, vision, secondary]:
-            preflight_cache(p, len(doc), source_hash)
+            provenance = preflight_cache(p, len(doc), source_hash)
+            if (provenance.get("page_pixels") == "isolated-scan") != bool(
+                book.get("scan_raster_only")
+            ):
+                raise ValueError("Scan pixel mode changed; rerun extraction")
         for n in range(1, len(doc) + 1):
             v = json.loads((cache / f"{n:04}.json").read_text())
             r = json.loads((secondary / f"{n:04}.json").read_text())
@@ -336,9 +352,16 @@ def build(
     }
     # Keep original artwork, not invented illustrations.
     for n, name in book["artwork_pages"]:
-        files[f"OEBPS/{name}.jpg"] = (
-            doc[n - 1].get_pixmap(dpi=200).pil_tobytes(format="JPEG", quality=90)
-        )
+        if book.get("scan_raster_only"):
+            from figures import crop_artwork
+
+            files[f"OEBPS/{name}.jpg"], _ = crop_artwork(
+                doc[n - 1], doc[n - 1].rect, raster_only=True
+            )
+        else:
+            files[f"OEBPS/{name}.jpg"] = (
+                doc[n - 1].get_pixmap(dpi=200).pil_tobytes(format="JPEG", quality=90)
+            )
     downloaded_cover = None
     if book.get("cover_file"):
         from metadata import cover_info
@@ -361,7 +384,11 @@ def build(
         suffix = asset.suffix
         downloaded_cover = "downloaded-cover" + suffix
         files["OEBPS/" + downloaded_cover] = data
-        if candidate["suitable_main_cover"] and suffix == ".jpg":
+        if (
+            candidate["suitable_main_cover"]
+            and suffix == ".jpg"
+            and not book.get("cover_file")
+        ):
             files["OEBPS/cover.jpg"] = data
         break
     publisher_image = ""
@@ -402,7 +429,13 @@ def build(
     add(
         "title.xhtml",
         book["title"],
-        f'<div class="title"><h1>{html.escape(book["title"])}</h1><p>{html.escape(book["subtitle"])}{title_reference}</p><p>{html.escape(book["author"])}</p>{publisher_image}<p>{html.escape(book["publisher"])}</p></div>',
+        f'<div class="title"><h1>{html.escape(book["title"])}</h1><p>{html.escape(book["subtitle"])}{title_reference}</p><p>{html.escape(book["author"])}</p>'
+        + "".join(
+            "<p>" + html.escape(c["name"]) + "</p>"
+            for c in book.get("contributors", [])
+            if c["role"] == "aut"
+        )
+        + f'{publisher_image}<p>{html.escape(book["publisher"])}</p></div>',
     )
     add(
         "copyright.xhtml",

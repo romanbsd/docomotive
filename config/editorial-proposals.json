@@ -1,0 +1,52 @@
+[
+  {
+    "page": 47,
+    "printed": "experi-ience",
+    "proposal": "experience",
+    "status": "printed-typo-scan-verified",
+    "applied": false
+  },
+  {
+    "page": 52,
+    "printed": "adminster",
+    "proposal": "administer",
+    "status": "printed-typo-scan-verified",
+    "applied": false
+  },
+  {
+    "page": 61,
+    "printed": "anixous",
+    "proposal": "anxious",
+    "status": "printed-typo-scan-verified",
+    "applied": false
+  },
+  {
+    "page": 161,
+    "printed": "ambivalance",
+    "proposal": "ambivalence",
+    "status": "printed-typo-scan-verified",
+    "applied": false
+  },
+  {
+    "page": 162,
+    "printed": "experiencd",
+    "proposal": "experienced",
+    "status": "printed-typo-scan-verified",
+    "applied": false
+  },
+  {
+    "page": 210,
+    "printed": "nineteeth",
+    "proposal": "nineteenth",
+    "status": "printed-typo-scan-verified",
+    "applied": false
+  },
+  {
+    "page": 45,
+    "printed": "func-. tioning",
+    "proposal": "functioning",
+    "status": "printed-line-wrap-artifact-scan-verified",
+    "applied": false,
+    "reason": "Source crop checked: func-. at a physical line end followed by tioning. Restore the intended word in the reading edition; preserve source punctuation in the diplomatic edition."
+  }
+]

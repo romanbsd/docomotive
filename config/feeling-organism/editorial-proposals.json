@@ -1,0 +1,79 @@
+[
+  {
+    "page": 199,
+    "printed": "aminc",
+    "proposal": "amino",
+    "count": 1,
+    "evidence": "Printed typo verified in scan; optional reading-edition overlay"
+  },
+  {
+    "page": 209,
+    "printed": "analagous",
+    "proposal": "analogous",
+    "count": 1,
+    "evidence": "Printed typo verified in scan; optional reading-edition overlay"
+  },
+  {
+    "page": 50,
+    "printed": "daugher's",
+    "proposal": "daughter's",
+    "count": 1,
+    "evidence": "Printed typo verified in scan; optional reading-edition overlay"
+  },
+  {
+    "page": 63,
+    "printed": "intially",
+    "proposal": "initially",
+    "count": 1,
+    "evidence": "Printed typo verified in scan; optional reading-edition overlay"
+  },
+  {
+    "page": 201,
+    "printed": "phenotye",
+    "proposal": "phenotype",
+    "count": 1,
+    "evidence": "Printed typo verified in scan; optional reading-edition overlay"
+  },
+  {
+    "page": 198,
+    "printed": "physican",
+    "proposal": "physician",
+    "count": 1,
+    "evidence": "Printed typo verified in scan; optional reading-edition overlay"
+  },
+  {
+    "page": 255,
+    "printed": "chromsomes",
+    "proposal": "chromosomes",
+    "count": 1,
+    "evidence": "Printed typo verified in scan; optional reading-edition overlay"
+  },
+  {
+    "page": 258,
+    "printed": "nucleous",
+    "proposal": "nucleus",
+    "count": 1,
+    "evidence": "Printed typo verified in scan; optional reading-edition overlay"
+  },
+  {
+    "page": 97,
+    "printed": "way to to it",
+    "proposal": "way to do it",
+    "count": 1,
+    "evidence": "Printed to to verified against scan; corrected verb in reading edition only"
+  },
+  {
+    "page": 251,
+    "printed": "was was",
+    "proposal": "was",
+    "count": 1,
+    "evidence": "Printed duplicate across pages 250 and 251 verified against scan; reading edition only"
+  },
+  {
+    "page": 256,
+    "printed": "chromsomes",
+    "proposal": "chromosomes",
+    "count": 1,
+    "evidence": "Printed typo verified against scan; reading edition only"
+  }
+]
