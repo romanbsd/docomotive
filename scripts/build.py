@@ -304,6 +304,7 @@ def build(
                 primary_name,
                 "tesseract" if primary_name == "vision" else "vision",
                 recover_regions=book.get("recover_ocr_regions", False),
+                recover_glyphs=book.get("recover_ocr_glyph_confusions", False),
             )
         provenance_records = [
             json.loads((p / "provenance.json").read_text())
@@ -328,7 +329,13 @@ def build(
         if not native and book.get("recover_pdf_typography", False):
             from typography import attach_typography
 
-            attach_typography(rows, doc[n - 1], n, audit)
+            attach_typography(
+                rows,
+                doc[n - 1],
+                n,
+                audit,
+                recover_headings=book.get("recover_pdf_heading_styles", False),
+            )
         for row in rows:
             for rule in book.get("row_heading_rules", []):
                 if n in rule["pages"] and re.fullmatch(rule["pattern"], row["text"]):
@@ -482,12 +489,36 @@ def build(
         observed,
         dictionary,
         observed_min_count=1 if native else 2,
+        rare_wraps=book.get("repair_word_wraps", False),
     )
     editorial_edits = (
         json.loads((config / "editorial-proposals.json").read_text())
         if editorial
         else []
     )
+    if book.get("repair_lexical_confusions"):
+        from lexical_repair import ContextRanker, CropRecognizer, repair
+
+        if dictionary is None:
+            raise ValueError("Lexical repair requires the pinned Hunspell dictionary")
+        # Freeze whole-book evidence before changing rows, then reconstruct once
+        # with final rows so source intervals and inline styles stay consistent.
+        assembled = reconstruct(pages, book, policy, [], editorial_edits)
+        ranker = ContextRanker(
+            assembled, book, dictionary, protected + book.get("line_join_words", [])
+        )
+        lexical_report = repair(
+            assembled, pages, book, ranker, CropRecognizer(doc, work), audit
+        )
+        lexical_report["source_sha256"] = source_hash
+        lexical_report["resources"].update(
+            {
+                p.name: digest(p.read_bytes())
+                for p in (models / "en_US.aff", models / "en_US.dic")
+            }
+        )
+        write_json(out / "lexical-repair.json", lexical_report)
+        write_json(out / "corrected-pages.json", pages)
     model = reconstruct(pages, book, policy, audit, editorial_edits)
     from figures import incorporate_figures
 

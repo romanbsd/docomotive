@@ -1766,6 +1766,241 @@
         "front-jacket-flap.jpg",
         "travel-map.jpg"
       ]
+    },
+    "otherworlds": {
+      "source_sha256": "d78f1b9fb631bd72f65a6e49cd3eaea554e4b9e7a79c5077484e6c50f670e697",
+      "slug": "otherworlds",
+      "editorial": false,
+      "artifacts": {
+        "book-model.json": "8d4a0e7346ca70aabd64f9493e1762e8fff7c4e1627df5f76bf56ba882371214",
+        "corrected-pages.json": "9873282d62f10635641fce69dbdedd2d482d05927e323b3501dcdb0aece3de6b",
+        "text-coverage.json": "103fd2b38556ec0de9d0c94d462a9996baa4f4ab1a22edd95074fdc5efc1388a",
+        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
+        "otherworlds.txt": "23106080d706a740e0e4d86f8bc0b987cd79fcf7a4487a2093f7d4a2a4ccb7aa",
+        "lexical-repair.json": "3bd9aff8b4dd5c42f4c593b36f3e6e8541a83fa51af410075fa7af6c55e535de"
+      },
+      "epub_sha256": "7e9afd017e3c19511a952cc6299e628c321c666e64b2e2ec45ccad244e960788",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/chapter-01.xhtml": "bf832ccad98bbb6247eb13aa7e1f323271c9e3825299705e646d771d378805ab",
+        "OEBPS/chapter-02.xhtml": "9e2d08cc9eabf93ba775c85c766601c3972ecba086274d4cb82bf2154acb35fe",
+        "OEBPS/chapter-03.xhtml": "1994b273cea8165ff7e637ab422df602385d8953e4f7b5e1481914c7ee18a36e",
+        "OEBPS/chapter-04.xhtml": "cfbd8c08365acf99d29a39b4ce822542fb1c3271f2f14a2b281c319ac9633370",
+        "OEBPS/chapter-05.xhtml": "0ea7b68120290b6470b98ac85b3d50df67ba15a32413dd5f233a7c85a16bee1a",
+        "OEBPS/chapter-06.xhtml": "d66f7b18d9c58bd9985ef1969270923be188a4ead0082f3cd67aae9d19ae8e5c",
+        "OEBPS/chapter-07.xhtml": "f5cd3f5f670516fee9dcec31a8a7167ba7499f34faea7ba2e670c2457f4cc432",
+        "OEBPS/chapter-08.xhtml": "aa3fcbee4027d40805908c140c3db59667e22af73da8ec087b676d26f522621b",
+        "OEBPS/chapter-09.xhtml": "984fb31cdea23158ce2d7940f326f82dbdb920a39ef2bdeb88fcd0abac5e3909",
+        "OEBPS/chapter-10.xhtml": "af94089bb7609a1f498803267b5dc09934b0d8e859561f40a74e8b60c638a978",
+        "OEBPS/chapter-11.xhtml": "a188321044a638c6fa22e9b150e668f7e334056b17737efa914906366bbbb690",
+        "OEBPS/chapter-12.xhtml": "ae1cb4613472a8f66ac6a1918f552e4fae3717c231d53e2c4bdbb13dcf8f15fd",
+        "OEBPS/chapter-13.xhtml": "3b25eabab81d21f5e44c7ef46ffd3cd90b3ed740a1bdc1a41cfc1e8379b60639",
+        "OEBPS/chapter-14.xhtml": "f47586e58bc8ef021a2e573752cb1601e78d2f8867d8fe19fce2cb60e68e0a32",
+        "OEBPS/chapter-15.xhtml": "215a44c69c685cf6c0eca2161c5d001ff830c7b17313b51be56f64d47a76988e",
+        "OEBPS/chapter-16.xhtml": "7b02613b48acd70876be7ca56a27ff55df36931740b4bc46834723168eabdefc",
+        "OEBPS/chapter-17.xhtml": "f562b0162fbd038c19946e6bcc7918d4ca81ff35d751c59892daf2333205cdbb",
+        "OEBPS/chapter-18.xhtml": "f0fad075f6e39008d3d1c79e02d16534a861f5e898b2d85c438480676d077dc6",
+        "OEBPS/chapter-19.xhtml": "3b46afb64ba5d63d5022cf4a10693caeb4fd0765f17c1c0e18477f47dae1340f",
+        "OEBPS/chapter-20.xhtml": "c160fc88717e89d08b1c6741ffa1b5a8e6e09446f4a8a7ff384a4873f98ccf74",
+        "OEBPS/chapter-21.xhtml": "922e80f52ed04881692714dbc5f5a43f6ae4c1513b0bac9ade8d24d18486fa1e",
+        "OEBPS/chapter-22.xhtml": "5f4ecb0928fc8e9bf5bf8234a3768d3ea81f2434402553c590628b9b035506e2",
+        "OEBPS/chapter-23.xhtml": "bd201fccf090a8e9e578b5a25169cb05e30d2083199ba65447823cd279fd88a7",
+        "OEBPS/content.opf": "1bfaac17c456d8baeaa1fc0139ac26aa0ea5d9b8cfc41885e93b071bf086f46b",
+        "OEBPS/copyright.xhtml": "2f62b57bf5630779d9fe50c6a298eb8c471887de1c3962383368d51da9ae7cf4",
+        "OEBPS/cover.jpg": "6179c74dd7633d11dbe593f8811995b119eb65e0b26cd8c6b80a599facdbbdf5",
+        "OEBPS/cover.xhtml": "96294fa69c0536d4c04532bdb681541af9f4f091e264f3536c70efa52c6ecf4c",
+        "OEBPS/downloaded-cover.jpg": "6179c74dd7633d11dbe593f8811995b119eb65e0b26cd8c6b80a599facdbbdf5",
+        "OEBPS/downloaded-cover.xhtml": "ba52f47bcefd0a43687b104e3c6bacc674c9da61b9076ca6ac0806eed9778cc8",
+        "OEBPS/edition-note.xhtml": "8850392f66f1356c457022875fe4824f0e6e6033535cc0870cdb99c8447fd8a4",
+        "OEBPS/figure-1.jpg": "68a221aaf598492532c1dd800f2a930bea132f7ec9a1a7783302e7bb304af1dc",
+        "OEBPS/figure-10.jpg": "77f12783b3c95c34237401b3a7956db7e609208dbe5981405932e70b7de6980c",
+        "OEBPS/figure-11.jpg": "dda2490b6af10fb336cc21a4b03ac07cb896e858b26be4f3ab555fa6632c6189",
+        "OEBPS/figure-12.jpg": "90765ff536bed22d4ccbe3715705d8bc361e55c32e68a869fef78d30ec26bd26",
+        "OEBPS/figure-13.jpg": "90965c2ad698ed76a713e18b8151a0c27d21db287434f3731e72e4494b1055ea",
+        "OEBPS/figure-14.jpg": "379105b7620139ed8ef81c1622ece7cf6813b0bd031549f5bc929824facdf40f",
+        "OEBPS/figure-15.jpg": "9814e8172dd439bf509a987313299e30fc9582414843c671a7fe73a01fa1d3e0",
+        "OEBPS/figure-16.jpg": "696e765d5257faa48a65b9b4241e4de161cc80cdf1d180267ee0795691906a7c",
+        "OEBPS/figure-17.jpg": "345bc4be6fa0ef57404c56e794c610630b3764fa3574df58f0664a0f91d6db5d",
+        "OEBPS/figure-18.jpg": "19250b49e0ad43e342fa8d90d15163256067eaf416af4d0a9759004acee4ad8e",
+        "OEBPS/figure-2.jpg": "6319a997593b61af5eb1b4b7ebbe3421026b42f629839a06311740bc2e2c1adb",
+        "OEBPS/figure-3.jpg": "92671c03b0900f75f53411daafcc1d6683b0a4ee2a7c1d8fbfdd2285618c9a34",
+        "OEBPS/figure-4.jpg": "987738c532abb5173401f4134c802fb34de264c5dbd7d2a7c1ae1bfc918e0412",
+        "OEBPS/figure-5.jpg": "3d68e1e0553d9e80e3c33cd688dfd33ec8f6baec5f2366d80cd395c8fc43c766",
+        "OEBPS/figure-6.jpg": "b9437bcd11f0261a23a858b7d87057085430fe97d2a5c168e925a656a750a55f",
+        "OEBPS/figure-7.jpg": "320df531eeaa0dceded8062e857c07ceb5501c66b59c3204edcbd41b9494354b",
+        "OEBPS/figure-8.jpg": "895b45b259c5e4e423579fe57ed650a663da4e2a3b0b279a43b3c2e477baebbd",
+        "OEBPS/figure-9.jpg": "1f9d021e63b4b5ba53fdfa85ab7a6adfa210ad22d4926d9646cb1e117345f7e6",
+        "OEBPS/filter-receptor-paragraph.jpg": "db066d8d355afd063a20de177e7a40a747806bdcff9c9bc44b5c4252c16a6bfe",
+        "OEBPS/nav.xhtml": "97b75d4e2ef6420a8d1d13106cee7488aa295f882869e50331d488b5208e888e",
+        "OEBPS/receptor-pharmacology.jpg": "1358bf98cd6166167acef460f1d4a061b6f5cbb70f4dd3785d0b0dbf6294a5e0",
+        "OEBPS/receptor-subtypes.jpg": "a5ac926a37f152c9378584bcf5fe7024cfa2e5c872aff4b9da960d19640be5ab",
+        "OEBPS/serotonin-dopamine-paragraph.jpg": "c0e48ee0cc9f99ae21e7f5fbf1df687844dd6dd501a0d7d2d9ad7f55455f244a",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/table-1-1.jpg": "6598d19d4b1e32b2ca492915a9d05ebbdeac8331085da149927ccb1d2060c410",
+        "OEBPS/table-1-2.jpg": "f36f245d5264aee01d4553336d43cbbcf8069caeec1b3cca3d377798c2375847",
+        "OEBPS/table-1-3.jpg": "c3ca4c12b8b0ba9fb94bab0d37de9d4b625d4159ebdf00de046b2d7c35209f6c",
+        "OEBPS/table-1-4.jpg": "a343ff29f94c338d03a029eccc8e956c9216d5d48fd291bebde4728d27016c65",
+        "OEBPS/table-1-5.jpg": "f4d6a1f40cdae3c34c2150a884559aadd8295d9d10c2637c3e41c8e4fb30a10b",
+        "OEBPS/table-2-first.jpg": "a3118c409184ef3e7c71f974f5ea49a3c64d901bc318e669348d2764ce0498a9",
+        "OEBPS/table-2.jpg": "61084f2b859bf2e9d0ce98360f6c18b6ffcb6a8ced02c604d5ea55896ac264c7",
+        "OEBPS/title.xhtml": "5053bf3d73b53ad81cd8a7e8605052668b42b2aec0bff9cec6070d95748720e5",
+        "OEBPS/toc.ncx": "4027443d6459dd6dc9b9f6d5c7d1a0c33a6d3aa25f43b6b351e753e72e8bf72a",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 469,
+        "body": 10527
+      },
+      "chapters": [
+        {
+          "title": "Dedication",
+          "sha256": "1c3d41985e7c0f69e64085c9b8283156dbdebf03318ab468f5f6b8b7aae3168c",
+          "blocks": 1
+        },
+        {
+          "title": "Acknowledgements",
+          "sha256": "94ce8ecbd32762240c037ed4d3d7337d7003039591437a90afa6b8374def84dc",
+          "blocks": 18
+        },
+        {
+          "title": "Foreword: Blasting Open the Doors of Perception",
+          "sha256": "fb090989a5ea0d6e23f08beb6de44954ac9e24e32ccdf753588e3e1ceafa5fbb",
+          "blocks": 13
+        },
+        {
+          "title": "Preface",
+          "sha256": "5058e8eb8fa02e64587149d3cb0f903545e8a927267bb7cf8a21a42683d2a175",
+          "blocks": 33
+        },
+        {
+          "title": "Section One: Explorations of Exceptional Entheogen Experiences",
+          "sha256": "fa237f31acc44a64d06c0a5cdcf99eb6df5b20de158cbcff69fba7172c5c2957",
+          "blocks": 3
+        },
+        {
+          "title": "1. Notes on Getting Cactus Lodged in Your Reducing Valve: San Pedro and Psychic Abilities",
+          "sha256": "244bb32be3618f6f5d6515dcb7aa0df88412316034b0d66303c55f537bb521c7",
+          "blocks": 65
+        },
+        {
+          "title": "2. Psychedelic Possession: The Growing Incorporation of Incorporation into Ayahuasca Use",
+          "sha256": "58e17f3c4ed26cfd4bba0d89a8b13f766b94c43a65158573dce8290c67b1bd3b",
+          "blocks": 75
+        },
+        {
+          "title": "3. The Induction of Synaesthesia with Chemical Agents: A Systematic Review (with Devin Terhune)",
+          "sha256": "ade77907f9d9244b8538d1290a1a543289a8024c95c0314fa6021e9411063467",
+          "blocks": 78
+        },
+        {
+          "title": "4. Rock Art or Rorschach: Is There More to Entoptics Than Meets the Eye?",
+          "sha256": "9f69ffa30393b94abe77047cbb95263c80ea93f8a35ca0d365528ed9c37453b6",
+          "blocks": 107
+        },
+        {
+          "title": "5. Discarnate Entities and Dimethyltryptamine (DMT): Psychopharmacology, Phenomenology and Ontology",
+          "sha256": "6dda867252023f3d39fb69ad3fcc35ec205b6bb0d382d64a2261d1de4c7758ef",
+          "blocks": 73
+        },
+        {
+          "title": "6. Disembodied Eyes Revisited: An Investigation into the Ontology of Entheogenic Entity Encounters",
+          "sha256": "c2865b36376107f021373409587c584771e03a34d4a0a66a62d5ba9bddb102fd",
+          "blocks": 134
+        },
+        {
+          "title": "7. Psychedelics and Species Connectedness",
+          "sha256": "91a7a366d0a6fcf9137b07f809410f2aae4ea63e909f596819545ad598d83088",
+          "blocks": 23
+        },
+        {
+          "title": "Section Two: Do Psychedelics Like Psilocybin Really Cause Psi?",
+          "sha256": "0256916b0d81cf4b7005c77f046d2c63467276def9b0dd76cfc18719c5df278a",
+          "blocks": 3
+        },
+        {
+          "title": "8. Psychoactive Substances and Paranormal Phenomena Review",
+          "sha256": "1eefdd724aa800f44c034524d98bb07a0dbaafa54bc42823d71babf79ab38cf6",
+          "blocks": 32
+        },
+        {
+          "title": "9. Psychedelic/Neurochemical Models of Paranormal Experience",
+          "sha256": "61115aab1920b50ba2e3e4f433c8c2a6cd10e79a4660bde7ad921a6002068e8a",
+          "blocks": 107
+        },
+        {
+          "title": "10. Field Reports of Psychedelic Paranormal Phenomena",
+          "sha256": "27a7f877195afd2f9a63f841f08087efc0936f66d02340821c2c4188fbccbe54",
+          "blocks": 54
+        },
+        {
+          "title": "11. Surveys of Psychedelic Paranormal Beliefs and Experiences",
+          "sha256": "756708723ec740bcdf22316a9f91fd178d38e3a8a97818541c650c78d0febccb",
+          "blocks": 86
+        },
+        {
+          "title": "12. Experimental Psychedelic ESP Research",
+          "sha256": "9c408b6892786ee4d49a5a07b7cb251a366f6918ae9edf16c0aa4cf47513452c",
+          "blocks": 58
+        },
+        {
+          "title": "13. Methodological Critique of Experimental ESP Research",
+          "sha256": "73ba702f23be5be56cb6543344d9cd908aa57f4ac351cb1d161b25cf4ccea48c",
+          "blocks": 21
+        },
+        {
+          "title": "14. General Summary and Conclusions on Psychedelic Parapsychological Research",
+          "sha256": "a3be3271d68f9656d719cf302a0b9e179176a805b5123582fd149d43eac32819",
+          "blocks": 11
+        },
+        {
+          "title": "Afterword: Pulling Magicians out of a Rabbit Hole",
+          "sha256": "031762524caa72d3f38f53f4a9c35f5eee5fcf176e5d0a1c0b8ff5edc875335f",
+          "blocks": 7
+        },
+        {
+          "title": "References",
+          "sha256": "711c35ede0cbe8eb2d988eefcca480efdb02f994a2ded896097f0eef3cedd594",
+          "blocks": 823
+        },
+        {
+          "title": "Index",
+          "sha256": "80190f5d5c98733cd9756de54398db7b5de095d9cf303819c017042598d883a4",
+          "blocks": 317
+        }
+      ],
+      "noterefs": 0,
+      "backlinks": 0,
+      "figures": [
+        "figure-1.jpg",
+        "figure-10.jpg",
+        "figure-11.jpg",
+        "figure-12.jpg",
+        "figure-13.jpg",
+        "figure-14.jpg",
+        "figure-15.jpg",
+        "figure-16.jpg",
+        "figure-17.jpg",
+        "figure-18.jpg",
+        "figure-2.jpg",
+        "figure-3.jpg",
+        "figure-4.jpg",
+        "figure-5.jpg",
+        "figure-6.jpg",
+        "figure-7.jpg",
+        "figure-8.jpg",
+        "figure-9.jpg",
+        "filter-receptor-paragraph.jpg",
+        "receptor-pharmacology.jpg",
+        "receptor-subtypes.jpg",
+        "serotonin-dopamine-paragraph.jpg",
+        "table-1-1.jpg",
+        "table-1-2.jpg",
+        "table-1-3.jpg",
+        "table-1-4.jpg",
+        "table-1-5.jpg",
+        "table-2-first.jpg",
+        "table-2.jpg"
+      ]
     }
   }
 }

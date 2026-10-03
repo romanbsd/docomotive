@@ -74,6 +74,35 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(join("a pick-me-", "up"), "a pick-me-up")
         self.assertEqual(join("the experi-", "ence"), "the experience")
 
+    def test_rare_wrap_keeps_known_compound(self):
+        policy = JoinPolicy(protected=["re-form"], rare_wraps=True)
+        self.assertEqual(join("re-", "form", policy=policy), "re-form")
+        self.assertEqual(join("asso-", "ciators", policy=policy), "associators")
+
+    def test_verified_wrap_overrides_spurious_paragraph_flag(self):
+        book = dict(self.book(), repair_word_wraps=True, infer_verse=False)
+        lines = [
+            row("mental representations (asso-", 0.3),
+            row("ciators) whereas another experiences colours", 0.322),
+        ]
+        lines[1]["paragraph_start"] = True
+        policy = JoinPolicy(rare_wraps=True)
+        blocks, _ = page_blocks(26, lines, book, [], False, policy)
+        self.assertEqual(len(blocks), 1)
+        self.assertIn("associators)", blocks[0]["fragments"][0]["text"])
+
+    def test_wrap_does_not_override_indented_new_paragraph(self):
+        book = dict(self.book(), repair_word_wraps=True, infer_verse=False)
+        lines = [
+            row("mental representations (asso-", 0.3),
+            row("ciators) a separately indented paragraph", 0.322, 0.25),
+        ]
+        lines[1]["paragraph_start"] = True
+        blocks, _ = page_blocks(
+            26, lines, book, [], False, JoinPolicy(protected=["associators"])
+        )
+        self.assertEqual(len(blocks), 2)
+
     def test_recurring_margin_does_not_consume_unique_body(self):
         pages = {
             str(n): [
@@ -271,6 +300,51 @@ class PipelineTests(unittest.TestCase):
             join("the ethnobota-", "nist", policy=JoinPolicy(["ethnobotanist"])),
             "the ethnobotanist",
         )
+
+    def test_exact_row_overlay_preserves_matching_prose(self):
+        items = [{"page": 1, "text": "-"}, {"page": 1, "text": "a - b"}]
+        apply_edits(
+            items,
+            [dict(page=1, before="-", after="", exact_row=True)],
+            [],
+            "test",
+        )
+        self.assertEqual([item["text"] for item in items], ["", "a - b"])
+
+    def test_skewed_hanging_entries_keep_numeric_continuations(self):
+        book = self.book() | {"hanging_pages": [1], "recover_hanging_margins": True}
+        rows = []
+        for i in range(12):
+            y = 0.1 + i * 0.06
+            rows.append(row(f"Entry {i} 10, 12,", y, 0.1 + 0.07 * y))
+            rows.append(row("14, 16", y + 0.024, 0.14 + 0.07 * (y + 0.024)))
+        blocks, _ = page_blocks(1, rows, book, [], False)
+        self.assertEqual(len(blocks), 12)
+        self.assertTrue(all(len(b["lines"]) == 2 for b in blocks))
+        self.assertTrue(all(b["kind"] == "text" for b in blocks))
+
+    def test_sparse_hanging_layout_keeps_fallback(self):
+        rows = [row("Entry 10,", 0.2), row("12, 14", 0.224, 0.24)]
+        book = self.book() | {"hanging_pages": [1]}
+        old, _ = page_blocks(1, rows, book, [], False)
+        new, _ = page_blocks(
+            1, rows, book | {"recover_hanging_margins": True}, [], False
+        )
+        self.assertEqual(old, new)
+
+    def test_reviewed_verse_range_preserves_preceding_prose_tail(self):
+        rows = [row("The prose ends here.", 0.2)]
+        for i, text in enumerate(
+            ["A poem begins", "With a shorter line", "And closes here"]
+        ):
+            rows.append(row(text, 0.24 + i * 0.025))
+        book = self.book() | {
+            "infer_verse": False,
+            "verse_regions": {"1": [[0.24, 0.32]]},
+        }
+        blocks, _ = page_blocks(1, rows, book, [], False)
+        self.assertEqual([b["kind"] for b in blocks], ["text", "verse"])
+        self.assertEqual(blocks[0]["fragments"][0]["text"], "The prose ends here.")
 
     def test_overlay_failure_does_not_mutate_target(self):
         items = [{"page": 1, "text": "epend and dependence"}]

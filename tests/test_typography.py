@@ -332,5 +332,62 @@ class TypographyTests(unittest.TestCase):
         self.assertEqual(links, [("chapter.xhtml#page-3", "xiii")])
 
 
+class CorroboratedGlyphTests(unittest.TestCase):
+    def test_confusable_digit_needs_opt_in_and_three_witnesses(self):
+        primary = [row("We need 1o compare results.")]
+        witness = [row("We need to compare results.")]
+        self.assertEqual(
+            correct_page(primary, witness, witness, witness, [], [], 1)[0]["text"],
+            primary[0]["text"],
+        )
+        self.assertEqual(
+            correct_page(
+                primary, witness, witness, witness, [], [], 1, recover_glyphs=True
+            )[0]["text"],
+            witness[0]["text"],
+        )
+        self.assertEqual(
+            correct_page(primary, [], witness, witness, [], [], 1, recover_glyphs=True)[
+                0
+            ]["text"],
+            primary[0]["text"],
+        )
+
+    def test_numbers_and_formulae_are_preserved(self):
+        for before, after in [
+            ("1918", "1913"),
+            ("5HT", "SHT"),
+            ("10mg", "long"),
+            ("D2", "Do"),
+        ]:
+            primary, witness = [row(before)], [row(after)]
+            self.assertEqual(
+                correct_page(
+                    primary, witness, witness, witness, [], [], 1, recover_glyphs=True
+                )[0]["text"],
+                before,
+            )
+
+    def test_aligned_bold_subheading_is_optional(self):
+        candidate = row("Methods")
+        candidate["kind"] = "heading"
+        candidate["inline"] = [dict(start=0, end=7, tags=["strong"])]
+        with patch(
+            "typography.extract_page",
+            return_value=[
+                candidate,
+                row("Ordinary body prose establishes body size.", 1),
+            ],
+        ):
+            original = [row("Methods")]
+            attach_typography(original, None, 1, [])
+            self.assertNotIn("kind", original[0])
+            attach_typography(original, None, 1, [], recover_headings=True)
+            self.assertEqual(original[0]["kind"], "heading")
+            mismatch = [row("A different reading")]
+            attach_typography(mismatch, None, 1, [], recover_headings=True)
+            self.assertNotIn("kind", mismatch[0])
+
+
 if __name__ == "__main__":
     unittest.main()

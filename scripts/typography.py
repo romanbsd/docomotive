@@ -36,7 +36,7 @@ def attach_scan_font_metrics(rows, page, number, audit):
             )
 
 
-def attach_typography(rows, page, number, audit):
+def attach_typography(rows, page, number, audit, recover_headings=False):
     source = extract_page(page, {}, number, [])
     sizes = [
         r["font_size"] for r in source if r.get("font_size") and len(r["text"]) > 30
@@ -94,6 +94,10 @@ def attach_typography(rows, page, number, audit):
             and candidate.get("font_size", 0) > 1.45 * body_size
             and 3 <= len(row["text"]) <= 120
         ):
+            row["kind"] = "heading"
+        if recover_headings and candidate.get("kind") == "heading":
+            # Native classification requires bold evidence on every glyph;
+            # aligned_source also requires matching text and nearby geometry.
             row["kind"] = "heading"
         if styles or row.get("kind") == "heading":
             audit.append(

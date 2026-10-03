@@ -5,8 +5,8 @@ import re
 
 BOOL_KEYS = set(
     """chapter_heading continuous_indented_rows native_small_numeric_sup native_heading_merge native_index_indents native_list_layout native_relative_font_sizes
-    recover_ocr_regions recover_pdf_typography recover_scan_font_metrics
-    recover_scanned_endnotes scan_raster_only section_navigation source_relative_figures""".split()
+    infer_verse recover_hanging_margins recover_ocr_regions recover_ocr_glyph_confusions recover_pdf_heading_styles recover_pdf_typography recover_scan_font_metrics
+    recover_scanned_endnotes repair_lexical_confusions repair_word_wraps scan_raster_only section_navigation source_relative_figures""".split()
 )
 NUMBER_KEYS = set("""native_body_size native_superscript_max_size endnote_marker_min
     endnote_marker_limit upper_margin_cutoff uppercase_margin_cutoff

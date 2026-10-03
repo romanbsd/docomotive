@@ -6,18 +6,24 @@ from collections import Counter
 from wordfreq import zipf_frequency
 from common import digest
 from layout import excluded
-from paragraph_layout import infer_paragraph_layout
+from paragraph_layout import infer_paragraph_layout, _edge
 from typography import verse_evidence
 
 
 class JoinPolicy:
     def __init__(
-        self, protected=(), observed=(), dictionary=None, observed_min_count=2
+        self,
+        protected=(),
+        observed=(),
+        dictionary=None,
+        observed_min_count=2,
+        rare_wraps=False,
     ):
         self.words = {w.lower() for w in protected} | {
             w.lower() for w, n in Counter(observed).items() if n >= observed_min_count
         }
         self.dictionary = dictionary
+        self.rare_wraps = rare_wraps
 
     def accepts(self, word):
         low = word.lower()
@@ -38,8 +44,19 @@ class JoinPolicy:
                 hyphenated = left[1] + "-" + right[1]
                 if hyphenated.lower() in self.words:
                     return 0, "", "retain"
+                # A rare but corpus-attested joined form can beat an unattested
+                # split by a full Zipf unit (tenfold frequency). Known compounds
+                # above still take precedence; this is opt-in for scan repair.
+                rare_attested = (
+                    self.rare_wraps
+                    and zipf_frequency(combined, "en") >= 1
+                    and zipf_frequency(combined, "en")
+                    >= zipf_frequency(hyphenated, "en") + 1
+                )
                 return (
-                    (1, "", "remove") if self.accepts(combined) else (0, "", "retain")
+                    (1, "", "remove")
+                    if self.accepts(combined) or rare_attested
+                    else (0, "", "retain")
                 )
         return 0, (" " if a else ""), "space"
 
@@ -140,6 +157,7 @@ def page_blocks(n, rows, book, audit, first, policy=None):
         inferred_verse = (
             verse_evidence(rr, book.get("_body_width", 0.8))
             if book.get("text_source") != "native"
+            and book.get("infer_verse", True)
             and n not in book.get("reference_pages", [])
             else set()
         )
@@ -153,6 +171,20 @@ def page_blocks(n, rows, book, audit, first, policy=None):
         )
         geometry = {}
         hanging = n in book.get("hanging_pages", book.get("reference_pages", []))
+        if hanging and book.get("recover_hanging_margins"):
+            # Skew can move entry starts beyond a fixed indentation threshold.
+            # Reuse the stable left envelope; hanging text cannot prove quotes.
+            edge = _edge(rr, 0, 0.2) if len(rr) >= 8 else None
+            if edge:
+                geometry = {
+                    r["row_id"]: dict(
+                        left_offset=r["bbox"][0]
+                        - edge["intercept"]
+                        - edge["slope"] * r["bbox"][1]
+                    )
+                    for r in rr
+                }
+            audit.append(dict(page=n, kind="hanging-margin", column=col, envelope=edge))
         if (
             book.get("text_source") != "native"
             and not hanging
@@ -222,6 +254,32 @@ def page_blocks(n, rows, book, audit, first, policy=None):
             )
             if not hanging and last and r.get("column", 0) != last.get("column", 0):
                 new = True
+            if (
+                book.get("repair_word_wraps")
+                and new
+                and last
+                and blocks
+                and kind in ("text", "quote")
+                and blocks[-1]["kind"] == kind
+                and r.get("column", 0) == last.get("column", 0)
+                and not hanging
+                and not gap
+                # A normal-margin continuation can inherit a bogus style-based
+                # paragraph flag. An indented new paragraph cannot override it.
+                and not paragraph_indent
+                and re.search(r"[^\W\d_]{2,}-$", last["text"])
+                and re.match(r"^[a-z]{2,}", text)
+                and (policy or DEFAULT_POLICY).boundary(last["text"], text)[2]
+                == "remove"
+            ):
+                new = False
+                audit.append(
+                    dict(
+                        page=n,
+                        kind="verified-word-wrap-boundary",
+                        before=last["text"].split()[-1] + " " + text.split()[0],
+                    )
+                )
             if verse:
                 new = (
                     not blocks

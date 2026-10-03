@@ -42,6 +42,10 @@ def snapshot(output, book, editorial=False):
         )
     }
     artifacts[f'{book["slug"]}.txt'] = file_digest(output / f'{book["slug"]}.txt')
+    if book.get("repair_lexical_confusions"):
+        artifacts["lexical-repair.json"] = json_digest(
+            read_json(output / "lexical-repair.json")
+        )
     return dict(
         source_sha256=book["source_sha256"],
         slug=book["slug"],

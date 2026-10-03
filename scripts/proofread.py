@@ -75,6 +75,33 @@ def make_sheet(pdf, profile, out, work):
     extra = diagnostics(read_json(out / "book-model.json"), book)
     records = []
     cards = []
+    repair_summary = ""
+    accepted_repairs = []
+    if book.get("repair_lexical_confusions"):
+        lexical = read_json(out / "lexical-repair.json")
+        accepted_repairs = [d for d in lexical["decisions"] if d["action"] == "correct"]
+        entries = []
+        for decision in accepted_repairs:
+            crop = decision["crop"]
+            data = (work / "lexical-crops" / (crop["cache_key"] + ".png")).read_bytes()
+            if digest(data) != crop["crop_sha256"]:
+                raise ValueError("Lexical repair crop checksum mismatch")
+            entries.append(
+                f'<p>PDF {decision["page"]}: <del>{html.escape(decision["before"])}</del> → '
+                f'<strong>{html.escape(decision["after"])}</strong> · crop readings: '
+                + html.escape(" / ".join(crop["readings"]))
+                + '<br/><img alt="Verified word crop" style="max-height:5em;width:auto" src="data:image/png;base64,'
+                + base64.b64encode(data).decode()
+                + '"/></p>'
+            )
+        repair_summary = (
+            f"<details><summary>{len(accepted_repairs)} automatic local spelling repairs — show source crops</summary>"
+            "<p>Whole-book context and character confusions rank proposals. Fresh Tesseract word crops "
+            "must agree in two segmentation modes; these are two readings by one engine, not independent votes. "
+            "Weak ranking margins also require agreement with the embedded OCR. Uncertain proposals remain below.</p>"
+            + "".join(entries)
+            + "</details>"
+        )
     doc = pymupdf.open(pdf)
     loaded = {}
 
@@ -227,6 +254,7 @@ function download(){const output=records.filter(r=>decisions[r.id]).map(r=>({...
         '<!doctype html><html lang="en"><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Scan-backed proofreading</title><style>body{font:17px/1.5 system-ui;max-width:1000px;margin:2em auto;padding:0 1em;background:#f5f4ef}article{background:white;padding:1.3em;margin:1em 0;border:1px solid #ddd}img{max-width:100%;height:auto}figure{margin:1em 0}label{display:inline-block;margin:.5em}pre{white-space:pre-wrap}input.replacement{width:25em;max-width:90%}button{padding:.6em}</style><h1>Scan-backed proofreading</h1><p>'
         + str(len(records))
         + ' grouped items. Decisions stay in this browser; export JSON to retain them. No requests, automatic edits or server required. OCR confidence is engine-specific, not a correctness probability.</p><p id="storage-status"></p><button onclick="download()">Export reviewed decisions</button>'
+        + repair_summary
         + "".join(cards)
         + "<script>"
         + javascript
@@ -241,6 +269,7 @@ function download(){const output=records.filter(r=>decisions[r.id]).map(r=>({...
             "diagnostics": len(extra),
             "lexical_items": len(candidates),
             "mode": "scan-review-required",
+            "automatic_repairs": accepted_repairs,
         },
     )
     print(

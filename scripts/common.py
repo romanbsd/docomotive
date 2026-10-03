@@ -60,9 +60,9 @@ PROFILE_KEYS = frozenset("""
     native_body_size native_excluded_fonts native_font_styles native_heading_sizes
     native_heading_texts native_heading_merge native_index_indents native_list_layout native_quote_pages native_relative_font_sizes native_small_numeric_sup
     native_superscript_max_size native_typography note_continuations note_starts
-    page_labels paragraph_margins printed_page_offset publisher publisher_mark
-    quote_first_line_indent recover_ocr_regions recover_pdf_typography
-    recover_scan_font_metrics recover_scanned_endnotes reference_pages
+    infer_verse page_labels paragraph_margins printed_page_offset publisher publisher_mark
+    quote_first_line_indent recover_hanging_margins recover_ocr_regions recover_ocr_glyph_confusions recover_pdf_heading_styles recover_pdf_typography
+    recover_scan_font_metrics recover_scanned_endnotes reference_pages repair_lexical_confusions repair_word_wraps
     related_print_isbns rights row_heading_rules row_regions section_navigation
     scan_raster_only slug small_caps_openings source_completeness source_note
     source_relative_figures source_sha256 source_version
@@ -93,6 +93,9 @@ def edit_pattern(edit):
 
     before = edit.get("before", edit.get("printed"))
     pattern = re.escape(before)
+    if edit.get("exact_row", False):
+        # Standalone annotation marks must not remove matching prose punctuation.
+        return r"\A" + pattern + r"\Z"
     if edit.get("whole_word", "printed" in edit):
         pattern = r"(?<!\w)" + pattern + r"(?!\w)"
     return pattern

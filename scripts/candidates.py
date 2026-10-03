@@ -59,6 +59,11 @@ def main():
     grammar = []
     model = json.loads((args.output / "book-model.json").read_text())
     statistics = analyze(model, book)
+    ranker = None
+    if book.get("repair_lexical_confusions"):
+        from lexical_repair import ContextRanker
+
+        ranker = ContextRanker(model, book, dictionary, protected)
     write_json(args.output / "vocabulary-analysis.json", statistics)
     for entry in model:
         chapter = entry["chapter"]
@@ -151,6 +156,16 @@ def main():
             suggestions.sort(
                 key=lambda c: (-c.get("kenlm_log10_delta", 0), c["distance"], c["term"])
             )
+        if ranker and not lm:
+            occurrence = occurrences[0]
+            ranked = {
+                c["term"]: c
+                for c in ranker.rank(word, occurrence["context"], occurrence["offset"])
+            }
+            for candidate in suggestions:
+                if candidate["term"] in ranked:
+                    candidate.update(ranked[candidate["term"]])
+            suggestions.sort(key=lambda c: (-c.get("context_score", -1e30), c["term"]))
         results.append(
             {
                 "word": word,
@@ -192,6 +207,7 @@ def main():
             digest(args.kenlm_model.read_bytes()) if args.kenlm_model else None
         ),
         "languagetool": args.languagetool_url,
+        "context_ranking": ranker.resources if ranker else None,
         "unknown_words": len(results),
         "candidates": results,
         "grammar": grammar,

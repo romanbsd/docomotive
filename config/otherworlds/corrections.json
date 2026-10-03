@@ -1,0 +1,3299 @@
+[
+  {
+    "page": 4,
+    "before": "To all the species; Nora, fauna and fungi, that have shone their light",
+    "after": "To all the species; flora, fauna and fungi, that have shone their light",
+    "bbox": [
+      0.11111113478304317,
+      0.13953488353197674,
+      0.9191919012775626,
+      0.15843023236918607
+    ],
+    "reason": "Source crop review-0.png item 0: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 9,
+    "before": "Naoto Hatorri. Tendzin Yongdü, Stephen Beyer, Mike Crowley, René",
+    "after": "Naoto Hatorri, Tendzin Yongdü, Stephen Beyer, Mike Crowley, René",
+    "bbox": [
+      0.11653186744246619,
+      0.5652602759669255,
+      0.864940112978602,
+      0.5934573857801416
+    ],
+    "reason": "Source crop review-0.png item 1: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 10,
+    "before": "Chapter I:",
+    "after": "Chapter 1:",
+    "bbox": [
+      0.12939842507852314,
+      0.12198395402959838,
+      0.2741548773076547,
+      0.14109744123639378
+    ],
+    "reason": "Source crop review-0.png item 2: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 10,
+    "before": "chemical agents: A systematic review. Frontiers in Psychologg: 4, 753.",
+    "after": "chemical agents: A systematic review. Frontiers in Psychology, 4, 753.",
+    "bbox": [
+      0.12944161421869244,
+      0.40386473391939703,
+      0.9238578649268238,
+      0.4246376807793004
+    ],
+    "reason": "Source crop review-0.png item 3: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 10,
+    "before": "Luke, D. (201 1). Discarnate entities and dimethyltryptamine (DMT):",
+    "after": "Luke, D. (2011). Discarnate entities and dimethyltryptamine (DMT):",
+    "bbox": [
+      0.1243654892731432,
+      0.5623188408834473,
+      0.9238578476304102,
+      0.5845410631056696
+    ],
+    "reason": "Source crop review-0.png item 4: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 11,
+    "before": "Luke. D. (2015). Drugs and psi phenomena. In E. Cardeña, J. Palmer,",
+    "after": "Luke, D. (2015). Drugs and psi phenomena. In E. Cardeña, J. Palmer,",
+    "bbox": [
+      0.12037038719202459,
+      0.23255814007544318,
+      0.8888888848758761,
+      0.2514534877588591
+    ],
+    "reason": "Source crop review-0.png item 5: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 13,
+    "before": "The usual connotation of the word weird is uncanny. disturbing. or wyrd",
+    "after": "The usual connotation of the word weird is uncanny, disturbing, or",
+    "bbox": [
+      0.16946913182703394,
+      0.4316860472717381,
+      0.9931192647054701,
+      0.46366278940461847
+    ],
+    "reason": "Source crop review-0.png item 6: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 19,
+    "before": "the term exceptional human experience (EHE), which she defined as, EHE",
+    "after": "the term exceptional human experience (EHE), which she defined as,",
+    "bbox": [
+      0.14508930967328845,
+      0.14686940973716733,
+      0.9756605770952945,
+      0.17296511638033385
+    ],
+    "reason": "Source crop review-0.png item 8: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 20,
+    "before": "i via misperception, misreporting, memory errors like confabulation, or",
+    "after": "via misperception, misreporting, memory errors like confabulation, or",
+    "bbox": [
+      0.08104417794480552,
+      0.2411084509810245,
+      0.8783992523742792,
+      0.26893144663436397
+    ],
+    "reason": "Source crop review-0.png item 9: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 20,
+    "before": "merely chance coincidences (Pekala & Cardeña. 2000).",
+    "after": "merely chance coincidences (Pekala & Cardeña, 2000).",
+    "bbox": [
+      0.11694512696957943,
+      0.2616279065486111,
+      0.7112171692118046,
+      0.2805232558641796
+    ],
+    "reason": "Source crop review-0.png item 10: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 21,
+    "before": "\"I) Transpersonal experiences of a psychoid nature (i.e., having",
+    "after": "iii) Transpersonal experiences of a psychoid nature (i.e., having",
+    "bbox": [
+      0.14062502168173122,
+      0.5130813956867829,
+      0.8883928461435238,
+      0.5348837204884663
+    ],
+    "reason": "Source crop review-0.png item 11: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 21,
+    "before": "understand or explain. They are also almost entirely absent from this ? Sly?",
+    "after": "understand or explain. They are also almost entirely absent from this",
+    "bbox": [
+      0.1406249999312982,
+      0.6074218747862359,
+      0.982142856971509,
+      0.6337890627899794
+    ],
+    "reason": "Source crop review-0.png item 12: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 22,
+    "before": "to the sturdy literature review. All this whilst roving from psychede!-",
+    "after": "to the sturdy literature review. All this whilst roving from psychedel-",
+    "bbox": [
+      0.1004784735501623,
+      0.6422244090484913,
+      0.8660286881723261,
+      0.6614173224343181
+    ],
+    "reason": "Source crop review-0.png item 13: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 23,
+    "before": "nopharmacology. chemistry, religious studies, cultural history to con-",
+    "after": "nopharmacology, chemistry, religious studies, cultural history to con-",
+    "bbox": [
+      0.13378686518873723,
+      0.23379174826862448,
+      0.9002267594144369,
+      0.25294695455546146
+    ],
+    "reason": "Source crop review-0.png item 14: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 27,
+    "before": "→ dro cactus. in a bid to test the claim that the use of certain psychedelic",
+    "after": "dro cactus. in a bid to test the claim that the use of certain psychedelic",
+    "bbox": [
+      0.09542257743104153,
+      0.5756594019926342,
+      0.8689816915764544,
+      0.6045609594688341
+    ],
+    "reason": "Source crop review-0.png item 15: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 27,
+    "before": "information, communicating directly with others or obtaining know!-",
+    "after": "information, communicating directly with others or obtaining knowl-",
+    "bbox": [
+      0.12656584182243388,
+      0.6786898050560344,
+      0.8643625511425479,
+      0.707829123020287
+    ],
+    "reason": "Source crop review-0.png item 16: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 28,
+    "before": "ut limited to San Pedro cactus (Jay, 2005). The site itself dates from",
+    "after": "limited to San Pedro cactus (Jay, 2005). The site itself dates from",
+    "bbox": [
+      0.0430622008316202,
+      0.7020348834572911,
+      0.87559807776074,
+      0.7238372091357353
+    ],
+    "reason": "Source crop review-0.png item 17: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 29,
+    "before": "(Sharon, 1978). According to Dobkin de Rios (1977) the use of San withere?",
+    "after": "(Sharon, 1978). According to Dobkin de Rios (1977) the use of San",
+    "bbox": [
+      0.13675326715060954,
+      0.8125000001974404,
+      0.9977528085440532,
+      0.8459302318035284
+    ],
+    "reason": "Source crop review-0.png item 19: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 29,
+    "before": "detector",
+    "after": "",
+    "bbox": [
+      0.9056179775336468,
+      0.8430232561834394,
+      0.9932584262865779,
+      0.8735465116944674
+    ],
+    "reason": "Source crop review-20.png item 20: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 30,
+    "before": "envy through witchcraft (Sharon, 1978). Envidia (envy) is unanimously giv-",
+    "after": "through witchcraft (Sharon, 1978). Envidia (envy) is unanimously giv-",
+    "bbox": [
+      0.0096852306016685,
+      0.181267034752722,
+      0.8911417693829929,
+      0.20784883691916545
+    ],
+    "reason": "Source crop review-20.png item 22: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 30,
+    "before": "Aside from duño, other maladies traditionally diagnosed by San",
+    "after": "Aside from daño, other maladies traditionally diagnosed by San",
+    "bbox": [
+      0.16464891071689441,
+      0.2834302324525373,
+      0.8861985494525971,
+      0.30232558102856744
+    ],
+    "reason": "Source crop review-20.png item 23: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 30,
+    "before": "during an all night ceremony, in which the healer enacts magical battles o",
+    "after": "during an all night ceremony, in which the healer enacts magical battles",
+    "bbox": [
+      0.11622276327306603,
+      0.46366279059207227,
+      0.9079903074896457,
+      0.4825581391681022
+    ],
+    "reason": "Source crop review-20.png item 24: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 32,
+    "before": "methoxy-B-phenethylamine, 3.4-dimethoxy-4-hydroxy-B-phenethyl-",
+    "after": "methoxy-β-phenethylamine, 3,4-dimethoxy-4-hydroxy-β-phenethyl-",
+    "bbox": [
+      0.13603818606097837,
+      0.24412915896239007,
+      0.8997613325547735,
+      0.2646771041678695
+    ],
+    "reason": "Source crop review-20.png item 29: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 32,
+    "before": "amine, 3,5-dimethoxy-4-hydroxy-ß-phenethylamine, anhalonidine and",
+    "after": "amine, 3,5-dimethoxy-4-hydroxy-β-phenethylamine, anhalonidine and",
+    "bbox": [
+      0.13603818994193492,
+      0.26453488376231493,
+      0.8973746851972857,
+      0.2834302326863285
+    ],
+    "reason": "Source crop review-20.png item 30: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 32,
+    "before": "A recent study (Bruhn el al., 2008) has also discovered the",
+    "after": "A recent study (Bruhn et al., 2008) has also discovered the",
+    "bbox": [
+      0.1885441785684506,
+      0.30523255799438864,
+      0.8973746900234346,
+      0.3243639926346944
+    ],
+    "reason": "Source crop review-20.png item 31: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 32,
+    "before": "4,5-methylenedioxy-amphetamine, commonly known as ecstasy): e",
+    "after": "4,5-methylenedioxy-amphetamine, commonly known as ecstasy):",
+    "bbox": [
+      0.136038188950856,
+      0.3850293544400958,
+      0.918854398161316,
+      0.4055772996455753
+    ],
+    "reason": "Source crop review-20.png item 32: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 33,
+    "before": "potentially ESP-conducive states, involve alterations in brain chemis- o",
+    "after": "potentially ESP-conducive states, involve alterations in brain chemis-",
+    "bbox": [
+      0.1373873990077932,
+      0.23401162823833932,
+      0.9256756772985129,
+      0.2529069760349165
+    ],
+    "reason": "Source crop review-20.png item 33: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 34,
+    "before": "I and to predict things\" (quoted in Schultes & Hofmann. 1992, p. 134).",
+    "after": "and to predict things\" (quoted in Schultes & Hofmann. 1992, p. 134).",
+    "bbox": [
+      0.07498656407934294,
+      0.7816091745380152,
+      0.8546233348593123,
+      0.8086337484438104
+    ],
+    "reason": "Source crop review-20.png item 36: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 35,
+    "before": "ties and was able to describe the contents of a nearby room (Rouhier, clair",
+    "after": "ties and was able to describe the contents of a nearby room (Rouhier,",
+    "bbox": [
+      0.13397284604107595,
+      0.4707546008227341,
+      0.9751357008836332,
+      0.4977754246038173
+    ],
+    "reason": "Source crop review-20.png item 38: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 36,
+    "before": "communication, 13\"h May. 2011). Nevertheless. other parapsycholo-",
+    "after": "communication, 13th May, 2011). Nevertheless. other parapsycholo-",
+    "bbox": [
+      0.13429259020827164,
+      0.28326810220940324,
+      0.8992805665782988,
+      0.30234833704306274
+    ],
+    "reason": "Source crop review-20.png item 39: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 37,
+    "before": "cerning the pioneer psychedelic researcher, Al Hubbard. who after Hitlerd",
+    "after": "cerning the pioneer psychedelic researcher, Al Hubbard. who after",
+    "bbox": [
+      0.12727272717164612,
+      0.4912790701829193,
+      0.9863636351465183,
+      0.5290697665539996
+    ],
+    "reason": "Source crop review-40.png item 41: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 38,
+    "before": "maximum safe dose is proposed to be 1000mg (Ott, 19960). Once the",
+    "after": "maximum safe dose is proposed to be 1000mg (Ott, 1996b). Once the",
+    "bbox": [
+      0.10895885839346242,
+      0.1642441863402313,
+      0.8983050772804679,
+      0.18168604602410987
+    ],
+    "reason": "Source crop review-40.png item 43: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 40,
+    "before": "I copter Alades, jace, more oceand sue ace cramarine siere.",
+    "after": "copter blades, space, more mechanical stuff, space craft, space skele-",
+    "bbox": [
+      0.07352939958215535,
+      0.6656891499866916,
+      0.8848039202299364,
+      0.7078488373757186
+    ],
+    "reason": "Source crop review-40.png item 45: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 40,
+    "before": "1o try to find a way across the huge vertical chamber in front of them.",
+    "after": "to try to find a way across the huge vertical chamber in front of them.",
+    "bbox": [
+      0.09540828166945932,
+      0.9229141670677091,
+      0.8580325037980117,
+      0.9453114181409256
+    ],
+    "reason": "Source crop review-40.png item 46: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 43,
+    "before": "One possibility, almost never used in research, would be use deep o",
+    "after": "One possibility, almost never used in research, would be use deep",
+    "bbox": [
+      0.17727273000542693,
+      0.7934888243242686,
+      0.9136363427218464,
+      0.8154069765578706
+    ],
+    "reason": "Source crop review-40.png item 48: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 45,
+    "before": "of these two techniques of magico-religious practice (Dawson, 20!1,",
+    "after": "of these two techniques of magico-religious practice (Dawson, 2011,",
+    "bbox": [
+      0.1357496793568689,
+      0.7698002962755961,
+      0.884679156058666,
+      0.7994955624653937
+    ],
+    "reason": "Source crop review-40.png item 50: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 47,
+    "before": "practices of the day during a seance when he incorporated both indig-?",
+    "after": "practices of the day during a seance when he incorporated both indig-",
+    "bbox": [
+      0.12785389161726143,
+      0.2745861729698329,
+      0.8995433839991768,
+      0.2979651162524831
+    ],
+    "reason": "Source crop review-40.png item 53: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 48,
+    "before": "ana the case of UDV. Afro-Brazilian influences from the Umbanda cult, for",
+    "after": "the case of UDV. Afro-Brazilian influences from the Umbanda cult, for",
+    "bbox": [
+      0.06921241116060607,
+      0.26453488444924345,
+      0.9260143097502422,
+      0.28488372092977676
+    ],
+    "reason": "Source crop review-40.png item 57: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 48,
+    "before": "• do not incorporate (Goulart, 2006), whereas the Barquinha do (Araú-",
+    "after": "do not incorporate (Goulart, 2006), whereas the Barquinha do (Araú-",
+    "bbox": [
+      0.10262530434177988,
+      0.6453488374064934,
+      0.8949880484824048,
+      0.6658560311314262
+    ],
+    "reason": "Source crop review-60.png item 60: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 49,
+    "before": "In the early 1980s Santo Daime expanded and iwo churches",
+    "after": "In the early 1980s Santo Daime expanded and two churches",
+    "bbox": [
+      0.1839877919937388,
+      0.2557943123854757,
+      0.8932509929996425,
+      0.27680598466418305
+    ],
+    "reason": "Source crop review-60.png item 63: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 49,
+    "before": "increasingly reached Mapia, and by 1990, when Padrinho Sebastião",
+    "after": "increasingly reached Mapiá, and by 1990, when Padrinho Sebastião",
+    "bbox": [
+      0.1338080884297128,
+      0.3327801961575316,
+      0.8911228601600807,
+      0.35793356694823497
+    ],
+    "reason": "Source crop review-60.png item 65: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 50,
+    "before": "isin utilizes psychedelic plants, nor incorporation. so neither practice",
+    "after": "ism utilizes psychedelic plants, nor incorporation. so neither practice",
+    "bbox": [
+      0.14454977323385534,
+      0.3662790704329155,
+      0.9170615895623535,
+      0.38682926794119243
+    ],
+    "reason": "Source crop review-60.png item 67: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 51,
+    "before": "L it and numerous others, which stay with him all the time (Butt. Wavell",
+    "after": "it and numerous others, which stay with him all the time (Butt. Wavell",
+    "bbox": [
+      0.09817351309931518,
+      0.19040697708938947,
+      0.8812785359303654,
+      0.21802325615915696
+    ],
+    "reason": "Source crop review-60.png item 68: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 51,
+    "before": "curring only among nomadic and hunter-gatherer people, Shaman- ?",
+    "after": "curring only among nomadic and hunter-gatherer people, Shaman-",
+    "bbox": [
+      0.1347031888584476,
+      0.7340116280232559,
+      0.9726027399999999,
+      0.7645348837645348
+    ],
+    "reason": "Source crop review-60.png item 69: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 52,
+    "before": "ca users reported the experience of transforming into another !",
+    "after": "ca users reported the experience of transforming into another",
+    "bbox": [
+      0.12793747515992152,
+      0.9015321781807879,
+      0.9031446539845576,
+      0.9303422308198885
+    ],
+    "reason": "Source crop review-60.png item 71: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 53,
+    "before": "Elsewhere, the particular experience of transformation into large Miau!",
+    "after": "Elsewhere, the particular experience of transformation into large",
+    "bbox": [
+      0.17424265567454827,
+      0.12629421384838646,
+      0.9733305975022932,
+      0.1576308524206559
+    ],
+    "reason": "Source crop review-60.png item 72: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 53,
+    "before": "isin, such as among the Cashinahua (Lagrou, 2000). the Sharanahua",
+    "after": "ism, such as among the Cashinahua (Lagrou, 2000). the Sharanahua",
+    "bbox": [
+      0.12446556292594925,
+      0.27141254532911796,
+      0.8824888104563444,
+      0.3001380217658629
+    ],
+    "reason": "Source crop review-60.png item 74: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 53,
+    "before": "the spirit of the whirlpool, and the Milky Way spirit (Lizor, 1991), so",
+    "after": "the spirit of the whirlpool, and the Milky Way spirit (Lizot, 1991), so",
+    "bbox": [
+      0.12903610560347661,
+      0.835078264826429,
+      0.8801033860104865,
+      0.8609675714195095
+    ],
+    "reason": "Source crop review-60.png item 76: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 58,
+    "before": "isın is becoming commercialised in Peru as much as Santo Daime has",
+    "after": "ism is becoming commercialised in Peru as much as Santo Daime has",
+    "bbox": [
+      0.10453379204292854,
+      0.802254104879742,
+      0.8880184792227441,
+      0.827758474168425
+    ],
+    "reason": "Source crop review-60.png item 78: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 58,
+    "before": "lices remains shamanic (for a review see Labate, 2006), though many of",
+    "after": "tices remains shamanic (for a review see Labate, 2006), though many of",
+    "bbox": [
+      0.1067242897903548,
+      0.9161822331186584,
+      0.8833978537632031,
+      0.9487353657420925
+    ],
+    "reason": "Source crop review-60.png item 79: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 59,
+    "before": "traditional resistance to incorporation by Orixs these too are also now 2",
+    "after": "traditional resistance to incorporation by Orixás these too are also now",
+    "bbox": [
+      0.12140273686990519,
+      0.7369186050168013,
+      0.9439252336120729,
+      0.7608522944933364
+    ],
+    "reason": "Source crop review-80.png item 80: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 63,
+    "before": "alence but not anymore an anomaly in its deviance within Wester",
+    "after": "alence but not anymore an anomaly in its deviance within Western",
+    "bbox": [
+      0.12657591416737654,
+      0.5506202705199075,
+      0.8825589582435996,
+      0.5795544360087495
+    ],
+    "reason": "Source crop review-80.png item 85: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 65,
+    "before": "A larger number of other papers exist, however, describing indirec!",
+    "after": "A larger number of other papers exist, however, describing indirect",
+    "bbox": [
+      0.17471073544878998,
+      0.4951722495941555,
+      0.8827540661101607,
+      0.5209011663705085
+    ],
+    "reason": "Source crop review-80.png item 86: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 72,
+    "before": "(2), algesic-visual (2). thermal-visual (I), olfactory-tactile (1), visual-",
+    "after": "(2), algesic-visual (2). thermal-visual (1), olfactory-tactile (1), visual-",
+    "bbox": [
+      0.14320388927734826,
+      0.2643622199413158,
+      0.9296116577129426,
+      0.2848837209642936
+    ],
+    "reason": "Source crop review-80.png item 87: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 74,
+    "before": "known types that may be reported (see Table I). but a few studies pro-",
+    "after": "known types that may be reported (see Table 1). but a few studies pro-",
+    "bbox": [
+      0.12864078646844632,
+      0.5843023254905523,
+      0.9101941845266988,
+      0.6061046510719477
+    ],
+    "reason": "Source crop review-80.png item 91: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 74,
+    "before": "that some participants would experience concurrents as endogenous o",
+    "after": "that some participants would experience concurrents as endogenous",
+    "bbox": [
+      0.1185812463063242,
+      0.7222721028127452,
+      0.9298891842740628,
+      0.7482902824770614
+    ],
+    "reason": "Source crop review-80.png item 93: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 74,
+    "before": "ciutors) whereas another experiences colours as spatially co-localized",
+    "after": "ciators) whereas another experiences colours as spatially co-localized",
+    "bbox": [
+      0.11622398312075738,
+      0.8399599639554977,
+      0.8885633935013957,
+      0.8661642422582447
+    ],
+    "reason": "Source crop review-80.png item 94: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 74,
+    "before": "mescalinc-induced synaesthesia can sometimes lead to quite complex",
+    "after": "mescaline-induced synaesthesia can sometimes lead to quite complex",
+    "bbox": [
+      0.11615402267761671,
+      0.8991443068105968,
+      0.883761529488271,
+      0.92517683779481
+    ],
+    "reason": "Source crop review-80.png item 96: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 75,
+    "before": "As Shanon (2003b) notes, case reports of chemicaliy-induced syn-",
+    "after": "As Shanon (2003b) notes, case reports of chemically-induced syn-",
+    "bbox": [
+      0.17441861341828915,
+      0.39534883715550995,
+      0.8953488404576797,
+      0.41593780372532696
+    ],
+    "reason": "Source crop review-80.png item 97: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 75,
+    "before": "ically-induced synaesthesias. These reports are typically indirect, san-",
+    "after": "ically-induced synaesthesias. These reports are typically indirect, sam-",
+    "bbox": [
+      0.12291611775648313,
+      0.6321894735028311,
+      0.8885600547917427,
+      0.6586009517141107
+    ],
+    "reason": "Source crop review-80.png item 98: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 76,
+    "before": "(see Table 1 & Figure I). The most commonly reported type was",
+    "after": "(see Table 1 & Figure 1). The most commonly reported type was",
+    "bbox": [
+      0.16312056975995792,
+      0.44331395322200207,
+      0.9290780227425746,
+      0.46511627914926046
+    ],
+    "reason": "Source crop review-100.png item 100: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 78,
+    "before": "fence rates for synaesthesia under the influence of serotonin agonists",
+    "after": "lence rates for synaesthesia under the influence of serotonin agonists",
+    "bbox": [
+      0.10983603206934545,
+      0.8618226177887996,
+      0.8924451149010566,
+      0.8899664366533443
+    ],
+    "reason": "Source crop review-100.png item 102: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 79,
+    "before": "psychedelic in character, such as ketamine, Salvia divinorum, cannabis. o",
+    "after": "psychedelic in character, such as ketamine, Salvia divinorum, cannabis,",
+    "bbox": [
+      0.12325582193023236,
+      0.27616279063953497,
+      0.9209302405348836,
+      0.2965116278488372
+    ],
+    "reason": "Source crop review-100.png item 104: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 80,
+    "before": "aesthesias lend to differ from congenital synaesthesias (Hubbard &",
+    "after": "aesthesias tend to differ from congenital synaesthesias (Hubbard &",
+    "bbox": [
+      0.1674641223126031,
+      0.3052325579699613,
+      0.9354067032456103,
+      0.32558139517926366
+    ],
+    "reason": "Source crop review-100.png item 105: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 80,
+    "before": "less, there is considerableagreementthat inducer-concurrentassociations",
+    "after": "less, there is considerable agreement that inducer-concurrent associations",
+    "bbox": [
+      0.1406211480110266,
+      0.9199340233709835,
+      0.897457231761401,
+      0.9490278803303634
+    ],
+    "reason": "Source crop review-100.png item 107: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 82,
+    "before": "ular chemical agents produce synaesthesia-like experiences. Hower-",
+    "after": "ular chemical agents produce synaesthesia-like experiences. Howev-",
+    "bbox": [
+      0.15648473604984187,
+      0.524555186253361,
+      0.9217849902661117,
+      0.5503760284449812
+    ],
+    "reason": "Source crop review-100.png item 110: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 84,
+    "before": "sy naesthesia-like symptoms. This has never been explored, although I",
+    "after": "synaesthesia-like symptoms. This has never been explored, although I",
+    "bbox": [
+      0.1210805620255838,
+      0.8981397512826386,
+      0.8957664993665345,
+      0.9285066989613789
+    ],
+    "reason": "Source crop review-100.png item 115: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 88,
+    "before": "L the eyeball to the cortex\". The term covers twe classes of typically",
+    "after": "the eyeball to the cortex\". The term covers two classes of typically",
+    "bbox": [
+      0.1226415095302503,
+      0.27761627870526584,
+      0.9245282928005323,
+      0.30377906980478464
+    ],
+    "reason": "Source crop review-100.png item 118: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 88,
+    "before": "• constants (Klüver, 1926. 1966/1928). which derive from within the",
+    "after": "constants (Klüver, 1926. 1966/1928). which derive from within the",
+    "bbox": [
+      0.12235150521787329,
+      0.3619982732606155,
+      0.9200280518293565,
+      0.38530062252255504
+    ],
+    "reason": "Source crop review-100.png item 119: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 89,
+    "before": "lions (c.g., Bahn, 1988; Bednarik, 1988, 1990) and, although these ar-",
+    "after": "tions (e.g., Bahn, 1988; Bednarik, 1988, 1990) and, although these ar-",
+    "bbox": [
+      0.13932585062206942,
+      0.21498054499098362,
+      0.8853932654228741,
+      0.23546511585416563
+    ],
+    "reason": "Source crop review-120.png item 120: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 89,
+    "before": "some have criticized the model generally for being reductionist (c.g..",
+    "after": "some have criticized the model generally for being reductionist (e.g..",
+    "bbox": [
+      0.13218632219572124,
+      0.4309601364575355,
+      0.8767967524420972,
+      0.45881693911959454
+    ],
+    "reason": "Source crop review-120.png item 121: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 90,
+    "before": "loids - such as the ayahuasca vine (Banisteriopsis coupi) - and the other",
+    "after": "loids - such as the ayahuasca vine (Banisteriopsis caapi) - and the other",
+    "bbox": [
+      0.14148682838947507,
+      0.32558139509296047,
+      0.9256594657866124,
+      0.345930232606375
+    ],
+    "reason": "Source crop review-120.png item 123: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 90,
+    "before": "of such exquisite complexity. secming impossibility and baffling mul-",
+    "after": "of such exquisite complexity. seeming impossibility and baffling mul-",
+    "bbox": [
+      0.13669065498176347,
+      0.46656976716868037,
+      0.9160671517728328,
+      0.4869186046820949
+    ],
+    "reason": "Source crop review-120.png item 124: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 91,
+    "before": "the rock surfaces and painted or engraved them (Figure 3). so 1o0",
+    "after": "the rock surfaces and painted or engraved them (Figure 3). so too",
+    "bbox": [
+      0.13566878444549904,
+      0.293787380413298,
+      0.8891465361107015,
+      0.31987039615947777
+    ],
+    "reason": "Source crop review-120.png item 125: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 91,
+    "before": "Rorschach inkhlot projective test. rock art has once again been used as",
+    "after": "Rorschach inkblot projective test. rock art has once again been used as",
+    "bbox": [
+      0.13337984576999715,
+      0.3525498359165473,
+      0.8869329174152527,
+      0.3800378384338913
+    ],
+    "reason": "Source crop review-120.png item 126: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 91,
+    "before": "entoptic model just secing what they want to sec, and is there actually",
+    "after": "entoptic model just seeing what they want to see, and is there actually",
+    "bbox": [
+      0.1310272548425434,
+      0.43070606448088855,
+      0.8824081520630505,
+      0.46124245262577124
+    ],
+    "reason": "Source crop review-120.png item 127: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 91,
+    "before": "ing cactus, peyote (Lophophora williamsit), Klüver (1926. 1966/1928)",
+    "after": "ing cactus, peyote (Lophophora williamsii), Klüver (1926. 1966/1928)",
+    "bbox": [
+      0.12637412599069223,
+      0.5710648687197661,
+      0.8734098395343376,
+      0.6024777410787487
+    ],
+    "reason": "Source crop review-120.png item 128: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 91,
+    "before": "ric categories: lattices, cobiebs. tunnels. and spirals. Later research-",
+    "after": "ric categories: lattices, cobwebs. tunnels. and spirals. Later research-",
+    "bbox": [
+      0.12409556222843787,
+      0.6100865085845929,
+      0.8689364682498807,
+      0.6460638387738636
+    ],
+    "reason": "Source crop review-120.png item 129: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 91,
+    "before": "y lattices. dots. zigzag lines, nested curves and filigrees. More recently",
+    "after": "lattices. dots. zigzag lines, nested curves and filigrees. More recently",
+    "bbox": [
+      0.09941233510086667,
+      0.730808953430937,
+      0.8621426639709037,
+      0.7612728150151366
+    ],
+    "reason": "Source crop review-120.png item 130: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 91,
+    "before": "gion] VI determine their geometry\" (Bresloff et al. 2002. p.47+). Nev-",
+    "after": "gion] V1 determine their geometry\" (Bresloff et al. 2002. p.474). Nev-",
+    "bbox": [
+      0.11763077633269431,
+      0.8951383828834811,
+      0.8687450853479395,
+      0.922626744420242
+    ],
+    "reason": "Source crop review-120.png item 131: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 93,
+    "before": "1o the center of the star of David. where the last circle disappeared and",
+    "after": "to the center of the star of David. where the last circle disappeared and",
+    "bbox": [
+      0.15029844826493957,
+      0.6638131356820592,
+      0.8449102105421519,
+      0.6893516981335639
+    ],
+    "reason": "Source crop review-120.png item 137: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 93,
+    "before": "This website is an online library containing 51.5+2 pages relat-",
+    "after": "This website is an online library containing 51,542 pages relat-",
+    "bbox": [
+      0.16863362271147736,
+      0.8952740758961597,
+      0.8746143027513759,
+      0.9209561807256155
+    ],
+    "reason": "Source crop review-120.png item 139: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 94,
+    "before": "trip reports, of which 30 contained the search tern \"dimension\". and 5",
+    "after": "trip reports, of which 30 contained the search term \"dimension\". and 5",
+    "bbox": [
+      0.14394765762945835,
+      0.15756181979046158,
+      0.9317228041138333,
+      0.18223251436274546
+    ],
+    "reason": "Source crop review-140.png item 140: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 95,
+    "before": "enological research purposes (c.g., Addy, 2007) and, further, a small",
+    "after": "enological research purposes (e.g., Addy, 2007) and, further, a small",
+    "bbox": [
+      0.13949728337786724,
+      0.19427442758775781,
+      0.8851688429069993,
+      0.22361352670293733
+    ],
+    "reason": "Source crop review-140.png item 141: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 95,
+    "before": "and fligrees. Such multidimensional geometric percepts are seeming!!",
+    "after": "and filigrees. Such multidimensional geometric percepts are seemingly",
+    "bbox": [
+      0.12804028798318795,
+      0.6124047815738365,
+      0.8605594147833573,
+      0.6454667553821842
+    ],
+    "reason": "Source crop review-140.png item 143: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 95,
+    "before": "potent brews occasionally do not contain DMT when analyzed (Call. l",
+    "after": "potent brews occasionally do not contain DMT when analyzed (Call-",
+    "bbox": [
+      0.12641084847786008,
+      0.7325581392732559,
+      0.878103838700469,
+      0.7587209299709302
+    ],
+    "reason": "Source crop review-140.png item 144: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 100,
+    "before": "enormous forescent light... and it was filthy. And I remember think-",
+    "after": "enormous florescent light... and it was filthy. And I remember think-",
+    "bbox": [
+      0.159818884026917,
+      0.24098905776306812,
+      0.9389995200987721,
+      0.26449270041673767
+    ],
+    "reason": "Source crop review-140.png item 150: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 100,
+    "before": "as veil, of course. However, there are also accounts of people having",
+    "after": "as well, of course. However, there are also accounts of people having",
+    "bbox": [
+      0.15512252733835302,
+      0.4649417611303497,
+      0.9248772165488922,
+      0.48852475641955084
+    ],
+    "reason": "Source crop review-140.png item 151: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 101,
+    "before": "challenge I set myself |lor the DMT experiencel. It not only seemed to",
+    "after": "challenge I set myself [for the DMT experience]. It not only seemed to",
+    "bbox": [
+      0.14549653978878058,
+      0.4955882353956269,
+      0.8568129148070625,
+      0.5147058824544505
+    ],
+    "reason": "Source crop review-140.png item 153: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 101,
+    "before": "constellations... This was very profound (SFos. 20000).",
+    "after": "constellations... This was very profound (SFos, 2000b).",
+    "bbox": [
+      0.14517979916086104,
+      0.5501098367908855,
+      0.7070408820026122,
+      0.5723177420553474
+    ],
+    "reason": "Source crop review-140.png item 154: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 101,
+    "before": "ties are made within the visual system. in particular. Constructivists on",
+    "after": "tics are made within the visual system. in particular. Constructivists on",
+    "bbox": [
+      0.11778291457749512,
+      0.7323529410892025,
+      0.8799076293024122,
+      0.7544117646186143
+    ],
+    "reason": "Source crop review-140.png item 156: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 101,
+    "before": "tightly controlled conditions. The phenomena of clair oyance. which",
+    "after": "tightly controlled conditions. The phenomena of clairvoyance. which",
+    "bbox": [
+      0.11778292100542664,
+      0.9156862746396782,
+      0.8868360305419175,
+      0.9374999991948995
+    ],
+    "reason": "Source crop review-140.png item 157: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 102,
+    "before": "- more viewing (or remote perception), which requires accurately describ-",
+    "after": "mote viewing (or remote perception), which requires accurately describ-",
+    "bbox": [
+      0.1101724401546582,
+      0.22374751195367337,
+      0.9344321377911297,
+      0.24605387862966055
+    ],
+    "reason": "Source crop review-140.png item 158: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 104,
+    "before": "of consciousness - the aspects of Lewis-William and Dowson's (1988)",
+    "after": "of consciousness - the aspects of Lewis-Williams and Dowson's (1988)",
+    "bbox": [
+      0.14754097301069957,
+      0.16257367362588748,
+      0.9297423863179499,
+      0.18172887991272446
+    ],
+    "reason": "Source crop review-140.png item 159: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 104,
+    "before": "is replaced with a direct-intuitive-nonlocal mode. enabling access 10",
+    "after": "is replaced with a direct-intuitive-nonlocal mode. enabling access to",
+    "bbox": [
+      0.12164554406096745,
+      0.744151142531439,
+      0.892378345108412,
+      0.7652335587960611
+    ],
+    "reason": "Source crop review-160.png item 160: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 104,
+    "before": "lar idea about the i1 dimensions of space-time conceptualized in M-",
+    "after": "lar idea about the 11 dimensions of space-time conceptualized in M-",
+    "bbox": [
+      0.1190106560324878,
+      0.8181185963583618,
+      0.8879296682805315,
+      0.8477998976626675
+    ],
+    "reason": "Source crop review-160.png item 161: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 105,
+    "before": "presented by Klüver (1926, 19966/1928) certainly needs updating to",
+    "after": "presented by Klüver (1926, 1966/1928) certainly needs updating to",
+    "bbox": [
+      0.1111110996434433,
+      0.19605911364618,
+      0.8865740661551682,
+      0.21527093630627847
+    ],
+    "reason": "Source crop review-160.png item 163: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 105,
+    "before": "son's theory theory of the brain as a filter of memory and sensory-",
+    "after": "son's (1896/1990) theory of the brain as a filter of memory and sensory-",
+    "bbox": [
+      0.11342593449728201,
+      0.7761627905562496,
+      0.9212962693800331,
+      0.7980295570113878
+    ],
+    "reason": "Source crop review-160.png item 164: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 106,
+    "before": "io percepts with more than three spatial dimensions, given that it is not",
+    "after": "to percepts with more than three spatial dimensions, given that it is not",
+    "bbox": [
+      0.1210448952077009,
+      0.8296803729126462,
+      0.9004034421673469,
+      0.8512205018283001
+    ],
+    "reason": "Source crop review-160.png item 165: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 111,
+    "before": "an article in Nature announcing the discovery of DT in human blood, -",
+    "after": "an article in Nature announcing the discovery of DMT in human blood,",
+    "bbox": [
+      0.10500317434337705,
+      0.13204558068154637,
+      0.9230473789339971,
+      0.15552776282300973
+    ],
+    "reason": "Source crop review-160.png item 166: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 111,
+    "before": "in-depth evaluation of the evidence for the DM'T-pineal hypothesis is",
+    "after": "in-depth evaluation of the evidence for the DMT-pineal hypothesis is",
+    "bbox": [
+      0.11682244480345909,
+      0.7368941638592954,
+      0.8971962652432695,
+      0.7601744179629588
+    ],
+    "reason": "Source crop review-160.png item 168: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 112,
+    "before": "a sigma-l receptor agonist the natural concentrations of DMT in the",
+    "after": "a sigma-1 receptor agonist the natural concentrations of DMT in the",
+    "bbox": [
+      0.1668264344760046,
+      0.38235940129979107,
+      0.9306307595917227,
+      0.40735709280838583
+    ],
+    "reason": "Source crop review-160.png item 173: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 115,
+    "before": "otten surpass normal percepts too, and were consistently categorized as",
+    "after": "often surpass normal percepts too, and were consistently categorized as",
+    "bbox": [
+      0.11368910316342737,
+      0.11477832484170947,
+      0.8909512810206404,
+      0.1337209304099798
+    ],
+    "reason": "Source crop review-160.png item 175: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 115,
+    "before": "Al this point the glorious geometries transcended what is even vaguely",
+    "after": "At this point the glorious geometries transcended what is even vaguely",
+    "bbox": [
+      0.14153131665246713,
+      0.30232558107543617,
+      0.8631090389739835,
+      0.32267441841584277
+    ],
+    "reason": "Source crop review-160.png item 176: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 115,
+    "before": "lightspeed: a gelatinous ballet of endlessly self-juxtaposing pirouettes o",
+    "after": "lightspeed: a gelatinous ballet of endlessly self-juxtaposing pirouettes",
+    "bbox": [
+      0.13652057604317397,
+      0.48657215976248147,
+      0.8842746070505688,
+      0.5114737950687035
+    ],
+    "reason": "Source crop review-160.png item 177: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 115,
+    "before": "sions of Amazonian shamans, but often 'represented' by two inter- o",
+    "after": "sions of Amazonian shamans, but often 'represented' by two inter-",
+    "bbox": [
+      0.10875573490028767,
+      0.6519709015167039,
+      0.9028008053325549,
+      0.6790203917829494
+    ],
+    "reason": "Source crop review-160.png item 178: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 116,
+    "before": "ings of South American explorers during the last iS0 years (for a brief",
+    "after": "ings of South American explorers during the last 150 years (for a brief",
+    "bbox": [
+      0.12470587971726102,
+      0.6248770895587634,
+      0.9105882342592095,
+      0.6484759096177605
+    ],
+    "reason": "Source crop review-160.png item 179: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 117,
+    "before": "searchers have attempted to map the psychic topography of the DMI",
+    "after": "searchers have attempted to map the psychic topography of the DMT",
+    "bbox": [
+      0.08937196959666138,
+      0.15406976741783662,
+      0.8961352652549606,
+      0.17441860475824322
+    ],
+    "reason": "Source crop review-180.png item 180: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 117,
+    "before": "7. Well-defined, stable, single figurative images o",
+    "after": "7. Well-defined, stable, single figurative images",
+    "bbox": [
+      0.13243485556563894,
+      0.7126164651764223,
+      0.7201131082391788,
+      0.7370725814252437
+    ],
+    "reason": "Source crop review-180.png item 181: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 118,
+    "before": "- Transpersonal: An experience novel in intensity and quality but",
+    "after": "Transpersonal: An experience novel in intensity and quality but",
+    "bbox": [
+      0.13317757984055328,
+      0.38370951950659915,
+      0.9369158580099143,
+      0.4040697670502785
+    ],
+    "reason": "Source crop review-180.png item 182: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 118,
+    "before": "o Invisible worlds: Encounter with autonomous, freestanding realities",
+    "after": "Invisible worlds: Encounter with autonomous, freestanding realities",
+    "bbox": [
+      0.12850467459558118,
+      0.45338567256990836,
+      0.9299065289090915,
+      0.4739941122166207
+    ],
+    "reason": "Source crop review-180.png item 183: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 118,
+    "before": "= sentient discarnate beings, which are often described as being more real",
+    "after": "sentient discarnate beings, which are often described as being more real",
+    "bbox": [
+      0.09564113538848562,
+      0.7205835864153206,
+      0.9066777356879239,
+      0.7462299224775863
+    ],
+    "reason": "Source crop review-180.png item 184: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 119,
+    "before": "human to puma, 1o tiger, to wolf.",
+    "after": "human to puma, to tiger, to wolf.",
+    "bbox": [
+      0.1565233173094216,
+      0.2919253058028536,
+      0.5245704736506471,
+      0.31707682863298225
+    ],
+    "reason": "Source crop review-180.png item 187: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 119,
+    "before": "-",
+    "after": "",
+    "bbox": [
+      0.10250569486502434,
+      0.3284883719693331,
+      0.1321184507500098,
+      0.34011627890275997
+    ],
+    "reason": "Source crop review-180.png item 188: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 119,
+    "before": "S. Semi-divine beings: May appear like Jesus, Buddha, or typically",
+    "after": "5. Semi-divine beings: May appear like Jesus, Buddha, or typically",
+    "bbox": [
+      0.12488176401380131,
+      0.3908723721273052,
+      0.8727325881099203,
+      0.4180608185000526
+    ],
+    "reason": "Source crop review-180.png item 189: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 119,
+    "before": "1966) account of his DMT encounter with metallic and bejewelled ?",
+    "after": "1966) account of his DMT encounter with metallic and bejewelled",
+    "bbox": [
+      0.1067273929491135,
+      0.7699420461810388,
+      0.886420809527047,
+      0.7980665574229516
+    ],
+    "reason": "Source crop review-180.png item 191: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 121,
+    "before": "1 - Hallucination: The entities are subjective hallucinations. Such a po-",
+    "after": "I – Hallucination: The entities are subjective hallucinations. Such a po-",
+    "bbox": [
+      0.10879925392509084,
+      0.4519141923731085,
+      0.8863374636576016,
+      0.479030834053196
+    ],
+    "reason": "Source crop review-180.png item 193: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 121,
+    "before": "I - Psychological/ Transpersonal: The entities communicated with",
+    "after": "II – Psychological/ Transpersonal: The entities communicated with",
+    "bbox": [
+      0.10697674952313674,
+      0.691854759418852,
+      0.8697674474203845,
+      0.7122093017626954
+    ],
+    "reason": "Source crop review-180.png item 196: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 121,
+    "before": "• Ill - Other worlds: DMT provides access to a true alternate dimension",
+    "after": "III - Other worlds: DMT provides access to a true alternate dimension",
+    "bbox": [
+      0.06744184784501134,
+      0.8734052992771261,
+      0.8720930333642911,
+      0.8940137389238385
+    ],
+    "reason": "Original crop review-180.png item 197 shows Roman III; leading mark is a reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 125,
+    "before": "His flashing eyes, his floating hair! e",
+    "after": "His flashing eyes, his floating hair!",
+    "bbox": [
+      0.09285715007221189,
+      0.34440039636392494,
+      0.533333333459534,
+      0.36482558134914345
+    ],
+    "reason": "Source crop review-200.png item 201: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 127,
+    "before": "iny being there and then, alarmed, the ominous luminous voluminous",
+    "after": "my being there and then, alarmed, the ominous luminous voluminous",
+    "bbox": [
+      0.10421793387542413,
+      0.4368900460710494,
+      0.8911077464897685,
+      0.4612435573407161
+    ],
+    "reason": "Source crop review-200.png item 203: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 127,
+    "before": "con.",
+    "after": "eon.",
+    "bbox": [
+      0.11136890969320822,
+      0.5610465115438856,
+      0.1577726225573718,
+      0.572674418630533
+    ],
+    "reason": "Source crop review-200.png item 204: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 127,
+    "before": "once 1 had, quite naively, had a mind-blowing encounter with Azrael, e",
+    "after": "once I had, quite naively, had a mind-blowing encounter with Azrael,",
+    "bbox": [
+      0.113605010127676,
+      0.7788069598865909,
+      0.9234910250418868,
+      0.8000782279013381
+    ],
+    "reason": "Source crop review-200.png item 206: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 127,
+    "before": "sand eyes. and is the holy psychopomp ushering souls into the realin",
+    "after": "sand eyes. and is the holy psychopomp ushering souls into the realm",
+    "bbox": [
+      0.11600930370941646,
+      0.8602576811587906,
+      0.900232015200096,
+      0.8808139533573798
+    ],
+    "reason": "Source crop review-200.png item 208: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 129,
+    "before": "he there I clearly recall spending the duration of the trip trying to keep",
+    "after": "be there I clearly recall spending the duration of the trip trying to keep",
+    "bbox": [
+      0.10622775140565888,
+      0.669687153542618,
+      0.8729810847902555,
+      0.6974197557638393
+    ],
+    "reason": "Source crop review-200.png item 210: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 129,
+    "before": "@ tampered with only at one's peril. They constitute the monastic cult Lof",
+    "after": "tampered with only at one's peril. They constitute the monastic cult Lof",
+    "bbox": [
+      0.10854537766325004,
+      0.8616856334522512,
+      0.8591264611862569,
+      0.8853957241045362
+    ],
+    "reason": "Source crop review-200.png item 211: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 131,
+    "before": "L offerings\" (p.353). (Somewhat weirdly this eyed-pyramid bears some",
+    "after": "offerings\" (p.353). (Somewhat weirdly this eyed-pyramid bears some",
+    "bbox": [
+      0.06880733657542115,
+      0.1308139532632815,
+      0.8646788861310013,
+      0.15575396809488506
+    ],
+    "reason": "Source crop review-200.png item 212: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 131,
+    "before": "ourselves (c.g., Turner: 1995). It might have ended here but, soon atter.",
+    "after": "ourselves (e.g., Turner: 1995). It might have ended here but, soon atter.",
+    "bbox": [
+      0.09854307360004602,
+      0.4577064862516522,
+      0.8739304032747086,
+      0.47901765961498965
+    ],
+    "reason": "Source crop review-200.png item 213: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 132,
+    "before": "• eyes in a fibonacci vortex/dome... I've explained this to so many people",
+    "after": "eyes in a fibonacci vortex/dome... I've explained this to so many people",
+    "bbox": [
+      0.14739229006045337,
+      0.661337209162522,
+      0.8775510059939687,
+      0.6773255817386407
+    ],
+    "reason": "Source crop review-200.png item 214: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 133,
+    "before": "he perceived my forehead to be covered with eves.",
+    "after": "he perceived my forehead to be covered with eyes.",
+    "bbox": [
+      0.1259531032239348,
+      0.2973636723695887,
+      0.6526843491676799,
+      0.3275274448621295
+    ],
+    "reason": "Source crop review-200.png item 219: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 133,
+    "before": "cybin, I found numerous DMT reports that mentioned eyeball-riddled g",
+    "after": "cybin, I found numerous DMT reports that mentioned eyeball-riddled",
+    "bbox": [
+      0.1033896529767857,
+      0.47897739901743597,
+      0.9059074392718482,
+      0.5073723205124739
+    ],
+    "reason": "Source crop review-220.png item 221: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 133,
+    "before": "co rectly between and above my eyes. The alien laser was pinkish-green.",
+    "after": "rectly between and above my eyes. The alien laser was pinkish-green.",
+    "bbox": [
+      0.10829493412981223,
+      0.8590116278047799,
+      0.8525345738425376,
+      0.8779644272135833
+    ],
+    "reason": "Source crop review-220.png item 225: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 134,
+    "before": "t00 much and I felt myself losing my mind.",
+    "after": "too much and I felt myself losing my mind.",
+    "bbox": [
+      0.1949541412866723,
+      0.3197616679107753,
+      0.6238532067408504,
+      0.3357558137407347
+    ],
+    "reason": "Source crop review-220.png item 226: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 135,
+    "before": "possibility of independent sentience or some kind of objective reality, 1",
+    "after": "possibility of independent sentience or some kind of objective reality,",
+    "bbox": [
+      0.08549427157267404,
+      0.1640193963843145,
+      0.8939895418324708,
+      0.2057100736116747
+    ],
+    "reason": "Source crop review-220.png item 229: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 137,
+    "before": "watchers. Interestingly. they link the etymology of the common root «z",
+    "after": "watchers. Interestingly. they link the etymology of the common root az",
+    "bbox": [
+      0.09651629965961357,
+      0.25507262145864873,
+      0.8757441513598733,
+      0.2808854838775059
+    ],
+    "reason": "Source crop review-220.png item 233: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 137,
+    "before": "The Hebrew letter-form of Zayin. r. the sword blade, is the supracosmic",
+    "after": "The Hebrew letter-form of Zayin, ז, the sword blade, is the supracosmic",
+    "bbox": [
+      0.12423435448883755,
+      0.44295601883348334,
+      0.8480763415486191,
+      0.4660111934386607
+    ],
+    "reason": "Source crop review-220.png item 235: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 137,
+    "before": "fire that. like a shining lightening Mash or thunderbolt. cuts through the",
+    "after": "fire that. like a shining lightening flash or thunderbolt. cuts through the",
+    "bbox": [
+      0.124083387740728,
+      0.46064083470458317,
+      0.8481684630952295,
+      0.48590654910118436
+    ],
+    "reason": "Source crop review-220.png item 236: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 137,
+    "before": "with these anarchic archangels of other cultures. Without making all!",
+    "after": "with these anarchic archangels of other cultures. Without making any",
+    "bbox": [
+      0.09873274572234017,
+      0.5462167647147462,
+      0.8711449411970905,
+      0.5734025327215648
+    ],
+    "reason": "Source crop review-220.png item 237: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 137,
+    "before": "interchanged ayin (a) and zayin (z) of su and uz is itself compelling.",
+    "after": "interchanged ayin (a) and zayin (z) of za and az is itself compelling.",
+    "bbox": [
+      0.09907834721275392,
+      0.7281976744479007,
+      0.8732718986858633,
+      0.7499999999416341
+    ],
+    "reason": "Source crop review-240.png item 240: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 137,
+    "before": "especially in the case of the Zahhak / Aži Dahaka. but the myth story",
+    "after": "especially in the case of the Zahhāk / Aži Dahaka. but the myth story",
+    "bbox": [
+      0.09907834551190493,
+      0.750000000232445,
+      0.8686635991885556,
+      0.7703488374855783
+    ],
+    "reason": "Source crop review-240.png item 241: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 138,
+    "before": "7.1",
+    "after": "",
+    "bbox": [
+      0.02784222713319372,
+      0.7979651161974057,
+      0.06264501198513575,
+      0.8139534887735244
+    ],
+    "reason": "Source crop review-240.png item 246: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 138,
+    "before": "Assyrian-Babylonian Zu (or Azu) 100 - who was struck down by a",
+    "after": "Assyrian-Babylonian Zu (or Azu) too - who was struck down by a",
+    "bbox": [
+      0.1252900428375411,
+      0.885148515150917,
+      0.8932714530524158,
+      0.9040697676754156
+    ],
+    "reason": "Source crop review-240.png item 247: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 139,
+    "before": "where along the line here. As a scientist myself | have deeply ques-",
+    "after": "where along the line here. As a scientist myself I have deeply ques-",
+    "bbox": [
+      0.0965517331658435,
+      0.8937437930610086,
+      0.880459780684731,
+      0.9127906977300344
+    ],
+    "reason": "Source crop review-240.png item 251: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 141,
+    "before": "1o0 late for the 2008 publication, I began studying the shape of pine-",
+    "after": "too late for the 2008 publication, I began studying the shape of pine-",
+    "bbox": [
+      0.08988765547869883,
+      0.15552325576381298,
+      0.8606741576898406,
+      0.1759443341442991
+    ],
+    "reason": "Source crop review-240.png item 252: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 141,
+    "before": "* like DNA. The most curious part about this, however. is that the pineal",
+    "after": "like DNA. The most curious part about this, however. is that the pineal",
+    "bbox": [
+      0.06516857066220241,
+      0.27616279101817354,
+      0.8629213143377977,
+      0.29671968172198526
+    ],
+    "reason": "Source crop review-240.png item 253: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 142,
+    "before": "L to name a lew. Significantly, often the pinecone forms the tip of the",
+    "after": "to name a lew. Significantly, often the pinecone forms the tip of the",
+    "bbox": [
+      0.11494107135686292,
+      0.35583269555469754,
+      0.9097173570371965,
+      0.3912782064189553
+    ],
+    "reason": "Source crop review-240.png item 254: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 142,
+    "before": "staff held by certain deities. such as with the thursus. the staff of the an-",
+    "after": "staff held by certain deities. such as with the thyrsus. the staff of the an-",
+    "bbox": [
+      0.147392299002036,
+      0.38499999974989785,
+      0.9092970586396874,
+      0.40406976674818884
+    ],
+    "reason": "Source crop review-240.png item 255: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 142,
+    "before": "Since publishing the Disembodied Eves article I also keep com-",
+    "after": "Since publishing the Disembodied Eyes article I also keep com-",
+    "bbox": [
+      0.16326533003150015,
+      0.847383721496724,
+      0.8798185881090889,
+      0.8665000001451004
+    ],
+    "reason": "Source crop review-240.png item 257: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 144,
+    "before": "- not eyes (Frecska, Móré, Vargha & Luna. 2012). In any case, the wide-",
+    "after": "not eyes (Frecska, Móré, Vargha & Luna. 2012). In any case, the wide-",
+    "bbox": [
+      0.14190688669388984,
+      0.3241279073612888,
+      0.9246119759668635,
+      0.34447674368522296
+    ],
+    "reason": "Source crop review-240.png item 258: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 145,
+    "before": "• each time, and then he would re-cmerge through the inverse of the",
+    "after": "each time, and then he would re-cmerge through the inverse of the",
+    "bbox": [
+      0.08685968298517668,
+      0.47804391238177524,
+      0.870824067571616,
+      0.5000000002061264
+    ],
+    "reason": "Source crop review-260.png item 261: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 145,
+    "before": "was usher round spirits of the dead. according to the hoy. and he said",
+    "after": "was usher round spirits of the dead. according to the boy. and he said",
+    "bbox": [
+      0.1179878820943342,
+      0.6990784855229942,
+      0.8664729689845053,
+      0.7220622392755599
+    ],
+    "reason": "Source crop review-260.png item 263: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 145,
+    "before": "Mr La. as we proceeded to call him (my suggestion), was a very",
+    "after": "Mr Za. as we proceeded to call him (my suggestion), was a very",
+    "bbox": [
+      0.16914192227062186,
+      0.7803573658377347,
+      0.8664580365971222,
+      0.8016484761677339
+    ],
+    "reason": "Source crop review-260.png item 264: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 145,
+    "before": "• souls to look after!\" - I practically fell off my chair at this point. Hour",
+    "after": "souls to look after!\" - I practically fell off my chair at this point. How",
+    "bbox": [
+      0.09131404214402,
+      0.8401162795996608,
+      0.8708240268982965,
+      0.8604651159235951
+    ],
+    "reason": "Source crop review-260.png item 265: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 146,
+    "before": "with highly distorted and deformed faces. or with no face at all. I un",
+    "after": "with highly distorted and deformed faces. or with no face at all. I am",
+    "bbox": [
+      0.18243244085775678,
+      0.3938953490988837,
+      0.8851351384215224,
+      0.4115577884931205
+    ],
+    "reason": "Source crop review-260.png item 268: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 146,
+    "before": "trying lo move the sir of them on through into the next world, but one in",
+    "after": "trying to move the six of them on through into the next world, but one in",
+    "bbox": [
+      0.18018018284296905,
+      0.41256281360857106,
+      0.8851351442215956,
+      0.42877906964001
+    ],
+    "reason": "Source crop review-260.png item 269: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 146,
+    "before": "particular is causing a lot of difficult and is being very stubborn. I un-",
+    "after": "particular is causing a lot of difficulty and is being very stubborn. I un-",
+    "bbox": [
+      0.1779279317656417,
+      0.43165829122858257,
+      0.882882893144268,
+      0.4477386932386328
+    ],
+    "reason": "Source crop review-260.png item 270: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 146,
+    "before": "derstand from this spirit that he was previoush a murderer when alive",
+    "after": "derstand from this spirit that he was previously a murderer when alive",
+    "bbox": [
+      0.17792793059071674,
+      0.44912790723841867,
+      0.8828828919693431,
+      0.4665697670348372
+    ],
+    "reason": "Source crop review-260.png item 271: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 146,
+    "before": "(a long time ago), hat is unwilling to depart this plane of evistence. I1",
+    "after": "(a long time ago), hat is unwilling to depart this plane of evistence. It",
+    "bbox": [
+      0.17567567749923252,
+      0.4678391959637127,
+      0.8806306388778589,
+      0.4854651158616645
+    ],
+    "reason": "Source crop review-260.png item 272: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 146,
+    "before": "lakes all my effort just to stop this spirit from attacking me. Sudden the",
+    "after": "takes all my effort just to stop this spirit from attacking me. Suddenly the",
+    "bbox": [
+      0.17342344703795756,
+      0.48691860466352677,
+      0.8806306246962764,
+      0.5030150753669584
+    ],
+    "reason": "Source crop review-260.png item 273: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 146,
+    "before": "a form or a face, and it does not speak, but telepathicall! I am told the",
+    "after": "a form or a face, and it does not speak, but telepathically I am told the",
+    "bbox": [
+      0.16891893684651615,
+      0.523115577416483,
+      0.876126114504835,
+      0.5407035171149753
+    ],
+    "reason": "Source crop review-260.png item 275: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 146,
+    "before": "into the air. With this new advantage I am able to take to the air und",
+    "after": "into the air. With this new advantage I am able to take to the air and",
+    "bbox": [
+      0.16441441780643026,
+      0.5798994974244217,
+      0.8761261230944706,
+      0.5959798994344719
+    ],
+    "reason": "Source crop review-260.png item 276: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 146,
+    "before": "subdue the troublesome spirit, ennrining it in some ethereal binding. I",
+    "after": "subdue the troublesome spirit, entwining it in some ethereal binding. I",
+    "bbox": [
+      0.1621621713049287,
+      0.597383721398824,
+      0.8738738765929691,
+      0.6162790690323776
+    ],
+    "reason": "Source crop review-260.png item 277: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 146,
+    "before": "lush it to the rufiers und fly around effortlessly rounding up the rest of",
+    "after": "lash it to the rafters und fly around effortlessly rounding up the rest of",
+    "bbox": [
+      0.16200555769223404,
+      0.6098314382531649,
+      0.8740478225414602,
+      0.6343603049299938
+    ],
+    "reason": "Source crop review-260.png item 278: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 146,
+    "before": "I awoke suddenly with the name Acruel on my lips. I found the",
+    "after": "I awoke suddenly with the name Azrael on my lips. I found the",
+    "bbox": [
+      0.1576576725629597,
+      0.6656976746802791,
+      0.8671171140361393,
+      0.6831395344766976
+    ],
+    "reason": "Source crop review-260.png item 279: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 147,
+    "before": "plete astonishment. I found a couple of pages referring to Azract,",
+    "after": "plete astonishment. I found a couple of pages referring to Azrael,",
+    "bbox": [
+      0.12497734922219485,
+      0.23385654139996603,
+      0.8369225415356837,
+      0.26094965392846947
+    ],
+    "reason": "Source crop review-280.png item 280: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 148,
+    "before": "a night. every eight nights. It had been one of my most profound life ex-",
+    "after": "night. every eight nights. It had been one of my most profound life ex-",
+    "bbox": [
+      0.1377777863768532,
+      0.3429999996050306,
+      0.9200000025755276,
+      0.36349999960503054
+    ],
+    "reason": "Source crop review-280.png item 283: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 148,
+    "before": "packed and I was having to stand and was leaning over a young bog",
+    "after": "packed and I was having to stand and was leaning over a young boy",
+    "bbox": [
+      0.14888888295570626,
+      0.563953488696916,
+      0.8999999938591088,
+      0.5845000003470014
+    ],
+    "reason": "Source crop review-280.png item 284: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 149,
+    "before": "pent being on their last toke of DMT. One knew my story, the other a",
+    "after": "pent being on their last toke of DMT. One knew my story, the other",
+    "bbox": [
+      0.11013980233862361,
+      0.41660119080136904,
+      0.9056309602843602,
+      0.4420979464013446
+    ],
+    "reason": "Source crop review-280.png item 285: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 150,
+    "before": "DMT. as it had been for me. At least it was for about 1t years until i",
+    "after": "DMT. as it had been for me. At least it was for about 14 years until I",
+    "bbox": [
+      0.15742794050245307,
+      0.5595930237879274,
+      0.9090908914709399,
+      0.5772316951502199
+    ],
+    "reason": "Source crop review-280.png item 286: printed text distinguished from OCR error or handwritten reader annotation. Additional checked correction on this same source row.",
+    "exact_row": true
+  },
+  {
+    "page": 151,
+    "before": "On my travels in Mexico many years ago, last millennium in fact. !",
+    "after": "On my travels in Mexico many years ago, last millennium in fact. I",
+    "bbox": [
+      0.09750567451020967,
+      0.3355065191926466,
+      0.873015882496593,
+      0.3590772313290558
+    ],
+    "reason": "Source crop review-280.png item 288: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 151,
+    "before": "The experience. mercifully. only lasted ten minutes. and quick!!",
+    "after": "The experience. mercifully. only lasted ten minutes. and quickly",
+    "bbox": [
+      0.15852000738941957,
+      0.879018668867079,
+      0.8755750381404236,
+      0.9065987043531759
+    ],
+    "reason": "Source crop review-280.png item 292: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 151,
+    "before": "subsided as the voice drifted away and 1 turned hack into a slightly more",
+    "after": "subsided as the voice drifted away and I turned back into a slightly more",
+    "bbox": [
+      0.10866931382975276,
+      0.8999654758750576,
+      0.8800093760817854,
+      0.9239502414510825
+    ],
+    "reason": "Source crop review-280.png item 293: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 152,
+    "before": "[",
+    "after": "",
+    "bbox": [
+      0.09417040353573142,
+      0.8924418609593973,
+      0.12780269079482595,
+      0.9244186046136922
+    ],
+    "reason": "Source crop review-280.png item 294: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 162,
+    "before": "(e.g. Irvin, 1994). \"psychodysleptic\" (Cavanna & Servadio, 1964).",
+    "after": "(e.g. Irwin, 1994). \"psychodysleptic\" (Cavanna & Servadio, 1964).",
+    "bbox": [
+      0.150000000776439,
+      0.4447674418910983,
+      0.9181818180871975,
+      0.46511627869998695
+    ],
+    "reason": "Source crop review-280.png item 296: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 162,
+    "before": "means \"mind manifesting\" (Osmond, 196la, p.76). Where specified.",
+    "after": "means \"mind manifesting\" (Osmond, 1961a, p.76). Where specified.",
+    "bbox": [
+      0.13181818191173605,
+      0.6263791371450594,
+      0.9045454415731127,
+      0.645436308659603
+    ],
+    "reason": "Source crop review-280.png item 298: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 163,
+    "before": "porated into experimental attempts to induce ESP (see Luke, 201la;",
+    "after": "porated into experimental attempts to induce ESP (see Luke, 2011a;",
+    "bbox": [
+      0.09772726514204563,
+      0.5174418605470883,
+      0.8727272651420456,
+      0.5394605399191689
+    ],
+    "reason": "Source crop review-300.png item 300: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 163,
+    "before": "dreamlike state (Blackmore, 1992; Osis, 196la, 1961b: Progoff,",
+    "after": "dreamlike state (Blackmore, 1992; Osis, 1961a, 1961b: Progoff,",
+    "bbox": [
+      0.13863638580845486,
+      0.6962209303690359,
+      0.8704545372824538,
+      0.7180232552414292
+    ],
+    "reason": "Source crop review-300.png item 301: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 163,
+    "before": "196la; Pahnke, 1968; Tart, 1994)",
+    "after": "1961a; Pahnke, 1968; Tart, 1994)",
+    "bbox": [
+      0.13821085993406462,
+      0.7956098330799213,
+      0.5232256800329416,
+      0.818570790312691
+    ],
+    "reason": "Source crop review-300.png item 302: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 164,
+    "before": "10. Increased spontaneity (Osis, 196la)",
+    "after": "10. Increased spontaneity (Osis, 1961a)",
+    "bbox": [
+      0.1899563338425027,
+      0.3036963039918634,
+      0.6048034930133923,
+      0.3226773229728823
+    ],
+    "reason": "Source crop review-300.png item 304: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 164,
+    "before": "13. Increased suggestibility (Huxley. 196la: Tart. 1968)",
+    "after": "13. Increased suggestibility (Huxley. 1961a: Tart. 1968)",
+    "bbox": [
+      0.18558953668330688,
+      0.405523255463629,
+      0.777292567839463,
+      0.4230769231475686
+    ],
+    "reason": "Source crop review-300.png item 306: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 165,
+    "before": "duce such extra-dimensional percepts 1o0 (Newcombe, 2008), as is the",
+    "after": "duce such extra-dimensional percepts too (Newcombe, 2008), as is the",
+    "bbox": [
+      0.10623556633632225,
+      0.28336653402447665,
+      0.8822171006382736,
+      0.30677290852646855
+    ],
+    "reason": "Source crop review-300.png item 307: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 165,
+    "before": "lepathy and precognition as possibilities warranting investigation (It-",
+    "after": "lepathy and precognition as possibilities warranting investigation (In-",
+    "bbox": [
+      0.11031676556193003,
+      0.5216812364481713,
+      0.8825467657631236,
+      0.5515548868356351
+    ],
+    "reason": "Source crop review-300.png item 308: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 165,
+    "before": "trance (Garrett, 196la). Huxley (196la) proposed that LSD is invalu-",
+    "after": "trance (Garrett, 1961a). Huxley (1961a) proposed that LSD is invalu-",
+    "bbox": [
+      0.11512638416888822,
+      0.7027959868894383,
+      0.8800810614544469,
+      0.7302584104495923
+    ],
+    "reason": "Source crop review-300.png item 310: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 167,
+    "before": "sory experience, acting 1o reduce the wealth of information available",
+    "after": "sory experience, acting to reduce the wealth of information available",
+    "bbox": [
+      0.12009239344516219,
+      0.4055232556359336,
+      0.8914549369243532,
+      0.43023255769982205
+    ],
+    "reason": "Source crop review-300.png item 312: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 170,
+    "before": "(5-methoxy tryptamine, or 5MT) and the B-carboline, pinoline (6-me-",
+    "after": "(5-methoxy tryptamine, or 5MT) and the β-carboline, pinoline (6-me-",
+    "bbox": [
+      0.15825689845921687,
+      0.3008720931643464,
+      0.9403669743045442,
+      0.3241279067629792
+    ],
+    "reason": "Source crop review-320.png item 326: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 170,
+    "before": "thoxy tetrahydro-ß-carboline, or 6-MeO-THßC), which regulate sleep",
+    "after": "thoxy tetrahydro-β-carboline, or 6-MeO-THβC), which regulate sleep",
+    "bbox": [
+      0.1582568980517464,
+      0.3255000002821812,
+      0.938073390174553,
+      0.34600000028218125
+    ],
+    "reason": "Source crop review-320.png item 327: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 170,
+    "before": "The pineal may also create other B-carbolines, such as 6-methoxy-",
+    "after": "The pineal may also create other β-carbolines, such as 6-methoxy-",
+    "bbox": [
+      0.21100918785897252,
+      0.3662790702794274,
+      0.9357798150462262,
+      0.38517441787464235
+    ],
+    "reason": "Source crop review-320.png item 328: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 170,
+    "before": "harmalan, a harmala alkaloid. These B-carbolines block the neuronal",
+    "after": "harmalan, a harmala alkaloid. These β-carbolines block the neuronal",
+    "bbox": [
+      0.15825690385604957,
+      0.3849999995863803,
+      0.9357798122563356,
+      0.4040697665846713
+    ],
+    "reason": "Source crop review-320.png item 329: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 170,
+    "before": "ach, but ayahuasca brews also contains plant additives (such as Bun-",
+    "after": "ach, but ayahuasca brews also contains plant additives (such as Ban-",
+    "bbox": [
+      0.13058036925021954,
+      0.7270895410747553,
+      0.9129924921030144,
+      0.7492050272197748
+    ],
+    "reason": "Source crop review-320.png item 330: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 170,
+    "before": "to be active in the brain. It is this action of the B-carbolines (particularly",
+    "after": "to be active in the brain. It is this action of the β-carbolines (particularly",
+    "bbox": [
+      0.12844037510850714,
+      0.7889999998612718,
+      0.9059632835087928,
+      0.8066860464616136
+    ],
+    "reason": "Source crop review-320.png item 331: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 170,
+    "before": "nally implicated B-carbolines. such as the endogenous pinoline and the",
+    "after": "nally implicated β-carbolines. such as the endogenous pinoline and the",
+    "bbox": [
+      0.132699152438208,
+      0.9238810633027659,
+      0.8971145203588999,
+      0.9498076818788156
+    ],
+    "reason": "Source crop review-320.png item 332: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 171,
+    "before": "Roney-Dougal (2001) also later acknowledged that the ß-carbolines",
+    "after": "Roney-Dougal (2001) also later acknowledged that the β-carbolines",
+    "bbox": [
+      0.13784559704723648,
+      0.15768001336007242,
+      0.837794965610802,
+      0.19288007218616532
+    ],
+    "reason": "Source crop review-320.png item 333: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 171,
+    "before": "proposals, it is my speculation that the B-carbolines may also induce",
+    "after": "proposals, it is my speculation that the β-carbolines may also induce",
+    "bbox": [
+      0.09985075779408703,
+      0.23858697002432616,
+      0.8445671015292906,
+      0.2753659786978191
+    ],
+    "reason": "Source crop review-320.png item 335: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 171,
+    "before": "one type (/-carbolines, e.g., harmine) that helps to both create and po-",
+    "after": "one type (β-carbolines, e.g., harmine) that helps to both create and po-",
+    "bbox": [
+      0.10907302231354724,
+      0.4019375743793159,
+      0.8554233511635709,
+      0.4338755516453453
+    ],
+    "reason": "Source crop review-320.png item 336: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 136,
+    "before": "On reflection, my encounters with both Za and Azraci have reso-",
+    "after": "On reflection, my encounters with both Za and Azrael have reso-",
+    "bbox": [
+      0.23423424349200264,
+      0.20626242516217874,
+      0.9481982032197087,
+      0.22529069727905027
+    ],
+    "reason": "Verified printed text in source contact sheet.",
+    "exact_row": true
+  },
+  {
+    "page": 139,
+    "before": "Amumiles might say something more for the usual favored identity of",
+    "after": "Amulets might say something more for the usual favored identity of",
+    "bbox": [
+      0.09655174116542276,
+      0.6901688184565272,
+      0.8735631992943474,
+      0.7122093020695273
+    ],
+    "reason": "Verified printed text in source contact sheet.",
+    "exact_row": true
+  },
+  {
+    "page": 142,
+    "before": "e god Asclepius. Also a psychopomp. Asclepius is god of dreaming and",
+    "after": "god Asclepius. Also a psychopomp. Asclepius is god of dreaming and",
+    "bbox": [
+      0.09750568426825984,
+      0.5043604653926523,
+      0.9002267286569103,
+      0.5247093022914561
+    ],
+    "reason": "Verified printed text in source contact sheet.",
+    "exact_row": true
+  },
+  {
+    "page": 171,
+    "before": "gland and the aina chakra, the yogic psychic center that controls psi-ex. J",
+    "after": "gland and the aina chakra, the yogic psychic center that controls psi-ex-",
+    "bbox": [
+      0.11963967610884971,
+      0.5460567525485154,
+      0.8790795028429881,
+      0.6011272571828533
+    ],
+    "reason": "Source crop review-340.png item 340: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 173,
+    "before": "DMT, not -carbolines, as primary in producing these states and al-",
+    "after": "DMT, not β-carbolines, as primary in producing these states and al-",
+    "bbox": [
+      0.12293725270460887,
+      0.5777224388014165,
+      0.865192894694121,
+      0.6189744067364176
+    ],
+    "reason": "Source crop review-340.png item 348: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 173,
+    "before": "To support this view Strassman noted that the anatomy of the pine- 1",
+    "after": "To support this view Strassman noted that the anatomy of the pine-",
+    "bbox": [
+      0.16799231805674733,
+      0.6471316482783384,
+      0.8892702140030467,
+      0.7026041980160069
+    ],
+    "reason": "Source crop review-340.png item 350: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 174,
+    "before": "l from NDEs. Regardless, in a systematic analysis of interviews with",
+    "after": "from NDEs. Regardless, in a systematic analysis of interviews with",
+    "bbox": [
+      0.12045457249691408,
+      0.5886627906959334,
+      0.9113636251394494,
+      0.6047094184248103
+    ],
+    "reason": "Source crop review-340.png item 354: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 174,
+    "before": "_ nine classic features of the NDE as outlined by Moody (1989), the",
+    "after": "nine classic features of the NDE as outlined by Moody (1989), the",
+    "bbox": [
+      0.0840908913197248,
+      0.7688953488782903,
+      0.9045454559075482,
+      0.7892441863542676
+    ],
+    "reason": "Source crop review-340.png item 355: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 174,
+    "before": "C of the dead (Evans Wentz, 1911/2004; Lang. 1893: Luke, 2013b).",
+    "after": "of the dead (Evans Wentz, 1911/2004; Lang. 1893: Luke, 2013b).",
+    "bbox": [
+      0.0989753983258736,
+      0.912346838577168,
+      0.8442047068339066,
+      0.9583214343293414
+    ],
+    "reason": "Source crop review-340.png item 356: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 177,
+    "before": "Mollhenny & Strassman, 2012), but not the brain, let alone the pineal.",
+    "after": "McIlhenny & Strassman, 2012), but not the brain, let alone the pineal.",
+    "bbox": [
+      0.11946904116740693,
+      0.7630813957122821,
+      0.8561946940648936,
+      0.7819767437862646
+    ],
+    "reason": "Source crop review-360.png item 371: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 178,
+    "before": "Overall, despite their incompleteness. the pineal/B-carboline/DMT",
+    "after": "Overall, despite their incompleteness. the pineal/β-carboline/DMT",
+    "bbox": [
+      0.1981982052665423,
+      0.5421511630997039,
+      0.9189189238625864,
+      0.5610465110524278
+    ],
+    "reason": "Source crop review-360.png item 374: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 194,
+    "before": "- from \"rune\" \", the Germanic divinatory letter system (Müller-Ebeling,",
+    "after": "from \"rune\" \", the Germanic divinatory letter system (Müller-Ebeling,",
+    "bbox": [
+      0.09421899345658562,
+      0.7231983073204976,
+      0.9034714937472675,
+      0.7512190397070434
+    ],
+    "reason": "Source crop review-380.png item 382: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 195,
+    "before": "of undiscovered drugs (not necessarily psychedelic) at 1 × 100\" (Rey-",
+    "after": "of undiscovered drugs (not necessarily psychedelic) at 1 × 10⁶⁰\" (Rey-",
+    "bbox": [
+      0.1113636526471232,
+      0.681589537306852,
+      0.8659090897165128,
+      0.7007042254356247
+    ],
+    "reason": "Source crop review-380.png item 383: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 196,
+    "before": "sailly, 1961: Broad, 1962: Hoffer. 196la, 1961b: Johnson. 1955; Kern,",
+    "after": "sailly, 1961: Broad, 1962: Hoffer. 1961a, 1961b: Johnson. 1955; Kern,",
+    "bbox": [
+      0.15625001446147394,
+      0.280523255821731,
+      0.9285714295563832,
+      0.2994186046143156
+    ],
+    "reason": "Source crop review-380.png item 384: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 196,
+    "before": "Millay. 2001; Osmond. 196la; Servadio. in Alvarado, 1995). peyote/",
+    "after": "Millay. 2001; Osmond. 1961a; Servadio. in Alvarado, 1995). peyote/",
+    "bbox": [
+      0.14486114217444734,
+      0.5406330827536521,
+      0.919969373449201,
+      0.5654224074622798
+    ],
+    "reason": "Source crop review-380.png item 386: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 196,
+    "before": "mescaline (Langdon-Davies, 196l: Millay, 2001; Osmond. 196la),",
+    "after": "mescaline (Langdon-Davies, 196l: Millay, 2001; Osmond. 1961a),",
+    "bbox": [
+      0.14285716523531747,
+      0.5623742456352163,
+      0.9174107029725904,
+      0.5829979880899447
+    ],
+    "reason": "Source crop review-380.png item 387: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 199,
+    "before": "oy Puharich (see Puharich. 1959. 1962). Paul had an incredibly intense ?",
+    "after": "oy Puharich (see Puharich. 1959. 1962). Paul had an incredibly intense",
+    "bbox": [
+      0.12328767848467306,
+      0.8052325583196273,
+      0.8904109324742318,
+      0.8184104626443794
+    ],
+    "reason": "Source crop review-380.png item 394: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 204,
+    "before": "(r=..p < .05) and mind-altering substances (1 = 15, p < .01).",
+    "after": "(r = .11, p < .05) and mind-altering substances (r = .15, p < .01).",
+    "bbox": [
+      0.14027151919321446,
+      0.3415697680291535,
+      0.9230769127524867,
+      0.360465115662707
+    ],
+    "reason": "Source crop review-380.png item 398: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 206,
+    "before": "significant positive correlation between drug use and transliminality (**=",
+    "after": "significant positive correlation between drug use and transliminality (r =",
+    "bbox": [
+      0.1551031068204617,
+      0.1348768854864506,
+      0.9336075963988252,
+      0.1658255844239267
+    ],
+    "reason": "Source crop review-400.png item 400: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 206,
+    "before": "very few respondents used heroin (/1 = 3) and cocaine (/1 = 6) compared",
+    "after": "very few respondents used heroin (n = 3) and cocaine (n = 6) compared",
+    "bbox": [
+      0.15543390256406606,
+      0.48251129489340383,
+      0.9201502242034982,
+      0.5049776638592158
+    ],
+    "reason": "Source crop review-400.png item 403: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 206,
+    "before": "to LSD (/ = 26) or marijuana (/1 = 61), indicating that correlations with",
+    "after": "to LSD (n = 26) or marijuana (n = 61), indicating that correlations with",
+    "bbox": [
+      0.15092578409964408,
+      0.5027296763487016,
+      0.9202297596781268,
+      0.5279755619785746
+    ],
+    "reason": "Source crop review-400.png item 404: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 206,
+    "before": "tions (ranging from / = .20 to .27) between transliminality and all of the",
+    "after": "tions (ranging from r = .20 to .27) between transliminality and all of the",
+    "bbox": [
+      0.14425891639593993,
+      0.6232624084611701,
+      0.9157915138285497,
+      0.6477225855445237
+    ],
+    "reason": "Source crop review-400.png item 406: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 207,
+    "before": "transliminality (r= 2l, p < .005, one-tailed).",
+    "after": "transliminality (r = .21, p < .005, one-tailed).",
+    "bbox": [
+      0.09039795185948013,
+      0.23909081860892556,
+      0.5979791659056517,
+      0.2635535146651957
+    ],
+    "reason": "Source crop review-400.png item 407: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 210,
+    "before": "tionally with waking ESP (p apparitions (p < .01). and deja vu",
+    "after": "tionally with waking ESP (p < .05), apparitions (p < .01). and deja vu",
+    "bbox": [
+      0.1373874028980726,
+      0.5058139532339105,
+      0.9211711687235489,
+      0.5261627907098879
+    ],
+    "reason": "Source crop review-400.png item 409: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 211,
+    "before": "Ol: mind-altering substances r = .34, p <.01; marijuana use r = .30, p",
+    "after": ".01; mind-altering substances r = .34, p <.01; marijuana use r = .30, p",
+    "bbox": [
+      0.09174311154685985,
+      0.18023255808671235,
+      0.8692660433269938,
+      0.20058139547433407
+    ],
+    "reason": "Source crop review-400.png item 411: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 211,
+    "before": "<.05) and high dissociative participants (/1 = 59) (Drug-use subscale r",
+    "after": "<.05) and high dissociative participants (n = 59) (Drug-use subscale r",
+    "bbox": [
+      0.08944954790660112,
+      0.2020100502134563,
+      0.8715596107631238,
+      0.2195979899119488
+    ],
+    "reason": "Source crop review-400.png item 412: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 214,
+    "before": "age of respondents who had tried an illicit drug even once (/1 = 110)",
+    "after": "age of respondents who had tried an illicit drug even once (n = 110)",
+    "bbox": [
+      0.13978955564833578,
+      0.7266032206681715,
+      0.91136976328696,
+      0.7504793367634827
+    ],
+    "reason": "Source crop review-400.png item 416: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 215,
+    "before": "widespread with 5-MEO-DMT, as observed elsewhere (Luke, 200S;",
+    "after": "widespread with 5-MEO-DMT, as observed elsewhere (Luke, 2005;",
+    "bbox": [
+      0.09610985601055487,
+      0.15981963972912228,
+      0.869565214088606,
+      0.17885771588142685
+    ],
+    "reason": "Source crop review-400.png item 417: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 215,
+    "before": "p=.13 to 29, between the occurrence of paranormal experiences (in-",
+    "after": "r = .13 to 29, between the occurrence of paranormal experiences (in-",
+    "bbox": [
+      0.10500074779367925,
+      0.7991593079411394,
+      0.8584235781767876,
+      0.8248001921800152
+    ],
+    "reason": "Source crop review-400.png item 418: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 217,
+    "before": "In a similar survey of students from an opportunity sample (n2 =",
+    "after": "In a similar survey of students from an opportunity sample (n =",
+    "bbox": [
+      0.13689095816087574,
+      0.1816860470097117,
+      0.8863108792521178,
+      0.20203488315017204
+    ],
+    "reason": "Source crop review-420.png item 420: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 217,
+    "before": "of the non-OBE group (1 = 155), perhaps indicating a commonality in",
+    "after": "of the non-OBE group (n = 155), perhaps indicating a commonality in",
+    "bbox": [
+      0.09976798663491147,
+      0.383534136821962,
+      0.8747099591500849,
+      0.404116466139231
+    ],
+    "reason": "Source crop review-420.png item 421: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 162,
+    "before": "(Krippner, 2006b, p.l). Finally, there is the most frequently used term,",
+    "after": "(Krippner, 2006b, p.1). Finally, there is the most frequently used term,",
+    "bbox": [
+      0.1340909223462754,
+      0.5857558138993348,
+      0.91136362435827,
+      0.6063189567274775
+    ],
+    "reason": "Source-verified numeral correction.",
+    "exact_row": true
+  },
+  {
+    "page": 204,
+    "before": "(\" = .16.p <.01) and with Tobacyk's (1988) paranormal belief sub-",
+    "after": "(r = .16, p < .01) and with Tobacyk's (1988) paranormal belief sub-",
+    "bbox": [
+      0.14253394616278325,
+      0.13808139551403797,
+      0.9298642512354066,
+      0.1584302329016597
+    ],
+    "reason": "Source-verified statistical notation.",
+    "exact_row": true
+  },
+  {
+    "page": 228,
+    "before": "ple of six mediums. Osis (196 la) administered 100 or 125 micrograms",
+    "after": "ple of six mediums. Osis (1961a) administered 100 or 125 micrograms",
+    "bbox": [
+      0.13092552055095175,
+      0.4302325584475677,
+      0.9255078993781033,
+      0.4491279064403061
+    ],
+    "reason": "Source crop review-0.png item 9: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 235,
+    "before": "(no PK experiments laving been attempted). In most cases this could",
+    "after": "(no PK experiments having been attempted). In most cases this could",
+    "bbox": [
+      0.11690900061142384,
+      0.37908743926545996,
+      0.8730838355295029,
+      0.42080158105120713
+    ],
+    "reason": "Source crop review-20.png item 30: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 237,
+    "before": "1982), the aesthetic rapture (Osis, 196la; Smythies. 1960), the quest",
+    "after": "1982), the aesthetic rapture (Osis, 1961a; Smythies. 1960), the quest",
+    "bbox": [
+      0.11690258627240817,
+      0.6485128817083564,
+      0.8627817071515289,
+      0.6824475648783151
+    ],
+    "reason": "Source crop review-40.png item 40: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 237,
+    "before": "pear. Blewett (196la) further warned of other unwanted psychological",
+    "after": "pear. Blewett (1961a) further warned of other unwanted psychological",
+    "bbox": [
+      0.13918855315602838,
+      0.8790256588326163,
+      0.8836728721991505,
+      0.9168906242165304
+    ],
+    "reason": "Source crop review-40.png item 41: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 238,
+    "before": "Paterson, 196la; Smythies 1960: Tart in Levine. 1968) suggest that",
+    "after": "Paterson, 1961a; Smythies 1960: Tart in Levine. 1968) suggest that",
+    "bbox": [
+      0.12359551238039303,
+      0.9039215689827921,
+      0.8741572858860598,
+      0.9259803925122039
+    ],
+    "reason": "Source crop review-40.png item 44: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 239,
+    "before": "test-scores. Echoing this, the Osis (196la) experiment has shown that",
+    "after": "test-scores. Echoing this, the Osis (1961a) experiment has shown that",
+    "bbox": [
+      0.050723380226394596,
+      0.13896151714039262,
+      0.8933570461680631,
+      0.16291751589400305
+    ],
+    "reason": "Source crop review-40.png item 45: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 34,
+    "before": "the paranormal function of the brain never received a more formal op-.",
+    "after": "the paranormal function of the brain never received a more formal op-",
+    "exact_row": true,
+    "bbox": [
+      0.11650485820150533,
+      0.2019607838496662,
+      0.9126213713130574,
+      0.22107843090848978
+    ],
+    "reason": "Checked against printed source in whole-book diagnostic review."
+  },
+  {
+    "page": 38,
+    "before": "effects took hold I was quite pleased that that the actual dosage was",
+    "after": "effects took hold I was quite pleased that the actual dosage was",
+    "exact_row": true,
+    "bbox": [
+      0.1089588499330815,
+      0.18297455925922346,
+      0.8958837752969425,
+      0.20205479409288296
+    ],
+    "reason": "Checked against printed source in whole-book diagnostic review."
+  },
+  {
+    "page": 38,
+    "before": "→ alise the target', and I would write down anything that appeared in my",
+    "after": "alise the target', and I would write down anything that appeared in my",
+    "exact_row": true,
+    "bbox": [
+      0.07021792578895154,
+      0.44618395348222917,
+      0.8861985227824772,
+      0.46526418831588856
+    ],
+    "reason": "Checked against printed source in whole-book diagnostic review."
+  },
+  {
+    "page": 38,
+    "before": "= four clips that an independent researcher had previously selected so",
+    "after": "four clips that an independent researcher had previously selected so",
+    "exact_row": true,
+    "bbox": [
+      0.06770062633482658,
+      0.6243257652627404,
+      0.8790215923988813,
+      0.6457742515012834
+    ],
+    "reason": "Checked against printed source in whole-book diagnostic review."
+  },
+  {
+    "page": 99,
+    "before": "For example. one congenitally blind interviewee who had had to",
+    "after": "For example. one congenitally blind interviewee who had had two",
+    "exact_row": true,
+    "bbox": [
+      0.17213247517518226,
+      0.6336280007111098,
+      0.8883061187529383,
+      0.6610359080042779
+    ],
+    "reason": "Checked against printed source in whole-book diagnostic review."
+  },
+  {
+    "page": 99,
+    "before": "- ever relate to secing and to what light was, because I experienced it*",
+    "after": "ever relate to seeing and to what light was, because I experienced it*",
+    "exact_row": true,
+    "bbox": [
+      0.08391607603817874,
+      0.6756624138220595,
+      0.8881118825865301,
+      0.6977428848721086
+    ],
+    "reason": "Checked against printed source in whole-book diagnostic review."
+  },
+  {
+    "page": 149,
+    "before": "they too had had a terrifying encounter with a multi-eyed. multi-ser =",
+    "after": "they too had had a terrifying encounter with a multi-eyed. multi-ser-",
+    "exact_row": true,
+    "bbox": [
+      0.10791800589133808,
+      0.3981717526498372,
+      0.9032950422891094,
+      0.4220675217690999
+    ],
+    "reason": "Checked against printed source in whole-book diagnostic review."
+  },
+  {
+    "page": 197,
+    "before": "in the literature (e.g., Eisner, 1989; Gaskin, 1990; Krippner, 200бa;",
+    "after": "in the literature (e.g., Eisner, 1989; Gaskin, 1990; Krippner, 2006a;",
+    "exact_row": true,
+    "bbox": [
+      0.11405928291612506,
+      0.622070183713158,
+      0.8722179063338465,
+      0.6444392000573167
+    ],
+    "reason": "Checked against printed source in whole-book diagnostic review."
+  },
+  {
+    "page": 132,
+    "before": "call La, might have some objective reality, and then so too might all",
+    "after": "call Za, might have some objective reality, and then so too might all",
+    "bbox": [
+      0.17233559437528093,
+      0.10174418579738331,
+      0.9433106512785362,
+      0.12079207966147676
+    ],
+    "reason": "Source crop review-0.png item 2: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 200,
+    "before": "A ears as Piant had expled chat de had experienced the same apocalyptic",
+    "after": "his experience, recalled that he had experienced the same apocalyptic fears as Paul had experienced.",
+    "bbox": [
+      0.14164135037967024,
+      0.09412781971682105,
+      0.935848375647664,
+      0.14098478590750319
+    ],
+    "reason": "Source crop review-0.png item 6: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 217,
+    "before": "students (convenience sample, / = 96) found 31% claimed to have had",
+    "after": "students (convenience sample, n = 96) found 31% claimed to have had",
+    "bbox": [
+      0.09048725785454648,
+      0.09883720943156249,
+      0.879350340421887,
+      0.11797188794664826
+    ],
+    "reason": "Source crop review-0.png item 7: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 291,
+    "before": "3-phenethylamine 8",
+    "after": "β-phenethylamine 8",
+    "bbox": [
+      0.17966666949563148,
+      0.41916167682107,
+      0.40833333107603514,
+      0.435972629098081
+    ],
+    "reason": "Source crop review-0.png item 8: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 291,
+    "before": "S-HT (see also serotonin) 143,",
+    "after": "5-HT (see also serotonin) 143,",
+    "bbox": [
+      0.1139636706067368,
+      0.5168486726040225,
+      0.47200436579716654,
+      0.5366472944743449
+    ],
+    "reason": "Source crop review-0.png item 9: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 291,
+    "before": "alcohol 32, 42, 44, 45, 47, 52, 131",
+    "after": "alcohol 32, 42, 44, 45, 47, 52, 138",
+    "bbox": [
+      0.11841667474814453,
+      0.7365269461281658,
+      0.48795832615602214,
+      0.7570869990986866
+    ],
+    "reason": "Source crop review-0.png item 10: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 291,
+    "before": "Aldous Huxley xiliff, 95, 96,",
+    "after": "Aldous Huxley xiiiff, 95, 96,",
+    "bbox": [
+      0.11841667062195096,
+      0.7760479042362353,
+      0.45937499886902133,
+      0.7964071859234452
+    ],
+    "reason": "Source crop review-0.png item 11: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 291,
+    "before": "Iliff, 115, 122ff",
+    "after": "111ff, 115, 122ff",
+    "bbox": [
+      0.5898750013709474,
+      0.4383561650093071,
+      0.7853749937415527,
+      0.4560117306011584
+    ],
+    "reason": "Source crop review-0.png item 12: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 293,
+    "before": "incorporation 2I ff, 94, 99",
+    "after": "incorporation 21ff, 94, 99",
+    "bbox": [
+      0.5367499971075506,
+      0.9197530863813894,
+      0.8087500056124494,
+      0.9397473271894593
+    ],
+    "reason": "Source crop review-20.png item 20: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 294,
+    "before": "46,51,68.71, 86.89,96,",
+    "after": "46,57,68.71, 86.89,96,",
+    "bbox": [
+      0.5813750031869186,
+      0.14106280185475661,
+      0.8640000016474562,
+      0.16010854777807992
+    ],
+    "reason": "Source crop review-20.png item 21: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 296,
+    "before": "psilocybin 7, 28, 41, 43 ff, 481f,",
+    "after": "psilocybin 7, 28, 41, 43 ff, 48ff,",
+    "bbox": [
+      0.11025000290937495,
+      0.5032765400366421,
+      0.45937500290937494,
+      0.5217812201051836
+    ],
+    "reason": "Source crop review-20.png item 31: printed text distinguished from OCR error or handwritten reader annotation.",
+    "exact_row": true
+  },
+  {
+    "page": 292,
+    "before": "85ff. 90ff. 107ff, I11 ff.",
+    "after": "85ff. 90ff. 107ff, 111ff.",
+    "exact_row": true,
+    "reason": "Source-checked index page reference."
+  },
+  {
+    "page": 292,
+    "before": "115ft, 121, 125ff. 138. 141,",
+    "after": "115ff, 121, 125ff. 138. 141,",
+    "exact_row": true,
+    "reason": "Source-checked index page reference."
+  },
+  {
+    "page": 125,
+    "before": "→ Weave a circle round him thrice,",
+    "after": "Weave a circle round him thrice,",
+    "exact_row": true,
+    "reason": "Printed poem checked; leading arrow is handwritten reader annotation."
+  }
+]

@@ -1,0 +1,101 @@
+{
+  "source_sha256": "d78f1b9fb631bd72f65a6e49cd3eaea554e4b9e7a79c5077484e6c50f670e697",
+  "isbn": "9781908995148",
+  "isbn_13": "9781908995148",
+  "edition_key": "/books/OL26933946M",
+  "authors": [
+    "David Luke"
+  ],
+  "publication_date": "2017",
+  "publication_date_raw": "2017",
+  "description": "\"Scientist and psychonaut David Luke weaves personal experience and scientific research in this comprehensive exploration of chemically mediated extra ordinary human experiences.\" --backcover.",
+  "subjects": [
+    "Hallucinogenic drugs",
+    "Parapsychology",
+    "Psychic ability",
+    "Psychological aspects",
+    "Shamans"
+  ],
+  "identifiers": {
+    "isbn_10": [
+      "1908995149"
+    ],
+    "isbn_13": [
+      "9781908995148"
+    ],
+    "lccn": [],
+    "oclc": [
+      "879583719"
+    ],
+    "openlibrary": [
+      "OL26933946M"
+    ]
+  },
+  "classifications": {
+    "lc_classifications": [
+      "BF209.H34 L85 2017",
+      "BF209.H34"
+    ],
+    "dewey_decimal_class": [
+      "154.4"
+    ]
+  },
+  "publication_places": [],
+  "print_pages": 274,
+  "links": [
+    "https://openlibrary.org/books/OL26933946M",
+    "https://openlibrary.org/works/OL19720821W"
+  ],
+  "rights": "Copyright © 2017 David Luke. All rights reserved.",
+  "covers": [
+    {
+      "width": 331,
+      "height": 500,
+      "format": "JPEG",
+      "sha256": "6179c74dd7633d11dbe593f8811995b119eb65e0b26cd8c6b80a599facdbbdf5",
+      "suitable_main_cover": true,
+      "url": "https://covers.openlibrary.org/b/isbn/9781908995148-L.jpg?default=false",
+      "path": "work/otherworlds/metadata/assets/6179c74dd7633d11dbe593f8811995b119eb65e0b26cd8c6b80a599facdbbdf5.jpg",
+      "accepted": true,
+      "reason": "Profile-approved cover visually checked against scan"
+    }
+  ],
+  "conflicts": [
+    {
+      "field": "publishers",
+      "api": [
+        "State University of New York Press"
+      ],
+      "source_profile": [
+        "Muswell Hill Press"
+      ],
+      "resolution": "Supplied copyright page PDF 2 names Muswell Hill Press, London, 2017; exact ISBN 9781908995148 and year also agree with author university repository https://gala.gre.ac.uk/id/eprint/19335/. The API publisher field conflicts with this source."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://openlibrary.org/isbn/9781908995148.json",
+      "resolved_url": "https://openlibrary.org/books/OL26933946M.json",
+      "sha256": "64d0fb6c95206eacef63975d64938a8f155e1107d55911684d267e5dcdb1c1f4",
+      "retrieved_at": "2026-10-03T09:22:37.915351+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/authors/OL3052276A.json",
+      "resolved_url": "https://openlibrary.org/authors/OL3052276A.json",
+      "sha256": "76ce27dd16e69db7b7a266e8f47559db08bc934957778f07d469044a611bd45f",
+      "retrieved_at": "2026-10-03T09:22:38.606703+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/works/OL19720821W.json",
+      "resolved_url": "https://openlibrary.org/works/OL19720821W.json",
+      "sha256": "444eeaaaefb32dc5edbe3faed38b175d1f4a473a9a2720c903a89ac64c479096",
+      "retrieved_at": "2026-10-03T09:24:27.411191+00:00"
+    },
+    {
+      "url": "https://covers.openlibrary.org/b/isbn/9781908995148-L.jpg?default=false",
+      "resolved_url": "https://ia800505.us.archive.org/view_archive.php?archive=/35/items/l_covers_0014/l_covers_0014_57.zip&file=0014571474-L.jpg",
+      "sha256": "6179c74dd7633d11dbe593f8811995b119eb65e0b26cd8c6b80a599facdbbdf5",
+      "retrieved_at": "2026-10-03T09:24:30.099338+00:00"
+    }
+  ]
+}

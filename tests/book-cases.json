@@ -61,5 +61,12 @@
     "profile": "config/wizard-upper-amazon/book.json",
     "work": "work/wizard-upper-amazon",
     "editorial": false
+  },
+  {
+    "name": "otherworlds",
+    "pdf": "input/David Luke - Otherworlds-Aeon Academic (2019).pdf",
+    "profile": "config/otherworlds/book.json",
+    "work": "work/otherworlds",
+    "editorial": false
   }
 ]

@@ -91,6 +91,7 @@ def correct_page(
     primary_name="tesseract",
     secondary_name="vision",
     recover_regions=False,
+    recover_glyphs=False,
 ):
     rows = merge_rows(primary)
     # Some engines collapse two printed lines into a confident but garbled row.
@@ -266,6 +267,22 @@ def correct_page(
             plausible = plausible or (
                 before in {"J", "1"} and after == "I" and votes >= 2
             )
+            if recover_glyphs and votes == 3:
+                # Three witnesses must agree on a common alphabetic word.
+                # A single confusable digit is eligible; dates, chemical names,
+                # quantities and arbitrary alphanumeric rewrites are not.
+                confusions = {"0": "o", "1": "ilt", "5": "s", "8": "b"}
+                plausible = plausible or (
+                    2 <= len(before) <= 10
+                    and len(before) == len(after)
+                    and sum(c.isdigit() for c in before) == 1
+                    and after.isalpha()
+                    and zipf_frequency(after, "en") >= 4
+                    and all(
+                        a.lower() == b.lower() or b.lower() in confusions.get(a, "")
+                        for a, b in zip(before, after)
+                    )
+                )
             if plausible:
                 edits.append((spans[i].start(), spans[i].end(), after))
                 audit.append(
