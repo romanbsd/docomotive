@@ -60,14 +60,14 @@ PROFILE_KEYS = frozenset("""
     native_body_size native_excluded_fonts native_font_styles native_heading_sizes
     native_heading_texts native_heading_merge native_index_indents native_list_layout native_quote_pages native_relative_font_sizes native_small_numeric_sup
     native_superscript_max_size native_typography note_continuations note_starts
-    infer_verse page_labels paragraph_margins printed_page_offset publisher publisher_mark
+    infer_verse infer_inset_verse page_labels paragraph_margins printed_page_offset publisher publisher_mark
     quote_first_line_indent recover_hanging_margins recover_ocr_regions recover_ocr_glyph_confusions recover_pdf_heading_styles recover_pdf_typography recover_pdf_numeric_superscripts
     recover_scan_font_metrics research_missing_endnotes recover_scanned_endnotes recover_reference_markers recover_variable_superscripts recover_image_only_headings reference_pages repair_lexical_confusions repair_word_wraps
     related_print_isbns rights row_heading_rules row_regions section_navigation
     scan_raster_only slug small_caps_openings source_completeness source_note
     source_prose_indents source_relative_figures source_sha256 source_version
     statistics_excluded_chapters subjects subtitle text_source title
-    upper_margin_cutoff uppercase_margin_cutoff verse_regions vision_primary_pages recover_scan_italics
+    upper_margin_cutoff uppercase_margin_cutoff verse_regions vision_primary_pages recover_scan_italics recover_scan_inline_italics
     """.split())
 
 

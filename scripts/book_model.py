@@ -2,12 +2,13 @@
 
 import copy
 import re
+import statistics
 from collections import Counter
 from wordfreq import zipf_frequency
 from common import digest
 from layout import excluded
 from paragraph_layout import infer_paragraph_layout, _edge
-from typography import verse_evidence
+from typography import verse_evidence, inset_verse_evidence
 
 
 class JoinPolicy:
@@ -84,6 +85,106 @@ def row_id(page, row, source=""):
     return digest(repr(identity).encode())[:20]
 
 
+def resolve_chapter_body_starts(pages, book, audit):
+    """Retain prose crossing a title cutoff when its line geometry is continuous."""
+    effective = {}
+    if book.get("text_source") == "native":
+        return effective
+    for page, _, _ in book["chapters"]:
+        cutoff = book.get("chapter_body_starts", {}).get(str(page), 0.27)
+        if cutoff <= 0:
+            continue
+        rows = sorted(
+            pages.get(page, []), key=lambda r: (r.get("column", 0), r["bbox"][1])
+        )
+
+        def prose(row):
+            letters = [c for c in row["text"] if c.isalpha()]
+            return (
+                row.get("kind", "text") == "text"
+                and len(letters) >= 40
+                and len(row["text"].split()) >= 6
+                and sum(c.isupper() for c in letters) / len(letters) < 0.65
+                and classify_row(page, row, book, False)[0] == "body"
+            )
+
+        samples = [r for r in rows if r["bbox"][1] >= cutoff and prose(r)]
+        for column in sorted({r.get("column", 0) for r in samples}):
+            reference = [r for r in samples if r.get("column", 0) == column]
+            # Four broad prose lines establish a local body measure; sparse
+            # title/epigraph leaves retain their reviewed cutoff.
+            if len(reference) < 4:
+                continue
+            width = statistics.median(r["bbox"][2] - r["bbox"][0] for r in reference)
+            height = statistics.median(r["bbox"][3] - r["bbox"][1] for r in reference)
+            margin = statistics.median(r["bbox"][0] for r in reference)
+            pitches = [
+                (b["bbox"][1] + b["bbox"][3] - a["bbox"][1] - a["bbox"][3]) / 2
+                for a, b in zip(reference, reference[1:])
+                if b["bbox"][1] > a["bbox"][1]
+            ]
+            if not pitches or min(width, height) <= 0:
+                continue
+            pitch = statistics.median(pitches)
+
+            def consistent(row):
+                return (
+                    prose(row)
+                    and 0.8 * width <= row["bbox"][2] - row["bbox"][0] <= 1.2 * width
+                    and 0.7 * height <= row["bbox"][3] - row["bbox"][1] <= 1.3 * height
+                    and abs(row["bbox"][0] - margin) <= 0.03
+                )
+
+            rr = [r for r in rows if r.get("column", 0) == column]
+            anchor = next(
+                (
+                    i
+                    for i, r in enumerate(rr)
+                    if r["bbox"][1] >= cutoff and consistent(r)
+                ),
+                None,
+            )
+            if anchor is None or rr[anchor]["bbox"][1] - cutoff > 1.4 * pitch:
+                continue
+            index = anchor
+            while index:
+                before, after = rr[index - 1], rr[index]
+                distance = (
+                    after["bbox"][1]
+                    + after["bbox"][3]
+                    - before["bbox"][1]
+                    - before["bbox"][3]
+                ) / 2
+                # Ordinary line pitch bridges a wrapped paragraph; title/quote
+                # separation, larger fonts and intervening labels stop the walk.
+                if (
+                    not consistent(before)
+                    or not 0.65 * pitch <= distance <= 1.4 * pitch
+                ):
+                    break
+                index -= 1
+            if index == anchor or rr[index]["bbox"][1] >= cutoff:
+                continue
+            recovered = rr[index:anchor]
+            inferred = rr[index]["bbox"][1]
+            effective[str(page)] = min(effective.get(str(page), cutoff), inferred)
+            audit.append(
+                dict(
+                    page=page,
+                    kind="chapter-body-boundary",
+                    configured=cutoff,
+                    inferred=inferred,
+                    column=column,
+                    pitch=pitch,
+                    recovered_rows=[
+                        dict(text=r["text"], bbox=r["bbox"]) for r in recovered
+                    ],
+                    evidence="continuous prose crossing chapter-title cutoff",
+                )
+            )
+    return effective
+
+
 def classify_row(page, row, book, first=False):
     y = row["bbox"][1]
     text = row["text"].strip()
@@ -97,7 +198,9 @@ def classify_row(page, row, book, first=False):
         cy = (row["bbox"][1] + row["bbox"][3]) / 2
         if figure["page"] == page and x0 <= cx <= x1 and y0 <= cy <= y1:
             return "excluded", "preserved-figure-region"
-    if first and y < book.get("chapter_body_starts", {}).get(str(page), 0.27):
+    if first and y < book.get("_chapter_body_starts", {}).get(
+        str(page), book.get("chapter_body_starts", {}).get(str(page), 0.27)
+    ):
         return "excluded", "chapter-title"
     if y >= book.get("bottom_margin_cutoffs", {}).get(str(page), 2):
         return "excluded", "profile-bottom-margin"
@@ -163,6 +266,10 @@ def page_blocks(n, rows, book, audit, first, policy=None):
             and n not in book.get("reference_pages", [])
             else set()
         )
+        if book.get("infer_inset_verse") and not (
+            book.get("text_source") == "native" or n in book.get("reference_pages", [])
+        ):
+            inferred_verse |= inset_verse_evidence(rr, book.get("_body_width", 0.8))
         if inferred_verse:
             audit.append(dict(page=n, kind="verse-layout", rows=sorted(inferred_verse)))
             for r in rr:
@@ -203,6 +310,16 @@ def page_blocks(n, rows, book, audit, first, policy=None):
             ]
             geometry, evidence = infer_paragraph_layout(layout_rows)
             audit.append(dict(page=n, kind="paragraph-layout", column=col, **evidence))
+        # Glyph boxes shrink on descender-only short lines. Their apparent
+        # whitespace is not a paragraph gap: use local line pitch as a check.
+        pitches = [
+            (b["bbox"][1] + b["bbox"][3] - a["bbox"][1] - a["bbox"][3]) / 2
+            for a, b in zip(rr, rr[1:])
+            if a.get("kind", "text") == b.get("kind", "text") == "text"
+        ]
+        pitch = statistics.median(pitches) if len(pitches) >= 8 else None
+        body_height = statistics.median(r["bbox"][3] - r["bbox"][1] for r in rr)
+        body_width = statistics.median(r["bbox"][2] - r["bbox"][0] for r in rr)
         last = None
         for r in rr:
             text = r["text"]
@@ -231,6 +348,34 @@ def page_blocks(n, rows, book, audit, first, policy=None):
             if geo:
                 indented = geo["left_offset"] > 0.018
             gap = last is not None and y - last["bbox"][3] > 0.012
+            if (
+                gap
+                and pitch
+                and not indented
+                and not hanging
+                and book.get("text_source") != "native"
+                and kind == "text"
+                and last.get("kind", "text") == "text"
+                and not r.get("paragraph_start")
+                # Restrict the relaxation to short, shallow continuation boxes
+                # after a full line, with at most 30% local pitch variation.
+                and r["bbox"][2] - r["bbox"][0] < 0.5 * body_width
+                and r["bbox"][3] - y < 0.8 * body_height
+                and last["bbox"][2] - last["bbox"][0] >= 0.8 * body_width
+                and 0.7 * pitch
+                <= (y + r["bbox"][3] - last["bbox"][1] - last["bbox"][3]) / 2
+                <= 1.3 * pitch
+            ):
+                gap = False
+                audit.append(
+                    dict(
+                        page=n,
+                        kind="short-line-pitch-continuation",
+                        text=text,
+                        bbox=r["bbox"],
+                        pitch=pitch,
+                    )
+                )
             paragraph_indent = indented
             if book.get("continuous_indented_rows") and last is not None:
                 paragraph_indent = (

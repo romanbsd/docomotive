@@ -238,6 +238,27 @@ def correct_page(
     for row in rows:
         raw_primary = row["text"]
         witnesses = [nearest(row, source) for source in [baseline, secondary, tertiary]]
+        # A leading star can be a damaged opening quote, but can also be a
+        # real apparatus marker. Require both fresh engines to read a quote
+        # and otherwise match the entire line; embedded OCR is not a vote.
+        normalize_quotes = lambda text: text.translate(str.maketrans("“”", '""'))
+        fresh = witnesses[1:]
+        if row["text"].startswith("*") and all(fresh):
+            candidate = '"' + normalize_quotes(row["text"][1:])
+            if '"' in candidate[1:] and all(
+                normalize_quotes(w["text"]) == candidate for w in fresh
+            ):
+                row["text"] = "“" + row["text"][1:]
+                audit.append(
+                    dict(
+                        page=page,
+                        kind="two-fresh-quote-mark",
+                        before=raw_primary,
+                        after=row["text"],
+                        bbox=row["bbox"],
+                        evidence=f"{secondary_name}/rapid complete-line agreement",
+                    )
+                )
         spans = list(TOKEN.finditer(row["text"]))
         vt = [m.group() for m in spans]
         proposals = {}

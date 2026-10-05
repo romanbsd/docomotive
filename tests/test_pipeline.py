@@ -8,7 +8,13 @@ from build import page_blocks, merge_rows, join, validate_epub, opf_metadata
 from metadata import isbn, isbn13, verify_edition, cover_info
 from layout import infer
 from jev_rank import validate, MODEL
-from book_model import JoinPolicy, reconstruct, coverage, plain_text
+from book_model import (
+    JoinPolicy,
+    reconstruct,
+    coverage,
+    plain_text,
+    resolve_chapter_body_starts,
+)
 from render_text import block_html
 from common import apply_edits, load_profile
 from proofread import diagnostics
@@ -19,6 +25,104 @@ def row(text, y, x=0.2):
 
 
 class PipelineTests(unittest.TestCase):
+    def test_shallow_short_line_uses_local_pitch_without_merging_paragraphs(self):
+        rows = [
+            row("A broad body line that continues", 0.15 + i * 0.026) for i in range(10)
+        ]
+        short = dict(text="them.", bbox=[0.2, 0.418, 0.27, 0.432], column=0)
+        for mode in (
+            "continuation",
+            "real-gap",
+            "indent",
+            "explicit",
+            "native",
+            "verse",
+        ):
+            tail = dict(short)
+            book = self.book()
+            if mode == "real-gap":
+                tail["bbox"] = [0.2, 0.435, 0.27, 0.449]
+            elif mode == "indent":
+                tail["bbox"] = [0.24, 0.418, 0.31, 0.432]
+            elif mode == "explicit":
+                tail["paragraph_start"] = True
+            elif mode == "native":
+                book["text_source"] = "native"
+            elif mode == "verse":
+                tail["kind"] = "verse"
+            with self.subTest(mode=mode):
+                audit = []
+                blocks, _ = page_blocks(1, rows + [tail], book, audit, False)
+                self.assertEqual(len(blocks), 1 if mode == "continuation" else 2)
+                self.assertEqual(
+                    any(a["kind"] == "short-line-pitch-continuation" for a in audit),
+                    mode == "continuation",
+                )
+
+    def opening_rows(self):
+        return [row("A short heading", 0.17, x=0.4)] + [
+            row(
+                "The continuous opening paragraph has enough prose to measure its width.",
+                y,
+            )
+            for y in (0.22, 0.24, 0.26, 0.28, 0.30, 0.32, 0.34)
+        ]
+
+    def test_title_cutoff_retains_continuous_prose_above_boundary(self):
+        rows = self.opening_rows()
+        book = dict(
+            self.book(), chapters=[[1, 1, "Title"]], chapter_body_starts={"1": 0.255}
+        )
+        audit = []
+        book["_chapter_body_starts"] = resolve_chapter_body_starts(
+            {1: rows}, book, audit
+        )
+        self.assertEqual(book["_chapter_body_starts"], {"1": 0.22})
+        blocks, _ = page_blocks(1, rows, book, [], True)
+        self.assertEqual(len(blocks[0]["lines"]), 7)
+        self.assertEqual(len(audit[0]["recovered_rows"]), 2)
+        self.assertFalse(any("heading" in b["fragments"][0]["text"] for b in blocks))
+        self.assertEqual(book["chapter_body_starts"], {"1": 0.255})
+
+    def test_boundary_walk_stops_at_heading_font_spacing_and_columns(self):
+        for change in ("large-font", "large-gap", "heading", "column"):
+            rows = self.opening_rows()
+            if change == "large-font":
+                rows[2]["bbox"][3] += 0.02
+            elif change == "large-gap":
+                rows[2]["bbox"] = [0.2, 0.21, 0.8, 0.23]
+                rows.pop(1)
+            elif change == "heading":
+                rows[2]["kind"] = "heading"
+            else:
+                rows[2]["column"] = 1
+            book = dict(
+                self.book(),
+                chapters=[[1, 1, "Title"]],
+                chapter_body_starts={"1": 0.255},
+            )
+            with self.subTest(change=change):
+                self.assertEqual(resolve_chapter_body_starts({1: rows}, book, []), {})
+
+    def test_sparse_opening_native_text_and_disabled_cutoff_keep_profile(self):
+        book = dict(
+            self.book(), chapters=[[1, 1, "Title"]], chapter_body_starts={"1": 0.255}
+        )
+        rows = self.opening_rows()
+        self.assertEqual(resolve_chapter_body_starts({1: rows[:4]}, book, []), {})
+        self.assertEqual(
+            resolve_chapter_body_starts(
+                {1: rows}, dict(book, text_source="native"), []
+            ),
+            {},
+        )
+        self.assertEqual(
+            resolve_chapter_body_starts(
+                {1: rows}, dict(book, chapter_body_starts={"1": 0}), []
+            ),
+            {},
+        )
+
     def book(self):
         return {
             "note_starts": {},

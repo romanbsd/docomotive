@@ -1589,181 +1589,167 @@
       "slug": "wizard-upper-amazon",
       "editorial": false,
       "artifacts": {
-        "book-model.json": "3a5885502c59f44c54b6d7dcd6906fab4e8355a1023ef9dd0ca6955fa519ef97",
-        "corrected-pages.json": "19a03391bfee101e454cf198d8d47eb133e55f7cf6e276762a6c3077640788f1",
-        "text-coverage.json": "2ef15f2e4579cf7a734275355b373e08a6f21e2f4567e831ae3d8b560fa919d9",
-        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
-        "wizard-upper-amazon.txt": "b8361d76a45818c6ea0132e688ef8f01da76c6fd52187fbc7e527b41bd043b18"
+        "book-model.json": "c857728c61ea2bd456bcc07794902313ffa61a45243a18670681fb4b765794bb",
+        "corrected-pages.json": "b7575c26e068bbc5331101b3cbef73af469359676bcf0247cec189fbd09b1b44",
+        "text-coverage.json": "10ed5862a6c5a0be83f18ad888ec32d58f32a86599a057c7e93a4a06983f855b",
+        "apparatus-analysis.json": "9a1e0cb9eead7a11b685e42d016be3c39196426570a27da74ee6107e7dd80565",
+        "wizard-upper-amazon.txt": "442cc3d190bbf61809d21fea0d095347f2098018aa0b2dc29c1f17df6986d091"
       },
-      "epub_sha256": "476b74d1d055b99399f47304f5caf061274b78a8b8f22cf9538207fdd255b937",
+      "epub_sha256": "e00cfed62c5a868ae12cf5cf724f42725926290ab7b0129132245d525d425add",
       "epub_members": {
         "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
-        "OEBPS/back-jacket-flap.jpg": "fe85c71bc035591efdd49ddca2adade3590dd792f160c2eaead0ae9d43586174",
-        "OEBPS/chapter-01.xhtml": "e31d33144569717a2f98a40a7fbb7981ee6589e1e8e3f16064dcdd783f933169",
-        "OEBPS/chapter-02.xhtml": "e4559d58a0364618c659a7c21c1fdd32a67aa5cdf3d73c5a4e7a6f15d8ef6b93",
-        "OEBPS/chapter-03.xhtml": "54a7561382e659e160fda8a9f020bd0eb69eaf5636a3ea4a4342c93d440f0ae7",
-        "OEBPS/chapter-04.xhtml": "0e0046434af1629a78c4cc45c62d61c8ef1f1828b19601a5ce77fc4fb2c63c0d",
-        "OEBPS/chapter-05.xhtml": "432015bbe498b6087381ca4b69facc276cb049bd4e54bcb5fe26acc5a964089c",
-        "OEBPS/chapter-06.xhtml": "a5e15733e40a4156fdd99a9b7674472ad9cbcea7d3e6d963552d9b34b8e1b860",
-        "OEBPS/chapter-07.xhtml": "ac24761d0c2ac919e7f772348cfa4e2e93cc9d03158e470651cab83dcd1e5aeb",
-        "OEBPS/chapter-08.xhtml": "02903537314ea03a4db5bbdca17e439b0d4af4279667c6e7a22c0f65fa1b2f5c",
-        "OEBPS/chapter-09.xhtml": "d070ee50834823a0ee8868274aca2f92b3ca6e3c09b9b105ef3b7fe2553e9868",
-        "OEBPS/chapter-10.xhtml": "061cf474f6ceece1d27389d28ef4a13e3178c6a736d6f0b34190595082ade3bb",
-        "OEBPS/chapter-11.xhtml": "a440c776212e12231dacbc1f0bd8c2cf3a7b58bd8a2e37108b0b488e22a100a3",
-        "OEBPS/chapter-12.xhtml": "69acd4138e9af9510410a0636f5918c43edb12b914bf2992fc7cb04639216b0b",
-        "OEBPS/chapter-13.xhtml": "7781893e6ab283dddc44664bcabf79971b71a974ddd5dd13e2fc6624ab9eee17",
-        "OEBPS/chapter-14.xhtml": "9b16aafe32c96b9f43b425d10f2c215154cf0e9168731f54d16747bca164872f",
-        "OEBPS/chapter-15.xhtml": "5327306fe1ec2cdcebebab443ec5dbe4d24f2e73f84b3da34d789a6cd3a1a7c8",
-        "OEBPS/chapter-16.xhtml": "4830bc93d36b98dc128034dd6f5de1fc5ee3ceff5951b763b1f2164ab03824c6",
-        "OEBPS/chapter-17.xhtml": "96cd0ce4d4fb86d4598917dca612775a688e009df129fe33201110d3e93d045b",
-        "OEBPS/chapter-18.xhtml": "3c46ae7f4cd703472323f0a8d35ab09cae408e7e444b9f00f04b8138a1b41d33",
-        "OEBPS/chapter-19.xhtml": "550708130c7e4a843cb2286b38f7e92a17eba07853ad49b327ea549916b46a6c",
-        "OEBPS/chapter-20.xhtml": "0ef59559dfb1a58f22600f0d8797642f2d3cd5f99e660202707a3b1676b80b48",
-        "OEBPS/chapter-21.xhtml": "50c055e2ec18eaa43ed0b996c5539a04ddafedc60bc3eef12fd43a6b1a612d13",
-        "OEBPS/chapter-22.xhtml": "48f9b2824fd4b4bb1e95d40cbc23b33801491e5da4cc75b5e6d3efcabe97c286",
-        "OEBPS/chapter-23.xhtml": "bc1247ab8be6d3bc056a7e8d41fc13f8ac19dce2eca8568063ceffbec74cfe5b",
+        "OEBPS/chapter-01.xhtml": "2873ae880ca91872a8a85cc8a020be824e66ee8f75160d65a113471b84f54d0a",
+        "OEBPS/chapter-02.xhtml": "54a7561382e659e160fda8a9f020bd0eb69eaf5636a3ea4a4342c93d440f0ae7",
+        "OEBPS/chapter-03.xhtml": "0c9529df92cf1eb714e9eca6f4561963cab43cf74271a05dc5e1adc01176894b",
+        "OEBPS/chapter-04.xhtml": "daebdb53eb888c3410dda5513810d3609e7eddbd093abcab033a0e134ac7ddf8",
+        "OEBPS/chapter-05.xhtml": "e34723238fe2232c695f788ab65e06e88b292c8cf122dbdef099356b9c4a7f59",
+        "OEBPS/chapter-06.xhtml": "f79e5b9548f6b819d32115ffa3f6ff3aaf2e246428eb07dfdc73d9670664cc6a",
+        "OEBPS/chapter-07.xhtml": "98ce99696c5c995b3b7ff804256010e52713f2005c6e23cbfdbb2bb208e6a285",
+        "OEBPS/chapter-08.xhtml": "b7bd3ffb7ddbd2c3c76b07b82a1b308a551d07ff17eb41b0a0df5542bb93e181",
+        "OEBPS/chapter-09.xhtml": "061cf474f6ceece1d27389d28ef4a13e3178c6a736d6f0b34190595082ade3bb",
+        "OEBPS/chapter-10.xhtml": "aac724907f232b792f04fa9ade76ae0a617461dfb0b98e62d55f324f5f64418b",
+        "OEBPS/chapter-11.xhtml": "7b9e3fcce6acf993856d64411bbe5df3ff77757b48150bea76eb003ec1fd5759",
+        "OEBPS/chapter-12.xhtml": "4b878559ec87fd99346d70e165de2503fbdefd057f4ed7932eab7c26f3a36697",
+        "OEBPS/chapter-13.xhtml": "1dd293924d9ad9b2b47dca4944895abd5c2b80e28010ed4e4953788639b41f94",
+        "OEBPS/chapter-14.xhtml": "5327306fe1ec2cdcebebab443ec5dbe4d24f2e73f84b3da34d789a6cd3a1a7c8",
+        "OEBPS/chapter-15.xhtml": "7976bef9cb58f854caf5fd0c141cadec9a040c011c106a6703f1d59ce37d52c6",
+        "OEBPS/chapter-16.xhtml": "69729fdc4550b25cfaf5d2a001f705690e58d94a6c66bdda9dcdd768dd6c0291",
+        "OEBPS/chapter-17.xhtml": "732306abc9c6a25b781910083157fbf82e17816dbe93d4b1843fb70144ba82ae",
+        "OEBPS/chapter-18.xhtml": "550708130c7e4a843cb2286b38f7e92a17eba07853ad49b327ea549916b46a6c",
+        "OEBPS/chapter-19.xhtml": "d617eefc38bc38367daf87a6b4b7de96b51eed556d7965cccebfb26540510ff2",
+        "OEBPS/chapter-20.xhtml": "3a0fc215a4696ad2c868d3e2560112db8e79cd19d170ff71336162e30ec68f48",
+        "OEBPS/chapter-21.xhtml": "2625d3296d1529589edd30862fee61902ff142ae68273dc13f7a2373c59a526e",
         "OEBPS/chemical-structures.jpg": "317b5c5844bc9fcffddaf8e5240fe4e96b98731afe9bb2ea605c93309d172223",
-        "OEBPS/content.opf": "9d98520f9c324fd2a4053036655df1e3f4cb961a9fa2d6b69fab5bbc78d44c14",
+        "OEBPS/content.opf": "d6a9a474ea102887aab1eb6453b31871bd4b86e4bf4040c05a0e712e2a5f9c62",
         "OEBPS/copyright.xhtml": "c78b1c77bdce117d8ccd441f5d343dfb22d2e0bfec93c8c12e3761f6c9bc18c4",
-        "OEBPS/cover.jpg": "0aef4f696d972490a55f13c75788a0f0538a9d2fb911cbc5a556348ce77aac59",
+        "OEBPS/cover.jpg": "9dbc46e55cea0eecd5b35c983e0356f780e886820b9a80c923a3a6967d6312b2",
         "OEBPS/cover.xhtml": "80e56da05a64b970e2e4a2a61f62b428618ec89c6c19c63b921b4d0c8b687dea",
-        "OEBPS/edition-note.xhtml": "30a8edb99b58982a1d271a39166757ae2a6e76ea30953c57ce37ad7a150cf8e0",
-        "OEBPS/front-jacket-flap.jpg": "bda2251048ddc055fb3c0d40bbb013b2af4abdde47a006ea9f2f001dca45b783",
-        "OEBPS/nav.xhtml": "904f0bdffe6232520bcf720d9ee9b26159f125abc52a3c95c540a23ad4c6bfd4",
+        "OEBPS/edition-note.xhtml": "b60e0431897605b66a5ce150ba13f8534cae626715cf857d1df07c5f28e5988d",
+        "OEBPS/nav.xhtml": "b326771f43274ce3fff0585cdc9004e84f0506903bae077db2c7ea9cbdec636a",
+        "OEBPS/south-america-map.jpg": "beb57b48800d7982c09239b29e91fcc63034aec31c418833ac4c5d5e663ee14b",
         "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
         "OEBPS/title.xhtml": "cedb4227482ebf5d72fca0d23eb56b731d282f7aa41fcf725cbe25e3363fbb17",
-        "OEBPS/toc.ncx": "e35fbcb98b4ff1f004eb3b4e0ee5008791c37a7d3702ab1a84ce78480e9009af",
+        "OEBPS/toc.ncx": "ae2c0645d47fe26eb840322f93e3d919be458fa2dc4ad9fe5a69e5c289261168",
         "OEBPS/travel-map.jpg": "9e8d5d40e7fef634b3e488cb8a6bf6c766c59b8e1c18b2116c239b9eab3e1c46",
         "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
       },
       "coverage": {
-        "excluded": 480,
+        "excluded": 500,
         "body": 5947,
         "note": 3
       },
       "chapters": [
         {
-          "title": "Front jacket flap",
-          "sha256": "4139ad8205c43d4c12df7bc30c44b4ce9f190b48450b6d71fafa2e81ba8f28c0",
-          "blocks": 1
-        },
-        {
           "title": "Foreword",
-          "sha256": "57b5ac97868e648e66086b42322d96f842dd4d959b4ddbb15af2f75c48ae09bb",
+          "sha256": "a5a8cda2595a8d4da9745c547fb8af82e6631a02772773bd232bb4a00691d837",
           "blocks": 15
         },
         {
           "title": "Acknowledgments",
-          "sha256": "8fc04464d3bb992c33079be4918802eee027c9232153c2f0989922b7ec70c429",
+          "sha256": "2e8d327871142025e8ae0420a0d7dd91f0e204354d6d59ca0795ab8bf37cba53",
           "blocks": 2
         },
         {
-          "title": "Map: Córdova’s Travel Route",
-          "sha256": "8b0775e6a65ab886b8aa6b9a8b163a090a5c4b82ba4908a73e35b440359a0fc8",
-          "blocks": 1
+          "title": "Maps: South America and Córdova’s Travel Route",
+          "sha256": "7784cbac9ed55380b2b656f21e0eabb75f6020b43c56a8c6b1035e7b262ddfcc",
+          "blocks": 2
         },
         {
           "title": "Caucho Camp",
-          "sha256": "3f2e4fd631e960bd37d0fc91da57c5ab8cdbc92a0cf3a9efff182665a07e0b23",
+          "sha256": "5f2f642cae23bbfe7b5c31e4eee4ba12c537c82d28a068f0c110b44123172933",
           "blocks": 41
         },
         {
           "title": "Strange Village",
-          "sha256": "dc610881453bcd55a47b78a71fe2c01e40b6005419a8a932e74712e59c4fe96e",
+          "sha256": "709defb5e13fc9c73262e7c8e1ab29b1c794e66e0c9a7a4d1631d830282f0c01",
           "blocks": 24
         },
         {
           "title": "Visions",
-          "sha256": "e357e16cb07c77ae59b2722a26127ee7328e53a68e329f8fd2c8c49bd0adb799",
+          "sha256": "d563eb943bfe3946edb0e4dd2fb82d9a5dee375047d954bc1b9eabe5c7e684ff",
           "blocks": 71
         },
         {
           "title": "Hunting Camp",
-          "sha256": "e867859c64eed1828b12eb8ff2b8dad7d2f60a0668839c305c05adf8b6507ffa",
+          "sha256": "d823536823f1229987fec4bb74b59f6fc3d41d8fd11360363affa7a69552bdc6",
           "blocks": 80
         },
         {
           "title": "Hunting Stories",
-          "sha256": "9de9bc8118664ada30eac959cfb4c1bfe0bbcc529139325a37955c26daea6ed1",
+          "sha256": "2c948eac1ff8486a19d545b4ec35d010a08bd26c10a9431f1b7e03a1bc63cc9d",
           "blocks": 40
         },
         {
           "title": "Invasion",
-          "sha256": "d6d55f512ad15d41a20a7140e1c7384dbb1caba08494dfcd19640f68b4e81fc1",
+          "sha256": "361e57d4ea88f418337d9365f556e187c39ff3abc7b78bb068f4f582bac2977d",
           "blocks": 28
         },
         {
           "title": "Apprenticeship",
-          "sha256": "9c15dd63caab68dfe6248b07f5f65034ecea0096ebc7c36592beab0efdb9104c",
-          "blocks": 45
+          "sha256": "c60680116a6c7d83cf4b8163f90c502b8a718dfe760270be2ef2306f63b571f9",
+          "blocks": 44
         },
         {
           "title": "Indian Caucho",
-          "sha256": "a3b859eff0b389eb8d689313a8d99f491c6812cfc7ad2b66cb7dbff45783ddf3",
+          "sha256": "98d6a0b0469c3a17656bbdf756d80b96e59916ba421255847f3fa80706774fb4",
           "blocks": 88
         },
         {
           "title": "Legends",
-          "sha256": "f994d96f6698aaafdee1f5eb14d0874e51f9511ff935c489362cb43c26416ae4",
-          "blocks": 74
+          "sha256": "f4ad5f3ef66c615309de033fbf7c004eed88b05afb344460fdd8822a010da163",
+          "blocks": 73
         },
         {
           "title": "Marriage",
-          "sha256": "5c066ce49eed700479cc7b55de5af71ee86a99c4cf4988ef381af3c239069ed6",
+          "sha256": "a2c908a73de18abb23e457afd0203b0e4dc38605d2651984fd9390c517dc0924",
           "blocks": 24
         },
         {
           "title": "Jaguars",
-          "sha256": "ba3fe9842651299eaf78d3e47c1f4361c29f4b6f3a93650bf78b1dad4e434436",
+          "sha256": "2ed2ae55b47dc02c6a53f7b1038d9567534d9fa304ebee1e982d995d3185b3ed",
           "blocks": 24
         },
         {
           "title": "Assassin",
-          "sha256": "ccae3a4aab484324131ad51ad357ab51e4fc6ebaf1ee2e695b0dca6f7ebb0ad4",
-          "blocks": 44
+          "sha256": "ae365daa59b28afb907af2b05dd7d38dbc4ed1e916782a1b50b08ee496d6475c",
+          "blocks": 43
         },
         {
           "title": "Transition",
-          "sha256": "96f29ad039b89e42f36b691455c79a80afb1c67f8826f37baaa02fc70e6cae79",
+          "sha256": "1b73e4f0b7620c27fb8f1f3b6a171d00d7dd48fd5aa5af05f14687c3b4472ac2",
           "blocks": 34
         },
         {
           "title": "Frustration",
-          "sha256": "daeb7e487661bfe468351db07efb8e291583440a10f8210097e2c074f456f3a5",
+          "sha256": "ba7fd19cc55f6a0898aeea5eb40265c8b91075febccf713b24c0643bd81c6f01",
           "blocks": 36
         },
         {
           "title": "Release",
-          "sha256": "cbe81b797c0a2a3b64a8e1cdfc7e7167a323bcb15fd90b1c0424d7cb509c4a9a",
+          "sha256": "6e3457669cd150e86e972c8ca12439bde0fd402eabd170dc3bfcfc6c014ef20b",
           "blocks": 46
         },
         {
           "title": "Return",
-          "sha256": "32d7999b51609a0075c81059c84a559766d62bc1b7f3e24319a882e952029527",
+          "sha256": "05281af84afe0b80d26a29e9556e85c7504a3716f289f6b73d5122884d77ef1b",
           "blocks": 18
         },
         {
           "title": "Appendix: The Relationship of Various Vision-Causing Extracts",
-          "sha256": "bac487fd5048aa129811fe7aa069e93fd98e9ffa77f3c057870810789b1336ab",
+          "sha256": "747bc280fd2dd4dd3f6c45cf63a12158ff238cae7648c2d8f30af503b2b8543e",
           "blocks": 16
         },
         {
           "title": "About the Authors",
-          "sha256": "c737d3b57208653ba6e0d1459984dae39caed9f433bd979bfa91b78195a10902",
+          "sha256": "983874fd4d233d94f19fbbd0a7f7500afaf8f54029f85ca0b0d0d42719297726",
           "blocks": 2
-        },
-        {
-          "title": "Back jacket flap",
-          "sha256": "d4ff2a68ddd5c271808e18839cef1f5ebb25da79d236ca721f89baf3236abd96",
-          "blocks": 1
         }
       ],
-      "noterefs": 0,
+      "noterefs": 3,
       "backlinks": 0,
       "figures": [
-        "back-jacket-flap.jpg",
         "chemical-structures.jpg",
-        "front-jacket-flap.jpg",
+        "south-america-map.jpg",
         "travel-map.jpg"
       ]
     },
@@ -1772,20 +1758,20 @@
       "slug": "otherworlds",
       "editorial": false,
       "artifacts": {
-        "book-model.json": "8d4a0e7346ca70aabd64f9493e1762e8fff7c4e1627df5f76bf56ba882371214",
+        "book-model.json": "adbd75df6d78f50400ad2ffd0d846537f746349c1f1ef38ec07b0906b10af63f",
         "corrected-pages.json": "9873282d62f10635641fce69dbdedd2d482d05927e323b3501dcdb0aece3de6b",
-        "text-coverage.json": "103fd2b38556ec0de9d0c94d462a9996baa4f4ab1a22edd95074fdc5efc1388a",
+        "text-coverage.json": "4a02ce4ad7ad4e298f17d903832a32384211e532aa1bd45eb12083bf1bf81afe",
         "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
-        "otherworlds.txt": "23106080d706a740e0e4d86f8bc0b987cd79fcf7a4487a2093f7d4a2a4ccb7aa",
-        "lexical-repair.json": "3bd9aff8b4dd5c42f4c593b36f3e6e8541a83fa51af410075fa7af6c55e535de"
+        "otherworlds.txt": "51f6acb36d957b5e70bace07d6bbc99e1a10d81c321df61cbc8738b26939b64d",
+        "lexical-repair.json": "864fd9e0bb3bb4830ef613363947300a2a21cc3723f4c8603f8f8f8587f1da0e"
       },
-      "epub_sha256": "7e9afd017e3c19511a952cc6299e628c321c666e64b2e2ec45ccad244e960788",
+      "epub_sha256": "1e0fe4064bcc5f902c99a9f6b96105da7ecd1cea7dacfc72e20628ed36752b2c",
       "epub_members": {
         "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
         "OEBPS/chapter-01.xhtml": "bf832ccad98bbb6247eb13aa7e1f323271c9e3825299705e646d771d378805ab",
         "OEBPS/chapter-02.xhtml": "9e2d08cc9eabf93ba775c85c766601c3972ecba086274d4cb82bf2154acb35fe",
         "OEBPS/chapter-03.xhtml": "1994b273cea8165ff7e637ab422df602385d8953e4f7b5e1481914c7ee18a36e",
-        "OEBPS/chapter-04.xhtml": "cfbd8c08365acf99d29a39b4ce822542fb1c3271f2f14a2b281c319ac9633370",
+        "OEBPS/chapter-04.xhtml": "5beac94cd224fe3ccb560a0bd22929a7441f27b0dc6f13952d0b39373bed028e",
         "OEBPS/chapter-05.xhtml": "0ea7b68120290b6470b98ac85b3d50df67ba15a32413dd5f233a7c85a16bee1a",
         "OEBPS/chapter-06.xhtml": "d66f7b18d9c58bd9985ef1969270923be188a4ead0082f3cd67aae9d19ae8e5c",
         "OEBPS/chapter-07.xhtml": "f5cd3f5f670516fee9dcec31a8a7167ba7499f34faea7ba2e670c2457f4cc432",
@@ -1848,8 +1834,8 @@
         "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
       },
       "coverage": {
-        "excluded": 469,
-        "body": 10527
+        "excluded": 467,
+        "body": 10529
       },
       "chapters": [
         {
@@ -1869,7 +1855,7 @@
         },
         {
           "title": "Preface",
-          "sha256": "5058e8eb8fa02e64587149d3cb0f903545e8a927267bb7cf8a21a42683d2a175",
+          "sha256": "148974d03a0910440e72b03d9671a57af275900ac43d8076f966c41554c5e317",
           "blocks": 33
         },
         {

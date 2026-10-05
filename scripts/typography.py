@@ -419,6 +419,54 @@ def attach_typography(rows, page, number, audit, recover_headings=False):
             )
 
 
+def inset_verse_evidence(rows, body_width):
+    """An introduced, aligned ragged run can be verse without italic fonts."""
+    result = set()
+    long_rows = [
+        r
+        for r in rows
+        if r.get("kind", "text") == "text"
+        and r["bbox"][2] - r["bbox"][0] >= 0.8 * body_width
+    ]
+    if len(long_rows) < 3:
+        return result
+    margin = statistics.median(r["bbox"][0] for r in long_rows)
+    for i, intro in enumerate(rows[:-1]):
+        if not intro["text"].rstrip().endswith(":"):
+            continue
+        run = []
+        for r in rows[i + 1 :]:
+            x0, y0, x1, y1 = r["bbox"]
+            previous = run[-1] if run else intro
+            # A deep inset and short lines distinguish verse from paragraph
+            # indents; a bounded gap keeps unrelated blocks out of the run.
+            if (
+                r.get("kind", "text") != "text"
+                or r.get("column", 0) != intro.get("column", 0)
+                or x0 - margin < 0.06 * body_width
+                or x1 - x0 >= 0.95 * body_width
+                or not -0.005 <= y0 - previous["bbox"][3] <= 0.035
+                or (run and abs(x0 - run[0]["bbox"][0]) > 0.012)
+            ):
+                break
+            run.append(r)
+        # Four lines and measurable raggedness reject isolated labels and
+        # wrapped prose. Hyphenated continuations remain ordinary paragraphs.
+        widths = [r["bbox"][2] - r["bbox"][0] for r in run]
+        if (
+            4 <= len(run) <= 30
+            and max(widths) - min(widths) > 0.05 * body_width
+            and sum(w < 0.7 * body_width for w in widths) >= 0.7 * len(widths)
+            # Wrapped narrow prose still has a repeated full line width.
+            and sum(max(widths) - w < 0.025 * body_width for w in widths)
+            <= 0.5 * len(widths)
+            and not any(re.search(r"[A-Za-z]-$", r["text"]) for r in run)
+            and not any(re.match(r"\s*(?:\d+[.)]|[•▪])\s", r["text"]) for r in run)
+        ):
+            result.update(r["row_id"] for r in run)
+    return result
+
+
 def verse_evidence(rows, body_width):
     """Conservatively preserve line breaks in short, ragged italic runs."""
     result = set()

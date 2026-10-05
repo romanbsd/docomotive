@@ -11,6 +11,7 @@ from lxml import etree
 import pymupdf
 from layout import infer
 from common import ROOT, digest, write_json, apply_edits, cache_path, load_profile
+
 from book_model import (
     JoinPolicy,
     join,
@@ -19,6 +20,7 @@ from book_model import (
     coverage,
     plain_text,
     classify_row,
+    resolve_chapter_body_starts,
 )
 from render_text import block_html, notes_html, chapter_notes_navigation
 from ocr import center, merge_rows, embedded, correct_page
@@ -390,6 +392,13 @@ def build(
 
         for n, rows in pages.items():
             measured(attach_scan_italics)(rows, doc[n - 1], n, book, audit)
+    if not native and book.get("recover_scan_inline_italics", False):
+        from scan_italics import attach_scan_inline_italics
+
+        for n, rows in pages.items():
+            measured(attach_scan_inline_italics)(
+                rows, doc[n - 1], n, book, audit, work=work
+            )
     if not native and book.get("recover_image_only_headings", False):
         from typography import image_only_headings
 
@@ -403,6 +412,7 @@ def build(
         "excluded_rows": [r for g in layout["headers"] for r in g["rows"]]
         + layout["footers"]
     }
+    book["_chapter_body_starts"] = resolve_chapter_body_starts(pages, book, audit)
     # Keep original artwork, not invented illustrations.
     for n, name in book["artwork_pages"]:
         if book.get("scan_raster_only"):

@@ -15,6 +15,7 @@ from typography import (
     attach_typography,
     attach_scan_font_metrics,
     verse_evidence,
+    inset_verse_evidence,
     image_only_headings,
     attach_numeric_superscripts,
 )
@@ -41,6 +42,45 @@ def row(text, i=0, width=0.35, italic=False, x=0.2):
 
 
 class TypographyTests(unittest.TestCase):
+    def test_introduced_ragged_inset_verse_needs_no_font_metadata(self):
+        prose = [
+            row("Ordinary surrounding prose.", i=i, width=0.75, x=0.1) for i in range(3)
+        ]
+        intro = row("A speaker begins:", i=3, width=0.4, x=0.13)
+        chant = [
+            row("some lower case words", i=4 + i, width=w, x=0.24)
+            for i, w in enumerate((0.32, 0.25, 0.45, 0.30, 0.57, 0.23))
+        ]
+        for r in prose + [intro] + chant:
+            r.pop("font_size", None)
+        expected = {r["row_id"] for r in chant}
+        self.assertEqual(inset_verse_evidence(prose + [intro] + chant, 0.8), expected)
+        for change in (
+            "no-introduction",
+            "prose-wrap",
+            "wandering",
+            "hyphen",
+            "column",
+        ):
+            import copy
+
+            values = copy.deepcopy(prose + [intro] + chant)
+            if change == "no-introduction":
+                values[3]["text"] = "An ordinary sentence."
+            if change == "prose-wrap":
+                for r in values[4:]:
+                    r["bbox"][2] = r["bbox"][0] + 0.65
+            if change == "wandering":
+                for i, r in enumerate(values[4:]):
+                    r["bbox"][0] += i * 0.02
+            if change == "hyphen":
+                values[4]["text"] += "-"
+            if change == "column":
+                for r in values[4:]:
+                    r["column"] = 1
+            with self.subTest(change=change):
+                self.assertFalse(inset_verse_evidence(values, 0.8))
+
     def test_numeric_attachment_reuses_text_only_extraction_with_scan_image(self):
         doc = pymupdf.open()
         self.addCleanup(doc.close)
@@ -463,6 +503,30 @@ class TypographyTests(unittest.TestCase):
         result = merge_rows(outside_figures(lines, book, 1, audit))
         self.assertEqual(result[0]["text"], "The complete body line remains")
         self.assertEqual(audit[0]["figure"], "ornament")
+
+    def test_star_quote_requires_two_fresh_complete_line_witnesses(self):
+        primary = [row("*Carefully prepared,” he said, “ready now.")]
+        peers = [row('"Carefully prepared," he said, "ready now.')]
+        audit = []
+        result = correct_page(primary, [], peers, peers, audit, [], 1)
+        self.assertEqual(
+            result[0]["text"], "“Carefully prepared,” he said, “ready now."
+        )
+        self.assertEqual(audit[0]["kind"], "two-fresh-quote-mark")
+        for secondary, tertiary in (
+            ([], peers),
+            (peers, []),
+            (peers, [row('"Differently prepared," he said, "ready now.')]),
+        ):
+            self.assertEqual(
+                correct_page(primary, peers, secondary, tertiary, [], [], 1)[0]["text"],
+                primary[0]["text"],
+            )
+        marker = [row("*A genuine footnote without quotation.")]
+        self.assertEqual(
+            correct_page(marker, [], marker, marker, [], [], 1)[0]["text"],
+            marker[0]["text"],
+        )
 
     def test_garbled_tall_row_is_replaced_by_two_fresh_consensus_lines(self):
         primary = [dict(text="garbled row", bbox=[0.2, 0.2, 0.7, 0.24], confidence=1)]

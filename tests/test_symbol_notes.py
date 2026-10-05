@@ -45,6 +45,19 @@ def model(
 
 
 class SymbolFootnoteTests(unittest.TestCase):
+    def test_word_end_and_comma_symbols_link_on_each_source_page(self):
+        for body in (
+            "First page. A foreign name* follows.",
+            "First page. A foreign name,* follows.",
+            "First page. The extract.* Another sentence.",
+        ):
+            with self.subTest(body=body):
+                value = model(body)
+                report = link_symbol_footnotes(value, {"link_symbol_footnotes": True})
+                self.assertEqual(report["symbol_links"], 1)
+                self.assertEqual(value[0]["blocks"][0]["text"], body)
+                self.assertEqual(value[0]["notes"][0]["backlink"], "#footnoteref-42")
+
     def test_joined_note_marker_does_not_require_ocr_space(self):
         value = model(note="*I have a source footnote.")
         result = link_symbol_footnotes(value, {"link_symbol_footnotes": True})
