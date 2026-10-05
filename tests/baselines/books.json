@@ -6,31 +6,31 @@
       "slug": "the-natural-mind",
       "editorial": false,
       "artifacts": {
-        "book-model.json": "16cf188fbccc42a4335e4ba4af964f66b2665e8f651e2306ddf7059f639ea891",
-        "corrected-pages.json": "b491bee5b1ea24338dca5ef27c464a57af006b36079acf1a38714f3478f9c67f",
-        "text-coverage.json": "ac6a7b23b5258fe5a4bffde4543f4b0d5b73128410393bd4a6d90928171551b0",
-        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
-        "the-natural-mind.txt": "0234203bca766b9a9caf4ede645b92aea46cd3b6e0835108ba24e66baf78e027"
+        "book-model.json": "18e139864733ea3ba1a8d9c073e87cceac781dfe66b4eceb3decaaf2b0207d63",
+        "corrected-pages.json": "af230fd5c31ff7c3022cacb8d8663acb148269561694430b7d363e88a535ea3c",
+        "text-coverage.json": "d46116f35f884ad49ebe819246f49999a6b6686cc142e72813d1ffba9d289801",
+        "apparatus-analysis.json": "18b1688bda471781f5e7c42075ae63f91958f44a9bd6363f6d3a545cdc83b0f3",
+        "the-natural-mind.txt": "4235e253ccb3b7f9176ad433f92d6bda9d66c403a11fe7855c1e8727141a804a"
       },
-      "epub_sha256": "8fac58cd36e90d1e2f69018432c3d11c62146dd9578dd8c9d7c4d78cd2d86847",
+      "epub_sha256": "d66c008aec6a13b7ff5a88d175d8295303124c7de6c397ff4587923216396581",
       "epub_members": {
         "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
         "OEBPS/back-cover.jpg": "36c9c269d3e206541658357de6046cf960079c3eadf1f19566c0e264c579bc2a",
         "OEBPS/back-cover.xhtml": "ce53a2beafa07bcb527dc1a8d1014e59cd5d712a7e9d500b0182c6efc04b920c",
-        "OEBPS/chapter-01.xhtml": "71da6172b0376b79026c07ccf232ddb4f44e82104f43355e7a22b3d8a3254e87",
-        "OEBPS/chapter-02.xhtml": "7cb4a13b680dd41f9aa52ebfbdb3514c93fda6a08cfb58edfb8fffa2c60218bf",
-        "OEBPS/chapter-03.xhtml": "bca0735eb5387c14e495ce17d7b4221cc27061031de20efbce391bb2caa26354",
-        "OEBPS/chapter-04.xhtml": "74a5b8504e6f9ac11e2879830680107a470fb5b5cc7d5321d428e02e5d3e496d",
-        "OEBPS/chapter-05.xhtml": "57da25fbb66561ba64eed0c68bba48af2ba5e3276de574d0da590e71e8665bea",
-        "OEBPS/chapter-06.xhtml": "3b01afcd72dee61b0613caabceefd03b351a657158bdfae23412d1db84cfdc13",
-        "OEBPS/chapter-07.xhtml": "dde83e52f3c41767a412ad7bfdc4e9fb7dcb0a2fb956118bd6464fef02d33e8c",
-        "OEBPS/chapter-08.xhtml": "b207efcb3531b30a8dce36f20f1b938659368f75d4ef41200305991c5cd42471",
-        "OEBPS/chapter-09.xhtml": "911412435b2044e42c9588a2db7aa5e55ce6e5d37ee1bfe932a17ad59affa67b",
-        "OEBPS/chapter-10.xhtml": "8a8b1c3e81e410572908153e560a7a46f8a6d0cdeb03386a5d148325feac2a47",
-        "OEBPS/chapter-11.xhtml": "ea929dc57c6bc01e1942f690a6035c6fa10980d36525f5d9448fe75be7ea9e54",
-        "OEBPS/chapter-12.xhtml": "82c44829c226d3014a485c8faad9384a65cf2063ad6c496f7cf831c08d94c047",
-        "OEBPS/chapter-13.xhtml": "b4b7c6a95dbdaebbaceb7109b492293efda935c92a476c5e5a2084a4319983c5",
-        "OEBPS/chapter-14.xhtml": "94a581e238f4d069c0fa1dcfbb3996cb99a94eeef9820722bbd4d3d89c60f540",
+        "OEBPS/chapter-01.xhtml": "45811bc0bd439486e8a4fee7460e7d2ddeee00b342d0bb4d555c24fbe1880bb7",
+        "OEBPS/chapter-02.xhtml": "0b87cabae1350ce2dfb0e9b57cd8b03cb11b86621dcba31a0198c8ea3afef52e",
+        "OEBPS/chapter-03.xhtml": "3b501e8dbced9a7359ac5ac1f69d5fad22eb9572174e3b1cc5cb835461ba41e4",
+        "OEBPS/chapter-04.xhtml": "0c47dc845817c1b4b4099308efde0998fc05a2867bb85cb7135f037d5f8db36b",
+        "OEBPS/chapter-05.xhtml": "72c722cc9fb7a288278b88adacd48fb91524669ac3991ce0fd51cd79861bb52f",
+        "OEBPS/chapter-06.xhtml": "cea8ea66a92b65f92df8e02108e71a05cad180ef9a5f44df9bf09fc26826de11",
+        "OEBPS/chapter-07.xhtml": "ca5941d8debf6ff40b651707ba60eea27ed5a28152639eb48f9a74e24ca96d46",
+        "OEBPS/chapter-08.xhtml": "c45f7fbcb622788911cbf427df73ef7432c795e8d181480eb03169ce10fd5f59",
+        "OEBPS/chapter-09.xhtml": "a5d018de0774e3e4028506dffa6a36b106ec3eec9f25c35401c214697da24e3a",
+        "OEBPS/chapter-10.xhtml": "821160fdd44a985db85f815518e80c32395070fa1cfcebaf6d76c6539d1036c9",
+        "OEBPS/chapter-11.xhtml": "e6ac0af9f0a610a136a089d7e34ae3f6c8ccb80d8ca7c17a32e2006b20b806b5",
+        "OEBPS/chapter-12.xhtml": "75d3ddf9b1daca78bcbc0955cbe6ee978892599b25e651f0aab29476ef481605",
+        "OEBPS/chapter-13.xhtml": "b07a80d31df79adc90705f3a93ae4fc2a329d88ee23635f2d1810650759f9e6e",
+        "OEBPS/chapter-14.xhtml": "10e84e4c73e2af89c74ac0e700a347476c7a2db2e323193b5eaf0bb54780a5f6",
         "OEBPS/content.opf": "d76f8216107f475fb3a4c80f81ddbf3538debb3d12e29dd24f20027e2cf66ee6",
         "OEBPS/copyright.xhtml": "2337f63e0b8f9c4fe3927e92d548bb7809d759c47b73cb44947e561c1b2062f0",
         "OEBPS/cover.jpg": "8448c2fd8739b2a2460af406516d4e57634b83e015616a217312e333a215c299",
@@ -52,47 +52,47 @@
       "chapters": [
         {
           "title": "1. What This Book Is About",
-          "sha256": "025bcb294d88fab3670a658d312b998918fc02479bf815bd39e049250d430c87",
+          "sha256": "aecbf6bf1449270d2a2956cce0ea975a37118e697b710db9df7b3e1ca8c7b4f2",
           "blocks": 34
         },
         {
           "title": "2. Why People Take Drugs",
-          "sha256": "f821c32aa5e31c6d7eeaaf3f4ec16054d73ab9b5b7666737ef904ce98da6e165",
+          "sha256": "5bd0616648b322ba59af8766df607d4f22c8390653bef459724e01aee1727d37",
           "blocks": 44
         },
         {
           "title": "3. Is Anything Wrong with It?",
-          "sha256": "0f1a3d1280f046443dee07542138cf84c56706e4717c69b25346936f9d763467",
+          "sha256": "44e8eef52ba1ed6a85cb45280a1e830f5f8f85433d54e7fd9a2796680fb13129",
           "blocks": 64
         },
         {
           "title": "4. What No One Wants to Know about Marihuana",
-          "sha256": "22a2ef944eebba622406b06769116b28ac1a91a7e3c9c113ae664faaf81c1911",
+          "sha256": "626689dcd70dd1f2b7f6b60b06b4eeb154b18376caaef5abe2540c6b0791dbf9",
           "blocks": 53
         },
         {
           "title": "5. Clues from the Amazon",
-          "sha256": "fd9e0a1aa435a77556be931a32ffb1e5000629db330a3af05d4ae95ed7906155",
+          "sha256": "80a2ce6a70d237d4b1c5ada043a015c66ae21dfb8d494277fc9986d038c4d51a",
           "blocks": 47
         },
         {
           "title": "6. The Topography of Straightland",
-          "sha256": "c1b0c3590c2c4c3de60db2edeba60e43fec6ac2350275fc5c188fe0f08cf708f",
+          "sha256": "35732f46be44acdd9bf1d327830b2180ea439f6a67efc7346d2f5ea17af6fb77",
           "blocks": 85
         },
         {
           "title": "7. A Trip to Stonesville",
-          "sha256": "3067de05055297215c041acaeb426b948875a78c7eb9353966d7f69e8ccd6d8c",
+          "sha256": "3192a5125441b1bcafb71bbdb9e593e22d860dff10eabdae17b9df03ec0d8e70",
           "blocks": 118
         },
         {
           "title": "8. The Only Solution to the Drug Problem",
-          "sha256": "50dbaaefa9144e2883417a79fc539b853ec884e751f6912e6e9cc258925e3af7",
+          "sha256": "f6bf111015e997c1548649b93b29fcb342e7209c331e325eb83fc2acc4ab36f4",
           "blocks": 33
         },
         {
           "title": "9. Where to Go from Here",
-          "sha256": "8c687ef2dfe1194cb031b752e8472f39db914742af2e4ff7526254d561df55e2",
+          "sha256": "a3b332aadc67a69354c7922a2b0cb28a3f198ed60c588431940447c10a93d6e7",
           "blocks": 13
         },
         {
@@ -107,7 +107,7 @@
         },
         {
           "title": "Works Cited",
-          "sha256": "31cafe140dfd617bee7fe70db469347fead52554d2326a8216d4db07955ab75d",
+          "sha256": "62d23e600b67dafae2cf992edc3cbe3fb45d95abbcc9712cc84912103afb6ca4",
           "blocks": 54
         },
         {
@@ -121,8 +121,8 @@
           "blocks": 352
         }
       ],
-      "noterefs": 0,
-      "backlinks": 0,
+      "noterefs": 63,
+      "backlinks": 45,
       "figures": []
     },
     "natural-reading": {
@@ -130,31 +130,31 @@
       "slug": "the-natural-mind",
       "editorial": true,
       "artifacts": {
-        "book-model.json": "2335cb15748a055b6117e957a5d4a2c39a1e348f10362ddb612eafcda913ee6b",
-        "corrected-pages.json": "b491bee5b1ea24338dca5ef27c464a57af006b36079acf1a38714f3478f9c67f",
-        "text-coverage.json": "ac6a7b23b5258fe5a4bffde4543f4b0d5b73128410393bd4a6d90928171551b0",
-        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
-        "the-natural-mind.txt": "d10907386b2ce908e9045cc90aad840ec27eae8f8f2f178564d1481d086b6c4a"
+        "book-model.json": "b20b13d72d902ee572e7559e95c343f7c8f582e9ab9887dcbf7ee1e21dbdf0e5",
+        "corrected-pages.json": "af230fd5c31ff7c3022cacb8d8663acb148269561694430b7d363e88a535ea3c",
+        "text-coverage.json": "d46116f35f884ad49ebe819246f49999a6b6686cc142e72813d1ffba9d289801",
+        "apparatus-analysis.json": "18b1688bda471781f5e7c42075ae63f91958f44a9bd6363f6d3a545cdc83b0f3",
+        "the-natural-mind.txt": "39370f82d1974c758a14843d082e3a2b60b2ff8ba96c36cdb7469123d922dbe0"
       },
-      "epub_sha256": "2334e704c44abe4427cae0afcd466f5ef0651036c17b00d849e0fde59d8b4345",
+      "epub_sha256": "c3a22ac3d1e50c3077a6c6bc5e108dd16f7e3f3eebd7294d7eb34db6d6a54e9d",
       "epub_members": {
         "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
         "OEBPS/back-cover.jpg": "36c9c269d3e206541658357de6046cf960079c3eadf1f19566c0e264c579bc2a",
         "OEBPS/back-cover.xhtml": "ce53a2beafa07bcb527dc1a8d1014e59cd5d712a7e9d500b0182c6efc04b920c",
-        "OEBPS/chapter-01.xhtml": "71da6172b0376b79026c07ccf232ddb4f44e82104f43355e7a22b3d8a3254e87",
-        "OEBPS/chapter-02.xhtml": "c59b059180d2570873a551d5de927243c5d528a339365e048c1799ecc0e0eea8",
-        "OEBPS/chapter-03.xhtml": "67ed27a7222a781c65131f80d5fac8673c8be901cfc16c8c528cdbb521db4f4d",
-        "OEBPS/chapter-04.xhtml": "74a5b8504e6f9ac11e2879830680107a470fb5b5cc7d5321d428e02e5d3e496d",
-        "OEBPS/chapter-05.xhtml": "57da25fbb66561ba64eed0c68bba48af2ba5e3276de574d0da590e71e8665bea",
-        "OEBPS/chapter-06.xhtml": "3b01afcd72dee61b0613caabceefd03b351a657158bdfae23412d1db84cfdc13",
-        "OEBPS/chapter-07.xhtml": "f13c4d4f75f47a88e7ecee4a9ef659e9293666ab617afe4f3ec45e991173db89",
-        "OEBPS/chapter-08.xhtml": "b207efcb3531b30a8dce36f20f1b938659368f75d4ef41200305991c5cd42471",
-        "OEBPS/chapter-09.xhtml": "0317b0325bc004dea1f82f2bafa1177e2707896a990e6d56cc14ae704d63ef5f",
-        "OEBPS/chapter-10.xhtml": "8a8b1c3e81e410572908153e560a7a46f8a6d0cdeb03386a5d148325feac2a47",
-        "OEBPS/chapter-11.xhtml": "ea929dc57c6bc01e1942f690a6035c6fa10980d36525f5d9448fe75be7ea9e54",
-        "OEBPS/chapter-12.xhtml": "82c44829c226d3014a485c8faad9384a65cf2063ad6c496f7cf831c08d94c047",
-        "OEBPS/chapter-13.xhtml": "b4b7c6a95dbdaebbaceb7109b492293efda935c92a476c5e5a2084a4319983c5",
-        "OEBPS/chapter-14.xhtml": "94a581e238f4d069c0fa1dcfbb3996cb99a94eeef9820722bbd4d3d89c60f540",
+        "OEBPS/chapter-01.xhtml": "45811bc0bd439486e8a4fee7460e7d2ddeee00b342d0bb4d555c24fbe1880bb7",
+        "OEBPS/chapter-02.xhtml": "357323f10d5092f0e9c727dc9ac2b918dd60e5e519f2cca1f5c38a943995a07f",
+        "OEBPS/chapter-03.xhtml": "8de01f255dfdd9336fa479032648290e76b8dc022d7ef114810a662c5782b9a0",
+        "OEBPS/chapter-04.xhtml": "0c47dc845817c1b4b4099308efde0998fc05a2867bb85cb7135f037d5f8db36b",
+        "OEBPS/chapter-05.xhtml": "72c722cc9fb7a288278b88adacd48fb91524669ac3991ce0fd51cd79861bb52f",
+        "OEBPS/chapter-06.xhtml": "cea8ea66a92b65f92df8e02108e71a05cad180ef9a5f44df9bf09fc26826de11",
+        "OEBPS/chapter-07.xhtml": "776ee359e749110de9fc2bd61d7c6c612790922b0ba4a9c11d1a0376ea8545bf",
+        "OEBPS/chapter-08.xhtml": "c45f7fbcb622788911cbf427df73ef7432c795e8d181480eb03169ce10fd5f59",
+        "OEBPS/chapter-09.xhtml": "e6d8eb753743bb0c7336923e5541f5a29622439cec7b6a4832c27530f7fd9d7e",
+        "OEBPS/chapter-10.xhtml": "821160fdd44a985db85f815518e80c32395070fa1cfcebaf6d76c6539d1036c9",
+        "OEBPS/chapter-11.xhtml": "e6ac0af9f0a610a136a089d7e34ae3f6c8ccb80d8ca7c17a32e2006b20b806b5",
+        "OEBPS/chapter-12.xhtml": "75d3ddf9b1daca78bcbc0955cbe6ee978892599b25e651f0aab29476ef481605",
+        "OEBPS/chapter-13.xhtml": "b07a80d31df79adc90705f3a93ae4fc2a329d88ee23635f2d1810650759f9e6e",
+        "OEBPS/chapter-14.xhtml": "10e84e4c73e2af89c74ac0e700a347476c7a2db2e323193b5eaf0bb54780a5f6",
         "OEBPS/content.opf": "d76f8216107f475fb3a4c80f81ddbf3538debb3d12e29dd24f20027e2cf66ee6",
         "OEBPS/copyright.xhtml": "2337f63e0b8f9c4fe3927e92d548bb7809d759c47b73cb44947e561c1b2062f0",
         "OEBPS/cover.jpg": "8448c2fd8739b2a2460af406516d4e57634b83e015616a217312e333a215c299",
@@ -176,47 +176,47 @@
       "chapters": [
         {
           "title": "1. What This Book Is About",
-          "sha256": "025bcb294d88fab3670a658d312b998918fc02479bf815bd39e049250d430c87",
+          "sha256": "aecbf6bf1449270d2a2956cce0ea975a37118e697b710db9df7b3e1ca8c7b4f2",
           "blocks": 34
         },
         {
           "title": "2. Why People Take Drugs",
-          "sha256": "07fa31b15a7c737c3fcea6d07d8741a415ebc9b1bba1706d3d1d92fc6d1301d7",
+          "sha256": "b5f6b71edfb807b19aa7c6c8c703b0030dfe5708b1d4b9919f644efd6e339aab",
           "blocks": 44
         },
         {
           "title": "3. Is Anything Wrong with It?",
-          "sha256": "3991249e933fcd65dc6c4090b6993426936bde1b87f2b66b344c25047a7541cd",
+          "sha256": "96d30cead3074f84e1aa6483566789c4c990ea791514dc4cf73dd8c31c4706ac",
           "blocks": 64
         },
         {
           "title": "4. What No One Wants to Know about Marihuana",
-          "sha256": "22a2ef944eebba622406b06769116b28ac1a91a7e3c9c113ae664faaf81c1911",
+          "sha256": "626689dcd70dd1f2b7f6b60b06b4eeb154b18376caaef5abe2540c6b0791dbf9",
           "blocks": 53
         },
         {
           "title": "5. Clues from the Amazon",
-          "sha256": "fd9e0a1aa435a77556be931a32ffb1e5000629db330a3af05d4ae95ed7906155",
+          "sha256": "80a2ce6a70d237d4b1c5ada043a015c66ae21dfb8d494277fc9986d038c4d51a",
           "blocks": 47
         },
         {
           "title": "6. The Topography of Straightland",
-          "sha256": "c1b0c3590c2c4c3de60db2edeba60e43fec6ac2350275fc5c188fe0f08cf708f",
+          "sha256": "35732f46be44acdd9bf1d327830b2180ea439f6a67efc7346d2f5ea17af6fb77",
           "blocks": 85
         },
         {
           "title": "7. A Trip to Stonesville",
-          "sha256": "2f309659458154f484cab40f6a46dc946707c286c7409be8233c1f07d22a10e3",
+          "sha256": "dd608f87c07e4e916be93c39a64482bb2b0997a36f2ad2b0b471b03795b66d5f",
           "blocks": 118
         },
         {
           "title": "8. The Only Solution to the Drug Problem",
-          "sha256": "50dbaaefa9144e2883417a79fc539b853ec884e751f6912e6e9cc258925e3af7",
+          "sha256": "f6bf111015e997c1548649b93b29fcb342e7209c331e325eb83fc2acc4ab36f4",
           "blocks": 33
         },
         {
           "title": "9. Where to Go from Here",
-          "sha256": "ce14ec36e9b8adbdfa3abde6732f79c24dcc21b3f6880fda8af3d1d7965d275f",
+          "sha256": "3b605f3607953badeba3957e85b54d81b83ec5f12ac6f33cf83aed26c122b0db",
           "blocks": 13
         },
         {
@@ -231,7 +231,7 @@
         },
         {
           "title": "Works Cited",
-          "sha256": "31cafe140dfd617bee7fe70db469347fead52554d2326a8216d4db07955ab75d",
+          "sha256": "62d23e600b67dafae2cf992edc3cbe3fb45d95abbcc9712cc84912103afb6ca4",
           "blocks": 54
         },
         {
@@ -245,8 +245,8 @@
           "blocks": 352
         }
       ],
-      "noterefs": 0,
-      "backlinks": 0,
+      "noterefs": 63,
+      "backlinks": 45,
       "figures": []
     },
     "shamanic": {

@@ -1,14 +1,14 @@
 [
   {
     "name": "natural",
-    "pdf": "The natural mind_ a new way of looking at drugs and the higher consciousness{Weil, Andrew}(2012){107143047} libgen.li.pdf",
+    "pdf": "input/The natural mind_ a new way of looking at drugs and the higher consciousness{Weil, Andrew}(2012){107143047} libgen.li.pdf",
     "profile": "config/book.json",
     "work": "work",
     "editorial": false
   },
   {
     "name": "natural-reading",
-    "pdf": "The natural mind_ a new way of looking at drugs and the higher consciousness{Weil, Andrew}(2012){107143047} libgen.li.pdf",
+    "pdf": "input/The natural mind_ a new way of looking at drugs and the higher consciousness{Weil, Andrew}(2012){107143047} libgen.li.pdf",
     "profile": "config/book.json",
     "work": "work",
     "editorial": true
@@ -22,21 +22,21 @@
   },
   {
     "name": "letter",
-    "pdf": "For_the_Letter_Kills_but_the_Spirit_Giv.pdf",
+    "pdf": "input/For_the_Letter_Kills_but_the_Spirit_Giv.pdf",
     "profile": "config/letter-kills/book.json",
     "work": "work/letter-kills",
     "editorial": false
   },
   {
     "name": "organism",
-    "pdf": "A feeling for the Organism.pdf",
+    "pdf": "input/A feeling for the Organism.pdf",
     "profile": "config/feeling-organism/book.json",
     "work": "work/feeling-organism",
     "editorial": false
   },
   {
     "name": "organism-reading",
-    "pdf": "A feeling for the Organism.pdf",
+    "pdf": "input/A feeling for the Organism.pdf",
     "profile": "config/feeling-organism/book.json",
     "work": "work/feeling-organism",
     "editorial": true

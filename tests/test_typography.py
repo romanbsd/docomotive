@@ -5,7 +5,7 @@ import unittest
 import json
 import io
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 import pymupdf
 from lxml import etree
@@ -16,6 +16,7 @@ from typography import (
     attach_scan_font_metrics,
     verse_evidence,
     image_only_headings,
+    attach_numeric_superscripts,
 )
 from native_pdf import extract_page
 from ocr import merge_rows, correct_page
@@ -40,6 +41,91 @@ def row(text, i=0, width=0.35, italic=False, x=0.2):
 
 
 class TypographyTests(unittest.TestCase):
+    def test_ambiguous_superscript_needs_crop_corroboration_before_replacement(self):
+        doc = pymupdf.open()
+        self.addCleanup(doc.close)
+        page = doc.new_page(width=400, height=300)
+        text = "A source quotation."
+        page.insert_text((30, 100), text, fontsize=12)
+        x = 30 + pymupdf.get_text_length(text, fontsize=12)
+        page.insert_text((x, 95), "6", fontsize=7)
+        page.insert_text((x + 5, 100), " Another sentence follows.", fontsize=12)
+        source = extract_page(page, {}, 1, [])[0]
+        value = source["text"].replace("6", "*®")
+        for readings, accepted in [
+            (["6", "6", "6"], True),
+            (["6", "8", "6"], False),
+            (["6", "*", "*"], False),
+        ]:
+            item = dict(text=value, bbox=source["bbox"], column=0, page=1)
+            with patch(
+                "typography.numeric_glyph_readings",
+                return_value={"readings": readings, "evidence_sha256": "fixture"},
+            ):
+                attach_numeric_superscripts([item], page, 1, [])
+            if accepted:
+                self.assertNotIn("*", item["text"])
+                self.assertEqual(item["text"][item["inline"][0]["start"]], "6")
+            else:
+                self.assertEqual(item["text"], value)
+                self.assertNotIn("inline", item)
+
+    def test_numeric_superscript_geometry_transfers_only_complete_matching_digits(self):
+        doc = pymupdf.open()
+        self.addCleanup(doc.close)
+        page = doc.new_page(width=300, height=300)
+        text = "A source quotation."
+        page.insert_text((30, 100), text, fontsize=12)
+        x = 30 + pymupdf.get_text_length(text, fontsize=12)
+        page.insert_text((x, 95), "3", fontsize=7)
+        source = extract_page(page, {}, 1, [])[0]
+        rows = [dict(text=text + "3", bbox=source["bbox"], column=0)]
+        audit = []
+        attach_numeric_superscripts(rows, page, 1, audit)
+        self.assertEqual(rows[0]["inline"], [dict(start=19, end=20, tags=["sup"])])
+        self.assertEqual(len(audit), 1)
+        block = dict(
+            kind="text", text=rows[0]["text"], page_breaks=[], inline=rows[0]["inline"]
+        )
+        self.assertIn(
+            "quotation.<sup>3</sup>", block_html(block, {}, set(), [], "test")
+        )
+        # Matching a single digit of a year or a changed OCR reading is unsafe.
+        for value in [text + "30", text + "8"]:
+            candidate = dict(text=value, bbox=source["bbox"], column=0)
+            attach_numeric_superscripts([candidate], page, 1, [])
+            self.assertNotIn("inline", candidate)
+
+    def test_numeric_superscript_rejects_spurious_flags_and_small_baseline_digits(self):
+        doc = pymupdf.open()
+        self.addCleanup(doc.close)
+        page = doc.new_page(width=300, height=300)
+        text = "A source quotation."
+        page.insert_text((30, 100), text, fontsize=12)
+        x = 30 + pymupdf.get_text_length(text, fontsize=12)
+        page.insert_text((x, 100), "3", fontsize=7)
+        source = extract_page(page, {}, 1, [])[0]
+        # Simulate an OCR layer falsely flagging its small digit as raised.
+        source["inline"] = [dict(start=19, end=20, tags=["sup"])]
+        rows = [dict(text=text + "3", bbox=source["bbox"], column=0)]
+        data = page.get_text("dict")
+        for block in data["blocks"]:
+            for line in block.get("lines", []):
+                for span in line["spans"]:
+                    if span["text"] == "3":
+                        span["flags"] |= 1
+        proxy = Mock(rect=page.rect)
+        proxy.get_text.return_value = data
+        with patch("typography.extract_page", return_value=[source]):
+            attach_numeric_superscripts(rows, proxy, 1, [])
+        self.assertNotIn("inline", rows[0])
+
+        # A raised ordinary word must never inherit a citation style.
+        source["inline"] = [dict(start=2, end=8, tags=["sup"])]
+        with patch("typography.extract_page", return_value=[source]):
+            attach_numeric_superscripts(rows, page, 1, [])
+        self.assertNotIn("inline", rows[0])
+
     def test_sparse_image_epigraph_requires_credit_alignment_and_quote(self):
         rows = [
             row('A quotation ends here."', 0, width=0.7, x=0.1),

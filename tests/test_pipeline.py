@@ -422,6 +422,9 @@ class CorpusRenderingTests(unittest.TestCase):
                     )
                     for br in node.findall(".//br"):
                         br.tail = " " + (br.tail or "")
+                    # Backlink labels are renderer navigation, not source text.
+                    for backlinks in node.findall(".//p[@class='note-backlinks']"):
+                        backlinks.getparent().remove(backlinks)
                     self.assertEqual(
                         normalized("".join(node.itertext())), normalized(block["text"])
                     )
@@ -910,6 +913,74 @@ class NativePDFTests(unittest.TestCase):
         model[0]["blocks"][0]["text"] = "a1 b3"
         with self.assertRaises(ValueError):
             link_endnotes(model, book)
+
+    def test_chapter_grouped_bibliography_links_repeated_numbers_and_fallbacks(self):
+        from apparatus import link_endnotes
+        from render_text import block_html
+
+        def body(text):
+            return dict(
+                kind="text",
+                text=text,
+                inline=[dict(start=len(text) - 1, end=len(text), tags=["sup"])],
+                page_breaks=[],
+            )
+
+        def reference(number):
+            return dict(
+                kind="text",
+                text=f"{number}. Bibliographic entry.",
+                sources=[dict(page=80, bbox=[0.1, 0.3, 0.8, 0.4])],
+                page_breaks=[],
+            )
+
+        model = [
+            dict(chapter=1, blocks=[body("First claim.1"), body("Repeated claim.1")]),
+            dict(chapter=2, blocks=[body("Different chapter.1")]),
+            dict(
+                chapter=3,
+                blocks=[
+                    dict(kind="heading", text="CHAPTER 1"),
+                    reference(1),
+                    reference(2),
+                    dict(kind="heading", text="CHAPTER 2"),
+                    reference(1),
+                ],
+            ),
+        ]
+        book = dict(
+            endnote_chapter=3,
+            endnote_reference_mode="chapter",
+            endnote_sections=[
+                dict(heading="CHAPTER 1", source_chapter=1, expected_notes=2),
+                dict(heading="CHAPTER 2", source_chapter=2, expected_notes=1),
+            ],
+        )
+        result = link_endnotes(model, book)
+        self.assertEqual(result["superscript_links"], 3)
+        self.assertEqual(result["chapter_links"], 1)
+        self.assertEqual(result["unlinked_endnotes"], [])
+        first, repeated = model[0]["blocks"]
+        second = model[1]["blocks"][0]
+        self.assertEqual(first["inline"][0]["href"], "chapter-03.xhtml#endnote-1-1")
+        self.assertEqual(second["inline"][0]["href"], "chapter-03.xhtml#endnote-2-1")
+        self.assertNotEqual(
+            first["inline"][0]["anchor"], repeated["inline"][0]["anchor"]
+        )
+        self.assertEqual(
+            model[2]["blocks"][1]["backlinks"],
+            ["chapter-01.xhtml#noteref-1-1-1", "chapter-01.xhtml#noteref-1-1-2"],
+        )
+        # An unrecovered body marker gets chapter navigation, never an invented digit.
+        self.assertEqual(
+            model[2]["blocks"][2]["backlinks"], ["chapter-01.xhtml#chapter-start"]
+        )
+        rendered = block_html(first, {}, set(), [], "chapter-01.xhtml")
+        self.assertIn('href="chapter-03.xhtml#endnote-1-1"><sup>1</sup></a>', rendered)
+        self.assertIn('epub:type="noteref"', rendered)
+        target = block_html(model[2]["blocks"][1], {}, set(), [], "chapter-03.xhtml")
+        self.assertIn('id="endnote-1-1"', target)
+        self.assertIn('href="chapter-01.xhtml#noteref-1-1-1"', target)
 
     def test_endnote_terms_contribute_to_the_source_chapter_statistics(self):
         from vocabulary import analyze

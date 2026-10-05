@@ -26,6 +26,7 @@ from scanned_notes import (
     absorb_marker_fragments,
     recover_reference_markers,
     RapidMarkerRecognizer,
+    note_prefix_replacement,
 )
 
 
@@ -44,6 +45,27 @@ def characters(text):
 
 
 class ScannedNotesTests(unittest.TestCase):
+    def test_duplicate_note_prefix_requires_two_aligned_literal_witnesses(self):
+        def item(text, y=0.7):
+            return dict(text=text, bbox=[0.1, y, 0.9, y + 0.02])
+
+        row = item("°*In a source footnote the author explains the observation.")
+        source = item("* In a source footnote the author explains the observation.")
+        self.assertIsNone(note_prefix_replacement(row, {"embedded": [source]}))
+        result = note_prefix_replacement(row, {"embedded": [source], "rapid": [source]})
+        self.assertEqual((result["before"], result["after"]), ("°*", "*"))
+        self.assertIsNone(
+            note_prefix_replacement(
+                row, {"embedded": [source], "rapid": [item(source["text"], 0.8)]}
+            )
+        )
+        self.assertIsNone(
+            note_prefix_replacement(
+                item("** A real double marker."),
+                {"embedded": [source], "rapid": [source]},
+            )
+        )
+
     def test_recognition_only_fallback_keeps_observed_digits(self):
         image = Image.new("L", (100, 60), 255)
         with patch("scanned_notes.tesseract", return_value=b"||") as local:

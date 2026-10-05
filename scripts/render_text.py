@@ -203,6 +203,8 @@ def notes_html(notes, book):
             + block_html(
                 {**note, "kind": "text", "page_breaks": []}, book, set(), [], ""
             )
-            + f'<p><a href="#page-{root}" role="doc-backlink">Return to text</a></p></aside>'
+            + '<p><a href="'
+            + html.escape(note.get("backlink", f"#page-{root}"), quote=True)
+            + '" role="doc-backlink">Return to text</a></p></aside>'
         )
     return "".join(body) + "</section>"

@@ -25,6 +25,64 @@ from common import ROOT, digest, write_json, file_digest
 from ocr_cache import traineddata_digest
 
 
+def note_prefix_replacement(row, witnesses):
+    """Collapse a duplicated OCR marker only with two aligned literal witnesses."""
+    marker = re.match(r"^[°º]([*†‡])(?=\s|[^\W\d_])", row["text"])
+    if not marker:
+        return None
+    tail = row["text"][marker.end() :].strip()
+    agreeing = []
+    for engine, rows in witnesses.items():
+        matches = []
+        for source in rows:
+            candidate = re.match(r"^\s*([*†‡])\s*(.+)$", source["text"])
+            if (
+                candidate
+                and candidate[1] == marker[1]
+                and abs(source["bbox"][1] - row["bbox"][1]) <= 0.008
+                and difflib.SequenceMatcher(None, tail, candidate[2]).ratio() >= 0.95
+            ):
+                matches.append(source["text"])
+        if len(matches) == 1:
+            agreeing.append(dict(engine=engine, text=matches[0]))
+    return (
+        dict(before=marker[0], after=marker[1], witnesses=agreeing)
+        if len(agreeing) >= 2
+        else None
+    )
+
+
+def repair_note_marker_prefixes(pages, doc, book, work, audit):
+    """Only first rows in configured footnote regions can supply marker prefixes."""
+    from common import cache_path, apply_edits
+    from ocr import embedded, merge_rows
+
+    for label, cutoff in book.get("note_starts", {}).items():
+        if label in book.get("note_continuations", {}):
+            continue
+        number = int(label)
+        rows = [r for r in pages[number] if r["bbox"][1] >= cutoff]
+        if not rows:
+            continue
+        first = min(rows, key=lambda r: r["bbox"][1])
+        if not re.match(r"^[°º][*†‡]", first["text"]):
+            continue
+        witnesses = {"embedded": merge_rows(embedded(doc[number - 1], raw=True))}
+        for engine in ("vision", "rapid"):
+            data = json.loads(
+                (cache_path(work, engine) / f"{number:04}.json").read_text()
+            )
+            witnesses[engine] = merge_rows(data["lines"])
+        repair = note_prefix_replacement(first, witnesses)
+        if repair and first["text"].count(repair["before"]) == 1:
+            apply_edits(
+                [first],
+                [dict(page=number, bbox=first["bbox"], **repair)],
+                audit,
+                "corroborated-note-marker-prefix",
+            )
+
+
 def components(image):
     array = np.asarray(image.convert("L"))
     labels, _ = label(array < 150)  # dark ink against white or beige paper
@@ -679,8 +737,12 @@ def select_sequence(candidates, maximum):
         return
     # Relative evidence scores, not probabilities: agreement doubles the weak
     # score; the +2 sequence bonus stays smaller than even one crop reading.
+    from marker_evidence import MarkerEvidence
+
+    # The research pass consumes this same evidence representation; this
+    # adapter preserves the initial selector's existing scores and decisions.
     weights = [
-        (6 if o["votes"] >= 2 else 3) - o.get("confusion_cost", 0) for _, o in nodes
+        MarkerEvidence.from_candidate(candidates[i], o, i).weight for i, o in nodes
     ]
 
     def edge(a, b):

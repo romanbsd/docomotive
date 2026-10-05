@@ -5,8 +5,8 @@ import re
 
 BOOL_KEYS = set(
     """chapter_heading continuous_indented_rows native_small_numeric_sup native_heading_merge native_index_indents native_list_layout native_relative_font_sizes
-    infer_verse recover_hanging_margins recover_ocr_regions recover_ocr_glyph_confusions recover_pdf_heading_styles recover_pdf_typography recover_scan_font_metrics
-    recover_scanned_endnotes recover_reference_markers recover_variable_superscripts recover_image_only_headings repair_lexical_confusions repair_word_wraps scan_raster_only section_navigation source_prose_indents source_relative_figures""".split()
+    infer_verse link_symbol_footnotes recover_hanging_margins recover_ocr_regions recover_ocr_glyph_confusions recover_pdf_heading_styles recover_pdf_typography recover_pdf_numeric_superscripts recover_scan_font_metrics
+    research_missing_endnotes recover_scanned_endnotes recover_reference_markers recover_variable_superscripts recover_image_only_headings repair_lexical_confusions repair_word_wraps scan_raster_only section_navigation source_prose_indents source_relative_figures""".split()
 )
 NUMBER_KEYS = set("""native_body_size native_superscript_max_size endnote_marker_min
     endnote_marker_limit upper_margin_cutoff uppercase_margin_cutoff
@@ -153,6 +153,8 @@ def validate_profile(book, path="profile", page_count=None):
             fail("endnote_sections.heading", "expected a nonempty string")
     if book.get("endnote_sections") and "endnote_chapter" not in book:
         fail("endnote_chapter", "required when endnote_sections is provided")
+    if book.get("research_missing_endnotes") and not book.get("endnote_sections"):
+        fail("research_missing_endnotes", "requires configured endnote_sections")
     for rule in book.get("row_heading_rules", []):
         if not isinstance(rule, dict) or not isinstance(rule.get("pages"), list):
             fail("row_heading_rules", "expected objects with pages")

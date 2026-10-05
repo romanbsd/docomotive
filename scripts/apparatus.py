@@ -3,6 +3,87 @@
 import re
 
 
+def link_symbol_footnotes(model, book):
+    """Link unique printed symbols within their original page, preserving text."""
+    if not book.get("link_symbol_footnotes", False):
+        return {"mode": "not-configured"}
+    symbol_pattern = re.compile(r"(?<![*†‡])([*†‡]{1,3})(?![*†‡])")
+    linked = []
+    unresolved = []
+    for chapter in model:
+        for note in chapter["notes"]:
+            # OCR often joins the marker to the opening word: '*I have...'.
+            marker = re.match(r"^\s*([*†‡]{1,3})(?![*†‡])(?=\s|[^\W\d_])", note["text"])
+            if not marker:
+                unresolved.append(
+                    dict(page=note["root_page"], reason="unrecognized-note-prefix")
+                )
+                continue
+            root = note["root_page"]
+            symbol = marker[1]
+            # Page-group notes can contain several entries. Without separate
+            # canonical targets, one symbol must not link to the wrong entry.
+            if len(list(symbol_pattern.finditer(note["text"]))) != 1:
+                unresolved.append(dict(page=root, reason="multiple-note-symbols"))
+                continue
+            candidates = []
+            for block in chapter["blocks"]:
+                if block["kind"] not in ("text", "quote", "verse"):
+                    continue
+                for match in symbol_pattern.finditer(block["text"]):
+                    if match[1] != symbol:
+                        continue
+                    if match.start() == 0 or (
+                        block["text"][match.start() - 1].isdigit()
+                        and match.end() < len(block["text"])
+                        and block["text"][match.end()].isdigit()
+                    ):
+                        continue  # A leading bullet or multiplication is not a citation.
+                    # Source offsets disambiguate a paragraph crossing pages.
+                    if any(
+                        s["page"] == root
+                        and s["start"] <= match.start()
+                        and match.end() <= s["end"]
+                        for s in block["sources"]
+                    ):
+                        candidates.append((block, match))
+            if len(candidates) != 1:
+                unresolved.append(
+                    dict(
+                        page=root,
+                        reason="nonunique-body-symbol",
+                        candidates=len(candidates),
+                    )
+                )
+                continue
+            block, match = candidates[0]
+            if any(
+                s.get("href") and s["start"] < match.end() and s["end"] > match.start()
+                for s in block.get("inline", [])
+            ):
+                unresolved.append(dict(page=root, reason="existing-link"))
+                continue
+            anchor = f"footnoteref-{root}"
+            block.setdefault("inline", []).append(
+                dict(
+                    start=match.start(),
+                    end=match.end(),
+                    tags=["sup"],
+                    href="#" + note["id"],
+                    anchor=anchor,
+                    noteref=True,
+                )
+            )
+            note["backlink"] = "#" + anchor
+            # Suppress page-group fallbacks throughout the chapter, including
+            # continuation leaves. The exact printed symbol now provides access.
+            chapter.setdefault("linked_note_roots", []).append(root)
+            linked.append(
+                dict(page=root, symbol=symbol, anchor=anchor, target=note["id"])
+            )
+    return dict(symbol_links=len(linked), linked=linked, unresolved=unresolved)
+
+
 def link_endnotes(model, book):
     if not book.get("endnote_sections"):
         return {"mode": "not-configured"}

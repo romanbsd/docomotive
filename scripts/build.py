@@ -325,7 +325,15 @@ def build(
         audit,
         "scan-verified-manual",
     )
+    if not native and book.get("link_symbol_footnotes", False):
+        from scanned_notes import repair_note_marker_prefixes
+
+        repair_note_marker_prefixes(pages, doc, book, work, audit)
     for n, rows in pages.items():
+        if not native and book.get("recover_pdf_numeric_superscripts", False):
+            from typography import attach_numeric_superscripts
+
+            attach_numeric_superscripts(rows, doc[n - 1], n, audit, work=work)
         if not native and book.get("recover_pdf_typography", False):
             from typography import attach_typography
 
@@ -344,6 +352,16 @@ def build(
         from scanned_notes import recover_reference_markers
 
         recover_reference_markers(pages, doc, book, work, audit, models=models)
+    if not native and book.get("research_missing_endnotes", False):
+        from citation_research import research_missing_markers, research_html
+
+        researched = research_missing_markers(
+            pages, doc, book, work, source_hash, audit, review
+        )
+        write_json(out / "missing-endnote-research.json", researched)
+        (out / "missing-endnote-review.html").write_text(
+            research_html(researched, book, doc)
+        )
     if not native and book.get("recover_scanned_endnotes", False):
         from scanned_notes import recover_endnotes
 
@@ -538,6 +556,10 @@ def build(
     from apparatus import link_endnotes
 
     apparatus = link_endnotes(model, book)
+    if book.get("link_symbol_footnotes", False):
+        from apparatus import link_symbol_footnotes
+
+        apparatus["footnotes"] = link_symbol_footnotes(model, book)
     write_json(out / "apparatus-analysis.json", apparatus)
     text_coverage = coverage(pages, book, model)
     write_json(out / "text-coverage.json", text_coverage)
@@ -565,7 +587,11 @@ def build(
         seen = set()
         render_book = dict(
             book,
-            _note_targets=chapter["note_targets"],
+            _note_targets={
+                n: root
+                for n, root in chapter["note_targets"].items()
+                if root not in chapter.get("linked_note_roots", [])
+            },
             _index_note_refs=note_page_refs,
             _hanging=start
             in book.get("hanging_pages", book.get("reference_pages", [])),

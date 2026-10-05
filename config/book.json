@@ -164,6 +164,8 @@
     "5": "printed contents replaced by linked navigation"
   },
   "slug": "the-natural-mind",
+  "recover_pdf_numeric_superscripts": true,
+  "link_symbol_footnotes": true,
   "printed_page_offset": -8,
   "vision_primary_pages": [
     223,
@@ -267,5 +269,55 @@
     "nonpharmacological",
     "ptolemaists",
     "unsatisfactoriness"
-  ]
+  ],
+  "endnote_chapter": 12,
+  "endnote_reference_mode": "chapter",
+  "endnote_sections": [
+    {
+      "heading": "CHAPTER 1",
+      "source_chapter": 1,
+      "expected_notes": 2
+    },
+    {
+      "heading": "CHAPTER 2",
+      "source_chapter": 2,
+      "expected_notes": 6
+    },
+    {
+      "heading": "CHAPTER 3",
+      "source_chapter": 3,
+      "expected_notes": 6
+    },
+    {
+      "heading": "CHAPTER 4",
+      "source_chapter": 4,
+      "expected_notes": 8
+    },
+    {
+      "heading": "CHAPTER 5",
+      "source_chapter": 5,
+      "expected_notes": 4
+    },
+    {
+      "heading": "CHAPTER 6",
+      "source_chapter": 6,
+      "expected_notes": 6
+    },
+    {
+      "heading": "CHAPTER 7",
+      "source_chapter": 7,
+      "expected_notes": 9
+    },
+    {
+      "heading": "CHAPTER 8",
+      "source_chapter": 8,
+      "expected_notes": 3
+    },
+    {
+      "heading": "CHAPTER 9",
+      "source_chapter": 9,
+      "expected_notes": 1
+    }
+  ],
+  "research_missing_endnotes": true
 }

@@ -3,6 +3,11 @@
 import difflib
 import statistics
 import re
+import pymupdf
+import io
+import json
+import subprocess
+from pathlib import Path
 from native_pdf import extract_page
 from ocr import nearest
 
@@ -115,6 +120,193 @@ def aligned_source(row, source):
     )
     # Geometry alone can pair adjacent lines; require substantial text agreement.
     return (candidate, match) if match.ratio() >= 0.85 else (None, None)
+
+
+def numeric_glyph_readings(page, span, work=None):
+    """Reread a source-located digit; bind cached readings to pixels and runtime."""
+    from PIL import Image
+    import scanned_notes
+    from ocr_cache import traineddata_digest
+    from common import digest, write_json
+
+    rect = pymupdf.Rect(span["bbox"])
+    # One point retains anti-aliased edges; wider crops admit adjacent quotes.
+    rect += (-1, -1, 1, 1)
+    pix = page.get_pixmap(dpi=600, clip=rect)
+    fingerprint = (
+        subprocess.run(
+            ["tesseract", "--version"], capture_output=True, check=True
+        ).stdout
+        + traineddata_digest().encode()
+        + Path(__file__).read_bytes()
+        + Path(scanned_notes.__file__).read_bytes()
+        + pymupdf.VersionBind.encode()
+    )
+    key = digest(pix.tobytes("png") + fingerprint)
+    cache = Path(work) / "numeric-superscripts" / (key + ".json") if work else None
+    if cache and cache.exists():
+        return json.loads(cache.read_text())
+    image = Image.open(io.BytesIO(pix.tobytes("png"))).convert("L")
+    readings = scanned_notes.glyph_readings(
+        image, (0, 0, image.width, image.height), 999
+    )
+    padding = [1]
+    if readings.count(span["text"].strip()) < 2:
+        # Quotes or a following capital can enter the one-point crop. Retry
+        # half-point clearance while retaining the conflicting first readings.
+        tight = pymupdf.Rect(span["bbox"])
+        tight += (-0.5, -0.5, 0.5, 0.5)
+        image = Image.open(
+            io.BytesIO(page.get_pixmap(dpi=600, clip=tight).tobytes("png"))
+        ).convert("L")
+        readings.extend(
+            scanned_notes.glyph_readings(image, (0, 0, image.width, image.height), 999)
+        )
+        padding.append(0.5)
+    result = dict(readings=readings, evidence_sha256=key, padding_points=padding)
+    if cache:
+        write_json(cache, result)
+    return result
+
+
+def attach_numeric_superscripts(rows, page, number, audit, work=None):
+    """Recover existing citation digits without importing noisy hidden-OCR styles."""
+    source = extract_page(page, {}, number, [])
+    spans = [
+        span
+        for block in page.get_text("dict")["blocks"]
+        for line in block.get("lines", [])
+        for span in line["spans"]
+    ]
+    for row in rows:
+        candidate, match = aligned_source(row, source)
+        if not candidate or row["text"].strip().isdigit():
+            continue
+        rect = pymupdf.Rect(
+            candidate["bbox"][0] * page.rect.width,
+            candidate["bbox"][1] * page.rect.height,
+            candidate["bbox"][2] * page.rect.width,
+            candidate["bbox"][3] * page.rect.height,
+        )
+        # Normalizing and denormalizing boxes can move a corner by a few ulps.
+        rect += (-0.05, -0.05, 0.05, 0.05)
+        nearby = [
+            s
+            for s in spans
+            if rect.contains(pymupdf.Rect(s["bbox"]).tl)
+            and rect.contains(pymupdf.Rect(s["bbox"]).br)
+        ]
+        # Ignore punctuation and tiny OCR fragments when estimating the baseline.
+        prose = [
+            s
+            for s in nearby
+            if len(s["text"].strip()) >= 3
+            and any(c.isalpha() for c in s["text"])
+            and s["size"] >= 0.85 * candidate.get("font_size", 0)
+        ]
+        if not prose:
+            continue
+        size = statistics.median(s["size"] for s in prose)
+        baseline = statistics.median(s["origin"][1] for s in prose)
+        for style in candidate.get("inline", []):
+            # A previous repaired glyph may have changed later OCR offsets.
+            match = difflib.SequenceMatcher(
+                None, candidate["text"].lower(), row["text"].lower(), autojunk=False
+            )
+            label = candidate["text"][style["start"] : style["end"]]
+            if "sup" not in style["tags"] or not re.fullmatch(r"\d{1,3}", label):
+                continue
+            evidence = [
+                s
+                for s in nearby
+                if s["text"].strip() == label and s["flags"] & 1
+                # A citation is visibly smaller and raised; flags alone
+                # can mark ordinary words in reconstructed OCR layers.
+                and s["size"] <= 0.8 * size and baseline - s["origin"][1] >= 0.18 * size
+            ]
+            # Repeated identical digits in a row need positional disambiguation;
+            # abstain rather than borrowing another occurrence's glyph evidence.
+            if len(evidence) != 1 or candidate["text"].count(label) != 1:
+                continue
+            positions = []
+            for a, b, length in match.get_matching_blocks():
+                if not (a <= style["start"] and style["end"] <= a + length):
+                    continue
+                start = b + style["start"] - a
+                end = start + len(label)
+                positions.append((start, end))
+            if not positions:
+                for op, a, aa, b, bb in match.get_opcodes():
+                    if op != "replace" or not (
+                        a <= style["start"] and style["end"] <= aa
+                    ):
+                        continue
+                    left = candidate["text"][a : style["start"]]
+                    right = candidate["text"][style["end"] : aa]
+                    target = re.fullmatch(
+                        r"""[\s."“”'‘’]*([*†‡?®°º0-9Il|oOa]{1,3})[\s."“”'‘’]*""",
+                        row["text"][b:bb],
+                    )
+                    # Strong text anchors on both sides bound one ambiguous glyph;
+                    # never replace an alphabetic word or manufacture an absent digit.
+                    if (
+                        not target
+                        or re.search(r"\w", left + right)
+                        or a < 6
+                        or len(candidate["text"]) - aa < 6
+                    ):
+                        continue
+                    token = target[1]
+                    if row["text"].count(token) != 1:
+                        continue
+                    result = numeric_glyph_readings(page, evidence[0], work)
+                    readings = result["readings"]
+                    # Segmentation modes are correlated evidence, not independent votes.
+                    if readings.count(label) < 2 or any(
+                        v.isdigit() and v != label for v in readings
+                    ):
+                        continue
+                    start = b + target.start(1)
+                    from common import apply_edits
+
+                    apply_edits(
+                        [row],
+                        [
+                            dict(
+                                page=number,
+                                before=token,
+                                after=label,
+                                count=1,
+                                bbox=row["bbox"],
+                                glyph_bbox=list(evidence[0]["bbox"]),
+                                crop_evidence=result,
+                            )
+                        ],
+                        audit,
+                        "pdf-numeric-superscript-repair",
+                    )
+                    positions.append((start, start + len(label)))
+            for start, end in positions:
+                # The complete digit run must match; never style a partial year.
+                if (start and row["text"][start - 1].isdigit()) or (
+                    end < len(row["text"]) and row["text"][end].isdigit()
+                ):
+                    continue
+                recovered = dict(start=start, end=end, tags=["sup"])
+                if recovered not in row.setdefault("inline", []):
+                    row["inline"].append(recovered)
+                    audit.append(
+                        dict(
+                            page=number,
+                            kind="pdf-numeric-superscript",
+                            text=row["text"],
+                            source_text=candidate["text"],
+                            bbox=row["bbox"],
+                            inline=recovered,
+                            glyph_bbox=list(evidence[0]["bbox"]),
+                            agreement=match.ratio(),
+                        )
+                    )
 
 
 def attach_scan_font_metrics(rows, page, number, audit):
