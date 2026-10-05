@@ -3,6 +3,7 @@
 import argparse
 import html
 import json
+import posixpath
 import re
 import zipfile
 from pathlib import Path
@@ -10,8 +11,15 @@ from urllib.parse import unquote, urlsplit
 from lxml import etree
 import pymupdf
 from layout import infer
-from common import ROOT, digest, write_json, apply_edits, cache_path, load_profile
-
+from common import (
+    ROOT,
+    digest,
+    write_json,
+    apply_edits,
+    cache_path,
+    load_profile,
+    write_epub,
+)
 from book_model import (
     JoinPolicy,
     join,
@@ -185,21 +193,25 @@ def validate_epub(path):
         ):
             errors.append("mimetype must be first and stored")
         for name in names:
-            if name.endswith((".xhtml", ".opf", ".ncx", ".xml")):
+            if name.endswith((".xhtml", ".html", ".htm", ".opf", ".ncx", ".xml")):
                 root = etree.fromstring(z.read(name))
                 found = root.xpath("//@id")
                 ids[name] = set(found)
                 if len(found) != len(ids[name]):
                     errors.append(f"{name}: duplicate IDs")
         for name in names:
-            if not name.endswith((".xhtml", ".opf", ".ncx")):
+            if not name.endswith((".xhtml", ".html", ".htm", ".opf", ".ncx")):
                 continue
             root = etree.fromstring(z.read(name))
             for ref in root.xpath("//@href|//@src"):
                 u = urlsplit(ref)
                 if u.scheme:
                     continue
-                target = str(Path(name).parent / unquote(u.path)) if u.path else name
+                target = (
+                    posixpath.normpath(str(Path(name).parent / unquote(u.path)))
+                    if u.path
+                    else name
+                )
                 if target not in names:
                     errors.append(f"{name}: missing {target}")
                 elif u.fragment and u.fragment not in ids.get(target, set()):
@@ -741,16 +753,7 @@ def build(
         b'<?xml version="1.0"?><container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container"><rootfiles><rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/></rootfiles></container>'
     )
     target = out / (book["slug"] + ("-corrected" if editorial else "") + ".epub")
-    with zipfile.ZipFile(target, "w") as z:
-        for name, data in [("mimetype", b"application/epub+zip")] + sorted(
-            files.items()
-        ):
-            info = zipfile.ZipInfo(name, (2000, 1, 1, 0, 0, 0))
-            info.compress_type = (
-                zipfile.ZIP_STORED if name == "mimetype" else zipfile.ZIP_DEFLATED
-            )
-            info.external_attr = 0o644 << 16
-            z.writestr(info, data, compresslevel=9)
+    write_epub(target, files)
     write_json(out / "book-model.json", model)
     write_json(out / "corrections-applied.json", audit)
     # Remove exact duplicate review rows without hiding distinct evidence.

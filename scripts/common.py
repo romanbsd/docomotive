@@ -3,6 +3,7 @@
 import hashlib
 import json
 import tempfile
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -43,6 +44,20 @@ def write_text_atomic(path, text):
 
 def write_json(path, value):
     write_text_atomic(path, json.dumps(value, ensure_ascii=False, indent=2) + "\n")
+
+
+def write_epub(target, files):
+    """Write a deterministic EPUB: stored mimetype first, sorted entries, fixed timestamps."""
+    with zipfile.ZipFile(target, "w") as z:
+        for name, data in [("mimetype", b"application/epub+zip")] + sorted(
+            files.items()
+        ):
+            info = zipfile.ZipInfo(name, (2000, 1, 1, 0, 0, 0))
+            info.compress_type = (
+                zipfile.ZIP_STORED if name == "mimetype" else zipfile.ZIP_DEFLATED
+            )
+            info.external_attr = 0o644 << 16
+            z.writestr(info, data, compresslevel=9)
 
 
 # Every key a profile may contain. Unknown keys fail loudly: profiles are read
