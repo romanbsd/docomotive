@@ -8,15 +8,26 @@ from common import digest
 
 
 def crop_artwork(page, rect, dpi=300, excluded_overlays=(), raster_only=False):
+    """Legacy JPEG export; its encoding remains unchanged for existing books."""
+    result, evidence = crop_artwork_pixels(
+        page, rect, dpi, excluded_overlays, raster_only
+    )
+    out = io.BytesIO()
+    options = dict(format="JPEG", quality=95)
+    if evidence["method"] == "rendered-page":
+        options["dpi"] = result.info["dpi"]
+    result.save(out, **options)
+    return out.getvalue(), evidence
+
+
+def crop_artwork_pixels(page, rect, dpi=300, excluded_overlays=(), raster_only=False):
     """Use isolated scan pixels only when no visible labels would be lost."""
     if raster_only:
         # Explicit source-reviewed mode: discard reconstructed PDF text overlays.
         from scan_pixels import isolated_scan
 
         result, evidence = isolated_scan(page, rect)
-        out = io.BytesIO()
-        result.save(out, format="JPEG", quality=95)
-        return out.getvalue(), evidence
+        return result, evidence
     images = page.get_image_info(xrefs=True)
     scans = [
         im
@@ -45,9 +56,7 @@ def crop_artwork(page, rect, dpi=300, excluded_overlays=(), raster_only=False):
             round((rect.y1 - bounds.y0) / bounds.height * im.height),
         )
         result = im.crop(box)
-        out = io.BytesIO()
-        result.save(out, format="JPEG", quality=95)
-        return out.getvalue(), dict(
+        return result, dict(
             method="embedded-page-scan", xref=scan["xref"], pixel_size=list(result.size)
         )
     removed = []
@@ -72,10 +81,12 @@ def crop_artwork(page, rect, dpi=300, excluded_overlays=(), raster_only=False):
                 pymupdf.Rect(span["bbox"]), fill=False, cross_out=False
             )
         page.apply_redactions(images=0, graphics=0, text=0)
-    data = page.get_pixmap(dpi=dpi, clip=rect).pil_tobytes(format="JPEG", quality=95)
+    pixmap = page.get_pixmap(dpi=dpi, clip=rect)
+    result = pixmap.pil_image()
+    result.info["dpi"] = (pixmap.xres, pixmap.yres)
     if temporary:
         temporary.close()
-    return data, dict(method="rendered-page", dpi=dpi, excluded_overlays=removed)
+    return result, dict(method="rendered-page", dpi=dpi, excluded_overlays=removed)
 
 
 def outside_figures(lines, book, page, audit=None):
@@ -109,9 +120,26 @@ def outside_figures(lines, book, page, audit=None):
     return retained
 
 
-def incorporate_figures(model, book, doc, files):
+def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
     report = []
+    cleanup_rows = []
+    cleanup = book.get("figure_cleanup", "none")
+    if cleanup not in ("none", "white"):
+        raise ValueError("Unknown figure_cleanup policy")
+    if cleanup == "white" and cleanup_dir is None:
+        raise ValueError("Figure cleanup requires an original-crop review directory")
+    if cleanup == "white":
+        from pathlib import Path
+
+        directory = Path(cleanup_dir)
+        directory.mkdir(parents=True, exist_ok=True)
+        # A new build invalidates pixel checks from the previous exported assets.
+        (directory / "verification.json").unlink(missing_ok=True)
     for figure in book.get("figures", []):
+        if cleanup == "white" and not re.fullmatch(
+            r"[A-Za-z0-9][A-Za-z0-9_-]*", figure["name"]
+        ):
+            raise ValueError("Unsafe figure name")
         page = figure["page"]
         chapter = next(
             (c for c in model if c["source_pages"][0] <= page <= c["source_pages"][1]),
@@ -130,12 +158,71 @@ def incorporate_figures(model, book, doc, files):
             y1 * source.rect.height,
         )
         image = figure["name"] + ".jpg"
-        data, crop_evidence = crop_artwork(
+        cropper = crop_artwork_pixels if cleanup == "white" else crop_artwork
+        crop, crop_evidence = cropper(
             source,
             rect,
             excluded_overlays=book.get("artwork_overlay_exclusions", []),
             raster_only=book.get("scan_raster_only", False),
         )
+        cleanup_evidence = None
+        data = crop
+        if cleanup == "white":
+            from pathlib import Path
+            from figure_cleanup import (
+                normalize_paper,
+                png_bytes,
+                jpeg_export,
+                export_color,
+            )
+
+            # Normalize the cropped source pixels before the sole JPEG encode.
+            normalized, cleanup_evidence = normalize_paper(crop)
+            original = png_bytes(crop)
+            master = png_bytes(normalized)
+            # Extra JPEG precision costs little on sparse diagrams and retains
+            # faint strokes better; dense photographs use compact quality 95.
+            quality = 98 if cleanup_evidence.get("kind") == "line-art" else 95
+            export, color_evidence = export_color(
+                normalized, book.get("figure_color_mode", "auto")
+            )
+            data = jpeg_export(export, quality=quality)
+            directory = Path(cleanup_dir)
+            (directory / "originals").mkdir(parents=True, exist_ok=True)
+            (directory / "results").mkdir(exist_ok=True)
+            lossless_path = None
+            if cleanup_evidence["status"] == "applied":
+                lossless_path = "lossless/" + figure["name"] + ".png"
+                (directory / "lossless").mkdir(exist_ok=True)
+                (directory / lossless_path).write_bytes(master)
+            original_path = "originals/" + figure["name"] + ".png"
+            if lossless_path is None:
+                lossless_path = original_path
+            cleanup_evidence.update(
+                format="JPEG",
+                source_sha256=digest(original),
+                sha256=digest(data),
+                lossless_sha256=digest(master),
+                color=color_evidence,
+                jpeg=dict(
+                    quality=quality, subsampling=0, optimize=True, progressive=True
+                ),
+            )
+            result_path = "results/" + image
+            (directory / original_path).write_bytes(original)
+            (directory / result_path).write_bytes(data)
+            # Remove the obsolete PNG export from this generated review folder.
+            (directory / "results" / (figure["name"] + ".png")).unlink(missing_ok=True)
+            cleanup_rows.append(
+                dict(
+                    name=figure["name"],
+                    page=page,
+                    original=original_path,
+                    result=result_path,
+                    cleanup=cleanup_evidence,
+                    lossless=lossless_path,
+                )
+            )
         path = "OEBPS/" + image
         if path in files:
             raise ValueError("Duplicate figure asset: " + image)
@@ -176,4 +263,10 @@ def incorporate_figures(model, book, doc, files):
                 "crop_source": crop_evidence,
             }
         )
+        if cleanup_evidence is not None:
+            report[-1]["cleanup"] = cleanup_evidence
+    if cleanup == "white":
+        from figure_cleanup import write_review
+
+        write_review(cleanup_dir, cleanup_rows)
     return report

@@ -9,6 +9,8 @@
   "isbn": "0805074589",
   "rights": "Copyright © 1983 by W. H. Freeman and Company. All rights reserved.",
   "slug": "feeling-organism",
+  "figure_cleanup": "white",
+  "figure_color_mode": "grayscale",
   "source_sha256": "59448237b057bd8b96cf9c5e33b50f6b43efc6e0123e170158984319b48f1a6a",
   "chapters": [
     [

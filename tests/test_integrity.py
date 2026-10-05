@@ -46,6 +46,10 @@ class IntegrityTests(unittest.TestCase):
             ("endnote_chapter", 3),
             ("native_body_size", float("nan")),
             ("hanging_pages", [True]),
+            ("figure_cleanup", "transparent"),
+            ("figure_cleanup", True),
+            ("figure_color_mode", "sepia"),
+            ("figure_color_mode", True),
         ]
         for key, value in cases:
             with self.subTest(key=key, value=value), self.assertRaises(ValueError):

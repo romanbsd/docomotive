@@ -563,7 +563,9 @@ def build(
     model = reconstruct(pages, book, policy, audit, editorial_edits)
     from figures import incorporate_figures
 
-    figure_report = incorporate_figures(model, book, doc, files)
+    figure_report = incorporate_figures(
+        model, book, doc, files, cleanup_dir=out / "figure-cleanup"
+    )
     from apparatus import link_endnotes
 
     apparatus = link_endnotes(model, book)
@@ -793,6 +795,12 @@ def build(
     for name, data in files.items():
         if name.startswith("OEBPS/"):
             (preview / Path(name).name).write_bytes(data)
+    for figure in figure_report:
+        image = Path(figure["image"])
+        for suffix in (".jpg", ".png"):
+            obsolete = image.with_suffix(suffix)
+            if obsolete != image:
+                (preview / obsolete.name).unlink(missing_ok=True)
     result = {
         "source_sha256": source_hash,
         "epub_sha256": digest(target.read_bytes()),

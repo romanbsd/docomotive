@@ -66,6 +66,10 @@ def validate_profile(book, path="profile", page_count=None):
                 fail(key, "expected a finite number")
         elif type(value) is not expected:
             fail(key, f"expected {expected.__name__}, got {type(value).__name__}")
+    if book.get("figure_cleanup", "none") not in ("none", "white"):
+        fail("figure_cleanup", "expected none or white")
+    if book.get("figure_color_mode", "auto") not in ("auto", "rgb", "grayscale"):
+        fail("figure_color_mode", "expected auto, rgb or grayscale")
     if not re.fullmatch(r"[0-9a-f]{64}", book["source_sha256"]):
         fail("source_sha256", "expected a lowercase SHA-256 digest")
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]*", book["slug"]):

@@ -54,7 +54,7 @@ PROFILE_KEYS = frozenset("""
     chapters comments continuous_indented_rows contributors cover_file
     cover_imprint cover_source cross_page_continuations date description doi
     endnote_chapter endnote_marker_limit endnote_marker_min endnote_reference_mode
-    endnote_sections excluded_pages figures frontmatter_endnotes glossary_pages
+    endnote_sections excluded_pages figure_cleanup figure_color_mode figures frontmatter_endnotes glossary_pages
     glossary_style glossary_terms hanging_pages index_pages index_splits isbn
     language line_join_words link_symbol_footnotes metadata_record_overrides metadata_title_suffix openlibrary_edition
     native_body_size native_excluded_fonts native_font_styles native_heading_sizes
