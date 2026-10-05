@@ -131,6 +131,10 @@ Native-text extraction masks reviewed diagram labels before horizontal merging. 
 
 Coauthors with contributor role `aut` are emitted as EPUB creators and shown on the title page. A checksum-verified local cover takes precedence over an approved downloaded reference image, preserving its resolution.
 
+Builds also write `performance.json`, which is excluded from deterministic book comparisons. It reports total and named-stage times (nested times overlap), scoped Tesseract calls, and observation/retry/resource cache hits and misses. OCR/render counters cover the shared scanned-note primitive and marker resources; they do not claim to measure full-page extraction, other OCR backends, or review/figure rendering.
+
+Retry placements—including successful empty results—are cached separately from glyph readings. Keys bind source PDF/page, complete glyph readings/box, row text/box, OCR/traineddata, Python/image-library versions and placement/render helper semantics. Failed OCR is not cached. Per-build reuse keeps at most two full-page grayscale images, 128 pixel-and-option-keyed line OCR results and eight engine-page row sets. Mutable results are copied so callers cannot alter later evidence. Runtime telemetry wrappers preserve helper introspection; changing detection semantics still invalidates the relevant caches.
+
 ## Whole-book proofreading
 
 Vocabulary analysis runs after complete paragraph and note assembly, using the same canonical text as EPUB rendering. Chapters are IDF documents; notes contribute to their source chapters, while references/index remain separate. General-language Zipf frequency is an approximate background prior. High IDF alone cannot protect a token: OCR mistakes can also be rare. Recurrence, spread and competing spellings propose review priorities, without automatically extending the protected dictionary.

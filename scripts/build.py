@@ -25,6 +25,16 @@ from ocr import center, merge_rows, embedded, correct_page
 from ocr_cache import preflight_cache
 from profile_validation import validate_profile
 from review_decisions import match_decisions
+from build_resources import profiled_build, measured
+
+# Observe major pure stages without changing their arguments or source helpers.
+correct_page = measured(correct_page)
+infer = measured(infer)
+reconstruct = measured(reconstruct)
+coverage = measured(coverage)
+plain_text = measured(plain_text)
+preflight_cache = measured(preflight_cache)
+validate_profile = measured(validate_profile)
 
 CSS = """body {font-family:serif; line-height:1.45; margin:5%;}
 h1 {font-size:1.6em; text-align:center; margin:2em 0; font-weight:normal;}
@@ -197,6 +207,7 @@ def validate_epub(path):
     return {"xml_and_internal_links": "passed", "zip_mimetype": "passed"}
 
 
+@profiled_build
 def build(
     pdf,
     profile=ROOT / "config/book.json",
@@ -333,11 +344,11 @@ def build(
         if not native and book.get("recover_pdf_numeric_superscripts", False):
             from typography import attach_numeric_superscripts
 
-            attach_numeric_superscripts(rows, doc[n - 1], n, audit, work=work)
+            measured(attach_numeric_superscripts)(rows, doc[n - 1], n, audit, work=work)
         if not native and book.get("recover_pdf_typography", False):
             from typography import attach_typography
 
-            attach_typography(
+            measured(attach_typography)(
                 rows,
                 doc[n - 1],
                 n,
@@ -373,7 +384,7 @@ def build(
         from typography import attach_scan_font_metrics
 
         for n, rows in pages.items():
-            attach_scan_font_metrics(rows, doc[n - 1], n, audit)
+            measured(attach_scan_font_metrics)(rows, doc[n - 1], n, audit)
     if not native and book.get("recover_image_only_headings", False):
         from typography import image_only_headings
 

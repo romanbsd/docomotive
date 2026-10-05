@@ -63,6 +63,24 @@ Anchor bounds now use only existing markers present in every longest nondecreasi
 
 A further safety pass addresses nonadjacent glyph reuse: adjacent edge checks alone could admit alternatives from one physical glyph separated by another marker. Connected duplicate-crop groups with inconsistent text positions are now quarantined before alignment, and the cached compatibility graph is reused for exclusion checks. Rejected OCR alternatives cannot supply evidence or adjacency bonuses; unresolved numeric competitors remain blockers rather than disappearing from the audit. Repeated consistent raw readings of another digit reject normalized-only options, while mixed noisy retries preserve the existing conservative fallback. The shared adapter also retains legacy `retry_readings`. Synthetic regressions cover nonadjacent/transitive collisions, rejected sequence bridges and raw-versus-normalized contradictions. The expanded suite passes 206 tests; both Natural Mind editions and their research JSON/HTML replay exactly against independent builds, retaining all 45 numeric links. Both EPUBs pass EPUBCheck without errors or warnings.
 
+### Retry placement caching and performance telemetry
+
+`scanned-note-placements` now caches complete verified text placements, including empty results, separately from glyph-reading retries. Cache keys include source PDF and page, row text/box, complete retry readings/box, Python/OCR/traineddata/image-library versions and placement/render helper semantics. Errors are not cached, and mismatched cache envelopes fail closed. Build-local LRU reuse retains two grayscale pages, 128 line OCR results keyed by pixels/options/backend and eight merged engine-page row sets; mutable results are isolated from callers.
+
+`performance.json` records total and named-stage timings plus scoped OCR/render/cache counters. It is intentionally excluded from deterministic snapshots. Times can overlap for nested calls, and OCR/render counters cover the shared scanned-note primitive and marker resources rather than every backend or exported review/figure crop. Telemetry wrappers preserve extraction-helper introspection.
+
+| Case | Initial cache-populating marker OCR calls | Fully warm marker OCR calls | Warm placement cache hits | Initial / warm build seconds |
+|---|---:|---:|---:|---:|
+| Natural Mind | 289 | 0 | 0 | 99.2 / 62.5 |
+| Natural Mind reading edition | 262 | 0 | 0 | 81.1 / 57.5 |
+| A Feeling for the Organism | 10 | 0 | 8 | 39.2 / 39.1 |
+| Organism reading edition | 10 | 0 | 8 | 39.4 / 35.6 |
+| Daimonic Reality | 365 | 0 | 251 | 73.0 / 4.7 |
+
+A final Natural Mind timing breakdown attributes 41.3 of 62.5 seconds to PDF numeric-superscript attachment, while missing-marker research takes 0.26 seconds and cache preflight 0.15 seconds. This identifies source-PDF superscript matching as a separate next optimization target.
+
+These are observed runs, not a controlled speed benchmark; machine load and first-run cache population differ. The operation counts demonstrate the avoided work. All five final published builds have zero retry-placement cache misses. Validation passes 214 tests; all 11 initial regression cases and all five affected warm cases match unchanged book baselines. Published EPUBs, corrected rows, canonical models and source coverage match their independent warm outputs. Tests cover successful and empty cache replay, source/page/row/readings/runtime invalidation, failures and malformed envelopes, eviction, changed engine files, mutation isolation and build-scope telemetry.
+
 ## OCR experiment
 
 Ground truth comprises three visually transcribed excerpts, 1,854 normalized characters in total. Evaluation normalizes whitespace, typographic apostrophes/dashes and line-end hyphenation; it does not score italics, reading-order fidelity beyond these regions, page structure or semantic typography. Sample selection is exploratory and too small for a whole-book estimate.

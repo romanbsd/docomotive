@@ -22,6 +22,7 @@ import marker_evidence
 from book_model import classify_row
 from common import digest, write_json
 from ocr_cache import traineddata_digest
+from build_resources import page_image, line_ocr, engine_rows, measured, count
 from marker_evidence import MarkerEvidence, align_markers, trusted_anchors
 
 
@@ -239,6 +240,13 @@ def observation_provenance(source_hash):
     )
 
 
+def load_engine_rows(path):
+    from ocr import merge_rows
+
+    count("engine_json_reads")
+    return merge_rows(json.loads(path.read_text())["lines"])
+
+
 def cached_row_witnesses(work, number, row):
     """Use fingerprint-validated extraction caches; omissions are not negative votes."""
     from common import cache_path
@@ -251,7 +259,7 @@ def cached_row_witnesses(work, number, row):
         path = cache_path(work, engine) / f"{number:04}.json"
         if not path.exists():
             continue
-        source = nearest(row, merge_rows(json.loads(path.read_text())["lines"]))
+        source = nearest(row, engine_rows(path, load_engine_rows))
         if (
             source
             and difflib.SequenceMatcher(
@@ -327,7 +335,13 @@ def corroborate_observation(page, row, observed, witnesses, work, provenance):
 
     semantics = "".join(
         ast.dump(ast.parse(inspect.getsource(f)), include_attributes=False)
-        for f in (marker_witness_matches, title_marker_change, corroborate_observation)
+        for f in (
+            marker_witness_matches,
+            title_marker_change,
+            corroborate_observation,
+            page_image,
+            line_ocr,
+        )
     )
     key = digest(
         json.dumps(
@@ -343,14 +357,16 @@ def corroborate_observation(page, row, observed, witnesses, work, provenance):
     )
     cache = Path(work) / "citation-research-corroboration" / (key + ".json")
     if cache.exists():
+        count("corroboration_cache_hits")
         return json.loads(cache.read_text())
+    count("corroboration_cache_misses")
     raw = scan.retry_readings(page, observed["bbox"])
     options = []
     values = sorted(
         {v for w in witnesses for v in re.findall(r"(?<!\d)\d{1,3}(?!\d)", w["text"])}
     )
     # Preserve grayscale openings that thresholding can merge (3/8, 5/1).
-    image = Image.open(io.BytesIO(page.get_pixmap(dpi=400).tobytes("png"))).convert("L")
+    image = page_image(page)
     crop, left, top = scan.line_crop(image, row, variable=False)
     x, y, xx, yy = observed["bbox"]
     box = (
@@ -372,7 +388,9 @@ def corroborate_observation(page, row, observed, witnesses, work, provenance):
         change = None
         used = ""
         for clean, deskew in ((False, False), (True, False), (False, True)):
-            used, chars = scan.character_line(crop, clean=clean, deskew=deskew)
+            used, chars = line_ocr(
+                crop, scan.character_line, clean=clean, deskew=deskew
+            )
             proposed = scan.replacement(row["text"], used, chars, box, value)
             if not proposed:
                 continue
@@ -499,8 +517,10 @@ def research_missing_markers(pages, doc, book, work, source_hash, audit, review)
             )
             cache = Path(work) / "citation-research" / (key + ".json")
             if cache.exists():
+                count("observation_cache_hits")
                 observations = json.loads(cache.read_text())
             else:
+                count("observation_cache_misses")
                 observations = normalized_observations(doc[number - 1], rows, maximum)
                 write_json(cache, observations)
             for observed in observations:
@@ -748,3 +768,8 @@ def research_html(report, book, doc=None):
         + "".join(details)
         + "</html>"
     )
+
+
+research_missing_markers = measured(research_missing_markers)
+normalized_observations = measured(normalized_observations)
+corroborate_observation = measured(corroborate_observation)

@@ -23,6 +23,7 @@ from scipy.stats import theilslopes
 
 from common import ROOT, digest, write_json, file_digest
 from ocr_cache import traineddata_digest
+from build_resources import measured, page_image, line_ocr, count
 
 
 def note_prefix_replacement(row, witnesses):
@@ -171,6 +172,10 @@ def tesseract(image, psm, hocr=False):
     return subprocess.run(
         command, input=data.getvalue(), capture_output=True, check=True
     ).stdout
+
+
+# Instrument the subprocess primitive without changing extraction fingerprints.
+tesseract = measured(tesseract)
 
 
 def character_line(image, clean=True, deskew=False):
@@ -651,7 +656,7 @@ def retry_readings(page, bbox):
 
 def retry_placements(page, row, retry):
     """Re-anchor the complete marker, including fragments mistaken for punctuation."""
-    image = Image.open(io.BytesIO(page.get_pixmap(dpi=400).tobytes("png"))).convert("L")
+    image = page_image(page)
     width, height = image.size
     b = retry["bbox"]
     crop, left, top = line_crop(image, row, b[2] * width)
@@ -663,7 +668,7 @@ def retry_placements(page, row, retry):
     )
     changes = {}
     for clean, deskew in ((True, False), (False, False), (True, True)):
-        witness, chars = character_line(crop, clean=clean, deskew=deskew)
+        witness, chars = line_ocr(crop, character_line, clean=clean, deskew=deskew)
         for digits in set(retry["readings"]):
             if digits.isascii() and digits.isdigit() and digits not in changes:
                 change = replacement(row["text"], witness, chars, box, digits)
@@ -672,6 +677,67 @@ def retry_placements(page, row, retry):
         if all(d in changes for d in retry["readings"] if d.isascii() and d.isdigit()):
             break
     return changes
+
+
+def cached_retry_placements(page, row, retry, work, provenance):
+    """Cache verified placements and successful empty results, never OCR failures."""
+    key = digest(
+        json.dumps(
+            dict(
+                provenance=provenance,
+                page=page.number,
+                text=row["text"],
+                bbox=row["bbox"],
+                retry=retry,
+            ),
+            sort_keys=True,
+        ).encode()
+    )
+    path = Path(work) / "scanned-note-placements" / (key + ".json")
+    if path.exists():
+        count("retry_placement_cache_hits")
+        cached = json.loads(path.read_text())
+        if cached.get("key") != key or not isinstance(cached.get("changes"), dict):
+            raise ValueError("Invalid retry placement cache")
+        return cached["changes"]
+    count("retry_placement_cache_misses")
+    changes = retry_placements(page, row, retry)
+    write_json(path, dict(key=key, changes=changes))
+    return changes
+
+
+def placement_provenance(source_hash, version, model_hash):
+    import PIL
+    import scipy
+    import platform
+
+    return dict(
+        source_sha256=source_hash,
+        python=platform.python_version(),
+        tesseract=version,
+        traineddata=model_hash,
+        pymupdf=pymupdf.VersionBind,
+        pillow=PIL.__version__,
+        numpy=np.__version__,
+        scipy=scipy.__version__,
+        dpi=400,
+        helpers=digest(
+            "".join(
+                ast.dump(ast.parse(inspect.getsource(f)), include_attributes=False)
+                for f in (
+                    retry_placements,
+                    character_line,
+                    line_crop,
+                    components,
+                    prose_baseline,
+                    replacement,
+                    tesseract,
+                    page_image,
+                    line_ocr,
+                )
+            ).encode()
+        ),
+    )
 
 
 def glyph_confusion_cost(observed, alternative):
@@ -1008,6 +1074,7 @@ def recover_endnotes(
             ).encode()
         )[:16]
     )
+    placement_runtime = placement_provenance(source_hash, version, model_hash)
     records = []
     for section in book["endnote_sections"]:
         chapter_id = section["source_chapter"]
@@ -1031,8 +1098,10 @@ def recover_endnotes(
             )[:16]
             path = cache / f"{number:04}-{key}.json"
             if path.exists():
+                count("marker_observation_cache_hits")
                 found = json.loads(path.read_text())
             else:
+                count("marker_observation_cache_misses")
                 found = page_candidates(
                     doc[number - 1],
                     rows,
@@ -1082,13 +1151,19 @@ def recover_endnotes(
             )[:16]
             retry_path = Path(work) / "scanned-notes-retries" / (retry_key + ".json")
             if retry_path.exists():
+                count("glyph_retry_cache_hits")
                 retry = json.loads(retry_path.read_text())
             else:
+                count("glyph_retry_cache_misses")
                 retry = retry_readings(doc[p["page"] - 1], p["bbox"])
                 write_json(retry_path, retry)
             p["retry_bbox"] = retry["bbox"]
-            changes = retry_placements(
-                doc[p["page"] - 1], pages[p["page"]][p["row"]], retry
+            changes = cached_retry_placements(
+                doc[p["page"] - 1],
+                pages[p["page"]][p["row"]],
+                retry,
+                work,
+                placement_runtime,
             )
             add_retry_options(p, retry["readings"], section["expected_notes"], changes)
         select_sequence(candidates, section["expected_notes"])
@@ -1161,3 +1236,8 @@ def recover_endnotes(
             for s in book["endnote_sections"]
         },
     )
+
+
+recover_endnotes = measured(recover_endnotes)
+retry_placements = measured(retry_placements)
+retry_readings = measured(retry_readings)
