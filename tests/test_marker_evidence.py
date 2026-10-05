@@ -109,6 +109,67 @@ class MarkerEvidenceTests(unittest.TestCase):
             [1, 1, 2, 3],
         )
 
+    def test_nonadjacent_reuse_and_transitive_crop_collisions_quarantine(self):
+        first = marker(0, 1)
+        last = MarkerEvidence.from_candidate(
+            dict(page=1, row=0, readings=["3", "3"]),
+            dict(number=3, votes=2, marker_start=30),
+            0,
+            1,
+        )
+        middle = MarkerEvidence.from_candidate(
+            dict(page=1, row=0, readings=["2", "2"]),
+            dict(number=2, votes=2, marker_start=20),
+            1,
+        )
+        decisions = align_markers([first, middle, last])
+        self.assertEqual(
+            [d["number"] for d in decisions if d["status"] == "selected"], [2]
+        )
+        self.assertEqual(decisions[0]["status"], "source-position-conflict")
+        self.assertEqual(decisions[2]["status"], "source-position-conflict")
+        chain = [
+            MarkerEvidence.from_candidate(
+                dict(
+                    page=1,
+                    row=i,
+                    bbox=[x, 0.1, x + 0.1, 0.2],
+                    readings=[str(i + 1)] * 2,
+                ),
+                dict(number=i + 1, votes=2, marker_start=10),
+                i,
+            )
+            for i, x in enumerate([0.1, 0.14, 0.18])
+        ]
+        self.assertTrue(
+            all(d["status"] == "source-position-conflict" for d in align_markers(chain))
+        )
+
+    def test_rejected_reads_cannot_supply_sequence_bridges(self):
+        decisions = align_markers(
+            [marker(0, 1), marker(1, 2, readings=["2", "2", "8"]), marker(2, 3)]
+        )
+        self.assertEqual(decisions[0]["best_score"], 12)
+        self.assertEqual(decisions[1]["status"], "conflicting-glyph-reads")
+        self.assertEqual(
+            [d["number"] for d in decisions if d["status"] == "selected"], [1, 3]
+        )
+
+    def test_contradictory_raw_pixels_and_legacy_retry_evidence(self):
+        option = dict(number=2, votes=2, marker_start=10)
+        candidate = dict(
+            page=1, row=0, readings=["2", "2"], retry_readings=["8", "8", "8"]
+        )
+        evidence = MarkerEvidence.from_candidate(candidate, option)
+        self.assertEqual(evidence.raw, ("8", "8", "8"))
+        self.assertEqual(evidence.rejection, "contradictory-raw-glyph")
+        noise = MarkerEvidence.from_candidate(
+            dict(candidate, raw_readings=["2", "2", "4", "7"]), option
+        )
+        self.assertIsNone(noise.rejection)
+        decisions = align_markers([evidence, marker(1, 2)])
+        self.assertEqual(decisions[1]["status"], "competing-unverified-marker")
+
     def test_score_and_exclusion_margins_match_exhaustive_paths(self):
         rng = random.Random(42)
         for _ in range(30):

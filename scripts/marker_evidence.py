@@ -29,7 +29,7 @@ class MarkerEvidence:
             ),
             tuple(candidate.get("bbox", ())),
             tuple(candidate.get("readings", ())),
-            tuple(candidate.get("raw_readings", ())),
+            tuple(candidate.get("raw_readings", candidate.get("retry_readings", ()))),
             tuple(
                 sorted({w["engine"] for w in option.get("corroborating_engines", [])})
             ),
@@ -62,6 +62,14 @@ class MarkerEvidence:
             return None
         if self.rejected_symbol:
             return "positive-symbol-evidence"
+        raw_numeric = {v for v in self.raw if v.isascii() and v.isdigit()}
+        if (
+            not self.option.get("raw_corroborated")
+            and len(raw_numeric) == 1
+            and label not in raw_numeric
+            and self.raw.count(next(iter(raw_numeric))) >= 2
+        ):
+            return "contradictory-raw-glyph"
         readings = self.normalized
         if self.option.get("raw_corroborated"):
             if not self.engines or not self.raw:
@@ -105,20 +113,50 @@ def align_markers(evidence, minimum_margin=3):
         evidence, key=lambda e: (e.position, e.number, e.candidate, e.option_index)
     )
 
-    def edge(a, b):
+    def same_ink(a, b):
         if a.candidate >= 0 and a.candidate == b.candidate:
-            return False  # Alternative readings cannot consume one glyph twice.
-        if a.position[0] == b.position[0] and len(a.bbox) == len(b.bbox) == 4:
-            x, y, xx, yy = a.bbox
-            u, v, uu, vv = b.bbox
-            intersection = max(0, min(xx, uu) - max(x, u)) * max(
-                0, min(yy, vv) - max(y, v)
-            )
-            area = min((xx - x) * (yy - y), (uu - u) * (vv - v))
-            # Majority overlap identifies duplicate crops of the same ink;
-            # touching/padded neighboring glyphs remain distinct observations.
-            if area > 0 and intersection > 0.5 * area:
-                return False
+            return True
+        if a.position[0] != b.position[0] or len(a.bbox) != 4 or len(b.bbox) != 4:
+            return False
+        x, y, xx, yy = a.bbox
+        u, v, uu, vv = b.bbox
+        intersection = max(0, min(xx, uu) - max(x, u)) * max(0, min(yy, vv) - max(y, v))
+        area = min((xx - x) * (yy - y), (uu - u) * (vv - v))
+        # Majority overlap identifies duplicate crops, including observations
+        # assigned to different OCR rows. Touching crop padding is insufficient.
+        return area > 0 and intersection > 0.5 * area
+
+    # Pairwise path edges cannot detect A/B/A reuse. Quarantine every conflicting
+    # physical observation before DP; consistent source order is then sufficient.
+    collisions = set()
+    for i, node in enumerate(nodes):
+        for j in range(i):
+            if same_ink(nodes[j], node) and nodes[j].position != node.position:
+                collisions.update((i, j))
+    changed = True
+    while changed:
+        changed = False
+        for i, node in enumerate(nodes):
+            if i not in collisions and any(
+                same_ink(node, nodes[j]) for j in collisions
+            ):
+                collisions.add(i)
+                changed = True
+                break
+    blockers = {
+        e.number
+        for e in nodes
+        if not e.option.get("anchor")
+        and e.rejection is not None
+        and not e.rejected_symbol
+    }
+    inactive = {
+        i for i, e in enumerate(nodes) if i in collisions or e.rejection is not None
+    }
+
+    def edge(a, b):
+        if same_ink(a, b):
+            return False
         if (
             a.position >= b.position
             or a.number > b.number
@@ -133,16 +171,22 @@ def align_markers(evidence, minimum_margin=3):
             "end", a.position[2]
         ) <= b.option.get("start", b.position[2])
 
+    # Geometry is evaluated once rather than during every exclusion replay.
+    predecessors = [
+        [j for j in range(i) if j not in inactive and edge(nodes[j], node)]
+        for i, node in enumerate(nodes)
+    ]
+
     def solve(exclude=None):
         scores, paths = [], []
         for i, node in enumerate(nodes):
-            if i == exclude:
+            if i == exclude or i in inactive:
                 scores.append(float("-inf"))
                 paths.append(())
                 continue
             choices = [(node.weight, (i,))]
-            for j in range(i):
-                if paths[j] and edge(nodes[j], node):
+            for j in predecessors[i]:
+                if paths[j]:
                     bonus = 2 if node.number == nodes[j].number + 1 else 0
                     choices.append((scores[j] + node.weight + bonus, paths[j] + (i,)))
             # Sorting ties makes replay stable; the exclusion margin, not this
@@ -158,13 +202,21 @@ def align_markers(evidence, minimum_margin=3):
         competing = solve(i)[0] if i in path else best
         margin = best - competing
         status = (
-            "selected"
-            if i in path and margin >= minimum_margin and node.rejection is None
+            "source-position-conflict"
+            if i in collisions
             else node.rejection
             or (
-                "sequence-ambiguous"
-                if margin < minimum_margin
-                else "chapter-order-conflict"
+                "competing-unverified-marker"
+                if node.number in blockers and not node.option.get("anchor")
+                else (
+                    "selected"
+                    if i in path and margin >= minimum_margin
+                    else (
+                        "sequence-ambiguous"
+                        if margin < minimum_margin
+                        else "chapter-order-conflict"
+                    )
+                )
             )
         )
         decisions.append(
