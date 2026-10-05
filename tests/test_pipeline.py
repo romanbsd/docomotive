@@ -916,7 +916,7 @@ class NativePDFTests(unittest.TestCase):
 
     def test_chapter_grouped_bibliography_links_repeated_numbers_and_fallbacks(self):
         from apparatus import link_endnotes
-        from render_text import block_html
+        from render_text import block_html, chapter_notes_navigation
 
         def body(text):
             return dict(
@@ -960,6 +960,25 @@ class NativePDFTests(unittest.TestCase):
         self.assertEqual(result["superscript_links"], 3)
         self.assertEqual(result["chapter_links"], 1)
         self.assertEqual(result["unlinked_endnotes"], [])
+        # Only the chapter with an actual missing marker needs end navigation.
+        self.assertIn(
+            "chapter-03.xhtml#endnote-1-1",
+            chapter_notes_navigation(model[0], model[2]["blocks"], book),
+        )
+        self.assertEqual(
+            chapter_notes_navigation(model[1], model[2]["blocks"], book), ""
+        )
+        self.assertEqual(
+            chapter_notes_navigation(model[2], model[2]["blocks"], book), ""
+        )
+        self.assertEqual(
+            chapter_notes_navigation(
+                model[0],
+                model[2]["blocks"],
+                dict(book, endnote_reference_mode="inline"),
+            ),
+            "",
+        )
         first, repeated = model[0]["blocks"]
         second = model[1]["blocks"][0]
         self.assertEqual(first["inline"][0]["href"], "chapter-03.xhtml#endnote-1-1")

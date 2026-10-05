@@ -4,6 +4,25 @@ import html
 import re
 
 
+def chapter_notes_navigation(chapter, notes, book):
+    """Offer navigation only when the linker used a chapter-level fallback."""
+    if book.get("endnote_reference_mode") != "chapter":
+        return ""
+    source = chapter["chapter"]
+    fallback = f"chapter-{source:02}.xhtml#chapter-start"
+    # Exact backlink targets distinguish missing markers from linked citations;
+    # configured note sections alone do not establish a need for a shortcut.
+    if not any(
+        b.get("source_chapter") == source and fallback in b.get("backlinks", [])
+        for b in notes
+    ):
+        return ""
+    return (
+        f'<p class="noindent"><a href="chapter-{book["endnote_chapter"]:02}.xhtml'
+        f'#endnote-{source}-1">Notes for this chapter</a></p>'
+    )
+
+
 def block_html(block, book, seen, page_links, name, index_refs=None):
     marks = []
     pages = []

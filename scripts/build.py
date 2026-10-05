@@ -20,7 +20,7 @@ from book_model import (
     plain_text,
     classify_row,
 )
-from render_text import block_html, notes_html
+from render_text import block_html, notes_html, chapter_notes_navigation
 from ocr import center, merge_rows, embedded, correct_page
 from ocr_cache import preflight_cache
 from profile_validation import validate_profile
@@ -622,13 +622,6 @@ def build(
         if book.get("endnote_reference_mode") == "chapter":
             if body:
                 body[0] = body[0].replace("<h1>", '<h1 id="chapter-start">', 1)
-            if any(
-                s["source_chapter"] == chapter["chapter"]
-                for s in book["endnote_sections"]
-            ):
-                body.append(
-                    f'<p class="noindent"><a href="chapter-{book["endnote_chapter"]:02}.xhtml#endnote-{chapter["chapter"]}-1">Notes for this chapter</a></p>'
-                )
         refs = (
             {label: ref for ref, label in page_links}
             if start in book.get("index_pages", [])
@@ -642,6 +635,11 @@ def build(
                 )
             body.append(block_html(block, render_book, seen, page_links, name, refs))
         body.append(notes_html(chapter["notes"], book))
+        if book.get("endnote_reference_mode") == "chapter":
+            note_blocks = next(
+                c for c in model if c["chapter"] == book["endnote_chapter"]
+            )["blocks"]
+            body.append(chapter_notes_navigation(chapter, note_blocks, book))
         if start in book.get("index_pages", []):
             body = ['<div class="index">'] + body + ["</div>"]
         add(name, chapter["title"], "".join(body))
