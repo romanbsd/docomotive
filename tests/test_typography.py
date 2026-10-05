@@ -41,6 +41,33 @@ def row(text, i=0, width=0.35, italic=False, x=0.2):
 
 
 class TypographyTests(unittest.TestCase):
+    def test_numeric_attachment_reuses_text_only_extraction_with_scan_image(self):
+        doc = pymupdf.open()
+        self.addCleanup(doc.close)
+        page = doc.new_page(width=300, height=300)
+        image = io.BytesIO()
+        Image.new("RGB", (300, 300), "white").save(image, format="PNG")
+        page.insert_image(page.rect, stream=image.getvalue())
+        text = "A source quotation."
+        page.insert_text((30, 100), text, fontsize=12)
+        x = 30 + pymupdf.get_text_length(text, fontsize=12)
+        page.insert_text((x, 95), "3", fontsize=7)
+        expected = extract_page(page, {}, 1, [])
+        data = page.get_text(
+            "dict", flags=pymupdf.TEXTFLAGS_DICT & ~pymupdf.TEXT_PRESERVE_IMAGES
+        )
+        self.assertFalse(any("image" in block for block in data["blocks"]))
+        # Supplying extracted data preserves text, offsets and font geometry.
+        with patch.object(page, "get_text", side_effect=AssertionError("re-extracted")):
+            self.assertEqual(extract_page(page, {}, 1, [], text_data=data), expected)
+        rows = [dict(text=text + "3", bbox=expected[0]["bbox"], column=0)]
+        with patch.object(page, "get_text", wraps=page.get_text) as extraction:
+            attach_numeric_superscripts(rows, page, 1, [])
+        extraction.assert_called_once_with(
+            "dict", flags=pymupdf.TEXTFLAGS_DICT & ~pymupdf.TEXT_PRESERVE_IMAGES
+        )
+        self.assertEqual(rows[0]["inline"], [dict(start=19, end=20, tags=["sup"])])
+
     def test_ambiguous_superscript_needs_crop_corroboration_before_replacement(self):
         doc = pymupdf.open()
         self.addCleanup(doc.close)

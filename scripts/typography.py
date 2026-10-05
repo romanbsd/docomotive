@@ -171,16 +171,31 @@ def numeric_glyph_readings(page, span, work=None):
 
 def attach_numeric_superscripts(rows, page, number, audit, work=None):
     """Recover existing citation digits without importing noisy hidden-OCR styles."""
-    source = extract_page(page, {}, number, [])
+    # Images are irrelevant to source text and can dominate extraction on scans.
+    data = page.get_text(
+        "dict", flags=pymupdf.TEXTFLAGS_DICT & ~pymupdf.TEXT_PRESERVE_IMAGES
+    )
+    source = extract_page(page, {}, number, [], text_data=data)
     spans = [
         span
-        for block in page.get_text("dict")["blocks"]
+        for block in data["blocks"]
         for line in block.get("lines", [])
         for span in line["spans"]
     ]
     for row in rows:
         candidate, match = aligned_source(row, source)
         if not candidate or row["text"].strip().isdigit():
+            continue
+        styles = [
+            style
+            for style in candidate.get("inline", [])
+            if "sup" in style["tags"]
+            and re.fullmatch(
+                r"\d{1,3}", candidate["text"][style["start"] : style["end"]]
+            )
+        ]
+        # Most prose has no numeric superscripts; avoid scanning all spans for it.
+        if not styles:
             continue
         rect = pymupdf.Rect(
             candidate["bbox"][0] * page.rect.width,
@@ -208,7 +223,7 @@ def attach_numeric_superscripts(rows, page, number, audit, work=None):
             continue
         size = statistics.median(s["size"] for s in prose)
         baseline = statistics.median(s["origin"][1] for s in prose)
-        for style in candidate.get("inline", []):
+        for style in styles:
             # A previous repaired glyph may have changed later OCR offsets.
             match = difflib.SequenceMatcher(
                 None, candidate["text"].lower(), row["text"].lower(), autojunk=False

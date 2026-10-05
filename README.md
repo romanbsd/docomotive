@@ -133,6 +133,8 @@ Coauthors with contributor role `aut` are emitted as EPUB creators and shown on 
 
 Builds also write `performance.json`, which is excluded from deterministic book comparisons. It reports total and named-stage times (nested times overlap), scoped Tesseract calls, and observation/retry/resource cache hits and misses. OCR/render counters cover the shared scanned-note primitive and marker resources; they do not claim to measure full-page extraction, other OCR backends, or review/figure rendering.
 
+PDF numeric-superscript attachment extracts text and spans together once per page, excluding raster images from that extraction. It checks span geometry only for matched lines containing candidate numeric superscripts. Text agreement, raised/smaller glyph checks and crop corroboration remain required; this reduces repeated work without relaxing evidence thresholds. Native text extraction also accepts already-extracted text data for reuse, while retaining its existing default behavior.
+
 Retry placements—including successful empty results—are cached separately from glyph readings. Keys bind source PDF/page, complete glyph readings/box, row text/box, OCR/traineddata, Python/image-library versions and placement/render helper semantics. Failed OCR is not cached. Per-build reuse keeps at most two full-page grayscale images, 128 pixel-and-option-keyed line OCR results and eight engine-page row sets. Mutable results are copied so callers cannot alter later evidence. Runtime telemetry wrappers preserve helper introspection; changing detection semantics still invalidates the relevant caches.
 
 ## Whole-book proofreading

@@ -52,9 +52,11 @@ def clean_text(text):
     )
 
 
-def extract_page(page, book, number, audit):
+def extract_page(page, book, number, audit, *, text_data=None):
     parts = []
-    for block in page.get_text("dict")["blocks"]:
+    # Callers inspecting the same page can share its extracted text and spans.
+    data = text_data if text_data is not None else page.get_text("dict")
+    for block in data["blocks"]:
         for line in block.get("lines", []):
             if any(
                 span["font"] in book.get("native_excluded_fonts", [])

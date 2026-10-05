@@ -81,6 +81,14 @@ A final Natural Mind timing breakdown attributes 41.3 of 62.5 seconds to PDF num
 
 These are observed runs, not a controlled speed benchmark; machine load and first-run cache population differ. The operation counts demonstrate the avoided work. All five final published builds have zero retry-placement cache misses. Validation passes 214 tests; all 11 initial regression cases and all five affected warm cases match unchanged book baselines. Published EPUBs, corrected rows, canonical models and source coverage match their independent warm outputs. Tests cover successful and empty cache replay, source/page/row/readings/runtime invalidation, failures and malformed envelopes, eviction, changed engine files, mutation isolation and build-scope telemetry.
 
+### PDF superscript attachment optimization
+
+Profiling the first 50 Natural Mind pages with assembled corrected rows took 12.75 seconds: two `get_text("dict")` calls per page consumed 6.95 seconds, while scanning every span for every matched prose line performed roughly 800,000 point-containment checks. The extraction unnecessarily serialized scanned-page images.
+
+Attachment now performs one text-only extraction, shares its data with native row reconstruction, and skips span geometry when the matched source line has no numeric superscript candidate. The same 50-page profiling pass takes 0.78 seconds. Existing callers of native extraction retain their default behavior through an optional keyword argument. No matching, geometry or OCR acceptance threshold changed.
+
+Published source/reading builds observed attachment times of 3.06/4.65 seconds and total times of 29.68/35.42 seconds; the prior source build measured 41.34/62.52 seconds. These timings include variable machine load and concurrent regression work, so they are observations rather than a controlled benchmark. Both published editions match their independent regression outputs, including corrected rows, models, coverage and EPUB bytes. A new embedded-image fixture verifies identical extracted text/offsets/font geometry and a single extraction per attachment call. All 215 tests and all 11 book regressions pass against unchanged baselines (`work/regression/run-vsbosnns/report.json`). Both published Natural Mind editions pass EPUBCheck with no errors or warnings.
+
 ## OCR experiment
 
 Ground truth comprises three visually transcribed excerpts, 1,854 normalized characters in total. Evaluation normalizes whitespace, typographic apostrophes/dashes and line-end hyphenation; it does not score italics, reading-order fidelity beyond these regions, page structure or semantic typography. Sample selection is exploratory and too small for a whole-book estimate.
