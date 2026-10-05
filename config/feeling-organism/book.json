@@ -1129,5 +1129,6 @@
   },
   "recover_scanned_endnotes": true,
   "recover_scan_font_metrics": true,
+  "recover_scan_italics": true,
   "recover_ocr_regions": true
 }

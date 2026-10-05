@@ -37,6 +37,7 @@ class IntegrityTests(unittest.TestCase):
     def test_profiles_reject_wrong_types_and_structure(self):
         cases = [
             ("recover_scanned_endnotes", "false"),
+            ("recover_scan_italics", "false"),
             ("chapters", [[3, 1, "Bad"]]),
             ("chapters", [[1, 3, "A"], [3, 5, "B"]]),
             ("source_sha256", "short"),

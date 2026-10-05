@@ -385,6 +385,11 @@ def build(
 
         for n, rows in pages.items():
             measured(attach_scan_font_metrics)(rows, doc[n - 1], n, audit)
+    if not native and book.get("recover_scan_italics", False):
+        from scan_italics import attach_scan_italics
+
+        for n, rows in pages.items():
+            measured(attach_scan_italics)(rows, doc[n - 1], n, book, audit)
     if not native and book.get("recover_image_only_headings", False):
         from typography import image_only_headings
 

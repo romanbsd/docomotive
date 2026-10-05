@@ -417,13 +417,13 @@
       "slug": "feeling-organism",
       "editorial": false,
       "artifacts": {
-        "book-model.json": "1d83e4a60f1fa544c0b2b714f271025ea431b0a8693d1993e8b400d5ac4cbc1e",
-        "corrected-pages.json": "8bbc26a5c402346b2b152d649b22047c84e12047c4c08d1013743cf8f2d02176",
+        "book-model.json": "187c8bf8dca8a4e686bbaf7815fff0087c3efa30d567d857d44b323cc86e2c85",
+        "corrected-pages.json": "294c4b0d3cb97dee50f8dc79dc24c5dbb097586eccab5af0b713349d0a3f1dcb",
         "text-coverage.json": "126af5942e89c2dbacd9017d3c987a6087fc121d99594dab1de190c59422aee6",
         "apparatus-analysis.json": "5baff273484bb0ed41599589e1ffae2dd9e5f5213dcd2b539989276759a2c5ee",
         "feeling-organism.txt": "ce0260614b3fbb4104d0aea35272c759cf3b5cbf4cba8515aed0a52e599c331c"
       },
-      "epub_sha256": "951c03cf825b99ce4a9269c2878c2515cdf6a2cb8c9ecaef7660366ea6d9990f",
+      "epub_sha256": "77fc815e90f7dc007d859aa4282e299a281bee5787a1147dd51ce4292e84227d",
       "epub_members": {
         "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
         "OEBPS/back-cover.jpg": "d10d77b23956fe886764d764f5a95ec9f5c583a027bab774ebcabad3e53db006",
@@ -441,12 +441,12 @@
         "OEBPS/chapter-11.xhtml": "f4eefbf778a275b4efaaf79d49abf9b9605fb55cce46b59ee4096f8c310eb0e6",
         "OEBPS/chapter-12.xhtml": "db1f5fc8995eec0e3f55c466b49d1f85c1b35871fd2785780ca2263c3601aea5",
         "OEBPS/chapter-13.xhtml": "b9db4d6af638a70e9882c580e4cd371bd3b2554eb7dfe38e755d2629d29f5a3e",
-        "OEBPS/chapter-14.xhtml": "3ec7af617b143e22281d254e04b599f5b3f8cfab3d40d7458ff12bb861db354e",
+        "OEBPS/chapter-14.xhtml": "11b3471370d61b0629a9f3c409f76e1efbd8cda91957dfc0ece71c748e7a06fc",
         "OEBPS/chapter-15.xhtml": "ec2c88df3dd7298861a8be5377c70e0a5fe3ce42bb0cf191e503fd37baee1167",
         "OEBPS/chapter-16.xhtml": "36c8e1ca1dae7b0275e074d36ab5526f87af88f6806ac5fb62d9462c08fc8f16",
         "OEBPS/chapter-17.xhtml": "ca772bd0bf384cb2928b643ad13507c7638242824d874b95bac567aa10efe799",
         "OEBPS/chapter-18.xhtml": "8af218b739f8247a94d3dee517ec5442942d618a2549c45c4da049e7e3b57d0c",
-        "OEBPS/chapter-19.xhtml": "09bd1e9cf63679b42de8b02573f2625e25ec9f40c3b68ad84fd836a95cf48ec3",
+        "OEBPS/chapter-19.xhtml": "2088afa1c95460dea914149a10b2f8278951abeeedf97f2f530394f35c2cf8e5",
         "OEBPS/chapter-20.xhtml": "a3379dadd3eb6bc89ea20fb55c46056b37ef51d1074f050ffb6c08f2a0815a0c",
         "OEBPS/chapter-21.xhtml": "047cc574cce0b9a3a089aa2b0379ce16499abd737fb91ab42f452a82221e1221",
         "OEBPS/chapter-22.xhtml": "4c4c26a4ed88f00b04cfa1f44baf35d60d00f4682386876ec00d0e109c8b5932",
@@ -550,7 +550,7 @@
         },
         {
           "title": "7. Cold Spring Harbor",
-          "sha256": "68ef1f2d1d3bd38e692e4998e20525a413432f382ca6f85c751f047939517309",
+          "sha256": "1a709cb4f7e78c7f01aa22cbc4840ed175b64638b461fdfbc0bb731e3971047f",
           "blocks": 39
         },
         {
@@ -575,7 +575,7 @@
         },
         {
           "title": "12. A Feeling for the Organism",
-          "sha256": "478dcd1b39cc860323c9948c490e904fbf8555a86bde851662c5fb457d3ee5d3",
+          "sha256": "0da0d93d2a4499ba1f24d1b21ba0b8e12caadacbb29be867851807823d3fb9cd",
           "blocks": 34
         },
         {
@@ -622,13 +622,13 @@
       "slug": "feeling-organism",
       "editorial": true,
       "artifacts": {
-        "book-model.json": "c264c239a4580e3b1b706334193350da7c0c7e0fc42a8b15c23d6a86cfc6456d",
-        "corrected-pages.json": "8bbc26a5c402346b2b152d649b22047c84e12047c4c08d1013743cf8f2d02176",
+        "book-model.json": "1b8f16908e6bbcdd38af3ad884fe26f5ddc6c7a308e296845ca50023c1898da1",
+        "corrected-pages.json": "294c4b0d3cb97dee50f8dc79dc24c5dbb097586eccab5af0b713349d0a3f1dcb",
         "text-coverage.json": "126af5942e89c2dbacd9017d3c987a6087fc121d99594dab1de190c59422aee6",
         "apparatus-analysis.json": "5baff273484bb0ed41599589e1ffae2dd9e5f5213dcd2b539989276759a2c5ee",
         "feeling-organism.txt": "150e3fecdeacd6120d774c0329e6f078f361276958d841bd084f1faa1e7dce4c"
       },
-      "epub_sha256": "be4087cab2f3a245d6913b4877b95e2c0092f48a9ccc1a0dcce62fdcba2b2092",
+      "epub_sha256": "afec6b636091fb20bac1f11a917d1ad66ba0743121641530e43da98d99119d0a",
       "epub_members": {
         "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
         "OEBPS/back-cover.jpg": "d10d77b23956fe886764d764f5a95ec9f5c583a027bab774ebcabad3e53db006",
@@ -646,12 +646,12 @@
         "OEBPS/chapter-11.xhtml": "9ab45be46993b5950b2f39f97722669a347bab31b2dd8658de9d843ad2acd0a7",
         "OEBPS/chapter-12.xhtml": "db1f5fc8995eec0e3f55c466b49d1f85c1b35871fd2785780ca2263c3601aea5",
         "OEBPS/chapter-13.xhtml": "b9db4d6af638a70e9882c580e4cd371bd3b2554eb7dfe38e755d2629d29f5a3e",
-        "OEBPS/chapter-14.xhtml": "3ec7af617b143e22281d254e04b599f5b3f8cfab3d40d7458ff12bb861db354e",
+        "OEBPS/chapter-14.xhtml": "11b3471370d61b0629a9f3c409f76e1efbd8cda91957dfc0ece71c748e7a06fc",
         "OEBPS/chapter-15.xhtml": "ec2c88df3dd7298861a8be5377c70e0a5fe3ce42bb0cf191e503fd37baee1167",
         "OEBPS/chapter-16.xhtml": "36c8e1ca1dae7b0275e074d36ab5526f87af88f6806ac5fb62d9462c08fc8f16",
         "OEBPS/chapter-17.xhtml": "d5da8fdb9b32092596a5322f4aff5935cd95043fd8994cd066187d193913844f",
         "OEBPS/chapter-18.xhtml": "76073c8e4e039aebe3b4b1ae7a6bc4e58794db36a006a5f2a32ee7ae5c0ab35e",
-        "OEBPS/chapter-19.xhtml": "09bd1e9cf63679b42de8b02573f2625e25ec9f40c3b68ad84fd836a95cf48ec3",
+        "OEBPS/chapter-19.xhtml": "2088afa1c95460dea914149a10b2f8278951abeeedf97f2f530394f35c2cf8e5",
         "OEBPS/chapter-20.xhtml": "14f3909d3348197b901389b440e9f865b08c818008710b885d78d6102d098e27",
         "OEBPS/chapter-21.xhtml": "832b66a50830a144621cdde3875b1640e4b700d20aacfeca4f83da4521653181",
         "OEBPS/chapter-22.xhtml": "4c4c26a4ed88f00b04cfa1f44baf35d60d00f4682386876ec00d0e109c8b5932",
@@ -755,7 +755,7 @@
         },
         {
           "title": "7. Cold Spring Harbor",
-          "sha256": "68ef1f2d1d3bd38e692e4998e20525a413432f382ca6f85c751f047939517309",
+          "sha256": "1a709cb4f7e78c7f01aa22cbc4840ed175b64638b461fdfbc0bb731e3971047f",
           "blocks": 39
         },
         {
@@ -780,7 +780,7 @@
         },
         {
           "title": "12. A Feeling for the Organism",
-          "sha256": "478dcd1b39cc860323c9948c490e904fbf8555a86bde851662c5fb457d3ee5d3",
+          "sha256": "0da0d93d2a4499ba1f24d1b21ba0b8e12caadacbb29be867851807823d3fb9cd",
           "blocks": 34
         },
         {

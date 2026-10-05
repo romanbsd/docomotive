@@ -67,7 +67,7 @@ PROFILE_KEYS = frozenset("""
     scan_raster_only slug small_caps_openings source_completeness source_note
     source_prose_indents source_relative_figures source_sha256 source_version
     statistics_excluded_chapters subjects subtitle text_source title
-    upper_margin_cutoff uppercase_margin_cutoff verse_regions vision_primary_pages
+    upper_margin_cutoff uppercase_margin_cutoff verse_regions vision_primary_pages recover_scan_italics
     """.split())
 
 
