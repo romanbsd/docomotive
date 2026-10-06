@@ -566,3 +566,21 @@ Omit `--skip-extraction` to regenerate the full local OCR caches. The [EPUB](../
 The delivered EPUB has 32 sections, 11 numbered figures and 311 original-page navigation anchors, including the figure-only PDF 158. All 477 reference entries pass strict section sequence checks: 404 have linked superscripts and 73 use chapter-level fallback links. The note review retains 246 uncertain candidate readings across 334 review locations; these candidates are distinct from the 73 unlocated reference numbers. The proofreading sheet contains 539 lexical groups and three diagnostics. Ten source-checked correction rows and ten evidence-bound review acknowledgements leave 569 unresolved OCR disagreement locations; the scan sheet also displays the acknowledged locations for traceability. Remaining candidates include legitimate vocabulary and unresolved OCR, so these counts do not establish complete proofreading.
 
 Validation accounts for 10,043 retained body rows and 509 excluded rows, passes 168 unit tests, Black and whitespace checks, and reports zero EPUBCheck errors or warnings. All ten earlier book regression cases match their unchanged baselines. An independent rebuild of this book also matches its reviewed baseline. The 28-page rendered layout sample was refreshed from the delivered EPUB; epigraph credits, chapter indentation and superscripts, a diagram and the reference layout were rechecked. The final EPUB SHA-256 is `3d39d3c52614945fde120c89714b0495e18c081d7bd4d85b21a3ff1e0c810e14`.
+
+## Translation settings (scripts/translate.py)
+
+Per-model settings live in `config/translation-models.json` (exact name, then untagged name, then `default`; an untagged name means `:latest`). `qwen3.8:latest` (27.3B dense, Q4_K_M) was tuned on 2026-10-06 against 21 consecutive paragraphs (~9,500 characters, 37 first-person "I", 16 inline tags) from two chapters of the Calibre EPUB 3 conversion of *The Cosmic Serpent*, English to Russian, male narrator. Measures: wall time, paragraphs decoded with full markup, mixed Latin/Cyrillic words, masculine versus feminine first-person past forms, number of spellings of the book's core term, and reading of aligned paragraphs.
+
+| Setting | Time | Markup kept | Mixed-script | Core-term spellings |
+|---|---|---|---|---|
+| one paragraph per request, no context | 686 s | 21/21 | — | — |
+| 4k-character batches, 2k context, T=0 | 328 s | 21/21 | 6 | 2 |
+| 8k batches, 3k context, T=0 | 288–302 s | 21/21 | 4–6 | 1–2 |
+| 4k batches, T=0.3 | 375 s | 20/21 | 5 | 2 |
+| 4k batches, Qwen non-thinking recommendation (T=0.7, top_p 0.8, presence 1.5) | 333 s | 21/21 | 1 | 2 |
+| 4k batches, thinking `low` | 971 s | 21/21 | 1 | 2 |
+| **8k batches, 3k context, T=0, glossary** | **273 s** | **21/21** | **0** | **1** |
+
+All runs with the narrator note produced 25–28 masculine and 0 feminine first-person forms; a run whose note was accidentally omitted drifted to 18 feminine forms at T=0.3, so the note is required. Sampling and thinking did not improve markup or consistency, matching published Qwen3 MT results that greedy decoding is best and thinking adds little. Batched paragraphs with preceding translated context read as connected prose; per-paragraph requests without context lost markup on 15 of 21 paragraphs until a stray `<seg1>` wrapper was unwrapped. The glossary (143 recurring names and Hunspell-unknown words, translated once in JSON batches with an example sentence each, entries filtered per request) removed the remaining mixed-script loanwords and gave inflected, consistent renderings. Glossaries are saved beside the output as `<output>.glossary.json`; review its spellings before a full run, because they are applied book-wide.
+
+Throughput at the chosen setting is about 35 source characters per second on this machine, roughly 2.5 hours for a 300 KB book. The `default` entry (4k batches, 2k context, glossary, T=0) is a conservative starting point for untuned instruct models; `translategemma` keeps its published single-paragraph prompt without batching, context or glossary.

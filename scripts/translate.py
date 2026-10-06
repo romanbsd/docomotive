@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
-"""Translate a built EPUB block by block with a local Ollama TranslateGemma model.
+"""Translate a built EPUB with a local Ollama model.
 
-Each leaf block (paragraph, heading, list item, caption, TOC label, ...) is one
-request, so the model never sees markup it could reorder across blocks. Inline
-elements become numbered placeholders (<x1>...</x1>, <x2/>) that TranslateGemma
-keeps in place; the originals (note links, page-break anchors, emphasis) are
-restored from them, so IDs and internal links survive translation. Blocks longer
-than MAX_CHUNK are split at top-level sentence boundaries. Raw model outputs are
-cached in an append-only JSONL file keyed by model and prompt, so interrupted
-runs resume and reruns are offline replays.
+Leaf blocks (paragraph, heading, list item, caption, TOC label, ...) are the unit
+of reconstruction. Inline elements become numbered placeholders (<x1>...</x1>,
+<x2/>) that the model keeps in place; the originals (note links, page-break
+anchors, emphasis) are restored from them, so IDs and internal links survive
+translation. Per-model settings (config/translation-models.json) choose the
+prompt style, how many consecutive blocks share one request (each wrapped in
+<segN> tags), how much preceding translation is shown as context, and sampling.
+Blocks longer than the chunk size are split at top-level sentence boundaries.
+Raw model outputs are cached in an append-only JSONL file keyed by the full
+request, so interrupted runs resume and reruns are offline replays.
 """
 
 import argparse
@@ -19,6 +21,7 @@ import posixpath
 import re
 import subprocess
 import sys
+import tempfile
 import urllib.request
 from urllib.parse import unquote
 import zipfile
@@ -54,21 +57,75 @@ XML_LANG = "{http://www.w3.org/XML/1998/namespace}lang"
 DC = "{http://purl.org/dc/elements/1.1/}"
 
 
-def prompt(text, source, target):
+MODEL_CONFIGS = ROOT / "config/translation-models.json"
+
+
+def model_config(model, path=MODEL_CONFIGS):
+    """Settings for model, falling back to its untagged name, then "default".
+    Like Ollama, a name without a tag means :latest."""
+    configs = json.loads(Path(path).read_text())
+    base = configs["default"]
+    tagged = model if ":" in model else model + ":latest"
+    for name in (tagged, model.split(":")[0]):
+        if name in configs:
+            own = configs[name]
+            options = {**base.get("options", {}), **own.get("options", {})}
+            return {**base, **own, "options": options, "name": name}
+    return {**base, "name": "default"}
+
+
+def narrator_note(gender):
+    """Russian past-tense verbs and short adjectives agree with "I", which English
+    does not mark, so a model given isolated chunks otherwise picks per chunk."""
+    if not gender:
+        return ""
+    person, forms = {"male": ("man", "masculine"), "female": ("woman", "feminine")}[
+        gender
+    ]
+    return (
+        f'The narrator ("I") is a {person}: use {forms} forms for the first person.\n'
+    )
+
+
+def gemma_prompt(text, source, target, note=""):
     """The prompt format published with TranslateGemma; deviations degrade it."""
     s, t = LANGS[source], LANGS[target]
     return (
         f"You are a professional {s} ({source}) to {t} ({target}) translator. "
         f"Your goal is to accurately convey the meaning and nuances of the original {s} text "
-        f"while adhering to {t} grammar, vocabulary, and cultural sensitivities.\n"
+        f"while adhering to {t} grammar, vocabulary, and cultural sensitivities.\n{note}"
         f"Produce only the {t} translation, without any additional explanations or commentary. "
         f"Please translate the following {s} text into {t}:\n\n\n{text}"
     )
 
 
-class Ollama:
-    def __init__(self, model, cache, host="http://localhost:11434"):
+def instruct_system(source, target, note=""):
+    s, t = LANGS[source], LANGS[target]
+    return (
+        f"You are a professional literary translator from {s} into {t}. Translate "
+        f"each user message into natural, fluent {t} that reads as if originally "
+        f"written in {t}, preserving the meaning, tone and register of the book; "
+        f"keep terminology and names consistent with your earlier translations. "
+        f"Render foreign words and names fully in the {t} script; never mix "
+        f"alphabets within one word.\n{note}"
+        "The text contains placeholder tags such as <x1>...</x1> and <x2/>, and "
+        "paragraph tags <seg1>...</seg1>. Keep every tag exactly as given: wrap the "
+        "translation of the tagged words in the same tag, and translate every "
+        "paragraph inside its own seg tag, in order.\n"
+        f"Reply with the {t} translation only, without explanations or commentary."
+    )
+
+
+class Translator:
+    """Ollama chat client: prompt style, context and sampling come from the model config."""
+
+    def __init__(self, model, cache, config, host="http://localhost:11434", note=""):
         self.model, self.cache_path, self.host = model, Path(cache), host
+        self.config, self.note = config, note
+        self.chunk_chars = config["chunk_chars"]
+        self.batch = config["batch"]
+        self.history = []  # (source, translation) pairs for context
+        self.glossary = {}  # source term -> target rendering
         self.cache = {}
         if self.cache_path.exists():
             for line in self.cache_path.read_text().splitlines():
@@ -77,35 +134,185 @@ class Ollama:
         self.cache_path.parent.mkdir(parents=True, exist_ok=True)
         self.calls = 0
 
-    def __call__(self, text, temperature=0.0):
-        key = digest(f"{self.model}\0{temperature}\0{text}".encode())
+    def messages(self, text, source, target):
+        if self.config["prompt"] == "translategemma":
+            return [
+                {
+                    "role": "user",
+                    "content": gemma_prompt(text, source, target, self.note),
+                }
+            ]
+        context, size = [], 0
+        for previous, translation in reversed(self.history):
+            size += len(previous)
+            if size > self.config["context_chars"]:
+                break
+            context[:0] = [
+                {"role": "user", "content": previous},
+                {"role": "assistant", "content": translation},
+            ]
+        system = instruct_system(source, target, self.note)
+        terms = glossary_lines(self.glossary, text)
+        if terms:
+            system += (
+                "\nTranslate these terms consistently as given, inflecting as "
+                "grammar requires:\n" + terms
+            )
+        return [{"role": "system", "content": system}, *context] + [
+            {"role": "user", "content": text}
+        ]
+
+    def __call__(self, text, source, target, retry=False):
+        options = dict(self.config["options"])
+        if retry:
+            options["temperature"] = self.config["retry_temperature"]
+        # num_predict bounds runaway repetition; one token per input character
+        # is far above any real translation length.
+        output = self.chat(self.messages(text, source, target), options, len(text))
+        self.history.append((text, output))
+        return output
+
+    def chat(self, messages, options, length, format=None):
+        think = self.config["think"]
+        body = {
+            "model": self.model,
+            "stream": False,
+            "think": think,
+            "messages": messages,
+            "options": {
+                **options,
+                "num_ctx": self.config["num_ctx"],
+                "num_predict": length + 256 + (8192 if think else 0),
+            },
+        }
+        if format:
+            body["format"] = format
+        key = digest(json.dumps(body, sort_keys=True, ensure_ascii=False).encode())
         if key not in self.cache:
-            body = {
-                "model": self.model,
-                "stream": False,
-                # Reasoning models (qwen3) otherwise spend the budget thinking.
-                "think": False,
-                "messages": [{"role": "user", "content": text}],
-                # num_predict bounds runaway repetition; one token per input
-                # character is far above any real translation length.
-                "options": {
-                    "temperature": temperature,
-                    "num_ctx": 8192,
-                    "num_predict": len(text),
-                },
-            }
             request = urllib.request.Request(
                 self.host + "/api/chat",
                 json.dumps(body).encode(),
                 {"Content-Type": "application/json"},
             )
-            with urllib.request.urlopen(request, timeout=600) as response:
+            with urllib.request.urlopen(request, timeout=1800) as response:
                 output = json.load(response)["message"]["content"].strip()
             self.cache[key] = output
             with self.cache_path.open("a") as stream:
                 stream.write(json.dumps({"key": key, "output": output}) + "\n")
             self.calls += 1
         return self.cache[key]
+
+    def translate_terms(self, terms, source, target, batch=30):
+        """{term: rendering} for (term, example sentence) pairs, one JSON request
+        per batch. Renderings much longer than their term (an echoed example
+        sentence) are dropped; the term is then left to the translator."""
+        s, t = LANGS[source], LANGS[target]
+        system = (
+            f"You prepare a glossary for translating a book from {s} into {t}. The "
+            "user sends a JSON object mapping each term to one sentence showing how "
+            f"the book uses it. Reply with a JSON object mapping each term, exactly "
+            f"as given, to the {t} word or phrase a professional translator would "
+            f"use for that term throughout the book: established {t} spellings for "
+            f"names, places, peoples and foreign words, fully in the {t} script, in "
+            "the base form (nominative; plural if the term is plural). Give only the "
+            "rendering of the term itself, never a translation of the sentence."
+        )
+        glossary = {}
+        for i in range(0, len(terms), batch):
+            part = dict(terms[i : i + batch])
+            output = self.chat(
+                [
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": json.dumps(part, ensure_ascii=False)},
+                ],
+                {"temperature": 0.0},
+                4 * sum(len(term) + 20 for term in part),
+                format="json",
+            )
+            try:
+                answer = json.loads(output)
+            except json.JSONDecodeError:
+                continue
+            for term in part:
+                rendering = answer.get(term)
+                if not isinstance(rendering, str) or not rendering.strip():
+                    continue
+                rendering = rendering.strip()
+                words = len(term.split()) + 2
+                if (
+                    len(rendering) <= 3 * len(term) + 15
+                    and len(rendering.split()) <= words
+                ):
+                    glossary[term] = rendering
+        return glossary
+
+
+TOKEN = re.compile(r"[^\W\d_]+(?:['’-][^\W\d_]+)*")
+
+
+def glossary_lines(glossary, text):
+    """Entries whose term occurs in text (case-insensitive, as a word prefix so
+    plurals and possessives match)."""
+    lines = [
+        f"{term} = {rendering}"
+        for term, rendering in glossary.items()
+        if re.search(rf"(?<!\w){re.escape(term)}", text, re.I)
+    ]
+    return "\n".join(lines)
+
+
+def glossary_terms(texts, known=lambda word: False, limit=150, min_count=3):
+    """(term, example sentence) for recurring names and foreign or coined words:
+    the words a model renders differently from chunk to chunk. known(word) says
+    whether a spelling dictionary accepts the lowercase word; ordinary
+    vocabulary is left to the translator. Names recur capitalized and never in
+    lower case; one that is also a dictionary word (Crick, Amazon) must be
+    capitalized mid-sentence in most occurrences, which sentence openers such as
+    "Strangely" are not."""
+    counts, lower, inner, forms, examples = {}, set(), {}, {}, {}
+    for text in texts:
+        plain = re.sub(r"<[^>]+>", "", text)
+        for sentence in re.split(r"(?<=[.!?])\s+", plain):
+            for position, match in enumerate(TOKEN.finditer(sentence)):
+                word = re.sub(r"['’]s$", "", match[0])
+                if len(word) < 3:
+                    continue
+                key = word.lower()
+                if word[0].islower():
+                    lower.add(key)
+                elif position:
+                    inner[key] = inner.get(key, 0) + 1
+                counts[key] = counts.get(key, 0) + 1
+                forms.setdefault(key, word)
+                examples.setdefault(key, sentence.strip()[:200])
+    terms = []
+    for key, count in counts.items():
+        if count < min_count:
+            continue
+        if key in lower:
+            keep = not known(key)
+        else:
+            keep = inner.get(key, 0) * 2 > count if known(key) else key in inner
+        if keep:
+            terms.append((count, key if key in lower else forms[key]))
+    terms.sort(key=lambda item: (-item[0], item[1]))
+    return [(word, examples[word.lower()]) for _, word in terms[:limit]]
+
+
+def spelling_dictionary(language):
+    """Lowercase-word lookup from the Hunspell dictionary scripts/bootstrap.py
+    installs; without one for the language, every word counts as unknown."""
+    path = ROOT / "work/models" / {"en": "en_US"}.get(language, language)
+    if not path.with_suffix(".dic").exists():
+        print(
+            f"No spelling dictionary at {path}.dic; glossary keeps common words",
+            file=sys.stderr,
+        )
+        return lambda word: False
+    from spylls.hunspell import Dictionary
+
+    dictionary = Dictionary.from_files(str(path))
+    return lambda word: dictionary.lookup(word)
 
 
 def has_letters(text):
@@ -127,6 +334,17 @@ def linked(node):
 
 
 FLOAT = ""  # private-use marker for an element's position before translation
+
+
+def glued(child, out):
+    """An element inside a word (faux small caps: F<span>OREST</span>) splits it
+    for the model; such elements are unwrapped and the word translated whole."""
+    before = "".join(out)[-1:]
+    inner = "".join(child.itertext())
+    return bool(inner) and (
+        (before.isalpha() and inner[0].isalpha())
+        or (inner[-1].isalpha() and (child.tail or "")[:1].isalpha())
+    )
 
 
 def escape(text):
@@ -158,7 +376,7 @@ def encode(block, flatten=False, strip=False):
                 slots.append(child)
                 anchored.append(len(slots))
                 out.append(FLOAT)
-            elif flatten and not linked(child):
+            elif (flatten or glued(child, out)) and not linked(child):
                 out.append(walk(child))
             else:
                 slots.append(child)
@@ -370,13 +588,17 @@ def chunks(text, limit=MAX_CHUNK, keep=None):
     return [tuple(p) for p in pieces]
 
 
-def translate_text(text, translate, source, target, temperature=0.0, keep=None):
+def translate_text(text, translate, source, target, retry=False, keep=None):
     out = []
-    for kept, piece in chunks(text, keep=keep):
+    limit = getattr(translate, "chunk_chars", MAX_CHUNK)
+    for kept, piece in chunks(text, limit, keep):
         if kept:
             out.append(piece.strip())
             continue
-        result = translate(prompt(piece.strip(), source, target), temperature)
+        result = translate(piece.strip(), source, target, retry)
+        # Models told about paragraph tags sometimes add one to a lone paragraph.
+        if "<seg" not in piece:
+            result = re.sub(r"^\s*<seg1>(.*)</seg1>\s*$", r"\1", result, flags=re.S)
         if len(result) > 3 * len(piece) + 200:
             raise ValueError("runaway output")
         out.append(result)
@@ -385,12 +607,12 @@ def translate_text(text, translate, source, target, temperature=0.0, keep=None):
 
 def translate_block(block, translate, source, target, keep=None):
     """Return the fallback level used: 0 markup, 1 markup retry, 2 no emphasis, 3 plain."""
-    attempts = [(False, False, 0.0), (False, False, 0.4), (True, False, 0.0)]
-    attempts.append((True, True, 0.0))
-    for level, (flatten, strip, temperature) in enumerate(attempts):
+    attempts = [(False, False, False), (False, False, True), (True, False, False)]
+    attempts.append((True, True, False))
+    for level, (flatten, strip, retry) in enumerate(attempts):
         text, slots, breaks, anchors = encode(block, flatten, strip)
         try:
-            output = translate_text(text, translate, source, target, temperature, keep)
+            output = translate_text(text, translate, source, target, retry, keep)
             if strip:  # no placeholders left: any markup in the output is text
                 output = html.escape(html.unescape(output), quote=False)
             decode(output, block, slots, breaks, anchors, strict=not strip)
@@ -398,6 +620,49 @@ def translate_block(block, translate, source, target, keep=None):
         except ValueError, etree.XMLSyntaxError:
             if strip:
                 raise
+
+
+def segments(output, count):
+    """Inner placeholder text of <seg1>...<segN>, in order; raise if any is missing."""
+    output = re.sub(r"&(?!#?\w+;)", "&amp;", output)
+    root = etree.fromstring(f"<r>{output}</r>")
+    if [c.tag for c in root] != [f"seg{i}" for i in range(1, count + 1)]:
+        raise ValueError("paragraph segments changed")
+    if has_letters((root.text or "") + "".join(c.tail or "" for c in root)):
+        raise ValueError("text outside paragraph segments")
+    return [
+        (
+            html.escape(seg.text or "", quote=False)
+            + "".join(etree.tostring(c, encoding="unicode") for c in seg)
+        ).strip()
+        for seg in root
+    ]
+
+
+def translate_batch(blocks, translate, source, target):
+    """Translate consecutive blocks in one request so the model sees them together;
+    blocks whose segment does not decode are retried one by one."""
+    if len(blocks) == 1:
+        return [translate_block(blocks[0], translate, source, target)]
+    encoded = [encode(b) for b in blocks]
+    text = "\n\n".join(f"<seg{i}>{e[0]}</seg{i}>" for i, e in enumerate(encoded, 1))
+    try:
+        output = translate(text, source, target)
+        if len(output) > 3 * len(text) + 200:
+            raise ValueError("runaway output")
+        parts = segments(output, len(blocks))
+    except ValueError, etree.XMLSyntaxError:
+        parts = [None] * len(blocks)
+    levels = []
+    for block, (_, slots, breaks, anchors), part in zip(blocks, encoded, parts):
+        try:
+            if part is None:
+                raise ValueError("no segment")
+            decode(part, block, slots, breaks, anchors)
+            levels.append(0)
+        except ValueError, etree.XMLSyntaxError:
+            levels.append(translate_block(block, translate, source, target))
+    return levels
 
 
 def apparatus(block):
@@ -474,7 +739,9 @@ def leaf_blocks(root):
     return titles + list(walk(root))
 
 
-def translate_epub(epub, out, translate, target):
+def translate_epub(epub, out, translate, target, progress=True, prepare=None):
+    """prepare, if given, receives the source text of every prose block before
+    translation starts (used to build the glossary)."""
     with zipfile.ZipFile(epub) as z:
         files = {n: z.read(n) for n in z.namelist() if n != "mimetype"}
     opf_name = next(n for n in files if n.endswith(".opf"))
@@ -505,22 +772,56 @@ def translate_epub(epub, out, translate, target):
             inferred |= {b for b in blocks if local(b) not in HEADINGS}
         listed |= bibliography(blocks, whole=whole)
     levels, failures, kept = [0] * 4, [], {"index": 0, "citation": 0}
-    for name, block in tqdm(work, unit="block", desc=f"{source}→{target}"):
-        context = apparatus(block) or ("reference" if block in inferred else None)
-        if context == "index" or (
-            context == "reference"
-            and (block in listed or citation_entry(encode(block)[0]))
-        ):
-            # The index is alphabetized and paged for the source edition.
-            kept["index" if context == "index" else "citation"] += 1
-            block.set("lang", source)
-            block.set(XML_LANG, source)
-            continue
-        keep = citation_sentence if context == "reference" else None
-        level = translate_block(block, translate, source, target, keep)
+    batching = getattr(translate, "batch", False)
+    limit = getattr(translate, "chunk_chars", MAX_CHUNK)
+    pending = []  # consecutive prose blocks of one document awaiting a request
+
+    def record(name, block, level):
         levels[level] += 1
         if level:
             failures.append({"file": name, "id": block.get("id"), "level": level})
+
+    def flush():
+        blocks = [b for _, b in pending]
+        for (name, block), level in zip(
+            pending, translate_batch(blocks, translate, source, target)
+        ):
+            record(name, block, level)
+        pending.clear()
+
+    contexts = {}
+    for name, block in work:
+        context = apparatus(block) or ("reference" if block in inferred else None)
+        if context == "reference" and (
+            block in listed or citation_entry(encode(block)[0])
+        ):
+            context = "citation"
+        contexts[block] = context
+    if prepare:
+        prepare([encode(b)[0] for _, b in work if contexts[b] is None], source)
+    for name, block in tqdm(
+        work, unit="block", desc=f"{source}→{target}", disable=not progress
+    ):
+        context = contexts[block]
+        if context in ("index", "citation"):
+            # The index is alphabetized and paged for the source edition.
+            kept[context] += 1
+            block.set("lang", source)
+            block.set(XML_LANG, source)
+            continue
+        size = len(encode(block)[0])
+        if batching and context is None and size < limit:
+            batched = sum(len(encode(b)[0]) for _, b in pending)
+            if pending and (pending[0][0] != name or batched + size > limit):
+                flush()
+            pending.append((name, block))
+            continue
+        if pending:
+            flush()
+        keep = citation_sentence if context == "reference" else None
+        record(name, block, translate_block(block, translate, source, target, keep))
+    if pending:
+        flush()
     for name, root in documents.items():
         for attr in ("lang", XML_LANG):
             if root.get(attr):
@@ -529,7 +830,10 @@ def translate_epub(epub, out, translate, target):
     language.text = target
     title = opf.find(f".//{DC}title")
     if title is not None and has_letters(title.text or ""):
-        title.text = translate_text(title.text, translate, source, target)
+        try:
+            title.text = translate_text(title.text, translate, source, target)
+        except ValueError:
+            pass  # a runaway answer keeps the source title
     identifier = opf.find(f".//{DC}identifier")
     identifier.text += f"-{target}"
     files[opf_name] = etree.tostring(opf, xml_declaration=True, encoding="utf-8")
@@ -552,17 +856,26 @@ class Evaluated(Exception):
     pass
 
 
-def evaluator(translate, min_chars=200):
-    """Translate the first prose-sized chunk, print it, and stop the run."""
+def evaluator(translate, count=1, min_chars=200):
+    """Translate and print the first count prose-sized chunks, then stop the run."""
+    done = []
 
-    def call(prompt, temperature=0.0):
-        text = prompt.split("\n\n\n", 1)[1]
+    def call(text, source, target, retry=False):
         if len(text) < min_chars:  # titles and TOC entries say little about a model
             return text
-        print(text, end="\n\n", file=sys.stderr)
-        print(translate(prompt, temperature))
-        raise Evaluated
+        if done:
+            print(file=sys.stderr)
+        print(text, end="\n\n", file=sys.stderr, flush=True)
+        output = translate(text, source, target, retry)
+        print(output, flush=True)
+        done.append(text)
+        if len(done) >= count:
+            raise Evaluated
+        return output
 
+    call.done = done
+    call.chunk_chars = getattr(translate, "chunk_chars", MAX_CHUNK)
+    call.batch = getattr(translate, "batch", False)
     return call
 
 
@@ -570,7 +883,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("epub", type=Path)
     parser.add_argument("--lang", default="ru", choices=sorted(LANGS))
-    parser.add_argument("--model", default="translategemma")
+    parser.add_argument("--model", default="qwen3.8:latest")
     parser.add_argument(
         "-o",
         "--output",
@@ -588,9 +901,19 @@ def main():
     )
     parser.add_argument(
         "--evaluate",
-        action="store_true",
-        help="print the first chunk of 200+ characters (source on stderr, "
-        "translation on stdout) and exit without writing the EPUB",
+        nargs="?",
+        const=1,
+        type=int,
+        metavar="N",
+        help="print the first N (default 1) chunks of 200+ characters (source on "
+        "stderr, translation on stdout) and exit without writing the EPUB",
+    )
+    parser.add_argument(
+        "--narrator",
+        choices=["male", "female"],
+        default="male",
+        help="gender of the first-person narrator, for languages that inflect it "
+        "(default: male)",
     )
     a = parser.parse_args()
     out = a.epub.with_name(f"{a.epub.stem}.{a.lang}.epub")
@@ -599,15 +922,40 @@ def main():
     cache = a.cache or ROOT / "work/translations" / (
         re.sub(r"\W", "_", a.model) + f"-{a.lang}.jsonl"
     )
-    translate = Ollama(a.model, cache, a.host)
-    if a.evaluate:
-        try:
-            translate_epub(a.epub, out, evaluator(translate), a.lang)
-        except Evaluated:
+    config = model_config(a.model)
+    translate = Translator(a.model, cache, config, a.host, narrator_note(a.narrator))
+    glossary_path = out.with_suffix(".glossary.json")
+
+    def prepare(texts, source):
+        """Reuse an existing (possibly hand-edited) glossary, else build one."""
+        if not config.get("glossary"):
             return
-        raise SystemExit("No chunk of 200+ characters to translate")
-    report = translate_epub(a.epub, out, translate, a.lang)
+        if glossary_path.exists():
+            translate.glossary = json.loads(glossary_path.read_text())
+            return
+        terms = glossary_terms(texts, spelling_dictionary(source))
+        print(f"Translating {len(terms)} glossary terms", file=sys.stderr)
+        translate.glossary = translate.translate_terms(terms, source, a.lang)
+        write_json(glossary_path, translate.glossary)
+
+    if a.evaluate:
+        evaluate = evaluator(translate, a.evaluate)
+        # A book with fewer chunks than N runs to the end; discard that EPUB.
+        with tempfile.TemporaryDirectory() as scratch:
+            try:
+                translate_epub(
+                    a.epub, Path(scratch) / out.name, evaluate, a.lang, False, prepare
+                )
+            except Evaluated:
+                pass
+        if not evaluate.done:
+            raise SystemExit("No chunk of 200+ characters to translate")
+        return
+    report = translate_epub(a.epub, out, translate, a.lang, prepare=prepare)
     report["model_calls"] = translate.calls
+    report["model_config"] = config
+    report["glossary_terms"] = len(translate.glossary)
+    report["narrator"] = a.narrator
     if a.epubcheck.exists():
         check = lambda path: subprocess.run(
             ["java", "-jar", str(a.epubcheck), str(path)], capture_output=True

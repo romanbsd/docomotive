@@ -1,0 +1,29 @@
+{
+  "comments": "Per-model translation settings for scripts/translate.py, looked up by full model name, then the name without its tag, then \"default\"; a model entry overrides default keys (options merge key by key). prompt: \"instruct\" (system prompt, earlier chunks as chat turns) or \"translategemma\" (its fixed published format). chunk_chars: largest request, in source characters. batch: pack consecutive paragraphs into one request as <segN> tags. context_chars: source characters of preceding chunks replayed with their translations. glossary: extract recurring names and dictionary-unknown words once per book, translate them, and give each request the entries it contains (saved as <output>.glossary.json; edit and rerun to correct). think: Ollama thinking level or false. retry_temperature: sampling for the one retry after a markup failure. qwen3.8:latest was chosen on 2026-10-06 from a grid over 21 paragraphs of The Cosmic Serpent; see docs/research.md, 'Translation settings'.",
+  "default": {
+    "prompt": "instruct",
+    "chunk_chars": 4000,
+    "batch": true,
+    "context_chars": 2000,
+    "glossary": true,
+    "think": false,
+    "num_ctx": 16384,
+    "options": {
+      "temperature": 0.0
+    },
+    "retry_temperature": 0.4
+  },
+  "translategemma": {
+    "prompt": "translategemma",
+    "chunk_chars": 2000,
+    "batch": false,
+    "context_chars": 0,
+    "num_ctx": 8192,
+    "glossary": false
+  },
+  "qwen3.8:latest": {
+    "chunk_chars": 8000,
+    "context_chars": 3000,
+    "num_ctx": 24576
+  }
+}
