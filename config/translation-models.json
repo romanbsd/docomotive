@@ -1,5 +1,5 @@
 {
-  "comments": "Per-model translation settings for scripts/translate.py, looked up by full model name, then the name without its tag, then \"default\"; a model entry overrides default keys (options merge key by key). prompt: \"instruct\" (system prompt, earlier chunks as chat turns) or \"translategemma\" (its fixed published format). chunk_chars: largest request, in source characters. batch: pack consecutive paragraphs into one request as <segN> tags. context_chars: source characters of preceding chunks replayed with their translations. glossary: extract recurring names and dictionary-unknown words once per book, translate them, and give each request the entries it contains (saved as <output>.glossary.json; edit and rerun to correct). think: Ollama thinking level or false. retry_temperature: sampling for the one retry after a markup failure. qwen3.8:latest was chosen on 2026-10-06 from a grid over 21 paragraphs of The Cosmic Serpent; see docs/research.md, 'Translation settings'.",
+  "comments": "Per-model translation settings for scripts/translate.py, looked up by full model name, then the name without its tag, then \"default\"; a model entry overrides default keys (options merge key by key). prompt: \"instruct\" (system prompt, earlier chunks as chat turns), \"translategemma\" (its fixed published format) or \"hy-mt\" (Tencent Hy-MT2 published templates in one user turn: background information, \"X translates to Y\" terminology, tag retention). chunk_chars: largest request, in source characters. batch: pack consecutive paragraphs into one request as <segN> tags. context_chars: source characters of preceding chunks replayed with their translations. glossary: extract recurring names and dictionary-unknown words once per book, translate them, and give each request the entries it contains (saved as <output>.glossary.json; edit and rerun to correct). think: Ollama thinking level or false. retry_temperature: sampling for the one retry after a markup failure. Entries for qwen3.8:latest, hy-mt2:latest, qwen3.6:35b-a3b-nvfp4 and gemma4:26b-a4b were chosen on 2026-10-06 from a grid over 21 paragraphs of The Cosmic Serpent; see docs/research.md, 'Translation settings'. options override the model's Ollama defaults; presence_penalty is pinned to 0 because some models ship 1.5, which penalizes the tags and glossary terms a translation must repeat.",
   "default": {
     "prompt": "instruct",
     "chunk_chars": 4000,
@@ -9,7 +9,8 @@
     "think": false,
     "num_ctx": 16384,
     "options": {
-      "temperature": 0.0
+      "temperature": 0.0,
+      "presence_penalty": 0.0
     },
     "retry_temperature": 0.4
   },
@@ -25,5 +26,18 @@
     "chunk_chars": 8000,
     "context_chars": 3000,
     "num_ctx": 24576
+  },
+  "hy-mt2:latest": {
+    "prompt": "hy-mt",
+    "chunk_chars": 3000,
+    "context_chars": 2000
+  },
+  "qwen3.6:35b-a3b-nvfp4": {
+    "chunk_chars": 2000,
+    "context_chars": 1500
+  },
+  "gemma4:26b-a4b": {
+    "chunk_chars": 4000,
+    "context_chars": 2000
   }
 }

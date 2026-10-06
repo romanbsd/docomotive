@@ -135,6 +135,8 @@ class Translator:
         self.calls = 0
 
     def messages(self, text, source, target):
+        if self.config["prompt"] == "hy-mt":
+            return [{"role": "user", "content": self.hy_prompt(text, source, target)}]
         if self.config["prompt"] == "translategemma":
             return [
                 {
@@ -142,15 +144,11 @@ class Translator:
                     "content": gemma_prompt(text, source, target, self.note),
                 }
             ]
-        context, size = [], 0
-        for previous, translation in reversed(self.history):
-            size += len(previous)
-            if size > self.config["context_chars"]:
-                break
-            context[:0] = [
-                {"role": "user", "content": previous},
-                {"role": "assistant", "content": translation},
-            ]
+        context = [
+            {"role": role, "content": content}
+            for pair in self.recent()
+            for role, content in zip(("user", "assistant"), pair)
+        ]
         system = instruct_system(source, target, self.note)
         terms = glossary_lines(self.glossary, text)
         if terms:
@@ -161,6 +159,55 @@ class Translator:
         return [{"role": "system", "content": system}, *context] + [
             {"role": "user", "content": text}
         ]
+
+    def recent(self):
+        """Most recent (source, translation) pairs within context_chars of source."""
+        pairs, size = [], 0
+        for previous, translation in reversed(self.history):
+            size += len(previous)
+            if size > self.config["context_chars"]:
+                break
+            pairs.insert(0, (previous, translation))
+        return pairs
+
+    def hy_prompt(self, text, source, target):
+        """Tencent Hy-MT2's published templates (background, terminology,
+        delimiters), combined into the one user turn the model is trained on;
+        it has no system prompt."""
+        t = LANGS[target]
+        parts = []
+        background = "\n".join(translation for _, translation in self.recent())
+        if background:
+            parts.append(f"[Background Information]\n{background}")
+        terms = [
+            f"{term} translates to {rendering}"
+            for term, rendering in self.glossary.items()
+            if re.search(rf"(?<!\w){re.escape(term)}", text, re.I)
+        ]
+        if terms:
+            parts.append("Reference the following translations:\n" + "\n".join(terms))
+        instruction = f"Please accurately translate the following text into {t}"
+        instruction += (
+            ", taking the provided background information into consideration."
+            if background
+            else "."
+        )
+        if "<" in text:
+            instruction += (
+                " You must retain the exact same tags (such as <x1>...</x1>, <x2/> "
+                "and <seg1>...</seg1>) in the translation, around the translation of "
+                "the same words. Strictly do not omit, escape, or translate these tags."
+            )
+        if self.note:
+            instruction += " " + self.note.strip()
+        instruction += (
+            " You must ONLY output the translated result without any additional "
+            "explanation:"
+        )
+        parts.append(
+            instruction + "\n\n" + (f"[Source Text]\n{text}" if background else text)
+        )
+        return "\n\n".join(parts)
 
     def __call__(self, text, source, target, retry=False):
         options = dict(self.config["options"])
@@ -883,7 +930,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("epub", type=Path)
     parser.add_argument("--lang", default="ru", choices=sorted(LANGS))
-    parser.add_argument("--model", default="qwen3.8:latest")
+    parser.add_argument("--model", default="hy-mt2:latest")
     parser.add_argument(
         "-o",
         "--output",

@@ -153,6 +153,21 @@ class TranslateTests(unittest.TestCase):
         model.config["context_chars"] = 0
         self.assertEqual(len(model.messages("now", "en", "ru")), 2)
 
+    def test_hy_mt_prompt_is_one_user_turn_with_published_sections(self):
+        model = self.translator(prompt="hy-mt")
+        model.glossary = {"ayahuasca": "аяуаска", "river": "река"}
+        first = model.messages("Drink <x1>ayahuasca</x1>.", "en", "ru")
+        self.assertEqual([m["role"] for m in first], ["user"])
+        self.assertNotIn("[Background Information]", first[0]["content"])
+        self.assertIn("ayahuasca translates to аяуаска", first[0]["content"])
+        self.assertNotIn("river", first[0]["content"])
+        self.assertIn("woman", first[0]["content"])
+        model.history = [("Before.", "РАНЬШЕ.")]
+        later = model.messages("After.", "en", "ru")[0]["content"]
+        self.assertTrue(later.startswith("[Background Information]\nРАНЬШЕ."))
+        self.assertTrue(later.endswith("[Source Text]\nAfter."))
+        self.assertNotIn("tags", later)
+
     def test_model_config_falls_back_to_untagged_name_then_default(self):
         path = Path(tempfile.mkdtemp()) / "models.json"
         path.write_text(

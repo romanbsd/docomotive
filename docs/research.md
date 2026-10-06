@@ -584,3 +584,33 @@ Per-model settings live in `config/translation-models.json` (exact name, then un
 All runs with the narrator note produced 25–28 masculine and 0 feminine first-person forms; a run whose note was accidentally omitted drifted to 18 feminine forms at T=0.3, so the note is required. Sampling and thinking did not improve markup or consistency, matching published Qwen3 MT results that greedy decoding is best and thinking adds little. Batched paragraphs with preceding translated context read as connected prose; per-paragraph requests without context lost markup on 15 of 21 paragraphs until a stray `<seg1>` wrapper was unwrapped. The glossary (143 recurring names and Hunspell-unknown words, translated once in JSON batches with an example sentence each, entries filtered per request) removed the remaining mixed-script loanwords and gave inflected, consistent renderings. Glossaries are saved beside the output as `<output>.glossary.json`; review its spellings before a full run, because they are applied book-wide.
 
 Throughput at the chosen setting is about 35 source characters per second on this machine, roughly 2.5 hours for a 300 KB book. The `default` entry (4k batches, 2k context, glossary, T=0) is a conservative starting point for untuned instruct models; `translategemma` keeps its published single-paragraph prompt without batching, context or glossary.
+
+`hy-mt2:latest` (Tencent Hy-MT2 30B-A3B MoE, Q4_K_M) has no system prompt; its [model card](https://huggingface.co/tencent/Hy-MT2-30B-A3B) publishes single-turn templates for background information, "X translates to Y" terminology and delimiter retention, which the `hy-mt` prompt style combines. Same sample and measures:
+
+| Setting | Time | Markup kept | Lost sentences | Core-term spellings |
+|---|---|---|---|---|
+| one paragraph per request | 80 s | 21/21 | 0 | 3 |
+| 4k batches, no context | 130 s | 21/21 | 0 | 1 |
+| 4k batches, 2k background | 54 s | 21/21 | 0 | 1 |
+| 4k batches, 2k background, own glossary | 107 s | 21/21 | 1 | 1 |
+| 8k batches, 3k background, glossary | 99 s | 21/21 | 1 (truncated paragraph end) | 1 |
+| 4k batches, glossary, T=0.7 (card recommendation) | 101 s | 21/21 | 0 | 1 |
+| **3k batches, 2k background, own glossary, T=0** | **98 s** | **21/21** | **0** | **1** |
+
+Hy-MT2 is about 2.8 times faster than qwen3.8 at the chosen settings and, read side by side, renders more idiomatically (fewer calques), with the narrator note obeyed (23–29 masculine, 0 feminine). It compresses as batches grow: at 8k it merged sentences and dropped the end of one paragraph, and paragraphs ran up to 18% shorter than the source, so batches stay at 3k. It builds the full 143-term glossary in JSON in 53 s. The glossary is model-specific (Hy-MT2 chose "айяуаска", qwen3.8 "айауаска"); because `<output>.glossary.json` is reused when present, delete or rename it when switching models for the same output.
+
+`qwen3.6:35b-a3b-nvfp4` (35B MoE, 3B active) ships with Ollama defaults including `presence_penalty 1.5`, which penalizes the tags and glossary terms a translation must repeat; the `default` options now pin `presence_penalty` to 0 for every model. Same sample: 2k batches with 1.5k context and glossary took 73 s with 21/21 markup, no lost sentences and one core-term spelling; 4k and 8k batches left one English word untranslated and 8k lost markup on one paragraph; without the glossary the core term had three spellings; the card's non-thinking sampling (T=0.7, presence 1.5) shortened a paragraph; thinking took 1,034 s for no measurable gain. Its Russian is correct but follows English syntax closely.
+
+`gemma4:26b-a4b` (26B MoE, 4B active) uses the `instruct` style; with thinking off it emitted no thought channel. 4k batches with 2k context and glossary took 65 s with 21/21 markup, all-masculine narrator and one core-term spelling, and it kept that spelling even without the glossary. Every non-thinking configuration produced one paragraph about 17% shorter than the source and an occasional dropped preposition. The card's T=1.0 sampling and thinking were far slower (runs above 20 minutes, under concurrent memory pressure) and were not pursued.
+
+Comparison at each model's chosen settings, same 21 paragraphs:
+
+| Model | Settings | Time | Reading |
+|---|---|---|---|
+| qwen3.8:latest | 8k batches, 3k context, glossary | 273 s | correct, literal |
+| hy-mt2:latest | 3k batches, 2k background, glossary | 98 s | most idiomatic; compresses at large batches |
+| qwen3.6:35b-a3b-nvfp4 | 2k batches, 1.5k context, glossary | 73 s | correct, closest to English syntax |
+| gemma4:26b-a4b | 4k batches, 2k context, glossary | 65 s | fluent; occasional dropped word |
+| translategemma:latest | one paragraph, published prompt, no context or glossary | 121 s | readable; markup lost on 4/21 paragraphs, core term spelled four ways |
+
+All four obey the narrator note and keep markup with batching and glossary. On this sample Hy-MT2 gives the best prose at moderate speed; the scores are from one book's narrative prose and do not cover notes, verse or long-range drift.
