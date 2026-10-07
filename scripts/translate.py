@@ -25,6 +25,7 @@ import subprocess
 import sys
 import tempfile
 import threading
+import urllib.parse
 import urllib.request
 from urllib.parse import unquote
 import zipfile
@@ -609,6 +610,126 @@ def glossary_terms(
     return [(word, examples[word.lower()]) for _, word in terms[:limit]] + [
         (phrase, phrase_examples[phrase]) for _, phrase in named[:phrase_limit]
     ]
+
+
+WIKIPEDIA = "https://{}.wikipedia.org/w/api.php"
+
+
+def wikipedia_titles(terms, source, target, cache):
+    """{term: (source article title, target-language title)} for terms whose
+    source-language article links to one, after Wikipedia's normalization and
+    redirects. Disambiguation pages and missing articles give nothing. Only
+    the terms are sent; responses are cached per batch."""
+    found = {}
+    cache = Path(cache)
+    cache.mkdir(parents=True, exist_ok=True)
+    for i in range(0, len(terms), 50):
+        batch = terms[i : i + 50]
+        params = {
+            "action": "query",
+            "format": "json",
+            "titles": "|".join(batch),
+            "prop": "langlinks|pageprops",
+            "lllang": target,
+            "ppprop": "disambiguation",
+            "redirects": "1",
+        }
+        path = cache / (
+            digest(json.dumps([source, params], sort_keys=True).encode()) + ".json"
+        )
+        if path.exists():
+            answer = json.loads(path.read_text())
+        else:
+            request = urllib.request.Request(
+                WIKIPEDIA.format(source) + "?" + urllib.parse.urlencode(params),
+                headers={"User-Agent": "docomotive/1.0 (translation glossary lookup)"},
+            )
+            with urllib.request.urlopen(request, timeout=60) as response:
+                answer = json.load(response)
+            path.write_text(json.dumps(answer, ensure_ascii=False))
+        query = answer.get("query", {})
+        forward = {}
+        for kind in ("normalized", "redirects"):
+            for step in query.get(kind, []):
+                forward[step["from"]] = step["to"]
+        pages = {
+            page["title"]: page
+            for page in query.get("pages", {}).values()
+            if page.get("langlinks")
+            and "disambiguation" not in page.get("pageprops", {})
+        }
+        for term in batch:
+            # Wikipedia capitalizes first letters, then follows redirects.
+            title = forward.get(term, term[:1].upper() + term[1:])
+            title = forward.get(title, title)
+            if title in pages:
+                found[term] = (title, pages[title]["langlinks"][0]["*"])
+    return found
+
+
+def encyclopedia_spelling(term, rendering, title):
+    """The rendering respelled as the encyclopedia title, or None when the title
+    is a different word (another entity, or a translation rather than a
+    respelling). Parenthesized qualifiers are dropped, "Surname, Name" titles
+    are reordered for full names and cut to the surname for single words, and
+    a common-noun rendering keeps its lowercase initial."""
+    from difflib import SequenceMatcher
+
+    title = re.sub(r"\s*\([^)]*\)", "", title).strip()
+    if "," in title:
+        surname, _, given = (part.strip() for part in title.partition(","))
+        title = f"{given} {surname}" if " " in term.strip() else surname
+    if rendering[:1].islower():
+        title = title[:1].lower() + title[1:]
+    if not title or title.lower() == rendering.lower():
+        return None
+    # Different words for one entity (Иаков/Яков, адвентизм/адвентист) fall
+    # below 0.75; respellings (аяуаска/айяуаска) are above 0.9.
+    if SequenceMatcher(None, title.lower(), rendering.lower()).ratio() < 0.75:
+        return None
+    return title
+
+
+def verify_spellings(glossary, source, target, cache):
+    """Respell glossary renderings that an encyclopedia spells differently;
+    returns the changes {term: (old, new)}."""
+    import unicodedata
+
+    fold = lambda text: "".join(
+        c
+        for c in unicodedata.normalize("NFKD", text.casefold())
+        if not unicodedata.combining(c)
+    )
+    titles = wikipedia_titles(sorted(glossary), source, target, cache)
+    changes = {}
+    for term, (article, title) in titles.items():
+        rendering = glossary.get(term)
+        # A redirect to another word (Siberian → Siberia, introns → Intron)
+        # would change the word, not its spelling.
+        if not isinstance(rendering, str) or fold(article) != fold(term):
+            continue
+        spelled = encyclopedia_spelling(term, rendering, title)
+        if spelled:
+            changes[term] = (rendering, spelled)
+            glossary[term] = spelled
+    # Derived terms (ayahuasquero from ayahuasca) have no article of their own;
+    # renderings built on a respelled stem take the new stem.
+    for term, (old, new) in list(changes.items()):
+        old_stem, new_stem = old[:-1].lower(), new[:-1].lower()
+        if len(old_stem) < 5:
+            continue
+        for other, rendering in glossary.items():
+            if (
+                other not in changes
+                and isinstance(rendering, str)
+                and rendering.lower().startswith(old_stem)
+            ):
+                respelled = new_stem + rendering[len(old_stem) :]
+                if rendering[:1].isupper():
+                    respelled = respelled[:1].upper() + respelled[1:]
+                changes[other] = (rendering, respelled)
+                glossary[other] = respelled
+    return changes
 
 
 def spelling_dictionary(language):
@@ -1757,6 +1878,12 @@ def main():
         "they can be checked and edited before a full run",
     )
     parser.add_argument(
+        "--no-lookup",
+        action="store_true",
+        help="do not check new glossary spellings against Wikipedia (sends only "
+        "the glossary terms)",
+    )
+    parser.add_argument(
         "--no-judge",
         action="store_true",
         help="skip scoring translated paragraphs after translation",
@@ -1803,6 +1930,21 @@ def main():
             terms = glossary_terms(texts, spelling_dictionary(source))
             print(f"Translating {len(terms)} glossary terms", file=sys.stderr)
             translate.glossary = translate.translate_terms(terms, source, a.lang)
+            if not a.no_lookup:
+                try:
+                    changes = verify_spellings(
+                        translate.glossary,
+                        source,
+                        a.lang,
+                        ROOT / "work/translations/wikipedia",
+                    )
+                except OSError as error:
+                    print(f"Spelling lookup skipped: {error}", file=sys.stderr)
+                    changes = {}
+                for term, (old, new) in changes.items():
+                    print(
+                        f"Glossary: {term}: {old} → {new} (Wikipedia)", file=sys.stderr
+                    )
             write_json(glossary_path, translate.glossary)
         if not config.get("brief"):
             return

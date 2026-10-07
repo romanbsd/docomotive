@@ -29,6 +29,8 @@ from translate import (
     model_config,
     narrator_note,
     quality_flags,
+    encyclopedia_spelling,
+    verify_spellings,
     term_flags,
     timing_summary,
     brief_inputs,
@@ -819,6 +821,125 @@ class TranslateTests(unittest.TestCase):
         )
         self.assertEqual(len(model.examples), 1)
         self.assertTrue(model.examples[0][0].startswith("The keeper"))
+
+    def test_encyclopedia_respells_only_the_same_word(self):
+        self.assertEqual(
+            encyclopedia_spelling("ayahuasca", "айяуаска", "Аяуаска"), "аяуаска"
+        )
+        self.assertEqual(
+            encyclopedia_spelling("Francis Crick", "Фрэнсис Крик", "Крик, Фрэнсис"),
+            None,
+        )
+        self.assertEqual(encyclopedia_spelling("Crick", "Крик", "Крик, Фрэнсис"), None)
+        self.assertEqual(encyclopedia_spelling("Weiss", "Вайс", "Вейс, Пауль"), "Вейс")
+        self.assertEqual(encyclopedia_spelling("Pichis", "Пичис", "Пичис (река)"), None)
+        self.assertIsNone(encyclopedia_spelling("Moon", "Луна", "Спутник Земли"))
+
+    def test_verify_spellings_uses_cached_wikipedia_answers(self):
+        import translate as T
+        from unittest.mock import patch
+
+        answer = {
+            "query": {
+                "redirects": [{"from": "Ashaninca", "to": "Asháninka"}],
+                "pages": {
+                    "1": {
+                        "title": "Ayahuasca",
+                        "langlinks": [{"lang": "ru", "*": "Аяуаска"}],
+                    },
+                    "2": {
+                        "title": "Asháninka",
+                        "langlinks": [{"lang": "ru", "*": "Ашанинка"}],
+                    },
+                    "3": {
+                        "title": "Luna",
+                        "langlinks": [{"lang": "ru", "*": "Луна"}],
+                        "pageprops": {"disambiguation": ""},
+                    },
+                },
+            }
+        }
+
+        class Response(io.BytesIO):
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                return False
+
+        glossary = {"ayahuasca": "айяуаска", "Ashaninca": "ашанинка", "Luna": "Лунa"}
+        cache = Path(tempfile.mkdtemp())
+        with patch.object(
+            T.urllib.request,
+            "urlopen",
+            return_value=Response(json.dumps(answer).encode()),
+        ):
+            changes = verify_spellings(glossary, "en", "ru", cache)
+        self.assertEqual(changes, {"ayahuasca": ("айяуаска", "аяуаска")})
+        self.assertEqual(glossary["Ashaninca"], "ашанинка")
+        with patch.object(
+            T.urllib.request, "urlopen", side_effect=AssertionError("network")
+        ):
+            again = dict(glossary, ayahuasca="айяуаска")
+            self.assertEqual(
+                verify_spellings(again, "en", "ru", cache),
+                {"ayahuasca": ("айяуаска", "аяуаска")},
+            )
+
+    def test_spelling_lookup_ignores_redirects_to_other_words(self):
+        import translate as T
+        from unittest.mock import patch
+
+        answer = {
+            "query": {
+                "normalized": [{"from": "ayahuasca", "to": "Ayahuasca"}],
+                "redirects": [
+                    {"from": "Ayahuasqueros", "to": "Ayahuasca"},
+                    {"from": "Siberian", "to": "Siberia"},
+                ],
+                "pages": {
+                    "1": {
+                        "title": "Ayahuasca",
+                        "langlinks": [{"lang": "ru", "*": "Аяуаска"}],
+                    },
+                    "2": {
+                        "title": "Siberia",
+                        "langlinks": [{"lang": "ru", "*": "Сибирь"}],
+                    },
+                    "3": {
+                        "title": "Jacob",
+                        "langlinks": [{"lang": "ru", "*": "Иаков"}],
+                    },
+                },
+            }
+        }
+
+        class Response(io.BytesIO):
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                return False
+
+        glossary = {
+            "ayahuasca": "айяуаска",
+            "Ayahuasqueros": "айяуаскерос",
+            "Siberian": "сибирский",
+            "Jacob": "Яков",
+        }
+        with patch.object(
+            T.urllib.request,
+            "urlopen",
+            return_value=Response(json.dumps(answer).encode()),
+        ):
+            changes = verify_spellings(glossary, "en", "ru", Path(tempfile.mkdtemp()))
+        self.assertEqual(
+            changes,
+            {
+                "ayahuasca": ("айяуаска", "аяуаска"),
+                "Ayahuasqueros": ("айяуаскерос", "аяуаскерос"),
+            },
+        )
 
     def test_long_text_splits_only_outside_placeholders(self):
         text = "One two. <x1>Three. Four.</x1> Five six. Seven."
