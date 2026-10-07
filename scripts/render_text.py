@@ -132,6 +132,7 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
                 )
         return value
 
+    marks.extend((offset, "<br/>") for offset in block.get("_line_breaks", []))
     for offset, anchor in sorted(marks):
         pieces.extend([escaped(text[last:offset], last), anchor])
         last = offset
@@ -218,9 +219,11 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
     return f"<p{css}>{content}</p>"
 
 
-def notes_html(notes, book):
+def notes_html(notes, book, seen=None, page_links=None, name=""):
     if not notes:
         return ""
+    seen = set() if seen is None else seen
+    page_links = [] if page_links is None else page_links
     body = [
         '<section class="notes" epub:type="endnotes"><h2>'
         + ui_label(book, "notes")
@@ -237,10 +240,34 @@ def notes_html(notes, book):
             label += "–" + str(
                 book.get("page_labels", {}).get(str(pages[-1]), pages[-1] + offset)
             )
+        # A source page group can contain a numbered list. Preserve canonical
+        # words and styles while separating only source-bound consecutive entries.
+        entries = []
+        for source in note["sources"]:
+            start = source.get("start")
+            if start is None:
+                continue
+            marker = re.match(r"(\d{1,3})\.\s", note["text"][start:])
+            if marker:
+                entries.append((int(marker[1]), start))
+        breaks = [
+            current[1]
+            for previous, current in zip(entries, entries[1:])
+            if current[0] == previous[0] + 1
+        ]
         body.append(
             f'<aside epub:type="endnote" id="{note["id"]}"><h2>{label}</h2>'
             + block_html(
-                {**note, "kind": "text", "page_breaks": []}, book, set(), [], ""
+                {
+                    **note,
+                    "kind": "text",
+                    "page_breaks": note.get("page_breaks", []),
+                    "_line_breaks": breaks,
+                },
+                book,
+                seen,
+                page_links,
+                name,
             )
             + '<p><a href="'
             + html.escape(note.get("backlink", f"#page-{root}"), quote=True)

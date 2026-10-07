@@ -1,0 +1,28 @@
+[
+  {
+    "page": 93,
+    "before": "—_ . A. Koestler, personal communication with the author.",
+    "after": "1. A. Koestler, personal communication with the author.",
+    "exact_row": true,
+    "bbox": [
+      0.14987244897959184,
+      0.4091666666666667,
+      0.6932397959183674,
+      0.4241666666666667
+    ],
+    "reason": "Source 93 (printed page 84) visually confirms numbered note labels 1. and 4.; fresh RapidOCR agrees. Only the corrupted label/prefix changes."
+  },
+  {
+    "page": 93,
+    "before": "4, J. Scott Russell, Report on Waves, report of the British Association for",
+    "after": "4. J. Scott Russell, Report on Waves, report of the British Association for",
+    "exact_row": true,
+    "bbox": [
+      0.1485969387755102,
+      0.5120833333333333,
+      0.8679846938775511,
+      0.5270833333333333
+    ],
+    "reason": "Source 93 (printed page 84) visually confirms numbered note labels 1. and 4.; fresh RapidOCR agrees. Only the corrupted label/prefix changes."
+  }
+]

@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from figures import figure_position, split_source_block, detect_figure_captions
 from apparatus import link_symbol_footnotes
-from render_text import block_html
+from render_text import block_html, notes_html
 
 
 class SourceAnchorTests(unittest.TestCase):
@@ -153,6 +153,75 @@ class SourceAnchorTests(unittest.TestCase):
             ),
             0,
         )
+
+
+class NotesOnlyPageTests(unittest.TestCase):
+    def test_notes_only_and_continuation_pages_have_unique_anchors_and_links(self):
+        from lxml import etree
+
+        note = dict(
+            id="note-7",
+            root_page=7,
+            kind="note",
+            text="First note. Continuation.",
+            sources=[dict(page=7), dict(page=8)],
+            page_breaks=[dict(page=7, offset=0), dict(page=8, offset=12)],
+            inline=[dict(start=0, end=5, tags=["em"])],
+        )
+        links = []
+        seen = set()
+        markup = notes_html([note], {}, seen, links, "chapter.xhtml")
+        node = etree.fromstring(
+            (
+                '<body xmlns:epub="http://www.idpf.org/2007/ops">' + markup + "</body>"
+            ).encode()
+        )
+        self.assertEqual(node.xpath("//@id"), ["note-7", "page-7", "page-8"])
+        self.assertEqual(
+            links, [("chapter.xhtml#page-7", "7"), ("chapter.xhtml#page-8", "8")]
+        )
+        self.assertEqual(node.xpath(".//a/@href"), ["#page-7"])
+        self.assertEqual("".join(node.find(".//aside/p").itertext()), note["text"])
+        self.assertEqual(node.find(".//em").text, "First")
+        self.assertEqual(seen, {7, 8})
+        # A shared body page already has its anchor; only continuation is emitted.
+        links = []
+        markup = notes_html([note], {}, {7}, links, "chapter.xhtml")
+        node = etree.fromstring(
+            (
+                '<body xmlns:epub="http://www.idpf.org/2007/ops">' + markup + "</body>"
+            ).encode()
+        )
+        self.assertEqual(node.xpath("//@id"), ["note-7", "page-8"])
+        self.assertEqual(links, [("chapter.xhtml#page-8", "8")])
+
+    def test_numbered_note_entries_break_at_source_rows_preserving_text_and_styles(
+        self,
+    ):
+        from lxml import etree
+
+        text = "1. First citation. 2. Second citation."
+        note = dict(
+            id="note-1",
+            root_page=1,
+            text=text,
+            sources=[dict(page=1, start=0), dict(page=1, start=19)],
+            inline=[dict(start=3, end=8, tags=["em"])],
+        )
+        markup = notes_html([note], {}, {1})
+        node = etree.fromstring(
+            (
+                '<body xmlns:epub="http://www.idpf.org/2007/ops">' + markup + "</body>"
+            ).encode()
+        )
+        paragraph = node.find(".//aside/p")
+        self.assertEqual("".join(paragraph.itertext()), text)
+        self.assertEqual(len(paragraph.findall("br")), 1)
+        self.assertEqual(paragraph.find("em").text, "First")
+        # An isolated year-like number is not enough to infer a numbered list.
+        note["text"] = "1. First citation. 200. Second citation."
+        markup = notes_html([note], {}, {1})
+        self.assertNotIn("<br/>", markup)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,389 @@
+{
+  "title": "Synchronicity",
+  "subtitle": "The Bridge Between Matter and Mind",
+  "author": "F. David Peat",
+  "author_sort": "Peat, F. David",
+  "language": "en",
+  "date": "1987",
+  "publisher": "Bantam Books",
+  "slug": "synchronicity",
+  "source_sha256": "bd352535eb227cc471623f681f7d5b1a784e51a7bb34568be2f037daa82126a6",
+  "isbn": "0553343211",
+  "rights": "Copyright © 1987 by F. David Peat. All rights reserved.",
+  "chapters": [
+    [
+      9,
+      9,
+      "Acknowledgments"
+    ],
+    [
+      10,
+      43,
+      "1. The Physicist and the Psychologist"
+    ],
+    [
+      44,
+      67,
+      "2. The Mechanical Universe"
+    ],
+    [
+      68,
+      93,
+      "3. The Living Universe"
+    ],
+    [
+      94,
+      121,
+      "4. Patterns of Mind and Matter"
+    ],
+    [
+      122,
+      156,
+      "5. Patterns in the Bone"
+    ],
+    [
+      157,
+      193,
+      "6. Mind, Matter, and Information"
+    ],
+    [
+      194,
+      222,
+      "7. The Creative Source"
+    ],
+    [
+      223,
+      250,
+      "8. Time and Transformation"
+    ],
+    [
+      251,
+      254,
+      "Index"
+    ],
+    [
+      255,
+      255,
+      "About the Author"
+    ]
+  ],
+  "printed_page_offset": -9,
+  "page_labels": {
+    "9": "ix"
+  },
+  "artwork_pages": [
+    [
+      1,
+      "cover"
+    ],
+    [
+      256,
+      "back-cover"
+    ]
+  ],
+  "excluded_pages": {
+    "1": "Front cover preserved as artwork",
+    "2": "Redundant half-title; replaced by EPUB title",
+    "3": "Publisher series advertisements; omitted from reading text",
+    "4": "Publisher series advertisements; omitted from reading text",
+    "5": "Decorative title spread; replaced by EPUB title",
+    "6": "Decorative title spread; replaced by EPUB title",
+    "7": "Copyright reflowed from the source",
+    "8": "Printed contents replaced by EPUB navigation",
+    "256": "Back cover preserved as artwork"
+  },
+  "chapter_body_starts": {
+    "9": 0.24,
+    "255": 0.24,
+    "10": 0.29,
+    "44": 0.29,
+    "68": 0.29,
+    "94": 0.29,
+    "122": 0.29,
+    "157": 0.29,
+    "194": 0.29,
+    "223": 0.29,
+    "251": 0.31
+  },
+  "upper_margin_cutoff": 0.075,
+  "uppercase_margin_cutoff": 0.075,
+  "index_pages": [
+    251,
+    252,
+    253,
+    254
+  ],
+  "index_splits": {
+    "251": 0.5,
+    "252": 0.5,
+    "253": 0.5,
+    "254": 0.5
+  },
+  "hanging_pages": [
+    251,
+    252,
+    253,
+    254
+  ],
+  "statistics_excluded_chapters": [
+    10
+  ],
+  "chapter_heading": true,
+  "recover_image_only_headings": true,
+  "recover_scan_font_metrics": true,
+  "recover_scan_italics": true,
+  "section_navigation": true,
+  "source_note": "Converted from the supplied 256-page DjVu scan. Copyright page identifies a Bantam Book first published June 1987, with third printing January 1988, ISBN 0-553-34321-1; the back cover bears ISBN 0-553-34676-8. Source artwork and chapter-end notes are retained. Publisher advertisements and redundant preliminary title/contents leaves are omitted from reading text.",
+  "comments": {
+    "edition": "Copyright page source 7 establishes title, author, publisher, publication year and internal ISBN; cover mismatch retained as source evidence.",
+    "chapters": "Printed contents source 8: printed starts 1,35,59,85,113,148,185,214 and Index 242. Visually checked scan openings 10,44,68,94,122,157,194,223,251; printed-page offset -9.",
+    "profile_status": "Chapter ranges, note region starts/continuations, index gutter, illustration crops and initial verse region visually checked against rendered DjVu pages.",
+    "figures": "19 source image regions, including captions and two mathematical expressions. Photographic detail is already missing at sources 109,136,137,139; retained without invented replacement. All 256 source pages surveyed in contact sheets.",
+    "notes": "Chapter-end notes retain their printed numbers and source page grouping; source 43 continues 42, 156 continues 155 (including note 6), and 222 continues 221.",
+    "formulae": "Source 209 includes symbolic marks embedded in prose, so the affected paragraphs are retained as a reviewed source facsimile. Source 212 preserves the quantified logic expression only.",
+    "primary_ocr": "Tesseract is primary except source 43 and 193: direct three-engine comparison shows Vision/Rapid retain bibliography labels that Tesseract drops or separates. Source images confirm the numbered entries.",
+    "notes_navigation": "Chapter-end notes use source-page group navigation. Individual body superscript-to-numbered-entry links are not reconstructed by this profile."
+  },
+  "figures": [
+    {
+      "page": 21,
+      "name": "jung-functions-1",
+      "rect": [
+        0.26,
+        0.445,
+        0.76,
+        0.575
+      ],
+      "alt": "Jung's four psychological functions"
+    },
+    {
+      "page": 27,
+      "name": "jung-functions-2",
+      "rect": [
+        0.28,
+        0.268,
+        0.75,
+        0.38
+      ],
+      "alt": "Equilibrium of Jung's psychological functions"
+    },
+    {
+      "page": 28,
+      "name": "world-clock",
+      "rect": [
+        0.12,
+        0.077,
+        0.9,
+        0.53
+      ],
+      "alt": "The World Clock, impression by W. Byers-Brown, with source caption"
+    },
+    {
+      "page": 33,
+      "name": "causality-synchronicity",
+      "rect": [
+        0.275,
+        0.173,
+        0.775,
+        0.3
+      ],
+      "alt": "Space, time, causality and synchronicity"
+    },
+    {
+      "page": 33,
+      "name": "indestructible-energy",
+      "rect": [
+        0.18,
+        0.383,
+        0.87,
+        0.54
+      ],
+      "alt": "Pauli's modification of Jung's diagram"
+    },
+    {
+      "page": 60,
+      "name": "billiards",
+      "rect": [
+        0.12,
+        0.09,
+        0.89,
+        0.6
+      ],
+      "alt": "Billiard trick shot and cumulative errors, with source caption"
+    },
+    {
+      "page": 66,
+      "name": "dual-aspects",
+      "rect": [
+        0.16,
+        0.195,
+        0.89,
+        0.348
+      ],
+      "alt": "Causality and synchronicity as dual aspects of reality"
+    },
+    {
+      "page": 88,
+      "name": "convection-cells",
+      "rect": [
+        0.15,
+        0.085,
+        0.91,
+        0.55
+      ],
+      "alt": "Convection currents and hexagonal cells, with source caption"
+    },
+    {
+      "page": 109,
+      "name": "jericho-skull",
+      "rect": [
+        0.11,
+        0.407,
+        0.9,
+        0.958
+      ],
+      "alt": "Jericho skull photograph and source caption; photograph detail is lost in the supplied scan"
+    },
+    {
+      "page": 125,
+      "name": "flatland-ball",
+      "rect": [
+        0.12,
+        0.074,
+        0.91,
+        0.713
+      ],
+      "alt": "A ball passing through Flatland, with source caption"
+    },
+    {
+      "page": 126,
+      "name": "flatland-pipe",
+      "rect": [
+        0.14,
+        0.09,
+        0.94,
+        0.761
+      ],
+      "alt": "A pipe passing through Flatland, with source caption"
+    },
+    {
+      "page": 136,
+      "name": "shang-vessel",
+      "rect": [
+        0.11,
+        0.1,
+        0.86,
+        0.746
+      ],
+      "alt": "Shang ritual vessel and source caption; photographic detail is lost in the scan"
+    },
+    {
+      "page": 137,
+      "name": "oracle-bone",
+      "rect": [
+        0.225,
+        0.39,
+        0.895,
+        0.915
+      ],
+      "alt": "Shang oracle bone and source caption; photographic detail is lost in the scan"
+    },
+    {
+      "page": 139,
+      "name": "tortoise-shell",
+      "rect": [
+        0.055,
+        0.083,
+        0.95,
+        0.71
+      ],
+      "alt": "Tortoise shell oracle, front and reverse, with source caption"
+    },
+    {
+      "page": 145,
+      "name": "trigrams-hexagrams",
+      "rect": [
+        0.05,
+        0.076,
+        0.94,
+        0.503
+      ],
+      "alt": "Trigrams and hexagrams with original labels"
+    },
+    {
+      "page": 146,
+      "name": "hexagram-composition",
+      "rect": [
+        0.13,
+        0.42,
+        0.89,
+        0.76
+      ],
+      "alt": "Formation of hexagrams from paired trigrams"
+    },
+    {
+      "page": 147,
+      "name": "hexagram-transformation",
+      "rect": [
+        0.28,
+        0.32,
+        0.77,
+        0.475
+      ],
+      "alt": "Transformation from Ta Kuo to Kuai"
+    },
+    {
+      "page": 209,
+      "name": "laws-of-form",
+      "rect": [
+        0.105,
+        0.365,
+        0.9,
+        0.866
+      ],
+      "alt": "Source paragraphs and symbolic Laws of Form expressions"
+    },
+    {
+      "page": 212,
+      "name": "symbolic-logic",
+      "rect": [
+        0.05,
+        0.312,
+        0.98,
+        0.353
+      ],
+      "alt": "Original quantified symbolic logic expression"
+    }
+  ],
+  "source_relative_figures": true,
+  "note_starts": {
+    "42": 0.185,
+    "43": 0.075,
+    "67": 0.405,
+    "93": 0.35,
+    "121": 0.415,
+    "155": 0.603,
+    "156": 0.08,
+    "193": 0.075,
+    "221": 0.69,
+    "222": 0.079,
+    "250": 0.7
+  },
+  "note_continuations": {
+    "43": 42,
+    "156": 155,
+    "222": 221
+  },
+  "verse_regions": {
+    "11": [
+      [
+        0.23,
+        0.379
+      ]
+    ]
+  },
+  "vision_primary_pages": [
+    43,
+    193
+  ]
+}

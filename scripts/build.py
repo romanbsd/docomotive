@@ -799,7 +799,7 @@ def build(
                     (name + "#" + block["heading_id"], block["text"])
                 )
             body.append(block_html(block, render_book, seen, page_links, name, refs))
-        body.append(notes_html(chapter["notes"], book))
+        body.append(notes_html(chapter["notes"], book, seen, page_links, name))
         if book.get("endnote_reference_mode") == "chapter":
             note_blocks = next(
                 c for c in model if c["chapter"] == book["endnote_chapter"]
