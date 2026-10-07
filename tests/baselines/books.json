@@ -2677,14 +2677,14 @@
       "slug": "chosen-by-spirits",
       "editorial": false,
       "artifacts": {
-        "book-model.json": "f22ee1cdee10afbba67a85d03586c472f603d33f152845cb2300d1782cacb8d1",
-        "corrected-pages.json": "055590bb7a37445fed6c145a6abf490eec1c70f0fc7218fed5020432f6a5e8dc",
-        "text-coverage.json": "1a1f5f7f914095792299da6b57133e3c0b6b00cd86f19f27fbec0785e5ceecb1",
+        "book-model.json": "7130e7cfeaa42c0bb3f30d3fe51aceaac750b8459827ac7ec53cd03c9c9b9d78",
+        "corrected-pages.json": "5d6ca84b4aa2cc4f8dc6a6c97927e51bc2f79097db3accdc856d88a04febdb29",
+        "text-coverage.json": "9142e2e79b7ad8f9e36cbc912bb40e28ba0aac9bb8a888be84dbeb28b09baa05",
         "apparatus-analysis.json": "29a0616ffbc8ec355e2ba46db7f6f4e9432ed7e43b0d141befe499334a3e0077",
-        "chosen-by-spirits.txt": "fab61bf91eaba59e12e21108f0ca47264741206af9fcd5938308fdfd8e78f51f",
-        "lexical-repair.json": "bc3318812e56df895021be9e2210588538b1fec4d7e8da425a42602c6355b64d"
+        "chosen-by-spirits.txt": "d5a5eb2f339d35749c959910c27e5ab9eb0f776ddfb1e895d6c74ba5a1c6ca0c",
+        "lexical-repair.json": "4970e3cf646bbc3dfd957be490c20d93b2aef57f62ca0533902492971c96fff3"
       },
-      "epub_sha256": "1c35d199a34fe59d0a6a798f3fd237ed91d56fb0a442f02b52384f99f81a3c4d",
+      "epub_sha256": "6181a83e17bc840d2d32e33770a160d4ef868223fb45dedd6f2fdbe683c10849",
       "epub_members": {
         "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
         "OEBPS/chapter-01.xhtml": "d11e96ff0e4467dde8c6fc36fef2d1cdd10b65d4e0567be19dd520dbc0b0649b",
@@ -2692,7 +2692,7 @@
         "OEBPS/chapter-03.xhtml": "228690da78e2afbacf3a40125fed317a5daa957edeadc4e93f98534736ef40d3",
         "OEBPS/chapter-04.xhtml": "889b74c280782069b280ca2ea72fa76df6e5376b2a75cc8451b69c8f4770caec",
         "OEBPS/chapter-05.xhtml": "fcadefaed94f66b3c14654729409889b437759325dece2b50047e8f9b391eed0",
-        "OEBPS/chapter-06.xhtml": "102dc6516ed6085e384faebffc789ccfa122014f5d2e502bb39d17fe94c9579b",
+        "OEBPS/chapter-06.xhtml": "62b58f1c59f2e03a51f93dad56bfd9c9ab250c36bddee7fb7071c4ce54fa2814",
         "OEBPS/chapter-07.xhtml": "9fdf57d6abed922f8a04c8e406938064fe69ee8424f3850b4975e2d637258231",
         "OEBPS/chapter-08.xhtml": "27b2f3c9c10f9c134d2de162dcfdb8192f818fd3f3144c9258f02726dd132ad6",
         "OEBPS/chapter-09.xhtml": "3b2385d7602f746161270bdf1f93c5c3e4e0b9be006aec7f633ebf3d67267b7a",
@@ -2719,7 +2719,7 @@
         "OEBPS/figure-093.jpg": "e14c592a17a883c81348b36729bc4fac4f2892f31d60590c6ab62a2aa305baed",
         "OEBPS/figure-095.jpg": "ef6a7ef546463aa9e3bd3c317ff8e5efa42266cc85d88768c3855413b6f36c5c",
         "OEBPS/figure-099.jpg": "0dfb2325414442bca0c74723048d855d94c9dce12e96b8bc56b247d324402794",
-        "OEBPS/figure-111.jpg": "304721193cc74a0b82bfa4d119739ff17b7f39edd53e3c6c1397573bdb2997c4",
+        "OEBPS/figure-111.jpg": "4533c2ffee467b474453ddfebdfe98d2e8ca12080888503a3013a52526306948",
         "OEBPS/figure-112.jpg": "5af2ab1367c30096985cee6a2724b545f96957ce8b67d4c3e5c68b0bdd2b6d0f",
         "OEBPS/figure-113.jpg": "c68b58c628f4f015455f52e1eb2a6f9fd9ac7ad36813dffeb1c2db65eac4cc77",
         "OEBPS/figure-114.jpg": "de321d5affaf5fd588865f0b8728944486a88f9c4d43ec32dd8794a0ab516d62",
@@ -2740,7 +2740,7 @@
       },
       "coverage": {
         "excluded": 252,
-        "body": 6584,
+        "body": 6585,
         "note": 44
       },
       "chapters": [
@@ -2771,7 +2771,7 @@
         },
         {
           "title": "Кафтан с хвостом, «корона» с рогами",
-          "sha256": "67cfb45c4ec59bd43a4ef6bc55d8f7247c15876a48c72d98590bb88af52f975f",
+          "sha256": "19cbd6b301d16afa0f250e066aa1e647b19d69275acc34802267af7085ca1deb",
           "blocks": 70
         },
         {

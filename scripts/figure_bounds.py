@@ -93,10 +93,18 @@ def bottom_caption(frame, rows, body_height):
     return run if len(run) <= 8 else []
 
 
-def framed_bounds(image, proposed, rows):
+def framed_bounds(image, proposed, rows, repair_gaps=False):
     w, h = image.size
     ink = (np.asarray(image.convert("L")) < 230).astype("uint8") * 255
-    contours, _ = cv2.findContours(ink, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    # Retry broken borders only after the original detector abstains. Seven
+    # pixels bridge sub-millimeter scan breaks in the caller's 200-dpi preview;
+    # coverage checks still use original ink, so repaired pixels are not evidence.
+    contour_ink = (
+        cv2.morphologyEx(ink, cv2.MORPH_CLOSE, np.ones((7, 7), np.uint8))
+        if repair_gaps
+        else ink
+    )
+    contours, _ = cv2.findContours(contour_ink, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     body = [
         r["bbox"][3] - r["bbox"][1]
         for r in rows
@@ -137,7 +145,11 @@ def framed_bounds(image, proposed, rows):
             ):
                 frames.append((f, side, bottom))
     if not frames:
-        return None
+        return (
+            None
+            if repair_gaps
+            else framed_bounds(image, proposed, rows, repair_gaps=True)
+        )
     frame, side, run = max(
         frames, key=lambda v: (v[0][2] - v[0][0]) * (v[0][3] - v[0][1])
     )
@@ -153,6 +165,7 @@ def framed_bounds(image, proposed, rows):
         ],
         frame=frame,
         caption_rows=[r["bbox"] for r in run + side],
+        **({"border_gap_repair": True} if repair_gaps else {}),
     )
 
 

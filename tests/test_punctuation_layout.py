@@ -188,6 +188,38 @@ class LayoutRecoveryTests(unittest.TestCase):
         self.assertGreater(result["rect"][3], 0.758)
         self.assertIsNone(framed_bounds(im, [0.03, 0.07, 0.985, 0.83], rows))
 
+    def test_broken_border_retry_keeps_caption_and_returns_first_prose_row(self):
+        from figures import outside_figures
+
+        rows = [
+            dict(text="Short illustration caption", bbox=[0.55, y, 0.96, y + 0.015])
+            for y in [0.725, 0.745, 0.765]
+        ] + [
+            dict(
+                text="The first ordinary prose row beneath the illustration.",
+                bbox=[0.05, y, 0.96, y + 0.025],
+            )
+            for y in [0.812, 0.845, 0.880]
+        ]
+        for gap, accepted in [(0, True), (5, True), (15, False)]:
+            with self.subTest(gap=gap):
+                im = Image.new("L", (400, 600), 255)
+                d = ImageDraw.Draw(im)
+                d.rectangle((20, 42, 388, 420), outline=0, width=2)
+                if gap:
+                    d.rectangle((385, 200, 392, 199 + gap), fill=255)
+                    d.rectangle((18, 110, 24, 109 + gap), fill=255)
+                result = framed_bounds(im, [0.04, 0.06, 0.985, 0.83], rows)
+                self.assertEqual(bool(result), accepted)
+                if not accepted:
+                    continue
+                self.assertEqual(bool(result.get("border_gap_repair")), bool(gap))
+                self.assertGreater(result["rect"][3], 0.78)
+                self.assertLess(result["rect"][3], 0.812)
+                figure = dict(page=1, name="fixture", rect=result["rect"])
+                retained = outside_figures(rows, dict(figures=[figure]), 1)
+                self.assertEqual(retained, rows[3:])
+
     def test_side_caption_frame_excludes_prose_but_not_a_second_panel(self):
         im = Image.new("L", (1000, 1000), 255)
         draw = ImageDraw.Draw(im)
