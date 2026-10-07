@@ -209,7 +209,9 @@ def run(model, name, overrides, spec, language, qe=False, review_model=None):
     checks = None
     if config.get("checks", True):
         ratio = config.get("min_length_ratio", 0.8)
-        checks = lambda s, t: T.quality_flags(s, t, language, narrator, ratio)
+        checks = lambda s, t: T.quality_flags(
+            s, t, language, narrator, ratio
+        ) + T.term_flags(s, t, translator.glossary)
     review = reviewer = None
     if review_model:
         reviewer = T.Translator(

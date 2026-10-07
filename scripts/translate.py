@@ -131,6 +131,10 @@ class Translator:
         self.history = []  # (source, translation) pairs for context
         self.glossary = {}  # source term -> target rendering
         self.brief = {}  # genre, register, period, people: {name: male|female}
+        # Approved (source, translation) pairs shown as style examples; filled
+        # from the book's corrections file by translate_epub.
+        self.examples = []
+        self.example_count = config.get("examples", 3)
         self.cache = {}
         if self.cache_path.exists():
             for line in self.cache_path.read_text().splitlines():
@@ -164,7 +168,7 @@ class Translator:
             ]
         context = [
             {"role": role, "content": content}
-            for pair in self.recent()
+            for pair in self.examples + self.recent()
             for role, content in zip(("user", "assistant"), pair)
         ]
         system = instruct_system(source, target, self.note)
@@ -197,9 +201,13 @@ class Translator:
         it has no system prompt."""
         t = LANGS[target]
         parts = []
+        approved = "\n".join(
+            f"Approved example:\n{source_text}\n=>\n{translation}"
+            for source_text, translation in self.examples
+        )
         background = "\n".join(
             part
-            for part in [brief_lines(self.brief, text)]
+            for part in [brief_lines(self.brief, text), approved]
             + [translation for _, translation in self.recent()]
             if part
         )
@@ -293,6 +301,51 @@ class Translator:
                     stream.write(json.dumps(row) + "\n")
             cached = output
         return cached
+
+    def judge_batch(self, items, source, target):
+        """Score (source, translation) plain-text pairs 0-100 for accuracy and
+        fluency, with short error labels; None for items the judge skipped.
+        The judge should be a different model from the translator."""
+        s, t = LANGS[source], LANGS[target]
+        system = (
+            f"You are a strict professional reviewer of {s} to {t} book translations. "
+            "For each numbered item, compare the translation with the source and give "
+            "a score from 0 to 100: 100 is complete, accurate and natural; deduct for "
+            "omissions, additions, mistranslations, wrong terms or names, grammar "
+            "errors and unnatural phrasing, in proportion to their severity. Reply "
+            'with a JSON object mapping each item number to {"score": n, "errors": '
+            '["short label: what is wrong"]}, with an empty errors list for good items.'
+        )
+        listing = {
+            str(i): {"source": src, "translation": tgt}
+            for i, (src, tgt) in enumerate(items, 1)
+        }
+        output = self.chat(
+            [
+                {"role": "system", "content": system},
+                {"role": "user", "content": json.dumps(listing, ensure_ascii=False)},
+            ],
+            {"temperature": 0.0},
+            120 * len(items),
+            format="json",
+        )
+        try:
+            answer = json.loads(output)
+        except json.JSONDecodeError:
+            answer = {}
+        results = []
+        for i in range(1, len(items) + 1):
+            item = answer.get(str(i)) if isinstance(answer, dict) else None
+            score = item.get("score") if isinstance(item, dict) else None
+            errors = item.get("errors") if isinstance(item, dict) else None
+            if isinstance(score, (int, float)) and 0 <= score <= 100:
+                labels = (
+                    [str(e)[:160] for e in errors] if isinstance(errors, list) else []
+                )
+                results.append((int(score), labels))
+            else:
+                results.append((None, []))
+        return results
 
     def post_edit(self, source_text, draft, source, target, glossary=None, brief=None):
         """Second-opinion translation: the source with its placeholder tags and a
@@ -482,18 +535,46 @@ def brief_inputs(texts, glossary, excerpt_chars=3000, per_name=1):
     return excerpt[:excerpt_chars], names
 
 
-def glossary_terms(texts, known=lambda word: False, limit=150, min_count=3):
+PHRASE_OPENERS = frozenset(
+    "from the a an in on at by for and of to with after before see as".split()
+)
+NAME_PHRASE = re.compile(
+    r"(?<![\w’'-])[A-Z][\w’'-]+(?:\s+[A-Z][\w’'-]+){1,3}(?![\w’'-])"
+)
+
+
+def glossary_terms(
+    texts, known=lambda word: False, limit=150, min_count=3, phrase_limit=40
+):
     """(term, example sentence) for recurring names and foreign or coined words:
     the words a model renders differently from chunk to chunk. known(word) says
     whether a spelling dictionary accepts the lowercase word; ordinary
     vocabulary is left to the translator. Names recur capitalized and never in
     lower case; one that is also a dictionary word (Crick, Amazon) must be
     capitalized mid-sentence in most occurrences, which sentence openers such as
-    "Strangely" are not."""
+    "Strangely" are not. Multi-word names (Carlos Perez Shuma, Pichis Valley):
+    runs of two or three capitalized words recurring min_count times, at least
+    once mid-sentence, so a full name gets one rendering too."""
     counts, lower, inner, forms, examples = {}, set(), {}, {}, {}
+    phrases, phrase_inner, phrase_examples = {}, set(), {}
     for text in texts:
         plain = re.sub(r"<[^>]+>", "", text)
         for sentence in re.split(r"(?<=[.!?])\s+", plain):
+            for match in NAME_PHRASE.finditer(sentence):
+                words = match[0].split()
+                # A run at the sentence start includes its opener ("Then", "The").
+                if not sentence[: match.start()].strip():
+                    words = words[1:]
+                # Captions and credits capitalize prepositions ("From Clark").
+                while words and words[0].lower() in PHRASE_OPENERS:
+                    words = words[1:]
+                if not 2 <= len(words) <= 3 or any(w.isupper() for w in words):
+                    continue
+                phrase = re.sub(r"['’]s$", "", " ".join(words))
+                phrases[phrase] = phrases.get(phrase, 0) + 1
+                if match.start():
+                    phrase_inner.add(phrase)
+                phrase_examples.setdefault(phrase, sentence.strip()[:200])
             for position, match in enumerate(TOKEN.finditer(sentence)):
                 word = re.sub(r"['’]s$", "", match[0])
                 if len(word) < 3:
@@ -517,7 +598,17 @@ def glossary_terms(texts, known=lambda word: False, limit=150, min_count=3):
         if keep:
             terms.append((count, key if key in lower else forms[key]))
     terms.sort(key=lambda item: (-item[0], item[1]))
-    return [(word, examples[word.lower()]) for _, word in terms[:limit]]
+    named = sorted(
+        (
+            (count, phrase)
+            for phrase, count in phrases.items()
+            if count >= min_count and phrase in phrase_inner
+        ),
+        key=lambda item: (-item[0], item[1]),
+    )
+    return [(word, examples[word.lower()]) for _, word in terms[:limit]] + [
+        (phrase, phrase_examples[phrase]) for _, phrase in named[:phrase_limit]
+    ]
 
 
 def spelling_dictionary(language):
@@ -1002,6 +1093,32 @@ def quality_flags(source, target, language, narrator=None, min_ratio=0.8):
     return flags
 
 
+def term_flags(source, target, glossary):
+    """["terminology"] when a glossary term in source appears in target under a
+    spelling other than its glossary rendering (аяуаска vs айяуаска). A variant
+    starts with the rendering's first letter, is similar to it (difflib ratio
+    0.7) and differs within the first four letters, so inflection (Египет,
+    Египта), other glossary names (ашанинка, манинкари) and compounds
+    (биофотон, фотоны) do not count. Renderings under six letters are skipped."""
+    from difflib import SequenceMatcher
+
+    words = [w.lower() for w in re.findall(r"[^\W\d_]+", plain(target))]
+    for term, rendering in glossary.items():
+        rendering = rendering if isinstance(rendering, str) else rendering["rendering"]
+        tokens = re.findall(r"[^\W\d_]+", rendering.lower())
+        stem = tokens[0] if tokens else ""
+        if len(stem) < 6 or not re.search(rf"(?<!\w){re.escape(term)}", source, re.I):
+            continue
+        for word in words:
+            if (
+                word[0] == stem[0]
+                and word[:4] != stem[:4]
+                and SequenceMatcher(None, word[: len(stem)], stem).ratio() >= 0.7
+            ):
+                return ["terminology"]
+    return []
+
+
 TYPESET_LANGUAGES = {"ru", "uk"}
 NBSP = " "
 
@@ -1164,6 +1281,8 @@ def translate_epub(
     validate=True,
     review=None,
     corrections=None,
+    judge=None,
+    judge_share=0.05,
 ):
     """prepare, if given, receives the source text of every prose block before
     translation starts (used to build the glossary). checks(source, target)
@@ -1174,8 +1293,11 @@ def translate_epub(
     is kept only if it decodes with the source's markup and clears flags (or,
     for an unflagged block, restores markup without raising any). corrections maps "<document>#<block index>" to {source_sha,
     translation}: reviewed replacements applied instead of the model; a
-    correction whose source text changed stops the run. The report's "pairs"
-    lists every block's source and result for the review sheet."""
+    correction whose source text changed stops the run. judge(pairs), if given,
+    scores every translated prose block after translation; with review, the
+    lowest-scoring judge_share are post-edited and an edit is kept only if the
+    judge scores it higher. The report's "pairs" lists every block's source and
+    result for the review sheet."""
     with zipfile.ZipFile(epub) as z:
         files = {n: z.read(n) for n in z.namelist() if n != "mimetype"}
     opf_name = next(n for n in files if n.endswith(".opf"))
@@ -1207,6 +1329,7 @@ def translate_epub(
         listed |= bibliography(blocks, whole=whole)
     levels, failures, kept = [0] * 4, [], {"index": 0, "citation": 0}
     flagged, reviews = [], []
+    originals, scores, judged = {}, {}, []  # judge pass
     sources = {}  # block -> untranslated copy, for checks and retries
 
     lock = threading.RLock()  # shared results, when documents run in parallel
@@ -1272,6 +1395,20 @@ def translate_epub(
             encoded_source[block] = encode(block)[0]
     corrections = corrections or {}
     applied, block_level, block_flags = [], {}, {}
+    count = getattr(translate, "example_count", 0)
+    if count and hasattr(translate, "examples"):
+        # The longest corrected prose blocks teach register and wording best.
+        approved = sorted(
+            (
+                (encoded_source[block], corrections[positions[block]]["translation"])
+                for _, block in work
+                if positions[block] in corrections
+                and apparatus(block) is None
+                and len(encoded_source[block]) >= 200
+            ),
+            key=lambda pair: -len(pair[0]),
+        )
+        translate.examples = approved[:count]
     contexts = {}
     capitals = {b: style for _, b in work if (style := faux_small_caps(b))}
     for name, block in work:
@@ -1329,9 +1466,11 @@ def translate_epub(
                     block_level[block] = 0
                 bar.update(1)
                 continue
-            if (checks or review) and context is None:
+            if (checks or review or judge) and context is None:
                 with lock:
                     sources[block] = copy.deepcopy(block)
+                    if judge:
+                        originals[block] = sources[block]
             text = encode(block)[0]
             size = len(text)
             # Notes with no citation sentence batch like prose; mixed notes keep
@@ -1376,6 +1515,55 @@ def translate_epub(
                     done.result()
         else:
             run(work, translate, bar)
+    if judge:
+        text = lambda node: "".join(node.itertext())
+        candidates = [
+            block
+            for _, block in work
+            if block in originals and positions[block] not in applied
+        ]
+        batches, batch, size = [], [], 0
+        for block in candidates:
+            length = len(text(block))
+            if batch and (size + length > 4000 or len(batch) >= 12):
+                batches.append(batch)
+                batch, size = [], 0
+            batch.append(block)
+            size += length
+        if batch:
+            batches.append(batch)
+        for batch in tqdm(batches, unit="batch", desc="judge", disable=not progress):
+            results = judge(
+                [(plain(text(originals[b])), plain(text(b))) for b in batch]
+            )
+            for block, (score, errors) in zip(batch, results):
+                if score is not None:
+                    scores[block] = (score, errors)
+        ranked = sorted(scores, key=lambda b: scores[b][0])
+        worst = ranked[: max(1, int(len(ranked) * judge_share))] if ranked else []
+        for block in worst if review else []:
+            score, errors = scores[block]
+            original = originals[block]
+            candidate = copy.deepcopy(original)
+            encoded, slots, breaks, anchors = encode(candidate)
+            entry = {"key": positions[block], "score": score, "errors": errors}
+            try:
+                output = review(encoded, plain(text(block)), source, target)
+                decode(output, candidate, slots, breaks, anchors)
+                new = judge([(plain(text(original)), plain(text(candidate)))])[0][0]
+                before = checks(text(original), text(block)) if checks else []
+                after = checks(text(original), text(candidate)) if checks else []
+                entry["new_score"] = new
+                entry["accepted"] = (
+                    new is not None and new > score and len(after) <= len(before)
+                )
+            except ValueError, etree.XMLSyntaxError:
+                entry["accepted"] = False
+            if entry["accepted"]:
+                replace_content(block, candidate.text, list(candidate))
+                typeset(block, target)
+                scores[block] = (entry["new_score"], [])
+            judged.append(entry)
     for name, root in documents.items():
         for attr in ("lang", XML_LANG):
             if root.get(attr):
@@ -1407,6 +1595,16 @@ def translate_epub(
         "flagged_blocks": flagged,
         "reviewed_blocks": reviews,
         "corrections_applied": applied,
+        "judge": {
+            "scored": len(scores),
+            "mean_score": (
+                round(sum(v[0] for v in scores.values()) / len(scores), 1)
+                if scores
+                else None
+            ),
+            "below_70": sum(1 for v in scores.values() if v[0] < 70),
+            "reviewed": judged,
+        },
         "pairs": [
             {
                 "key": positions[block],
@@ -1417,6 +1615,8 @@ def translate_epub(
                 "level": block_level.get(block),
                 "flags": block_flags.get(block, []),
                 "corrected": positions[block] in applied,
+                "score": scores.get(block, (None, []))[0],
+                "errors": scores.get(block, (None, []))[1],
             }
             for _, block in work
         ],
@@ -1438,14 +1638,24 @@ def review_sheet(pairs, reviews, path, title):
             notes.append("corrected")
         if pair["context"] in ("index", "citation"):
             notes.append(f"kept: {pair['context']}")
-        attention = bool(pair["flags"] or pair["level"])
+        score = pair.get("score")
+        if score is not None:
+            notes.append(f"score {score}")
+            notes += pair.get("errors", [])
+        attention = bool(
+            pair["flags"] or pair["level"] or (score is not None and score < 70)
+        )
         rows.append(
             f'<tr class="{"flag" if attention else "ok"}"><td class="key">'
             f'{html.escape(pair["key"])}<br><small>{pair["source_sha"][:12]}</small></td>'
             f'<td>{html.escape(pair["source"])}</td><td>{html.escape(pair["target"])}</td>'
             f'<td>{html.escape(", ".join(notes))}</td></tr>'
         )
-    attention = sum(1 for p in pairs if p["flags"] or p["level"])
+    attention = sum(
+        1
+        for p in pairs
+        if p["flags"] or p["level"] or (p.get("score") is not None and p["score"] < 70)
+    )
     page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)} review</title><style>
@@ -1547,6 +1757,24 @@ def main():
         "they can be checked and edited before a full run",
     )
     parser.add_argument(
+        "--no-judge",
+        action="store_true",
+        help="skip scoring translated paragraphs after translation",
+    )
+    parser.add_argument(
+        "--no-jev",
+        action="store_true",
+        help="judge with the local --judge-model instead of TypeSafe Jev, which "
+        "sends each paragraph and its translation to TypeSafe's API",
+    )
+    parser.add_argument(
+        "--judge-model",
+        default="gemma4:26b-nvfp4",
+        help="local judge when Jev is off or no TYPESAFE_API_KEY is set; with "
+        "--review-model the lowest-scoring --judge-share are post-edited",
+    )
+    parser.add_argument("--judge-share", type=float, default=0.05)
+    parser.add_argument(
         "--review-model",
         help="second model that post-edits blocks still flagged after the retry "
         "or that lost inline markup (e.g. qwen3.8:27b-nvfp4)",
@@ -1625,7 +1853,7 @@ def main():
         def checks(source_text, target_text):
             return quality_flags(
                 source_text, target_text, a.lang, a.narrator, min_ratio
-            )
+            ) + term_flags(source_text, target_text, translate.glossary)
 
     review = reviewer = None
     if a.review_model:
@@ -1644,6 +1872,33 @@ def main():
                 source_text, draft, source, target, translate.glossary, translate.brief
             )
 
+    judge = judger = None
+    use_jev = not (a.no_judge or a.no_jev)
+    if use_jev:
+        from jev_rank import key
+
+        try:
+            key()
+        except ValueError:
+            print("No TYPESAFE_API_KEY: judging with the local model", file=sys.stderr)
+            use_jev = False
+    if use_jev:
+        import jev_judge
+
+        jev_cache = ROOT / "work/translations/jev-judge"
+        judge = lambda pairs: jev_judge.judge_pairs(
+            pairs, translate.glossary, jev_cache
+        )
+    elif not a.no_judge:
+        judger = Translator(
+            a.judge_model,
+            ROOT
+            / "work/translations"
+            / (re.sub(r"\W", "_", a.judge_model) + f"-judge-{a.lang}.jsonl"),
+            model_config(a.judge_model),
+            a.host,
+        )
+        judge = lambda pairs: judger.judge_batch(pairs, "en", a.lang)
     corrections_path = out.with_suffix(".corrections.json")
     corrections = (
         json.loads(corrections_path.read_text()) if corrections_path.exists() else {}
@@ -1657,7 +1912,14 @@ def main():
         checks=checks,
         review=review,
         corrections=corrections,
+        judge=judge,
+        judge_share=a.judge_share,
     )
+    if use_jev:
+        report["judge_model"] = jev_judge.MODEL
+    elif judger:
+        report["judge_model"] = a.judge_model
+        report["judge_timing"] = timing_summary(judger.timings)
     pairs = report.pop("pairs")
     review_sheet(
         pairs, report["reviewed_blocks"], out.with_suffix(".review.html"), out.stem

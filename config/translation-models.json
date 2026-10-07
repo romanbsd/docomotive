@@ -1,5 +1,5 @@
 {
-  "comments": "Per-model translation settings for scripts/translate.py, looked up by full model name, then the name without its tag, then \"default\"; a model entry overrides default keys (options merge key by key). prompt: \"instruct\" (system prompt, earlier chunks as chat turns), \"translategemma\" (its fixed published format) or \"hy-mt\" (Tencent Hy-MT2 published templates in one user turn: background information, \"X translates to Y\" terminology, tag retention). chunk_chars: largest request, in source characters. batch: pack consecutive paragraphs into one request as <segN> tags. context_chars: source characters of preceding chunks replayed with their translations. glossary: extract recurring names and dictionary-unknown words once per book, translate them, and give each request the entries it contains (saved as <output>.glossary.json; edit and rerun to correct). think: Ollama thinking level or false. retry_temperature: sampling for the one retry after a markup failure. Entries for qwen3.8 (now :27b-nvfp4), hy-mt2:latest, qwen3.6:35b-a3b-nvfp4 and gemma4 (now :26b-nvfp4) were chosen on 2026-10-06 from a grid over 21 paragraphs of The Cosmic Serpent; see docs/research.md, 'Translation settings'. options override the model's Ollama defaults; presence_penalty is pinned to 0 because some models ship 1.5, which penalizes the tags and glossary terms a translation must repeat. checks: after each prose block, flag truncation, lost sentences, untranslated English, mixed alphabets and wrong narrator gender, and retry flagged blocks alone at the retry temperature; min_length_ratio is the flagging threshold. num_ctx is fixed per model (changing it reloads the model) and sized to the largest request so the KV cache does not push the machine into swap. brief: one request per book (after the glossary) for genre, register, period and the gender of each recurring name; each request gets the description and the people it mentions (saved as <output>.brief.json, reused and editable; --review-glossary builds glossary and brief and exits). parallel: documents translated at once, each with its own context (needs Ollama started with OLLAMA_NUM_PARALLEL at least this high); 1 keeps context across documents.",
+  "comments": "Per-model translation settings for scripts/translate.py, looked up by full model name, then the name without its tag, then \"default\"; a model entry overrides default keys (options merge key by key). prompt: \"instruct\" (system prompt, earlier chunks as chat turns), \"translategemma\" (its fixed published format) or \"hy-mt\" (Tencent Hy-MT2 published templates in one user turn: background information, \"X translates to Y\" terminology, tag retention). chunk_chars: largest request, in source characters. batch: pack consecutive paragraphs into one request as <segN> tags. context_chars: source characters of preceding chunks replayed with their translations. glossary: extract recurring names and dictionary-unknown words once per book, translate them, and give each request the entries it contains (saved as <output>.glossary.json; edit and rerun to correct). think: Ollama thinking level or false. retry_temperature: sampling for the one retry after a markup failure. Entries for qwen3.8 (now :27b-nvfp4), hy-mt2:latest, qwen3.6:35b-a3b-nvfp4 and gemma4 (now :26b-nvfp4) were chosen on 2026-10-06 from a grid over 21 paragraphs of The Cosmic Serpent; see docs/research.md, 'Translation settings'. options override the model's Ollama defaults; presence_penalty is pinned to 0 because some models ship 1.5, which penalizes the tags and glossary terms a translation must repeat. checks: after each prose block, flag truncation, lost sentences, untranslated English, mixed alphabets and wrong narrator gender, and retry flagged blocks alone at the retry temperature; min_length_ratio is the flagging threshold. num_ctx is fixed per model (changing it reloads the model) and sized to the largest request so the KV cache does not push the machine into swap. brief: one request per book (after the glossary) for genre, register, period and the gender of each recurring name; each request gets the description and the people it mentions (saved as <output>.brief.json, reused and editable; --review-glossary builds glossary and brief and exits). parallel: documents translated at once, each with its own context (needs Ollama started with OLLAMA_NUM_PARALLEL at least this high); 1 keeps context across documents. examples: up to this many corrected prose blocks (from <output>.corrections.json, the longest first, 200+ characters) shown in every request as approved style examples.",
   "default": {
     "prompt": "instruct",
     "chunk_chars": 4000,
@@ -16,7 +16,8 @@
     "checks": true,
     "min_length_ratio": 0.8,
     "brief": true,
-    "parallel": 1
+    "parallel": 1,
+    "examples": 3
   },
   "translategemma": {
     "prompt": "translategemma",
@@ -25,7 +26,8 @@
     "context_chars": 0,
     "num_ctx": 8192,
     "glossary": false,
-    "brief": false
+    "brief": false,
+    "examples": 0
   },
   "qwen3.8:27b-nvfp4": {
     "chunk_chars": 8000,

@@ -29,6 +29,7 @@ from translate import (
     model_config,
     narrator_note,
     quality_flags,
+    term_flags,
     timing_summary,
     brief_inputs,
     brief_lines,
@@ -686,6 +687,138 @@ class TranslateTests(unittest.TestCase):
         )
         self.assertEqual([r["accepted"] for r in report["reviewed_blocks"]], [False])
         self.assertEqual(len(report["flagged_blocks"]), 1)
+
+    def test_term_flags_catch_spelling_drift_but_not_inflection(self):
+        glossary = {"ayahuasca": "аяуаска", "Peru": "Перу"}
+        source = "They drank ayahuasca in Peru."
+        self.assertEqual(term_flags(source, "Они пили аяуаску в Перу.", glossary), [])
+        self.assertEqual(
+            term_flags(source, "Они пили айяуаску в Перу.", glossary), ["terminology"]
+        )
+        self.assertEqual(
+            term_flags("They drank tea.", "Они пили айяуаску.", glossary), []
+        )
+        self.assertEqual(
+            term_flags("In Peru first.", "Сначала в Перу, первый.", glossary), []
+        )
+        names = {"Ashaninca": "ашанинка", "maninkari": "манинкари", "Egypt": "Египет"}
+        text = "The Ashaninca maninkari of Egypt."
+        self.assertEqual(term_flags(text, "манинкари ашанинка из Египта", names), [])
+
+    def test_judge_scores_blocks_and_reviews_only_the_worst(self):
+        import zipfile
+        from translate import translate_epub
+
+        folder = self.epub(
+            "".join(
+                f"<p>Paragraph {i} tells how the keeper watched the sea at night.</p>"
+                for i in range(10)
+            )
+        )
+
+        # The judge dislikes paragraph 3 until the reviewer rewrites it.
+        def judge(pairs):
+            return [
+                (
+                    40 if "PARAGRAPH 3 " in t else 90,
+                    ["omission"] if "PARAGRAPH 3 " in t else [],
+                )
+                for _, t in pairs
+            ]
+
+        fixed = lambda source_text, draft, s, t: upper(source_text).replace(
+            "PARAGRAPH 3 ", "PARAGRAPH THREE "
+        )
+        report = translate_epub(
+            folder / "in.epub",
+            folder / "a.epub",
+            upper,
+            "ru",
+            progress=False,
+            judge=judge,
+            judge_share=0.1,
+            review=fixed,
+        )
+        self.assertEqual(report["judge"]["scored"], 11)
+        reviewed = report["judge"]["reviewed"]
+        self.assertEqual(
+            [(r["score"], r["new_score"], r["accepted"]) for r in reviewed],
+            [(40, 90, True)],
+        )
+        with zipfile.ZipFile(folder / "a.epub") as z:
+            self.assertIn("PARAGRAPH THREE TELLS", z.read("c.xhtml").decode())
+        scores = {p["key"]: p["score"] for p in report["pairs"]}
+        self.assertEqual(scores["c.xhtml#4"], 90)
+
+    def test_glossary_includes_recurring_multiword_names(self):
+        texts = [
+            "We met Carlos Perez Shuma at dawn. Later Carlos Perez Shuma sang.",
+            "Then Carlos Perez Shuma left the Pichis Valley. The Pichis Valley was wet.",
+            "In the Pichis Valley it rained. Once Upon a time.",
+        ]
+        terms = dict(glossary_terms(texts))
+        self.assertIn("Carlos Perez Shuma", terms)
+        self.assertIn("Pichis Valley", terms)
+        self.assertNotIn("Once Upon", terms)
+        credits = ["Figure 1. From Clark (1959). See From Clark, p. 2. Map From Clark."]
+        self.assertNotIn("From Clark", dict(glossary_terms(credits)))
+        self.assertIn("Carlos", terms)
+
+    def test_corrections_become_style_examples_in_prompts(self):
+        model = self.translator()
+        model.examples = [("Source <x1>one</x1>.", "Перевод <x1>один</x1>.")]
+        model.history = [("Before.", "РАНЬШЕ.")]
+        roles = [(m["role"], m["content"]) for m in model.messages("Now.", "en", "ru")]
+        self.assertEqual(
+            roles[1:3],
+            [("user", "Source <x1>one</x1>."), ("assistant", "Перевод <x1>один</x1>.")],
+        )
+        self.assertEqual(roles[3:5], [("user", "Before."), ("assistant", "РАНЬШЕ.")])
+        hy = self.translator(prompt="hy-mt")
+        hy.examples = model.examples
+        self.assertIn(
+            "Approved example:\nSource <x1>one</x1>.\n=>\nПеревод <x1>один</x1>.",
+            hy.messages("Now.", "en", "ru")[0]["content"],
+        )
+
+    def test_translate_epub_takes_examples_from_long_corrections(self):
+        from translate import translate_epub
+
+        long = (
+            "The keeper wrote in his logbook every night, and the sea was calm again. "
+            * 3
+        )
+        folder = self.epub(f"<p>{long}</p><p>Short one here.</p>")
+
+        class Model:
+            batch, chunk_chars, example_count = False, 4000, 3
+
+            def __init__(self):
+                self.examples = []
+
+            def __call__(self, text, *a):
+                return upper(text)
+
+        report = translate_epub(
+            folder / "in.epub", folder / "a.epub", Model(), "ru", progress=False
+        )
+        pairs = {p["source"][:10]: p for p in report["pairs"]}
+        fixes = {
+            p["key"]: {"source_sha": p["source_sha"], "translation": "Исправлено."}
+            for p in report["pairs"]
+            if p["source"].startswith(("The keeper", "Short"))
+        }
+        model = Model()
+        translate_epub(
+            folder / "in.epub",
+            folder / "b.epub",
+            model,
+            "ru",
+            progress=False,
+            corrections=fixes,
+        )
+        self.assertEqual(len(model.examples), 1)
+        self.assertTrue(model.examples[0][0].startswith("The keeper"))
 
     def test_long_text_splits_only_outside_placeholders(self):
         text = "One two. <x1>Three. Four.</x1> Five six. Seven."
