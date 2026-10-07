@@ -4,6 +4,8 @@ Scores are ranking evidence, not calibrated probabilities. Never repair names,
 accepted spellings, protected terms, references, or an uncorroborated guess.
 """
 
+from repair_types import RepairPolicy
+
 import difflib
 import math
 import inspect
@@ -404,6 +406,74 @@ class CropRecognizer:
     def fragment(self, row, word, candidate):
         return self.recognize_crop(row, word, candidate, fragment=True)
 
+    def character_support(self, evidence, word, candidate):
+        """Retain a source LSTM alternative for one confusable character.
+
+        x_confs are raw OCR scores, not probabilities or independent votes.
+        The 20-point floor bounds admission and is an empirical guard.
+        """
+        if self.language != "eng" or not confusable(word, candidate):
+            return None
+        crop = self.work / (evidence.get("cache_key", "") + ".png")
+        if not crop.is_file():
+            return None
+        fingerprint = digest(
+            crop.read_bytes()
+            + self.model_hash.encode()
+            + self.version.encode()
+            + inspect.getsource(self.character_support).encode()
+        )
+        cache = self.work / ("choices-" + fingerprint + ".json")
+        if cache.exists():
+            data = read_json(cache)
+        else:
+            result = subprocess.run(
+                ["tesseract", str(crop), "stdout", "--psm", "8"]
+                + self.ocr_args
+                + ["-c", "lstm_choice_mode=2", "hocr"],
+                capture_output=True,
+                text=True,
+                check=True,
+                timeout=60,
+                env={**os.environ, "OMP_THREAD_LIMIT": "1"},
+            )
+            root = etree.HTML(result.stdout.encode())
+            nodes = root.xpath('//*[@class="ocrx_word"]')
+            alternatives = []
+            if len(nodes) == 1:
+                for choices in nodes[0].xpath('.//*[starts-with(@id,"lstm_choices_")]'):
+                    letters = {}
+                    for c in choices:
+                        letter = (c.text or "").lower()
+                        score = float(c.get("title").split()[-1])
+                        letters[letter] = max(letters.get(letter, 0), score)
+                    alternatives.append(letters)
+            data = dict(
+                alternatives=alternatives,
+                crop_sha256=digest(crop.read_bytes()),
+                engine="tesseract-lstm",
+                raw_score_floor=20,
+                traineddata_sha256=self.model_hash,
+                version=self.version.splitlines()[0],
+            )
+            write_json(cache, data)
+        changed = [
+            i for i, (a, b) in enumerate(zip(word.lower(), candidate.lower())) if a != b
+        ]
+        if len(data["alternatives"]) != len(word) or len(changed) != 1:
+            return None
+        i = changed[0]
+        if data["alternatives"][i].get(candidate[i].lower(), 0) < 20:
+            return None
+        # Every unchanged character must also have source support.
+        if any(
+            data["alternatives"][j].get(c.lower(), 0) <= 0
+            for j, c in enumerate(candidate)
+            if j != i
+        ):
+            return None
+        return dict(data, changed_index=i, cache_key=fingerprint)
+
     def __call__(self, row, word, candidate):
         evidence = self.recognize_crop(row, word, candidate)
         if self.language == "eng":
@@ -713,8 +783,14 @@ def anchored_reading(original, observation, word, candidate):
     return located[4] if anchors >= 2 else None
 
 
-def repair(model, pages, book, ranker, recognize, audit, skip_rows=()):
+def repair(model, pages, book, ranker, recognize, audit, skip_rows=(), judge=None):
     """Decide from one immutable assembled book; apply exact source-row edits."""
+    if book.get("lexical_repair_policy") == RepairPolicy.CORRECTED_READING:
+        from reading_repair import repair_reading
+
+        return repair_reading(
+            model, pages, book, ranker, recognize, audit, judge, skip_rows
+        )
     rows = {
         r.get("row_id", row_id(int(n), r, book.get("source_sha256", ""))): r
         for n, rr in pages.items()

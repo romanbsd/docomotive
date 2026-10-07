@@ -385,5 +385,7 @@
   "vision_primary_pages": [
     43,
     193
-  ]
+  ],
+  "repair_lexical_confusions": true,
+  "lexical_repair_policy": "corrected-reading"
 }

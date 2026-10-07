@@ -262,3 +262,44 @@ Framed figure refinement can retain a compact side or bottom caption while remov
 An isolated numeric footer prefix may lose its serif and narrow to a full-height stem. Its width check can use a bounded exception only in that prefix position, with matching physical height and shape on two independently read source pages; inline glyphs retain the stricter width guard. A line-end wrap dash is kept out of sentence-punctuation insertion and left for span review.
 
 If an ordinary marker strip finds no raised component but primary OCR reports the expected numeric label, a bounded taller strip checks that location. Fresh character boxes must locate the reported mark, and the complete glyph must match independent narrow-strip font samples; adaptive results cannot seed that font bank. Raw glyph OCR caches include padded pixels, page pixels, expected label, recognizer code, language-model data and runtime identity, so changing selection rules can reuse valid observations.
+
+### Building a corrected reading edition
+
+Set `repair_lexical_confusions: true` and `lexical_repair_policy: "corrected-reading"`
+in the book profile. The default `source-faithful` policy retains the existing
+crop-corroborated behavior. Corrected reading editions separate spelling detection,
+meaning preservation, and source-origin evidence. Source-printed spelling errors
+can be corrected, with every original token and source location retained in the
+correction audit.
+
+The local route accepts dictionary-supported, context-ranked candidates when the
+source crop agrees in both fixed segmentation modes, or a bounded confusable
+character has support in Tesseract's LSTM alternatives. Those alternatives are raw
+scores, not calibrated probabilities or independent engine votes. Names require an
+attested capitalized phrase; protected terms and ordinary accepted vocabulary remain
+excluded. Removing a negative prefix cannot use the crop-only route.
+
+Builds only replay cached Jev judgments. Uncached contextual checks remain review
+items and do not cause network requests. The judgments ask separately whether the
+specific token is a spelling error and whether its replacement preserves intended
+meaning. A confirmed, dictionary-invalid one-edit spelling with one admissible
+target can be normalized consistently across lowercase prose; names, valid words,
+and quotations cannot inherit that rule. The 0.90 judgment thresholds and OCR
+alternative floor are empirical guards, not measured guarantees of correctness.
+
+After a local build, prepare a reviewable request manifest:
+
+```sh
+.venv/bin/python scripts/jev_spelling.py \
+  --input output/synchronicity/lexical-repair.json \
+  --cache work/synchronicity/jev-spelling \
+  --output work/synchronicity/spelling-requests.json
+```
+
+Adding `--run` explicitly sends uncached surrounding paragraphs and token
+alternatives to TypeSafe's API using the configured `TYPESAFE_API_KEY`. Rerun the
+normal pipeline to apply the cached judgments. `lexical-repair.json` records the
+original and alternative scores, acceptance basis, source-origin signal, and
+contextual judgment provenance. The build report records the selected policy and
+number of reading-edition spelling corrections. OCR support is not automatically
+classified as proof that an error was printed in the original.

@@ -554,6 +554,62 @@ class TypographyTests(unittest.TestCase):
             marker[0]["text"],
         )
 
+    def test_known_word_small_caps_glyph_error_requires_full_fresh_consensus(self):
+        # 'Cari' is dictionary-known; literal case similarity also hides i/l.
+        primary = [row("Cari JUNG")]
+        peers = [row("CARL JUNG")]
+        audit, review = [], []
+        result = correct_page(primary, [], peers, peers, audit, review, 19)
+        self.assertEqual(result[0]["text"], "CARL JUNG")
+        self.assertEqual(audit[0]["before"], "Cari")
+        self.assertEqual(audit[0]["votes"], 2)
+        self.assertEqual(review, [])
+        # A common-word i/l confusion uses the same source-evidence rule.
+        self.assertEqual(
+            correct_page(
+                [row("Tail TALE")],
+                [],
+                [row("TALL TALE")],
+                [row("TALL TALE")],
+                [],
+                [],
+                1,
+            )[0]["text"],
+            "TALL TALE",
+        )
+        # Arbitrary common-word rewrites remain protected.
+        self.assertEqual(
+            correct_page(
+                [row("SILK CLOTH")],
+                [],
+                [row("SILL CLOTH")],
+                [row("SILL CLOTH")],
+                [],
+                [],
+                1,
+            )[0]["text"],
+            "SILK CLOTH",
+        )
+        for secondary, tertiary in (
+            (peers, []),
+            ([], peers),
+            (peers, [row("CARL YOUNG")]),
+            ([row("Carl Jung")], [row("Carl Jung")]),
+        ):
+            with self.subTest(secondary=secondary, tertiary=tertiary):
+                self.assertEqual(
+                    correct_page(primary, peers, secondary, tertiary, [], [], 1)[0][
+                        "text"
+                    ],
+                    "Cari JUNG",
+                )
+        self.assertEqual(
+            correct_page([row("Cari")], [], [row("CARL")], [row("CARL")], [], [], 1)[0][
+                "text"
+            ],
+            "Cari",
+        )
+
     def test_garbled_tall_row_is_replaced_by_two_fresh_consensus_lines(self):
         primary = [dict(text="garbled row", bbox=[0.2, 0.2, 0.7, 0.24], confidence=1)]
         peers = [

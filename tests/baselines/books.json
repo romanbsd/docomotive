@@ -12,7 +12,7 @@
         "apparatus-analysis.json": "18b1688bda471781f5e7c42075ae63f91958f44a9bd6363f6d3a545cdc83b0f3",
         "the-natural-mind.txt": "4235e253ccb3b7f9176ad433f92d6bda9d66c403a11fe7855c1e8727141a804a"
       },
-      "epub_sha256": "da1e1c63600c4cbaea5249de70c4b6a16af131879cf30ec8fca2cf150c31609a",
+      "epub_sha256": "0ebd3f99b12b08748fc6cbcf6445a1ccff8aadcba31326b9c405098241229eec",
       "epub_members": {
         "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
         "OEBPS/back-cover.jpg": "36c9c269d3e206541658357de6046cf960079c3eadf1f19566c0e264c579bc2a",
@@ -20,7 +20,7 @@
         "OEBPS/chapter-01.xhtml": "c00f8481fa426d8ee2032496937499b925b98b2b994c4720cef9acd616caa063",
         "OEBPS/chapter-02.xhtml": "b1fc00dff90af6b376692e968710f80c2232c719dfcb2285f24ce986484c5c4e",
         "OEBPS/chapter-03.xhtml": "e1422c3be4a93520267fb92701dc2ac46d12ba9986b850ea621f160b0fd67d78",
-        "OEBPS/chapter-04.xhtml": "b6c188caab571627667d287ea2c45ab4340a3355a5dca110f82db3085acbcd89",
+        "OEBPS/chapter-04.xhtml": "7f2ef5ce155227b7d0e730edd87f9ea080f060a8c290172d3da4acb66a10bade",
         "OEBPS/chapter-05.xhtml": "a4a3af58db346e3956928640190424a8bf7c7805aa0ce4db079f443171ae2297",
         "OEBPS/chapter-06.xhtml": "b2a58ee70f4e33f7b79af14a22847142308f34d71533c8f357dd9f1d00900859",
         "OEBPS/chapter-07.xhtml": "aef9741ddee220c6d81a56785e3c464d4f3b9431972d2b2dcfb90364a2bcf7d7",
@@ -136,7 +136,7 @@
         "apparatus-analysis.json": "18b1688bda471781f5e7c42075ae63f91958f44a9bd6363f6d3a545cdc83b0f3",
         "the-natural-mind.txt": "39370f82d1974c758a14843d082e3a2b60b2ff8ba96c36cdb7469123d922dbe0"
       },
-      "epub_sha256": "a528538bfcd8e144fb091cab2234fe77695cf22f8d9c2b15d21dc2e0458ea50d",
+      "epub_sha256": "ef846401a128d6e469760d6d034dd672fc5ab001a6173bbee69b45b46878371b",
       "epub_members": {
         "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
         "OEBPS/back-cover.jpg": "36c9c269d3e206541658357de6046cf960079c3eadf1f19566c0e264c579bc2a",
@@ -144,7 +144,7 @@
         "OEBPS/chapter-01.xhtml": "c00f8481fa426d8ee2032496937499b925b98b2b994c4720cef9acd616caa063",
         "OEBPS/chapter-02.xhtml": "d3cc07b23b943312253c26041d316515a12c6055151cf1a106bd3c9c7502de73",
         "OEBPS/chapter-03.xhtml": "3eb2f563ad410b5554b9e80884cd5c4e483b8addbdc57b3042d7c939edddae92",
-        "OEBPS/chapter-04.xhtml": "b6c188caab571627667d287ea2c45ab4340a3355a5dca110f82db3085acbcd89",
+        "OEBPS/chapter-04.xhtml": "7f2ef5ce155227b7d0e730edd87f9ea080f060a8c290172d3da4acb66a10bade",
         "OEBPS/chapter-05.xhtml": "a4a3af58db346e3956928640190424a8bf7c7805aa0ce4db079f443171ae2297",
         "OEBPS/chapter-06.xhtml": "b2a58ee70f4e33f7b79af14a22847142308f34d71533c8f357dd9f1d00900859",
         "OEBPS/chapter-07.xhtml": "29c47fade9061a8ad7850603809408a6b20b9eb83e1e119b3f5cfcd334ae9903",

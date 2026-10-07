@@ -3,6 +3,7 @@
 import argparse
 import html
 import json
+from repair_types import RepairPolicy, CorrectionClass
 import posixpath
 import re
 import zipfile
@@ -674,6 +675,11 @@ def build(
             ranker.resources["span_repair.py"] = digest(
                 (ROOT / "scripts/span_repair.py").read_bytes()
             )
+        spelling_judge = None
+        if book.get("lexical_repair_policy") == RepairPolicy.CORRECTED_READING:
+            from jev_spelling import judge
+
+            spelling_judge = judge(work / "jev-spelling")
         lexical_report = repair(
             assembled,
             pages,
@@ -681,6 +687,7 @@ def build(
             ranker,
             recognizer,
             audit,
+            judge=spelling_judge,
         )
         lexical_report["corrected"] += spans["corrected"]
         lexical_report["decisions"] += spans["decisions"]
@@ -1001,7 +1008,14 @@ def build(
             )
             for i in decision_bindings["legacy"]
         ],
-        "editorial_corrections": editorial,
+        "editorial_corrections": editorial
+        or book.get("lexical_repair_policy") == RepairPolicy.CORRECTED_READING,
+        "lexical_repair_policy": book.get(
+            "lexical_repair_policy", RepairPolicy.SOURCE_FAITHFUL
+        ),
+        "reading_spelling_corrections": sum(
+            event.get("kind") == CorrectionClass.READING_SPELLING for event in audit
+        ),
         "metadata_enrichment": enrichment,
         "validation": validate_epub(target),
         "excluded_pages": book["excluded_pages"],

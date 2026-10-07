@@ -78,7 +78,7 @@ PROFILE_KEYS = frozenset("""
     infer_verse infer_inset_verse page_labels paragraph_margins printed_page_offset publisher publisher_mark
     quote_first_line_indent recover_hanging_margins recover_ocr_regions recover_ocr_glyph_confusions recover_pdf_heading_styles recover_pdf_typography recover_pdf_numeric_superscripts
     recover_scan_font_metrics research_missing_endnotes recover_scanned_endnotes recover_reference_markers recover_variable_superscripts recover_image_only_headings reference_pages repair_lexical_confusions repair_word_wraps
-    related_print_isbns rights row_heading_rules row_regions section_navigation
+    related_print_isbns rights row_heading_rules row_regions section_navigation lexical_repair_policy
     scan_raster_only slug small_caps_openings source_completeness source_note
     source_prose_indents source_relative_figures source_sha256 source_version
     statistics_excluded_chapters subjects subtitle text_source title

@@ -1,5 +1,7 @@
 """Validate profile values without changing their representation or defaults."""
 
+from repair_types import RepairPolicy
+
 import math
 import re
 
@@ -83,6 +85,18 @@ def validate_profile(book, path="profile", page_count=None):
             fail(key, "must not be empty")
     if book.get("text_source", "ocr") not in ("ocr", "native"):
         fail("text_source", "expected ocr or native")
+    if book.get("lexical_repair_policy", RepairPolicy.SOURCE_FAITHFUL) not in (
+        RepairPolicy.SOURCE_FAITHFUL,
+        RepairPolicy.CORRECTED_READING,
+    ):
+        fail("lexical_repair_policy", "expected source-faithful or corrected-reading")
+    if book.get(
+        "lexical_repair_policy"
+    ) == RepairPolicy.CORRECTED_READING and not book.get("repair_lexical_confusions"):
+        fail(
+            "lexical_repair_policy",
+            "corrected-reading requires repair_lexical_confusions",
+        )
     chapters = book["chapters"]
     if not chapters:
         fail("chapters", "must not be empty")

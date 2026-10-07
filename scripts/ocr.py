@@ -293,6 +293,23 @@ def correct_page(
                 )
         spans = list(TOKEN.finditer(row["text"]))
         vt = [m.group() for m in spans]
+        # Small-cap headings can be read as mixed case by one engine. A
+        # dictionary-known misreading is still eligible when both fresh engines
+        # agree on the whole heading, with an unchanged alphabetic anchor.
+        fresh_tokens = [TOKEN.findall(w["text"]) for w in fresh if w]
+        heading_consensus = (
+            len(fresh_tokens) == 2
+            and fresh_tokens[0] == fresh_tokens[1]
+            and len(fresh_tokens[0]) == len(vt)
+            and sum(t.isalpha() for t in fresh_tokens[0]) >= 2
+            and all(t.isupper() for t in fresh_tokens[0] if t.isalpha())
+            and sum(a.casefold() != b.casefold() for a, b in zip(vt, fresh_tokens[0]))
+            == 1
+            and any(
+                a.isalpha() and len(a) >= 3 and a.casefold() == b.casefold()
+                for a, b in zip(vt, fresh_tokens[0])
+            )
+        )
         proposals = {}
         for witness in witnesses:
             if witness is None:
@@ -319,6 +336,19 @@ def correct_page(
             )
             plausible = plausible or (
                 before in {"J", "1"} and after == "I" and votes >= 2
+            )
+            differences = [
+                (a, b) for a, b in zip(before.casefold(), after.casefold()) if a != b
+            ]
+            plausible = plausible or (
+                heading_consensus
+                and after == fresh_tokens[0][i]
+                and before.isalpha()
+                and after.isalpha()
+                and len(before) == len(after) >= 4
+                and len(differences) == 1
+                and set(differences[0]) == {"i", "l"}
+                and zipf_frequency(after, language) >= 2
             )
             if recover_glyphs and votes == 3:
                 # Three witnesses must agree on a common alphabetic word.
