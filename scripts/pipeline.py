@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("pdf", type=Path)
+    p.add_argument("pdf", type=Path, metavar="source", help="PDF or DjVu source")
     p.add_argument("--profile", type=Path, default=ROOT / "config/book.json")
     p.add_argument("--work", type=Path, default=ROOT / "work")
     p.add_argument("--output", type=Path, default=ROOT / "output")

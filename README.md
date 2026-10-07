@@ -1,6 +1,6 @@
 # Docomotive
 
-A local-first research pipeline for converting scanned and native-text PDFs into reflowable EPUBs with figures, quotations, linked notes, metadata and reviewable corrections. Source-specific facts live in profiles; detection, reconstruction and rendering fixes belong in shared code. Conversion is reproducible from pinned tools and cached evidence, but automated recognition and sampled review do not establish complete proofreading.
+A local-first research pipeline for converting scanned DjVu files and scanned or native-text PDFs into reflowable EPUBs with figures, quotations, linked notes, metadata and reviewable corrections. Source-specific facts live in profiles; detection, reconstruction and rendering fixes belong in shared code. Conversion is reproducible from pinned tools and cached evidence, but automated recognition and sampled review do not establish complete proofreading.
 
 See [docs/research.md](docs/research.md) for per-book findings, conversion recipes, measurements, artifacts and experiments.
 
@@ -10,7 +10,7 @@ Python 3.14 is the tested interpreter. Use the existing `.venv` without activati
 
 ```sh
 .venv/bin/pip install .
-brew install tesseract ocrmypdf
+brew install tesseract ocrmypdf djvulibre
 .venv/bin/python scripts/bootstrap.py
 .venv/bin/pip install --group dev
 
@@ -34,6 +34,23 @@ Runtime packages are pinned in `pyproject.toml`. Dependencies include PyMuPDF, P
 Bootstrap downloads checksum-verified PP-OCRv4 ONNX models, a Hunspell dictionary pair and EPUBCheck 5.4.0. OCRmyPDF, pdf-craft, Marker, Docling, LanguageTool and Morfologik have differing experiment/integration status; the [research report](docs/research.md) distinguishes tested tools from planned work.
 
 Keep `work/`: its OCR/model/metadata caches preserve the evidence needed for replay. Generated books and OCR caches are ignored by Git.
+
+## DjVu input
+
+Pass `.djvu` or `.djv` files to the same pipeline, extraction, build and review commands. DjVuLibre (`ddjvu` and `djvused` on `PATH`) renders a full-resolution raster PDF once into `work/sources/`. The adapter checks page count, preserves page dimensions and uses lossless PDF compression; subsequent stages share that rendering. Profiles and review decisions keep the original DjVu file's SHA-256 and one-based source page numbers. OCR provenance records decoder and adapter hashes plus the rendered PDF hash; changed rendering requires fresh OCR. Existing PDF caches are unaffected.
+
+DjVu hidden text, bookmarks and embedded metadata are not imported. Use the scanned OCR workflow; `text_source: "native"` is PDF-only. The cached raster includes the visible DjVu layers, so figures and review crops use the same pixels as OCR.
+
+```sh
+.venv/bin/python scripts/source_diagnostics.py \
+  "input/F. David Peat - Synchronicity_ The Bridge Between Matter and Mind-Bantam Books (1987).djvu" \
+  --output work/synchronicity/source-analysis.json
+
+# After creating and reviewing a matching book profile:
+.venv/bin/python scripts/pipeline.py /path/to/book.djvu \
+  --profile config/my-book/book.json \
+  --work work/my-book --output output/my-book
+```
 
 ## Russian and multilingual scans
 

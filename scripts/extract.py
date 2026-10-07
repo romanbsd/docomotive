@@ -13,6 +13,7 @@ import inspect
 from pathlib import Path
 
 import pymupdf
+from source_document import open_source
 
 from common import ROOT, file_digest as sha, load_profile, write_json
 from ocr_cache import publish_cache, traineddata_digest, read_ocr_page
@@ -35,7 +36,7 @@ def clipped_observation(box, width, height):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("pdf", type=Path)
+    parser.add_argument("pdf", type=Path, metavar="source", help="PDF or DjVu source")
     parser.add_argument("--dpi", type=int, default=300)
     parser.add_argument("--pages", help="Comma-separated 1-based pages; default all")
     parser.add_argument(
@@ -54,7 +55,7 @@ def main():
         if args.engine == "tesseract"
         else {}
     )
-    doc = pymupdf.open(args.pdf)
+    doc = open_source(args.pdf)
     validate_profile(book, args.profile, page_count=len(doc))
     source_hash = sha(args.pdf)
     if book["source_sha256"] != source_hash:
@@ -88,6 +89,8 @@ def main():
         fingerprint["engine"] = (
             f"Apple Vision accurate {settings['vision']} revision 3 language correction"
         )
+    if hasattr(doc, "source_rendering"):
+        fingerprint["source_rendering"] = doc.source_rendering
     engine = None
     if args.engine == "tesseract":
         fingerprint["engine"] = (

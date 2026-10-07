@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 import pymupdf
+from source_document import open_source
 
 from common import ROOT, digest, file_digest, load_profile, read_json, write_json
 
@@ -149,7 +150,7 @@ def make_sheet(pdf, profile, input_dir, output):
     bindings = match_decisions(rows, decisions, source)
     records = []
     cards = []
-    with pymupdf.open(pdf) as doc:
+    with open_source(pdf) as doc:
         for index, row in enumerate(rows):
             if row.get("status") == "not-rendered":
                 continue
@@ -226,7 +227,7 @@ function download(){const data=records.filter(r=>choices[r.id]).map(({id,...r})=
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("pdf", type=Path)
+    parser.add_argument("pdf", type=Path, metavar="source", help="PDF or DjVu source")
     parser.add_argument("--profile", type=Path, default=ROOT / "config/book.json")
     parser.add_argument("--input", type=Path, default=ROOT / "output")
     parser.add_argument("--output", type=Path, default=ROOT / "output/scan-review.html")

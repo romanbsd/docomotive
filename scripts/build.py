@@ -10,6 +10,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 from lxml import etree
 import pymupdf
+from source_document import open_source
 from layout import infer
 from languages import language_code, dictionary_locale, ui_label
 from common import (
@@ -262,7 +263,7 @@ def build(
         files[
             "OEBPS/style.css"
         ] += b"\n.source-list-item {text-indent:-1.3em; margin:.35em 0 .35em 1.3em;}\n"
-    doc = pymupdf.open(pdf)
+    doc = open_source(pdf, native=book.get("text_source") == "native")
     validate_profile(book, profile, page_count=len(doc))
     audit = []
     review = []
@@ -291,6 +292,10 @@ def build(
         resolve_figure_frames(doc, book, vision, audit)
         for p in [cache, vision, secondary]:
             provenance = preflight_cache(p, len(doc), source_hash)
+            if provenance.get("source_rendering") != getattr(
+                doc, "source_rendering", None
+            ):
+                raise ValueError("Source rendering changed; rerun extraction")
             if language_code(
                 {"language": provenance.get("language", "en")}
             ) != language_code(book):
@@ -1050,7 +1055,7 @@ def build(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("pdf", type=Path)
+    parser.add_argument("pdf", type=Path, metavar="source", help="PDF or DjVu source")
     parser.add_argument("--profile", type=Path, default=ROOT / "config/book.json")
     parser.add_argument("--output", type=Path, default=ROOT / "output")
     parser.add_argument("--work", type=Path, default=ROOT / "work")

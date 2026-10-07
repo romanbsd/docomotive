@@ -5,6 +5,7 @@ from pathlib import Path
 
 import numpy as np
 import pymupdf
+from source_document import open_source
 
 from common import file_digest, write_json
 from scan_pixels import isolated_scan
@@ -88,11 +89,13 @@ def diagnose(doc, source_hash):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("pdf", type=Path)
+    parser.add_argument("pdf", type=Path, metavar="source", help="PDF or DjVu source")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    with pymupdf.open(args.pdf) as doc:
+    with open_source(args.pdf) as doc:
         result = diagnose(doc, file_digest(args.pdf))
+        if hasattr(doc, "source_rendering"):
+            result["source_rendering"] = doc.source_rendering
     write_json(args.output, result)
     print("Source diagnostic: " + result["status"])
     if result["candidate_pages"]:

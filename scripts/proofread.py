@@ -7,6 +7,7 @@ import json
 import re
 from pathlib import Path
 import pymupdf
+from source_document import open_source
 from common import (
     ROOT,
     read_json,
@@ -114,7 +115,7 @@ def make_sheet(pdf, profile, out, work):
             + "".join(entries)
             + "</details>"
         )
-    doc = pymupdf.open(pdf)
+    doc = open_source(pdf)
     loaded = {}
 
     def witnesses(page, row):
@@ -291,7 +292,7 @@ function download(){const output=records.filter(r=>decisions[r.id]).map(r=>({...
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("pdf", type=Path)
+    p.add_argument("pdf", type=Path, metavar="source", help="PDF or DjVu source")
     p.add_argument("--profile", type=Path, default=ROOT / "config/book.json")
     p.add_argument("--output", type=Path, default=ROOT / "output")
     p.add_argument("--work", type=Path, default=ROOT / "work")

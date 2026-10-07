@@ -9,6 +9,7 @@ from pathlib import Path
 
 import numpy as np
 import pymupdf
+from source_document import open_source
 import scipy
 import PIL
 from PIL import Image
@@ -205,7 +206,7 @@ def run(manifest, output):
     images.mkdir(exist_ok=True)
     results = []
     cards = []
-    with pymupdf.open(pdf) as doc:
+    with open_source(pdf) as doc:
         for case in spec["cases"]:
             page = Image.open(
                 io.BytesIO(doc[case["page"] - 1].get_pixmap(dpi=400).tobytes("png"))

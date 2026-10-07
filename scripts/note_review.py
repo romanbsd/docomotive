@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 
 import pymupdf
+from source_document import open_source
 
 from common import load_profile
 
@@ -50,7 +51,7 @@ def missing_ranges(analysis, book):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("pdf", type=Path)
+    p.add_argument("pdf", type=Path, metavar="source", help="PDF or DjVu source")
     p.add_argument("--profile", type=Path, required=True)
     p.add_argument("--input", type=Path, required=True)
     p.add_argument("--output", type=Path, required=True)
@@ -72,7 +73,7 @@ def main():
         "This sheet is offline and makes no book edits. PDF page numbers are one-based. "
         "Unlocated missing references are listed at the end.</p>",
     ]
-    doc = pymupdf.open(a.pdf)
+    doc = open_source(a.pdf)
     candidates = [
         c
         for c in analysis["candidates"]

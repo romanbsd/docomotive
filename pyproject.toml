@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "docomotive"
 version = "0.1.0"
-description = "Local-first PDF-to-EPUB research pipeline"
+description = "Local-first PDF/DjVu-to-EPUB research pipeline"
 readme = "README.md"
 requires-python = ">=3.11,<4"
 dependencies = [
@@ -34,7 +34,7 @@ kenlm = ["kenlm"]
 [tool.setuptools]
 packages = []
 
-# Tesseract, OCRmyPDF, Java/EPUBCheck and Swift/Apple Vision are external tools.
+# DjVuLibre, Tesseract, OCRmyPDF, Java/EPUBCheck and Swift/Apple Vision are external tools.
 # Transitive research-environment pins remain in requirements-research.lock.txt.
 [dependency-groups]
 dev = ["black==26.5.1"]
