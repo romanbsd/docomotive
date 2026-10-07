@@ -5,7 +5,13 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from lexical_repair import ContextRanker, CropRecognizer, repair, locate_word
+from lexical_repair import (
+    ContextRanker,
+    CropRecognizer,
+    repair,
+    locate_word,
+    anchored_reading,
+)
 import pymupdf
 
 
@@ -109,6 +115,67 @@ class LexicalRepairTests(unittest.TestCase):
                     self.ranker.rank(word, context, context.index(word))[0]["term"],
                     target,
                 )
+
+    def test_source_shortlist_can_override_ranker_without_recurrence(self):
+        class D:
+            def lookup(self, word):
+                return word in {"цвет", "идет"}
+
+        training, _ = entry("менялся лишь идет ткани. идет идет идет. цвет.")
+        ranker = ContextRanker([training], {"language": "ru"}, D())
+        text = "менялся лишь ивет ткани"
+        self.assertEqual(
+            ranker.rank("ивет", text, text.index("ивет"))[0]["term"], "идет"
+        )
+        self.assertEqual(
+            anchored_reading(text, "менялся лишь цвет ткани", "ивет", "цвет"), "цвет"
+        )
+        self.assertIsNone(anchored_reading(text, "лишь цвет", "ивет", "цвет"))
+
+        class Recognizer:
+            def __call__(self, *args):
+                return dict(readings=["мвет", "мвет"])
+
+            def source_choice(self, row, word, choices):
+                assert "цвет" in [c["term"] for c in choices]
+                return dict(term="цвет", readings=["цвет"] * 3)
+
+        model, row = entry(text)
+        result = repair(
+            [model], {"1": [row]}, {"language": "ru"}, ranker, Recognizer(), []
+        )
+        self.assertEqual(row["text"], "менялся лишь цвет ткани")
+        self.assertEqual(
+            result["decisions"][0]["reason"], "three-context-source-witnesses"
+        )
+
+    def test_source_shortlist_requires_all_three_anchored_readings(self):
+        from unittest.mock import Mock
+
+        doc = pymupdf.open()
+        doc.new_page(width=300, height=100)
+        row = dict(page=1, text="менялся лишь ивет ткани", bbox=[0.1, 0.2, 0.9, 0.4])
+        with tempfile.TemporaryDirectory() as root:
+            recognize = CropRecognizer.__new__(CropRecognizer)
+            recognize.doc, recognize.work = doc, Path(root)
+            recognize.model_hash, recognize.version = "test-model", "test-version"
+            recognize.page_witnesses = {1: [dict(row, text="менялся лишь цвет ткани")]}
+            recognize.line_words = Mock(
+                return_value=dict(text="менялся лишь цвет ткани")
+            )
+            choices = [dict(term="идет"), dict(term="цвет")]
+            proof = recognize.source_choice(row, "ивет", choices)
+            self.assertEqual(proof["term"], "цвет")
+            self.assertEqual(recognize.line_words.call_count, 2)
+            recognize.line_words.side_effect = [
+                dict(text="менялся лишь цвет ткани"),
+                dict(text="менялся лишь свет ткани"),
+            ]
+            self.assertIsNone(recognize.source_choice(row, "ивет", choices))
+            recognize.line_words.side_effect = None
+            recognize.page_witnesses[1][0]["text"] = "лишь цвет"
+            self.assertIsNone(recognize.source_choice(row, "ивет", choices))
+        doc.close()
 
     def test_corroborated_repair_preserves_inline_offsets(self):
         row, report, audit = self.run_repair("extreme beliets", ["beliefs", "beliefs"])

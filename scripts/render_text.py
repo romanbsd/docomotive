@@ -174,7 +174,9 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
                 + "</span>"
                 for line, s in zip(lines, sources)
             ]
-        return '<div class="verse"><p>' + "<br/>".join(lines) + "</p></div>"
+        scale = block.get("quote_font_scale", book.get("quote_font_scale"))
+        size = f' style="font-size:{round(100 * scale)}%"' if scale else ""
+        return '<div class="verse"' + size + "><p>" + "<br/>".join(lines) + "</p></div>"
     if block["kind"] == "attribution":
         return '<p class="attribution">' + content + "</p>"
     if block["kind"] == "quote":
@@ -184,7 +186,7 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
             is False
             else ""
         )
-        scale = block.get("quote_font_scale")
+        scale = block.get("quote_font_scale", book.get("quote_font_scale"))
         size = f' style="font-size:{round(100 * scale)}%"' if scale else ""
         return (
             "<blockquote" + size + "><p" + indent + ">" + content + "</p></blockquote>"

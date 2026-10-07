@@ -38,7 +38,9 @@ class JoinPolicy:
             or bool(self.dictionary and self.dictionary.lookup(low))
         )
 
-    def boundary(self, a, b):
+    def boundary(self, a, b, continuation=False):
+        if continuation:
+            return 0, "", "verified-fragment"
         if a.endswith("\u00ad"):
             return 1, "", "remove-discretionary"
         if a.endswith("-") or (self.noisy_wraps and a.endswith("-.")):
@@ -78,8 +80,8 @@ class JoinPolicy:
 DEFAULT_POLICY = JoinPolicy()
 
 
-def join(a, b, audit=None, page=None, policy=None):
-    trim, separator, action = (policy or DEFAULT_POLICY).boundary(a, b)
+def join(a, b, audit=None, page=None, policy=None, continuation=False):
+    trim, separator, action = (policy or DEFAULT_POLICY).boundary(a, b, continuation)
     if action != "space" and audit is not None:
         audit.append(
             {
@@ -198,6 +200,46 @@ def resolve_chapter_body_starts(pages, book, audit):
     return effective
 
 
+def resolve_body_top(pages, book, audit):
+    """Do not discard a normal body line merely because the scan sits high."""
+    if not book.get("recover_body_top"):
+        return
+    cutoff = book.get("upper_margin_cutoff", 0.035)
+    resolved = {}
+    for page, rows in pages.items():
+        ordinary = [
+            r for r in rows if cutoff <= r["bbox"][1] < 0.4 and len(r["text"]) >= 45
+        ]
+        if len(ordinary) < 3:
+            continue
+        height = statistics.median(r["bbox"][3] - r["bbox"][1] for r in ordinary)
+        width = statistics.median(r["bbox"][2] - r["bbox"][0] for r in ordinary)
+        # Slanted scans give a full-width line a tall enclosing OCR box.
+        # Allow up to 2.5 ordinary heights; width, lowercase prose and the
+        # lower margin bound still reject short running heads/page numbers.
+        for r in rows:
+            letters = [c for c in r["text"] if c.isalpha()]
+            if (
+                0.035 <= r["bbox"][1] < cutoff
+                and len(letters) >= 35
+                and sum(c.islower() for c in letters) / len(letters) >= 0.6
+                and 0.7 * width <= r["bbox"][2] - r["bbox"][0] <= 1.2 * width
+                and 0.6 * height <= r["bbox"][3] - r["bbox"][1] <= 2.5 * height
+            ):
+                resolved[str(page)] = min(
+                    resolved.get(str(page), cutoff), r["bbox"][1] - 0.002
+                )
+                audit.append(
+                    dict(
+                        page=page,
+                        kind="recovered-body-top",
+                        bbox=r["bbox"],
+                        text=r["text"],
+                    )
+                )
+    book["_body_upper_margins"] = resolved
+
+
 def classify_row(page, row, book, first=False):
     y = row["bbox"][1]
     text = row["text"].strip()
@@ -217,7 +259,9 @@ def classify_row(page, row, book, first=False):
         return "excluded", "chapter-title"
     if y >= book.get("bottom_margin_cutoffs", {}).get(str(page), 2):
         return "excluded", "profile-bottom-margin"
-    if y < book.get("upper_margin_cutoff", 0.035):
+    if y < book.get("_body_upper_margins", {}).get(
+        str(page), book.get("upper_margin_cutoff", 0.035)
+    ):
         return "excluded", "upper-margin-artifact"
     if excluded(page, row, book.get("_layout", {})):
         return "excluded", "recurring-margin"
@@ -521,8 +565,11 @@ def normalize_block(block, policy, audit):
     inline = []
     for line in block["lines"]:
         previous = text
+        continuation = bool(
+            sources and line.get("word_continuation_from") == sources[-1]["row_id"]
+        )
         trim, separator, action = (
-            policy.boundary(text, line["text"])
+            policy.boundary(text, line["text"], continuation)
             if block["kind"] != "verse"
             else (0, "\n" if text else "", "space")
         )
@@ -534,7 +581,7 @@ def normalize_block(block, policy, audit):
                 source["end"] = min(source["end"], len(text))
         start = len(text) + len(separator)
         text = (
-            join(previous, line["text"], audit, line["page"], policy)
+            join(previous, line["text"], audit, line["page"], policy, continuation)
             if block["kind"] != "verse"
             else text + separator + line["text"]
         )
@@ -580,9 +627,23 @@ def reconstruct(pages, book, policy, audit, editorial_edits=()):
     model = []
     for index, (start, end, title) in enumerate(book["chapters"], 1):
         blocks = []
+        caption_blocks = []
         note_rows = []
         for n in range(start, end + 1):
             bb, nn = page_blocks(n, pages[n], book, audit, n == start, policy)
+            for candidate in bb[:]:
+                caption = next(
+                    (
+                        r.get("figure_caption_for")
+                        for r in candidate["lines"]
+                        if r.get("figure_caption_for")
+                    ),
+                    None,
+                )
+                if caption:
+                    candidate["figure_caption_for"] = caption
+                    caption_blocks.append(candidate)
+                    bb.remove(candidate)
             gap = next((g for g in book.get("source_gaps", []) if g["page"] == n), None)
             if gap:
                 # Missing leaves cannot supply a sentence continuation. This
@@ -626,6 +687,7 @@ def reconstruct(pages, book, policy, audit, editorial_edits=()):
                 blocks[-1]["lines"].extend(continuation["lines"])
             blocks.extend(bb)
             note_rows.extend(nn)
+        blocks.extend(caption_blocks)
         notes = {}
         targets = {}
         for r in note_rows:

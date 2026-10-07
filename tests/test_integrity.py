@@ -51,6 +51,10 @@ class IntegrityTests(unittest.TestCase):
             ("figure_cleanup", True),
             ("figure_color_mode", "sepia"),
             ("figure_color_mode", True),
+            ("quote_font_scale", 0),
+            ("quote_font_scale", 2),
+            ("source_figure_anchors", "true"),
+            ("link_numeric_footnotes", "true"),
         ]
         for key, value in cases:
             with self.subTest(key=key, value=value), self.assertRaises(ValueError):

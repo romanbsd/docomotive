@@ -286,6 +286,9 @@ def build(
         cache = cache_path(work, "tesseract")
         vision = cache_path(work, "vision")
         secondary = cache_path(work, "rapid")
+        from figure_bounds import resolve_figure_frames
+
+        resolve_figure_frames(doc, book, vision, audit)
         for p in [cache, vision, secondary]:
             provenance = preflight_cache(p, len(doc), source_hash)
             if language_code(
@@ -363,12 +366,42 @@ def build(
     for n, rows in pages.items():
         for row in rows:
             row["page"] = n
+    if not native and book.get("inspect_partial_rows"):
+        from partial_rows import inspect_partial_rows
+
+        partial_report = inspect_partial_rows(pages, book, cache)
+        write_json(out / "partial-row-analysis.json", partial_report)
     apply_edits(
         [row for rows in pages.values() for row in rows],
         json.loads((config / "corrections.json").read_text()),
         audit,
         "scan-verified-manual",
     )
+    if not native and book.get("inspect_partial_rows"):
+        from partial_rows import restore_reviewed_bounds
+
+        restore_reviewed_bounds(pages, partial_report, audit)
+        write_json(out / "partial-row-analysis.json", partial_report)
+    from spylls.hunspell import Dictionary
+
+    dictionary = (
+        Dictionary.from_files(str(models / dictionary_locale(book)))
+        if (models / (dictionary_locale(book) + ".aff")).exists()
+        else None
+    )
+    if not native and book.get("recover_gap_rows"):
+        from partial_rows import recover_gap_rows
+        from lexical_repair import CropRecognizer
+
+        gap_report = recover_gap_rows(
+            pages,
+            book,
+            cache,
+            CropRecognizer(doc, work, book, models),
+            dictionary,
+            audit,
+        )
+        write_json(out / "row-gap-analysis.json", gap_report)
     if not native and book.get("link_symbol_footnotes", False):
         from scanned_notes import repair_note_marker_prefixes
 
@@ -560,7 +593,6 @@ def build(
             '<div class="facsimile"><img src="cover.jpg" alt="Original book cover"/></div><p class="noindent" style="text-align:center;font-size:.75em;margin-top:1em"><a href="downloaded-cover.xhtml">Source cover reference</a></p>',
             book["language"],
         )
-    from spylls.hunspell import Dictionary
 
     protected = [
         w
@@ -573,11 +605,6 @@ def build(
         for row in rows
         for word in re.findall(r"[\w]+(?:['’-][\w]+)*", row["text"])
     ]
-    dictionary = (
-        Dictionary.from_files(str(models / dictionary_locale(book)))
-        if (models / (dictionary_locale(book) + ".aff")).exists()
-        else None
-    )
     policy = JoinPolicy(
         protected + book.get("line_join_words", []),
         observed,
@@ -587,11 +614,26 @@ def build(
         noisy_wraps=book.get("repair_word_wraps", False),
         language=language_code(book),
     )
+    from book_model import resolve_body_top
+
+    resolve_body_top(pages, book, audit)
     editorial_edits = (
         json.loads((config / "editorial-proposals.json").read_text())
         if editorial
         else []
     )
+    if book.get("link_numeric_footnotes"):
+        from numeric_footnotes import recover_numeric_footnotes
+        from lexical_repair import CropRecognizer
+
+        numeric_report = recover_numeric_footnotes(
+            pages, doc, book, work, audit, CropRecognizer(doc, work, book, models)
+        )
+        write_json(out / "numeric-footnote-analysis.json", numeric_report)
+    if book.get("source_figure_anchors"):
+        from figures import detect_figure_captions
+
+        detect_figure_captions(pages, book, audit)
     if book.get("repair_lexical_confusions"):
         from lexical_repair import ContextRanker, CropRecognizer, repair
 
@@ -600,17 +642,43 @@ def build(
         # Freeze whole-book evidence before changing rows, then reconstruct once
         # with final rows so source intervals and inline styles stay consistent.
         assembled = reconstruct(pages, book, policy, [], editorial_edits)
+        recognizer = CropRecognizer(doc, work, book, models)
+        if language_code(book) == "ru" and book.get("repair_ocr_case"):
+            from case_repair import repair_case_words
+
+            case_report = repair_case_words(
+                assembled, pages, book, dictionary, recognizer, cache, audit, protected
+            )
+            write_json(out / "case-repair.json", case_report)
+            if case_report["corrected"]:
+                assembled = reconstruct(pages, book, policy, [], editorial_edits)
         ranker = ContextRanker(
             assembled, book, dictionary, protected + book.get("line_join_words", [])
         )
+        recognizer = CropRecognizer(doc, work, book, models)
+        spans = dict(corrected=0, decisions=[], corrected_rows=[])
+        if language_code(book) != "en":
+            from span_repair import repair_spans
+
+            spans = repair_spans(assembled, pages, book, ranker, recognizer, audit)
+            if spans["corrected"]:
+                # Refresh source intervals after seam edits while keeping the
+                # whole-book statistical model frozen. Other errors on those
+                # same rows remain eligible for ordinary lexical repair.
+                assembled = reconstruct(pages, book, policy, [], editorial_edits)
+            ranker.resources["span_repair.py"] = digest(
+                (ROOT / "scripts/span_repair.py").read_bytes()
+            )
         lexical_report = repair(
             assembled,
             pages,
             book,
             ranker,
-            CropRecognizer(doc, work, book, models),
+            recognizer,
             audit,
         )
+        lexical_report["corrected"] += spans["corrected"]
+        lexical_report["decisions"] += spans["decisions"]
         lexical_report["source_sha256"] = source_hash
         lexical_report["resources"].update(
             {
@@ -624,15 +692,49 @@ def build(
         write_json(out / "lexical-repair.json", lexical_report)
         write_json(out / "corrected-pages.json", pages)
     model = reconstruct(pages, book, policy, audit, editorial_edits)
+    if book.get("repair_ocr_punctuation"):
+        from punctuation import repair_source_punctuation
+        from lexical_repair import CropRecognizer
+
+        punctuation_report = repair_source_punctuation(
+            model, pages, book, CropRecognizer(doc, work, book, models), cache, audit
+        )
+        if punctuation_report["corrected"]:
+            model = reconstruct(pages, book, policy, audit, editorial_edits)
+        write_json(out / "punctuation-analysis.json", punctuation_report)
+        write_json(out / "corrected-pages.json", pages)
     from figures import incorporate_figures
 
     figure_report = incorporate_figures(
         model, book, doc, files, cleanup_dir=out / "figure-cleanup"
     )
+    if book.get("normalize_quotation_marks"):
+        from punctuation import normalize_quotes
+
+        quotation_report = normalize_quotes(model, audit)
+        write_json(out / "quotation-analysis.json", quotation_report)
+    if book.get("repair_ocr_punctuation") or book.get("normalize_quotation_marks"):
+        from punctuation import write_review
+
+        reports = {
+            name: json.loads((out / filename).read_text())
+            for name, filename in [
+                ("punctuation", "punctuation-analysis.json"),
+                ("quotes", "quotation-analysis.json"),
+                ("case", "case-repair.json"),
+                ("partial rows", "partial-row-analysis.json"),
+                ("missing rows", "row-gap-analysis.json"),
+                ("footnotes", "numeric-footnote-analysis.json"),
+            ]
+            if (out / filename).exists()
+        }
+        write_review(out, pdf, reports)
     from apparatus import link_endnotes
 
     apparatus = link_endnotes(model, book)
-    if book.get("link_symbol_footnotes", False):
+    if book.get("link_symbol_footnotes", False) or book.get(
+        "link_numeric_footnotes", False
+    ):
         from apparatus import link_symbol_footnotes
 
         apparatus["footnotes"] = link_symbol_footnotes(model, book)

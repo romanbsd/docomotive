@@ -3,6 +3,8 @@
 import pymupdf
 import io
 import re
+import copy
+import statistics
 from PIL import Image
 from common import digest
 
@@ -119,6 +121,150 @@ def outside_figures(lines, book, page, audit=None):
                 )
             )
     return retained
+
+
+def detect_figure_captions(pages, book, audit):
+    """Identify small, adjacent caption runs with an explicit figure/photo cue."""
+    if not book.get("source_figure_anchors"):
+        return
+    cue = re.compile(r"(?i)(?:^|\s)(?:фото|рис\.|fig\.|figure|photo)(?:\s|$)")
+    for figure in book.get("figures", []):
+        number = figure["page"]
+        rows = sorted(
+            [
+                r
+                for r in pages[number]
+                if r["bbox"][1] < book.get("note_starts", {}).get(str(number), 2)
+            ],
+            key=lambda r: r["bbox"][1],
+        )
+        broad = [r["bbox"][3] - r["bbox"][1] for r in rows if len(r["text"]) >= 15]
+        if len(broad) < 8:
+            continue
+        body = statistics.median(broad)
+        bottom = figure["rect"][3]
+        eligible = [
+            r
+            for r in rows
+            if bottom - 0.15 <= r["bbox"][1] <= bottom + 0.1
+            and r["bbox"][3] - r["bbox"][1] <= 0.86 * body
+        ]
+        groups = []
+        for row in eligible:
+            if (
+                groups
+                and row["bbox"][1] - groups[-1][-1]["bbox"][3] <= body
+                and abs(row["bbox"][0] - groups[-1][-1]["bbox"][0]) < 0.04
+            ):
+                groups[-1].append(row)
+            else:
+                groups.append([row])
+        for group in groups:
+            # A short small-type run plus an explicit credit/figure label is
+            # stronger than font size alone, which also describes footnotes.
+            if not 1 <= len(group) <= 4 or not cue.search(
+                " ".join(r["text"] for r in group)
+            ):
+                continue
+            for row in group:
+                row["kind"] = "caption"
+                row["figure_caption_for"] = figure["name"]
+            audit.append(
+                dict(
+                    page=number,
+                    kind="source-figure-caption",
+                    figure=figure["name"],
+                    rows=[r["bbox"] for r in group],
+                )
+            )
+
+
+def split_source_block(block, source_index):
+    """Split at a source-row boundary, retaining text and annotation offsets."""
+    sources = block["sources"]
+    # Avoid splitting a word joined across a line/page seam. Keep the complete
+    # next source line before the figure instead of breaking that word in two.
+    while source_index < len(sources):
+        cut = sources[source_index]["start"]
+        if cut == 0 or not (
+            block["text"][cut - 1].isalpha() and block["text"][cut].isalpha()
+        ):
+            break
+        source_index += 1
+    if source_index == len(sources):
+        return None
+    cut = sources[source_index]["start"]
+    parts = []
+    for start, end, selected in [
+        (0, cut, sources[:source_index]),
+        (cut, len(block["text"]), sources[source_index:]),
+    ]:
+        part = copy.deepcopy(block)
+        # Spaces separating source rows are not paragraph content.
+        while start < end and block["text"][start].isspace():
+            start += 1
+        while end > start and block["text"][end - 1].isspace():
+            end -= 1
+        part["text"] = block["text"][start:end]
+        part["sources"] = [
+            {
+                **s,
+                "start": max(0, s["start"] - start),
+                "end": min(end, s["end"]) - start,
+            }
+            for s in selected
+        ]
+        lines = block.get("lines", [])
+        part["lines"] = copy.deepcopy(
+            lines[:source_index] if start == 0 else lines[source_index:]
+        )
+        part["fragments"] = (
+            []
+        )  # Canonical sources own text and offsets after splitting.
+        part["inline"] = [
+            {
+                **style,
+                "start": max(start, style["start"]) - start,
+                "end": min(end, style["end"]) - start,
+            }
+            for style in block.get("inline", [])
+            if style["start"] < end and style["end"] > start
+        ]
+        part["page_breaks"] = []
+        seen = set()
+        for source in part["sources"]:
+            if source["page"] not in seen:
+                seen.add(source["page"])
+                part["page_breaks"].append(
+                    dict(page=source["page"], offset=source["start"])
+                )
+        parts.append(part)
+    parts[1]["first_line_indent"] = False
+    parts[1]["paragraph_indent"] = False
+    parts[1]["source_continuation"] = True
+    parts[1]["continuation"] = True
+    parts[1].pop("small_caps", None)
+    return parts
+
+
+def figure_position(blocks, page, y, split=False):
+    for index, block in enumerate(blocks):
+        sources = block.get("sources", [])
+        after = [
+            i
+            for i, s in enumerate(sources)
+            if s["page"] > page or (s["page"] == page and s["bbox"][1] >= y)
+        ]
+        if not after:
+            continue
+        if after[0] == 0:
+            return index
+        if split and block["kind"] in ("text", "quote"):
+            parts = split_source_block(block, after[0])
+            if parts:
+                blocks[index : index + 1] = parts
+                return index + 1
+    return len(blocks)
 
 
 def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
@@ -256,16 +402,13 @@ def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
             ),
         }
         blocks = chapter["blocks"]
-        position = len(blocks)
-        for i, candidate in enumerate(blocks):
-            if candidate.get("sources"):
-                first = candidate["sources"][0]
-                if first["page"] > page or (
-                    first["page"] == page and first["bbox"][1] >= y0
-                ):
-                    position = i
-                    break
-        blocks.insert(position, block)
+        captions = [b for b in blocks if b.get("figure_caption_for") == figure["name"]]
+        if captions:
+            blocks[:] = [b for b in blocks if b not in captions]
+        position = figure_position(
+            blocks, page, y0, book.get("source_figure_anchors", False)
+        )
+        blocks[position:position] = [block] + captions
         report.append(
             {
                 **figure,

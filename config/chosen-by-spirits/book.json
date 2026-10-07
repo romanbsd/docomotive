@@ -421,7 +421,8 @@
     "metadata": "Printed PDF 2–3 and PDF 207 colophon confirm author, title, publisher, Moscow, 1984, 208 pages. No ISBN is printed; Soviet publisher stock/catalog codes are not ISBNs.",
     "figure_review": "All 207 source thumbnails reviewed; all 30 crop bounds checked in figure-review sheets and caption OCR geometry. Complete captions retained with crops, including PDF 16, 33 and 99; side-wrapped text remains reflowable outside artwork.",
     "ocr": "Source samples favor Apple Vision for complete Russian prose; Tesseract and Cyrillic RapidOCR are comparison witnesses. All 207 pages select Vision as primary.",
-    "notes": "Twenty-three footer regions reviewed against source pixels. Thin-rule and relative-type/bibliography proposals combined; underlined prose false positives rejected, publisher signatures excluded. Footnotes retain page-group navigation."
+    "notes": "Twenty-three footer regions reviewed against source pixels. Thin-rule and relative-type/bibliography proposals combined; underlined prose false positives rejected, publisher signatures excluded. Footnotes retain page-group navigation.",
+    "barusi_vocabulary": "PDF 43–44: баруси is the printed spirit name, confirmed in the scan and by the user. Protect the exact spelling; no context-based replacement of other names."
   },
   "vision_primary_pages": [
     1,
@@ -681,5 +682,15 @@
     }
   ],
   "repair_lexical_confusions": true,
-  "repair_word_wraps": true
+  "repair_word_wraps": true,
+  "source_figure_anchors": true,
+  "quote_font_scale": 0.9,
+  "link_numeric_footnotes": true,
+  "repair_ocr_punctuation": true,
+  "normalize_quotation_marks": true,
+  "recover_figure_frames": true,
+  "recover_body_top": true,
+  "repair_ocr_case": true,
+  "inspect_partial_rows": true,
+  "recover_gap_rows": true
 }

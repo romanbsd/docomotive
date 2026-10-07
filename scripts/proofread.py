@@ -98,7 +98,7 @@ def make_sheet(pdf, profile, out, work):
                     if crop.get("tesseract_readings")
                     else ""
                 )
-                + '<br/><img alt="Verified word crop" style="max-height:5em;width:auto" src="data:image/png;base64,'
+                + '<br/><img alt="Verified source crop" style="max-width:100%;max-height:5em;width:auto" src="data:image/png;base64,'
                 + base64.b64encode(data).decode()
                 + '"/></p>'
             )
@@ -108,6 +108,9 @@ def make_sheet(pdf, profile, out, work):
             "must agree in two Tesseract segmentation modes or two RapidOCR raster scales; "
             "these are two readings by one engine, not independent votes. "
             "Weak ranking margins also require agreement with the embedded OCR. Uncertain proposals remain below.</p>"
+            "<p>Context-line repairs instead require whole-page OCR and two local raster scales "
+            "to read the same shortlist word at a position bound by two exact neighboring words. "
+            "These are stability checks by one engine; the complete source line is shown.</p>"
             + "".join(entries)
             + "</details>"
         )

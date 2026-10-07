@@ -2677,26 +2677,26 @@
       "slug": "chosen-by-spirits",
       "editorial": false,
       "artifacts": {
-        "book-model.json": "8031cc5aa97cf468825931d1dfd35c7730e60d027eac6ce509a1c1acd3cdb5d1",
-        "corrected-pages.json": "2bc9736d3a5f5ccdecc2e413fa1046820dde448d64277430952cadc9608574e0",
-        "text-coverage.json": "342217a2282cc81fd62a35bcee8b83ed924985dd779b0798c711f37a343c39c6",
-        "apparatus-analysis.json": "b3716bd048451319641abdc704f9d8e290d6ced112d5d9c27537bfb675f1badc",
-        "chosen-by-spirits.txt": "35a4514932e94db9e7582a3af914eed527436be9d8f613ec8fb35cbd4b07be09",
-        "lexical-repair.json": "3dffd6c3592c466b92584e8630116015b3f591d6868def560c77a8b40c87e485"
+        "book-model.json": "f22ee1cdee10afbba67a85d03586c472f603d33f152845cb2300d1782cacb8d1",
+        "corrected-pages.json": "055590bb7a37445fed6c145a6abf490eec1c70f0fc7218fed5020432f6a5e8dc",
+        "text-coverage.json": "1a1f5f7f914095792299da6b57133e3c0b6b00cd86f19f27fbec0785e5ceecb1",
+        "apparatus-analysis.json": "29a0616ffbc8ec355e2ba46db7f6f4e9432ed7e43b0d141befe499334a3e0077",
+        "chosen-by-spirits.txt": "fab61bf91eaba59e12e21108f0ca47264741206af9fcd5938308fdfd8e78f51f",
+        "lexical-repair.json": "bc3318812e56df895021be9e2210588538b1fec4d7e8da425a42602c6355b64d"
       },
-      "epub_sha256": "89d83ed1bb83db6a3451346de25c983f5542bdcfb9cc5ca0b4eca76acd5bb87b",
+      "epub_sha256": "1c35d199a34fe59d0a6a798f3fd237ed91d56fb0a442f02b52384f99f81a3c4d",
       "epub_members": {
         "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
-        "OEBPS/chapter-01.xhtml": "8f7637eb00fafd487f983bca2493cacd180406070a0b6832627f4a54dc6a473a",
-        "OEBPS/chapter-02.xhtml": "940edeadb4afcb34288889b1c30e75cf18d4864a273639a3538dbb369c63d839",
-        "OEBPS/chapter-03.xhtml": "6ed17f516347c1241aafa9014065014ad3b5e38557cefc081c69704f1bb75239",
-        "OEBPS/chapter-04.xhtml": "3aaf67998d0d92fbe2048168943c788bcd4bcc24ffe4413984fc9be2769abb5e",
-        "OEBPS/chapter-05.xhtml": "efaf13298bff68dda914fcd4ae9bb96e888697fb35b1cf1c749d838cc9a18de0",
-        "OEBPS/chapter-06.xhtml": "1ac30d526c4fc92f76c0bbca4229643aace7d37695f40a7555d94ac355ae4571",
-        "OEBPS/chapter-07.xhtml": "6cf52ce2ba157b134b0d80cdc05eb0e38874bff0075a8e35ab452f65d500bb59",
-        "OEBPS/chapter-08.xhtml": "eff0fceeae40574063e5b517c6683f7e591996c61f3cd0705686df328e150e43",
-        "OEBPS/chapter-09.xhtml": "f6e5d5b3d027dd9faef031f28ba0471da9ab225dd73cea562b8b9bf3cdc832dd",
-        "OEBPS/chapter-10.xhtml": "407b080abaafad657c0dbae79b2b500516c650c1df68a21b1e53d8ba275bd783",
+        "OEBPS/chapter-01.xhtml": "d11e96ff0e4467dde8c6fc36fef2d1cdd10b65d4e0567be19dd520dbc0b0649b",
+        "OEBPS/chapter-02.xhtml": "45a3dd07cfbf75cdfa2bc26da1ce503ff44c3130cac93a8b8184f5b73d3bc71a",
+        "OEBPS/chapter-03.xhtml": "228690da78e2afbacf3a40125fed317a5daa957edeadc4e93f98534736ef40d3",
+        "OEBPS/chapter-04.xhtml": "889b74c280782069b280ca2ea72fa76df6e5376b2a75cc8451b69c8f4770caec",
+        "OEBPS/chapter-05.xhtml": "fcadefaed94f66b3c14654729409889b437759325dece2b50047e8f9b391eed0",
+        "OEBPS/chapter-06.xhtml": "102dc6516ed6085e384faebffc789ccfa122014f5d2e502bb39d17fe94c9579b",
+        "OEBPS/chapter-07.xhtml": "9fdf57d6abed922f8a04c8e406938064fe69ee8424f3850b4975e2d637258231",
+        "OEBPS/chapter-08.xhtml": "27b2f3c9c10f9c134d2de162dcfdb8192f818fd3f3144c9258f02726dd132ad6",
+        "OEBPS/chapter-09.xhtml": "3b2385d7602f746161270bdf1f93c5c3e4e0b9be006aec7f633ebf3d67267b7a",
+        "OEBPS/chapter-10.xhtml": "20d21a289795383d762ebd74b1c303bff3279f9516fc398e641607058c996c04",
         "OEBPS/content.opf": "d6993f1a388f6c1a98a5b8d1333ff0b5b109e2259b9636764636aedfe08618a2",
         "OEBPS/copyright.xhtml": "d9a7d67413c3d44409f837836258d874aa96d278871828c8e6504a5c80d119f0",
         "OEBPS/cover.jpg": "07ebcc80665e8a9bbf6c7ddc5f3ee00e73f1af689f87fa2730263f1582fb67eb",
@@ -2704,27 +2704,27 @@
         "OEBPS/edition-note.xhtml": "e34620842ba0942c041af254c97bd0cb867cfe6994114e8b3da6ab20070df813",
         "OEBPS/figure-011.jpg": "8be1dfccec7ae7e80d66e4c5d85cca320ff84b19d51ad89905ba10cfbfa08807",
         "OEBPS/figure-016.jpg": "afb381ef186ac06091e9160681f813f7a064394a82c036e9569b4c4a0d2b29cc",
-        "OEBPS/figure-024.jpg": "15c1ce646c34da24e3f59e05ad279affd7529d30aa3228db6d5f97b6a3fea7ee",
+        "OEBPS/figure-024.jpg": "d9d0f6dc7c4c2b641f0f8a6bdd3ae247e3808a9c97ab2b2ba82a99cd945b72c1",
         "OEBPS/figure-029.jpg": "56a9a6c880b31821d81ce6e1b5db3a02797d71b3cff9051cb8f003e196aec429",
-        "OEBPS/figure-032.jpg": "34f84c5caff85265cc1cdf60d7017e8f5d3f0f8c268363589aaaefae2920a06a",
-        "OEBPS/figure-033.jpg": "1e0c9d3934960147a66ab1db045c6f0c814a25f0af73b96fe5b16d4b840fca6d",
+        "OEBPS/figure-032.jpg": "36e0cd66a59f33c1a023d9933d9f8ce845582d5c766a47e7e34e49e36cb0cd99",
+        "OEBPS/figure-033.jpg": "a7b1e9d0ffc42ccb51fdf2940d4014f8de5fdb90913ba7f45b7e27dbc3afb931",
         "OEBPS/figure-043.jpg": "df47ea1f420fd60431370e0934160d39b9411db3d575e4c45bdef2a02bd03cc7",
         "OEBPS/figure-051.jpg": "d6a5017f55c225c60b14015e9b497e8518c58b3284718b6e60fba530cb15c24f",
         "OEBPS/figure-075.jpg": "bf6669913f518788becadb5ac9a37c7fa478bf1689576da102096747d3255f18",
         "OEBPS/figure-086.jpg": "a19bf65f9e24799ffb7f698cab6a01285d4b6fb066516605647eea3875b6cbd9",
         "OEBPS/figure-088.jpg": "cb63c050acbe36d6afc2bd9a483d415b328e508ceb8980ac5cfb50a1d7b7a79c",
-        "OEBPS/figure-089.jpg": "aa95dbfb657b2a1bab5fc2253b9fca03c06f382ca8152d5e44fa5091a84a7793",
-        "OEBPS/figure-090.jpg": "26450596bb84b4a107a9dfc4d470dabe9e95026b0091c07f9878df8842f0fd04",
-        "OEBPS/figure-091.jpg": "ea7bb3cc94c8de7969ec8225340b7619e4f6f478e8d8964f52ac3782761b5273",
-        "OEBPS/figure-093.jpg": "e63bb4fc6a4dd413b6df56b2764ea601c80df30bd95fb80ca8f3b27519afd0e3",
+        "OEBPS/figure-089.jpg": "416091c6a9ca8f44465b53724a39c384705baf9686c6e95ca1115e2a40d2aa28",
+        "OEBPS/figure-090.jpg": "b4f8ea89b16df21f3f0201d28655ecd0c12f4d8aacc33ec16f0d958da7d53d36",
+        "OEBPS/figure-091.jpg": "331ce7d9d064f2e1604e1cc0fb6fba552fc94d3275fd9abd581e657fd7c3650b",
+        "OEBPS/figure-093.jpg": "e14c592a17a883c81348b36729bc4fac4f2892f31d60590c6ab62a2aa305baed",
         "OEBPS/figure-095.jpg": "ef6a7ef546463aa9e3bd3c317ff8e5efa42266cc85d88768c3855413b6f36c5c",
-        "OEBPS/figure-099.jpg": "f5b6e3b55f1b5ba52295911754bd6f243f6d877a34610582e34c811252ecab41",
+        "OEBPS/figure-099.jpg": "0dfb2325414442bca0c74723048d855d94c9dce12e96b8bc56b247d324402794",
         "OEBPS/figure-111.jpg": "304721193cc74a0b82bfa4d119739ff17b7f39edd53e3c6c1397573bdb2997c4",
         "OEBPS/figure-112.jpg": "5af2ab1367c30096985cee6a2724b545f96957ce8b67d4c3e5c68b0bdd2b6d0f",
-        "OEBPS/figure-113.jpg": "24da629978227e2a736c4f769f81b0037aa477b70639a4f5264c568cad4ce06b",
+        "OEBPS/figure-113.jpg": "c68b58c628f4f015455f52e1eb2a6f9fd9ac7ad36813dffeb1c2db65eac4cc77",
         "OEBPS/figure-114.jpg": "de321d5affaf5fd588865f0b8728944486a88f9c4d43ec32dd8794a0ab516d62",
         "OEBPS/figure-117.jpg": "1b6eae17f001fab3bc1fcb8a960d87f5fba2636fd086403e64883b6911da5db8",
-        "OEBPS/figure-126.jpg": "8b7c6f4ec54e5588aaade8a3e20460f8728982671bd442d8295e31866f103585",
+        "OEBPS/figure-126.jpg": "0d339e69283b2e3982db3fab68914ccbcdabbe31c6d36389ebd24bcbbd3738d4",
         "OEBPS/figure-137.jpg": "8fb87c02049b0e7912edc5f58e6606aad7dffe70111f9c94576a41e93d3cafbc",
         "OEBPS/figure-161.jpg": "b230f0826987ad856063c59b4b2445df1f482c40e597f15e7d9cbaf783b5de6b",
         "OEBPS/figure-169.jpg": "6565ed93472f6cb4f6915841ec4ae7afc263ecf025ab329b2306180a13fae207",
@@ -2732,70 +2732,70 @@
         "OEBPS/figure-187.jpg": "39f8cec336f72378614061c7cb5ee3b09f259cb228b8eaf2078959538a081024",
         "OEBPS/figure-199.jpg": "b931aa8eea52d21d9083b66fe188e5bb76a6bf539bb10866d5a2fcff709497a9",
         "OEBPS/figure-204.jpg": "0de39f561a473cb25daa2c2b2787e29336cc4a7fafa53a3837af1a0be82d0a1a",
-        "OEBPS/nav.xhtml": "495ba30cd238a6cb48eed32da358b43cedb2c9395b78ffeff353ec7d0f66d50f",
+        "OEBPS/nav.xhtml": "5dbfd980c92e4c9c724263cfbce413c04d049876fc7e065db564843564345d8d",
         "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
         "OEBPS/title.xhtml": "40cfd0e802cbccbd1f066aba0a23f161b4ac884999ed125252457d38b277a16b",
         "OEBPS/toc.ncx": "5dd0694cdd691971a82a567dce01ac1bcbae88d6007f6fa201de5136a83348d3",
         "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
       },
       "coverage": {
-        "excluded": 293,
-        "body": 6538,
-        "note": 43
+        "excluded": 252,
+        "body": 6584,
+        "note": 44
       },
       "chapters": [
         {
           "title": "Вступление",
-          "sha256": "3a2e1aa28b87c7853a72cd9667fd12527ed6b97b2bf2e24b2e876f2c91b85b18",
-          "blocks": 21
+          "sha256": "adb735e68faebf133e266060d7654dfaadf90d3a14a73619b4141fa412582417",
+          "blocks": 19
         },
         {
           "title": "Профессия: шаман",
-          "sha256": "4884399878df85ad6e251498e63bdd0f45b35343d7ac9d33218d2116ae2c292b",
-          "blocks": 51
+          "sha256": "717dd7c0c8c9d46711c54c2740c141a4284fe5c4bbac011869211e8be677cf9f",
+          "blocks": 52
         },
         {
           "title": "«Служебные» духи",
-          "sha256": "eaa60cd8d1643af4b3a53a6ed922ed726f1d8428e209dabeb3005d243ff35212",
-          "blocks": 67
+          "sha256": "b0afcaa0248be019d5617b0b18f6cbe75f571678f4829b611fa704cc22ff39c2",
+          "blocks": 70
         },
         {
           "title": "Избрание. Дороги шамана",
-          "sha256": "773a053470dd95ae273a5bf9d57e4e9af646a81d65b1ea60058d5c438a106ac1",
+          "sha256": "ea9fbe606b41ff4f2ec8f5d0a241b6e917ffda0c0b3c015f6c73255d51d00239",
           "blocks": 71
         },
         {
           "title": "Верхом на бубне",
-          "sha256": "fe9921958a87fc2db4c81672dcd1d24fe5c2c3c2ef7d6d080ecbedf91b01c849",
-          "blocks": 59
+          "sha256": "d1522f17e668c9d737bc199a7ea2c3190c2f195fce7687bae55f2847ce5280dc",
+          "blocks": 64
         },
         {
           "title": "Кафтан с хвостом, «корона» с рогами",
-          "sha256": "e4abaab42f6211227b25a09340f589ad6d7e20d1fb78c5627651822807a84bff",
-          "blocks": 66
+          "sha256": "67cfb45c4ec59bd43a4ef6bc55d8f7247c15876a48c72d98590bb88af52f975f",
+          "blocks": 70
         },
         {
           "title": "Театр одного актера",
-          "sha256": "ca3a17c61b5a59a44badb9314e389d6de187b622948540c7a58f1e1fb9165fbe",
-          "blocks": 57
+          "sha256": "d9c530fb1cd7d746e2539409713b6c828a553f5131a12e8f2dff7916021c9745",
+          "blocks": 58
         },
         {
           "title": "Здоров ли шаман?",
-          "sha256": "6b0c1914b5d77912405c8c32251a5dd2e93600281b01201d1b45e92ce1dd1110",
-          "blocks": 89
+          "sha256": "bbc1967565e8edbc8f2d4aeac5174e3bad5f74b6b933b294722b458382cf2291",
+          "blocks": 90
         },
         {
           "title": "Шаман и род",
-          "sha256": "9eadb144696fa81465698da7e2d4a5aaddedb6a030938e67f38b52bac16712c3",
-          "blocks": 63
+          "sha256": "ac02bc5541d668c2f11a8af2c4525b6dea7fd501e94c75077f912620e9803724",
+          "blocks": 65
         },
         {
           "title": "Закат шаманства",
-          "sha256": "53b76f3a51fa78dc54135f1b28f7b557135c8054915823fce2db8e28cc30573b",
-          "blocks": 57
+          "sha256": "ba7436f9779357ae46b2cf62abc99bb97f26ab42ae022b7d25e6ae105bba7adb",
+          "blocks": 58
         }
       ],
-      "noterefs": 0,
+      "noterefs": 23,
       "backlinks": 0,
       "figures": [
         "figure-011.jpg",

@@ -82,5 +82,35 @@
       0.7468085109574468
     ],
     "reason": "Checked directly against PDF 13 scan; exact reviewed OCR transcription."
+  },
+  {
+    "page": 15,
+    "before": "Ем:",
+    "after": "Ему",
+    "bbox": [
+      0.07342,
+      0.75815,
+      0.97264,
+      0.78962
+    ],
+    "reason": "User-confirmed reading and source-015-fragments.png: faint terminal у damaged in scan; fresh crop reads емо and cannot safely establish the letter automatically. Reviewed exception after generic short-token detection, not a phrase-based correction rule."
+  },
+  {
+    "page": 10,
+    "before": "• у юкатиров - »чі-",
+    "after": "и „удаган” для женщин, у ненцев — „тадебя”, у юкагиров — „ал-",
+    "reason": "Reviewed complete transcription from quotation-010.png. Partial-row geometry detector flags the missing prefix; fresh local recognition conflicts on rare ethnographic names and leading glyphs, so this source-specific exception preserves the visible scan instead of accepting an unverified automatic reconstruction."
+  },
+  {
+    "page": 10,
+    "before": "\", у туркмен - „порхан\", у казахов -",
+    "after": "ма”, у саамов — „нойда”, у туркмен — „порхан”, у казахов —",
+    "reason": "Reviewed complete transcription from quotation-010.png. Partial-row geometry detector flags the missing prefix; fresh local recognition conflicts on rare ethnographic names and leading glyphs, so this source-specific exception preserves the visible scan instead of accepting an unverified automatic reconstruction."
+  },
+  {
+    "page": 27,
+    "before": "„коссул\" н:",
+    "after": "„коссул\" на",
+    "reason": "User-reviewed ambiguous scan, PDF27. Machine short-damaged-token pass proposes на but crop OCR cannot verify the obscured final letter. Explicit reviewed exception, not an automatic contextual guess."
   }
 ]

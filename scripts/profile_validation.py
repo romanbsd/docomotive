@@ -5,12 +5,14 @@ import re
 
 BOOL_KEYS = set(
     """chapter_heading continuous_indented_rows native_small_numeric_sup native_heading_merge native_index_indents native_list_layout native_relative_font_sizes
-    infer_verse infer_inset_verse link_symbol_footnotes recover_hanging_margins recover_ocr_regions recover_ocr_glyph_confusions recover_pdf_heading_styles recover_pdf_typography recover_pdf_numeric_superscripts recover_scan_font_metrics recover_scan_italics recover_scan_inline_italics
+    repair_ocr_punctuation repair_ocr_case inspect_partial_rows recover_gap_rows normalize_quotation_marks recover_figure_frames recover_body_top source_figure_anchors link_numeric_footnotes infer_verse infer_inset_verse link_symbol_footnotes recover_hanging_margins recover_ocr_regions recover_ocr_glyph_confusions recover_pdf_heading_styles recover_pdf_typography recover_pdf_numeric_superscripts recover_scan_font_metrics recover_scan_italics recover_scan_inline_italics
     research_missing_endnotes recover_scanned_endnotes recover_reference_markers recover_variable_superscripts recover_image_only_headings repair_lexical_confusions repair_word_wraps scan_raster_only section_navigation source_prose_indents source_relative_figures""".split()
 )
-NUMBER_KEYS = set("""native_body_size native_superscript_max_size endnote_marker_min
+NUMBER_KEYS = set(
+    """quote_font_scale native_body_size native_superscript_max_size endnote_marker_min
     endnote_marker_limit upper_margin_cutoff uppercase_margin_cutoff
-    quote_first_line_indent""".split())
+    quote_first_line_indent""".split()
+)
 PAGE_LIST_KEYS = set("""glossary_pages hanging_pages index_pages
     native_quote_pages reference_pages vision_primary_pages""".split())
 LIST_KEYS = PAGE_LIST_KEYS | set(
@@ -66,6 +68,8 @@ def validate_profile(book, path="profile", page_count=None):
                 fail(key, "expected a finite number")
         elif type(value) is not expected:
             fail(key, f"expected {expected.__name__}, got {type(value).__name__}")
+    if "quote_font_scale" in book and not 0.5 <= book["quote_font_scale"] <= 1.5:
+        fail("quote_font_scale", "expected a readable scale in 0.5..1.5")
     if book.get("figure_cleanup", "none") not in ("none", "white"):
         fail("figure_cleanup", "expected none or white")
     if book.get("figure_color_mode", "auto") not in ("auto", "rgb", "grayscale"):

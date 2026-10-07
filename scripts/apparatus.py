@@ -5,7 +5,10 @@ import re
 
 def link_symbol_footnotes(model, book):
     """Link unique printed symbols within their original page, preserving text."""
-    if not book.get("link_symbol_footnotes", False):
+    if not (
+        book.get("link_symbol_footnotes", False)
+        or book.get("link_numeric_footnotes", False)
+    ):
         return {"mode": "not-configured"}
     symbol_pattern = re.compile(r"(?<![*†‡])([*†‡]{1,3})(?![*†‡])")
     linked = []
@@ -14,6 +17,8 @@ def link_symbol_footnotes(model, book):
         for note in chapter["notes"]:
             # OCR often joins the marker to the opening word: '*I have...'.
             marker = re.match(r"^\s*([*†‡]{1,3})(?![*†‡])(?=\s|[^\W\d_])", note["text"])
+            if not marker and book.get("link_numeric_footnotes"):
+                marker = re.match(r"^\s*(\d{1,2})(?=\s)", note["text"])
             if not marker:
                 unresolved.append(
                     dict(page=note["root_page"], reason="unrecognized-note-prefix")
@@ -21,17 +26,40 @@ def link_symbol_footnotes(model, book):
                 continue
             root = note["root_page"]
             symbol = marker[1]
+            pattern = (
+                re.compile(r"(?<!\d)\d{1,2}(?!\d)")
+                if symbol.isdigit()
+                else symbol_pattern
+            )
             # Page-group notes can contain several entries. Without separate
             # canonical targets, one symbol must not link to the wrong entry.
-            if len(list(symbol_pattern.finditer(note["text"]))) != 1:
+            multiple = (
+                (
+                    sum(
+                        bool(re.match(r"^\s*\d{1,2}\s", s["text"]))
+                        for s in note.get("sources", [])
+                    )
+                    != 1
+                )
+                if symbol.isdigit()
+                else len(list(symbol_pattern.finditer(note["text"]))) != 1
+            )
+            if multiple:
                 unresolved.append(dict(page=root, reason="multiple-note-symbols"))
                 continue
             candidates = []
             for block in chapter["blocks"]:
                 if block["kind"] not in ("text", "quote", "verse"):
                     continue
-                for match in symbol_pattern.finditer(block["text"]):
-                    if match[1] != symbol:
+                for match in pattern.finditer(block["text"]):
+                    if match.group() != symbol:
+                        continue
+                    if symbol.isdigit() and not any(
+                        "sup" in style.get("tags", [])
+                        and style["start"] == match.start()
+                        and style["end"] == match.end()
+                        for style in block.get("inline", [])
+                    ):
                         continue
                     if match.start() == 0 or (
                         block["text"][match.start() - 1].isdigit()
@@ -81,7 +109,11 @@ def link_symbol_footnotes(model, book):
             linked.append(
                 dict(page=root, symbol=symbol, anchor=anchor, target=note["id"])
             )
-    return dict(symbol_links=len(linked), linked=linked, unresolved=unresolved)
+    report = dict(symbol_links=len(linked), linked=linked, unresolved=unresolved)
+    if book.get("link_numeric_footnotes"):
+        report["numeric_links"] = sum(item["symbol"].isdigit() for item in linked)
+        report["symbol_links"] -= report["numeric_links"]
+    return report
 
 
 def link_endnotes(model, book):

@@ -40,16 +40,19 @@ def confusable(before, after):
     )
 
 
-def locate_word(text, words, word, candidate):
+def locate_word(text, words, word, candidate, edge_anchor=False):
     """Anchor a crop by neighboring words, not spelling similarity alone."""
     word, candidate = word.lower(), candidate.lower()
-    tokens = [m.group().lower() for m in TOKEN.finditer(text)]
+    # Tiny damaged fragments can be recognized as a digit (б -> 6). Keep
+    # numbers in this geometry-only alignment; two neighbors still bind it.
+    geometry_token = re.compile(r"[^\W_]+") if len(word) <= 3 else TOKEN
+    tokens = [m.group().lower() for m in geometry_token.finditer(text)]
     if tokens.count(word) != 1:
         return None
     index = tokens.index(word)
     old, owners = [], []
     for owner, value in enumerate(words):
-        for token in TOKEN.findall(value[4].lower()):
+        for token in geometry_token.findall(value[4].lower()):
             old.append(token)
             owners.append(owner)
     scored = []
@@ -58,8 +61,6 @@ def locate_word(text, words, word, candidate):
             difflib.SequenceMatcher(None, value, token).ratio()
             for value in (word, candidate)
         )
-        if similarity < 0.75:
-            continue
         # Two neighbors in either direction disambiguate repeated similar words
         # and prevent a correct word elsewhere in the line supplying false OCR.
         anchors = sum(
@@ -67,7 +68,16 @@ def locate_word(text, words, word, candidate):
             for d in (-2, -1, 1, 2)
             if 0 <= index + d < len(tokens) and 0 <= i + d < len(old)
         )
-        if anchors or len(tokens) == len(old) == 1:
+        if similarity < 0.75 and not (
+            len(word) <= 3 and (anchors >= 2 or len(tokens) == len(old) == 1)
+        ):
+            continue
+        edge = (
+            edge_anchor
+            and token == word
+            and (index == i == 0 or index == len(tokens) - 1 and i == len(old) - 1)
+        )
+        if anchors or len(tokens) == len(old) == 1 or edge:
             scored.append(((anchors, similarity), owners[i]))
     scored.sort(reverse=True)
     if not scored or (len(scored) > 1 and scored[0][0] == scored[1][0]):
@@ -129,8 +139,18 @@ class ContextRanker:
                     self.book_outgoing.update(words[:-1])
 
         if self.language != "en":
+            for word in sorted(self.protected):
+                self.sym.create_dictionary_entry(
+                    word, max(1, round(10 ** zipf_frequency(word, self.language)))
+                )
             for word in sorted(self.counts):
-                if word not in self.sym.words and self.dictionary.lookup(word):
+                if word not in self.sym.words and (
+                    self.dictionary.lookup(word)
+                    or (
+                        self.counts[word] >= 3
+                        and zipf_frequency(word, self.language) >= 2
+                    )
+                ):
                     self.sym.create_dictionary_entry(
                         word, max(1, round(10 ** zipf_frequency(word, self.language)))
                     )
@@ -167,7 +187,7 @@ class ContextRanker:
             self.book_outgoing[left] + 10
         )
 
-    def rank(self, word, context, offset):
+    def rank(self, word, context, offset, include_known=False, max_distance=2):
         matches = list(TOKEN.finditer(context))
         index = next((i for i, m in enumerate(matches) if m.start() == offset), None)
         left = matches[index - 1].group().lower() if index and index > 0 else None
@@ -186,9 +206,15 @@ class ContextRanker:
             ):
                 right = None
         choices = []
-        for candidate in self.sym.lookup(word.lower(), Verbosity.CLOSEST, 2):
+        for candidate in self.sym.lookup(
+            word.lower(),
+            Verbosity.ALL if include_known else Verbosity.CLOSEST,
+            max_distance,
+        ):
             term = candidate.term
-            score = math.log(max(candidate.count, 1))
+            score = math.log(max(candidate.count, 1)) - (
+                2 * candidate.distance if include_known else 0
+            )
             score += 0.5 * math.log1p(self.counts[term])
             if left:
                 score += math.log(max(self.transition(left, term), 1e-15))
@@ -245,7 +271,7 @@ class CropRecognizer:
             (Path(match[1]) / (self.language + ".traineddata")).read_bytes()
         )
 
-    def line_words(self, page, row):
+    def line_words(self, page, row, raw=False, clean=True, dpi=600):
         """Image-only fallback: fresh line OCR supplies geometry, not old votes."""
         from scanned_notes import character_line
 
@@ -262,7 +288,7 @@ class CropRecognizer:
             & page.rect
         )
         pix = page.get_pixmap(
-            matrix=pymupdf.Matrix(600 / 72, 600 / 72),
+            matrix=pymupdf.Matrix(dpi / 72, dpi / 72),
             clip=rect,
             colorspace=pymupdf.csGRAY,
         )
@@ -272,8 +298,9 @@ class CropRecognizer:
             + self.model_hash.encode()
             + Path(inspect.getsourcefile(character_line)).read_bytes()
             + b"lexical-line-geometry-v1"
+            + (str(dpi).encode() if dpi != 600 else b"")
             + (
-                inspect.getsource(self.line_words).encode()
+                inspect.getsource(self.line_words).encode() + str(clean).encode()
                 if self.language != "eng"
                 else b""
             )
@@ -287,6 +314,21 @@ class CropRecognizer:
             if self.language == "eng" and not self.tessdata:
                 text, chars = character_line(image)
             else:
+                from scanned_notes import components, prose_baseline
+                import numpy as np
+
+                # Reuse the baseline estimator to mask adjacent lines; oversized
+                # primary OCR boxes can otherwise anchor to a neighbor's glyph.
+                model = prose_baseline(components(image))
+                if model and clean:
+                    cap, baseline, slope = model
+                    array = np.array(image)
+                    yy, xx = np.indices(array.shape)
+                    array[
+                        (yy < baseline + slope * xx - 1.1 * cap)
+                        | (yy > baseline + slope * xx + 0.25 * cap)
+                    ] = 255
+                    image = Image.fromarray(array)
                 # Character boxes retain neighboring-word anchors even when
                 # OCR has dropped a letter in the target word.
                 stream = io.BytesIO()
@@ -325,7 +367,8 @@ class CropRecognizer:
                         text += char.text or ""
             write_json(path, dict(text=text, characters=chars))
         words = []
-        for match in TOKEN.finditer(text):
+        geometry_token = re.compile(r"[^\W_]+") if self.language != "eng" else TOKEN
+        for match in geometry_token.finditer(text):
             boxes = [
                 c["bbox"]
                 for c in chars
@@ -342,9 +385,123 @@ class CropRecognizer:
                         match.group(),
                     )
                 )
+        if raw:
+            characters = [
+                {
+                    **c,
+                    "bbox": [
+                        rect.x0 + c["bbox"][0] * rect.width / pix.width,
+                        rect.y0 + c["bbox"][1] * rect.height / pix.height,
+                        rect.x0 + c["bbox"][2] * rect.width / pix.width,
+                        rect.y0 + c["bbox"][3] * rect.height / pix.height,
+                    ],
+                }
+                for c in chars
+            ]
+            return dict(text=text, characters=characters, words=words)
         return words
 
+    def fragment(self, row, word, candidate):
+        return self.recognize_crop(row, word, candidate, fragment=True)
+
     def __call__(self, row, word, candidate):
+        evidence = self.recognize_crop(row, word, candidate)
+        if self.language == "eng":
+            return evidence
+
+        def supported(value):
+            return len(value.get("readings", [])) == 2 and all(
+                TOKEN.findall(r.lower()) == [candidate.lower()]
+                for r in value["readings"]
+            )
+
+        if supported(evidence):
+            return evidence
+        attempts = [evidence]
+        # Fixed crop variants test clearance sensitivity, not arbitrary search
+        # windows: normal word, tight word, then original unmasked line geometry.
+        for variant in (1, 2):
+            alternate = self.recognize_crop(row, word, candidate, variant=variant)
+            attempts.append(alternate)
+            if supported(alternate):
+                return dict(
+                    alternate, crop_variants=attempts[:-1], selected_variant=variant
+                )
+        return dict(evidence, crop_variants=attempts[1:])
+
+    def source_choice(self, row, word, choices):
+        """Corroborate a bounded shortlist in whole-page and two local contexts."""
+        from common import cache_path
+        from ocr import merge_rows, nearest
+
+        if not hasattr(self, "page_witnesses"):
+            self.page_witnesses = {}
+        n = row["page"]
+        if n not in self.page_witnesses:
+            path = cache_path(self.work.parent, "tesseract") / f"{n:04}.json"
+            self.page_witnesses[n] = (
+                merge_rows(read_json(path)["lines"]) if path.exists() else []
+            )
+        cached = nearest(row, self.page_witnesses[n])
+        if not cached:
+            return None
+        observations = [cached["text"]] + [
+            self.line_words(self.doc[n - 1], row, raw=True, dpi=dpi)["text"]
+            for dpi in (600, 300)
+        ]
+        proofs = []
+        for choice in choices:
+            readings = [
+                anchored_reading(row["text"], text, word, choice["term"])
+                for text in observations
+            ]
+            if all(value == choice["term"] for value in readings):
+                proofs.append(
+                    dict(
+                        term=choice["term"],
+                        readings=readings,
+                        observations=observations,
+                        engine="tesseract-page-and-two-local-scales",
+                        scales=[600, 300],
+                    )
+                )
+        if len(proofs) != 1:
+            return None
+        proof = proofs[0]
+        page = self.doc[n - 1]
+        x, y, xx, yy = row["bbox"]
+        rect = (
+            pymupdf.Rect(
+                x * page.rect.width,
+                y * page.rect.height,
+                xx * page.rect.width,
+                yy * page.rect.height,
+            )
+            & page.rect
+        )
+        data = page.get_pixmap(dpi=600, clip=rect, colorspace=pymupdf.csGRAY).tobytes(
+            "png"
+        )
+        key = digest(
+            data
+            + self.model_hash.encode()
+            + self.version.encode()
+            + b"lexical-context-evidence-v1"
+        )
+        self.work.mkdir(parents=True, exist_ok=True)
+        (self.work / (key + ".png")).write_bytes(data)
+        return dict(
+            proof,
+            cache_key=key,
+            crop_sha256=digest(data),
+            traineddata_sha256=self.model_hash,
+            version=self.version,
+            rect=list(rect),
+            dpi=600,
+            kind="context-line",
+        )
+
+    def recognize_crop(self, row, word, candidate, fragment=False, variant=0):
         page = self.doc[row["page"] - 1]
         cy = (row["bbox"][1] + row["bbox"][3]) / 2
         # Embedded words locate the crop. Their old OCR reading is retained
@@ -358,20 +515,40 @@ class CropRecognizer:
 
         image_only = not words
         if image_only:
-            words = self.line_words(page, row)
+            words = self.line_words(page, row, clean=variant != 2)
         if not words:
             return dict(readings=[], reason="no-word-geometry")
         located = locate_word(
-            row["text"], sorted(words, key=lambda w: w[0]), word, candidate
+            row["text"],
+            sorted(words, key=lambda w: w[0]),
+            word,
+            candidate,
+            edge_anchor=self.language != "eng",
         )
         if located is None:
             return dict(readings=[], reason="ambiguous-word-geometry")
         rect = pymupdf.Rect(located[:4])
         # One PDF point surrounds the glyph box; a white 20-pixel frame lets
         # single-word segmentation work without neighboring annotation noise.
-        padding = 1 if self.language == "eng" else 0.2
+        padding = 0.2 if (fragment or variant) and self.language != "eng" else 1
+        # Faint terminal glyphs can extend beyond the OCR word box. Expand
+        # horizontally by one measured glyph, retaining tight vertical bounds.
+        horizontal = (
+            padding
+            if self.language == "eng" or not fragment
+            else max(1.2, rect.width / max(1, len(located[4])))
+        )
+        if self.language != "eng" and variant != 2:
+            following = [w[0] for w in words if w[0] >= rect.x1 and w != located]
+            if following:
+                # Stop halfway across the next word space; faint glyph clearance
+                # must never include the next word's first letter.
+                horizontal = min(horizontal, max(0.2, (min(following) - rect.x1) / 2))
         rect = pymupdf.Rect(
-            rect.x0 - padding, rect.y0 - padding, rect.x1 + padding, rect.y1 + padding
+            rect.x0 - padding,
+            rect.y0 - padding,
+            rect.x1 + horizontal,
+            rect.y1 + padding,
         )
         pix = page.get_pixmap(
             matrix=pymupdf.Matrix(600 / 72, 600 / 72),
@@ -517,7 +694,26 @@ class CropRecognizer:
         return evidence
 
 
-def repair(model, pages, book, ranker, recognize, audit):
+def anchored_reading(original, observation, word, candidate):
+    """Require two exact neighbors and a unique location for a lexical vote."""
+    words = [(0, 0, 0, 0, t) for t in TOKEN.findall(observation.lower())]
+    located = locate_word(original, words, word, candidate)
+    if not located:
+        return None
+    own = TOKEN.findall(original.lower())
+    other = [w[4] for w in words]
+    if own.count(word.lower()) != 1:
+        return None
+    i, j = own.index(word.lower()), words.index(located)
+    anchors = sum(
+        own[i + d] == other[j + d]
+        for d in (-2, -1, 1, 2)
+        if 0 <= i + d < len(own) and 0 <= j + d < len(other)
+    )
+    return located[4] if anchors >= 2 else None
+
+
+def repair(model, pages, book, ranker, recognize, audit, skip_rows=()):
     """Decide from one immutable assembled book; apply exact source-row edits."""
     rows = {
         r.get("row_id", row_id(int(n), r, book.get("source_sha256", ""))): r
@@ -552,6 +748,8 @@ def repair(model, pages, book, ranker, recognize, audit):
                     continue  # Never patch a reconstructed word across source rows.
                 row = rows[sources[0]["row_id"]]
                 ident = sources[0]["row_id"]
+                if ident in skip_rows:
+                    continue
                 identity = (ident, word)
                 if identity in seen:
                     continue
@@ -637,6 +835,51 @@ def repair(model, pages, book, ranker, recognize, audit):
                         ),
                     )
                 )
+    # A sparse book Markov model may favor a common but wrong inflection.
+    # For non-English scans, source agreement can select another of five
+    # one-edit dictionary candidates without requiring it twice in the book.
+    # Whole-page OCR and two local scales must agree with two exact neighbors;
+    # low-scoring isolated-word fallback readings alone never license a fix.
+    if ranker.language != "en" and callable(getattr(recognize, "source_choice", None)):
+        for decision in decisions:
+            if decision["action"] != "review":
+                continue
+            row = rows[decision["row_id"]]
+            word = decision["before"]
+            if len(re.findall(r"\b" + re.escape(word) + r"\b", row["text"])) != 1:
+                continue
+            shortlist = [
+                c
+                for c in decision["candidates"]
+                if c["distance"] == 1
+                and c["term"] not in ranker.protected
+                and ranker.dictionary.lookup(c["term"])
+                and zipf_frequency(c["term"], ranker.language) >= 3
+            ]
+            proof = recognize.source_choice(row, word, shortlist) if shortlist else None
+            if not proof:
+                continue
+            after = proof["term"].capitalize() if word.istitle() else proof["term"]
+            decision.update(
+                initial_proposal=decision["after"],
+                after=after,
+                action="correct",
+                reason="three-context-source-witnesses",
+                crop=proof,
+            )
+            edits.append(
+                (
+                    row,
+                    dict(
+                        page=row["page"],
+                        before=word,
+                        after=after,
+                        count=1,
+                        whole_word=True,
+                        evidence=decision,
+                    ),
+                )
+            )
     for row, edit in edits:
         apply_edits([row], [edit], audit, "whole-book-lexical-repair")
     return dict(
