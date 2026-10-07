@@ -1171,8 +1171,8 @@ def translate_epub(
     retried alone at the retry temperature and the attempt with fewer flags is
     kept. review(source, draft, source_language, target_language), if given,
     post-edits prose blocks still flagged or that lost inline markup; an edit
-    is kept only if it decodes with the source's markup and the checks do not
-    get worse. corrections maps "<document>#<block index>" to {source_sha,
+    is kept only if it decodes with the source's markup and clears flags (or,
+    for an unflagged block, restores markup without raising any). corrections maps "<document>#<block index>" to {source_sha,
     translation}: reviewed replacements applied instead of the model; a
     correction whose source text changed stops the run. The report's "pairs"
     lists every block's source and result for the review sheet."""
@@ -1243,7 +1243,9 @@ def translate_epub(
                 output = review(encoded, plain(text(block)), source, target)
                 decode(output, candidate, slots, breaks, anchors)
                 after = checks(text(original), text(candidate)) if checks else []
-                entry["accepted"] = len(after) <= len(found)
+                # Fewer flags, or markup restored without new flags; an edit with
+                # the same flags would only swap one imperfect output for another.
+                entry["accepted"] = len(after) < len(found) or (not found and not after)
             except ValueError, etree.XMLSyntaxError:
                 entry["accepted"] = False
             if entry["accepted"]:

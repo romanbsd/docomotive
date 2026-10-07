@@ -666,6 +666,27 @@ class TranslateTests(unittest.TestCase):
             b"CHAPTER 3 PARAGRAPH 4 HAS <em>WORDS</em>.", outputs[1]["c3.xhtml"]
         )
 
+    def test_reviewer_edit_with_the_same_flags_is_rejected(self):
+        from translate import translate_epub
+
+        folder = self.epub(
+            "<p>I walked to the river at dawn. It was cold. I sat and waited for the boat to come back.</p>"
+        )
+        cut = lambda text, *a: upper(text).split(" IT WAS")[0]
+        still_cut = lambda source_text, draft, s, t: "I WALKED TO THE RIVER."
+        checks = lambda s, t: quality_flags(s, t, "en")
+        report = translate_epub(
+            folder / "in.epub",
+            folder / "a.epub",
+            cut,
+            "ru",
+            progress=False,
+            checks=checks,
+            review=still_cut,
+        )
+        self.assertEqual([r["accepted"] for r in report["reviewed_blocks"]], [False])
+        self.assertEqual(len(report["flagged_blocks"]), 1)
+
     def test_long_text_splits_only_outside_placeholders(self):
         text = "One two. <x1>Three. Four.</x1> Five six. Seven."
         pieces = [p for _, p in chunks(text, limit=12)]
