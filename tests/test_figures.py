@@ -5,10 +5,12 @@ import sys
 import unittest
 from pathlib import Path
 import pymupdf
+import io
+from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from book_model import classify_row, reconstruct, JoinPolicy
-from figures import incorporate_figures
+from figures import incorporate_figures, crop_artwork_pixels
 from render_text import block_html
 
 
@@ -17,6 +19,19 @@ def row(text, y, x=0.1, kind="text"):
 
 
 class FigureTests(unittest.TestCase):
+    def test_framed_scan_keeps_native_pixels_but_visible_text_requires_render(self):
+        doc = pymupdf.open()
+        page = doc.new_page(width=100, height=100)
+        raw = io.BytesIO()
+        Image.new("RGB", (180, 180), "white").save(raw, format="PNG")
+        page.insert_image(pymupdf.Rect(5, 5, 95, 95), stream=raw.getvalue())
+        crop, evidence = crop_artwork_pixels(page, pymupdf.Rect(10, 10, 90, 90))
+        self.assertEqual(evidence["method"], "embedded-page-scan")
+        self.assertEqual(crop.size, (160, 160))
+        page.insert_text((20, 40), "Visible overlay", fontsize=8)
+        _, evidence = crop_artwork_pixels(page, pymupdf.Rect(10, 10, 90, 90))
+        self.assertEqual(evidence["method"], "rendered-page")
+
     def test_only_image_region_and_reviewed_blank_page_are_excluded(self):
         b = dict(
             figures=[dict(page=1, rect=[0.1, 0.2, 0.9, 0.5])],
@@ -59,6 +74,17 @@ class FigureTests(unittest.TestCase):
         report = incorporate_figures(model, book, doc, files)
         self.assertEqual(model[0]["blocks"][0]["kind"], "figure")
         self.assertTrue(files["OEBPS/figure.jpg"].startswith(b"\xff\xd8"))
+        book["figure_color_mode"] = "grayscale"
+        grayscale_files = {}
+        incorporate_figures(
+            [dict(chapter=1, source_pages=[1, 1], blocks=[])],
+            book,
+            doc,
+            grayscale_files,
+        )
+        self.assertEqual(
+            Image.open(io.BytesIO(grayscale_files["OEBPS/figure.jpg"])).mode, "L"
+        )
         self.assertEqual(report[0]["chapter"], 1)
         self.assertIn(
             'alt="Source illustration"',

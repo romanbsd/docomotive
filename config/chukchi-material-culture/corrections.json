@@ -1,0 +1,158 @@
+[
+  {
+    "page": 6,
+    "before": "«Паука»",
+    "after": "«Наука»",
+    "bbox": [
+      0.08669001751313485,
+      0.1795629060838748,
+      0.8984238178633975,
+      0.19314825753101003
+    ],
+    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
+  },
+  {
+    "page": 6,
+    "before": "оказавшие — большое",
+    "after": "оказавшие большое",
+    "bbox": [
+      0.08318739054290718,
+      0.21795629060838748,
+      0.9001751313485113,
+      0.23744831659775548
+    ],
+    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
+  },
+  {
+    "page": 6,
+    "before": "теорстическое",
+    "after": "теоретическое",
+    "bbox": [
+      0.0840630472854641,
+      0.23567631423508564,
+      0.9010507880910683,
+      0.2492616656822209
+    ],
+    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
+  },
+  {
+    "page": 6,
+    "before": "пайдут",
+    "after": "найдут",
+    "bbox": [
+      0.0840630472854641,
+      0.33195510927347904,
+      0.9019264448336253,
+      0.34672179562906086
+    ],
+    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
+  },
+  {
+    "page": 6,
+    "before": "янсследований.",
+    "after": "исследований.",
+    "bbox": [
+      0.0840630472854641,
+      0.38924985233313647,
+      0.23117338003502627,
+      0.40165386887182514
+    ],
+    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
+  },
+  {
+    "page": 6,
+    "before": "а такие на",
+    "after": "а также на",
+    "bbox": [
+      0.084938704028021,
+      0.41701122268163027,
+      0.9010507880910683,
+      0.43118724158298877
+    ],
+    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
+  },
+  {
+    "page": 6,
+    "before": "«Лига ходеносауна,",
+    "after": "«Лига ходеносауни,",
+    "bbox": [
+      0.1295971978984238,
+      0.44477259303012406,
+      0.9028021015761821,
+      0.45894861193148256
+    ],
+    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
+  },
+  {
+    "page": 6,
+    "before": "чли ирокезов»",
+    "after": "или ирокезов»",
+    "bbox": [
+      0.08581436077057793,
+      0.45894861193148256,
+      0.9028021015761821,
+      0.47253396337861786
+    ],
+    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
+  },
+  {
+    "page": 6,
+    "before": "За нима",
+    "after": "За ними",
+    "bbox": [
+      0.08581436077057793,
+      0.45894861193148256,
+      0.9028021015761821,
+      0.47253396337861786
+    ],
+    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
+  },
+  {
+    "page": 6,
+    "before": "«пего века.",
+    "after": "шего века.",
+    "bbox": [
+      0.08581436077057793,
+      0.5457767277023036,
+      0.19527145359019266,
+      0.5540460720614294
+    ],
+    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
+  },
+  {
+    "page": 6,
+    "before": "Иеви-Строс",
+    "after": "Леви-Строс",
+    "bbox": [
+      0.1287215411558669,
+      0.5847607796810396,
+      0.8800350262697023,
+      0.5995274660366214
+    ],
+    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
+  },
+  {
+    "page": 6,
+    "before": "1983; 1985,",
+    "after": "1983; 1985.",
+    "bbox": [
+      0.1287215411558669,
+      0.5847607796810396,
+      0.8800350262697023,
+      0.5995274660366214
+    ],
+    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
+  },
+  {
+    "page": 6,
+    "before": "«ии. Пер.",
+    "after": "гии. Пер.",
+    "bbox": [
+      0.0840630472854641,
+      0.668044890726521,
+      0.2819614711033275,
+      0.6822209096278795
+    ],
+    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
+  }
+]

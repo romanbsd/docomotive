@@ -13,6 +13,7 @@ from spylls.hunspell import Dictionary
 from wordfreq import zipf_frequency
 from common import ROOT, digest, write_json, load_profile
 from vocabulary import TOKEN, analyze, review_signals
+from languages import language_code, dictionary_locale
 
 
 def main():
@@ -31,7 +32,9 @@ def main():
     args = parser.parse_args()
     book = load_profile(args.profile)
     config = args.profile.parent
-    dictionary = Dictionary.from_files(str(args.models / "en_US"))
+    language = language_code(book)
+    locale = dictionary_locale(book)
+    dictionary = Dictionary.from_files(str(args.models / locale))
     protected = {
         s.lower()
         for s in (config / "protected-words.txt").read_text().splitlines()
@@ -40,8 +43,24 @@ def main():
     protected.update(book.get("line_join_words", []))
     frequency = Path(symspellpy.__file__).parent / "frequency_dictionary_en_82_765.txt"
     sym = SymSpell(max_dictionary_edit_distance=2, prefix_length=7)
-    if not sym.load_dictionary(str(frequency), 0, 1):
-        raise ValueError("SymSpell dictionary failed to load")
+    if language == "en":
+        if not sym.load_dictionary(str(frequency), 0, 1):
+            raise ValueError("SymSpell dictionary failed to load")
+    else:
+        from wordfreq import top_n_list
+
+        # A pinned language-frequency resource supplies suggestions; book
+        # recurrence can prioritize review but cannot prove correct spelling.
+        for word in top_n_list(language, 50000):
+            if word.isalpha():
+                sym.create_dictionary_entry(
+                    word, max(1, round(10 ** zipf_frequency(word, language)))
+                )
+        frequency = (
+            Path(__import__("wordfreq").__file__).parent
+            / "data"
+            / f"large_{language}.msgpack.gz"
+        )
     for word in sorted(protected):
         sym.create_dictionary_entry(word, 1)
     lm = None
@@ -68,6 +87,8 @@ def main():
     for entry in model:
         chapter = entry["chapter"]
         for index, node in enumerate(entry["blocks"] + entry["notes"]):
+            if node["kind"] == "source-gap":
+                continue  # Editorial source notices are not OCR observations.
             if (
                 entry["source_pages"][0] in book.get("reference_pages", [])
                 and "source_chapter" not in node
@@ -80,7 +101,7 @@ def main():
 
                 response = requests.post(
                     args.languagetool_url.rstrip("/") + "/v2/check",
-                    data={"language": "en-US", "text": text},
+                    data={"language": book["language"], "text": text},
                     timeout=60,
                 )
                 response.raise_for_status()
@@ -105,7 +126,7 @@ def main():
                     continue
                 if all(dictionary.lookup(w) or w in protected for w in low.split("-")):
                     continue
-                if zipf_frequency(low, "en") >= 2:
+                if zipf_frequency(low, language) >= 2:
                     continue
                 exact = sym.lookup(low, Verbosity.TOP, max_edit_distance=0)
                 if exact:
@@ -198,8 +219,8 @@ def main():
             p.name: digest(p.read_bytes())
             for p in [
                 frequency,
-                args.models / "en_US.aff",
-                args.models / "en_US.dic",
+                args.models / (locale + ".aff"),
+                args.models / (locale + ".dic"),
                 config / "protected-words.txt",
             ]
         },

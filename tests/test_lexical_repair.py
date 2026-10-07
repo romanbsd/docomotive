@@ -51,6 +51,52 @@ class LexicalRepairTests(unittest.TestCase):
         )
         return row, result, audit
 
+    def test_russian_markov_ranking_and_source_gates(self):
+        class RussianDictionary:
+            def lookup(self, word):
+                return word in {"шаманского", "алтайцы", "более"}
+
+        dictionary = RussianDictionary()
+        training, _ = entry(
+            "основы шаманского культа. был еще более длинным. Алтайцы и хакасы называли рукоять."
+        )
+        ranker = ContextRanker([training, training], {"language": "ru"}, dictionary)
+        for word, target, context in [
+            ("аманского", "шаманского", "основы аманского культа"),
+            ("болес", "более", "был еще болес длинным"),
+            ("Алтанцы", "Алтайцы", "Алтанцы и хакасы называли рукоять"),
+        ]:
+            with self.subTest(word=word):
+                self.assertEqual(
+                    ranker.rank(word, context, context.index(word))[0]["term"],
+                    target.lower(),
+                )
+                model, row = entry(context)
+                report = repair(
+                    [model],
+                    {"1": [row]},
+                    {"language": "ru"},
+                    ranker,
+                    lambda *args: dict(readings=[target, target]),
+                    [],
+                )
+                self.assertEqual(report["corrected"], 1)
+                self.assertIn(target, row["text"])
+        self.assertGreater(
+            ranker.transition("шаманского", "культа"),
+            ranker.transition("шаманского", "рукоять"),
+        )
+        model, row = entry("основы аманского культа")
+        report = repair(
+            [model],
+            {"1": [row]},
+            {"language": "ru"},
+            ranker,
+            lambda *args: dict(readings=["шаманского", "аманского"]),
+            [],
+        )
+        self.assertEqual(report["corrected"], 0)
+
     def test_context_disambiguates_common_errors(self):
         for word, target, context in [
             ("amnesta", "amnesia", "amnesta on the part of the receivers"),
@@ -103,6 +149,79 @@ class LexicalRepairTests(unittest.TestCase):
         words = [(0, 0, 0, 0, w) for w in "soon atler we went after lunch".split()]
         located = locate_word("soon atter we went after lunch", words, "atter", "after")
         self.assertEqual(located[4], "atler")
+
+    def test_russian_markov_context_changes_the_same_edit_distance_choice(self):
+        class Dictionary:
+            def lookup(self, word):
+                return word in {"коды", "козы"}
+
+        training, _ = entry("секретные коды доступа. дикие козы пасутся. " * 10)
+        ranker = ContextRanker([training], {"language": "ru"}, Dictionary())
+        # Both targets are one substitution from the same corrupted token.
+        # Adjacent-word transitions must change the winner, not just Zipf.
+        for text, expected in [
+            ("секретные коцы доступа", "коды"),
+            ("дикие коцы пасутся", "козы"),
+        ]:
+            self.assertEqual(
+                ranker.rank("коцы", text, text.index("коцы"))[0]["term"], expected
+            )
+
+    def test_cyrillic_fallback_requires_stable_high_score_and_pins_models(self):
+        from types import SimpleNamespace
+        from PIL import Image
+
+        with tempfile.TemporaryDirectory() as root:
+            root = Path(root)
+            models = root / "models"
+            models.mkdir()
+            for name in (
+                "cyrillic_PP-OCRv5_rec_mobile.onnx",
+                "ch_PP-OCRv4_det_mobile.onnx",
+                "ch_ppocr_mobile_v2.0_cls_mobile.onnx",
+            ):
+                (models / name).write_bytes(b"test-model")
+            image = root / "word.png"
+            Image.new("RGB", (100, 50), "white").save(image)
+            recognizer = CropRecognizer.__new__(CropRecognizer)
+            recognizer.models, recognizer.work = models, root
+            calls = []
+
+            def recognize(*args, **kwargs):
+                calls.append(1)
+                return SimpleNamespace(txts=("шаманского",), scores=(0.93,))
+
+            recognizer.rapid = recognize
+            evidence = dict(readings=["маманского", "маманского"])
+            result = recognizer.with_fallback(evidence, image, "шаманского")
+            self.assertEqual(result["readings"], ["шаманского", "шаманского"])
+            self.assertEqual(result["tesseract_readings"], evidence["readings"])
+            recognizer.with_fallback(evidence, image, "шаманского")
+            self.assertEqual(len(calls), 2)
+            (models / "cyrillic_PP-OCRv5_rec_mobile.onnx").write_bytes(b"changed-model")
+            recognizer.rapid = lambda *args, **kwargs: SimpleNamespace(
+                txts=("шаманского",), scores=(0.89,)
+            )
+            self.assertEqual(
+                recognizer.with_fallback(evidence, image, "шаманского")["readings"],
+                evidence["readings"],
+            )
+            (models / "cyrillic_PP-OCRv5_rec_mobile.onnx").write_bytes(b"another-model")
+            readings = iter(["шаманского", "маманского"])
+            recognizer.rapid = lambda *args, **kwargs: SimpleNamespace(
+                txts=(next(readings),), scores=(0.99,)
+            )
+            self.assertEqual(
+                recognizer.with_fallback(evidence, image, "шаманского")["readings"],
+                evidence["readings"],
+            )
+
+    def test_title_case_crop_anchors_are_case_insensitive(self):
+        words = [(0, 0, 0, 0, w) for w in "значения Алтайцы и хакасы".split()]
+        self.assertEqual(
+            locate_word("значения Алтанцы и хакасы", words, "Алтанцы", "алтайцы")[4],
+            "Алтайцы",
+        )
 
     def test_ambiguous_crop_position_abstains(self):
         words = [(0, 0, 0, 0, w) for w in "some amnesia here some amnesia here".split()]

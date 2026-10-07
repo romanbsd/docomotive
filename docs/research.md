@@ -614,3 +614,88 @@ Comparison at each model's chosen settings, same 21 paragraphs:
 | translategemma:latest | one paragraph, published prompt, no context or glossary | 121 s | readable; markup lost on 4/21 paragraphs, core term spelled four ways |
 
 All four obey the narrator note and keep markup with batching and glossary. On this sample Hy-MT2 gives the best prose at moderate speed; the scores are from one book's narrative prose and do not cover notes, verse or long-range drift.
+
+
+## Russian ethnography: Материальная культура чукчей (1991)
+
+Source: `input/Владимир Тан-Богораз - Материальная культура чукчей.pdf`, 263 image-only PDF pages, SHA-256 `bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf`. Body scans are mainly 768 × 1181 pixels inside a larger PDF page, so enlargement cannot restore lost glyph detail. Profile: `config/chukchi-material-culture/`; evidence and full extraction caches: `work/chukchi-material-culture/`; EPUB and offline review: `output/chukchi-material-culture/`.
+
+The printed title/copyright pages establish В. Г. Богораз, *Материальная культура чукчей*, authorized translation from English, Москва: Наука, Главная редакция восточной литературы, 1991; ISBN 5-02-016757-6 (9785020167575). Exact-ISBN Open Library metadata is frozen in `enrichment.json`. Its romanized title and Waldemar Bogoras authority name required explicit, source-evidenced record/author aliases; independent edition identity checks remain mandatory. The printed page count is 224; catalog text pagination differs. No eligible online cover was returned, so the original green cover is retained.
+
+### Local OCR experiments and limits
+
+Compared checksum-pinned best/fast Russian Tesseract, mixed `rus+eng`, Apple Vision Russian, and RapidOCR Cyrillic PP-OCRv5 recognition with PP-OCRv4 detection. Full selected caches: Tesseract best Russian at 200 dpi, with 31 Latin-heavy pages using `rus+eng`; Vision at 300 dpi; RapidOCR at 200 dpi. Russian-only Tesseract avoided many Latin intrusions into prose, whereas mixed recognition helped citations and indigenous transliterations. Vision helped comparison and the bibliographic/reference sections. RapidOCR frequently lost or corrupted dense small-font lines in this scan, so it is a comparison witness rather than the primary transcription. These are source-sample findings, not a measured whole-book CER/WER benchmark.
+
+A small PDF 6 conditioning experiment (`ocr-conditioning/`) compared grayscale, Otsu, fixed threshold 180 and Sauvola-61 at 300 dpi. Thresholding produced worse text or no text; none of these experimental outputs was promoted. Recognition remains noisy. The ordinary shared two-witness pass applied 177 token corrections; 13 exact scan-verified opening-page corrections are recorded separately. Russian Hunspell/wordfreq/SymSpell produce proposals, not automatic normalization of historical or Chukchi words. At this conversion stage, English bigram/crop lexical repair was not yet generalized to Russian. The offline proofreading sheet contains 1,769 lexical groups and six additional diagnostics; the OCR disagreement queue is separate. Neither is an error count or proof of full proofreading.
+
+### Layout and completeness
+
+Fourteen navigable sections cover the eight numbered chapters, front editorial text, the inserted photographic plates, notes, bibliography and afterword. All 40 photographic plate leaves are retained, along with 114 reviewed illustration crops/leaves. Some plates are sideways in the supplied source and retain that orientation. Complex side-wrapped prose may remain inside source facsimiles instead of editable text. Suggestion-only connected-component grouping helped locate artwork; visual review rejected ordinary prose and footer false positives, consolidated thin-tool drawings, and checked the full plate inventory.
+
+Short lower-left separator proposals supplied reviewed footer zones. Forty-eight page-group note blocks are accessible; seven symbol references have exact links, other groups use page-level navigation. Numeric inline note linkage and italics are not fully recovered. PDF 8's bibliographic footer continues onto PDF 9 and is retained as one page-group note. This should not be described as complete per-note apparatus recovery.
+
+Printed pagination is not a constant PDF offset: PDF 6–144 maps to printed 5–143, PDF 145–191 to 146–192, followed by 40 plate leaves, then PDF 232–263 maps to printed 193–224. **Printed pages 144–145 are absent from this source**; `pagination-gap-check.png` records the inspected transition. A source-gap notice before PDF 145 prevents accidental sentence joining across the absent leaves. Missing text has not been invented.
+
+Illustrations use original embedded scan pixels, monochrome JPEG export, and one encode from uncompressed crops. The larger PDF white frame originally forced 300-dpi rendering; accepting contained crops of a dominant 80%-area upright scan avoids that enlargement while retaining overlay safety. Color policy can now be used independently of paper normalization. The green cover remains RGB. Resource downloads are reproducible with `bootstrap.py --language ru`, whose additional manifest includes actual checksums; cache language and per-page language selection are validated before build.
+
+### Replay
+
+```sh
+.venv/bin/python scripts/bootstrap.py --language ru --verify-only
+.venv/bin/python scripts/pipeline.py \
+  'input/Владимир Тан-Богораз - Материальная культура чукчей.pdf' \
+  --profile config/chukchi-material-culture/book.json \
+  --work work/chukchi-material-culture \
+  --output output/chukchi-material-culture --skip-extraction
+```
+
+For fresh extraction, invoke `extract.py` with this profile and work directory separately: `--engine tesseract --dpi 200`, `--engine rapid --dpi 200`, `--engine vision --dpi 300`. The last command may require access to the local macOS Vision service outside an agent sandbox. No book text was uploaded to an LLM service during this conversion.
+
+Validation: 270 unit tests passed; Black and `git diff --check` passed. EPUBCheck 5.4.0 reported no errors or warnings, and reconciled OCR-row coverage passed (not a claim of missing-line or spelling completeness). All 154 exported monochrome crops retain independent source crop dimensions; maximum mean JPEG pixel error was 1.154/255 and minimum PSNR 43.52 dB. All XHTML documents declare Russian, all 40 plate leaves and the source-gap notice are present. A UTF-8-aware rendered chapter-opening check displayed Cyrillic and paragraph layout correctly. Cached replay matches the new reproducibility baseline; eleven earlier edition snapshots remain unchanged. Reports: `work/chukchi-material-culture/artifact-verification.json`, `validation-summary.json`, `unit-tests.log`, `epubcheck-final.log`, `new-book-replay.log`.
+
+Installing an unused Cyrillic ONNX model invalidated the existing English marker cache because that helper fingerprints all model files. The final Daimonic Reality regression used the original English model/dictionary set through the new `regression.py --models` option and passed. Two redundant global-model batches were stopped after their completed cases and this separate case covered all prior editions. Full-page extraction now fingerprints only used models; the marker helper's broader cache fingerprint remains an optimization opportunity. The separate English regression directory contains symlinks, not copied models.
+
+
+## Избранники духов — В. Н. Басилов (Политиздат, 1984)
+
+Source: `input/В. Басилов - Избранники духов-Политиздат (1984).pdf`, 207 image-only PDF pages, SHA-256 `0699f8ffd9b000050ab8660f6d6cd3220c9fa7cf1b6e28df7597ece6942ff540`. Native body scans are roughly 660 × 940 one-bit pixels. Profile: `config/chosen-by-spirits/`; OCR, source thumbnails and reviews: `work/chosen-by-spirits/`; EPUB and proofreading: `output/chosen-by-spirits/`.
+
+Printed title, copyright and colophon establish Владимир Николаевич Басилов, *Избранники духов*, Москва: Политиздат, 1984, 208 с.: ил. The colophon credits editor Ю. В. Степанов and artist А. А. Брантман. No ISBN is printed; classification, stock and production codes were not misused as ISBNs. Metadata comes from the scanned edition, and the original color cover is retained. Ten navigable sections follow the printed contents. Body PDF 4–206 corresponds to printed 5–207; the last PDF leaf contains the printed contents and colophon. No body pagination gap was found in the page inventory; this does not establish that every source glyph was recognized.
+
+### OCR, footers and illustrations
+
+Full local caches were produced with Tesseract best Russian, Apple Vision `ru-RU`, and RapidOCR Cyrillic recognition, all at 300 dpi. Source samples clearly favored Vision for complete Russian prose; Tesseract dropped or corrupted portions of lines, and RapidOCR often missed dense lines. All pages therefore use Vision as primary, with the others as comparison witnesses. No book text was sent to an LLM service. Five source-verified name forms are protected; dictionary proposals do not automatically modernize terminology.
+
+Vision emitted several boxes less than one pixel outside the raster. The shared extraction fix clips only this bounded overshoot, records raw coordinates, rejects larger/empty geometry, and fingerprints the normalization semantics in new caches. Earlier caches remain untouched. One Vision glyph was U+FFFE, illegal in XML. Reconciliation now substitutes a visible U+FFFD at the same character position and records code-point/offset review evidence. The particular winter-word hyphen was then checked against the scan and corrected through an exact overlay. Optional subtitles no longer cause title-page generation to fail.
+
+All 30 illustration crops are preserved, including nine illustrated chapter-opening leaves. Crop review adjusted caption bounds and narrow side-wrapped diagrams; export uses native scan pixels, grayscale JPEG and one encoding, with the color cover kept separately. Twenty-three footnote regions were source-reviewed. Thin separator rules, relative footer type, markers and bibliographic initials/year evidence supply proposals; underlined body text and printer signatures were rejected. A source-checked bibliographic footer on PDF 123 was transcribed explicitly after primary OCR merged its two tiny lines into unreadable text. Seven exact OCR overlays are kept in `corrections.json`.
+
+The verse detector now rejects Cyrillic hyphenated prose just as it rejects Latin wraps. A long, deeply inset, ragged run in smaller type can follow a completed sentence without a colon; eight lines, a block gap and type contrast are required. Limited OCR box overlap is accepted when line centers advance, since descenders can cross neighboring boxes. This recovers the ten-line prayer on PDF 119 without a page/phrase detector override. Short chants still use the established introduced-verse rule. Inline italics and exact numeric footnote backlinks remain incomplete; page-group note navigation is available. Automated correction and sampled layout review are not complete proofreading.
+
+### Replay
+
+```sh
+.venv/bin/python scripts/pipeline.py \
+  'input/В. Басилов - Избранники духов-Политиздат (1984).pdf' \
+  --profile config/chosen-by-spirits/book.json \
+  --work work/chosen-by-spirits \
+  --output output/chosen-by-spirits --skip-extraction
+```
+
+For fresh extraction, use `extract.py` with this profile/work and `--dpi 300` for each of `--engine tesseract`, `--engine rapid`, and `--engine vision`. The Vision command requires the local macOS service. Source checks include the full-page contact sheets, figure-review sheets, note proposals, `footer-rule-check.jpg`, `footer-123.png`, `colophon.png` and opening-page source images.
+
+Validation: 274 unit tests passed; EPUBCheck 5.4.0 reported no errors or warnings; reconciled OCR-row coverage passed. All 30 grayscale figure exports retain independent original-crop dimensions (minimum JPEG PSNR 48.91 dB; maximum mean pixel error 0.335/255). UTF-8 rendering checked the complete opening and ten-line prayer; five verse blocks are retained. The offline review has 820 lexical groups and three additional diagnostics; these are proposals, not measured error counts. All twelve earlier edition snapshots, including the deferred Chukchi book, passed; Wizard was checked again after the final verse changes. The old corrected-row artifacts contain no XML-invalid characters, so glyph sanitation does not change them. A new reproducibility baseline is recorded for this book. Reports: `artifact-verification.json`, `regression.log`, `verse-regression.log`, `new-book-regression.log`, `new-book-replay.log`, `unit-tests.log`, and `publish-final.log`.
+
+### Russian whole-book correction follow-up
+
+The first Basilov review exposed two shared gaps: noisy wrap dashes (`уме-.` / `ния`, `на-.` / `столько`) escaped source-line joining, and automatic lexical correction still used English resources. The source confirms `Алтайцы`, `шаманского` and `более` on PDF 85, 71 and 106. No book-specific spelling substitutions were added.
+
+The shared ranker now selects language-specific frequency resources and dictionary-accepted observed inflections, then builds a smoothed whole-book bigram Markov model with unigram backoff. Russian one-edit insertions/deletions/substitutions and title-case words are eligible with dictionary acceptance, recurrence (at least two book observations), a Zipf floor of 2, and local crop verification. Protected forms, accepted words and references retain their guards. A regression example uses the same malformed token with two equally close targets (`коды` / `козы`); changing adjacent words changes the winner.
+
+Russian line crops use the primary ink bounds rather than a two-point expansion that admitted neighboring scan lines. Word anchors are case insensitive. Conflicting Tesseract crops can use the pinned Cyrillic RapidOCR recognizer at two fixed scales; both readings must match the ranked target and score at least 0.90. These are correlated readings, and the score is not calibrated confidence. All readings, runtime/model hashes, source rectangles and rejected decisions remain auditable. Dictionary membership is cached within each immutable ranker to avoid repeated morphological lookups.
+
+Noisy-dash joining is enabled by `repair_word_wraps`, preserving the default diplomatic behavior. The initial broad check caught an existing Natural Mind editorial overlay that deliberately keeps printed `func-. tioning` in its diplomatic edition; the opt-in guard preserves that source-specific edition choice.
+
+The rebuilt Basilov edition has 63 locally verified lexical repairs (60 Tesseract crop pairs, three RapidOCR crop pairs), plus seven wrap joins (the two reported noisy seams and five additional rare-form joins). All accepted crops were visually checked. The scan-backed proofreading sheet now has 766 lexical groups and one diagnostic; these are review candidates, not confirmed errors. EPUBCheck reports zero errors/warnings, and retained-row coverage passes. Tests cover Russian Markov disambiguation, missing letters, title-case anchors, OCR conflict/low-score abstention, model-cache invalidation and noisy-dash scope.
+
+Final verification: 286 tests pass; Black and whitespace checks pass. Every changed canonical-text token is accounted for by the 63 lexical edits or seven audited wrap joins; the 30 figures, five verse blocks and 23 note groups remain. All twelve earlier editions match their existing baselines after the Natural Mind scope fix. The new Russian output and lexical audit match an independent warm replay using the complete Russian model directory. An attempted mixed-case replay used the English-only model folder for Basilov and failed its missing Cyrillic-model dependency; the correctly configured Russian replay passes. Final evidence: `work/chosen-by-spirits/russian-repair-verification.json`, `russian-final-tests.log`, `russian-black.log`, `russian-book-replay.log`, `russian-earlier-regression.log`, and `russian-final-replay.log`.

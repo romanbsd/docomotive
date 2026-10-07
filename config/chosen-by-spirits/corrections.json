@@ -1,0 +1,86 @@
+[
+  {
+    "page": 123,
+    "before": "Из истори ша мист.а. Помак, 9к, с икусство ваховских остяков. -",
+    "after": "1 Шатилов М. Б. Драматическое искусство ваховских остяков. — Из истории шаманства. Томск, 1976, с. 161.",
+    "bbox": [
+      0.041176490550878096,
+      0.9000000017520505,
+      0.9705881843510838,
+      0.9374999992201718
+    ],
+    "reason": "Source-checked complete bibliographic footer, source crop footer-123.png; primary OCR merged two small lines into unreadable text. Exact reviewed transcription, not a phrase-based detector rule."
+  },
+  {
+    "page": 5,
+    "before": "овье материалы",
+    "after": "новые материалы",
+    "bbox": [
+      0.06144555422176487,
+      0.08899408996663039,
+      0.9723963880558993,
+      0.11251693967153864
+    ],
+    "reason": "Checked directly against PDF 5 scan; exact reviewed OCR transcription."
+  },
+  {
+    "page": 5,
+    "before": "В. Дносеги",
+    "after": "В. Диосеги",
+    "bbox": [
+      0.058461547599999907,
+      0.22173913032608694,
+      0.9723077014461539,
+      0.24565217380434778
+    ],
+    "reason": "Checked directly against PDF 5 scan; exact reviewed OCR transcription."
+  },
+  {
+    "page": 5,
+    "before": "Элиада Шаманизм",
+    "after": "Элиада „Шаманизм",
+    "bbox": [
+      0.06461539043076917,
+      0.4217391302173914,
+      0.9692307659615386,
+      0.44782608720108696
+    ],
+    "reason": "Checked directly against PDF 5 scan; exact reviewed OCR transcription."
+  },
+  {
+    "page": 5,
+    "before": "эрела давно",
+    "after": "зрела давно",
+    "bbox": [
+      0.058461546076923,
+      0.6282608694384058,
+      0.972307699923077,
+      0.6521739129166666
+    ],
+    "reason": "Checked directly against PDF 5 scan; exact reviewed OCR transcription."
+  },
+  {
+    "page": 5,
+    "before": "ниями, з обобщающей",
+    "after": "ниями, а обобщающей",
+    "bbox": [
+      0.05846154723076902,
+      0.6478260866304347,
+      0.9692307779999998,
+      0.6739130431521739
+    ],
+    "reason": "Checked directly against PDF 5 scan; exact reviewed OCR transcription."
+  },
+  {
+    "page": 13,
+    "before": "зим�",
+    "after": "зим-",
+    "bbox": [
+      0.08282209657464168,
+      0.7276595747872341,
+      0.9877300720347646,
+      0.7468085109574468
+    ],
+    "reason": "Checked directly against PDF 13 scan; exact reviewed OCR transcription."
+  }
+]

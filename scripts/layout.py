@@ -11,7 +11,7 @@ from scipy.stats import beta
 
 
 def signature(text):
-    return re.sub(r"[^A-Z]+", " ", text.upper()).strip()
+    return " ".join("".join(c if c.isalpha() else " " for c in text.upper()).split())
 
 
 def infer(pages):

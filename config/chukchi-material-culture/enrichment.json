@@ -1,0 +1,103 @@
+{
+  "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+  "isbn": "5020167576",
+  "isbn_13": "9785020167575",
+  "edition_key": "/books/OL1292845M",
+  "authors": [
+    "Waldemar Bogoras"
+  ],
+  "publication_date": "1991",
+  "publication_date_raw": "1991",
+  "description": "Includes bibliographical references.\nTranslation of part of: The Chukchee, originally published: Leiden ; New York, 1904-1909.\nThe first two parts of the Russian translation were originally published in Leningrad in 1934 and 1939 under title: Chukchi.\nOn leaf preceding t.p.: Akademii͡a︡ nauk SSSR. Institut ėtnologii i antropologii im. N.N. Miklukho-Maklai͡a︡. Arkhiv Akademii nauk SSSR.\n\"Osnovnye trudy V.G. Bogoraza o chukchakh\"--P. [209]-210.",
+  "subjects": [
+    "Chukchi",
+    "Chukchi -- Material culture.",
+    "Chukchi -- Social life and customs.",
+    "Ethnic relations",
+    "Ethnology",
+    "History",
+    "Material culture",
+    "Native races",
+    "Social conditions",
+    "Social life and customs",
+    "Tchouktches (peuple de Sibérie)"
+  ],
+  "identifiers": {
+    "isbn_10": [
+      "5020167576"
+    ],
+    "isbn_13": [
+      "9785020167575"
+    ],
+    "lccn": [
+      "92154648"
+    ],
+    "oclc": [
+      "507525004",
+      "25867674"
+    ],
+    "openlibrary": [
+      "OL1292845M"
+    ]
+  },
+  "classifications": {
+    "lc_classifications": [
+      "DK759.C45 B62518 1991"
+    ],
+    "dewey_decimal_class": []
+  },
+  "publication_places": [
+    "Moskva"
+  ],
+  "print_pages": 222,
+  "links": [
+    "https://openlibrary.org/books/OL1292845M",
+    "https://openlibrary.org/works/OL3552237W"
+  ],
+  "rights": "",
+  "covers": [
+    {
+      "url": "https://covers.openlibrary.org/b/isbn/5020167576-L.jpg?default=false",
+      "accepted": false,
+      "error": "HTTPError"
+    }
+  ],
+  "conflicts": [
+    {
+      "field": "title",
+      "api": "Materialʹnai͡a︡ kulʹtura chukcheĭ",
+      "source_profile": "Материальная культура чукчей",
+      "resolution": "PDF 4 title and exact ISBN on PDF 5 match this catalog edition; catalog title is the romanization of the printed Russian title."
+    },
+    {
+      "field": "publishers",
+      "api": [
+        "\"Nauka,\" Glav. red. vostochnoĭ lit-ry"
+      ],
+      "source_profile": [
+        "Наука. Главная редакция восточной литературы"
+      ],
+      "resolution": "PDF 5 prints Наука, Главная редакция восточной литературы, Москва, 1991; catalog uses its romanization."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://openlibrary.org/isbn/5020167576.json",
+      "resolved_url": "https://openlibrary.org/books/OL1292845M.json",
+      "sha256": "fe53fde538093187f5e372eacaa3c6e137753893020964f9f05869fb6661a04d",
+      "retrieved_at": "2026-10-06T13:32:13.505249+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/authors/OL597296A.json",
+      "resolved_url": "https://openlibrary.org/authors/OL597296A.json",
+      "sha256": "4b8bc54d9d38fe00d9857eaa3b05cf58304779b249f0231b4470f50ea45d73a9",
+      "retrieved_at": "2026-10-06T13:32:14.163403+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/works/OL3552237W.json",
+      "resolved_url": "https://openlibrary.org/works/OL3552237W.json",
+      "sha256": "54ffafeb36cf80626bdb39b83ade488c9fdeed14c16635a30928c2e6629d4b66",
+      "retrieved_at": "2026-10-06T13:34:57.478495+00:00"
+    }
+  ]
+}

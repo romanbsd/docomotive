@@ -7,6 +7,9 @@ import platform
 import subprocess
 import csv
 import io
+import shutil
+import ast
+import inspect
 from pathlib import Path
 
 import pymupdf
@@ -14,6 +17,20 @@ import pymupdf
 from common import ROOT, file_digest as sha, load_profile, write_json
 from ocr_cache import publish_cache, traineddata_digest, read_ocr_page
 from profile_validation import validate_profile
+from languages import ocr_settings, language_code
+
+
+def clipped_observation(box, width, height):
+    """Clip subpixel OCR edge overshoot; reject larger geometry errors."""
+    # Some recognizers extend edge glyph boxes a fraction of one raster pixel.
+    # Preserve the raw box as evidence; this is not permission to clip text.
+    tolerance = [1 / width, 1 / height, 1 / width, 1 / height]
+    if any(not -eps <= value <= 1 + eps for value, eps in zip(box, tolerance)):
+        raise ValueError("OCR bounding box exceeds the raster by more than one pixel")
+    result = [max(0, min(1, value)) for value in box]
+    if result[0] >= result[2] or result[1] >= result[3]:
+        raise ValueError("OCR bounding box is empty after clipping")
+    return result
 
 
 def main():
@@ -31,6 +48,12 @@ def main():
     work = args.work.resolve()
     work.mkdir(exist_ok=True)
     book = load_profile(args.profile)
+    settings = ocr_settings(book)
+    page_languages = (
+        book.get("ocr_tesseract_page_languages", {})
+        if args.engine == "tesseract"
+        else {}
+    )
     doc = pymupdf.open(args.pdf)
     validate_profile(book, args.profile, page_count=len(doc))
     source_hash = sha(args.pdf)
@@ -50,10 +73,21 @@ def main():
         "platform": platform.platform(),
         "engine": "Apple Vision accurate en-US revision 3 language correction",
         "engine_source_sha256": sha(ROOT / "scripts/vision_ocr.swift"),
+        "geometry_normalizer_sha256": hashlib.sha256(
+            ast.dump(
+                ast.parse(inspect.getsource(clipped_observation)),
+                include_attributes=False,
+            ).encode()
+        ).hexdigest(),
     }
     if book.get("scan_raster_only"):
         fingerprint["page_pixels"] = "isolated-scan"
         fingerprint["scan_pixels_sha256"] = sha(ROOT / "scripts/scan_pixels.py")
+    if language_code(book) != "en":
+        fingerprint["language"] = book["language"]
+        fingerprint["engine"] = (
+            f"Apple Vision accurate {settings['vision']} revision 3 language correction"
+        )
     engine = None
     if args.engine == "tesseract":
         fingerprint["engine"] = (
@@ -62,25 +96,70 @@ def main():
         fingerprint["tesseract"] = subprocess.check_output(
             ["tesseract", "--version"], text=True
         ).splitlines()[0]
-        fingerprint["eng_traineddata_sha256"] = traineddata_digest()
+        if settings["tesseract"] == "eng" and settings["tessdata"] is None:
+            fingerprint["eng_traineddata_sha256"] = traineddata_digest()
+        else:
+            fingerprint["engine"] = (
+                f"Tesseract {settings['tesseract']} OEM 1 PSM 3 (PSM 6 for index columns)"
+            )
+            fingerprint["traineddata_sha256"] = {
+                lang: (
+                    sha(settings["tessdata"] / f"{lang}.traineddata")
+                    if settings["tessdata"]
+                    else traineddata_digest(lang)
+                )
+                for lang in sorted(
+                    set(
+                        "+".join(
+                            [settings["tesseract"]] + list(page_languages.values())
+                        ).split("+")
+                    )
+                )
+            }
+        if page_languages:
+            fingerprint["page_languages"] = page_languages
     if args.engine == "rapid":
         from rapidocr import RapidOCR, LangRec, OCRVersion, ModelType
         import importlib.metadata
 
         models = args.models.resolve()
+        cyrillic = settings["rapid"] == "cyrillic"
+        if settings["rapid"] not in ("en", "cyrillic"):
+            raise ValueError("RapidOCR requires a configured supported script model")
+        rec_model = (
+            "cyrillic_PP-OCRv5_rec_mobile.onnx"
+            if cyrillic
+            else "en_PP-OCRv4_rec_mobile.onnx"
+        )
         fingerprint["engine"] = "RapidOCR PP-OCRv4 mobile English CPU"
+        if cyrillic:
+            fingerprint["engine"] = (
+                "RapidOCR PP-OCRv5 mobile Cyrillic CPU; PP-OCRv4 detection"
+            )
         fingerprint["rapidocr"] = importlib.metadata.version("rapidocr")
         fingerprint["onnxruntime"] = importlib.metadata.version("onnxruntime")
-        fingerprint["models"] = {p.name: sha(p) for p in sorted(models.glob("*.onnx"))}
+        # Unused script models must not invalidate another language's cache.
+        fingerprint["models"] = {
+            name: sha(models / name)
+            for name in sorted(
+                (
+                    rec_model,
+                    "ch_PP-OCRv4_det_mobile.onnx",
+                    "ch_ppocr_mobile_v2.0_cls_mobile.onnx",
+                )
+            )
+        }
         engine = RapidOCR(
             params={
-                "Rec.lang_type": LangRec.EN,
-                "Rec.ocr_version": OCRVersion.PPOCRV4,
+                "Rec.lang_type": LangRec.CYRILLIC if cyrillic else LangRec.EN,
+                "Rec.ocr_version": (
+                    OCRVersion.PPOCRV5 if cyrillic else OCRVersion.PPOCRV4
+                ),
                 "Rec.model_type": ModelType.MOBILE,
                 "Det.ocr_version": OCRVersion.PPOCRV4,
                 "Det.model_type": ModelType.MOBILE,
                 "Global.model_root_dir": str(models),
-                "Rec.model_path": str(models / "en_PP-OCRv4_rec_mobile.onnx"),
+                "Rec.model_path": str(models / rec_model),
                 "Det.model_path": str(models / "ch_PP-OCRv4_det_mobile.onnx"),
                 "Cls.model_path": str(models / "ch_ppocr_mobile_v2.0_cls_mobile.onnx"),
                 "EngineConfig.onnxruntime.intra_op_num_threads": 4,
@@ -96,6 +175,14 @@ def main():
     )
     cache.mkdir(parents=True, exist_ok=True)
     write_json(cache / "provenance.json", fingerprint)
+    # Changing a page's language set need not repeat unchanged observations.
+    # Reuse only exact source/render/runtime/model fingerprints, never a cache
+    # whose OCR language merely happens to match the book's main language.
+    peers = []
+    if page_languages:
+        for other in cache.parent.glob("*/provenance.json"):
+            if other.parent != cache:
+                peers.append((other.parent, json.loads(other.read_text())))
     binary = work / "vision-ocr"
     stamp = work / "swift-source.sha256"
     if args.engine == "vision" and (
@@ -136,6 +223,48 @@ def main():
                 len(clips) == 1 and "clips" not in cached
             ):
                 continue
+        page_language = page_languages.get(str(n), settings["tesseract"])
+        if peers:
+            core = {
+                k: v
+                for k, v in fingerprint.items()
+                if k not in ("page_languages", "traineddata_sha256")
+            }
+            models_used = {
+                lang: fingerprint["traineddata_sha256"][lang]
+                for lang in page_language.split("+")
+            }
+            reused = False
+            for directory, provenance in peers:
+                peer_core = {
+                    k: v
+                    for k, v in provenance.items()
+                    if k not in ("page_languages", "traineddata_sha256")
+                }
+                peer_language = provenance.get("page_languages", {}).get(
+                    str(n), settings["tesseract"]
+                )
+                candidate = directory / target.name
+                if (
+                    core == peer_core
+                    and peer_language == page_language
+                    and all(
+                        provenance.get("traineddata_sha256", {}).get(k) == v
+                        for k, v in models_used.items()
+                    )
+                    and candidate.exists()
+                ):
+                    data = read_ocr_page(candidate, n)
+                    if data.get("clips") == [list(c) for c in clips]:
+                        shutil.copyfile(candidate, target)
+                        reused = True
+                        break
+            if reused:
+                print(
+                    f"Reused OCR {n}/{len(doc)}: unchanged page-language evidence",
+                    flush=True,
+                )
+                continue
         lines = []
         for col, clip in enumerate(clips):
             image = cache / f"{n:04}-{col}.png"
@@ -147,6 +276,10 @@ def main():
                 pixels.save(image)
             else:
                 page.get_pixmap(dpi=args.dpi, clip=clip).save(image)
+            from PIL import Image
+
+            with Image.open(image) as raster:
+                raster_width, raster_height = raster.size
             if args.engine == "tesseract":
                 from PIL import Image
 
@@ -158,12 +291,20 @@ def main():
                         str(image),
                         "stdout",
                         "-l",
-                        "eng",
+                        page_language,
+                        *(
+                            ["--tessdata-dir", str(settings["tessdata"])]
+                            if settings["tessdata"]
+                            else []
+                        ),
                         "--oem",
                         "1",
                         "--psm",
                         "6" if len(clips) > 1 else "3",
-                        "tsv",
+                        # Explicit output mode also works with model-only
+                        # tessdata directories lacking the packaged configs/.
+                        "-c",
+                        "tessedit_create_tsv=1",
                     ],
                     text=True,
                     stderr=subprocess.DEVNULL,
@@ -206,7 +347,10 @@ def main():
                         }
                     )
             elif engine is None:
-                raw = subprocess.check_output([str(binary), str(image)], text=True)
+                raw = subprocess.check_output(
+                    [str(binary), "--language", settings["vision"], str(image)],
+                    text=True,
+                )
                 result = json.loads(raw)
             else:
                 from PIL import Image
@@ -235,6 +379,11 @@ def main():
                 }
             for line in result["lines"]:
                 box = line["bbox"]
+                clipped = clipped_observation(box, raster_width, raster_height)
+                if clipped != box:
+                    line["raw_bbox"] = box
+                    line["geometry_adjustment"] = "subpixel-raster-edge-clipping"
+                box = clipped
                 line["bbox"] = [
                     (clip.x0 + box[0] * clip.width) / page.rect.width,
                     box[1],

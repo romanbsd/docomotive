@@ -75,5 +75,19 @@
     "profile": "config/daimonic-reality/book.json",
     "work": "work/daimonic-reality",
     "editorial": false
+  },
+  {
+    "name": "chukchi-material-culture",
+    "pdf": "input/Владимир Тан-Богораз - Материальная культура чукчей.pdf",
+    "profile": "config/chukchi-material-culture/book.json",
+    "work": "work/chukchi-material-culture",
+    "editorial": false
+  },
+  {
+    "name": "chosen-by-spirits",
+    "pdf": "input/В. Басилов - Избранники духов-Политиздат (1984).pdf",
+    "profile": "config/chosen-by-spirits/book.json",
+    "work": "work/chosen-by-spirits",
+    "editorial": false
   }
 ]

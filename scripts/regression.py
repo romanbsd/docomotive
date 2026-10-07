@@ -126,6 +126,7 @@ def main():
         "--baseline", type=Path, default=ROOT / "tests/baselines/books.json"
     )
     parser.add_argument("--run-root", type=Path, default=ROOT / "work/regression")
+    parser.add_argument("--models", type=Path, default=ROOT / "work/models")
     parser.add_argument(
         "--book", action="append", help="Case name; repeat to select cases"
     )
@@ -177,6 +178,8 @@ def main():
                 str(ROOT / case["work"]),
                 "--output",
                 str(output),
+                "--models",
+                str(args.models.resolve()),
             ]
             if case["editorial"]:
                 command.append("--editorial")

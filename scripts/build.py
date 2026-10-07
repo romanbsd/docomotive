@@ -11,6 +11,7 @@ from urllib.parse import unquote, urlsplit
 from lxml import etree
 import pymupdf
 from layout import infer
+from languages import language_code, dictionary_locale, ui_label
 from common import (
     ROOT,
     digest,
@@ -68,10 +69,10 @@ figure {margin:1.2em 0 .3em; text-align:center; break-inside:avoid;}
 """
 
 
-def xhtml(title, body):
+def xhtml(title, body, language="en"):
     return (
         '<?xml version="1.0" encoding="utf-8"?>\n<!DOCTYPE html>\n'
-        '<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="en" xml:lang="en">'
+        f'<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="{html.escape(language, quote=True)}" xml:lang="{html.escape(language, quote=True)}">'
         f'<head><title>{html.escape(title)}</title><link rel="stylesheet" href="style.css"/></head><body>{body}</body></html>'
     ).encode()
 
@@ -243,7 +244,14 @@ def build(
     if enrichment and enrichment["source_sha256"] != source_hash:
         raise ValueError("Metadata enrichment belongs to a different PDF")
     if enrichment and enrichment.get("isbn") != book.get("isbn"):
-        raise ValueError("ISBN profile changed; rerun metadata enrichment")
+        from metadata import isbn
+
+        if not (
+            enrichment.get("isbn")
+            and book.get("isbn")
+            and isbn(enrichment["isbn"]) == isbn(book["isbn"])
+        ):
+            raise ValueError("ISBN profile changed; rerun metadata enrichment")
     if enrichment.get("openlibrary_edition") != book.get("openlibrary_edition"):
         raise ValueError("Edition profile changed; rerun metadata enrichment")
     if enrichment.get("doi") and enrichment["doi"] != book.get("doi"):
@@ -280,6 +288,16 @@ def build(
         secondary = cache_path(work, "rapid")
         for p in [cache, vision, secondary]:
             provenance = preflight_cache(p, len(doc), source_hash)
+            if language_code(
+                {"language": provenance.get("language", "en")}
+            ) != language_code(book):
+                raise ValueError("OCR cache language changed; rerun extraction")
+            if p == cache and provenance.get("page_languages", {}) != book.get(
+                "ocr_tesseract_page_languages", {}
+            ):
+                raise ValueError(
+                    "OCR page language selection changed; rerun extraction"
+                )
             if (provenance.get("page_pixels") == "isolated-scan") != bool(
                 book.get("scan_raster_only")
             ):
@@ -330,6 +348,7 @@ def build(
                 "tesseract" if primary_name == "vision" else "vision",
                 recover_regions=book.get("recover_ocr_regions", False),
                 recover_glyphs=book.get("recover_ocr_glyph_confusions", False),
+                language=language_code(book),
             )
         provenance_records = [
             json.loads((p / "provenance.json").read_text())
@@ -481,7 +500,7 @@ def build(
     model = []
 
     def add(name, title, body, nav=True):
-        files["OEBPS/" + name] = xhtml(title, body)
+        files["OEBPS/" + name] = xhtml(title, body, book["language"])
         spine.append(name)
         if nav:
             navigation.append((name, title))
@@ -498,13 +517,13 @@ def build(
     )
     add(
         "cover.xhtml",
-        "Cover",
+        ui_label(book, "cover"),
         f'<div class="facsimile"><img src="{cover_name}" alt="Cover"/></div>',
     )
     add(
         "title.xhtml",
         book["title"],
-        f'<div class="title"><h1>{html.escape(book["title"])}</h1><p>{html.escape(book["subtitle"])}{title_reference}</p><p>{html.escape(book["author"])}</p>'
+        f'<div class="title"><h1>{html.escape(book["title"])}</h1><p>{html.escape(book.get("subtitle", ""))}{title_reference}</p><p>{html.escape(book["author"])}</p>'
         + "".join(
             "<p>" + html.escape(c["name"]) + "</p>"
             for c in book.get("contributors", [])
@@ -514,14 +533,19 @@ def build(
     )
     add(
         "copyright.xhtml",
-        "Copyright and permissions",
-        "<h1>Copyright and permissions</h1>" + (config / "copyright.xhtml").read_text(),
+        ui_label(book, "copyright"),
+        "<h1>"
+        + ui_label(book, "copyright")
+        + "</h1>"
+        + (config / "copyright.xhtml").read_text(),
     )
     if book.get("source_note"):
         add(
             "edition-note.xhtml",
-            "About this edition",
-            "<h1>About this edition</h1><p>"
+            ui_label(book, "edition"),
+            "<h1>"
+            + ui_label(book, "edition")
+            + "</h1><p>"
             + html.escape(book["source_note"])
             + "</p>",
         )
@@ -529,10 +553,12 @@ def build(
         files["OEBPS/downloaded-cover.xhtml"] = xhtml(
             "Online source cover",
             f'<div class="facsimile"><img src="{downloaded_cover}" alt="Downloaded cover of the matching source edition"/></div>',
+            book["language"],
         )
         files["OEBPS/cover.xhtml"] = xhtml(
             "Cover",
             '<div class="facsimile"><img src="cover.jpg" alt="Original book cover"/></div><p class="noindent" style="text-align:center;font-size:.75em;margin-top:1em"><a href="downloaded-cover.xhtml">Source cover reference</a></p>',
+            book["language"],
         )
     from spylls.hunspell import Dictionary
 
@@ -548,8 +574,8 @@ def build(
         for word in re.findall(r"[\w]+(?:['’-][\w]+)*", row["text"])
     ]
     dictionary = (
-        Dictionary.from_files(str(models / "en_US"))
-        if (models / "en_US.aff").exists()
+        Dictionary.from_files(str(models / dictionary_locale(book)))
+        if (models / (dictionary_locale(book) + ".aff")).exists()
         else None
     )
     policy = JoinPolicy(
@@ -558,6 +584,8 @@ def build(
         dictionary,
         observed_min_count=1 if native else 2,
         rare_wraps=book.get("repair_word_wraps", False),
+        noisy_wraps=book.get("repair_word_wraps", False),
+        language=language_code(book),
     )
     editorial_edits = (
         json.loads((config / "editorial-proposals.json").read_text())
@@ -576,13 +604,21 @@ def build(
             assembled, book, dictionary, protected + book.get("line_join_words", [])
         )
         lexical_report = repair(
-            assembled, pages, book, ranker, CropRecognizer(doc, work), audit
+            assembled,
+            pages,
+            book,
+            ranker,
+            CropRecognizer(doc, work, book, models),
+            audit,
         )
         lexical_report["source_sha256"] = source_hash
         lexical_report["resources"].update(
             {
                 p.name: digest(p.read_bytes())
-                for p in (models / "en_US.aff", models / "en_US.dic")
+                for p in (
+                    models / (dictionary_locale(book) + ".aff"),
+                    models / (dictionary_locale(book) + ".dic"),
+                )
             }
         )
         write_json(out / "lexical-repair.json", lexical_report)
@@ -672,7 +708,9 @@ def build(
             '<h1>Back cover</h1><div class="facsimile"><img src="back-cover.jpg" alt="Original back cover with reader endorsements"/></div>',
         )
     nav = (
-        '<nav epub:type="toc" id="toc"><h1>Contents</h1><ol>'
+        '<nav epub:type="toc" id="toc"><h1>'
+        + ui_label(book, "contents")
+        + "</h1><ol>"
         + "".join(
             f'<li><a href="{name}">{html.escape(title)}</a>'
             + (
@@ -691,12 +729,20 @@ def build(
         + "</ol></nav>"
     )
     nav += (
-        '<nav epub:type="page-list" hidden="hidden"><h2>Original pages</h2><ol>'
+        '<nav epub:type="page-list" hidden="hidden"><h2>'
+        + ui_label(book, "pages")
+        + "</h2><ol>"
         + "".join(f'<li><a href="{ref}">{label}</a></li>' for ref, label in page_links)
         + "</ol></nav>"
     )
-    nav += '<nav epub:type="landmarks" hidden="hidden"><h2>Landmarks</h2><ol><li><a epub:type="bodymatter" href="chapter-01.xhtml">Start of text</a></li></ol></nav>'
-    files["OEBPS/nav.xhtml"] = xhtml("Contents", nav)
+    nav += (
+        '<nav epub:type="landmarks" hidden="hidden"><h2>'
+        + ui_label(book, "landmarks")
+        + '</h2><ol><li><a epub:type="bodymatter" href="chapter-01.xhtml">'
+        + ui_label(book, "start")
+        + "</a></li></ol></nav>"
+    )
+    files["OEBPS/nav.xhtml"] = xhtml(ui_label(book, "contents"), nav, book["language"])
     spine.insert(3, "nav.xhtml")
     if downloaded_cover:
         spine.append("downloaded-cover.xhtml")
@@ -856,7 +902,11 @@ def build(
         "limitations": [
             "OCR disagreements require review; automated correction is not full proofreading.",
             "Original inline italics and superscript reference typography are not fully recovered.",
-            "Back cover is preserved as a facsimile; copyright has checked reflow text.",
+            (
+                "Back cover is preserved as a facsimile; copyright has checked reflow text."
+                if "OEBPS/back-cover.jpg" in files
+                else "Publisher information is recorded in source-reviewed profile metadata."
+            ),
         ],
         "build_inputs_sha256": {
             str(p): digest(p.read_bytes())

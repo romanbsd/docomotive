@@ -32,9 +32,10 @@ def crop_artwork_pixels(page, rect, dpi=300, excluded_overlays=(), raster_only=F
     scans = [
         im
         for im in images
-        if im.get("xref")
-        and pymupdf.Rect(im["bbox"]).contains(rect)
-        and pymupdf.Rect(im["bbox"]).get_area() >= 0.9 * page.rect.get_area()
+        if im.get("xref") and pymupdf.Rect(im["bbox"]).contains(rect)
+        # Framed scans commonly occupy about 82% of the PDF page. Only use
+        # their pixels for contained crops without visible text overlays.
+        and pymupdf.Rect(im["bbox"]).get_area() >= 0.8 * page.rect.get_area()
         and abs(im["transform"][1]) < 1e-6
         and abs(im["transform"][2]) < 1e-6
         and im["transform"][0] > 0
@@ -158,7 +159,10 @@ def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
             y1 * source.rect.height,
         )
         image = figure["name"] + ".jpg"
-        cropper = crop_artwork_pixels if cleanup == "white" else crop_artwork
+        color_export = "figure_color_mode" in book
+        cropper = (
+            crop_artwork_pixels if cleanup == "white" or color_export else crop_artwork
+        )
         crop, crop_evidence = cropper(
             source,
             rect,
@@ -167,6 +171,14 @@ def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
         )
         cleanup_evidence = None
         data = crop
+        if cleanup != "white" and color_export:
+            from figure_cleanup import export_color, jpeg_export
+
+            # An explicit source-reviewed color policy also works without
+            # paper normalization; encode once from uncompressed crop pixels.
+            export, color_evidence = export_color(crop, book["figure_color_mode"])
+            data = jpeg_export(export, quality=95)
+            crop_evidence["color"] = color_evidence
         if cleanup == "white":
             from pathlib import Path
             from figure_cleanup import (

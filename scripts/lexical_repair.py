@@ -7,6 +7,9 @@ accepted spellings, protected terms, references, or an uncorroborated guess.
 import difflib
 import math
 import inspect
+import io
+import os
+from functools import lru_cache
 import re
 import subprocess
 from collections import Counter
@@ -21,6 +24,8 @@ from wordfreq import zipf_frequency
 from common import apply_edits, digest, read_json, write_json
 from book_model import row_id
 from vocabulary import TOKEN
+from languages import language_code, ocr_settings
+from lxml import etree
 
 # Common scanned serif confusions. Other edits may rank, but cannot auto-apply.
 CONFUSIONS = {frozenset(pair) for pair in ("ce", "ft", "it", "il", "bh", "nr")}
@@ -37,6 +42,7 @@ def confusable(before, after):
 
 def locate_word(text, words, word, candidate):
     """Anchor a crop by neighboring words, not spelling similarity alone."""
+    word, candidate = word.lower(), candidate.lower()
     tokens = [m.group().lower() for m in TOKEN.finditer(text)]
     if tokens.count(word) != 1:
         return None
@@ -73,22 +79,41 @@ class ContextRanker:
     """Smoothed bigram Markov model with fixed general and book priors."""
 
     def __init__(self, model, book, dictionary, protected=()):
+        self.language = language_code(book)
         self.dictionary = dictionary
         self.protected = {w.lower() for w in protected}
         root = Path(symspellpy.__file__).parent
         unigram = root / "frequency_dictionary_en_82_765.txt"
         bigram = root / "frequency_bigramdictionary_en_243_342.txt"
-        self.resources = {p.name: digest(p.read_bytes()) for p in (unigram, bigram)}
         self.sym = SymSpell(max_dictionary_edit_distance=2, prefix_length=7)
-        if not self.sym.load_dictionary(str(unigram), 0, 1):
-            raise ValueError("Cannot load pinned frequency dictionary")
         self.general = {}
         self.outgoing = Counter()
-        for line in bigram.read_text().splitlines():
-            left, right, count = line.split()
-            count = int(count)
-            self.general[left, right] = count
-            self.outgoing[left] += count
+        if self.language == "en":
+            self.resources = {p.name: digest(p.read_bytes()) for p in (unigram, bigram)}
+            if not self.sym.load_dictionary(str(unigram), 0, 1):
+                raise ValueError("Cannot load pinned frequency dictionary")
+            for line in bigram.read_text().splitlines():
+                left, right, count = line.split()
+                count = int(count)
+                self.general[left, right] = count
+                self.outgoing[left] += count
+        else:
+            from wordfreq import top_n_list
+            import wordfreq
+
+            resource = (
+                Path(wordfreq.__file__).parent
+                / "data"
+                / f"large_{self.language}.msgpack.gz"
+            )
+            self.resources = {resource.name: digest(resource.read_bytes())}
+            # Bound candidate construction; inflected specialist forms are
+            # added below only when the dictionary accepts book observations.
+            for word in top_n_list(self.language, 50000):
+                if word.isalpha():
+                    self.sym.create_dictionary_entry(
+                        word, max(1, round(10 ** zipf_frequency(word, self.language)))
+                    )
         self.counts = Counter()
         self.pairs = Counter()
         self.book_outgoing = Counter()
@@ -103,6 +128,13 @@ class ContextRanker:
                     self.pairs.update(zip(words, words[1:]))
                     self.book_outgoing.update(words[:-1])
 
+        if self.language != "en":
+            for word in sorted(self.counts):
+                if word not in self.sym.words and self.dictionary.lookup(word):
+                    self.sym.create_dictionary_entry(
+                        word, max(1, round(10 ** zipf_frequency(word, self.language)))
+                    )
+
     @staticmethod
     def excluded(entry, book):
         return entry["chapter"] in book.get("statistics_excluded_chapters", []) or (
@@ -110,20 +142,21 @@ class ContextRanker:
             in book.get("reference_pages", []) + book.get("index_pages", [])
         )
 
+    @lru_cache(maxsize=None)
     def known(self, word):
         low = word.lower()
         return (
             low in self.protected
+            or low in self.sym.words
+            or zipf_frequency(low, self.language) >= 2
             or self.dictionary.lookup(word)
             or self.dictionary.lookup(low)
-            or low in self.sym.words
-            or zipf_frequency(low, "en") >= 2
         )
 
     def transition(self, left, right):
         # Ten book observations' worth of general-language prior keeps sparse
         # book bigrams from dominating. Missing general pairs back off to Zipf.
-        prior = 10 ** (zipf_frequency(right, "en") - 9)
+        prior = 10 ** (zipf_frequency(right, self.language) - 9)
         # Reserve 10% for unigram backoff: an absent pair in a finite corpus
         # must not make a common word less likely than an unrelated rare word.
         general = (
@@ -163,7 +196,9 @@ class ContextRanker:
                 score += math.log(max(self.transition(term, right), 1e-15))
             # A known glyph substitution gets a modest likelihood advantage;
             # crop OCR still has to read the winning word, in both modes.
-            supported = confusable(word.lower(), term)
+            supported = confusable(word.lower(), term) or (
+                self.language != "en" and candidate.distance == 1
+            )
             score += 2 if supported else 0
             choices.append(
                 dict(
@@ -179,30 +214,50 @@ class ContextRanker:
 
 
 class CropRecognizer:
-    def __init__(self, doc, work):
+    def __init__(self, doc, work, book=None, models=None):
+        settings = ocr_settings(book or {"language": "en"})
+        self.language = settings["tesseract"]
+        self.tessdata = settings["tessdata"]
+        self.ocr_args = ["-l", self.language]
+        if self.tessdata:
+            self.ocr_args += ["--tessdata-dir", str(self.tessdata)]
+        self.models = Path(models) if models and self.language == "rus" else None
+        self.rapid = None
         self.doc = doc
         self.work = Path(work) / "lexical-crops"
         self.version = subprocess.run(
             ["tesseract", "--version"], capture_output=True, text=True, check=True
         ).stdout
         languages = subprocess.run(
-            ["tesseract", "--list-langs"], capture_output=True, text=True, check=True
+            ["tesseract", "--list-langs"]
+            + (["--tessdata-dir", str(self.tessdata)] if self.tessdata else []),
+            capture_output=True,
+            text=True,
+            check=True,
         )
         match = re.search(r'"([^"]+)"', languages.stdout + languages.stderr)
-        if not match or not (Path(match[1]) / "eng.traineddata").is_file():
-            raise ValueError("Cannot fingerprint local Tesseract English model")
-        self.model_hash = digest((Path(match[1]) / "eng.traineddata").read_bytes())
+        if (
+            not match
+            or not (Path(match[1]) / (self.language + ".traineddata")).is_file()
+        ):
+            raise ValueError("Cannot fingerprint local Tesseract language model")
+        self.model_hash = digest(
+            (Path(match[1]) / (self.language + ".traineddata")).read_bytes()
+        )
 
     def line_words(self, page, row):
         """Image-only fallback: fresh line OCR supplies geometry, not old votes."""
         from scanned_notes import character_line
 
+        # Low-resolution Russian scans have tight line pitch. Their primary
+        # boxes already enclose the ink; a two-point expansion admits neighbors.
+        padding = 2 if self.language == "eng" else 0
         rect = (
             pymupdf.Rect(
-                row["bbox"][0] * page.rect.width - 2,
-                row["bbox"][1] * page.rect.height - 2,
-                row["bbox"][2] * page.rect.width + 2,
-                row["bbox"][3] * page.rect.height + 2,
+                row["bbox"][0] * page.rect.width - padding,
+                row["bbox"][1] * page.rect.height - padding,
+                row["bbox"][2] * page.rect.width + padding,
+                row["bbox"][3] * page.rect.height + padding,
             )
             & page.rect
         )
@@ -217,15 +272,57 @@ class CropRecognizer:
             + self.model_hash.encode()
             + Path(inspect.getsourcefile(character_line)).read_bytes()
             + b"lexical-line-geometry-v1"
+            + (
+                inspect.getsource(self.line_words).encode()
+                if self.language != "eng"
+                else b""
+            )
         )
         path = self.work / ("line-" + key + ".json")
         if path.exists():
             data = read_json(path)
             text, chars = data["text"], data["characters"]
         else:
-            text, chars = character_line(
-                Image.frombytes("L", (pix.width, pix.height), pix.samples)
-            )
+            image = Image.frombytes("L", (pix.width, pix.height), pix.samples)
+            if self.language == "eng" and not self.tessdata:
+                text, chars = character_line(image)
+            else:
+                # Character boxes retain neighboring-word anchors even when
+                # OCR has dropped a letter in the target word.
+                stream = io.BytesIO()
+                image.save(stream, format="PNG")
+                result = subprocess.run(
+                    ["tesseract", "stdin", "stdout", "--psm", "7"]
+                    + self.ocr_args
+                    + ["-c", "hocr_char_boxes=1", "-c", "tessedit_create_hocr=1"],
+                    input=stream.getvalue(),
+                    capture_output=True,
+                    check=True,
+                    timeout=60,
+                    env={**os.environ, "OMP_THREAD_LIMIT": "1"},
+                )
+                root = etree.fromstring(result.stdout)
+                text, chars = "", []
+                for word_node in root.xpath('//*[@class="ocrx_word"]'):
+                    if text:
+                        text += " "
+                    for char in word_node.xpath('.//*[@class="ocrx_cinfo"]'):
+                        box = list(
+                            map(
+                                int,
+                                re.search(r"x_bboxes ([\d ]+)", char.get("title"))[
+                                    1
+                                ].split(),
+                            )
+                        )
+                        chars.append(
+                            dict(
+                                start=len(text),
+                                end=len(text) + len(char.text or ""),
+                                bbox=box,
+                            )
+                        )
+                        text += char.text or ""
             write_json(path, dict(text=text, characters=chars))
         words = []
         for match in TOKEN.finditer(text):
@@ -272,7 +369,10 @@ class CropRecognizer:
         rect = pymupdf.Rect(located[:4])
         # One PDF point surrounds the glyph box; a white 20-pixel frame lets
         # single-word segmentation work without neighboring annotation noise.
-        rect = pymupdf.Rect(rect.x0 - 1, rect.y0 - 1, rect.x1 + 1, rect.y1 + 1)
+        padding = 1 if self.language == "eng" else 0.2
+        rect = pymupdf.Rect(
+            rect.x0 - padding, rect.y0 - padding, rect.x1 + padding, rect.y1 + padding
+        )
         pix = page.get_pixmap(
             matrix=pymupdf.Matrix(600 / 72, 600 / 72),
             clip=rect,
@@ -292,7 +392,9 @@ class CropRecognizer:
         )
         cache = self.work / (key + ".json")
         if cache.exists():
-            return read_json(cache)
+            return self.with_fallback(
+                read_json(cache), self.work / (key + ".png"), candidate
+            )
         self.work.mkdir(parents=True, exist_ok=True)
         image.save(self.work / (key + ".png"))
         readings = []
@@ -304,12 +406,13 @@ class CropRecognizer:
                     "stdout",
                     "--psm",
                     str(psm),
-                    "-l",
-                    "eng",
-                ],
+                ]
+                + self.ocr_args,
                 capture_output=True,
                 text=True,
                 check=True,
+                timeout=60,
+                env={**os.environ, "OMP_THREAD_LIMIT": "1"},
             )
             readings.append(result.stdout.strip())
         evidence = dict(
@@ -327,6 +430,90 @@ class CropRecognizer:
         if image_only:
             evidence["geometry_source"] = "local-line-ocr"
         write_json(cache, evidence)
+        return self.with_fallback(evidence, self.work / (key + ".png"), candidate)
+
+    def with_fallback(self, evidence, path, candidate):
+        """Bound Cyrillic fallback to crop conflicts; never download models."""
+        if self.models is None or all(
+            TOKEN.findall(r.lower()) == [candidate.lower()]
+            for r in evidence["readings"]
+        ):
+            return evidence
+        import importlib.metadata
+        import numpy as np
+        from rapidocr import RapidOCR, LangRec, OCRVersion, ModelType
+
+        names = (
+            "cyrillic_PP-OCRv5_rec_mobile.onnx",
+            "ch_PP-OCRv4_det_mobile.onnx",
+            "ch_ppocr_mobile_v2.0_cls_mobile.onnx",
+        )
+        resources = {name: digest((self.models / name).read_bytes()) for name in names}
+        runtime = {
+            name: importlib.metadata.version(name)
+            for name in ("rapidocr", "onnxruntime")
+        }
+        key = digest(
+            path.read_bytes()
+            + repr(sorted(resources.items())).encode()
+            + repr(sorted(runtime.items())).encode()
+            + b"rapid-word-600-300-v1"
+        )
+        cache = self.work / ("rapid-" + key + ".json")
+        if cache.exists():
+            alternate = read_json(cache)
+        else:
+            if self.rapid is None:
+                self.rapid = RapidOCR(
+                    params={
+                        "Rec.lang_type": LangRec.CYRILLIC,
+                        "Rec.ocr_version": OCRVersion.PPOCRV5,
+                        "Rec.model_type": ModelType.MOBILE,
+                        "Det.ocr_version": OCRVersion.PPOCRV4,
+                        "Det.model_type": ModelType.MOBILE,
+                        "Rec.model_path": str(self.models / names[0]),
+                        "Det.model_path": str(self.models / names[1]),
+                        "Cls.model_path": str(self.models / names[2]),
+                        "EngineConfig.onnxruntime.intra_op_num_threads": 1,
+                        "EngineConfig.onnxruntime.inter_op_num_threads": 1,
+                    }
+                )
+            image = Image.open(path).convert("RGB")
+            readings, scores = [], []
+            # Two fixed raster scales check stability without a candidate-aware
+            # prompt. They remain two readings from one engine, not two votes.
+            for variant in (
+                image,
+                image.resize((max(1, image.width // 2), max(1, image.height // 2))),
+            ):
+                result = self.rapid(np.array(variant), use_det=False, use_cls=False)
+                readings.append(" ".join(result.txts or ()))
+                scores.append(min(result.scores) if result.scores else 0)
+            alternate = dict(
+                readings=readings,
+                scores=scores,
+                resources=resources,
+                runtime=runtime,
+                scales=[1, 0.5],
+                cache_key=key,
+            )
+            write_json(cache, alternate)
+        evidence = dict(evidence, alternate_crop=alternate)
+        # 0.90 is an empirical recognition floor, not a calibrated probability.
+        # Context, dictionary, recurrence and exact placement are still required.
+        if (
+            len(alternate["readings"]) == 2
+            and min(alternate["scores"]) >= 0.9
+            and all(
+                TOKEN.findall(r.lower()) == [candidate.lower()]
+                for r in alternate["readings"]
+            )
+        ):
+            evidence.update(
+                tesseract_readings=evidence["readings"],
+                readings=alternate["readings"],
+                engine="rapidocr",
+            )
         return evidence
 
 
@@ -350,7 +537,9 @@ def repair(model, pages, book, ranker, recognize, audit):
                 if (
                     len(word) < 4
                     or not word.isalpha()
-                    or not word.islower()
+                    or not (
+                        word.islower() or (ranker.language != "en" and word.istitle())
+                    )
                     or ranker.known(word)
                 ):
                     continue
@@ -380,7 +569,9 @@ def repair(model, pages, book, ranker, recognize, audit):
                     page=row["page"],
                     row_id=ident,
                     before=word,
-                    after=best["term"],
+                    after=(
+                        best["term"].capitalize() if word.istitle() else best["term"]
+                    ),
                     bbox=row["bbox"],
                     candidates=choices[:5],
                     margin=round(margin, 6) if margin is not None else None,
@@ -391,8 +582,13 @@ def repair(model, pages, book, ranker, recognize, audit):
                 # rare terminology remains review-only.
                 if (
                     not best["confusion_supported"]
+                    or (
+                        ranker.language != "en"
+                        and not ranker.dictionary.lookup(best["term"])
+                    )
                     or best["book_count"] < 2
-                    or zipf_frequency(best["term"], "en") < 3
+                    or zipf_frequency(best["term"], ranker.language)
+                    < (3 if ranker.language == "en" else 2)
                 ):
                     decision["reason"] = "insufficient-lexical-evidence"
                     continue
@@ -419,14 +615,22 @@ def repair(model, pages, book, ranker, recognize, audit):
                     decision["reason"] = "weak-context-without-embedded-corroboration"
                     continue
                 decision["action"] = "correct"
-                decision["reason"] = "context-and-two-segmentation-crop-readings"
+                decision["reason"] = (
+                    "context-and-two-rapid-crop-readings"
+                    if evidence.get("engine") == "rapidocr"
+                    else "context-and-two-segmentation-crop-readings"
+                )
                 edits.append(
                     (
                         row,
                         dict(
                             page=row["page"],
                             before=word,
-                            after=best["term"],
+                            after=(
+                                best["term"].capitalize()
+                                if word.istitle()
+                                else best["term"]
+                            ),
                             count=1,
                             whole_word=True,
                             evidence=decision,

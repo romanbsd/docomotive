@@ -7,6 +7,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from wordfreq import zipf_frequency
 from common import ROOT, read_json, write_json, load_profile
+from languages import language_code
 
 TOKEN = re.compile(r"[^\W\d_]+(?:['’-][^\W\d_]+)*", re.UNICODE)
 
@@ -31,6 +32,8 @@ def analyze(model, book):
         ):
             documents.append(chapter)
         for index, block in enumerate(entry["blocks"] + entry["notes"]):
+            if block.get("kind") == "source-gap":
+                continue
             effective_chapter = block.get("source_chapter", chapter)
             effective_reference = reference and "source_chapter" not in block
             for match in TOKEN.finditer(block["text"]):
@@ -56,7 +59,7 @@ def analyze(model, book):
         count = sum(term["forms"].values())
         df = len(term["chapters"])
         idf = math.log((n + 1) / (df + 1)) + 1
-        prior = zipf_frequency(word, "en")
+        prior = zipf_frequency(word, language_code(book))
         # Zipf zero is a censored/unknown prior, not proof of corpus absence.
         expected = total * 10 ** (prior - 9)
         result[word] = {

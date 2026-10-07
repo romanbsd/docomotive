@@ -9,6 +9,25 @@ from wordfreq import zipf_frequency
 TOKEN = re.compile(r"[\w]+(?:['’-][\w]+)*|[^\w\s]", re.UNICODE)
 
 
+def xml_safe_ocr(text):
+    """Retain unreadable OCR glyph positions without emitting invalid XML."""
+    invalid = []
+    result = []
+    for offset, c in enumerate(text):
+        n = ord(c)
+        if (
+            n in (9, 10, 13)
+            or 0x20 <= n <= 0xD7FF
+            or 0xE000 <= n <= 0xFFFD
+            or 0x10000 <= n <= 0x10FFFF
+        ):
+            result.append(c)
+        else:
+            result.append("\ufffd")
+            invalid.append(dict(offset=offset, codepoint=f"U+{n:04X}"))
+    return "".join(result), invalid
+
+
 def center(line):
     return (line["bbox"][1] + line["bbox"][3]) / 2
 
@@ -92,8 +111,21 @@ def correct_page(
     secondary_name="vision",
     recover_regions=False,
     recover_glyphs=False,
+    language="en",
 ):
     rows = merge_rows(primary)
+    for row in rows:
+        row["text"], invalid = xml_safe_ocr(row["text"])
+        if invalid:
+            event = dict(
+                page=page,
+                kind="invalid-xml-ocr-character",
+                bbox=row["bbox"],
+                primary=row["text"],
+                replacements=invalid,
+            )
+            audit.append(event)
+            review.append(dict(event, action="scan-review-required"))
     # Some engines collapse two printed lines into a confident but garbled row.
     # Recover the region only when two fresh engines independently agree on
     # every line, their geometry covers the tall row, and its text disagrees.
@@ -282,8 +314,8 @@ def correct_page(
                 and after.isalpha()
                 and len(after) > 2
                 and difflib.SequenceMatcher(None, before, after).ratio() >= 0.65
-                and zipf_frequency(before, "en") < 2
-                and (zipf_frequency(after, "en") >= 2 or votes == 3)
+                and zipf_frequency(before, language) < 2
+                and (zipf_frequency(after, language) >= 2 or votes == 3)
             )
             plausible = plausible or (
                 before in {"J", "1"} and after == "I" and votes >= 2
@@ -298,7 +330,7 @@ def correct_page(
                     and len(before) == len(after)
                     and sum(c.isdigit() for c in before) == 1
                     and after.isalpha()
-                    and zipf_frequency(after, "en") >= 4
+                    and zipf_frequency(after, language) >= 4
                     and all(
                         a.lower() == b.lower() or b.lower() in confusions.get(a, "")
                         for a, b in zip(before, after)

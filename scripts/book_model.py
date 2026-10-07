@@ -19,45 +19,58 @@ class JoinPolicy:
         dictionary=None,
         observed_min_count=2,
         rare_wraps=False,
+        language="en",
+        noisy_wraps=False,
     ):
         self.words = {w.lower() for w in protected} | {
             w.lower() for w, n in Counter(observed).items() if n >= observed_min_count
         }
         self.dictionary = dictionary
         self.rare_wraps = rare_wraps
+        self.language = language
+        self.noisy_wraps = noisy_wraps
 
     def accepts(self, word):
         low = word.lower()
         return (
             low in self.words
-            or zipf_frequency(low, "en") >= 2
+            or zipf_frequency(low, self.language) >= 2
             or bool(self.dictionary and self.dictionary.lookup(low))
         )
 
     def boundary(self, a, b):
         if a.endswith("\u00ad"):
             return 1, "", "remove-discretionary"
-        if a.endswith("-"):
-            left = re.search(r"([\w]+)-$", a)
+        if a.endswith("-") or (self.noisy_wraps and a.endswith("-.")):
+            left = re.search(r"([\w]+)(-\.?)$", a)
             right = re.match(r"([^\W\d_]+)", b)
             if left and right:
                 combined = left[1] + right[1]
                 hyphenated = left[1] + "-" + right[1]
+                # A dot misread from scan noise after a wrap dash is removed
+                # only at a source-line seam with an attested joined word.
+                trim = len(left[2])
                 if hyphenated.lower() in self.words:
-                    return 0, "", "retain"
+                    # Retain a known compound's dash while discarding only the
+                    # spurious dot; otherwise the noise would join into the word.
+                    return (
+                        (1, "", "remove-noise-retain-compound")
+                        if trim == 2
+                        else (0, "", "retain")
+                    )
                 # A rare but corpus-attested joined form can beat an unattested
                 # split by a full Zipf unit (tenfold frequency). Known compounds
                 # above still take precedence; this is opt-in for scan repair.
                 rare_attested = (
                     self.rare_wraps
-                    and zipf_frequency(combined, "en") >= 1
-                    and zipf_frequency(combined, "en")
-                    >= zipf_frequency(hyphenated, "en") + 1
+                    and zipf_frequency(combined, self.language) >= 1
+                    and zipf_frequency(combined, self.language)
+                    >= zipf_frequency(hyphenated, self.language) + 1
                 )
                 return (
-                    (1, "", "remove")
+                    (trim, "", "remove")
                     if self.accepts(combined) or rare_attested
-                    else (0, "", "retain")
+                    else ((0, "", "retain") if trim == 1 else (0, " ", "space"))
                 )
         return 0, (" " if a else ""), "space"
 
@@ -414,8 +427,9 @@ def page_blocks(n, rows, book, audit, first, policy=None):
                 # A normal-margin continuation can inherit a bogus style-based
                 # paragraph flag. An indented new paragraph cannot override it.
                 and not paragraph_indent
-                and re.search(r"[^\W\d_]{2,}-$", last["text"])
-                and re.match(r"^[a-z]{2,}", text)
+                and re.search(r"[^\W\d_]{2,}-\.?$", last["text"])
+                and re.match(r"^[^\W\d_]{2,}", text)
+                and text[:2].islower()
                 and (policy or DEFAULT_POLICY).boundary(last["text"], text)[2]
                 == "remove"
             ):
@@ -498,6 +512,8 @@ def page_blocks(n, rows, book, audit, first, policy=None):
 
 
 def normalize_block(block, policy, audit):
+    if block["kind"] == "source-gap":
+        return block
     text = ""
     sources = []
     breaks = []
@@ -567,11 +583,26 @@ def reconstruct(pages, book, policy, audit, editorial_edits=()):
         note_rows = []
         for n in range(start, end + 1):
             bb, nn = page_blocks(n, pages[n], book, audit, n == start, policy)
+            gap = next((g for g in book.get("source_gaps", []) if g["page"] == n), None)
+            if gap:
+                # Missing leaves cannot supply a sentence continuation. This
+                # notice is separate from OCR source rows and their coverage.
+                blocks.append(
+                    dict(
+                        kind="source-gap",
+                        text=gap["text"],
+                        lines=[],
+                        fragments=[],
+                        sources=[],
+                        page_breaks=[],
+                    )
+                )
             boundary = book.get("cross_page_continuations", {}).get(str(n))
             if boundary:
                 if (
                     not blocks
                     or not bb
+                    or not blocks[-1]["lines"]
                     or not blocks[-1]["lines"][-1]["text"].endswith(boundary["before"])
                     or not bb[0]["lines"][0]["text"].startswith(boundary["after"])
                 ):

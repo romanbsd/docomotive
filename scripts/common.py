@@ -83,6 +83,7 @@ PROFILE_KEYS = frozenset("""
     source_prose_indents source_relative_figures source_sha256 source_version
     statistics_excluded_chapters subjects subtitle text_source title
     upper_margin_cutoff uppercase_margin_cutoff verse_regions vision_primary_pages recover_scan_italics recover_scan_inline_italics
+    dictionary_locale ocr_tesseract_language ocr_vision_language ocr_rapid_language ocr_tessdata_dir metadata_author_aliases ocr_tesseract_page_languages source_gaps
     """.split())
 
 

@@ -431,8 +431,15 @@ def inset_verse_evidence(rows, body_width):
     if len(long_rows) < 3:
         return result
     margin = statistics.median(r["bbox"][0] for r in long_rows)
+    body_height = statistics.median(r["bbox"][3] - r["bbox"][1] for r in long_rows)
     for i, intro in enumerate(rows[:-1]):
-        if not intro["text"].rstrip().endswith(":"):
+        introduced = intro["text"].rstrip().endswith(":")
+        # Longer, smaller-type verse can follow a completed sentence. Require
+        # a visible block gap; short prose tails alone never establish verse.
+        if not introduced and not (
+            intro["text"].rstrip().endswith((".", "!", "?", "”", '"', "»"))
+            and rows[i + 1]["bbox"][1] - intro["bbox"][3] >= 0.008
+        ):
             continue
         run = []
         for r in rows[i + 1 :]:
@@ -443,9 +450,14 @@ def inset_verse_evidence(rows, body_width):
             if (
                 r.get("kind", "text") != "text"
                 or r.get("column", 0) != intro.get("column", 0)
-                or x0 - margin < 0.06 * body_width
+                or x0 - margin < (0.06 if introduced else 0.12) * body_width
                 or x1 - x0 >= 0.95 * body_width
-                or not -0.005 <= y0 - previous["bbox"][3] <= 0.035
+                # Ascenders/descenders can make adjacent OCR boxes overlap.
+                # Limit overlap to half the shorter box, with advancing centers.
+                or y0 - previous["bbox"][3]
+                < -0.5 * min(y1 - y0, previous["bbox"][3] - previous["bbox"][1])
+                or y0 - previous["bbox"][3] > 0.035
+                or (y0 + y1 - previous["bbox"][1] - previous["bbox"][3]) / 2 < 0.004
                 or (run and abs(x0 - run[0]["bbox"][0]) > 0.012)
             ):
                 break
@@ -454,13 +466,18 @@ def inset_verse_evidence(rows, body_width):
         # wrapped prose. Hyphenated continuations remain ordinary paragraphs.
         widths = [r["bbox"][2] - r["bbox"][0] for r in run]
         if (
-            4 <= len(run) <= 30
+            (4 if introduced else 8) <= len(run) <= 30
+            and (
+                introduced
+                or statistics.median(r["bbox"][3] - r["bbox"][1] for r in run)
+                <= 0.9 * body_height
+            )
             and max(widths) - min(widths) > 0.05 * body_width
             and sum(w < 0.7 * body_width for w in widths) >= 0.7 * len(widths)
             # Wrapped narrow prose still has a repeated full line width.
             and sum(max(widths) - w < 0.025 * body_width for w in widths)
             <= 0.5 * len(widths)
-            and not any(re.search(r"[A-Za-z]-$", r["text"]) for r in run)
+            and not any(re.search(r"[^\W\d_]-$", r["text"]) for r in run)
             and not any(re.match(r"\s*(?:\d+[.)]|[•▪])\s", r["text"]) for r in run)
         ):
             result.update(r["row_id"] for r in run)

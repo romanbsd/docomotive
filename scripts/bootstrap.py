@@ -13,8 +13,12 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--verify-only", action="store_true")
+    p.add_argument("--language", choices=("en", "ru"), default="en")
     a = p.parse_args()
-    for item in json.loads((ROOT / "config/resources.json").read_text()):
+    resources = json.loads((ROOT / "config/resources.json").read_text())
+    if a.language == "ru":
+        resources += json.loads((ROOT / "config/resources-ru.json").read_text())
+    for item in resources:
         target = ROOT / item["path"]
         if not target.exists():
             if a.verify_only:

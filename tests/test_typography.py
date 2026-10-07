@@ -42,6 +42,29 @@ def row(text, i=0, width=0.35, italic=False, x=0.2):
 
 
 class TypographyTests(unittest.TestCase):
+    def test_long_small_type_verse_can_follow_a_completed_sentence(self):
+        prose = [
+            row("Surrounding full-width prose.", i=i, width=0.75, x=0.1)
+            for i in range(3)
+        ]
+        intro = row("Он обратился к духу.", i=3, width=0.4, x=0.1)
+        verse = [
+            row("Строка песни", i=4 + i, width=w, x=0.25)
+            for i, w in enumerate((0.32, 0.25, 0.45, 0.3, 0.57, 0.23, 0.39, 0.26))
+        ]
+        for r in verse:
+            r["bbox"][1] += 0.01
+            r["bbox"][3] = r["bbox"][1] + 0.014
+        # A descender box extends into the next line without merging centers.
+        verse[3]["bbox"][3] += 0.018
+        self.assertEqual(
+            inset_verse_evidence(prose + [intro] + verse, 0.8),
+            {r["row_id"] for r in verse},
+        )
+        for r in verse:
+            r["bbox"][3] = r["bbox"][1] + 0.02
+        self.assertFalse(inset_verse_evidence(prose + [intro] + verse, 0.8))
+
     def test_introduced_ragged_inset_verse_needs_no_font_metadata(self):
         prose = [
             row("Ordinary surrounding prose.", i=i, width=0.75, x=0.1) for i in range(3)
@@ -60,6 +83,7 @@ class TypographyTests(unittest.TestCase):
             "prose-wrap",
             "wandering",
             "hyphen",
+            "cyrillic-hyphen",
             "column",
         ):
             import copy
@@ -75,6 +99,8 @@ class TypographyTests(unittest.TestCase):
                     r["bbox"][0] += i * 0.02
             if change == "hyphen":
                 values[4]["text"] += "-"
+            if change == "cyrillic-hyphen":
+                values[4]["text"] = "перенос сло-"
             if change == "column":
                 for r in values[4:]:
                     r["column"] = 1

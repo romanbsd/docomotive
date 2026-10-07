@@ -20,9 +20,9 @@ from ocr import nearest, merge_rows
 
 PATTERNS = {
     "suspicious-line-punctuation": r"\b\w+-[.,;:]\s+\w+",
-    "repeated-word": r"\b([A-Za-z]{2,})\s+\1\b",
+    "repeated-word": r"\b([^\W\d_]{2,})\s+\1\b",
     "mixed-script-token": r"[A-Za-z]+[\u0400-\u04ff]+|[\u0400-\u04ff]+[A-Za-z]+",
-    "digit-in-word": r"[A-Za-z]{2,}\d[A-Za-z]{2,}",
+    "digit-in-word": r"[^\W\d_]{2,}\d[^\W\d_]{2,}",
 }
 
 
@@ -90,14 +90,23 @@ def make_sheet(pdf, profile, out, work):
                 f'<p>PDF {decision["page"]}: <del>{html.escape(decision["before"])}</del> → '
                 f'<strong>{html.escape(decision["after"])}</strong> · crop readings: '
                 + html.escape(" / ".join(crop["readings"]))
+                + " · "
+                + html.escape(crop.get("engine", "tesseract"))
+                + (
+                    " · alternate Tesseract readings: "
+                    + html.escape(" / ".join(crop["tesseract_readings"]))
+                    if crop.get("tesseract_readings")
+                    else ""
+                )
                 + '<br/><img alt="Verified word crop" style="max-height:5em;width:auto" src="data:image/png;base64,'
                 + base64.b64encode(data).decode()
                 + '"/></p>'
             )
         repair_summary = (
             f"<details><summary>{len(accepted_repairs)} automatic local spelling repairs — show source crops</summary>"
-            "<p>Whole-book context and character confusions rank proposals. Fresh Tesseract word crops "
-            "must agree in two segmentation modes; these are two readings by one engine, not independent votes. "
+            "<p>Whole-book context and edit-distance candidates rank proposals. Fresh local word crops "
+            "must agree in two Tesseract segmentation modes or two RapidOCR raster scales; "
+            "these are two readings by one engine, not independent votes. "
             "Weak ranking margins also require agreement with the embedded OCR. Uncertain proposals remain below.</p>"
             + "".join(entries)
             + "</details>"

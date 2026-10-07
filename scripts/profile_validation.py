@@ -18,13 +18,13 @@ LIST_KEYS = PAGE_LIST_KEYS | set(
     endnote_sections figures frontmatter_endnotes line_join_words
     metadata_record_overrides native_excluded_fonts native_heading_sizes
     native_heading_texts related_print_isbns row_heading_rules row_regions
-    statistics_excluded_chapters subjects""".split()
+    statistics_excluded_chapters subjects metadata_author_aliases source_gaps""".split()
 )
 DICT_KEYS = set("""bottom_margin_cutoffs chapter_body_starts comments cover_file
     cross_page_continuations excluded_pages glossary_terms index_splits
     native_font_styles native_typography note_continuations note_starts page_labels
     paragraph_margins publisher_mark small_caps_openings source_completeness
-    verse_regions""".split())
+    verse_regions ocr_tesseract_page_languages""".split())
 PAGE_MAP_KEYS = DICT_KEYS - set("""comments cover_file glossary_terms native_font_styles
     native_typography publisher_mark source_completeness""".split())
 INT_KEYS = {"printed_page_offset", "endnote_chapter"}
@@ -98,6 +98,25 @@ def validate_profile(book, path="profile", page_count=None):
     for key in PAGE_LIST_KEYS:
         for value in book.get(key, []):
             page(value, key)
+    seen_gaps = set()
+    for gap in book.get("source_gaps", []):
+        if not isinstance(gap, dict) or not {"page", "text", "evidence"} <= gap.keys():
+            fail("source_gaps", "expected page, text and source evidence")
+        page(gap["page"], "source_gaps")
+        if gap["page"] in seen_gaps:
+            fail("source_gaps", "duplicate notice page")
+        seen_gaps.add(gap["page"])
+        for field in ("text", "evidence"):
+            if not isinstance(gap[field], str) or not gap[field].strip():
+                fail("source_gaps", f"{field} must be a nonempty string")
+    for value in book.get("ocr_tesseract_page_languages", {}).values():
+        if not isinstance(value, str) or not re.fullmatch(
+            r"[A-Za-z0-9_]+(?:\+[A-Za-z0-9_]+)*", value
+        ):
+            fail(
+                "ocr_tesseract_page_languages",
+                "expected Tesseract language identifiers",
+            )
     for value in book.get("artwork_pages", []):
         if (
             not isinstance(value, list)

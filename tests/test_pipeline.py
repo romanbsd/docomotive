@@ -25,6 +25,30 @@ def row(text, y, x=0.2):
 
 
 class PipelineTests(unittest.TestCase):
+    def test_noisy_wrap_preserves_known_compound_dash(self):
+        policy = JoinPolicy(protected=["long-term", "longterm"], noisy_wraps=True)
+        self.assertEqual(
+            join("a long-.", "term plan", policy=policy), "a long-term plan"
+        )
+        self.assertEqual(join("a long-.", "term plan"), "a long-. term plan")
+
+    def test_noisy_wrap_dash_requires_attested_joined_form(self):
+        policy = JoinPolicy(language="ru", noisy_wraps=True)
+        self.assertEqual(
+            join("промыслового уме-.", "ния", policy=policy), "промыслового умения"
+        )
+        self.assertEqual(
+            join("Шаманы на-.", "столько", policy=policy), "Шаманы настолько"
+        )
+        self.assertEqual(
+            join("unknownfragment-.", "otherfragment", policy=policy),
+            "unknownfragment-. otherfragment",
+        )
+        self.assertEqual(
+            join("long-term.", "Next sentence", policy=policy),
+            "long-term. Next sentence",
+        )
+
     def test_shallow_short_line_uses_local_pitch_without_merging_paragraphs(self):
         rows = [
             row("A broad body line that continues", 0.15 + i * 0.026) for i in range(10)

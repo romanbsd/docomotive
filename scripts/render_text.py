@@ -2,6 +2,7 @@
 
 import html
 import re
+from languages import ui_label
 
 
 def chapter_notes_navigation(chapter, notes, book):
@@ -19,7 +20,7 @@ def chapter_notes_navigation(chapter, notes, book):
         return ""
     return (
         f'<p class="noindent"><a href="chapter-{book["endnote_chapter"]:02}.xhtml'
-        f'#endnote-{source}-1">Notes for this chapter</a></p>'
+        f'#endnote-{source}-1">{ui_label(book, "chapter_notes")}</a></p>'
     )
 
 
@@ -140,7 +141,10 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
     targets = book.get("_note_targets", {})
     for n in pages:
         if n in targets:
-            content += f' <a class="note-link" epub:type="noteref" role="doc-noteref" href="#note-{targets[n]}" aria-label="Notes for original page {n+book.get("printed_page_offset",0)}"><sup>[note]</sup></a>'
+            label = book.get("page_labels", {}).get(
+                str(n), str(n + book.get("printed_page_offset", 0))
+            )
+            content += f' <a class="note-link" epub:type="noteref" role="doc-noteref" href="#note-{targets[n]}" aria-label="{ui_label(book, "notes_page")}{html.escape(label, quote=True)}"><sup>{ui_label(book, "note_ref")}</sup></a>'
     if block.get("endnote"):
         backlinks = " ".join(
             '<a role="doc-backlink" href="'
@@ -187,6 +191,12 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
         )
     if block["kind"] == "caption":
         return '<p class="caption">' + content + "</p>"
+    if block["kind"] == "source-gap":
+        return (
+            '<p class="noindent" style="font-size:.85em;font-style:italic">'
+            + content
+            + "</p>"
+        )
     if block["kind"] == "list-item":
         return '<p class="source-list-item">' + content + "</p>"
     if block["kind"] == "heading":
@@ -209,14 +219,22 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
 def notes_html(notes, book):
     if not notes:
         return ""
-    body = ['<section class="notes" epub:type="endnotes"><h2>Notes</h2>']
+    body = [
+        '<section class="notes" epub:type="endnotes"><h2>'
+        + ui_label(book, "notes")
+        + "</h2>"
+    ]
     for note in notes:
         root = note["root_page"]
         pages = sorted({s["page"] for s in note["sources"]})
         offset = book.get("printed_page_offset", 0)
-        label = "Original page " + str(root + offset)
+        label = ui_label(book, "page") + str(
+            book.get("page_labels", {}).get(str(root), root + offset)
+        )
         if len(pages) > 1:
-            label += "–" + str(pages[-1] + offset)
+            label += "–" + str(
+                book.get("page_labels", {}).get(str(pages[-1]), pages[-1] + offset)
+            )
         body.append(
             f'<aside epub:type="endnote" id="{note["id"]}"><h2>{label}</h2>'
             + block_html(
@@ -224,6 +242,8 @@ def notes_html(notes, book):
             )
             + '<p><a href="'
             + html.escape(note.get("backlink", f"#page-{root}"), quote=True)
-            + '" role="doc-backlink">Return to text</a></p></aside>'
+            + '" role="doc-backlink">'
+            + ui_label(book, "return")
+            + "</a></p></aside>"
         )
     return "".join(body) + "</section>"

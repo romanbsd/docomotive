@@ -63,7 +63,10 @@ def verify_edition(record, book, authors):
         raise ValueError("An ISBN or exact Open Library edition is required")
     if norm(record.get("title", "")) != norm(book["title"]):
         raise ValueError("ISBN title conflicts with the source profile")
-    if not any(norm(a) == norm(book["author"]) for a in authors):
+    # Reviewed catalog aliases accommodate transliteration without relaxing
+    # the independent ISBN, title and publisher checks.
+    identities = [book["author"]] + book.get("metadata_author_aliases", [])
+    if not any(norm(a) == norm(identity) for a in authors for identity in identities):
         raise ValueError("ISBN author conflicts with the source profile")
     if not any(
         norm(p) in norm(book["publisher"]) or norm(book["publisher"]) in norm(p)

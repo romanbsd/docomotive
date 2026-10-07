@@ -13,11 +13,18 @@ struct Result: Codable {
     let revision: Int
     let lines: [Line]
 }
-for path in CommandLine.arguments.dropFirst() {
+let arguments = Array(CommandLine.arguments.dropFirst())
+if arguments.first == "--language" && arguments.count < 3 {
+    fputs("Usage: vision-ocr [--language locale] image [image ...]\n", stderr)
+    exit(64) // Conventional command-line usage error.
+}
+let customLanguage = arguments.first == "--language" ? arguments[1] : "en-US"
+let paths = arguments.first == "--language" ? Array(arguments.dropFirst(2)) : arguments
+for path in paths {
     do {
         let request = VNRecognizeTextRequest()
         request.recognitionLevel = .accurate
-        request.recognitionLanguages = ["en-US"]
+        request.recognitionLanguages = [customLanguage]
         request.usesLanguageCorrection = true
         request.revision = 3
         let handler = VNImageRequestHandler(url: URL(fileURLWithPath: path))
