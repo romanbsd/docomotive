@@ -17,19 +17,23 @@ import argparse
 import copy
 import html
 import json
+import os
 import posixpath
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import urllib.request
 from urllib.parse import unquote
 import zipfile
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from lxml import etree
 from tqdm import tqdm
-from common import ROOT, digest, write_epub, write_json
+from common import ROOT, digest, write_epub, write_json, write_text_atomic
 from build import validate_epub
 
 LANGS = {
@@ -126,13 +130,27 @@ class Translator:
         self.batch = config["batch"]
         self.history = []  # (source, translation) pairs for context
         self.glossary = {}  # source term -> target rendering
+        self.brief = {}  # genre, register, period, people: {name: male|female}
         self.cache = {}
         if self.cache_path.exists():
             for line in self.cache_path.read_text().splitlines():
                 row = json.loads(line)
                 self.cache[row["key"]] = row["output"]
         self.cache_path.parent.mkdir(parents=True, exist_ok=True)
-        self.calls = 0
+        self.timings = []  # Ollama counters of the requests made in this run
+        self.parallel = config.get("parallel", 1)
+        self.lock = threading.Lock()  # cache and log, shared with forks
+
+    @property
+    def calls(self):
+        return len(self.timings)
+
+    def fork(self):
+        """A translator for one document translated in parallel: own history,
+        shared cache, timings, glossary and brief."""
+        twin = copy.copy(self)
+        twin.history = []
+        return twin
 
     def messages(self, text, source, target):
         if self.config["prompt"] == "hy-mt":
@@ -150,6 +168,9 @@ class Translator:
             for role, content in zip(("user", "assistant"), pair)
         ]
         system = instruct_system(source, target, self.note)
+        about = brief_lines(self.brief, text)
+        if about:
+            system += "\n" + about
         terms = glossary_lines(self.glossary, text)
         if terms:
             system += (
@@ -176,7 +197,12 @@ class Translator:
         it has no system prompt."""
         t = LANGS[target]
         parts = []
-        background = "\n".join(translation for _, translation in self.recent())
+        background = "\n".join(
+            part
+            for part in [brief_lines(self.brief, text)]
+            + [translation for _, translation in self.recent()]
+            if part
+        )
         if background:
             parts.append(f"[Background Information]\n{background}")
         terms = [
@@ -235,19 +261,118 @@ class Translator:
         if format:
             body["format"] = format
         key = digest(json.dumps(body, sort_keys=True, ensure_ascii=False).encode())
-        if key not in self.cache:
+        with self.lock:
+            cached = self.cache.get(key)
+        if cached is None:
             request = urllib.request.Request(
                 self.host + "/api/chat",
                 json.dumps(body).encode(),
                 {"Content-Type": "application/json"},
             )
             with urllib.request.urlopen(request, timeout=1800) as response:
-                output = json.load(response)["message"]["content"].strip()
-            self.cache[key] = output
-            with self.cache_path.open("a") as stream:
-                stream.write(json.dumps({"key": key, "output": output}) + "\n")
-            self.calls += 1
-        return self.cache[key]
+                answer = json.load(response)
+            output = answer["message"]["content"].strip()
+            # Ollama reports durations in nanoseconds; prefill (prompt) versus
+            # decode (output) time decides whether prompt reuse is worth doing.
+            timing = {
+                name: answer.get(name, 0)
+                for name in (
+                    "prompt_eval_count",
+                    "prompt_eval_duration",
+                    "eval_count",
+                    "eval_duration",
+                    "load_duration",
+                    "total_duration",
+                )
+            }
+            with self.lock:
+                self.timings.append(timing)
+                self.cache[key] = output
+                with self.cache_path.open("a") as stream:
+                    row = {"key": key, "output": output, "timing": timing}
+                    stream.write(json.dumps(row) + "\n")
+            cached = output
+        return cached
+
+    def post_edit(self, source_text, draft, source, target, glossary=None, brief=None):
+        """Second-opinion translation: the source with its placeholder tags and a
+        weak draft in, a corrected translation that uses the source's tags out.
+        A different model reviews, because self-refinement repeats its own bias."""
+        s, t = LANGS[source], LANGS[target]
+        system = (
+            f"You are an expert editor of {s} to {t} literary translations. You get "
+            f"a {s} source paragraph and a draft {t} translation that may omit, "
+            "garble or mistranslate parts. Reply with the corrected, complete, natural "
+            f"{t} translation of the whole source. The source contains placeholder "
+            "tags such as <x1>...</x1> and <x2/>; keep every tag exactly once, around "
+            "the translation of the same words. Reply with the translation only."
+        )
+        if self.note:
+            system += "\n" + self.note.strip()
+        about = brief_lines(brief or {}, source_text)
+        if about:
+            system += "\n" + about
+        terms = glossary_lines(glossary or {}, source_text)
+        if terms:
+            system += "\nUse these renderings, inflected as needed:\n" + terms
+        user = f"Source:\n{source_text}\n\nDraft translation:\n{draft}"
+        options = dict(self.config["options"])
+        return self.chat(
+            [{"role": "system", "content": system}, {"role": "user", "content": user}],
+            options,
+            len(source_text),
+        )
+
+    def make_brief(self, excerpt, names, source, batch=30):
+        """Book brief from the opening prose and, for each recurring name, the
+        sentences that mention it: genre, register, period and each person's
+        gender (needed for verb and adjective agreement in the target). Names go
+        in batches so each request fits small context windows (hy-mt2: 8192)."""
+        system = (
+            f"You read the beginning of a {LANGS[source]} book and prepare notes for "
+            "its translator. Reply with a JSON object with keys: genre, register "
+            "(e.g. first-person scholarly memoir, formal academic), period (when "
+            "and where it is set), and people: an object mapping each given name to "
+            '"male", "female" or "unknown", judged only from pronouns and context '
+            'in the sentences provided. Use "unknown" for places, peoples, '
+            "organizations and anything not a single person."
+        )
+        brief, people = {}, {}
+        items = list(names.items()) or [None]
+        for i in range(0, len(items), batch):
+            part = dict(p for p in items[i : i + batch] if p)
+            output = self.chat(
+                [
+                    {"role": "system", "content": system},
+                    {
+                        "role": "user",
+                        "content": json.dumps(
+                            {"opening": excerpt, "names": part}, ensure_ascii=False
+                        ),
+                    },
+                ],
+                {"temperature": 0.0},
+                300 + 20 * len(part),
+                format="json",
+            )
+            try:
+                answer = json.loads(output)
+            except json.JSONDecodeError:
+                continue
+            for key in ("genre", "register", "period"):
+                value = answer.get(key)
+                if key not in brief and isinstance(value, str) and value.strip():
+                    brief[key] = value.strip()
+            found = (
+                answer.get("people") if isinstance(answer.get("people"), dict) else {}
+            )
+            people |= {
+                name: gender
+                for name, gender in found.items()
+                if name in part and gender in ("male", "female")
+            }
+        brief["people"] = people
+        return brief
 
     def translate_terms(self, terms, source, target, batch=30):
         """{term: rendering} for (term, example sentence) pairs, one JSON request
@@ -308,6 +433,55 @@ def glossary_lines(glossary, text):
     return "\n".join(lines)
 
 
+def brief_lines(brief, text):
+    """The book description plus the gender of each person named in text."""
+    if not brief:
+        return ""
+    lines = []
+    about = "; ".join(brief[k] for k in ("genre", "register", "period") if brief.get(k))
+    if about:
+        lines.append(f"About the book: {about}.")
+    people = [
+        f"{name} ({'man' if gender == 'male' else 'woman'})"
+        for name, gender in brief.get("people", {}).items()
+        if re.search(rf"(?<!\w){re.escape(name)}(?!\w)", text)
+    ]
+    if people:
+        lines.append(
+            "People in this passage: "
+            + ", ".join(people)
+            + ". Use the matching grammatical gender for each."
+        )
+    return "\n".join(lines)
+
+
+def brief_inputs(texts, glossary, excerpt_chars=3000, per_name=1):
+    """Opening prose and up to per_name sentences for each capitalized glossary
+    term (candidate person names)."""
+    plain_texts = [plain(t) for t in texts]
+    excerpt = ""
+    for text in plain_texts:
+        if len(excerpt) >= excerpt_chars:
+            break
+        excerpt += text + "\n"
+    names = {}
+    for term in glossary:
+        if not term[:1].isupper() or term.isupper():
+            continue
+        found = []
+        for text in plain_texts:
+            for sentence in re.split(r"(?<=[.!?])\s+", text):
+                if re.search(rf"(?<!\w){re.escape(term)}(?!\w)", sentence):
+                    found.append(sentence[:240])
+                if len(found) >= per_name:
+                    break
+            if len(found) >= per_name:
+                break
+        if found:
+            names[term] = found
+    return excerpt[:excerpt_chars], names
+
+
 def glossary_terms(texts, known=lambda word: False, limit=150, min_count=3):
     """(term, example sentence) for recurring names and foreign or coined words:
     the words a model renders differently from chunk to chunk. known(word) says
@@ -362,6 +536,23 @@ def spelling_dictionary(language):
     return lambda word: dictionary.lookup(word)
 
 
+def timing_summary(timings):
+    """Totals of Ollama's per-request counters: where the model's time went."""
+    total = lambda name: sum(t.get(name, 0) for t in timings)
+    seconds = lambda name: round(total(name) / 1e9, 1)
+    prefill, decode = total("prompt_eval_duration"), total("eval_duration")
+    return {
+        "requests": len(timings),
+        "prompt_tokens": total("prompt_eval_count"),
+        "prompt_seconds": seconds("prompt_eval_duration"),
+        "output_tokens": total("eval_count"),
+        "output_seconds": seconds("eval_duration"),
+        "load_seconds": seconds("load_duration"),
+        "total_seconds": seconds("total_duration"),
+        "prefill_share": round(prefill / max(1, prefill + decode), 3),
+    }
+
+
 def has_letters(text):
     return any(ch.isalpha() for ch in text)
 
@@ -392,6 +583,58 @@ def glued(child, out):
         (before.isalpha() and inner[0].isalpha())
         or (inner[-1].isalpha() and (child.tail or "")[:1].isalpha())
     )
+
+
+def faux_small_caps(block):
+    """(tag, attributes) of the span in headings set as F<span>OREST</span>: a
+    capital outside, the rest of the word in a smaller-type uppercase span,
+    across every word. glued() unwraps those spans for translation; the
+    translated words are re-set the same way by small_caps()."""
+    words = re.findall(r"[^\W\d_]+", "".join(block.itertext()))
+    spans = [
+        e
+        for e in block.iter()
+        if e is not block
+        and not atomic(e)
+        and (e.text or "").isupper()
+        and not len(e)
+        and re.search(r"(?<![^\W\d_])[^\W\d_]$", previous_text(e))
+    ]
+    if not spans or not words or any(not w.isupper() for w in words):
+        return None
+    if len({(local(e), tuple(sorted(e.attrib.items()))) for e in spans}) != 1:
+        return None
+    return spans[0].tag, dict(spans[0].attrib)
+
+
+def previous_text(element):
+    before = element.getprevious()
+    return (before.tail if before is not None else element.getparent().text) or ""
+
+
+def small_caps(block, style):
+    """Re-set a translated plain-text heading as capital + uppercase span per word."""
+    if len(block) or not block.text:
+        return
+    tag, attributes = style
+    text, block.text = block.text, ""
+    last = None
+    for piece in re.split(r"([^\W\d_]+)", text):
+        if not piece:
+            continue
+        if re.fullmatch(r"[^\W\d_]+", piece) and len(piece) > 1:
+            head = piece[0].upper()
+            if last is None:
+                block.text += head
+            else:
+                last.tail = (last.tail or "") + head
+            last = etree.SubElement(block, tag, attributes)
+            last.text = piece[1:].upper()
+        elif last is None:
+            block.text += piece
+        else:
+            last.tail = (last.tail or "") + piece
+    block.text = block.text or None
 
 
 def escape(text):
@@ -712,6 +955,130 @@ def translate_batch(blocks, translate, source, target):
     return levels
 
 
+ENGLISH_FUNCTION_WORDS = frozenset(
+    "the and of to was that with which were had his her their this from".split()
+)
+SENTENCE_END = re.compile(r"[.!?…][\"”’»)\]]*(?=\s|$)")
+
+
+def plain(text):
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", text)).strip()
+
+
+def quality_flags(source, target, language, narrator=None, min_ratio=0.8):
+    """Signs that a translated paragraph lost or garbled text, from plain source
+    and target strings. Ratios use characters; Russian runs about 1.0-1.1 times
+    English, and evaluated good output never fell below 0.82, so min_ratio 0.8
+    flags truncation and heavy compression. Sentence counts may legitimately
+    differ, so a drop counts only together with a short ratio."""
+    source, target = plain(source), plain(target)
+    flags = []
+    ratio = len(target) / max(1, len(source))
+    if len(source) >= 80:
+        if ratio < min_ratio:
+            flags.append("short")
+        elif ratio > 1.8:
+            flags.append("long")
+        if (
+            len(SENTENCE_END.findall(target)) < len(SENTENCE_END.findall(source))
+            and ratio < 0.9
+        ):
+            flags.append("lost_sentence")
+    words = re.findall(r"[^\W\d_]+", target)
+    if language != "en":
+        english = [w for w in words if w.lower() in ENGLISH_FUNCTION_WORDS]
+        if len(english) >= 3:
+            flags.append("untranslated")
+        latin_script = language in ("en", "de", "fr", "es", "it", "pt", "pl", "nl")
+        if not latin_script and any(
+            re.search(r"[A-Za-z]", w) and re.search(r"[^\x00-ɏ]", w) for w in words
+        ):
+            flags.append("mixed_script")
+    if language == "ru" and narrator:
+        # Past tense after "я": -л/-лся masculine, -ла/-лась feminine.
+        wrong = r"(?:ла|лась)" if narrator == "male" else r"(?:л|лся)"
+        if re.search(rf"(?i)\bя\s+(?:не\s+)?(?:\w+\s+)?\w+{wrong}\b", target):
+            flags.append("narrator_gender")
+    return flags
+
+
+TYPESET_LANGUAGES = {"ru", "uk"}
+NBSP = " "
+
+
+def note_reference(node):
+    """A link whose visible text is only a number (with optional brackets)."""
+    return (
+        local(node) in ("a", "sup")
+        and re.fullmatch(r"[\[(]?\d+[\])]?", "".join(node.itertext()).strip())
+        is not None
+    )
+
+
+def typeset(block, language):
+    """Russian/Ukrainian typography on a translated block's text nodes: «» quotes
+    (nested „“), spaced em dashes with a non-breaking space before, non-breaking
+    spaces after initials, and no space between sentence punctuation and a note
+    reference. Element content of note links is never touched."""
+    if language not in TYPESET_LANGUAGES:
+        return
+    segments = []  # (node, attribute) in reading order
+
+    def walk(node):
+        if node is not block and atomic(node):
+            segments.append((node, "tail"))
+            return
+        segments.append((node, "text"))
+        for child in node:
+            walk(child)
+        if node is not block:
+            segments.append((node, "tail"))
+
+    walk(block)
+    depth = 0
+    previous = " "
+    for node, attribute in segments:
+        text = getattr(node, attribute)
+        if not text:
+            continue
+        out = []
+        for char in text:
+            if char in '"“”„':
+                opening = char in "“„" or (
+                    char == '"' and (previous.isspace() or previous in "([{—–-")
+                )
+                if char == "”":
+                    opening = False
+                if opening:
+                    out.append("«" if depth == 0 else "„")
+                    depth += 1
+                else:
+                    depth = max(0, depth - 1)
+                    out.append("»" if depth == 0 else "“")
+            else:
+                out.append(char)
+            previous = char
+        text = "".join(out)
+        text = re.sub(r"(?<=\S)[  ]+[-–—][  ]+", NBSP + "— ", text)
+        text = re.sub(r"\b([А-ЯЁЄІЇ]\.)[ ]+(?=[А-ЯЁЄІЇ])", r"\1" + NBSP, text)
+        setattr(node, attribute, text)
+    for child in block.iter():
+        if child is block or not note_reference(child):
+            continue
+        before = child.getprevious()
+        owner, attribute = (
+            (before, "tail")
+            if before is not None
+            else (
+                child.getparent(),
+                "text",
+            )
+        )
+        text = getattr(owner, attribute) or ""
+        if re.search(r"[.,;:!?»”)\]][  ]+$", text):
+            setattr(owner, attribute, text.rstrip(" " + NBSP))
+
+
 def apparatus(block):
     """ "index", "reference" (notes, bibliographies, epigraph sources) or None."""
     for node in block.iterancestors():
@@ -786,9 +1153,29 @@ def leaf_blocks(root):
     return titles + list(walk(root))
 
 
-def translate_epub(epub, out, translate, target, progress=True, prepare=None):
+def translate_epub(
+    epub,
+    out,
+    translate,
+    target,
+    progress=True,
+    prepare=None,
+    checks=None,
+    validate=True,
+    review=None,
+    corrections=None,
+):
     """prepare, if given, receives the source text of every prose block before
-    translation starts (used to build the glossary)."""
+    translation starts (used to build the glossary). checks(source, target)
+    returns quality flags for a translated prose block; a flagged block is
+    retried alone at the retry temperature and the attempt with fewer flags is
+    kept. review(source, draft, source_language, target_language), if given,
+    post-edits prose blocks still flagged or that lost inline markup; an edit
+    is kept only if it decodes with the source's markup and the checks do not
+    get worse. corrections maps "<document>#<block index>" to {source_sha,
+    translation}: reviewed replacements applied instead of the model; a
+    correction whose source text changed stops the run. The report's "pairs"
+    lists every block's source and result for the review sheet."""
     with zipfile.ZipFile(epub) as z:
         files = {n: z.read(n) for n in z.namelist() if n != "mimetype"}
     opf_name = next(n for n in files if n.endswith(".opf"))
@@ -819,24 +1206,72 @@ def translate_epub(epub, out, translate, target, progress=True, prepare=None):
             inferred |= {b for b in blocks if local(b) not in HEADINGS}
         listed |= bibliography(blocks, whole=whole)
     levels, failures, kept = [0] * 4, [], {"index": 0, "citation": 0}
-    batching = getattr(translate, "batch", False)
-    limit = getattr(translate, "chunk_chars", MAX_CHUNK)
-    pending = []  # consecutive prose blocks of one document awaiting a request
+    flagged, reviews = [], []
+    sources = {}  # block -> untranslated copy, for checks and retries
 
-    def record(name, block, level):
-        levels[level] += 1
-        if level:
-            failures.append({"file": name, "id": block.get("id"), "level": level})
+    lock = threading.RLock()  # shared results, when documents run in parallel
 
-    def flush():
-        blocks = [b for _, b in pending]
-        for (name, block), level in zip(
-            pending, translate_batch(blocks, translate, source, target)
-        ):
-            record(name, block, level)
-        pending.clear()
+    def record(name, block, level, translator):
+        def warmer(text, source_language, target_language, retry=False):
+            return translator(text, source_language, target_language, True)
 
+        warmer.chunk_chars = getattr(translator, "chunk_chars", MAX_CHUNK)
+        with lock:
+            original = sources.pop(block, None)
+        text = lambda node: "".join(node.itertext())
+        found = []
+        if checks and original is not None:
+            found = checks(text(original), text(block))
+            if found:
+                retry = copy.deepcopy(original)
+                retry_level = translate_block(retry, warmer, source, target)
+                again = checks(text(original), text(retry))
+                if len(again) < len(found):
+                    replace_content(block, retry.text, list(retry))
+                    found, level = again, retry_level
+        entry = None
+        if review and original is not None and (found or level >= 2):
+            candidate = copy.deepcopy(original)
+            encoded, slots, breaks, anchors = encode(candidate)
+            entry = {
+                "file": name,
+                "id": block.get("id"),
+                "flags": found,
+                "level": level,
+            }
+            try:
+                output = review(encoded, plain(text(block)), source, target)
+                decode(output, candidate, slots, breaks, anchors)
+                after = checks(text(original), text(candidate)) if checks else []
+                entry["accepted"] = len(after) <= len(found)
+            except ValueError, etree.XMLSyntaxError:
+                entry["accepted"] = False
+            if entry["accepted"]:
+                replace_content(block, candidate.text, list(candidate))
+                found, level = after, 0
+        if contexts.get(block) is None:
+            typeset(block, target)
+        if block in capitals:
+            small_caps(block, capitals[block])
+        with lock:
+            if entry:
+                reviews.append(entry)
+            if found:
+                flagged.append({"file": name, "id": block.get("id"), "flags": found})
+            block_level[block], block_flags[block] = level, found
+            levels[level] += 1
+            if level:
+                failures.append({"file": name, "id": block.get("id"), "level": level})
+
+    positions, encoded_source = {}, {}
+    for name, root in documents.items():
+        for index, block in enumerate(b for n, b in work if n == name):
+            positions[block] = f"{name}#{index}"
+            encoded_source[block] = encode(block)[0]
+    corrections = corrections or {}
+    applied, block_level, block_flags = [], {}, {}
     contexts = {}
+    capitals = {b: style for _, b in work if (style := faux_small_caps(b))}
     for name, block in work:
         context = apparatus(block) or ("reference" if block in inferred else None)
         if context == "reference" and (
@@ -846,29 +1281,99 @@ def translate_epub(epub, out, translate, target, progress=True, prepare=None):
         contexts[block] = context
     if prepare:
         prepare([encode(b)[0] for _, b in work if contexts[b] is None], source)
-    for name, block in tqdm(
-        work, unit="block", desc=f"{source}→{target}", disable=not progress
-    ):
-        context = contexts[block]
-        if context in ("index", "citation"):
-            # The index is alphabetized and paged for the source edition.
-            kept[context] += 1
-            block.set("lang", source)
-            block.set(XML_LANG, source)
-            continue
-        size = len(encode(block)[0])
-        if batching and context is None and size < limit:
-            batched = sum(len(encode(b)[0]) for _, b in pending)
-            if pending and (pending[0][0] != name or batched + size > limit):
+
+    def run(items, translator, bar):
+        """Translate items (one document, or the whole book when serial) in
+        order with one translator, whose history carries context between them."""
+        batching = getattr(translator, "batch", False)
+        limit = getattr(translator, "chunk_chars", MAX_CHUNK)
+        pending = []  # consecutive blocks of one document and context
+
+        def flush():
+            blocks = [b for _, b in pending]
+            for (name, block), level in zip(
+                pending, translate_batch(blocks, translator, source, target)
+            ):
+                record(name, block, level, translator)
+            bar.update(len(pending))
+            pending.clear()
+
+        for name, block in items:
+            context = contexts[block]
+            if context in ("index", "citation"):
+                # The index is alphabetized and paged for the source edition.
+                with lock:
+                    kept[context] += 1
+                block.set("lang", source)
+                block.set(XML_LANG, source)
+                bar.update(1)
+                continue
+            key = positions[block]
+            if key in corrections:
+                fix = corrections[key]
+                if fix.get("source_sha") != digest(encoded_source[block].encode()):
+                    raise SystemExit(
+                        f"Correction {key} no longer matches its source text"
+                    )
+                if pending:
+                    flush()
+                _, slots, breaks, anchors = encode(block)
+                decode(fix["translation"], block, slots, breaks, anchors)
+                if context is None:
+                    typeset(block, target)
+                with lock:
+                    applied.append(key)
+                    levels[0] += 1
+                    block_level[block] = 0
+                bar.update(1)
+                continue
+            if (checks or review) and context is None:
+                with lock:
+                    sources[block] = copy.deepcopy(block)
+            text = encode(block)[0]
+            size = len(text)
+            # Notes with no citation sentence batch like prose; mixed notes keep
+            # the sentence-level path so their citations stay verbatim.
+            commentary = context == "reference" and not any(
+                kept and has_letters(piece)
+                for kept, piece in chunks(text, limit, citation_sentence)
+            )
+            if batching and (context is None or commentary) and size < limit:
+                batched = sum(len(encode(b)[0]) for _, b in pending)
+                if pending and (
+                    pending[0][0] != name
+                    or contexts[pending[0][1]] != context
+                    or batched + size > limit
+                ):
+                    flush()
+                pending.append((name, block))
+                continue
+            if pending:
                 flush()
-            pending.append((name, block))
-            continue
+            keep = citation_sentence if context == "reference" else None
+            level = translate_block(block, translator, source, target, keep)
+            record(name, block, level, translator)
+            bar.update(1)
         if pending:
             flush()
-        keep = citation_sentence if context == "reference" else None
-        record(name, block, translate_block(block, translate, source, target, keep))
-    if pending:
-        flush()
+
+    parallel = getattr(translate, "parallel", 1)
+    with tqdm(
+        total=len(work), unit="block", desc=f"{source}→{target}", disable=not progress
+    ) as bar:
+        if parallel > 1 and hasattr(translate, "fork"):
+            # Documents are independent: each gets its own translator history
+            # (context restarts per document); the cache and glossary are shared.
+            groups = [[(n, b) for n, b in work if n == name] for name in documents]
+            with ThreadPoolExecutor(parallel) as pool:
+                for done in [
+                    pool.submit(run, group, translate.fork(), bar)
+                    for group in groups
+                    if group
+                ]:
+                    done.result()
+        else:
+            run(work, translate, bar)
     for name, root in documents.items():
         for attr in ("lang", XML_LANG):
             if root.get(attr):
@@ -885,7 +1390,8 @@ def translate_epub(epub, out, translate, target, progress=True, prepare=None):
     identifier.text += f"-{target}"
     files[opf_name] = etree.tostring(opf, xml_declaration=True, encoding="utf-8")
     write_epub(out, files)
-    validate_epub(out)
+    if validate:  # evaluation samples cut note links, so they skip this
+        validate_epub(out)
     return {
         "source": str(epub),
         "output": str(out),
@@ -896,7 +1402,70 @@ def translate_epub(epub, out, translate, target, progress=True, prepare=None):
             zip(["markup", "markup_retry", "no_emphasis", "plain"], levels)
         ),
         "fallback_blocks": failures,
+        "flagged_blocks": flagged,
+        "reviewed_blocks": reviews,
+        "corrections_applied": applied,
+        "pairs": [
+            {
+                "key": positions[block],
+                "context": contexts[block],
+                "source": encoded_source[block],
+                "source_sha": digest(encoded_source[block].encode()),
+                "target": plain("".join(block.itertext())),
+                "level": block_level.get(block),
+                "flags": block_flags.get(block, []),
+                "corrected": positions[block] in applied,
+            }
+            for _, block in work
+        ],
     }
+
+
+def review_sheet(pairs, reviews, path, title):
+    """Offline side-by-side review page: every block's source (with the
+    placeholder tags a correction must reuse), its translation, and any flags,
+    fallback level or reviewer decision. Flagged rows are highlighted and a
+    checkbox hides the rest."""
+    reviewed = {(r["file"], r.get("id")): r for r in reviews}
+    rows = []
+    for pair in pairs:
+        notes = list(pair["flags"])
+        if pair["level"]:
+            notes.append(f"fallback {pair['level']}")
+        if pair["corrected"]:
+            notes.append("corrected")
+        if pair["context"] in ("index", "citation"):
+            notes.append(f"kept: {pair['context']}")
+        attention = bool(pair["flags"] or pair["level"])
+        rows.append(
+            f'<tr class="{"flag" if attention else "ok"}"><td class="key">'
+            f'{html.escape(pair["key"])}<br><small>{pair["source_sha"][:12]}</small></td>'
+            f'<td>{html.escape(pair["source"])}</td><td>{html.escape(pair["target"])}</td>'
+            f'<td>{html.escape(", ".join(notes))}</td></tr>'
+        )
+    attention = sum(1 for p in pairs if p["flags"] or p["level"])
+    page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{html.escape(title)} review</title><style>
+:root {{ --bg:#fff; --fg:#1c1c1c; --line:#ddd; --flag:#fff4d6; }}
+@media (prefers-color-scheme: dark) {{ :root {{ --bg:#161616; --fg:#e8e8e8; --line:#333; --flag:#3a3016; }} }}
+body {{ background:var(--bg); color:var(--fg); font:15px/1.45 system-ui, sans-serif; margin:16px; }}
+table {{ border-collapse:collapse; width:100%; table-layout:fixed; }}
+td, th {{ border-bottom:1px solid var(--line); padding:6px 8px; vertical-align:top; overflow-wrap:anywhere; }}
+th {{ text-align:left; position:sticky; top:0; background:var(--bg); }}
+.key {{ width:9em; font-family:ui-monospace, monospace; font-size:12px; }}
+tr.flag {{ background:var(--flag); }} body.only tr.ok {{ display:none; }}
+</style></head><body>
+<h1>{html.escape(title)}</h1>
+<p>{len(pairs)} blocks, {attention} need attention, {len(reviewed)} reviewed by a second model.
+To correct a block, add to <code>.corrections.json</code>:
+<code>{{"&lt;key&gt;": {{"source_sha": "&lt;full sha&gt;", "translation": "..."}}}}</code>,
+reusing the source's &lt;xN&gt; tags. Full shas are in <code>.pairs.json</code>.</p>
+<label><input type="checkbox" onchange="document.body.classList.toggle('only', this.checked)">
+Only blocks that need attention</label>
+<table><thead><tr><th class="key">Block</th><th>Source</th><th>Translation</th><th>Notes</th></tr></thead>
+<tbody>{"".join(rows)}</tbody></table></body></html>"""
+    write_text_atomic(path, page)
 
 
 class Evaluated(Exception):
@@ -924,6 +1493,13 @@ def evaluator(translate, count=1, min_chars=200):
     call.chunk_chars = getattr(translate, "chunk_chars", MAX_CHUNK)
     call.batch = getattr(translate, "batch", False)
     return call
+
+
+def keep_awake():
+    """macOS idle-sleeps an unattended Mac mid-run, pausing the model for
+    minutes at a time; caffeinate holds it awake until this process exits."""
+    if shutil.which("caffeinate"):
+        subprocess.Popen(["caffeinate", "-is", "-w", str(os.getpid())])
 
 
 def main():
@@ -962,7 +1538,19 @@ def main():
         help="gender of the first-person narrator, for languages that inflect it "
         "(default: male)",
     )
+    parser.add_argument(
+        "--review-glossary",
+        action="store_true",
+        help="build <output>.glossary.json and <output>.brief.json, then exit so "
+        "they can be checked and edited before a full run",
+    )
+    parser.add_argument(
+        "--review-model",
+        help="second model that post-edits blocks still flagged after the retry "
+        "or that lost inline markup (e.g. qwen3.8:latest)",
+    )
     a = parser.parse_args()
+    keep_awake()
     out = a.epub.with_name(f"{a.epub.stem}.{a.lang}.epub")
     if a.output:
         out = a.output / out.name if a.output.is_dir() else a.output
@@ -972,19 +1560,49 @@ def main():
     config = model_config(a.model)
     translate = Translator(a.model, cache, config, a.host, narrator_note(a.narrator))
     glossary_path = out.with_suffix(".glossary.json")
+    brief_path = out.with_suffix(".brief.json")
 
     def prepare(texts, source):
-        """Reuse an existing (possibly hand-edited) glossary, else build one."""
+        """Reuse existing (possibly hand-edited) glossary and brief, else build
+        them; the brief needs the glossary's name candidates."""
         if not config.get("glossary"):
             return
         if glossary_path.exists():
             translate.glossary = json.loads(glossary_path.read_text())
+        else:
+            terms = glossary_terms(texts, spelling_dictionary(source))
+            print(f"Translating {len(terms)} glossary terms", file=sys.stderr)
+            translate.glossary = translate.translate_terms(terms, source, a.lang)
+            write_json(glossary_path, translate.glossary)
+        if not config.get("brief"):
             return
-        terms = glossary_terms(texts, spelling_dictionary(source))
-        print(f"Translating {len(terms)} glossary terms", file=sys.stderr)
-        translate.glossary = translate.translate_terms(terms, source, a.lang)
-        write_json(glossary_path, translate.glossary)
+        if brief_path.exists():
+            translate.brief = json.loads(brief_path.read_text())
+            return
+        print("Writing the book brief", file=sys.stderr)
+        translate.brief = translate.make_brief(
+            *brief_inputs(texts, translate.glossary), source
+        )
+        write_json(brief_path, translate.brief)
 
+    if a.review_glossary:
+
+        def stop(texts, source):
+            prepare(texts, source)
+            raise Evaluated
+
+        with tempfile.TemporaryDirectory() as scratch:
+            try:
+                translate_epub(
+                    a.epub, Path(scratch) / out.name, translate, a.lang, False, stop
+                )
+            except Evaluated:
+                pass
+        people = translate.brief.get("people", {})
+        print(f"{len(translate.glossary)} glossary terms: {glossary_path}")
+        if config.get("brief"):
+            print(f"Brief with {len(people)} people: {brief_path}")
+        return
     if a.evaluate:
         evaluate = evaluator(translate, a.evaluate)
         # A book with fewer chunks than N runs to the end; discard that EPUB.
@@ -998,8 +1616,56 @@ def main():
         if not evaluate.done:
             raise SystemExit("No chunk of 200+ characters to translate")
         return
-    report = translate_epub(a.epub, out, translate, a.lang, prepare=prepare)
+    checks = None
+    if config.get("checks", True):
+        min_ratio = config.get("min_length_ratio", 0.8)
+
+        def checks(source_text, target_text):
+            return quality_flags(
+                source_text, target_text, a.lang, a.narrator, min_ratio
+            )
+
+    review = reviewer = None
+    if a.review_model:
+        reviewer = Translator(
+            a.review_model,
+            ROOT
+            / "work/translations"
+            / (re.sub(r"\W", "_", a.review_model) + f"-{a.lang}.jsonl"),
+            model_config(a.review_model),
+            a.host,
+            narrator_note(a.narrator),
+        )
+
+        def review(source_text, draft, source, target):
+            return reviewer.post_edit(
+                source_text, draft, source, target, translate.glossary, translate.brief
+            )
+
+    corrections_path = out.with_suffix(".corrections.json")
+    corrections = (
+        json.loads(corrections_path.read_text()) if corrections_path.exists() else {}
+    )
+    report = translate_epub(
+        a.epub,
+        out,
+        translate,
+        a.lang,
+        prepare=prepare,
+        checks=checks,
+        review=review,
+        corrections=corrections,
+    )
+    pairs = report.pop("pairs")
+    review_sheet(
+        pairs, report["reviewed_blocks"], out.with_suffix(".review.html"), out.stem
+    )
+    write_json(out.with_suffix(".pairs.json"), pairs)
+    if reviewer:
+        report["review_model"] = a.review_model
+        report["review_timing"] = timing_summary(reviewer.timings)
     report["model_calls"] = translate.calls
+    report["timing"] = timing_summary(translate.timings)
     report["model_config"] = config
     report["glossary_terms"] = len(translate.glossary)
     report["narrator"] = a.narrator

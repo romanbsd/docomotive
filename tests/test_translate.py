@@ -28,6 +28,13 @@ from translate import (
     Translator,
     model_config,
     narrator_note,
+    quality_flags,
+    timing_summary,
+    brief_inputs,
+    brief_lines,
+    faux_small_caps,
+    small_caps,
+    typeset,
     segments,
     translate_batch,
 )
@@ -255,6 +262,409 @@ class TranslateTests(unittest.TestCase):
         model.chat = lambda *a, **k: json.dumps(answer, ensure_ascii=False)
         glossary = model.translate_terms([("ayahuasca", "x"), ("DNA", "y")], "en", "ru")
         self.assertEqual(glossary, {"ayahuasca": "аяуаска"})
+
+    def test_quality_flags_catch_truncation_english_and_wrong_gender(self):
+        source = "I walked to the river. It was cold. I sat down and waited for the boat to come back."
+        good = "Я дошёл до реки. Было холодно. Я сел и стал ждать, когда вернётся лодка с людьми."
+        self.assertEqual(quality_flags(source, good, "ru", "male"), [])
+        cut = "Я дошёл до реки."
+        self.assertEqual(
+            quality_flags(source, cut, "ru", "male"), ["short", "lost_sentence"]
+        )
+        english = "Я дошёл до реки, and the boat was late with the cargo of the day."
+        self.assertIn("untranslated", quality_flags(source, english, "ru"))
+        self.assertIn(
+            "mixed_script", quality_flags(source, good + " аяхуаскeros", "ru")
+        )
+        self.assertIn(
+            "narrator_gender",
+            quality_flags(
+                source,
+                "Я сидела и ждала лодку долго-долго у реки, пока не стемнело.",
+                "ru",
+                "male",
+            ),
+        )
+        self.assertEqual(quality_flags("Short.", "Коротко.", "ru"), [])
+
+    def test_typeset_russian_quotes_dashes_initials_and_note_spacing(self):
+        root = etree.fromstring(
+            '<p xmlns="http://www.w3.org/1999/xhtml">Он сказал: "Это <em>"чудо"</em>" - '
+            'писал В. Г. Богораз в 1980-х годах. <a href="#n1"><sup>5</sup></a> Конец.</p>'
+        )
+        typeset(root, "ru")
+        out = "".join(root.itertext())
+        self.assertIn("«Это „чудо“»", out)
+        self.assertIn("\u00a0— писал", out)
+        self.assertIn("В.\u00a0Г.\u00a0Богораз", out)
+        self.assertIn("1980-х", out)
+        self.assertIn("годах.5 Конец", out)
+        english = etree.fromstring(
+            '<p xmlns="http://www.w3.org/1999/xhtml">"Hi" - there</p>'
+        )
+        typeset(english, "de")
+        self.assertEqual(english.text, '"Hi" - there')
+
+    def test_flagged_blocks_are_retried_alone_and_reported(self):
+        import zipfile
+        from common import write_epub
+        from translate import translate_epub
+
+        body = "".join(
+            f"<p>I walked to the river number {i} at dawn. It was cold. I sat down and waited for the boat.</p>"
+            for i in range(3)
+        )
+        xhtml = (
+            '<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><title>T</title></head>'
+            f"<body>{body}</body></html>"
+        )
+        opf = (
+            '<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="i">'
+            '<metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="i">x</dc:identifier>'
+            "<dc:title>T</dc:title><dc:language>en</dc:language></metadata><manifest>"
+            '<item id="c" href="c.xhtml" media-type="application/xhtml+xml"/></manifest>'
+            '<spine><itemref idref="c"/></spine></package>'
+        )
+        folder = Path(tempfile.mkdtemp())
+        write_epub(
+            folder / "in.epub",
+            {
+                "content.opf": opf.encode(),
+                "c.xhtml": xhtml.encode(),
+                "META-INF/container.xml": b'<container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0"><rootfiles><rootfile full-path="content.opf" media-type="application/oebps-package+xml"/></rootfiles></container>',
+            },
+        )
+        calls = []
+
+        def model(text, source, target, retry=False):
+            calls.append(retry)
+            out = upper(text)
+            # The batch truncates its second paragraph; the lone retry is complete.
+            return out.replace(
+                "IT WAS COLD. I SAT DOWN AND WAITED FOR THE BOAT.</seg2>", "</seg2>"
+            )
+
+        model.batch, model.chunk_chars = True, 4000
+        checks = lambda s, t: quality_flags(s, t, "en", min_ratio=0.8)
+        report = translate_epub(
+            folder / "in.epub",
+            folder / "out.epub",
+            model,
+            "ru",
+            progress=False,
+            checks=checks,
+        )
+        self.assertEqual(report["flagged_blocks"], [])
+        self.assertIn(True, calls)
+        with zipfile.ZipFile(folder / "out.epub") as z:
+            self.assertIn(
+                "RIVER NUMBER 1 AT DAWN. IT WAS COLD.", z.read("c.xhtml").decode()
+            )
+
+    def test_commentary_notes_batch_and_citations_stay_verbatim(self):
+        import zipfile
+        from common import write_epub
+        from translate import translate_epub
+
+        notes = (
+            '<aside epub:type="endnote" id="n1"><p>1. He was never convinced by that '
+            "argument, and later abandoned it.</p></aside>"
+            '<aside epub:type="endnote" id="n2"><p>2. The healers disagreed with him '
+            "about the plants.</p></aside>"
+            '<aside epub:type="endnote" id="n3"><p>3. Cox, Mysticism (London, 1983), 23. '
+            "He was not convinced by it, and he said so later.</p></aside>"
+        )
+        xhtml = (
+            '<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">'
+            f"<head><title>N</title></head><body><p>Body text here.</p>{notes}</body></html>"
+        )
+        opf = (
+            '<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="i">'
+            '<metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="i">x</dc:identifier>'
+            "<dc:title>N</dc:title><dc:language>en</dc:language></metadata><manifest>"
+            '<item id="c" href="c.xhtml" media-type="application/xhtml+xml"/></manifest>'
+            '<spine><itemref idref="c"/></spine></package>'
+        )
+        folder = Path(tempfile.mkdtemp())
+        write_epub(
+            folder / "in.epub",
+            {
+                "content.opf": opf.encode(),
+                "c.xhtml": xhtml.encode(),
+                "META-INF/container.xml": b'<container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0"><rootfiles><rootfile full-path="content.opf" media-type="application/oebps-package+xml"/></rootfiles></container>',
+            },
+        )
+        sent = []
+        model = lambda text, *a: sent.append(text) or upper(text)
+        model.batch, model.chunk_chars = True, 4000
+        translate_epub(
+            folder / "in.epub", folder / "out.epub", model, "ru", progress=False
+        )
+        batched = [t for t in sent if "never convinced" in t]
+        self.assertEqual(len(batched), 1)
+        self.assertIn("healers disagreed", batched[0])
+        self.assertNotIn("Cox", batched[0])
+        self.assertNotIn("Body text", batched[0])
+        with zipfile.ZipFile(folder / "out.epub") as z:
+            out = z.read("c.xhtml").decode()
+        self.assertIn("Cox, Mysticism (London, 1983), 23. HE WAS NOT CONVINCED", out)
+
+    def test_faux_small_caps_headings_are_reset_after_translation(self):
+        head = etree.fromstring(
+            '<a xmlns="http://www.w3.org/1999/xhtml" href="#c">F<span class="sc">OREST</span> '
+            'T<span class="sc">ELEVISION</span></a>'
+        )
+        style = faux_small_caps(head)
+        self.assertEqual(style[1], {"class": "sc"})
+        self.assertEqual(
+            translate_block(head, lambda t, *a: "Лесное телевидение", "en", "ru"), 0
+        )
+        small_caps(head, style)
+        out = etree.tostring(head, encoding="unicode")
+        self.assertIn(
+            'Л<span class="sc">ЕСНОЕ</span> Т<span class="sc">ЕЛЕВИДЕНИЕ</span>', out
+        )
+        body = etree.fromstring(
+            '<p xmlns="http://www.w3.org/1999/xhtml">A <span>NASA</span> probe</p>'
+        )
+        self.assertIsNone(faux_small_caps(body))
+
+    def test_brief_gives_each_chunk_only_the_people_it_names(self):
+        brief = {
+            "genre": "anthropological memoir",
+            "people": {"Ruperto": "male", "Rachel": "female"},
+        }
+        lines = brief_lines(brief, "Ruperto laughed.")
+        self.assertIn("About the book: anthropological memoir.", lines)
+        self.assertIn("Ruperto (man)", lines)
+        self.assertNotIn("Rachel", lines)
+        self.assertNotIn("People", brief_lines(brief, "Rupertos laughed."))
+        model = self.translator()
+        model.brief = brief
+        self.assertIn(
+            "Rachel (woman)", model.messages("Rachel left.", "en", "ru")[0]["content"]
+        )
+        hy = self.translator(prompt="hy-mt")
+        hy.brief = brief
+        prompt = hy.messages("Rachel left.", "en", "ru")[0]["content"]
+        self.assertTrue(prompt.startswith("[Background Information]\nAbout the book"))
+        self.assertTrue(prompt.endswith("[Source Text]\nRachel left."))
+
+    def test_brief_inputs_and_gender_filter(self):
+        texts = ["Ruperto smiled. He drank. The Pichis river rose.", "Ruperto left."]
+        excerpt, names = brief_inputs(
+            texts, {"Ruperto": "Руперто", "DNA": "ДНК", "toé": "тоэ"}
+        )
+        self.assertIn("Ruperto smiled.", excerpt)
+        self.assertEqual(names, {"Ruperto": ["Ruperto smiled."]})
+        _, two = brief_inputs(texts, {"Ruperto": "Руперто"}, per_name=2)
+        self.assertEqual(two, {"Ruperto": ["Ruperto smiled.", "Ruperto left."]})
+        model = self.translator()
+        answer = {
+            "genre": "memoir",
+            "people": {"Ruperto": "male", "Pichis": "unknown", "X": "male"},
+        }
+        model.chat = lambda *a, **k: json.dumps(answer)
+        self.assertEqual(
+            model.make_brief(excerpt, names, "en"),
+            {"genre": "memoir", "people": {"Ruperto": "male"}},
+        )
+        calls = []
+        model.chat = lambda *a, **k: calls.append(1) or json.dumps(answer)
+        many = {f"Name{i}": ["x"] for i in range(65)}
+        model.make_brief("", many, "en")
+        self.assertEqual(len(calls), 3)
+
+    def test_timing_summary_splits_prefill_and_decode(self):
+        rows = [
+            {
+                "prompt_eval_count": 100,
+                "prompt_eval_duration": 1e9,
+                "eval_count": 50,
+                "eval_duration": 3e9,
+            },
+            {
+                "prompt_eval_count": 200,
+                "prompt_eval_duration": 1e9,
+                "eval_count": 50,
+                "eval_duration": 5e9,
+            },
+        ]
+        summary = timing_summary(rows)
+        self.assertEqual(summary["requests"], 2)
+        self.assertEqual(summary["prompt_tokens"], 300)
+        self.assertEqual(summary["output_seconds"], 8.0)
+        self.assertEqual(summary["prefill_share"], 0.2)
+        self.assertEqual(timing_summary([])["requests"], 0)
+
+    def epub(self, body):
+        from common import write_epub
+
+        xhtml = (
+            '<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">'
+            f"<head><title>T</title></head><body>{body}</body></html>"
+        )
+        opf = (
+            '<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="i">'
+            '<metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="i">x</dc:identifier>'
+            "<dc:title>T</dc:title><dc:language>en</dc:language></metadata><manifest>"
+            '<item id="c" href="c.xhtml" media-type="application/xhtml+xml"/></manifest>'
+            '<spine><itemref idref="c"/></spine></package>'
+        )
+        folder = Path(tempfile.mkdtemp())
+        container = (
+            b'<container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">'
+            b'<rootfiles><rootfile full-path="content.opf" media-type="application/oebps-package+xml"/>'
+            b"</rootfiles></container>"
+        )
+        write_epub(
+            folder / "in.epub",
+            {
+                "content.opf": opf.encode(),
+                "c.xhtml": xhtml.encode(),
+                "META-INF/container.xml": container,
+            },
+        )
+        return folder
+
+    def test_reviewer_restores_markup_and_bad_edits_are_rejected(self):
+        import zipfile
+        from translate import translate_epub
+
+        folder = self.epub(
+            "<p>The <em>old</em> keeper wrote in his logbook every single night of the year.</p>"
+        )
+        # The main model always drops the emphasis tags, so the block falls back.
+        lossy = lambda text, *a: re.sub(r"</?x\d+>", "", upper(text))
+        good = lambda source_text, draft, s, t: upper(source_text)
+        report = translate_epub(
+            folder / "in.epub",
+            folder / "a.epub",
+            lossy,
+            "ru",
+            progress=False,
+            review=good,
+        )
+        self.assertEqual([r["accepted"] for r in report["reviewed_blocks"]], [True])
+        with zipfile.ZipFile(folder / "a.epub") as z:
+            self.assertIn("THE <em>OLD</em> KEEPER", z.read("c.xhtml").decode())
+        broken = lambda source_text, draft, s, t: "<x7>BROKEN</x7>"
+        report = translate_epub(
+            folder / "in.epub",
+            folder / "b.epub",
+            lossy,
+            "ru",
+            progress=False,
+            review=broken,
+        )
+        self.assertEqual([r["accepted"] for r in report["reviewed_blocks"]], [False])
+        with zipfile.ZipFile(folder / "b.epub") as z:
+            self.assertIn("THE OLD KEEPER", z.read("c.xhtml").decode())
+
+    def test_corrections_replace_model_output_and_stale_ones_stop_the_run(self):
+        import zipfile
+        from common import digest
+        from translate import review_sheet, translate_epub
+
+        folder = self.epub(
+            "<p>The <em>old</em> keeper wrote in his logbook every night.</p><p>Second one.</p>"
+        )
+        report = translate_epub(
+            folder / "in.epub", folder / "a.epub", upper, "ru", progress=False
+        )
+        pair = next(p for p in report["pairs"] if p["source"].startswith("The"))
+        self.assertEqual(
+            pair["source"], "The <x1>old</x1> keeper wrote in his logbook every night."
+        )
+        fix = {
+            pair["key"]: {
+                "source_sha": pair["source_sha"],
+                "translation": "Старый <x1>смотритель</x1>.",
+            }
+        }
+        calls = []
+        model = lambda text, *a: calls.append(text) or upper(text)
+        report = translate_epub(
+            folder / "in.epub",
+            folder / "b.epub",
+            model,
+            "ru",
+            progress=False,
+            corrections=fix,
+        )
+        self.assertEqual(report["corrections_applied"], [pair["key"]])
+        self.assertFalse(any("keeper" in c for c in calls))
+        with zipfile.ZipFile(folder / "b.epub") as z:
+            self.assertIn("Старый <em>смотритель</em>.", z.read("c.xhtml").decode())
+        stale = {pair["key"]: {"source_sha": digest(b"other"), "translation": "x"}}
+        with self.assertRaises(SystemExit):
+            translate_epub(
+                folder / "in.epub",
+                folder / "c.epub",
+                upper,
+                "ru",
+                progress=False,
+                corrections=stale,
+            )
+        pairs = report["pairs"]
+        pairs[1]["flags"] = ["short"]
+        review_sheet(pairs, [], folder / "r.html", "Book")
+        page = (folder / "r.html").read_text()
+        self.assertIn('class="flag"', page)
+        self.assertIn("&lt;x1&gt;", page)
+
+    def test_parallel_documents_match_serial_output(self):
+        import zipfile
+        from common import write_epub
+        from translate import translate_epub
+
+        folder = Path(tempfile.mkdtemp())
+        files = {
+            "META-INF/container.xml": b'<container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0"><rootfiles><rootfile full-path="content.opf" media-type="application/oebps-package+xml"/></rootfiles></container>'
+        }
+        items = ""
+        for i in range(4):
+            files[f"c{i}.xhtml"] = (
+                '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>T</title></head><body>'
+                + "".join(
+                    f"<p>Chapter {i} paragraph {j} has <em>words</em>.</p>"
+                    for j in range(5)
+                )
+                + "</body></html>"
+            ).encode()
+            items += f'<item id="c{i}" href="c{i}.xhtml" media-type="application/xhtml+xml"/>'
+        files["content.opf"] = (
+            '<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="i">'
+            '<metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="i">x</dc:identifier>'
+            f"<dc:title>T</dc:title><dc:language>en</dc:language></metadata><manifest>{items}</manifest>"
+            "<spine/></package>"
+        ).encode()
+        write_epub(folder / "in.epub", files)
+
+        class Model:
+            batch, chunk_chars = True, 80
+
+            def __init__(self, parallel):
+                self.parallel = parallel
+
+            def __call__(self, text, *a):
+                return upper(text)
+
+            def fork(self):
+                return Model(self.parallel)
+
+        outputs = []
+        for parallel in (1, 3):
+            out = folder / f"out{parallel}.epub"
+            translate_epub(
+                folder / "in.epub", out, Model(parallel), "ru", progress=False
+            )
+            with zipfile.ZipFile(out) as z:
+                outputs.append({n: z.read(n) for n in z.namelist()})
+        self.assertEqual(outputs[0], outputs[1])
+        self.assertIn(
+            b"CHAPTER 3 PARAGRAPH 4 HAS <em>WORDS</em>.", outputs[1]["c3.xhtml"]
+        )
 
     def test_long_text_splits_only_outside_placeholders(self):
         text = "One two. <x1>Three. Four.</x1> Five six. Seven."

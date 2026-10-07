@@ -1,0 +1,11 @@
+{
+  "comments": "Fixed sample windows for scripts/translate_eval.py. Each window copies the top-level content units of one document whose text overlaps [start, start + length) characters. Source EPUBs are local evidence under output/ (not tracked); rebuild them before evaluating. The Cosmic Serpent EPUB is the Calibre EPUB 3 conversion copied to output/cosmic-serpent/. Narrators of both books are male.",
+  "narrator": "male",
+  "samples": [
+    {"name": "cosmic-prose-opening", "kind": "prose", "epub": "output/cosmic-serpent/cosmic-serpent.epub", "document": "text/part0004.html", "start": 0, "length": 4500},
+    {"name": "cosmic-prose-dmt", "kind": "prose", "epub": "output/cosmic-serpent/cosmic-serpent.epub", "document": "text/part0008.html", "start": 9000, "length": 4500},
+    {"name": "cosmic-notes", "kind": "notes", "epub": "output/cosmic-serpent/cosmic-serpent.epub", "document": "text/part0015.html", "start": 0, "length": 8000},
+    {"name": "wizard-verse-dialogue", "kind": "verse", "epub": "output/wizard-upper-amazon/wizard-upper-amazon.epub", "document": "OEBPS/chapter-06.xhtml", "start": 12000, "length": 4000},
+    {"name": "wizard-endnotes", "kind": "notes", "epub": "output/wizard-upper-amazon/wizard-upper-amazon.epub", "document": "OEBPS/chapter-06.xhtml", "start": 24500, "length": 2300}
+  ]
+}
