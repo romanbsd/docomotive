@@ -1317,6 +1317,43 @@ def typeset(block, language):
             setattr(owner, attribute, text.rstrip(" " + NBSP))
 
 
+def split_sentences(blocks):
+    """Runs of three or more consecutive same-tag, same-class blocks of at most
+    three words each, without links, that together form one sentence ending
+    in the run's last block: a phrase set one word per line (an epigraph).
+    Translated block by block it comes out word for word."""
+    runs, current = [], []
+    for block in blocks:
+        text = "".join(block.itertext()).strip()
+        tiny = 0 < len(text.split()) <= 3 and not any(
+            linked(child) for child in block.iter() if child is not block
+        )
+        same = current and (
+            local(current[-1]) == local(block)
+            and current[-1].get("class") == block.get("class")
+        )
+        if not tiny:
+            current = []
+            continue
+        current = current + [block] if same else [block]
+        if re.search(r"[.!?…][\"”’»)]*$", text):
+            if len(current) >= 3:
+                runs.append(current)
+            current = []
+    return runs
+
+
+def spread(words, count):
+    """Split words over count lines as evenly as possible, earlier lines first."""
+    size, extra = divmod(len(words), count)
+    lines, start = [], 0
+    for i in range(count):
+        end = start + size + (1 if i < extra else 0)
+        lines.append(" ".join(words[start:end]))
+        start = end
+    return lines
+
+
 def apparatus(block):
     """ "index", "reference" (notes, bibliographies, epigraph sources) or None."""
     for node in block.iterancestors():
@@ -1404,6 +1441,7 @@ def translate_epub(
     corrections=None,
     judge=None,
     judge_share=0.05,
+    quotes=None,
 ):
     """prepare, if given, receives the source text of every prose block before
     translation starts (used to build the glossary). checks(source, target)
@@ -1417,8 +1455,11 @@ def translate_epub(
     correction whose source text changed stops the run. judge(pairs), if given,
     scores every translated prose block after translation; with review, the
     lowest-scoring judge_share are post-edited and an edit is kept only if the
-    judge scores it higher. The report's "pairs" lists every block's source and
-    result for the review sheet."""
+    judge scores it higher. quotes(quotation, author), if given, returns an
+    established translation of an attributed quotation (an epigraph set one
+    word per line, or a block followed by an attribution) or None. The
+    report's "pairs" lists every block's source and result for the review
+    sheet."""
     with zipfile.ZipFile(epub) as z:
         files = {n: z.read(n) for n in z.namelist() if n != "mimetype"}
     opf_name = next(n for n in files if n.endswith(".opf"))
@@ -1451,6 +1492,7 @@ def translate_epub(
     levels, failures, kept = [0] * 4, [], {"index": 0, "citation": 0}
     flagged, reviews = [], []
     originals, scores, judged = {}, {}, []  # judge pass
+    joined_phrases, established = [], []
     sources = {}  # block -> untranslated copy, for checks and retries
 
     lock = threading.RLock()  # shared results, when documents run in parallel
@@ -1530,6 +1572,25 @@ def translate_epub(
             key=lambda pair: -len(pair[0]),
         )
         translate.examples = approved[:count]
+    phrases = {}  # first block of a word-per-line sentence -> all its blocks
+    authors = {}  # first block of an attributed quotation -> author's name
+    for name, root in documents.items():
+        blocks = [b for n, b in work if n == name and local(b) != "title"]
+        following = dict(zip(blocks, blocks[1:]))
+        for run_ in split_sentences(blocks):
+            phrases[run_[0]] = run_
+            after = following.get(run_[-1])
+            credit = (
+                "".join(after.itertext()).strip(" —–-") if after is not None else ""
+            )
+            if 0 < len(credit.split()) <= 4:
+                authors[run_[0]] = credit.title() if credit.isupper() else credit
+        for block, after in following.items():
+            if "attribution" in (after.get("class") or "").split():
+                credit = "".join(after.itertext()).strip(" —–-")
+                if 0 < len(credit.split()) <= 6:
+                    authors.setdefault(block, credit)
+    in_phrase = {b for run_ in phrases.values() for b in run_[1:]}
     contexts = {}
     capitals = {b: style for _, b in work if (style := faux_small_caps(b))}
     for name, block in work:
@@ -1560,6 +1621,43 @@ def translate_epub(
 
         for name, block in items:
             context = contexts[block]
+            if block in in_phrase:
+                bar.update(1)
+                continue
+            if block in phrases and context is None:
+                if pending:
+                    flush()
+                blocks = phrases[block]
+                texts = ["".join(b.itertext()).strip() for b in blocks]
+                joined = " ".join(texts)
+                shouting = joined.isupper()
+                if shouting:  # models translate sentence case more naturally
+                    joined = joined[:1] + joined[1:].lower()
+                known = (
+                    quotes(joined, authors[block])
+                    if quotes and block in authors
+                    else None
+                )
+                if known:
+                    result = known
+                    with lock:
+                        established.append(positions[block])
+                else:
+                    result = translate_text(
+                        html.escape(joined, quote=False), translator, source, target
+                    )
+                    result = plain(html.unescape(result))
+                if shouting:
+                    result = result.upper()
+                for b, line in zip(blocks, spread(result.split(), len(blocks))):
+                    replace_content(b, line or None, [])
+                with lock:
+                    joined_phrases.append(positions[block])
+                    for b in blocks:
+                        levels[0] += 1
+                        block_level[b] = 0
+                bar.update(1)
+                continue
             if context in ("index", "citation"):
                 # The index is alphabetized and paged for the source edition.
                 with lock:
@@ -1568,6 +1666,24 @@ def translate_epub(
                 block.set(XML_LANG, source)
                 bar.update(1)
                 continue
+            if (
+                quotes
+                and context is None
+                and block in authors
+                and not any(linked(c) for c in block.iter() if c is not block)
+            ):
+                known = quotes(plain("".join(block.itertext())), authors[block])
+                if known:
+                    if pending:
+                        flush()
+                    replace_content(block, known, [])
+                    typeset(block, target)
+                    with lock:
+                        established.append(positions[block])
+                        levels[0] += 1
+                        block_level[block] = 0
+                    bar.update(1)
+                    continue
             key = positions[block]
             if key in corrections:
                 fix = corrections[key]
@@ -1716,6 +1832,8 @@ def translate_epub(
         "flagged_blocks": flagged,
         "reviewed_blocks": reviews,
         "corrections_applied": applied,
+        "joined_phrases": joined_phrases,
+        "established_quotations": established,
         "judge": {
             "scored": len(scores),
             "mean_score": (
@@ -1884,6 +2002,12 @@ def main():
         "the glossary terms)",
     )
     parser.add_argument(
+        "--no-quotes",
+        action="store_true",
+        help="do not look up established translations of attributed quotations "
+        "on Wikiquote (sends the author's name; the quotation goes to the chooser)",
+    )
+    parser.add_argument(
         "--no-judge",
         action="store_true",
         help="skip scoring translated paragraphs after translation",
@@ -2041,6 +2165,33 @@ def main():
             a.host,
         )
         judge = lambda pairs: judger.judge_batch(pairs, "en", a.lang)
+    quotes = None
+    if not (a.no_quotes or a.no_lookup):
+        import quotations
+
+        quote_cache = ROOT / "work/translations/quotations"
+        if use_jev:
+            choose = quotations.jev_chooser(quote_cache / "jev")
+        else:
+            choose = quotations.model_chooser(
+                judger
+                or Translator(
+                    a.judge_model,
+                    ROOT / "work/translations" / f"quote-choice-{a.lang}.jsonl",
+                    model_config(a.judge_model),
+                    a.host,
+                )
+            )
+
+        def quotes(quotation, author):
+            try:
+                return quotations.established(
+                    quotation, author, "en", a.lang, quote_cache, choose
+                )
+            except OSError as error:
+                print(f"Quotation lookup skipped: {error}", file=sys.stderr)
+                return None
+
     corrections_path = out.with_suffix(".corrections.json")
     corrections = (
         json.loads(corrections_path.read_text()) if corrections_path.exists() else {}
@@ -2056,6 +2207,7 @@ def main():
         corrections=corrections,
         judge=judge,
         judge_share=a.judge_share,
+        quotes=quotes,
     )
     if use_jev:
         report["judge_model"] = jev_judge.MODEL

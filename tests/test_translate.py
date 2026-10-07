@@ -941,6 +941,35 @@ class TranslateTests(unittest.TestCase):
             },
         )
 
+    def test_word_per_line_sentence_is_translated_as_one_phrase(self):
+        import zipfile
+        from translate import translate_epub
+
+        lines = "".join(
+            f'<p class="epi">{w}</p>' for w in "THE SEA IS CALM TONIGHT.".split()
+        )
+        folder = self.epub(
+            lines + '<p class="epi">ARNOLD</p><p>A normal paragraph follows here.</p>'
+        )
+        sent = []
+
+        def model(text, *a):
+            sent.append(text)
+            return "Море сегодня спокойно." if "sea is calm" in text else upper(text)
+
+        report = translate_epub(
+            folder / "in.epub", folder / "a.epub", model, "ru", progress=False
+        )
+        self.assertIn("The sea is calm tonight.", sent)
+        self.assertEqual(len(report["joined_phrases"]), 1)
+        with zipfile.ZipFile(folder / "a.epub") as z:
+            out = z.read("c.xhtml").decode()
+        self.assertIn(
+            '<p class="epi">МОРЕ</p><p class="epi">СЕГОДНЯ</p><p class="epi">СПОКОЙНО.</p><p class="epi"/>',
+            out,
+        )
+        self.assertIn('<p class="epi">ARNOLD</p>', out)
+
     def test_long_text_splits_only_outside_placeholders(self):
         text = "One two. <x1>Three. Four.</x1> Five six. Seven."
         pieces = [p for _, p in chunks(text, limit=12)]

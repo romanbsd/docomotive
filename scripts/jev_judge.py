@@ -81,12 +81,13 @@ def validate(response):
     return response
 
 
-def evaluate(payload, cache, attempts=5):
-    """Replay a cached response for this exact payload, or request and cache it."""
+def post(payload, cache, attempts=5):
+    """Replay a cached response for this exact payload, or request and cache
+    it; checks only the pinned model version."""
     encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True).encode()
     path = Path(cache) / (hashlib.sha256(encoded).hexdigest() + ".json")
     if path.exists():
-        return validate(json.loads(path.read_text()))
+        return json.loads(path.read_text())
     for attempt in range(attempts):
         response = requests.post(
             URL,
@@ -99,10 +100,17 @@ def evaluate(payload, cache, attempts=5):
             continue
         response.raise_for_status()
         break
-    result = validate(response.json())
+    result = response.json()
+    if result.get("model") != MODEL:
+        raise ValueError("Unexpected model version")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(result, ensure_ascii=False, sort_keys=True))
     return result
+
+
+def evaluate(payload, cache):
+    """A validated judgment response, cached."""
+    return validate(post(payload, cache))
 
 
 def judgments(source, translation, glossary, cache):
