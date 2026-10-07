@@ -1547,7 +1547,7 @@ def main():
     parser.add_argument(
         "--review-model",
         help="second model that post-edits blocks still flagged after the retry "
-        "or that lost inline markup (e.g. qwen3.8:latest)",
+        "or that lost inline markup (e.g. qwen3.8:27b-nvfp4)",
     )
     a = parser.parse_args()
     keep_awake()
