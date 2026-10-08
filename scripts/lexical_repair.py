@@ -87,6 +87,29 @@ def locate_word(text, words, word, candidate, edge_anchor=False):
     return words[scored[0][1]]
 
 
+def neighbors(context, offset):
+    """Lowercase words beside the token at offset, within its sentence."""
+    matches = list(TOKEN.finditer(context))
+    index = next((i for i, m in enumerate(matches) if m.start() == offset), None)
+    if index is None:
+        return None, None
+    left = (
+        matches[index - 1].group().lower()
+        if index
+        and not re.search(r"[.!?;]", context[matches[index - 1].end() : offset])
+        else None
+    )
+    right = (
+        matches[index + 1].group().lower()
+        if index + 1 < len(matches)
+        and not re.search(
+            r"[.!?;]", context[matches[index].end() : matches[index + 1].start()]
+        )
+        else None
+    )
+    return left, right
+
+
 class ContextRanker:
     """Smoothed bigram Markov model with fixed general and book priors."""
 
@@ -190,23 +213,7 @@ class ContextRanker:
         )
 
     def rank(self, word, context, offset, include_known=False, max_distance=2):
-        matches = list(TOKEN.finditer(context))
-        index = next((i for i, m in enumerate(matches) if m.start() == offset), None)
-        left = matches[index - 1].group().lower() if index and index > 0 else None
-        right = (
-            matches[index + 1].group().lower()
-            if index is not None and index + 1 < len(matches)
-            else None
-        )
-        if index is not None:
-            if left and re.search(
-                r"[.!?;]", context[matches[index - 1].end() : offset]
-            ):
-                left = None
-            if right and re.search(
-                r"[.!?;]", context[matches[index].end() : matches[index + 1].start()]
-            ):
-                right = None
+        left, right = neighbors(context, offset)
         choices = []
         for candidate in self.sym.lookup(
             word.lower(),
@@ -783,13 +790,23 @@ def anchored_reading(original, observation, word, candidate):
     return located[4] if anchors >= 2 else None
 
 
-def repair(model, pages, book, ranker, recognize, audit, skip_rows=(), judge=None):
+def repair(
+    model,
+    pages,
+    book,
+    ranker,
+    recognize,
+    audit,
+    skip_rows=(),
+    judge=None,
+    editorial=False,
+):
     """Decide from one immutable assembled book; apply exact source-row edits."""
     if book.get("lexical_repair_policy") == RepairPolicy.CORRECTED_READING:
         from reading_repair import repair_reading
 
         return repair_reading(
-            model, pages, book, ranker, recognize, audit, judge, skip_rows
+            model, pages, book, ranker, recognize, audit, judge, skip_rows, editorial
         )
     rows = {
         r.get("row_id", row_id(int(n), r, book.get("source_sha256", ""))): r

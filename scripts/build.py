@@ -688,6 +688,7 @@ def build(
             recognizer,
             audit,
             judge=spelling_judge,
+            editorial=editorial,
         )
         lexical_report["corrected"] += spans["corrected"]
         lexical_report["decisions"] += spans["decisions"]
@@ -1008,8 +1009,7 @@ def build(
             )
             for i in decision_bindings["legacy"]
         ],
-        "editorial_corrections": editorial
-        or book.get("lexical_repair_policy") == RepairPolicy.CORRECTED_READING,
+        "editorial_corrections": editorial,
         "lexical_repair_policy": book.get(
             "lexical_repair_policy", RepairPolicy.SOURCE_FAITHFUL
         ),

@@ -28,6 +28,7 @@ class RepairReason(StrEnum):
     CHARACTER_AND_CONTEXT = "character-alternatives-and-context"
     CROP_AND_CONTEXT = "crop-readings-and-context"
     CONSISTENT_SPELLING = "approved-invalid-spelling-rule"
+    EDITORIAL_ONLY = "printed-or-unresolved-origin-editorial-only"
 
 
 class CorrectionClass(StrEnum):

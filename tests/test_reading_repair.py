@@ -6,10 +6,16 @@ from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from lexical_repair import ContextRanker, repair
+import lexical_repair
+from lexical_repair import ContextRanker
 from reading_repair import source_origin
 from jev_spelling import judgments
 from test_lexical_repair import entry
+
+
+def repair(*args, **kwargs):
+    """Corrected-reading logic is exercised in the editorial edition by default."""
+    return lexical_repair.repair(*args, **{"editorial": True, **kwargs})
 
 
 class Dictionary:
@@ -201,22 +207,20 @@ class ReadingPlacementTests(unittest.TestCase):
         self.assertEqual(row["inline"], [dict(start=4, end=15, tag="em")])
         self.assertEqual(dict(ranker.pairs), before)
 
-    def test_nonfinite_judgment_and_repeated_row_occurrence_cannot_apply(self):
-        section, row = entry("In researehing this relationship.")
+    def test_repeated_row_occurrence_cannot_apply(self):
+        section, row = entry("In researehing and researehing.")
         ranker = ContextRanker([section], {}, Dictionary())
-        with self.assertRaises(ValueError):
-            repair(
-                [section],
-                {"1": [row]},
-                {"lexical_repair_policy": "corrected-reading"},
-                ranker,
-                lambda *args: dict(readings=["researching"] * 2),
-                [],
-                judge=lambda state: dict(
-                    spelling_error=float("nan"), meaning_preserved=1.0
-                ),
-            )
-        self.assertEqual(row["text"], "In researehing this relationship.")
+        report = repair(
+            [section],
+            {"1": [row]},
+            {"lexical_repair_policy": "corrected-reading"},
+            ranker,
+            lambda *args: dict(readings=["researching"] * 2),
+            [],
+            judge=lambda state: dict(spelling_error=0.99, meaning_preserved=0.99),
+        )
+        self.assertEqual(row["text"], "In researehing and researehing.")
+        self.assertEqual(report["corrected"], 0)
 
 
 class CharacterEvidenceTests(unittest.TestCase):
@@ -309,6 +313,157 @@ class CharacterEvidenceTests(unittest.TestCase):
         self.assertEqual(
             report["decisions"][1]["reason"], "approved-invalid-spelling-rule"
         )
+
+
+class ReviewFindingTests(unittest.TestCase):
+    def test_default_edition_keeps_printed_spelling(self):
+        section, row = entry("The synchronious movement.")
+        ranker = ContextRanker([section], {}, Dictionary())
+        report = repair(
+            [section],
+            {"1": [row]},
+            {"lexical_repair_policy": "corrected-reading"},
+            ranker,
+            # Both crops reproduce the misspelling: it is printed, not OCR.
+            lambda *args: dict(readings=["synchronious"] * 2),
+            [],
+            judge=lambda state: dict(spelling_error=0.99, meaning_preserved=0.99),
+            editorial=False,
+        )
+        self.assertEqual(row["text"], "The synchronious movement.")
+        self.assertEqual(report["corrected"], 0)
+        self.assertEqual(
+            report["decisions"][0]["reason"],
+            "printed-or-unresolved-origin-editorial-only",
+        )
+        self.assertNotIn("correction_class", report["decisions"][0])
+
+    def test_default_edition_fixes_ocr_errors(self):
+        section, row = entry("In researehing this relationship.")
+        training = [entry(t, page=2)[0] for t in ("Researching it. Researching.",)]
+        ranker = ContextRanker([section] + training, {}, Dictionary())
+        report = repair(
+            [section],
+            {"1": [row]},
+            {"lexical_repair_policy": "corrected-reading"},
+            ranker,
+            lambda *args: dict(readings=["researching"] * 2),
+            [],
+            editorial=False,
+        )
+        self.assertEqual(row["text"], "In researching this relationship.")
+        self.assertEqual(report["decisions"][0]["source_origin"], "ocr-supported")
+
+    def test_name_needs_judgment_even_with_character_alternatives(self):
+        section, row = entry("Cari JUNG")
+        training, training_row = entry("Carl Jung. Carl Jung. Carl Jung.", page=2)
+        ranker = ContextRanker([section, training], {}, Dictionary())
+
+        class Recognizer:
+            def __call__(self, *args):
+                return dict(readings=["Cari"] * 2)
+
+            def character_support(self, *args):
+                return dict(changed_index=3, raw_score_floor=20)
+
+        report = repair(
+            [section, training],
+            {"1": [row], "2": [training_row]},
+            {"lexical_repair_policy": "corrected-reading"},
+            ranker,
+            Recognizer(),
+            [],
+        )
+        self.assertEqual(row["text"], "Cari JUNG")
+        self.assertEqual(report["corrected"], 0)
+
+    def run_crop_only(self, *training_texts):
+        section, row = entry("In researehing this relationship.")
+        training = [entry(t, page=2 + i)[0] for i, t in enumerate(training_texts)]
+        ranker = ContextRanker([section] + training, {}, Dictionary())
+        report = repair(
+            [section],
+            {"1": [row]},
+            {"lexical_repair_policy": "corrected-reading"},
+            ranker,
+            lambda *args: dict(readings=["researching"] * 2),
+            [],
+        )
+        return row, report
+
+    def test_crop_only_route_requires_attested_target(self):
+        row, report = self.run_crop_only()
+        self.assertEqual(row["text"], "In researehing this relationship.")
+        self.assertEqual(report["corrected"], 0)
+        row, report = self.run_crop_only("Researching it.", "Researching more.")
+        self.assertEqual(row["text"], "In researching this relationship.")
+        self.assertEqual(report["decisions"][0]["reason"], "crop-readings-and-context")
+
+    def test_later_approved_spelling_covers_earlier_occurrences(self):
+        first, row1 = entry("A synchronious event.", page=1)
+        second, row2 = entry("The synchronious movement.", page=2)
+        ranker = ContextRanker([first, second], {}, Dictionary())
+
+        def judge(state):
+            # Only the later paragraph has a cached judgment.
+            if state["paragraph"].startswith("The"):
+                return dict(spelling_error=0.99, meaning_preserved=0.99)
+
+        report = repair(
+            [first, second],
+            {"1": [row1], "2": [row2]},
+            {"lexical_repair_policy": "corrected-reading"},
+            ranker,
+            lambda *args: dict(readings=["synchronious"] * 2),
+            [],
+            judge=judge,
+        )
+        self.assertEqual(row1["text"], "A synchronous event.")
+        self.assertEqual(row2["text"], "The synchronous movement.")
+        self.assertEqual(report["corrected"], 2)
+        self.assertEqual(
+            report["decisions"][0]["reason"], "approved-invalid-spelling-rule"
+        )
+
+    def test_unknown_word_frequency_matches_ranker_scale(self):
+        from collections import Counter
+        from types import SimpleNamespace
+        from reading_repair import comparison_score
+
+        for language, expected in (("en", math.log(1000)), ("ru", 0)):
+            ranker = SimpleNamespace(
+                sym=SimpleNamespace(words={}),
+                language=language,
+                counts=Counter(),
+            )
+            with self.subTest(language=language):
+                self.assertAlmostEqual(
+                    comparison_score(ranker, "qzxv", "qzxv", "qzxv", 0), expected
+                )
+
+    def test_neighbors_stop_at_sentence_boundaries(self):
+        from lexical_repair import neighbors
+
+        self.assertEqual(neighbors("One two three", 4), ("one", "three"))
+        self.assertEqual(neighbors("One. Two; three", 5), (None, None))
+        self.assertEqual(neighbors("One two", 99), (None, None))
+
+    def test_notes_are_repaired(self):
+        section, row = entry("In researehing this relationship.")
+        section["notes"] = [dict(section["blocks"][0], kind="note")]
+        section["blocks"] = []
+        ranker = ContextRanker([section], {}, Dictionary())
+        report = repair(
+            [section],
+            {"1": [row]},
+            {"lexical_repair_policy": "corrected-reading"},
+            ranker,
+            lambda *args: dict(readings=["researehing"] * 2),
+            [],
+            judge=lambda state: dict(spelling_error=0.99, meaning_preserved=0.99),
+        )
+        self.assertEqual(row["text"], "In researching this relationship.")
+        self.assertEqual(report["corrected"], 1)
 
 
 class CachedJudgmentTests(unittest.TestCase):

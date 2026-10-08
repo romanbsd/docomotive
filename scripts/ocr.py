@@ -296,9 +296,11 @@ def correct_page(
         # Small-cap headings can be read as mixed case by one engine. A
         # dictionary-known misreading is still eligible when both fresh engines
         # agree on the whole heading, with an unchanged alphabetic anchor.
+        # An all-caps primary row is not that misreading and keeps its text.
         fresh_tokens = [TOKEN.findall(w["text"]) for w in fresh if w]
         heading_consensus = (
-            len(fresh_tokens) == 2
+            not all(t.isupper() for t in vt if t.isalpha())
+            and len(fresh_tokens) == 2
             and fresh_tokens[0] == fresh_tokens[1]
             and len(fresh_tokens[0]) == len(vt)
             and sum(t.isalpha() for t in fresh_tokens[0]) >= 2

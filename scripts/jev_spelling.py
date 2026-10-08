@@ -4,8 +4,7 @@ import math
 import json
 from pathlib import Path
 
-from jev_judge import MODEL, post
-from common import digest
+from jev_judge import MODEL, cache_path, post
 
 QUESTIONS = {
     "spelling_error": {
@@ -27,8 +26,12 @@ QUESTIONS = {
 }
 
 
+def request(state):
+    return {"model": MODEL, "state": state, "questions": QUESTIONS}
+
+
 def judgments(state, cache):
-    payload = {"model": MODEL, "state": state, "questions": QUESTIONS}
+    payload = request(state)
     response = post(payload, cache)
     if response.get("model") != MODEL:
         raise ValueError("Unexpected spelling judgment model")
@@ -50,9 +53,7 @@ def judgments(state, cache):
     return dict(
         result,
         model=MODEL,
-        request_sha256=digest(
-            json.dumps(payload, ensure_ascii=False, sort_keys=True).encode()
-        ),
+        request_sha256=cache_path(payload, cache).stem,
         usage=response.get("usage", {}),
     )
 
@@ -61,11 +62,7 @@ def judge(cache):
     """Builds replay judgments only; prepare and send new requests explicitly."""
 
     def cached(state):
-        payload = {"model": MODEL, "state": state, "questions": QUESTIONS}
-        fingerprint = digest(
-            json.dumps(payload, ensure_ascii=False, sort_keys=True).encode()
-        )
-        if not (Path(cache) / (fingerprint + ".json")).is_file():
+        if not cache_path(request(state), cache).is_file():
             return None
         return judgments(state, Path(cache))
 
@@ -108,19 +105,7 @@ def main():
     )
     if args.run:
         result["uncached_judgments"] = sum(
-            not (
-                args.cache
-                / (
-                    digest(
-                        json.dumps(
-                            {"model": MODEL, "state": state, "questions": QUESTIONS},
-                            ensure_ascii=False,
-                            sort_keys=True,
-                        ).encode()
-                    )
-                    + ".json"
-                )
-            ).is_file()
+            not cache_path(request(state), args.cache).is_file()
             for state in unique.values()
         )
         with ThreadPoolExecutor(max_workers=4) as pool:

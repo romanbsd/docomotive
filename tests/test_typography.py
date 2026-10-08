@@ -577,6 +577,19 @@ class TypographyTests(unittest.TestCase):
             )[0]["text"],
             "TALL TALE",
         )
+        # An all-caps primary row is not the small-cap misreading.
+        self.assertEqual(
+            correct_page(
+                [row("TAIL TALE")],
+                [],
+                [row("TALL TALE")],
+                [row("TALL TALE")],
+                [],
+                [],
+                1,
+            )[0]["text"],
+            "TAIL TALE",
+        )
         # Arbitrary common-word rewrites remain protected.
         self.assertEqual(
             correct_page(

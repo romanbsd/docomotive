@@ -9,6 +9,7 @@ import re
 from collections import Counter
 
 from common import apply_edits
+from lexical_repair import neighbors
 from repair_types import RepairAction, RepairReason, SourceOrigin, CorrectionClass
 from vocabulary import TOKEN
 from wordfreq import zipf_frequency
@@ -25,25 +26,19 @@ def spelling_case(original, candidate):
 def comparison_score(ranker, original, candidate, context, offset, distance=0):
     """Compare candidates after removing this occurrence's self-training evidence."""
     low, term = original.lower(), candidate.lower()
-    matches = list(TOKEN.finditer(context))
-    i = next(i for i, m in enumerate(matches) if m.start() == offset)
-    left = (
-        matches[i - 1].group().lower()
-        if i and not re.search(r"[.!?;]", context[matches[i - 1].end() : offset])
-        else None
-    )
-    right = (
-        matches[i + 1].group().lower()
-        if i + 1 < len(matches)
-        and not re.search(r"[.!?;]", context[matches[i].end() : matches[i + 1].start()])
-        else None
-    )
+    left, right = neighbors(context, offset)
     held_pairs = Counter(
         pair for pair in [(left, low), (low, right)] if None not in pair
     )
     held_outgoing = Counter(a for a, b in held_pairs.elements())
+    # Match the SymSpell count scale: English corpus counts, else 10**zipf.
     frequency = ranker.sym.words.get(
-        term, 10 ** (zipf_frequency(term, ranker.language) + 3)
+        term,
+        10
+        ** (
+            zipf_frequency(term, ranker.language)
+            + (3 if ranker.language == "en" else 0)
+        ),
     )
     score = (
         math.log(max(frequency, 1))
@@ -85,7 +80,23 @@ def meaning_sensitive_edit(before, after):
     )
 
 
-def repair_reading(model, pages, book, ranker, recognize, audit, judge, skip_rows=()):
+def correction(row, decision):
+    return (
+        row,
+        dict(
+            page=decision["page"],
+            before=decision["before"],
+            after=decision["after"],
+            count=1,
+            whole_word=True,
+            evidence=decision,
+        ),
+    )
+
+
+def repair_reading(
+    model, pages, book, ranker, recognize, audit, judge, skip_rows=(), editorial=False
+):
     from book_model import row_id
 
     rows = {
@@ -96,18 +107,22 @@ def repair_reading(model, pages, book, ranker, recognize, audit, judge, skip_row
     capitalized = Counter(
         m.group().lower()
         for entry in model
-        for block in entry["blocks"]
+        for block in entry["blocks"] + entry["notes"]
         for m in TOKEN.finditer(block["text"])
         if m.group().istitle() or m.group().isupper()
     )
     decisions, edits, seen = [], [], set()
-    approved_spellings = {}
+    approved_spellings, pending = {}, []
     for entry in model:
         if ranker.excluded(entry, book):
             continue
-        blocks = entry["blocks"]
-        for index, block in enumerate(blocks):
-            if block["kind"] not in ("text", "quote", "heading"):
+        # Notes get the same repair; context stays within their own sequence.
+        for blocks, index, block in (
+            (blocks, i, b)
+            for blocks in (entry["blocks"], entry["notes"])
+            for i, b in enumerate(blocks)
+        ):
+            if block["kind"] not in ("text", "quote", "heading", "note"):
                 continue
             for match in TOKEN.finditer(block["text"]):
                 word = match.group()
@@ -147,26 +162,15 @@ def repair_reading(model, pages, book, ranker, recognize, audit, judge, skip_row
                     and zipf_frequency(c["term"], ranker.language) >= 3
                 ]
                 if named:
-                    tokens = list(TOKEN.finditer(block["text"]))
-                    k = next(
-                        i for i, m in enumerate(tokens) if m.start() == match.start()
-                    )
-                    neighbors = [
-                        (tokens[j].group().lower(), j < k)
-                        for j in (k - 1, k + 1)
-                        if 0 <= j < len(tokens)
-                    ]
+                    left, right = neighbors(block["text"], match.start())
                     choices = [
                         c
                         for c in choices
                         if c["confusion_supported"]
                         and capitalized[c["term"]] >= 2
-                        and any(
-                            ranker.pairs[
-                                (neighbor, c["term"]) if left else (c["term"], neighbor)
-                            ]
-                            >= 2
-                            for neighbor, left in neighbors
+                        and (
+                            (left and ranker.pairs[left, c["term"]] >= 2)
+                            or (right and ranker.pairs[c["term"], right] >= 2)
                         )
                     ]
                 if not choices:
@@ -182,6 +186,11 @@ def repair_reading(model, pages, book, ranker, recognize, audit, judge, skip_row
                     )
                 choices.sort(key=lambda c: (-c["comparison_score"], c["term"]))
                 best = choices[0]
+                margin = (
+                    best["comparison_score"] - choices[1]["comparison_score"]
+                    if len(choices) > 1
+                    else None
+                )
                 after = spelling_case(word, best["term"])
                 keep = comparison_score(
                     ranker, word, word, block["text"], match.start()
@@ -198,18 +207,23 @@ def repair_reading(model, pages, book, ranker, recognize, audit, judge, skip_row
                     action=RepairAction.REVIEW,
                 )
                 decisions.append(decision)
+                rule_eligible = word.islower() and block["kind"] == "text"
                 spelling_rule = (
                     approved_spellings.get((low, best["term"]))
-                    if word.islower() and block["kind"] == "text"
+                    if rule_eligible
                     else None
                 )
+                placed = (
+                    re.findall(r"\b" + re.escape(word) + r"\b", row["text"]).count(word)
+                    == 1
+                )
                 # Compare against keeping the original, not only other edits.
-                if (
+                if not placed or (
                     best["comparison_score"] <= keep and not spelling_rule
-                ) or re.findall(r"\b" + re.escape(word) + r"\b", row["text"]).count(
-                    word
-                ) != 1:
+                ):
                     decision["reason"] = RepairReason.ORIGINAL_PREFERRED
+                    if placed and rule_eligible:
+                        pending.append((row, decision, best["term"]))
                     continue
                 state = dict(
                     original_token=word,
@@ -227,13 +241,6 @@ def repair_reading(model, pages, book, ranker, recognize, audit, judge, skip_row
                 decision["context_state"] = state
                 judgment = judge(state) if judge and not spelling_rule else None
                 if judgment is not None:
-                    if any(
-                        type(judgment.get(key)) not in (int, float)
-                        or not math.isfinite(judgment[key])
-                        or not 0 <= judgment[key] <= 1
-                        for key in ("spelling_error", "meaning_preserved")
-                    ):
-                        raise ValueError("Invalid contextual spelling probabilities")
                     decision["context_judgment"] = judgment
                 semantic_support = bool(
                     spelling_rule
@@ -253,14 +260,24 @@ def repair_reading(model, pages, book, ranker, recognize, audit, judge, skip_row
                 # of the semantic model. Only bounded one-character confusions
                 # enter this route; arbitrary substitutions cannot use it.
                 evidence = recognize(dict(row, page=source["page"]), word, best["term"])
+                # Same bounds as the source-faithful route: an attested target,
+                # and weak margins need the embedded OCR word to agree too.
                 crop_support = (
                     source_origin(word, after, evidence) == SourceOrigin.OCR_SUPPORTED
                     and not meaning_sensitive_edit(word, after)
                     and (not named or semantic_support)
+                    and best["book_count"] >= 2
+                    and (
+                        margin is None
+                        or margin >= 1
+                        or TOKEN.findall(evidence.get("embedded_word", "").lower())
+                        == [best["term"]]
+                    )
                 )
+                # Names always need a meaning judgment, whatever the glyph evidence.
                 character_proof = (
                     character_check(evidence, word, best["term"])
-                    if can_check_characters
+                    if can_check_characters and (not named or semantic_support)
                     else None
                 )
                 if not character_proof and not crop_support and not semantic_support:
@@ -269,6 +286,8 @@ def repair_reading(model, pages, book, ranker, recognize, audit, judge, skip_row
                         if judgment
                         else RepairReason.JUDGMENT_REQUIRED
                     )
+                    if rule_eligible:
+                        pending.append((row, decision, best["term"]))
                     continue
                 if character_proof:
                     evidence = dict(evidence, character_alternatives=character_proof)
@@ -311,19 +330,37 @@ def repair_reading(model, pages, book, ranker, recognize, audit, judge, skip_row
                     and judgment["meaning_preserved"] >= 0.9
                 ):
                     approved_spellings[low, best["term"]] = ident
-                edits.append(
-                    (
-                        row,
-                        dict(
-                            page=source["page"],
-                            before=word,
-                            after=after,
-                            count=1,
-                            whole_word=True,
-                            evidence=decision,
-                        ),
-                    )
+                edits.append(correction(row, decision))
+    # A rule approved later in the book also covers earlier occurrences.
+    for row, decision, term in pending:
+        rule = approved_spellings.get((decision["before"].lower(), term))
+        if not rule:
+            continue
+        word, after = decision["before"], decision["after"]
+        evidence = recognize(dict(row, page=decision["page"]), word, term)
+        decision.update(
+            action=RepairAction.CORRECT,
+            reason=RepairReason.CONSISTENT_SPELLING,
+            crop=evidence,
+            source_origin=source_origin(word, after, evidence),
+            correction_class=CorrectionClass.READING_SPELLING,
+            spelling_rule_from=rule,
+        )
+        edits.append(correction(row, decision))
+    # The default edition fixes OCR errors only. Printed or unresolved spellings
+    # are corrected only in the separate editorial edition.
+    if not editorial:
+        for _, edit in edits:
+            decision = edit["evidence"]
+            if decision["source_origin"] not in (
+                SourceOrigin.OCR_SUPPORTED,
+                SourceOrigin.OCR_ALTERNATIVE_SUPPORTED,
+            ):
+                decision.pop("correction_class")
+                decision.update(
+                    action=RepairAction.REVIEW, reason=RepairReason.EDITORIAL_ONLY
                 )
+        edits = [e for e in edits if e[1]["evidence"]["action"] == RepairAction.CORRECT]
     for row, edit in edits:
         apply_edits([row], [edit], audit, CorrectionClass.READING_SPELLING)
     return dict(

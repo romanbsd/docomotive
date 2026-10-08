@@ -81,11 +81,16 @@ def validate(response):
     return response
 
 
+def cache_path(payload, cache):
+    """The response file for this exact payload."""
+    encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True).encode()
+    return Path(cache) / (hashlib.sha256(encoded).hexdigest() + ".json")
+
+
 def post(payload, cache, attempts=5):
     """Replay a cached response for this exact payload, or request and cache
     it; checks only the pinned model version."""
-    encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True).encode()
-    path = Path(cache) / (hashlib.sha256(encoded).hexdigest() + ".json")
+    path = cache_path(payload, cache)
     if path.exists():
         return json.loads(path.read_text())
     for attempt in range(attempts):

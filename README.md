@@ -266,8 +266,10 @@ If an ordinary marker strip finds no raised component but primary OCR reports th
 ### Building a corrected reading edition
 
 Set `repair_lexical_confusions: true` and `lexical_repair_policy: "corrected-reading"`
-in the book profile. The default `source-faithful` policy retains the existing
-crop-corroborated behavior. Corrected reading editions separate spelling detection,
+in the book profile. The default build applies only corrections whose evidence
+shows an OCR error (`ocr-supported` or `ocr-alternative-supported`); printed or
+unresolved spellings stay as printed and are reported for review. Build with
+`--editorial` for the `-corrected` edition, which also corrects those. Corrected reading editions separate spelling detection,
 meaning preservation, and source-origin evidence. Source-printed spelling errors
 can be corrected, with every original token and source location retained in the
 correction audit.
@@ -276,7 +278,7 @@ The local route accepts dictionary-supported, context-ranked candidates when the
 source crop agrees in both fixed segmentation modes, or a bounded confusable
 character has support in Tesseract's LSTM alternatives. Those alternatives are raw
 scores, not calibrated probabilities or independent engine votes. Names require an
-attested capitalized phrase; protected terms and ordinary accepted vocabulary remain
+attested capitalized phrase and a meaning judgment on every route; protected terms and ordinary accepted vocabulary remain
 excluded. Removing a negative prefix cannot use the crop-only route.
 
 Builds only replay cached Jev judgments. Uncached contextual checks remain review
@@ -298,7 +300,7 @@ After a local build, prepare a reviewable request manifest:
 
 Adding `--run` explicitly sends uncached surrounding paragraphs and token
 alternatives to TypeSafe's API using the configured `TYPESAFE_API_KEY`. Rerun the
-normal pipeline to apply the cached judgments. `lexical-repair.json` records the
+pipeline to apply the cached judgments. `lexical-repair.json` records the
 original and alternative scores, acceptance basis, source-origin signal, and
 contextual judgment provenance. The build report records the selected policy and
 number of reading-edition spelling corrections. OCR support is not automatically
