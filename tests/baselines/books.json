@@ -6,23 +6,23 @@
       "slug": "the-natural-mind",
       "editorial": false,
       "artifacts": {
-        "book-model.json": "18e139864733ea3ba1a8d9c073e87cceac781dfe66b4eceb3decaaf2b0207d63",
-        "corrected-pages.json": "af230fd5c31ff7c3022cacb8d8663acb148269561694430b7d363e88a535ea3c",
-        "text-coverage.json": "d46116f35f884ad49ebe819246f49999a6b6686cc142e72813d1ffba9d289801",
-        "apparatus-analysis.json": "18b1688bda471781f5e7c42075ae63f91958f44a9bd6363f6d3a545cdc83b0f3",
-        "the-natural-mind.txt": "4235e253ccb3b7f9176ad433f92d6bda9d66c403a11fe7855c1e8727141a804a"
+        "book-model.json": "78e71fde772ad74b31864d68d95cfd6ca279d831e1a1df82eada70276354c482",
+        "corrected-pages.json": "14f71b958a36a5996acf1fbe03b655589d1b592080a319cfa6fe507fdc972e5c",
+        "text-coverage.json": "5ba99420ea3c796da30b3f308a16942f548df6c39344cd66e2ca2109389e3ce1",
+        "apparatus-analysis.json": "210757fcc31cc76e2dfe9a0650876724e95ce19c91d56d91068550fd9b48ebbf",
+        "the-natural-mind.txt": "39bf3ec376ac23bba3ef9bf93448cae208600e17c35423e9bb42b70341fc9068"
       },
-      "epub_sha256": "0ebd3f99b12b08748fc6cbcf6445a1ccff8aadcba31326b9c405098241229eec",
+      "epub_sha256": "e9b09346121529d1f7112b6c08f5bebc1206bd5cd5cf2b521122d51b2b52e1cd",
       "epub_members": {
         "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
         "OEBPS/back-cover.jpg": "36c9c269d3e206541658357de6046cf960079c3eadf1f19566c0e264c579bc2a",
         "OEBPS/back-cover.xhtml": "ce53a2beafa07bcb527dc1a8d1014e59cd5d712a7e9d500b0182c6efc04b920c",
         "OEBPS/chapter-01.xhtml": "c00f8481fa426d8ee2032496937499b925b98b2b994c4720cef9acd616caa063",
-        "OEBPS/chapter-02.xhtml": "b1fc00dff90af6b376692e968710f80c2232c719dfcb2285f24ce986484c5c4e",
-        "OEBPS/chapter-03.xhtml": "e1422c3be4a93520267fb92701dc2ac46d12ba9986b850ea621f160b0fd67d78",
+        "OEBPS/chapter-02.xhtml": "e43db6823c5fd2d48d8afc73e146ab5e1bceeb6e85c901d62750913a66906b2c",
+        "OEBPS/chapter-03.xhtml": "b23461fa4b13c7554c378001b1958b12b2184eff5d7981e2ab7ded23ed0a6dfe",
         "OEBPS/chapter-04.xhtml": "7f2ef5ce155227b7d0e730edd87f9ea080f060a8c290172d3da4acb66a10bade",
-        "OEBPS/chapter-05.xhtml": "a4a3af58db346e3956928640190424a8bf7c7805aa0ce4db079f443171ae2297",
-        "OEBPS/chapter-06.xhtml": "b2a58ee70f4e33f7b79af14a22847142308f34d71533c8f357dd9f1d00900859",
+        "OEBPS/chapter-05.xhtml": "d68fbbd871a87b2a35df57bd087a5c90ff84f3260e5635cd0174dc89665e1c77",
+        "OEBPS/chapter-06.xhtml": "df8699629027a2cb020f2ebe60d1bd0483e6111e4697949ce3636213781cd0e7",
         "OEBPS/chapter-07.xhtml": "aef9741ddee220c6d81a56785e3c464d4f3b9431972d2b2dcfb90364a2bcf7d7",
         "OEBPS/chapter-08.xhtml": "45d6d5be4590faf94b0cb7ed3b73019a675259cf38b86bccbbb03e706490fdff",
         "OEBPS/chapter-09.xhtml": "d965594fbaee4e1f6ae178bc856b122f152d51b73416d3da02099e4c9570e062",
@@ -57,12 +57,12 @@
         },
         {
           "title": "2. Why People Take Drugs",
-          "sha256": "5bd0616648b322ba59af8766df607d4f22c8390653bef459724e01aee1727d37",
+          "sha256": "f597f81aedfdc856bd88f71779249ced086cfef12ad84cdb24d56a422d2ccbe6",
           "blocks": 44
         },
         {
           "title": "3. Is Anything Wrong with It?",
-          "sha256": "44e8eef52ba1ed6a85cb45280a1e830f5f8f85433d54e7fd9a2796680fb13129",
+          "sha256": "27b43394632a54bde9dabf8884f0a936550f4415302e8f228fdf23fc4de1ed5a",
           "blocks": 64
         },
         {
@@ -72,12 +72,12 @@
         },
         {
           "title": "5. Clues from the Amazon",
-          "sha256": "80a2ce6a70d237d4b1c5ada043a015c66ae21dfb8d494277fc9986d038c4d51a",
+          "sha256": "a48267746cfdee526f0cd43a7a24c19b417a0000bbcef4a1a72dc10037b79d5a",
           "blocks": 47
         },
         {
           "title": "6. The Topography of Straightland",
-          "sha256": "35732f46be44acdd9bf1d327830b2180ea439f6a67efc7346d2f5ea17af6fb77",
+          "sha256": "21f95eba017b29eb7c9c160bf6c1baa90ebd48c89eb1a72c919f0e468f55d334",
           "blocks": 85
         },
         {
@@ -121,7 +121,7 @@
           "blocks": 352
         }
       ],
-      "noterefs": 63,
+      "noterefs": 66,
       "backlinks": 45,
       "figures": []
     },
@@ -130,23 +130,23 @@
       "slug": "the-natural-mind",
       "editorial": true,
       "artifacts": {
-        "book-model.json": "b20b13d72d902ee572e7559e95c343f7c8f582e9ab9887dcbf7ee1e21dbdf0e5",
-        "corrected-pages.json": "af230fd5c31ff7c3022cacb8d8663acb148269561694430b7d363e88a535ea3c",
-        "text-coverage.json": "d46116f35f884ad49ebe819246f49999a6b6686cc142e72813d1ffba9d289801",
-        "apparatus-analysis.json": "18b1688bda471781f5e7c42075ae63f91958f44a9bd6363f6d3a545cdc83b0f3",
-        "the-natural-mind.txt": "39370f82d1974c758a14843d082e3a2b60b2ff8ba96c36cdb7469123d922dbe0"
+        "book-model.json": "b74458eba14cb9b5c8c7dee44b51484fd70abf036b06b445a504dee03369315d",
+        "corrected-pages.json": "14f71b958a36a5996acf1fbe03b655589d1b592080a319cfa6fe507fdc972e5c",
+        "text-coverage.json": "5ba99420ea3c796da30b3f308a16942f548df6c39344cd66e2ca2109389e3ce1",
+        "apparatus-analysis.json": "210757fcc31cc76e2dfe9a0650876724e95ce19c91d56d91068550fd9b48ebbf",
+        "the-natural-mind.txt": "332d81a956cf7810ced83259f15967cd296ba75ca7435051aa8f0a839bd75cb8"
       },
-      "epub_sha256": "ef846401a128d6e469760d6d034dd672fc5ab001a6173bbee69b45b46878371b",
+      "epub_sha256": "901871f9d25c0a1148b3fefb50ed1580cb5ab2b5935332d64016048ffc2d07e9",
       "epub_members": {
         "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
         "OEBPS/back-cover.jpg": "36c9c269d3e206541658357de6046cf960079c3eadf1f19566c0e264c579bc2a",
         "OEBPS/back-cover.xhtml": "ce53a2beafa07bcb527dc1a8d1014e59cd5d712a7e9d500b0182c6efc04b920c",
         "OEBPS/chapter-01.xhtml": "c00f8481fa426d8ee2032496937499b925b98b2b994c4720cef9acd616caa063",
-        "OEBPS/chapter-02.xhtml": "d3cc07b23b943312253c26041d316515a12c6055151cf1a106bd3c9c7502de73",
-        "OEBPS/chapter-03.xhtml": "3eb2f563ad410b5554b9e80884cd5c4e483b8addbdc57b3042d7c939edddae92",
+        "OEBPS/chapter-02.xhtml": "5b93cf9f0ce2374b80e41d1922f3ccd04739dd9f1d8726a6bf7cc7a1e6efb546",
+        "OEBPS/chapter-03.xhtml": "0d2a69de44415e74d6c454c2062cedccff93c9ab1ab5a7bd8487f128ec934a21",
         "OEBPS/chapter-04.xhtml": "7f2ef5ce155227b7d0e730edd87f9ea080f060a8c290172d3da4acb66a10bade",
-        "OEBPS/chapter-05.xhtml": "a4a3af58db346e3956928640190424a8bf7c7805aa0ce4db079f443171ae2297",
-        "OEBPS/chapter-06.xhtml": "b2a58ee70f4e33f7b79af14a22847142308f34d71533c8f357dd9f1d00900859",
+        "OEBPS/chapter-05.xhtml": "d68fbbd871a87b2a35df57bd087a5c90ff84f3260e5635cd0174dc89665e1c77",
+        "OEBPS/chapter-06.xhtml": "df8699629027a2cb020f2ebe60d1bd0483e6111e4697949ce3636213781cd0e7",
         "OEBPS/chapter-07.xhtml": "29c47fade9061a8ad7850603809408a6b20b9eb83e1e119b3f5cfcd334ae9903",
         "OEBPS/chapter-08.xhtml": "45d6d5be4590faf94b0cb7ed3b73019a675259cf38b86bccbbb03e706490fdff",
         "OEBPS/chapter-09.xhtml": "8f4db07d8beb332b2ccee67c8ee3eec01c71de8194403f541520fe83093b4bad",
@@ -181,12 +181,12 @@
         },
         {
           "title": "2. Why People Take Drugs",
-          "sha256": "b5f6b71edfb807b19aa7c6c8c703b0030dfe5708b1d4b9919f644efd6e339aab",
+          "sha256": "c5d7d699046a9563156ac7ff60d824cfe7e64c0c06d46cdefd1c0dc509fb1798",
           "blocks": 44
         },
         {
           "title": "3. Is Anything Wrong with It?",
-          "sha256": "96d30cead3074f84e1aa6483566789c4c990ea791514dc4cf73dd8c31c4706ac",
+          "sha256": "13fb1ad511c160833ef18929be2ba322ea5d9bc7dfe85adff34a072c7127a42c",
           "blocks": 64
         },
         {
@@ -196,12 +196,12 @@
         },
         {
           "title": "5. Clues from the Amazon",
-          "sha256": "80a2ce6a70d237d4b1c5ada043a015c66ae21dfb8d494277fc9986d038c4d51a",
+          "sha256": "a48267746cfdee526f0cd43a7a24c19b417a0000bbcef4a1a72dc10037b79d5a",
           "blocks": 47
         },
         {
           "title": "6. The Topography of Straightland",
-          "sha256": "35732f46be44acdd9bf1d327830b2180ea439f6a67efc7346d2f5ea17af6fb77",
+          "sha256": "21f95eba017b29eb7c9c160bf6c1baa90ebd48c89eb1a72c919f0e468f55d334",
           "blocks": 85
         },
         {
@@ -245,7 +245,7 @@
           "blocks": 352
         }
       ],
-      "noterefs": 63,
+      "noterefs": 66,
       "backlinks": 45,
       "figures": []
     },

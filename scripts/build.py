@@ -412,6 +412,12 @@ def build(
         from scanned_notes import repair_note_marker_prefixes
 
         repair_note_marker_prefixes(pages, doc, book, work, audit)
+        from symbol_markers import repair_symbol_markers
+        from lexical_repair import CropRecognizer
+
+        repair_symbol_markers(
+            pages, doc, book, work, audit, CropRecognizer(doc, work, book, models)
+        )
     for n, rows in pages.items():
         if not native and book.get("recover_pdf_numeric_superscripts", False):
             from typography import attach_numeric_superscripts

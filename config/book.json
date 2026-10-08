@@ -319,5 +319,6 @@
       "expected_notes": 1
     }
   ],
-  "research_missing_endnotes": true
+  "research_missing_endnotes": true,
+  "infer_full_width_quotes": true
 }

@@ -365,7 +365,10 @@ def page_blocks(n, rows, book, audit, first, policy=None):
                     for lo, hi in book.get("verse_regions", {}).get(str(n), [])
                 )
             ]
-            geometry, evidence = infer_paragraph_layout(layout_rows)
+            geometry, evidence = infer_paragraph_layout(
+                layout_rows,
+                allow_full_width_quotes=book.get("infer_full_width_quotes", False),
+            )
             audit.append(dict(page=n, kind="paragraph-layout", column=col, **evidence))
         # Glyph boxes shrink on descender-only short lines. Their apparent
         # whitespace is not a paragraph gap: use local line pitch as a check.

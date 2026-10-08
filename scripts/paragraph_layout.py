@@ -1,5 +1,6 @@
 """Deterministic, skew-aware margins and conservative scanned quotation evidence."""
 
+import re
 import statistics
 from scipy.stats import theilslopes
 
@@ -45,7 +46,7 @@ def _edge(rows, side, fraction):
     )
 
 
-def infer_paragraph_layout(rows):
+def infer_paragraph_layout(rows, allow_full_width_quotes=False):
     """Return row evidence; never alter wording or use book/page/phrase identities.
 
     Full-width lines constrain robust margin envelopes. Three or more contiguous
@@ -128,6 +129,68 @@ def infer_paragraph_layout(rows):
         if candidate:
             run.append(i)
     finish()
+    if allow_full_width_quotes:
+        # Full-width quotes need an introduction and gaps at both boundaries.
+        # Smaller glyph boxes alone are noisy: require tighter line pitch too.
+        for i, intro in enumerate(rows[:-1]):
+            if (
+                not intro["text"].rstrip().endswith(":")
+                or rows[i + 1]["bbox"][1] - intro["bbox"][3] < 0.008
+            ):
+                continue
+            small = []
+            for j in range(i + 1, len(rows)):
+                row = rows[j]
+                if row.get("kind", "text") != "text" or row.get(
+                    "column", 0
+                ) != intro.get("column", 0):
+                    break
+                if abs(residuals[j][0]) > (0.06 * width if not small else 0.012):
+                    break
+                if small and row["bbox"][1] - rows[small[-1]]["bbox"][3] >= 0.008:
+                    break
+                small.append(j)
+            if len(small) < 3 or small[-1] + 1 >= len(rows):
+                continue
+            following = rows[small[-1] + 1]
+            if following["bbox"][1] - rows[small[-1]]["bbox"][3] < 0.008:
+                continue
+            if not re.search(
+                r"""[.!?][”"']?\d{0,3}$""", rows[small[-1]]["text"].rstrip()
+            ):
+                continue
+            controls = [
+                r for j, r in enumerate(rows) if j not in small and r in long_rows
+            ]
+            if len(controls) < 8:
+                continue
+            scale = statistics.median(
+                rows[j]["bbox"][3] - rows[j]["bbox"][1] for j in small
+            ) / statistics.median(r["bbox"][3] - r["bbox"][1] for r in controls)
+            body_pitch = [
+                b["bbox"][1] - a["bbox"][1]
+                for a, b in zip(controls, controls[1:])
+                if 0.008 < b["bbox"][1] - a["bbox"][1] < 0.04
+            ]
+            quote_pitch = [
+                rows[b]["bbox"][1] - rows[a]["bbox"][1]
+                for a, b in zip(small, small[1:])
+            ]
+            # A 4% size and 6% pitch reduction reject ordinary colon paragraphs.
+            if (
+                not 0.8 <= scale <= 0.96
+                or len(body_pitch) < 5
+                or not 0.75
+                <= statistics.median(quote_pitch) / statistics.median(body_pitch)
+                <= 0.94
+            ):
+                continue
+            ids = [rows[j]["row_id"] for j in small]
+            runs.append(ids)
+            for j in small:
+                evidence[rows[j]["row_id"]].update(
+                    kind="quote", quote_font_scale=round(scale, 2)
+                )
     # Compare measured glyph sizes only after geometry establishes the quote.
     # A 4% difference avoids treating OCR metric noise as a smaller typeface.
     body_sizes = [

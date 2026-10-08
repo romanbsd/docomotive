@@ -16,7 +16,9 @@ def link_symbol_footnotes(model, book):
     for chapter in model:
         for note in chapter["notes"]:
             # OCR often joins the marker to the opening word: '*I have...'.
-            marker = re.match(r"^\s*([*†‡]{1,3})(?![*†‡])(?=\s|[^\W\d_])", note["text"])
+            marker = re.match(
+                r"""^\s*([*†‡]{1,3})(?![*†‡])(?=\s|[^\W\d_]|["'“‘«(…])""", note["text"]
+            )
             if not marker and book.get("link_numeric_footnotes"):
                 marker = re.match(r"^\s*(\d{1,2})(?=\s)", note["text"])
             if not marker:

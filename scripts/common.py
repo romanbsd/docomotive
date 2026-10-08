@@ -83,7 +83,7 @@ PROFILE_KEYS = frozenset("""
     source_prose_indents source_relative_figures source_sha256 source_version
     statistics_excluded_chapters subjects subtitle text_source title
     upper_margin_cutoff uppercase_margin_cutoff verse_regions vision_primary_pages recover_scan_italics recover_scan_inline_italics
-    repair_ocr_punctuation repair_ocr_case inspect_partial_rows recover_gap_rows normalize_quotation_marks recover_figure_frames recover_body_top source_figure_anchors quote_font_scale link_numeric_footnotes dictionary_locale ocr_tesseract_language ocr_vision_language ocr_rapid_language ocr_tessdata_dir metadata_author_aliases ocr_tesseract_page_languages source_gaps
+    infer_full_width_quotes repair_ocr_punctuation repair_ocr_case inspect_partial_rows recover_gap_rows normalize_quotation_marks recover_figure_frames recover_body_top source_figure_anchors quote_font_scale link_numeric_footnotes dictionary_locale ocr_tesseract_language ocr_vision_language ocr_rapid_language ocr_tessdata_dir metadata_author_aliases ocr_tesseract_page_languages source_gaps
     """.split())
 
 
