@@ -70,7 +70,7 @@ PROFILE_KEYS = frozenset("""
     cover_imprint cover_source cross_page_continuations date description doi
     endnote_chapter endnote_marker_limit endnote_marker_min endnote_reference_mode
     endnote_sections excluded_pages figure_cleanup figure_color_mode figures frontmatter_endnotes glossary_pages
-    glossary_style glossary_terms hanging_pages index_pages index_splits isbn
+    glossary_style glossary_terms hanging_pages index_pages index_splits recover_index_digits isbn
     language line_join_words link_symbol_footnotes metadata_record_overrides metadata_title_suffix openlibrary_edition
     native_body_size native_excluded_fonts native_font_styles native_heading_sizes
     native_heading_texts native_heading_merge native_index_indents native_list_layout native_quote_pages native_relative_font_sizes native_small_numeric_sup
@@ -83,7 +83,7 @@ PROFILE_KEYS = frozenset("""
     source_prose_indents source_relative_figures source_sha256 source_version
     statistics_excluded_chapters subjects subtitle text_source title
     upper_margin_cutoff uppercase_margin_cutoff verse_regions vision_primary_pages recover_scan_italics recover_scan_inline_italics
-    infer_full_width_quotes repair_ocr_punctuation repair_ocr_case inspect_partial_rows recover_gap_rows normalize_quotation_marks recover_figure_frames recover_body_top source_figure_anchors quote_font_scale link_numeric_footnotes dictionary_locale ocr_tesseract_language ocr_vision_language ocr_rapid_language ocr_tessdata_dir metadata_author_aliases ocr_tesseract_page_languages source_gaps
+    recover_centered_headings infer_full_width_quotes repair_ocr_punctuation repair_ocr_case inspect_partial_rows recover_gap_rows normalize_quotation_marks recover_figure_frames recover_body_top source_figure_anchors quote_font_scale link_numeric_footnotes dictionary_locale ocr_tesseract_language ocr_vision_language ocr_rapid_language ocr_tessdata_dir metadata_author_aliases ocr_tesseract_page_languages source_gaps
     """.split())
 
 

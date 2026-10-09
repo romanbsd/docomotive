@@ -112,6 +112,7 @@ def correct_page(
     recover_regions=False,
     recover_glyphs=False,
     language="en",
+    recover_index_digits=False,
 ):
     rows = merge_rows(primary)
     for row in rows:
@@ -275,6 +276,52 @@ def correct_page(
         # and otherwise match the entire line; embedded OCR is not a vote.
         normalize_quotes = lambda text: text.translate(str.maketrans("“”", '""'))
         fresh = witnesses[1:]
+        if recover_index_digits and all(fresh):
+            # Numeric index references often confuse serif 1/I/l and 0/O.
+            # Both fresh witnesses must agree on every token; unchanged words
+            # anchor the row. Mixed digit tokens only, to preserve Roman folios.
+            own_tokens = list(TOKEN.finditer(row["text"]))
+            alternate = [TOKEN.findall(w["text"]) for w in fresh]
+            digit_map = str.maketrans({"I": "1", "l": "1", "O": "0"})
+            own = [m.group() for m in own_tokens]
+            if (
+                alternate[0] == alternate[1]
+                and len(own) == len(alternate[0])
+                and any(
+                    a == b and a.isalpha() and len(a) >= 3
+                    for a, b in zip(own, alternate[0])
+                )
+                and all(
+                    a == b
+                    or (
+                        2 <= len(a) <= 4
+                        and len(a) == len(b)
+                        and any(c.isdigit() for c in a)
+                        and b.isascii()
+                        and b.isdigit()
+                        and a.translate(digit_map) == b
+                    )
+                    for a, b in zip(own, alternate[0])
+                )
+            ):
+                for match, after in reversed(list(zip(own_tokens, alternate[0]))):
+                    if match.group() != after:
+                        row["text"] = (
+                            row["text"][: match.start()]
+                            + after
+                            + row["text"][match.end() :]
+                        )
+                        audit.append(
+                            dict(
+                                page=page,
+                                kind="two-fresh-index-digit",
+                                before=match.group(),
+                                after=after,
+                                bbox=row["bbox"],
+                                evidence=f"{secondary_name}/rapid complete-token-sequence agreement",
+                                witnesses=[w["text"] for w in fresh],
+                            )
+                        )
         if row["text"].startswith("*") and all(fresh):
             candidate = '"' + normalize_quotes(row["text"][1:])
             if '"' in candidate[1:] and all(

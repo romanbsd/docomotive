@@ -1,0 +1,96 @@
+{
+  "source_sha256": "809ace1ef53bcf1cf0ba325a631cffe317b83fd4daa435b927fd6db2cd5c842c",
+  "isbn": "9781852300081",
+  "isbn_13": "9781852300081",
+  "edition_key": "/books/OL22280995M",
+  "authors": [
+    "Christmas Humphreys"
+  ],
+  "publication_date": "1993",
+  "publication_date_raw": "1993",
+  "description": "Originally published in 1935 by the Buddhist Society which the author founded, with a War Edition following in 1941, this is an early handbook of Buddhist practice of meditation for the West that is still considered a classic. As a practical guide it recommends strengthening the mind through concentration and achieving deeper spiritual development through meditation.\r\n\r\nThe author was an English barrister, Travers Christmas Humphreys, QC (1901--1983), who had an interest in Shakespeare, was a friend of theosophists and wrote poetry as well as several books on Buddhism including Mahayana and Zen. His stated interest was World Buddhism, for which he formulated 12 Principles with the approval of leaders of the various branches of Buddhism. \r\n\r\nThe scanned version available here is the Third Revised edition, re-set in 1968.",
+  "subjects": [
+    "Attention",
+    "Buddhism",
+    "Buddhism, rituals",
+    "Meditation",
+    "Meditation (Buddhism)"
+  ],
+  "identifiers": {
+    "isbn_10": [
+      "1852300086"
+    ],
+    "isbn_13": [
+      "9781852300081"
+    ],
+    "lccn": [],
+    "oclc": [],
+    "openlibrary": [
+      "OL22280995M"
+    ]
+  },
+  "classifications": {
+    "lc_classifications": [
+      "BQ5612"
+    ],
+    "dewey_decimal_class": [
+      "294.3/443"
+    ]
+  },
+  "publication_places": [
+    "Shaftesbury"
+  ],
+  "print_pages": 243,
+  "links": [
+    "https://openlibrary.org/books/OL22280995M",
+    "https://openlibrary.org/works/OL2687355W"
+  ],
+  "rights": "Copyright © Christmas Humphreys 1968. All rights reserved.",
+  "covers": [
+    {
+      "width": 304,
+      "height": 500,
+      "format": "JPEG",
+      "sha256": "e836ac57b5b2a1d52840cb84c0a0f238e077323a242118711ee530061bf9cb4b",
+      "suitable_main_cover": true,
+      "url": "https://covers.openlibrary.org/b/isbn/9781852300081-L.jpg?default=false",
+      "path": "work/concentration-meditation/metadata/assets/e836ac57b5b2a1d52840cb84c0a0f238e077323a242118711ee530061bf9cb4b.jpg",
+      "accepted": true,
+      "reason": "Profile-approved cover visually checked against scan"
+    }
+  ],
+  "conflicts": [
+    {
+      "field": "publish_date",
+      "api": "1987",
+      "source_profile": "1993",
+      "resolution": "Source copyright page PDF 2 explicitly states Element Classics Edition first published 1993 and this copy reprinted 1996. The same-ISBN API date describes an earlier printing."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://openlibrary.org/isbn/9781852300081.json",
+      "resolved_url": "https://openlibrary.org/books/OL22280995M.json",
+      "sha256": "4801f14cdfc97f16699a1971e2fbc9a181ad1c7b5c5aa957b2590cf69e48b4e8",
+      "retrieved_at": "2026-10-09T11:18:45.300960+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/authors/OL392527A.json",
+      "resolved_url": "https://openlibrary.org/authors/OL392527A.json",
+      "sha256": "13e73fe38aac3e01c0137bb7c7b660a8c76c59b95158c6136f711378e6100f8b",
+      "retrieved_at": "2026-10-09T11:18:45.985108+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/works/OL2687355W.json",
+      "resolved_url": "https://openlibrary.org/works/OL2687355W.json",
+      "sha256": "926fde9376fef1d83f608b8a6913c11917e571fbc039cae58b9e1ca9aa83dfd8",
+      "retrieved_at": "2026-10-09T11:18:46.630380+00:00"
+    },
+    {
+      "url": "https://covers.openlibrary.org/b/isbn/9781852300081-L.jpg?default=false",
+      "resolved_url": "https://ia802809.us.archive.org/view_archive.php?archive=/18/items/l_covers_0008/l_covers_0008_63.zip&file=0008631842-L.jpg",
+      "sha256": "e836ac57b5b2a1d52840cb84c0a0f238e077323a242118711ee530061bf9cb4b",
+      "retrieved_at": "2026-10-09T11:18:49.097150+00:00"
+    }
+  ]
+}

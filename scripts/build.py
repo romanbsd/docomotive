@@ -358,6 +358,8 @@ def build(
                 recover_regions=book.get("recover_ocr_regions", False),
                 recover_glyphs=book.get("recover_ocr_glyph_confusions", False),
                 language=language_code(book),
+                recover_index_digits=book.get("recover_index_digits", False)
+                and n in book.get("index_pages", []),
             )
         provenance_records = [
             json.loads((p / "provenance.json").read_text())
@@ -475,12 +477,9 @@ def build(
             measured(attach_scan_inline_italics)(
                 rows, doc[n - 1], n, book, audit, work=work
             )
-    if not native and book.get("recover_image_only_headings", False):
-        from typography import image_only_headings
+    from typography import recover_scanned_headings
 
-        for n, rows in pages.items():
-            if not doc[n - 1].get_text("words"):
-                image_only_headings(rows, book, n, audit)
+    recover_scanned_headings(pages, book, audit)
     write_json(out / "corrected-pages.json", pages)
     layout = infer(pages)
     write_json(out / "layout-analysis.json", layout)

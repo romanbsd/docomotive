@@ -17,6 +17,7 @@ from typography import (
     verse_evidence,
     inset_verse_evidence,
     image_only_headings,
+    recover_scanned_headings,
     attach_numeric_superscripts,
 )
 from native_pdf import extract_page
@@ -42,6 +43,77 @@ def row(text, i=0, width=0.35, italic=False, x=0.2):
 
 
 class TypographyTests(unittest.TestCase):
+    def test_index_digit_recovery_requires_complete_fresh_agreement(self):
+        cases = [
+            (
+                "Abstraction, I60",
+                "Abstraction, 160",
+                "Abstraction, 160",
+                True,
+                "Abstraction, 160",
+            ),
+            (
+                "Abstraction, I60",
+                "Abstraction, 160",
+                "Abstraction, 160",
+                False,
+                "Abstraction, I60",
+            ),
+            (
+                "Abstraction, I60",
+                "Abstraction, 160",
+                "Abstraction, 150",
+                True,
+                "Abstraction, I60",
+            ),
+            (
+                "Abstraction, I60",
+                "Abstract, 160",
+                "Abstract, 160",
+                True,
+                "Abstraction, I60",
+            ),
+            (
+                "Abstraction, I60",
+                "Abstraction, 161",
+                "Abstraction, 161",
+                True,
+                "Abstraction, I60",
+            ),
+            (
+                "Abstraction, II",
+                "Abstraction, 11",
+                "Abstraction, 11",
+                True,
+                "Abstraction, II",
+            ),
+            (
+                "Abstraction, 150",
+                "Abstraction, 160",
+                "Abstraction, 160",
+                True,
+                "Abstraction, 150",
+            ),
+        ]
+        for text, one, two, enabled, expected in cases:
+            with self.subTest(text=text, one=one, two=two, enabled=enabled):
+                audit = []
+                result = correct_page(
+                    [row(text)],
+                    [],
+                    [row(one)],
+                    [row(two)],
+                    audit,
+                    [],
+                    1,
+                    recover_index_digits=enabled,
+                )
+                self.assertEqual(result[0]["text"], expected)
+                self.assertEqual(
+                    any(a["kind"] == "two-fresh-index-digit" for a in audit),
+                    text != expected,
+                )
+
     def test_long_small_type_verse_can_follow_a_completed_sentence(self):
         prose = [
             row("Surrounding full-width prose.", i=i, width=0.75, x=0.1)
@@ -298,6 +370,120 @@ class TypographyTests(unittest.TestCase):
             rows, {"chapters": [[1, 2, "Test"]], "reference_pages": [2]}, 2, []
         )
         self.assertFalse(any(r.get("kind") == "heading" for r in rows))
+
+    def test_scanned_heading_recovery_does_not_depend_on_hidden_pdf_text(self):
+        from copy import deepcopy
+
+        source = [
+            row(
+                "A substantial prose line with enough words for estimating the body line pitch.",
+                i,
+                width=0.7,
+                x=0.1,
+            )
+            for i in range(12)
+        ]
+        source[4]["text"] = "A Section Heading"
+        source[4]["bbox"][1] += 0.005
+        source[4]["bbox"][3] += 0.005
+        for mode, enabled, expected in [
+            ("ocr", True, True),
+            ("ocr", False, False),
+            ("native", True, False),
+        ]:
+            with self.subTest(mode=mode, enabled=enabled):
+                rows = deepcopy(source)
+                book = dict(
+                    chapters=[[1, 2, "Test"]],
+                    upper_margin_cutoff=0.05,
+                    text_source=mode,
+                    recover_image_only_headings=enabled,
+                )
+                audit = []
+                recover_scanned_headings({2: rows}, book, audit)
+                self.assertEqual(rows[4].get("kind") == "heading", expected)
+                self.assertEqual([r["text"] for r in rows], [r["text"] for r in source])
+                self.assertEqual(bool(audit), expected)
+
+    def test_centered_italic_subheading_is_opt_in_and_needs_style_evidence(self):
+        from copy import deepcopy
+
+        for enabled, italic, expected in [
+            (False, True, False),
+            (True, False, False),
+            (True, True, True),
+        ]:
+            rows = [
+                row(
+                    "A substantial prose line with enough words for estimating the body line pitch.",
+                    i,
+                    width=0.7,
+                    x=0.1,
+                )
+                for i in range(12)
+            ]
+            rows[4] = row("Definition of Terms", 4, width=0.3, x=0.3, italic=italic)
+            rows[4]["bbox"][1] += 0.005
+            rows[4]["bbox"][3] += 0.005
+            image_only_headings(
+                rows,
+                dict(chapters=[[1, 2, "Test"]], recover_centered_headings=enabled),
+                2,
+                [],
+            )
+            self.assertEqual(rows[4].get("kind") == "heading", expected)
+
+    def test_centered_title_pair_uses_short_prose_controls_and_paragraph_indent(self):
+        from copy import deepcopy
+
+        source = [
+            row("Ordinary prose with a complete sentence.", i, width=0.7, x=0.1)
+            for i in range(14)
+        ]
+        source[5] = row("AN INTERLUDE", 5, width=0.3, x=0.3)
+        source[5]["inline"] = [dict(start=0, end=12, tags=["strong"])]
+        source[6] = row("A Centered Subtitle", 6, width=0.3, x=0.3, italic=True)
+        # Extra separation distinguishes this pair from ordinary consecutive lines.
+        source[6]["bbox"][1] += 0.005
+        source[6]["bbox"][3] += 0.005
+        source[7]["bbox"][0] += 0.03
+        for bold, expected in [(True, True), (False, False)]:
+            rows = deepcopy(source)
+            if not bold:
+                rows[5].pop("inline")
+            audit = []
+            image_only_headings(
+                rows,
+                dict(chapters=[[1, 2, "Test"]], recover_centered_headings=True),
+                2,
+                audit,
+            )
+            self.assertEqual(rows[5].get("kind") == "heading", expected)
+            self.assertEqual(rows[6].get("kind") == "heading", expected)
+            self.assertEqual([r["text"] for r in rows], [r["text"] for r in source])
+
+    def test_tracked_source_heading_can_transfer_size_without_changing_words(self):
+        source = dict(
+            text="I n te r lu d e", bbox=[0.3, 0.3, 0.6, 0.33], font_size=18, inline=[]
+        )
+        control = dict(
+            text="Ordinary prose establishes the normal body type.",
+            bbox=[0.1, 0.4, 0.9, 0.42],
+            font_size=10,
+            inline=[],
+        )
+        rows = [dict(text="INTERLUDE", bbox=source["bbox"])]
+        with patch("typography.extract_page", return_value=[source, control]):
+            attach_typography(rows, None, 1, [])
+        self.assertEqual(rows[0]["kind"], "heading")
+        self.assertEqual(rows[0]["text"], "INTERLUDE")
+        from typography import aligned_source
+
+        candidate = dict(text="ab cd ef gh", bbox=source["bbox"])
+        self.assertEqual(
+            aligned_source(dict(text="abcdefgh", bbox=source["bbox"]), [candidate]),
+            (None, None),
+        )
 
     def test_scan_font_metrics_require_alignment_and_do_not_transfer_styles(self):
         rows = [row("A matching prose line", width=0.7)]

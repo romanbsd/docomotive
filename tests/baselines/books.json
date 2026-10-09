@@ -2829,6 +2829,370 @@
         "figure-199.jpg",
         "figure-204.jpg"
       ]
+    },
+    "concentration-meditation": {
+      "source_sha256": "809ace1ef53bcf1cf0ba325a631cffe317b83fd4daa435b927fd6db2cd5c842c",
+      "slug": "concentration-meditation",
+      "editorial": false,
+      "artifacts": {
+        "book-model.json": "3693d2a2c27629b099fbd4699ab92625893b27c64e5d60d0c4cf03c5ecb318e7",
+        "corrected-pages.json": "90f73e1e09ef25be603dac2069fabd9193bc96d45e8d2fbcae7a4522e2f62579",
+        "text-coverage.json": "37bae1b2e2f303974f6a3893a1e5145e645cb60c4f6f29129e5092eee86152b3",
+        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
+        "concentration-meditation.txt": "2c6ca0b02a1e2c573ba78fa6b8b7a024197c8e132798ce2527ae61cddd229e71",
+        "lexical-repair.json": "2d8a2f29ea6917e591a6fdc6ca05ed3912c5693ea4479099fb0d5921cf89968b"
+      },
+      "epub_sha256": "5aeb5ff68499fc65c38a15ab6232911b64f2d3843b6e082dc136933c85d16519",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/chapter-01.xhtml": "d07eed10ffa95490555f0f099e998a36b685e1e0275924ed8b3ef6dd825630ab",
+        "OEBPS/chapter-02.xhtml": "cca0d48df1ba7cca9d0b50775c532698abc1a8753b4f6b56e6ea78959f132fdb",
+        "OEBPS/chapter-03.xhtml": "4f454a10a8e98e246409b3cfd1c94329001d574fcd8acfcc72da5059ace94239",
+        "OEBPS/chapter-04.xhtml": "bdc847272aeea2461a3868d1d555bcff4348b67835f4cbe9e37964e9e5615c2a",
+        "OEBPS/chapter-05.xhtml": "1b8bd979c63987b916ef6e1843414369010b027b06b015524e5324a43e75d47a",
+        "OEBPS/chapter-06.xhtml": "7c8438fa3142cdc20ef94d6b6288338883d2eb6dbf4f97e4229ab2b1641c7fef",
+        "OEBPS/chapter-07.xhtml": "4c8fccd8b0ed6f7433c29a899294d439becb48a225ef4f80897eb3ce7c201dea",
+        "OEBPS/chapter-08.xhtml": "b991468949f2f0c3e4b266a0ed000d30d99b3ad55a4161b181402bb3b625aea7",
+        "OEBPS/chapter-09.xhtml": "5a0f0ef017006bf8b4a5cf9368dd07962330b7f130647cb8d82fc70c66717864",
+        "OEBPS/chapter-10.xhtml": "0f7701fcd0fb230a984aaef20d44a222312b489d6ad8e099b4e0611ca40509fc",
+        "OEBPS/chapter-11.xhtml": "cd0b8c51681ec153e54bf7207aaa5bdd9e629442e1054316566cff0e40cc4d81",
+        "OEBPS/chapter-12.xhtml": "2a76328e9fcf85ecfbc23b94d9a4f2b44b61911aec69306b95849c601ba30eac",
+        "OEBPS/chapter-13.xhtml": "86f70ff983ba7d8f2c2ad5295afec74e665b965bcea12c2497df47786d46f00b",
+        "OEBPS/chapter-14.xhtml": "16a10980e0ba79a9dca57a8d032b806f8f4ef1ffc6a2a14b9a8fe7853d5a6c65",
+        "OEBPS/chapter-15.xhtml": "8c4318ff78a5b7146e71250f41bc1b64e2ad7f432f084406efdd97a973ac3b7b",
+        "OEBPS/chapter-16.xhtml": "5beeacbb8974a09ee6c0ab60b62a1c9caff22c48b830ec61e525f270b680f744",
+        "OEBPS/chapter-17.xhtml": "a5c8cae2f04e34d9ea01ab0621dfd8702dc744deb5f18f706395e507cd2ed227",
+        "OEBPS/chapter-18.xhtml": "5da2ee1619059b40dfc454a72a438c557eba0ee8b5426fa51920d6e59b9fd546",
+        "OEBPS/chapter-19.xhtml": "e5d334d92e7e25917d53000faa93525723ba2b9716f1a4b5f5e01f851eed2023",
+        "OEBPS/chapter-20.xhtml": "4e2c9a83d300cead3eb5c60ba8f012d73ba0591cee3dd78646d1b8b580c1f1a0",
+        "OEBPS/chapter-21.xhtml": "d8a2209e1aaa93d563e940484e41d13c9ddd5e509a54f2526e0e4a4350770872",
+        "OEBPS/chapter-22.xhtml": "ef4fe6c5d140a190b5a5e6e3332040610a6b5589cac8065088bb929782d21cd7",
+        "OEBPS/chapter-23.xhtml": "dfd71cc58db6450dc76ecddc579ce8fc176feb434dbf6d4c2a4a386e8584c54a",
+        "OEBPS/chapter-24.xhtml": "023d978e9d7f3a6535b95606e4aa12fd67b2c81dafe9a1702b541414e57cdb8b",
+        "OEBPS/content.opf": "66e14f602bb6283096cd042dec2cc27a71ad91c472da14152254b4e99a2b8447",
+        "OEBPS/copyright.xhtml": "992133142d5d048d43364c1709039118640c5e0ee5b866b0632aa9c74375f3f2",
+        "OEBPS/cover.jpg": "e836ac57b5b2a1d52840cb84c0a0f238e077323a242118711ee530061bf9cb4b",
+        "OEBPS/cover.xhtml": "96294fa69c0536d4c04532bdb681541af9f4f091e264f3536c70efa52c6ecf4c",
+        "OEBPS/downloaded-cover.jpg": "e836ac57b5b2a1d52840cb84c0a0f238e077323a242118711ee530061bf9cb4b",
+        "OEBPS/downloaded-cover.xhtml": "ba52f47bcefd0a43687b104e3c6bacc674c9da61b9076ca6ac0806eed9778cc8",
+        "OEBPS/edition-note.xhtml": "bb65f0b3c9171f706479050560aeb4bb8e5924db8e970ec73c578b48d573e3bd",
+        "OEBPS/nav.xhtml": "ef84fa24e3ef43caf87eb0f1b2b6713e844441f6291cbf707c81493ac2decf88",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/title.xhtml": "7650e87a2d8c7c36df1d429db267334ec0656c7c4ea099084e7d515a6a72beb8",
+        "OEBPS/toc.ncx": "9560659095b8fd46eb7d4eb5fffc04ec19f25049681bd492698611fc9e41141e",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 385,
+        "body": 7558
+      },
+      "chapters": [
+        {
+          "title": "Preface",
+          "sha256": "df08582276e29079f3bed1e6a5bb1dccdda605b2fef96778db6a7f694ce5df44",
+          "blocks": 13
+        },
+        {
+          "title": "Introduction",
+          "sha256": "afb0f1d2d0d8d1702bbfa3b6850302678f4cd8ee9fcad855e23a5437d2df1f22",
+          "blocks": 29
+        },
+        {
+          "title": "Part One: Concentration",
+          "sha256": "8451aeb371eb7fe33eea96598e722e6530e53d03b420027cc3123fc892f40fcd",
+          "blocks": 0
+        },
+        {
+          "title": "1. Preliminary Observations",
+          "sha256": "e4149d4a986ec6de6c3e6198728aa8704ecb326a335c11def6b635b8771cb2b2",
+          "blocks": 47
+        },
+        {
+          "title": "2. Concentration",
+          "sha256": "8144a1909ad30e35bb46e806c062a85b886acfe710b5d6f0cea390c59218c55e",
+          "blocks": 72
+        },
+        {
+          "title": "3. Exercises in Concentration",
+          "sha256": "38555d025fbc6ad30f4d5f3d6a70fc1c3afb4a71c15893311d1f28294337bd5b",
+          "blocks": 30
+        },
+        {
+          "title": "Part Two: Lower Meditation",
+          "sha256": "0a6db3dc1f020f8196a8d08d56e64a0d0ca8798ffa6f32c6d6fe491cd06b4c81",
+          "blocks": 0
+        },
+        {
+          "title": "4. Lower Meditation",
+          "sha256": "25a67b50ea949e7e45b9450a7b4887491a9542dff793eaf2ff6bfa4f3d87dd9d",
+          "blocks": 45
+        },
+        {
+          "title": "5. Objects of Meditation",
+          "sha256": "a4034518657a113c9ceac1daf55827e714aef1a07017cd132c66e2113638e07e",
+          "blocks": 69
+        },
+        {
+          "title": "6. Character Building",
+          "sha256": "1a7c135848cbbd016f10dfe6cf8758d2cb796bdbe42e15668eaefcf4125c2e5b",
+          "blocks": 32
+        },
+        {
+          "title": "7. The Culture of the Emotions and Interlude",
+          "sha256": "4ff9db2991b4543ec4fcf93f18302ac88660feca91becc5ec22eb4efaa307be0",
+          "blocks": 35
+        },
+        {
+          "title": "Part Three: Higher Meditation",
+          "sha256": "15a88fa6fcce853435f18599c331ef3f409e77adb31146cd62148c8d9ec4ddb1",
+          "blocks": 0
+        },
+        {
+          "title": "8. Higher Meditation",
+          "sha256": "3437c1eb9f79c62132ef2b170613fbab6a849fa1e6bb8d69fedc54bacfdcc53c",
+          "blocks": 23
+        },
+        {
+          "title": "9. The Raising of Consciousness",
+          "sha256": "911883ec9711cacb719745b91a74c0130abea555299ebafa55b1014d408bd3a9",
+          "blocks": 26
+        },
+        {
+          "title": "10. The Doctrine of the Act",
+          "sha256": "6347e917b76035329f4b1996cf2d2442bebe93ed52ab5d686d9fb7a521ce6837",
+          "blocks": 15
+        },
+        {
+          "title": "11. The Jhanas",
+          "sha256": "dc80f6816d4ce346fd2a873d031abacbd944036707491e976a52e98bebc657c1",
+          "blocks": 19
+        },
+        {
+          "title": "12. Zen Meditation",
+          "sha256": "1baf14c97bf118e137026dc5e217a9bb3d4ee7c5cc80ce30c37cf2e5cd2d0748",
+          "blocks": 63
+        },
+        {
+          "title": "Part Four: Contemplation",
+          "sha256": "b321c169527cd258956f853991bd37790734cc175b53bc66deb2672c0cfbc9ca",
+          "blocks": 0
+        },
+        {
+          "title": "13. Contemplation",
+          "sha256": "c12f0edd5189e6f4546b243228787e92be6a2788d512d527dd5199c2a9c42240",
+          "blocks": 7
+        },
+        {
+          "title": "14. Conclusion",
+          "sha256": "4dfc4462086e8522130cb82b9902906ea61cb2595be0ab5328463a282e4ff1db",
+          "blocks": 9
+        },
+        {
+          "title": "Appendix I: Notes on Group Meditation",
+          "sha256": "c1122066cfb380ebbb57a90ff501823a039915138fae7514d186b202563d571c",
+          "blocks": 11
+        },
+        {
+          "title": "Appendix II: Subjects for Meditation",
+          "sha256": "bb059f8e382aa26b05cc78a3bfb195aaaab060f4fd29ae9ec7c76fd5911d6c30",
+          "blocks": 67
+        },
+        {
+          "title": "Glossary",
+          "sha256": "89668b3e8d23521bf84b62b04e7ab958148072efbead14130d1f3be5fb0933fb",
+          "blocks": 57
+        },
+        {
+          "title": "Index",
+          "sha256": "454a00a96b45869a442da8875fa34b6a8a8e1b9fefc04bc90b166c6043f6162f",
+          "blocks": 415
+        }
+      ],
+      "noterefs": 0,
+      "backlinks": 0,
+      "figures": []
+    },
+    "concentration-meditation-reading": {
+      "source_sha256": "809ace1ef53bcf1cf0ba325a631cffe317b83fd4daa435b927fd6db2cd5c842c",
+      "slug": "concentration-meditation",
+      "editorial": true,
+      "artifacts": {
+        "book-model.json": "23bd715a1533814f5bec9e59893aec9697652cc17ec587520033526ad60b2abb",
+        "corrected-pages.json": "94235e17aac937b2886e6adf73213421f157458f2656a2fc043a89127e42b6fe",
+        "text-coverage.json": "eef22f15be6778d4310d27a10f951c9f54addecf10c0da58618f1a83113737d6",
+        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
+        "concentration-meditation.txt": "070065c6b9a1d3bf53222ac35bb1ca1f98f3e8d8f3fd365fc5fb98f520b3edb4",
+        "lexical-repair.json": "aa7bfcf9cf0f77efb38fa06b92f525bfb21019f20162dc6b32c37742af4a0de4"
+      },
+      "epub_sha256": "6cbc43492f40f19d7687e93f07e9526d08f6a8b149d79638c3dcb6125a3087b4",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/chapter-01.xhtml": "d07eed10ffa95490555f0f099e998a36b685e1e0275924ed8b3ef6dd825630ab",
+        "OEBPS/chapter-02.xhtml": "cca0d48df1ba7cca9d0b50775c532698abc1a8753b4f6b56e6ea78959f132fdb",
+        "OEBPS/chapter-03.xhtml": "4f454a10a8e98e246409b3cfd1c94329001d574fcd8acfcc72da5059ace94239",
+        "OEBPS/chapter-04.xhtml": "bdc847272aeea2461a3868d1d555bcff4348b67835f4cbe9e37964e9e5615c2a",
+        "OEBPS/chapter-05.xhtml": "1b8bd979c63987b916ef6e1843414369010b027b06b015524e5324a43e75d47a",
+        "OEBPS/chapter-06.xhtml": "7c8438fa3142cdc20ef94d6b6288338883d2eb6dbf4f97e4229ab2b1641c7fef",
+        "OEBPS/chapter-07.xhtml": "4c8fccd8b0ed6f7433c29a899294d439becb48a225ef4f80897eb3ce7c201dea",
+        "OEBPS/chapter-08.xhtml": "b991468949f2f0c3e4b266a0ed000d30d99b3ad55a4161b181402bb3b625aea7",
+        "OEBPS/chapter-09.xhtml": "5a0f0ef017006bf8b4a5cf9368dd07962330b7f130647cb8d82fc70c66717864",
+        "OEBPS/chapter-10.xhtml": "0f7701fcd0fb230a984aaef20d44a222312b489d6ad8e099b4e0611ca40509fc",
+        "OEBPS/chapter-11.xhtml": "cd0b8c51681ec153e54bf7207aaa5bdd9e629442e1054316566cff0e40cc4d81",
+        "OEBPS/chapter-12.xhtml": "2a76328e9fcf85ecfbc23b94d9a4f2b44b61911aec69306b95849c601ba30eac",
+        "OEBPS/chapter-13.xhtml": "4c87bad4f840446f2d82e62a55192e94e4effb15d5973b2d021bb51c8f91d766",
+        "OEBPS/chapter-14.xhtml": "16a10980e0ba79a9dca57a8d032b806f8f4ef1ffc6a2a14b9a8fe7853d5a6c65",
+        "OEBPS/chapter-15.xhtml": "8c4318ff78a5b7146e71250f41bc1b64e2ad7f432f084406efdd97a973ac3b7b",
+        "OEBPS/chapter-16.xhtml": "5beeacbb8974a09ee6c0ab60b62a1c9caff22c48b830ec61e525f270b680f744",
+        "OEBPS/chapter-17.xhtml": "a5c8cae2f04e34d9ea01ab0621dfd8702dc744deb5f18f706395e507cd2ed227",
+        "OEBPS/chapter-18.xhtml": "5da2ee1619059b40dfc454a72a438c557eba0ee8b5426fa51920d6e59b9fd546",
+        "OEBPS/chapter-19.xhtml": "e5d334d92e7e25917d53000faa93525723ba2b9716f1a4b5f5e01f851eed2023",
+        "OEBPS/chapter-20.xhtml": "4e2c9a83d300cead3eb5c60ba8f012d73ba0591cee3dd78646d1b8b580c1f1a0",
+        "OEBPS/chapter-21.xhtml": "d8a2209e1aaa93d563e940484e41d13c9ddd5e509a54f2526e0e4a4350770872",
+        "OEBPS/chapter-22.xhtml": "ef4fe6c5d140a190b5a5e6e3332040610a6b5589cac8065088bb929782d21cd7",
+        "OEBPS/chapter-23.xhtml": "dfd71cc58db6450dc76ecddc579ce8fc176feb434dbf6d4c2a4a386e8584c54a",
+        "OEBPS/chapter-24.xhtml": "023d978e9d7f3a6535b95606e4aa12fd67b2c81dafe9a1702b541414e57cdb8b",
+        "OEBPS/content.opf": "66e14f602bb6283096cd042dec2cc27a71ad91c472da14152254b4e99a2b8447",
+        "OEBPS/copyright.xhtml": "992133142d5d048d43364c1709039118640c5e0ee5b866b0632aa9c74375f3f2",
+        "OEBPS/cover.jpg": "e836ac57b5b2a1d52840cb84c0a0f238e077323a242118711ee530061bf9cb4b",
+        "OEBPS/cover.xhtml": "96294fa69c0536d4c04532bdb681541af9f4f091e264f3536c70efa52c6ecf4c",
+        "OEBPS/downloaded-cover.jpg": "e836ac57b5b2a1d52840cb84c0a0f238e077323a242118711ee530061bf9cb4b",
+        "OEBPS/downloaded-cover.xhtml": "ba52f47bcefd0a43687b104e3c6bacc674c9da61b9076ca6ac0806eed9778cc8",
+        "OEBPS/edition-note.xhtml": "bb65f0b3c9171f706479050560aeb4bb8e5924db8e970ec73c578b48d573e3bd",
+        "OEBPS/nav.xhtml": "ef84fa24e3ef43caf87eb0f1b2b6713e844441f6291cbf707c81493ac2decf88",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/title.xhtml": "7650e87a2d8c7c36df1d429db267334ec0656c7c4ea099084e7d515a6a72beb8",
+        "OEBPS/toc.ncx": "9560659095b8fd46eb7d4eb5fffc04ec19f25049681bd492698611fc9e41141e",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 385,
+        "body": 7558
+      },
+      "chapters": [
+        {
+          "title": "Preface",
+          "sha256": "df08582276e29079f3bed1e6a5bb1dccdda605b2fef96778db6a7f694ce5df44",
+          "blocks": 13
+        },
+        {
+          "title": "Introduction",
+          "sha256": "afb0f1d2d0d8d1702bbfa3b6850302678f4cd8ee9fcad855e23a5437d2df1f22",
+          "blocks": 29
+        },
+        {
+          "title": "Part One: Concentration",
+          "sha256": "8451aeb371eb7fe33eea96598e722e6530e53d03b420027cc3123fc892f40fcd",
+          "blocks": 0
+        },
+        {
+          "title": "1. Preliminary Observations",
+          "sha256": "e4149d4a986ec6de6c3e6198728aa8704ecb326a335c11def6b635b8771cb2b2",
+          "blocks": 47
+        },
+        {
+          "title": "2. Concentration",
+          "sha256": "8144a1909ad30e35bb46e806c062a85b886acfe710b5d6f0cea390c59218c55e",
+          "blocks": 72
+        },
+        {
+          "title": "3. Exercises in Concentration",
+          "sha256": "38555d025fbc6ad30f4d5f3d6a70fc1c3afb4a71c15893311d1f28294337bd5b",
+          "blocks": 30
+        },
+        {
+          "title": "Part Two: Lower Meditation",
+          "sha256": "0a6db3dc1f020f8196a8d08d56e64a0d0ca8798ffa6f32c6d6fe491cd06b4c81",
+          "blocks": 0
+        },
+        {
+          "title": "4. Lower Meditation",
+          "sha256": "25a67b50ea949e7e45b9450a7b4887491a9542dff793eaf2ff6bfa4f3d87dd9d",
+          "blocks": 45
+        },
+        {
+          "title": "5. Objects of Meditation",
+          "sha256": "a4034518657a113c9ceac1daf55827e714aef1a07017cd132c66e2113638e07e",
+          "blocks": 69
+        },
+        {
+          "title": "6. Character Building",
+          "sha256": "1a7c135848cbbd016f10dfe6cf8758d2cb796bdbe42e15668eaefcf4125c2e5b",
+          "blocks": 32
+        },
+        {
+          "title": "7. The Culture of the Emotions and Interlude",
+          "sha256": "4ff9db2991b4543ec4fcf93f18302ac88660feca91becc5ec22eb4efaa307be0",
+          "blocks": 35
+        },
+        {
+          "title": "Part Three: Higher Meditation",
+          "sha256": "15a88fa6fcce853435f18599c331ef3f409e77adb31146cd62148c8d9ec4ddb1",
+          "blocks": 0
+        },
+        {
+          "title": "8. Higher Meditation",
+          "sha256": "5ca76617b027a0ffbfe6617afd9e9a615b92410bf7f133e7af2dbc37d61eef4d",
+          "blocks": 23
+        },
+        {
+          "title": "9. The Raising of Consciousness",
+          "sha256": "911883ec9711cacb719745b91a74c0130abea555299ebafa55b1014d408bd3a9",
+          "blocks": 26
+        },
+        {
+          "title": "10. The Doctrine of the Act",
+          "sha256": "6347e917b76035329f4b1996cf2d2442bebe93ed52ab5d686d9fb7a521ce6837",
+          "blocks": 15
+        },
+        {
+          "title": "11. The Jhanas",
+          "sha256": "dc80f6816d4ce346fd2a873d031abacbd944036707491e976a52e98bebc657c1",
+          "blocks": 19
+        },
+        {
+          "title": "12. Zen Meditation",
+          "sha256": "1baf14c97bf118e137026dc5e217a9bb3d4ee7c5cc80ce30c37cf2e5cd2d0748",
+          "blocks": 63
+        },
+        {
+          "title": "Part Four: Contemplation",
+          "sha256": "b321c169527cd258956f853991bd37790734cc175b53bc66deb2672c0cfbc9ca",
+          "blocks": 0
+        },
+        {
+          "title": "13. Contemplation",
+          "sha256": "c12f0edd5189e6f4546b243228787e92be6a2788d512d527dd5199c2a9c42240",
+          "blocks": 7
+        },
+        {
+          "title": "14. Conclusion",
+          "sha256": "4dfc4462086e8522130cb82b9902906ea61cb2595be0ab5328463a282e4ff1db",
+          "blocks": 9
+        },
+        {
+          "title": "Appendix I: Notes on Group Meditation",
+          "sha256": "c1122066cfb380ebbb57a90ff501823a039915138fae7514d186b202563d571c",
+          "blocks": 11
+        },
+        {
+          "title": "Appendix II: Subjects for Meditation",
+          "sha256": "bb059f8e382aa26b05cc78a3bfb195aaaab060f4fd29ae9ec7c76fd5911d6c30",
+          "blocks": 67
+        },
+        {
+          "title": "Glossary",
+          "sha256": "89668b3e8d23521bf84b62b04e7ab958148072efbead14130d1f3be5fb0933fb",
+          "blocks": 57
+        },
+        {
+          "title": "Index",
+          "sha256": "454a00a96b45869a442da8875fa34b6a8a8e1b9fefc04bc90b166c6043f6162f",
+          "blocks": 415
+        }
+      ],
+      "noterefs": 0,
+      "backlinks": 0,
+      "figures": []
     }
   }
 }

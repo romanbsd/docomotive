@@ -49,36 +49,79 @@ def image_only_headings(rows, book, number, audit):
                     evidence="right-aligned parenthesized credit after closing quote",
                 )
             )
-    long = [r for r in body if len(r["text"]) >= 60]
+    adaptive = book.get("recover_centered_headings", False)
+    if adaptive:
+        # Character counts vary with type size and page width. Thirty letters
+        # plus 75% of the local text width establishes ordinary prose controls.
+        eligible = [r for r in body if len(r["text"]) >= 30]
+        widths = sorted(r["bbox"][2] - r["bbox"][0] for r in eligible)
+        width = widths[round(0.9 * (len(widths) - 1))] if widths else 0
+        long = [r for r in eligible if r["bbox"][2] - r["bbox"][0] >= 0.75 * width]
+    else:
+        long = [r for r in body if len(r["text"]) >= 60]
     if len(long) < 6:
         return
     margin = sorted(r["bbox"][0] for r in long)[len(long) // 5]
-    heights = [r["bbox"][3] - r["bbox"][1] for r in long]
-    height = statistics.median(heights)
-    # OCR boxes can overlap vertically; center pitch is more stable than edge gaps.
+    right = sorted(r["bbox"][2] for r in long)[4 * len(long) // 5]
+    height = statistics.median(r["bbox"][3] - r["bbox"][1] for r in long)
+    control_ids = {id(r) for r in long}
     pitches = [
         (b["bbox"][1] + b["bbox"][3] - a["bbox"][1] - a["bbox"][3]) / 2
         for a, b in zip(body, body[1:])
-        if len(a["text"]) >= 60 and len(b["text"]) >= 60 and b["bbox"][1] > a["bbox"][1]
+        if id(a) in control_ids and id(b) in control_ids and b["bbox"][1] > a["bbox"][1]
     ]
     if len(pitches) < 4:
         return
     pitch = statistics.median(pitches)
+
+    def styled(row, tag):
+        return all(
+            not c.isalnum()
+            or any(
+                tag in v.get("tags", []) and v["start"] <= j < v["end"]
+                for v in row.get("inline", [])
+            )
+            for j, c in enumerate(row["text"])
+        )
+
+    def central(row):
+        # A 2.5% midpoint tolerance absorbs skew and glyph-box leftovers, while
+        # the width bound prevents normal full-width prose proving centering.
+        return (
+            row["bbox"][2] - row["bbox"][0] <= 0.65 * (right - margin)
+            and abs((row["bbox"][0] + row["bbox"][2] - margin - right) / 2) <= 0.025
+        )
+
     for i, r in enumerate(body[:-1]):
         text = r["text"].strip()
+        centered = adaptive and central(r) and styled(r, "em")
         following = body[i + 1]
         previous = body[i - 1] if i else None
-        # Headings have prose on the next line, no sentence-ending punctuation,
-        # and extra clearance above. An ordinary short paragraph tail does not.
+        label = text.lstrip("•·{").strip() if centered else text
+        # The first prose line may carry an ordinary paragraph indent.
+        following_margin = (
+            -0.015
+            <= following["bbox"][0] - margin
+            <= max(0.015, 0.06 * (right - margin))
+            if adaptive
+            else abs(following["bbox"][0] - margin) <= 0.015
+        )
+        following_prose = (
+            len(following["text"]) >= 30
+            and following["bbox"][2] - following["bbox"][0] >= 0.65 * (right - margin)
+            if adaptive
+            else len(following["text"]) >= 60
+        )
         if (
             r.get("kind", "text") != "text"
             or not 3 <= len(text) <= 55
-            or not text[0].isupper()
+            or not label
+            or not label[0].isupper()
             or re.search(r'[.!?;:,"”]$', text)
-            or len(following["text"]) < 60
+            or not following_prose
             or not following["text"][0].isupper()
-            or abs(r["bbox"][0] - margin) > 0.015
-            or abs(following["bbox"][0] - margin) > 0.015
+            or (abs(r["bbox"][0] - margin) > 0.015 and not centered)
+            or not following_margin
             or not 0.6 * height <= r["bbox"][3] - r["bbox"][1] <= 1.6 * height
             or not 0.65 * pitch
             <= (
@@ -91,24 +134,56 @@ def image_only_headings(rows, book, number, audit):
             <= 1.55 * pitch
         ):
             continue
+        title = (
+            centered
+            and previous
+            and 3 <= len(previous["text"]) <= 40
+            and previous["text"].strip().isupper()
+            and central(previous)
+            and styled(previous, "strong")
+        )
+        if (
+            title
+            and i >= 2
+            and not re.search(r'[.!?]["”’]?$', body[i - 2]["text"].strip())
+        ):
+            title = False
         if previous and (
-            not re.search(r'[.!?]["”’]?(?:\d+)?$', previous["text"].strip())
-            # A 15% extra line pitch distinguishes a separated label from prose.
+            not title
+            and not re.search(r'[.!?]["”’]?(?:\d+)?$', previous["text"].strip())
             or (r["bbox"][1] + r["bbox"][3] - previous["bbox"][1] - previous["bbox"][3])
             / 2
             < 1.15 * pitch
         ):
             continue
-        r["kind"] = "heading"
-        audit.append(
-            dict(
-                page=number,
-                kind="image-only-subheading",
-                text=text,
-                bbox=r["bbox"],
-                evidence="short margin-aligned label, prose neighbor and extra preceding spacing",
+        selected = [previous, r] if title else [r]
+        for item in selected:
+            item["kind"] = "heading"
+            audit.append(
+                dict(
+                    page=number,
+                    kind="image-only-subheading",
+                    text=item["text"],
+                    bbox=item["bbox"],
+                    evidence=(
+                        "centered styled label or title pair, prose neighbor and extra preceding spacing"
+                        if centered
+                        else "short margin-aligned label, prose neighbor and extra preceding spacing"
+                    ),
+                )
             )
-        )
+
+
+def recover_scanned_headings(pages, book, audit):
+    """Use fresh OCR geometry even when a scan carries an old hidden text layer."""
+    if book.get("text_source") == "native" or not book.get(
+        "recover_image_only_headings"
+    ):
+        return
+    # The detector uses OCR line geometry, not embedded PDF fonts. A hidden
+    # OCR layer neither proves nor invalidates a visually separated subheading.
+    for number, rows in pages.items():
+        image_only_headings(rows, book, number, audit)
 
 
 def aligned_source(row, source):
@@ -119,7 +194,19 @@ def aligned_source(row, source):
         None, candidate["text"].lower(), row["text"].lower(), autojunk=False
     )
     # Geometry alone can pair adjacent lines; require substantial text agreement.
-    return (candidate, match) if match.ratio() >= 0.85 else (None, None)
+    if match.ratio() >= 0.85:
+        return candidate, match
+    # Old OCR layers may encode a tracked heading as "I n te r lu d e".
+    # Three isolated letters establish tracking; exact compact agreement keeps
+    # ordinary word-boundary differences ("now here"/"nowhere") out of this path.
+    isolated = [w for w in candidate["text"].split() if len(w) == 1 and w.isalpha()]
+    if (
+        len(isolated) >= 3
+        and re.sub(r"\s+", "", candidate["text"]).lower()
+        == re.sub(r"\s+", "", row["text"]).lower()
+    ):
+        return candidate, match
+    return None, None
 
 
 def numeric_glyph_readings(page, span, work=None):

@@ -89,5 +89,19 @@
     "profile": "config/chosen-by-spirits/book.json",
     "work": "work/chosen-by-spirits",
     "editorial": false
+  },
+  {
+    "name": "concentration-meditation",
+    "pdf": "input/Concentration and Meditation_ A Manual of Mind Development (Element Classic Editions).pdf",
+    "profile": "config/concentration-meditation/book.json",
+    "work": "work/concentration-meditation",
+    "editorial": false
+  },
+  {
+    "name": "concentration-meditation-reading",
+    "pdf": "input/Concentration and Meditation_ A Manual of Mind Development (Element Classic Editions).pdf",
+    "profile": "config/concentration-meditation/reading-book.json",
+    "work": "work/concentration-meditation",
+    "editorial": true
   }
 ]
