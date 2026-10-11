@@ -1,6 +1,6 @@
 accelerate==1.15.0
 albucore==0.0.23
-albumentations==1.4.24
+albumentations==2.0.8
 alphabet-detector==0.0.7
 annotated-types==0.8.0
 antlr4-python3-runtime==4.9.3
