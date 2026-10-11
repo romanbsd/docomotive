@@ -118,7 +118,7 @@ weasyprint==70.0
 webencodings==0.6.1
 websockets==17.1
 wordfreq==3.1.1
-x-transformers==0.15.0
+x-transformers==2.31.7
 xxhash==4.0.1
 zopfli==0.4.3
 zstandard==0.25.0
