@@ -81,7 +81,7 @@ rapidocr==3.9.2
 regex==2026.9.29
 requests==2.34.2
 requests-toolbelt==1.0.0
-resource-segmentation==0.0.1
+resource-segmentation==0.0.7
 safetensors==0.8.0
 scipy==1.17.1
 seaborn==0.13.2
