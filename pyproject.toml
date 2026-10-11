@@ -37,7 +37,7 @@ packages = []
 # DjVuLibre, Tesseract, OCRmyPDF, Java/EPUBCheck and Swift/Apple Vision are external tools.
 # Transitive research-environment pins remain in requirements-research.lock.txt.
 [dependency-groups]
-dev = ["black==26.5.1"]
+dev = ["black==26.10.0"]
 
 [tool.black]
 line-length = 88
