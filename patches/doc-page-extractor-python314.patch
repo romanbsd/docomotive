@@ -1,0 +1,55 @@
+diff --git a/.github/workflows/pr-check.yaml b/.github/workflows/pr-check.yaml
+index 138c43a..1f4a784 100644
+--- a/.github/workflows/pr-check.yaml
++++ b/.github/workflows/pr-check.yaml
+@@ -29,3 +29,17 @@ jobs:
+
+       - name: Run lint
+         run: poetry run pylint --disable=import-error doc_page_extractor
++
++  python-compatibility:
++    runs-on: ubuntu-latest
++    strategy:
++      matrix:
++        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
++    steps:
++      - uses: actions/checkout@v4
++      - uses: actions/setup-python@v5
++        with:
++          python-version: ${{ matrix.python-version }}
++      - run: python -m pip install .
++      - run: python test.py
++      - run: python -m pip check
+diff --git a/poetry.lock b/poetry.lock
+index 81e8af2..4213f3b 100644
+--- a/poetry.lock
++++ b/poetry.lock
+@@ -1880,5 +1880,5 @@ local = ["accelerate", "addict", "easydict", "einops", "hf_transfer", "huggingfa
+
+ [metadata]
+ lock-version = "2.1"
+-python-versions = ">=3.10,<3.14"
+-content-hash = "8dfa4b36523767e0e2b5e271049655dc002c13a831b02df181a76e39dbcf7982"
++python-versions = ">=3.10,<3.15"
++content-hash = "57ad99c4cef1eb61436b91b88ec5cc9ca1b0172ce43d2158fa7e588a661edce2"
+diff --git a/pyproject.toml b/pyproject.toml
+index bc72b36..e73eb82 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -14,7 +14,7 @@ maintainers = [
+ ]
+ license = {text = "MIT"}
+ readme = "README.md"
+-requires-python = ">=3.10,<3.14"
++requires-python = ">=3.10,<3.15"
+ dependencies = [
+     "Pillow>=10.0.1,<=15.0",
+     "requests>=2.32.0,<3.0.0",
+@@ -28,6 +28,7 @@ classifiers = [
+     "Programming Language :: Python :: 3.11",
+     "Programming Language :: Python :: 3.12",
+     "Programming Language :: Python :: 3.13",
++    "Programming Language :: Python :: 3.14",
+ ]
+
+ [project.urls]

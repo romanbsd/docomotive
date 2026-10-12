@@ -27,7 +27,8 @@ dependencies = [
 
 [project.optional-dependencies]
 visual = ["weasyprint==70.0"]
-research = ["pdf-craft==0.2.1"]
+research = ["doc-page-extractor==1.2.1+docomotive.1"]
+# Legacy pdf-craft uses an incompatible extractor API; see requirements-pdf-craft.lock.txt.
 # Optional scoring adapter; requires a separately supplied language model.
 # This package has not been installed or validated in the current environment.
 kenlm = ["kenlm"]

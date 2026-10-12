@@ -29,7 +29,17 @@ brew install tesseract ocrmypdf djvulibre
 
 Full multi-engine extraction currently requires macOS for Apple Vision and Swift/Xcode command-line tools. Tesseract and RapidOCR run locally on CPU. Cached JSON can be built elsewhere; fresh cross-platform OCR has not been validated. Java is needed for EPUBCheck. Vision may need execution outside the agent sandbox to contact the local macOS service; it does not upload pages.
 
-Runtime packages are pinned in `pyproject.toml`. Dependencies include PyMuPDF, Pillow, lxml, NumPy/SciPy, RapidOCR/ONNX Runtime, Spylls, SymSpell, wordfreq and Requests. Optional extras are `visual` (WeasyPrint rendering), `research` (pdf-craft), and `kenlm` (an unevaluated scoring adapter requiring a separate language model). `requirements-research.lock.txt` records the experiment environment rather than a portable minimal lockfile. The scripts run from this checkout; installation supplies dependencies.
+Runtime packages are pinned in `pyproject.toml`. Dependencies include PyMuPDF, Pillow, lxml, NumPy/SciPy, RapidOCR/ONNX Runtime, Spylls, SymSpell, wordfreq and Requests. Optional extras are `visual` (WeasyPrint rendering), `research` (the locally patched doc-page-extractor), and `kenlm` (an unevaluated scoring adapter requiring a separate language model). `requirements-research.lock.txt` pins the Python 3.14 core, visual, extractor and development environment; it is an environment snapshot rather than a cross-platform lockfile. The scripts run from this checkout; installation supplies dependencies.
+
+For the experimental extractor, build its Python 3.14-compatible wheel before installing the research extra:
+
+```sh
+.venv/bin/python scripts/build_doc_page_extractor.py
+.venv/bin/pip install '.[research,visual]' --group dev \
+  --find-links work/dependency-compat/dist
+```
+
+The builder tests the exact upstream source revision and records patch/build/wheel hashes. Its patch adds the tested Python 3.14 package range and a CI matrix; it does not bypass Python compatibility checks. Legacy pdf-craft 0.2.1 requires a different extractor API and older NumPy/Pillow, so it runs in a separate Python 3.12 environment using `requirements-pdf-craft.lock.txt`. See [dependency compatibility](docs/dependency-compatibility.md) for installation and validation details.
 
 Bootstrap downloads checksum-verified PP-OCRv4 ONNX models, a Hunspell dictionary pair and EPUBCheck 5.4.0. OCRmyPDF, pdf-craft, Marker, Docling, LanguageTool and Morfologik have differing experiment/integration status; the [research report](docs/research.md) distinguishes tested tools from planned work.
 
