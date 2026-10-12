@@ -99,6 +99,43 @@ class ConfusionTests(unittest.TestCase):
         ]:
             self.assertEqual(repaired(raw, language="ru")[0], fixed)
 
+    def test_nonword_takes_a_fresh_common_word_one_letter_away(self):
+        self.assertEqual(
+            repaired("in the тувдре of the", ("in the тундре of the", ""), "ru")[0],
+            "in the тундре of the",
+        )
+        self.assertEqual(
+            repaired("Cognitive Theorv and", ("Cognitive Theory and", "x"))[0],
+            "Cognitive Theory and",
+        )
+        # Row-edge fragments, real words, competing proposals, two-letter edits.
+        for raw, witness in [
+            ("лучения в тундре", "мучения в тундре"),
+            ("see the worm now", "see the warm now"),
+            ("a frabjous day", "a fabulous day"),
+            ("expérience observés au", "expérience observes au"),
+        ]:
+            self.assertEqual(repaired(raw, (witness, ""))[0], raw)
+        # Several common words fit the slot: истории or история.
+        self.assertEqual(
+            repaired(
+                "Проблемы историн общественного",
+                ("Проблемы история общественного", ""),
+                "ru",
+            )[0],
+            "Проблемы историн общественного",
+        )
+        # A token repeated on the page is a name, not an OCR slip.
+        row = dict(text="was called Xano, and", bbox=[0, 0, 1, 1])
+        repair_confusions(
+            row, [dict(text="was called Nano, and")], 1, [], "en", False, {"Xano": 6}
+        )
+        self.assertEqual(row["text"], "was called Xano, and")
+        self.assertEqual(
+            repaired("the worns are", ("the worms are", "the warns are"))[0],
+            "the worns are",
+        )
+
     def test_witness_dropping_accents_confirms_only_rare_words(self):
         agree = lambda a, b, lang="en": same_but_unaccented(
             comparable(a), comparable(b), lang

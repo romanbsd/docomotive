@@ -40,7 +40,7 @@
   },
   {
     "page": 10,
-    "before": "chemical agents: A systematic review. Frontiers in Psychologg: 4, 753.",
+    "before": "chemical agents: A systematic review. Frontiers in Psychology: 4, 753.",
     "after": "chemical agents: A systematic review. Frontiers in Psychology, 4, 753.",
     "bbox": [
       0.12944161421869244,
@@ -755,19 +755,6 @@
   },
   {
     "page": 75,
-    "before": "As Shanon (2003b) notes, case reports of chemicaliy-induced syn-",
-    "after": "As Shanon (2003b) notes, case reports of chemically-induced syn-",
-    "bbox": [
-      0.17441861341828915,
-      0.39534883715550995,
-      0.8953488404576797,
-      0.41593780372532696
-    ],
-    "reason": "Source crop review-80.png item 97: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 75,
     "before": "ically-induced synaesthesias. These reports are typically indirect, san-",
     "after": "ically-induced synaesthesias. These reports are typically indirect, sam-",
     "bbox": [
@@ -933,19 +920,6 @@
       0.345930232606375
     ],
     "reason": "Source crop review-120.png item 123: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 90,
-    "before": "of such exquisite complexity. secming impossibility and baffling mul-",
-    "after": "of such exquisite complexity. seeming impossibility and baffling mul-",
-    "bbox": [
-      0.13669065498176347,
-      0.46656976716868037,
-      0.9160671517728328,
-      0.4869186046820949
-    ],
-    "reason": "Source crop review-120.png item 124: printed text distinguished from OCR error or handwritten reader annotation.",
     "exact_row": true
   },
   {
@@ -1938,8 +1912,8 @@
   },
   {
     "page": 145,
-    "before": "• each time, and then he would re-cmerge through the inverse of the",
-    "after": "each time, and then he would re-cmerge through the inverse of the",
+    "before": "• each time, and then he would re-emerge through the inverse of the",
+    "after": "each time, and then he would re-emerge through the inverse of the",
     "bbox": [
       0.08685968298517668,
       0.47804391238177524,
@@ -2042,8 +2016,8 @@
   },
   {
     "page": 146,
-    "before": "(a long time ago), hat is unwilling to depart this plane of evistence. I1",
-    "after": "(a long time ago), hat is unwilling to depart this plane of evistence. It",
+    "before": "(a long time ago), hat is unwilling to depart this plane of existence. I1",
+    "after": "(a long time ago), hat is unwilling to depart this plane of existence. It",
     "bbox": [
       0.17567567749923252,
       0.4678391959637127,

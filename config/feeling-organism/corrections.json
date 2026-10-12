@@ -31,14 +31,6 @@
     "whole_word": true
   },
   {
-    "page": 221,
-    "before": "Alip-flop",
-    "after": "flip-flop",
-    "count": 1,
-    "evidence": "Checked against rendered source scan; OCR error, not a printed typo",
-    "whole_word": true
-  },
-  {
     "page": 239,
     "before": "ap-.",
     "after": "ap-",

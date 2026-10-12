@@ -25,18 +25,6 @@
   },
   {
     "page": 6,
-    "before": "теорстическое",
-    "after": "теоретическое",
-    "bbox": [
-      0.0840630472854641,
-      0.23567631423508564,
-      0.9010507880910683,
-      0.2492616656822209
-    ],
-    "reason": "Checked directly against source PDF 6 (printed 5), source-006.png; exact OCR overlay, not an automatic vocabulary normalization."
-  },
-  {
-    "page": 6,
     "before": "пайдут",
     "after": "найдут",
     "bbox": [

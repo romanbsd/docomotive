@@ -1,5 +1,6 @@
 """OCR geometry alignment and conservative named-engine reconciliation."""
 
+import collections
 import copy
 import difflib
 import re
@@ -101,16 +102,15 @@ def comparable(text):
     return re.findall(r"[\w]+(?:['’-][\w]+)*", text.lower().replace("’", "'"))
 
 
+def bare(word):
+    return "".join(
+        c for c in unicodedata.normalize("NFKD", word) if not unicodedata.combining(c)
+    )
+
+
 def same_but_unaccented(own, other, language):
     """A witness that only drops accents from rare words (Delbrück/Delbruck)
     confirms the row; a common bare word (tó/to, й/и) stays reviewable."""
-
-    def bare(word):
-        return "".join(
-            c
-            for c in unicodedata.normalize("NFKD", word)
-            if not unicodedata.combining(c)
-        )
 
     return len(own) == len(other) and all(
         a == b or (bare(a) == b and zipf_frequency(b, language) < 3)
@@ -130,7 +130,9 @@ CITATION_YEAR = re.compile(
 BRACKET_L = re.compile(r"[^\W\d_]*\][^\W\d_]*")
 
 
-def repair_confusions(row, fresh, page, audit, language, index_digits=False):
+def repair_confusions(
+    row, fresh, page, audit, language, index_digits=False, page_words=None
+):
     """Repair recurring glyph confusions with structural or witness evidence."""
 
     def change(start, end, after, kind, evidence):
@@ -226,6 +228,55 @@ def repair_confusions(row, fresh, page, audit, language, index_digits=False):
                     "bracket-letter-l",
                     "common word only with l; no opening bracket on the row",
                 )
+    # A nonword where a fresh engine reads a common word one letter away, at
+    # the same position, and no engine proposes another common word. Row-edge
+    # tokens may be hyphenation fragments and stay as read; a token repeated on
+    # the page is a name; a dropped accent may be a foreign spelling; and an
+    # ending that several very common words fit (историн: истории/история) is
+    # an inflection guess.
+    alphabet = (
+        "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+        if language == "ru"
+        else "abcdefghijklmnopqrstuvwxyz"
+    )
+
+    def ambiguous_ending(before, after):
+        if before[:-1] != after[:-1]:
+            return False
+        stem = before[:-1].lower()
+        return sum(zipf_frequency(stem + c, language) >= 4 for c in alphabet) > 1
+
+    spans = list(re.finditer(r"\w+", row["text"]))
+    own = [m.group() for m in spans]
+    proposed = {}
+    for words in readings:
+        for tag, i, j, k, l in difflib.SequenceMatcher(
+            None, own, words, autojunk=False
+        ).get_opcodes():
+            if tag == "replace" and j - i == l - k:
+                for n in range(j - i):
+                    proposed.setdefault(i + n, set()).add(words[k + n])
+    for i, words in sorted(proposed.items(), reverse=True):
+        before = own[i]
+        common = {w for w in words if zipf_frequency(w.lower(), language) >= 3}
+        after = common.pop() if len(common) == 1 else ""
+        if (
+            0 < i < len(own) - 1
+            and before.isalpha()
+            and len(before) == len(after) >= 4
+            and sum(a != b for a, b in zip(before, after)) == 1
+            and zipf_frequency(before.lower(), language) == 0
+            and (page_words or {}).get(before, 0) < 2
+            and bare(before).lower() != after.lower()
+            and not ambiguous_ending(before, after)
+        ):
+            change(
+                spans[i].start(),
+                spans[i].end(),
+                after,
+                "fresh-word-for-nonword",
+                "a fresh engine reads a common word one letter from a nonword",
+            )
     if language == "ru":
         repair_russian_letters(row, readings, change)
 
@@ -483,6 +534,9 @@ def correct_page(
                 }
             )
     rows = merge_rows(rows)
+    page_words = collections.Counter(
+        w for r in rows for w in re.findall(r"\w+", r["text"])
+    )
     for row in rows:
         raw_primary = row["text"]
         witnesses = [nearest(row, source) for source in [baseline, secondary, tertiary]]
@@ -644,7 +698,9 @@ def correct_page(
                 )
         for start, end, text in sorted(edits, reverse=True):
             row["text"] = row["text"][:start] + text + row["text"][end:]
-        repair_confusions(row, fresh, page, audit, language, recover_index_digits)
+        repair_confusions(
+            row, fresh, page, audit, language, recover_index_digits, page_words
+        )
         own = comparable(row["text"])
         best = [comparable(w["text"]) for w in witnesses[1:] if w]
         # Agreement on lexical content resolves harmless OCR typography differences.
