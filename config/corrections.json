@@ -24,18 +24,6 @@
     ]
   },
   {
-    "page": 31,
-    "before": "methods before they enter schoo]. Overwhelming social",
-    "after": "methods before they enter school. Overwhelming social",
-    "reason": "Checked against 300 dpi source crop",
-    "bbox": [
-      0.09102730819245773,
-      0.7744733581164808,
-      0.8439531859557867,
-      0.795125980999587
-    ]
-  },
-  {
     "page": 34,
     "before": "foundly. and yet is less toxic than any other sul atane in the",
     "after": "foundly and yet is less toxic than any other substance in the",
@@ -372,18 +360,6 @@
     ]
   },
   {
-    "page": 208,
-    "before": "send him home. Body temperature can be brought under voluntary contro]",
-    "after": "send him home. Body temperature can be brought under voluntary control",
-    "reason": "Checked against 300 dpi source crop",
-    "bbox": [
-      0.1599471249173827,
-      0.44011484823625924,
-      0.9345670852610706,
-      0.4552912223133716
-    ]
-  },
-  {
     "page": 209,
     "before": "Ir WOULD NOT BE FAR to close this book without a brief word",
     "after": "IT WOULD NOT BE FAIR to close this book without a brief word",
@@ -409,31 +385,7 @@
   },
   {
     "page": 224,
-    "before": "NIMH in Drug Dependence No. 2 (December 196g), p. 11.",
-    "after": "NIMH in Drug Dependence No. 2 (December 1969), p. 11.",
-    "reason": "Checked against 300 dpi source crop",
-    "bbox": [
-      0.17865431756232844,
-      0.34156976781940673,
-      0.890951258597764,
-      0.36482558043640734
-    ]
-  },
-  {
-    "page": 224,
-    "before": "Speech,\" Nature 222 (3 May 196g), p. 436.",
-    "after": "Speech,\" Nature 222 (3 May 1969), p. 436.",
-    "reason": "Checked against 300 dpi source crop",
-    "bbox": [
-      0.18097448330025717,
-      0.5305232555789492,
-      0.6728538311622329,
-      0.5525244296421192
-    ]
-  },
-  {
-    "page": 224,
-    "before": "Sagar Publications, 196g), pP. 50-51.",
+    "before": "Sagar Publications, 1969), pP. 50-51.",
     "after": "Sagar Publications, 1969), pp. 50-51.",
     "reason": "Checked against 300 dpi source crop",
     "bbox": [
@@ -456,18 +408,6 @@
     ]
   },
   {
-    "page": 224,
-    "before": "196g), p. 41.",
-    "after": "1969), p. 41.",
-    "reason": "Checked against 300 dpi source crop",
-    "bbox": [
-      0.17865429375681086,
-      0.7935667753873814,
-      0.32482598263530055,
-      0.812499999366474
-    ]
-  },
-  {
     "page": 225,
     "before": "World,\" Harvard Review I:4 (1963), Pp. 19, 20.",
     "after": "World,\" Harvard Review I:4 (1963), pp. 19, 20.",
@@ -477,30 +417,6 @@
       0.16612573065352632,
       0.6831384241945622,
       0.19170842111581265
-    ]
-  },
-  {
-    "page": 225,
-    "before": "of Knowledge (New York: Ballantine Books, 196g), pp. 127-",
-    "after": "of Knowledge (New York: Ballantine Books, 1969), pp. 127-",
-    "reason": "Checked against 300 dpi source crop",
-    "bbox": [
-      0.13103448134268528,
-      0.5319767444778499,
-      0.8643678358412223,
-      0.5523255809581967
-    ]
-  },
-  {
-    "page": 227,
-    "before": "York: Signet Books, 196g).",
-    "after": "York: Signet Books, 1969).",
-    "reason": "Checked against 300 dpi source crop",
-    "bbox": [
-      0.10829493601030342,
-      0.6031976742369948,
-      0.41935483570628646,
-      0.62223133703458
     ]
   },
   {

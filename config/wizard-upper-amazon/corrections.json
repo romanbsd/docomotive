@@ -636,18 +636,6 @@
     "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
   },
   {
-    "page": 176,
-    "before": "velop the contro] that had seemed so easy when old",
-    "after": "velop the control that had seemed so easy when old",
-    "bbox": [
-      0.1177381874515879,
-      0.8435131520285332,
-      0.8783888458559257,
-      0.8653588943379402
-    ],
-    "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
-  },
-  {
     "page": 177,
     "before": "apart to prevent a build-up of intensity by aceumu-",
     "after": "apart to prevent a build-up of intensity by accumu-",

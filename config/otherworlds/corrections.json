@@ -2262,71 +2262,6 @@
     "exact_row": true
   },
   {
-    "page": 162,
-    "before": "means \"mind manifesting\" (Osmond, 196la, p.76). Where specified.",
-    "after": "means \"mind manifesting\" (Osmond, 1961a, p.76). Where specified.",
-    "bbox": [
-      0.13181818191173605,
-      0.6263791371450594,
-      0.9045454415731127,
-      0.645436308659603
-    ],
-    "reason": "Source crop review-280.png item 298: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 163,
-    "before": "porated into experimental attempts to induce ESP (see Luke, 201la;",
-    "after": "porated into experimental attempts to induce ESP (see Luke, 2011a;",
-    "bbox": [
-      0.09772726514204563,
-      0.5174418605470883,
-      0.8727272651420456,
-      0.5394605399191689
-    ],
-    "reason": "Source crop review-300.png item 300: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 163,
-    "before": "dreamlike state (Blackmore, 1992; Osis, 196la, 1961b: Progoff,",
-    "after": "dreamlike state (Blackmore, 1992; Osis, 1961a, 1961b: Progoff,",
-    "bbox": [
-      0.13863638580845486,
-      0.6962209303690359,
-      0.8704545372824538,
-      0.7180232552414292
-    ],
-    "reason": "Source crop review-300.png item 301: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 163,
-    "before": "196la; Pahnke, 1968; Tart, 1994)",
-    "after": "1961a; Pahnke, 1968; Tart, 1994)",
-    "bbox": [
-      0.13821085993406462,
-      0.7956098330799213,
-      0.5232256800329416,
-      0.818570790312691
-    ],
-    "reason": "Source crop review-300.png item 302: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 164,
-    "before": "10. Increased spontaneity (Osis, 196la)",
-    "after": "10. Increased spontaneity (Osis, 1961a)",
-    "bbox": [
-      0.1899563338425027,
-      0.3036963039918634,
-      0.6048034930133923,
-      0.3226773229728823
-    ],
-    "reason": "Source crop review-300.png item 304: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
     "page": 164,
     "before": "13. Increased suggestibility (Huxley. 196la: Tart. 1968)",
     "after": "13. Increased suggestibility (Huxley. 1961a: Tart. 1968)",
@@ -2363,19 +2298,6 @@
       0.5515548868356351
     ],
     "reason": "Source crop review-300.png item 308: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 165,
-    "before": "trance (Garrett, 196la). Huxley (196la) proposed that LSD is invalu-",
-    "after": "trance (Garrett, 1961a). Huxley (1961a) proposed that LSD is invalu-",
-    "bbox": [
-      0.11512638416888822,
-      0.7027959868894383,
-      0.8800810614544469,
-      0.7302584104495923
-    ],
-    "reason": "Source crop review-300.png item 310: printed text distinguished from OCR error or handwritten reader annotation.",
     "exact_row": true
   },
   {
@@ -2974,58 +2896,6 @@
       0.42080158105120713
     ],
     "reason": "Source crop review-20.png item 30: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 237,
-    "before": "1982), the aesthetic rapture (Osis, 196la; Smythies. 1960), the quest",
-    "after": "1982), the aesthetic rapture (Osis, 1961a; Smythies. 1960), the quest",
-    "bbox": [
-      0.11690258627240817,
-      0.6485128817083564,
-      0.8627817071515289,
-      0.6824475648783151
-    ],
-    "reason": "Source crop review-40.png item 40: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 237,
-    "before": "pear. Blewett (196la) further warned of other unwanted psychological",
-    "after": "pear. Blewett (1961a) further warned of other unwanted psychological",
-    "bbox": [
-      0.13918855315602838,
-      0.8790256588326163,
-      0.8836728721991505,
-      0.9168906242165304
-    ],
-    "reason": "Source crop review-40.png item 41: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 238,
-    "before": "Paterson, 196la; Smythies 1960: Tart in Levine. 1968) suggest that",
-    "after": "Paterson, 1961a; Smythies 1960: Tart in Levine. 1968) suggest that",
-    "bbox": [
-      0.12359551238039303,
-      0.9039215689827921,
-      0.8741572858860598,
-      0.9259803925122039
-    ],
-    "reason": "Source crop review-40.png item 44: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 239,
-    "before": "test-scores. Echoing this, the Osis (196la) experiment has shown that",
-    "after": "test-scores. Echoing this, the Osis (1961a) experiment has shown that",
-    "bbox": [
-      0.050723380226394596,
-      0.13896151714039262,
-      0.8933570461680631,
-      0.16291751589400305
-    ],
-    "reason": "Source crop review-40.png item 45: printed text distinguished from OCR error or handwritten reader annotation.",
     "exact_row": true
   },
   {

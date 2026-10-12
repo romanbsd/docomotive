@@ -100,6 +100,116 @@ def comparable(text):
     return re.findall(r"[\w]+(?:['’-][\w]+)*", text.lower().replace("’", "'"))
 
 
+INDEX_REFERENCE = re.compile(
+    r"(?:^|(?<=[,–-])|(?<=[,–-] ))([0-9IlO]{2,4})(?=$|[,.;–-])"
+)
+MONTHS = "January February March April May June July August September October November December".split()
+CITATION_YEAR = re.compile(
+    r"(?:^|(?<=\()|(?<=, )|"
+    + "|".join(rf"(?<={m} )" for m in MONTHS)
+    + r")(1[5-9]\d|20[0-3])([gl])([a-z]?)(?=[,;)])"
+)
+BRACKET_L = re.compile(r"[^\W\d_]*\][^\W\d_]*")
+
+
+def repair_confusions(row, fresh, page, audit, language, index_digits=False):
+    """Repair recurring glyph confusions with structural or witness evidence."""
+
+    def change(start, end, after, kind, evidence):
+        before = row["text"][start:end]
+        row["text"] = row["text"][:start] + after + row["text"][end:]
+        audit.append(
+            dict(
+                page=page,
+                kind=kind,
+                before=before,
+                after=after,
+                bbox=row["bbox"],
+                evidence=evidence,
+            )
+        )
+
+    witnesses = [w["text"] for w in fresh if w]
+    # A primary hyphen joining two words, where both fresh engines read an em
+    # dash (or its "--" transcription) between the same words. Hyphenated
+    # compounds keep their hyphen unless both engines see the longer stroke.
+    if len(witnesses) == 2:
+        for match in reversed(list(re.finditer(r"(\w+)-(\w+)", row["text"]))):
+            left, right = match.groups()
+            if left.isdigit() or right.isdigit():
+                continue
+            pattern = (
+                rf"(?<!\w){re.escape(left)}(\s?)(?:—|--)(\s?){re.escape(right)}(?!\w)"
+            )
+            seen = [re.search(pattern, w) for w in witnesses]
+            if all(seen):
+                start = match.start(2) - 1
+                spacing = {s.group(1) + "—" + s.group(2) for s in seen}
+                change(
+                    start,
+                    start + 1,
+                    spacing.pop() if len(spacing) == 1 else "—",
+                    "two-fresh-em-dash",
+                    "both fresh engines read an em dash between the same words",
+                )
+    # Index page references: digits mixed with serif I/l/O, in list syntax,
+    # where a fresh engine reads plain digits. Every fresh witness must keep
+    # the row's words and either repeat the primary token or read those
+    # digits; any other reading of the slot is a contradiction.
+    digit_map = str.maketrans({"I": "1", "l": "1", "O": "0"})
+    words = [t for t in re.findall(r"\w+", row["text"]) if t.isalpha() and len(t) >= 3]
+    readings = [re.findall(r"\w+", w) for w in witnesses]
+    for match in reversed(list(INDEX_REFERENCE.finditer(row["text"]))):
+        token = match.group(1)
+        after = token.translate(digit_map)
+        if (
+            index_digits
+            and len(readings) == 2
+            and after != token
+            and any(c.isdigit() for c in token)
+            and any(after in r for r in readings)
+            and all(token in r or after in r for r in readings)
+            and all(word in r for word in words for r in readings)
+        ):
+            change(
+                match.start(1),
+                match.end(1),
+                after,
+                "witnessed-index-digit",
+                "index list syntax and a fresh engine reading plain digits",
+            )
+    # Citation years such as "(Osmond, 196la, p. 76)" or "Books, 196g), p.":
+    # a fourth year glyph read as g/l, only between citation punctuation, so
+    # quantities such as "150g of" are never touched.
+    for match in reversed(list(CITATION_YEAR.finditer(row["text"]))):
+        century, glyph, suffix = match.groups()
+        change(
+            match.start(),
+            match.end(),
+            century + {"g": "9", "l": "1"}[glyph] + suffix,
+            "citation-year-digit",
+            "four-digit year in citation punctuation",
+        )
+    # A closing bracket inside a word, without an opening bracket on the row,
+    # is a damaged "l" when that yields a common word and the raw token is not.
+    if "[" not in row["text"]:
+        for match in reversed(list(BRACKET_L.finditer(row["text"]))):
+            token = match.group()
+            after = token.replace("]", "l")
+            if (
+                token != "]"
+                and zipf_frequency(after.lower(), language) >= 3
+                and zipf_frequency(token.replace("]", "").lower(), language) < 3
+            ):
+                change(
+                    match.start(),
+                    match.end(),
+                    after,
+                    "bracket-letter-l",
+                    "common word only with l; no opening bracket on the row",
+                )
+
+
 def correct_page(
     primary,
     baseline,
@@ -430,6 +540,7 @@ def correct_page(
                 )
         for start, end, text in sorted(edits, reverse=True):
             row["text"] = row["text"][:start] + text + row["text"][end:]
+        repair_confusions(row, fresh, page, audit, language, recover_index_digits)
         own = comparable(row["text"])
         best = [comparable(w["text"]) for w in witnesses[1:] if w]
         # Agreement on lexical content resolves harmless OCR typography differences.
