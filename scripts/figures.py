@@ -30,7 +30,9 @@ def crop_artwork_pixels(page, rect, dpi=300, excluded_overlays=(), raster_only=F
 
         result, evidence = isolated_scan(page, rect)
         return result, evidence
-    images = page.get_image_info(xrefs=True)
+    from scan_pixels import image_placements
+
+    images = image_placements(page)
     scans = [
         im
         for im in images
@@ -62,6 +64,10 @@ def crop_artwork_pixels(page, rect, dpi=300, excluded_overlays=(), raster_only=F
         return result, dict(
             method="embedded-page-scan", xref=scan["xref"], pixel_size=list(result.size)
         )
+    # Hashing fully decodes the page images into MuPDF's store; the render then
+    # reuses those full-resolution decodes rather than subsampled ones. Reviewed
+    # figure pixels depend on this, so rendered crops keep the hashed lookup.
+    page.get_image_info(xrefs=True)
     removed = []
     temporary = None
     for block in page.get_text("dict")["blocks"]:

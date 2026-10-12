@@ -8,7 +8,7 @@ import pymupdf
 from source_document import open_source
 
 from common import file_digest, write_json
-from scan_pixels import isolated_scan
+from scan_pixels import image_placements, isolated_scan
 
 
 def inspect_page(page):
@@ -26,9 +26,7 @@ def inspect_page(page):
     # 300 glyphs establish substantial text, rather than a few short labels.
     if len(traces) < 12 or glyphs < 300:
         return dict(result, status="no-dense-painted-text")
-    image = next(
-        im for im in page.get_image_info(xrefs=True) if im["xref"] == scan["xref"]
-    )
+    image = next(im for im in image_placements(page) if im["xref"] == scan["xref"])
     with pymupdf.open() as raster:
         clean = raster.new_page(width=page.rect.width, height=page.rect.height)
         clean.insert_image(

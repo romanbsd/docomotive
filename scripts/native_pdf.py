@@ -3,6 +3,7 @@
 import re
 import statistics
 from ocr import center
+from build_resources import page_text
 
 LIGATURES = str.maketrans({"ﬀ": "ff", "ﬁ": "fi", "ﬂ": "fl", "ﬃ": "ffi", "ﬄ": "ffl"})
 LIST_MARKER = re.compile(r"^(?:[•▪●◦]|\d{1,3}[.)])\s+")
@@ -55,7 +56,7 @@ def clean_text(text):
 def extract_page(page, book, number, audit, *, text_data=None):
     parts = []
     # Callers inspecting the same page can share its extracted text and spans.
-    data = text_data if text_data is not None else page.get_text("dict")
+    data = text_data if text_data is not None else page_text(page)
     for block in data["blocks"]:
         for line in block.get("lines", []):
             if any(

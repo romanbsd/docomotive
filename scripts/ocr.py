@@ -5,6 +5,7 @@ import difflib
 import re
 import statistics
 from wordfreq import zipf_frequency
+from build_resources import page_text
 
 TOKEN = re.compile(r"[\w]+(?:['’-][\w]+)*|[^\w\s]", re.UNICODE)
 
@@ -65,7 +66,7 @@ def merge_rows(lines):
 
 def embedded(page, split=None, raw=False):
     lines = []
-    for b in page.get_text("dict")["blocks"]:
+    for b in page_text(page)["blocks"]:
         for l in b.get("lines", []):
             box = l["bbox"]
             box = [

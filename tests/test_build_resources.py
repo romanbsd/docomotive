@@ -166,6 +166,46 @@ class ResourceTests(unittest.TestCase):
                     scan.cached_retry_placements(*args)
                 self.assertEqual(compute.call_count, 1)
 
+    def test_page_text_is_extracted_once_without_image_blocks(self):
+        import pymupdf
+
+        doc = pymupdf.open()
+        page = doc.new_page()
+        page.insert_text((72, 72), "Shared page text")
+        stream = io.BytesIO()
+        Image.new("RGB", (8, 8), "red").save(stream, format="PNG")
+        page.insert_image(pymupdf.Rect(100, 100, 200, 200), stream=stream.getvalue())
+        lines = lambda d: [l for b in d["blocks"] for l in b.get("lines", [])]
+        first = resources.page_text(doc[0])
+        self.assertIs(resources.page_text(doc[0]), first)
+        self.assertEqual(self.active.counters["page_text_misses"], 1)
+        self.assertEqual(self.active.counters["page_text_hits"], 1)
+        self.assertEqual(lines(first), lines(page.get_text("dict")))
+        self.assertTrue(all(b.get("lines") for b in first["blocks"]))
+
+    def test_image_placements_match_hashed_xref_lookup(self):
+        import pymupdf
+        from scan_pixels import image_placements
+
+        def png(color):
+            stream = io.BytesIO()
+            Image.new("RGB", (8, 8), color).save(stream, format="PNG")
+            return stream.getvalue()
+
+        doc = pymupdf.open()
+        single = doc.new_page()
+        single.insert_image(single.rect, stream=png("red"))
+        double = doc.new_page()
+        double.insert_image(pymupdf.Rect(0, 0, 50, 50), stream=png("blue"))
+        double.insert_image(pymupdf.Rect(60, 60, 99, 99), stream=png("green"))
+        key = lambda images: sorted(
+            (im["xref"], tuple(im["bbox"]), tuple(im["transform"])) for im in images
+        )
+        for page in doc:
+            self.assertEqual(
+                key(image_placements(page)), key(page.get_image_info(xrefs=True))
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

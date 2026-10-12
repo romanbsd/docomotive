@@ -40,6 +40,8 @@ class BuildResources:
                     "marker_observation_cache_misses",
                     "glyph_retry_cache_hits",
                     "glyph_retry_cache_misses",
+                    "page_text_hits",
+                    "page_text_misses",
                 )
             }
         )
@@ -47,6 +49,7 @@ class BuildResources:
         self.pages = OrderedDict()
         self.lines = OrderedDict()
         self.engines = OrderedDict()
+        self.texts = OrderedDict()
 
     def cached(self, store, key, limit, kind, compute):
         if key in store:
@@ -98,6 +101,22 @@ def page_image(page):
     # Keep two 400-dpi pages, rather than retaining a whole scanned book.
     key = (page.parent, page.number)
     return active.cached(active.pages, key, 2, "page_image", render).copy()
+
+
+def page_text(page):
+    """Shared page.get_text("dict") without image blocks; callers must not mutate."""
+
+    def extract():
+        data = page.get_text("dict")
+        # Image blocks carry decoded pixels but no lines; text readers skip them.
+        return dict(data, blocks=[b for b in data["blocks"] if b.get("lines")])
+
+    active = _ACTIVE.get()
+    if not active:
+        return extract()
+    # Whole-book passes revisit every page; text-only dicts are small.
+    key = (page.parent, page.number)
+    return active.cached(active.texts, key, 2048, "page_text", extract)
 
 
 def line_ocr(image, recognizer, **kwargs):

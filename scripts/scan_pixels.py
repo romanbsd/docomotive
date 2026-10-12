@@ -1,14 +1,35 @@
 """Read original page scans after checking their actual placement."""
 
 import io
+import re
 import pymupdf
 from PIL import Image
+
+
+def image_placements(page):
+    """Image placements with xrefs, without hashing every listed image."""
+    placements = page.get_image_info()
+    # xrefs=True md5-decodes every image in the page resources. Scanned books
+    # often share one resource dictionary listing all page scans (~1.8s/page).
+    # A single placement drawn by name from the page's own content stream
+    # identifies its xref directly; anything else uses MuPDF's hashing.
+    if len(placements) != 1:
+        return page.get_image_info(xrefs=True)
+    drawn = set(re.findall(rb"/([^\s/\[\]()<>{}%]+)\s+Do\b", page.read_contents()))
+    xrefs = {
+        image[0]
+        for image in page.get_images(full=True)
+        if not image[9] and image[7].encode() in drawn
+    }
+    if len(xrefs) == 1:
+        return [dict(placements[0], xref=xrefs.pop())]
+    return page.get_image_info(xrefs=True)
 
 
 def isolated_scan(page, rect):
     scans = [
         image
-        for image in page.get_image_info(xrefs=True)
+        for image in image_placements(page)
         if image.get("xref")
         # PDF placement rounding can miss a page edge by a fraction of a pixel.
         and (pymupdf.Rect(image["bbox"]) + (-0.1, -0.1, 0.1, 0.1)).contains(rect)

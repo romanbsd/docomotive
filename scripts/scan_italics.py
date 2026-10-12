@@ -252,8 +252,9 @@ def inline_runtime():
                 "scan_italics.py",
                 "scanned_notes.py",
                 "figures.py",
+                # book_model.py only selects eligible rows; their indices are
+                # bound in the provenance, so its unrelated edits keep pixels.
                 "scan_pixels.py",
-                "book_model.py",
             )
         },
         traineddata=traineddata_digest(),
