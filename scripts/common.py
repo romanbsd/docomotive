@@ -70,7 +70,7 @@ PROFILE_KEYS = frozenset("""
     cover_imprint cover_source cross_page_continuations date description doi
     endnote_chapter endnote_marker_limit endnote_marker_min endnote_reference_mode
     endnote_sections excluded_pages figure_cleanup figure_color_mode figures frontmatter_endnotes glossary_pages
-    glossary_style glossary_terms hanging_pages index_pages index_splits recover_index_digits isbn
+    glossary_style glossary_terms hanging_pages index_pages index_splits recover_index_digits recover_opening_epigraphs retain_uncertain_gap_rows isbn
     language line_join_words link_symbol_footnotes metadata_record_overrides metadata_title_suffix openlibrary_edition
     native_body_size native_excluded_fonts native_font_styles native_heading_sizes
     native_heading_texts native_heading_merge native_index_indents native_list_layout native_quote_pages native_relative_font_sizes native_small_numeric_sup
@@ -78,7 +78,7 @@ PROFILE_KEYS = frozenset("""
     infer_verse infer_inset_verse page_labels paragraph_margins printed_page_offset publisher publisher_mark
     quote_first_line_indent recover_hanging_margins recover_ocr_regions recover_ocr_glyph_confusions recover_pdf_heading_styles recover_pdf_typography recover_pdf_numeric_superscripts
     recover_scan_font_metrics research_missing_endnotes recover_scanned_endnotes recover_reference_markers recover_variable_superscripts recover_image_only_headings reference_pages repair_lexical_confusions repair_word_wraps
-    related_print_isbns rights row_heading_rules row_regions section_navigation lexical_repair_policy
+    related_print_isbns rights row_heading_rules row_regions reference_regions morphological_word_wraps recover_footer_bounds recover_reference_prefixes section_navigation lexical_repair_policy
     scan_raster_only slug small_caps_openings source_completeness source_note
     source_prose_indents source_relative_figures source_sha256 source_version
     statistics_excluded_chapters subjects subtitle text_source title

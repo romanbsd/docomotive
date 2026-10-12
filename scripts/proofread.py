@@ -31,6 +31,26 @@ def diagnostics(model, book):
     results = []
     for chapter in model:
         for index, block in enumerate(chapter["blocks"] + chapter["notes"]):
+            for source in block["sources"]:
+                if source.get("uncertain_source_row"):
+                    results.append(
+                        {
+                            "word": block["text"][source["start"] : source["end"]],
+                            "kind": "uncertain-recovered-row",
+                            "suggestions": [],
+                            "occurrences": [
+                                {
+                                    "chapter": chapter["chapter"],
+                                    "paragraph": index,
+                                    "context": block["text"],
+                                    "offset": source["start"],
+                                    "sources": [source],
+                                    "block_kind": block["kind"],
+                                }
+                            ],
+                            "action": "scan-review-required",
+                        }
+                    )
             for kind, pattern in PATTERNS.items():
                 for match in re.finditer(pattern, block["text"], re.IGNORECASE):
                     sources = [

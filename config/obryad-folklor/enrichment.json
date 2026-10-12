@@ -1,0 +1,110 @@
+{
+  "source_sha256": "665054f261119cdb40c563f1667b92f5db352712877f03b6bc5bb78427fbe3c6",
+  "isbn": "9785020184756",
+  "isbn_13": "9785020184756",
+  "edition_key": "/books/OL26780225M",
+  "authors": [
+    "E.S Novik"
+  ],
+  "publication_date": "2004",
+  "publication_date_raw": "Mar 13, 2004",
+  "description": "",
+  "subjects": [
+    "Folklore",
+    "Rites and ceremonies",
+    "Shamanism"
+  ],
+  "identifiers": {
+    "isbn_10": [
+      "5020184756"
+    ],
+    "isbn_13": [
+      "9785020184756"
+    ],
+    "lccn": [
+      "2005563910"
+    ],
+    "oclc": [
+      "60539791"
+    ],
+    "openlibrary": [
+      "OL26780225M"
+    ]
+  },
+  "classifications": {
+    "lc_classifications": [
+      "BL2370.S5 N68 2004"
+    ],
+    "dewey_decimal_class": []
+  },
+  "publication_places": [],
+  "print_pages": 302,
+  "links": [
+    "https://openlibrary.org/books/OL26780225M",
+    "https://openlibrary.org/works/OL19289105W"
+  ],
+  "rights": "© Е. С. Новик, 1984; © Е. С. Новик, 2004, с изменениями; © Восточная литература РАН, 2004",
+  "covers": [
+    {
+      "width": 200,
+      "height": 297,
+      "format": "JPEG",
+      "sha256": "fbd9ac2353a80d6d3f15116ad3642970517e3623d773fae12a123596c9f7fc11",
+      "suitable_main_cover": false,
+      "url": "https://covers.openlibrary.org/b/isbn/9785020184756-L.jpg?default=false",
+      "path": "work/obryad-folklor/metadata/assets/fbd9ac2353a80d6d3f15116ad3642970517e3623d773fae12a123596c9f7fc11.jpg",
+      "accepted": false,
+      "reason": "Requires visual edition/cover-role review; ISBN association alone is insufficient"
+    }
+  ],
+  "conflicts": [
+    {
+      "field": "title",
+      "api": "Obriad i Fol'klor v Sibirskom Shamanizne: Opyt Sopostavleniia Struktur",
+      "source_profile": "Обряд и фольклор в сибирском шаманизме",
+      "resolution": "Каталожная запись OL26780225M имеет точный ISBN 5020184756 и 2004 год, но название приведено в латинской транслитерации с подзаголовком и опечаткой Shamanizne. Русское название проверено по титулу PDF 5."
+    },
+    {
+      "field": "publishers",
+      "api": [
+        "Vostochnaia literatura RAN"
+      ],
+      "source_profile": [
+        "Восточная литература РАН"
+      ],
+      "resolution": "Латинская транслитерация того же издательства; русское название проверено по титулу и выходным сведениям PDF 5–6."
+    },
+    {
+      "field": "publication_date",
+      "api": "Mar 13, 2004",
+      "source_profile": "2004",
+      "resolution": "Preserve normalized source-profile date unless API is ISO formatted; retain raw edition date."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://openlibrary.org/isbn/9785020184756.json",
+      "resolved_url": "https://openlibrary.org/books/OL26780225M.json",
+      "sha256": "ff9ab8d0bf37b371d64068f62d7498939e3576b67b4157e5451ab2fdd986b97f",
+      "retrieved_at": "2026-10-11T20:13:15.892805+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/authors/OL7477573A.json",
+      "resolved_url": "https://openlibrary.org/authors/OL7477573A.json",
+      "sha256": "aca00028c35d7fcda5621c10a1f0209423f8404a2eacb1c7144add32c411be95",
+      "retrieved_at": "2026-10-11T20:13:16.654609+00:00"
+    },
+    {
+      "url": "https://openlibrary.org/works/OL19289105W.json",
+      "resolved_url": "https://openlibrary.org/works/OL19289105W.json",
+      "sha256": "dd9f0d38cc391601a670192b138c2595b9bae0044c99b0e2d80731cd171ba3d3",
+      "retrieved_at": "2026-10-11T20:14:46.418440+00:00"
+    },
+    {
+      "url": "https://covers.openlibrary.org/b/isbn/9785020184756-L.jpg?default=false",
+      "resolved_url": "https://ia802809.us.archive.org/view_archive.php?archive=/18/items/l_covers_0008/l_covers_0008_43.zip&file=0008434293-L.jpg",
+      "sha256": "fbd9ac2353a80d6d3f15116ad3642970517e3623d773fae12a123596c9f7fc11",
+      "retrieved_at": "2026-10-11T20:14:49.531743+00:00"
+    }
+  ]
+}

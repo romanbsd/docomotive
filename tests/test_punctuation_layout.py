@@ -140,6 +140,166 @@ class PunctuationTests(unittest.TestCase):
 
 
 class LayoutRecoveryTests(unittest.TestCase):
+    def test_dropped_reference_label_needs_two_complete_fresh_readings(self):
+        import tempfile
+        from pathlib import Path
+        from common import write_json
+        from partial_rows import recover_reference_prefixes
+        from copy import deepcopy
+
+        own = dict(
+            page=1,
+            text="— Одно подробное определение.",
+            bbox=[0.25, 0.4, 0.9, 0.416],
+            inline=[dict(start=2, end=6, tags=["em"])],
+        )
+        peer = dict(
+            text="АБ — Одно подробное определение.", bbox=[0.05, 0.4, 0.9, 0.416]
+        )
+        for variant in (
+            "verified",
+            "region",
+            "outside-region",
+            "disabled",
+            "disagree",
+            "different-tail",
+            "existing-label",
+            "other-column",
+            "primary-tesseract",
+        ):
+            with self.subTest(variant=variant), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                for engine in ("tesseract", "rapid"):
+                    cache = root / engine
+                    cache.mkdir()
+                    (root / f"{engine}-cache.txt").write_text(str(cache))
+                    other = deepcopy(peer)
+                    if engine == "rapid" and variant == "disagree":
+                        other["text"] = other["text"].replace("АБ", "АВ")
+                    if engine == "rapid" and variant == "different-tail":
+                        other["text"] = other["text"].replace("подробное", "другое")
+                    if engine == "rapid" and variant == "other-column":
+                        other["column"] = 1
+                    write_json(cache / "0001.json", dict(lines=[other]))
+                row = deepcopy(own)
+                rows = [row]
+                if variant == "existing-label":
+                    rows.insert(0, dict(text="АБ", bbox=[0.05, 0.4, 0.1, 0.416]))
+                book = dict(
+                    vision_primary_pages=[] if variant == "primary-tesseract" else [1],
+                    reference_pages=[1],
+                    recover_reference_prefixes=variant != "disabled",
+                )
+                if variant in ("region", "outside-region"):
+                    book["reference_pages"] = []
+                    book["reference_regions"] = [
+                        dict(page=1, lo=0.3 if variant == "region" else 0.5, hi=1)
+                    ]
+                audit = []
+                recover_reference_prefixes({1: rows}, book, root, audit)
+                accepted = variant in {"verified", "region"}
+                self.assertEqual(bool(audit), accepted)
+                self.assertEqual(row["text"], peer["text"] if accepted else own["text"])
+                if accepted:
+                    style = row["inline"][0]
+                    self.assertEqual(row["text"][style["start"] : style["end"]], "Одно")
+                    self.assertEqual(row["bbox"][0], 0.05)
+
+    def test_footer_boundary_requires_independent_geometry_and_no_collateral_row(self):
+        import tempfile
+        from pathlib import Path
+        from common import write_json
+        from partial_rows import recover_footer_bounds
+        from book_model import classify_row
+        from copy import deepcopy
+
+        footer = dict(
+            text="1 Подробное примечание поясняет особенности описанного обряда",
+            bbox=[0.05, 0.79, 0.95, 0.82],
+        )
+        peer = dict(footer, bbox=[0.05, 0.8, 0.95, 0.815])
+        for variant in (
+            "verified",
+            "disabled",
+            "different-text",
+            "crossing-peer",
+            "neighbor",
+        ):
+            with self.subTest(variant=variant), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                cache = root / "ocr"
+                cache.mkdir()
+                (root / "tesseract-cache.txt").write_text(str(cache))
+                other = deepcopy(peer)
+                if variant == "different-text":
+                    other["text"] = "Другая строка про совершенно иной источник"
+                if variant == "crossing-peer":
+                    other["bbox"][1] = 0.79
+                write_json(cache / "0001.json", dict(lines=[other]))
+                row = deepcopy(footer)
+                rows = [row]
+                if variant == "neighbor":
+                    rows.append(
+                        dict(
+                            text="Непроверенная соседняя строка",
+                            bbox=[0.05, 0.792, 0.9, 0.82],
+                        )
+                    )
+                book = dict(
+                    vision_primary_pages=[1],
+                    note_starts={"1": 0.795},
+                    recover_footer_bounds=variant != "disabled",
+                )
+                audit = []
+                recover_footer_bounds({1: rows}, book, root, audit)
+                self.assertEqual(bool(audit), variant == "verified")
+                self.assertEqual(
+                    book["note_starts"]["1"], 0.79 if variant == "verified" else 0.795
+                )
+                self.assertEqual(row, footer)
+                if variant == "verified":
+                    self.assertEqual(classify_row(1, row, book)[0], "note")
+
+    def test_mixed_reference_region_keeps_prose_wraps_and_catalog_entries(self):
+        from book_model import reconstruct, JoinPolicy
+
+        rows = [
+            dict(text="Сборник изучает разные аспек-", bbox=[0.09, 0.1, 0.9, 0.12]),
+            dict(
+                text="ты древней культуры и сравнительно-", bbox=[0.05, 0.13, 0.9, 0.15]
+            ),
+            dict(
+                text="исторические методы исследования.", bbox=[0.05, 0.16, 0.9, 0.18]
+            ),
+            dict(text="Первая книга с длинным названием", bbox=[0.05, 0.4, 0.9, 0.42]),
+            dict(text="и продолжением записи. 1982.", bbox=[0.09, 0.43, 0.6, 0.45]),
+            dict(text="Вторая книга с другим названием", bbox=[0.05, 0.46, 0.9, 0.48]),
+            dict(text="и отдельным продолжением. 1983.", bbox=[0.09, 0.49, 0.6, 0.51]),
+        ]
+        book = dict(
+            chapters=[[1, 1, "Test"]],
+            chapter_body_starts={"1": 0},
+            upper_margin_cutoff=0,
+            reference_regions=[dict(page=1, lo=0.35, hi=1)],
+        )
+        audit = []
+        model = reconstruct(
+            {1: rows},
+            book,
+            JoinPolicy(
+                protected=["аспекты", "сравнительно-исторические"], language="ru"
+            ),
+            audit,
+        )
+        blocks = model[0]["blocks"]
+        self.assertEqual(len(blocks), 3)
+        self.assertIn("аспекты", blocks[0]["text"])
+        self.assertIn("сравнительно-исторические", blocks[0]["text"])
+        self.assertEqual([len(b["lines"]) for b in blocks], [3, 2, 2])
+        self.assertIn("продолжением записи. 1982.", blocks[1]["text"])
+        self.assertIn("отдельным продолжением. 1983.", blocks[2]["text"])
+        self.assertEqual(sum(len(b["sources"]) for b in blocks), len(rows))
+
     def test_body_top_default_and_header_guard(self):
         rows = [
             dict(
@@ -434,6 +594,128 @@ class InteriorCallTests(unittest.TestCase):
 
 
 class MissingRowTests(unittest.TestCase):
+    def test_uncertain_gap_is_retained_verbatim_only_when_enabled(self):
+        import tempfile
+        from pathlib import Path
+        from common import write_json
+        from partial_rows import recover_gap_rows
+        import pymupdf
+
+        text = (
+            "Старый охотник рассказал © событиях которые происходили возле большой реки"
+        )
+        peer = dict(text=text, bbox=[0.05, 0.175, 0.85, 0.19])
+        correct = text.replace("©", "о")
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            write_json(root / "0001.json", dict(lines=[peer]))
+            doc = pymupdf.open()
+            doc.new_page()
+
+            class Recognizer:
+                models = root
+                work = root
+
+                def line_words(self, page, row, raw=False, dpi=600):
+                    return dict(text=text if dpi == 600 else correct)
+
+                def with_fallback(self, evidence, crop, candidate):
+                    return dict(
+                        alternate_crop=dict(
+                            readings=[correct, correct], scores=[0.93, 0.91]
+                        )
+                    )
+
+            recognizer = Recognizer()
+            recognizer.doc = doc
+            for enabled in (False, True):
+                rows = [
+                    dict(
+                        text="Обычная строка содержит несколько последовательных слов "
+                        + str(i),
+                        bbox=[0.05, y, 0.95, y + 0.015],
+                    )
+                    for i, y in enumerate([0.1, 0.125, 0.15, 0.2, 0.225, 0.25])
+                ]
+                audit = []
+                report = recover_gap_rows(
+                    {1: rows},
+                    dict(retain_uncertain_gap_rows=enabled),
+                    root,
+                    recognizer,
+                    None,
+                    audit,
+                )
+                self.assertEqual(report["corrected"], 0)
+                self.assertEqual(len(rows), 7 if enabled else 6)
+                if enabled:
+                    self.assertEqual(report["retained_for_review"], 1)
+                    self.assertEqual(rows[3]["text"], text)
+                    self.assertTrue(rows[3]["uncertain_source_row"])
+                    self.assertEqual(audit[0]["action"], "review")
+                else:
+                    self.assertFalse(audit)
+                    self.assertNotIn("retained_for_review", report)
+            doc.close()
+
+    def test_uncertain_gap_needs_complete_independent_line_evidence(self):
+        from partial_rows import uncertain_gap_supported
+
+        cached = (
+            "Старый охотник рассказал © событиях которые происходили возле большой реки"
+        )
+        correct = cached.replace("©", "о")
+        witness = dict(readings=[correct, correct], scores=[0.93, 0.91])
+        self.assertTrue(uncertain_gap_supported(cached, [cached, correct], witness))
+        self.assertFalse(uncertain_gap_supported(cached, [cached], witness))
+        self.assertFalse(uncertain_gap_supported(cached, [cached, correct], {}))
+        self.assertFalse(
+            uncertain_gap_supported(
+                cached, [cached, correct], dict(readings=[correct], scores=[0.79])
+            )
+        )
+        self.assertFalse(
+            uncertain_gap_supported(
+                cached, [cached, "Другие события происходили совершенно иначе"], witness
+            )
+        )
+        self.assertFalse(
+            uncertain_gap_supported(
+                cached,
+                [cached, correct],
+                dict(readings=[" ".join(correct.split()[:-1])], scores=[0.99]),
+            )
+        )
+        self.assertFalse(
+            uncertain_gap_supported(
+                "Слишком короткая строка",
+                ["Слишком короткая строка"] * 2,
+                dict(readings=["Слишком короткая строка"], scores=[0.99]),
+            )
+        )
+        # The check proves presence only: it never changes the cached wording.
+        self.assertIn("©", cached)
+
+    def test_uncertain_source_rows_reach_offline_review(self):
+        from proofread import diagnostics
+        from book_model import normalize_block, JoinPolicy
+
+        row = dict(
+            text="Неуверенная строка остается без скрытого исправления",
+            page=1,
+            row_id="a",
+            bbox=[0.05, 0.1, 0.95, 0.12],
+            uncertain_source_row=True,
+        )
+        block = dict(kind="text", lines=[row])
+        normalize_block(block, JoinPolicy(), [])
+        findings = diagnostics([dict(chapter=1, blocks=[block], notes=[])], {})
+        self.assertEqual([d["kind"] for d in findings], ["uncertain-recovered-row"])
+        self.assertEqual(findings[0]["word"], row["text"])
+        self.assertTrue(
+            findings[0]["occurrences"][0]["sources"][0]["uncertain_source_row"]
+        )
+
     def test_missing_prefix_requires_valid_existing_wrap(self):
         from partial_rows import corroborated_gap_text
 

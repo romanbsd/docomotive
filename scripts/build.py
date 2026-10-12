@@ -410,6 +410,14 @@ def build(
             audit,
         )
         write_json(out / "row-gap-analysis.json", gap_report)
+    if not native and book.get("recover_reference_prefixes"):
+        from partial_rows import recover_reference_prefixes
+
+        recover_reference_prefixes(pages, book, work, audit)
+    if not native and book.get("recover_footer_bounds"):
+        from partial_rows import recover_footer_bounds
+
+        recover_footer_bounds(pages, book, work, audit)
     if not native and book.get("link_symbol_footnotes", False):
         from scanned_notes import repair_note_marker_prefixes
 
@@ -477,8 +485,9 @@ def build(
             measured(attach_scan_inline_italics)(
                 rows, doc[n - 1], n, book, audit, work=work
             )
-    from typography import recover_scanned_headings
+    from typography import recover_scanned_headings, recover_opening_epigraphs
 
+    recover_opening_epigraphs(pages, book, audit)
     recover_scanned_headings(pages, book, audit)
     write_json(out / "corrected-pages.json", pages)
     layout = infer(pages)
@@ -616,6 +625,13 @@ def build(
         for row in rows
         for word in re.findall(r"[\w]+(?:['’-][\w]+)*", row["text"])
     ]
+    morphology = None
+    if book.get("morphological_word_wraps"):
+        if language_code(book) != "ru":
+            raise ValueError("Morphological word wraps currently require Russian")
+        from morphology import RussianWrapLexicon
+
+        morphology = RussianWrapLexicon()
     policy = JoinPolicy(
         protected + book.get("line_join_words", []),
         observed,
@@ -624,6 +640,7 @@ def build(
         rare_wraps=book.get("repair_word_wraps", False),
         noisy_wraps=book.get("repair_word_wraps", False),
         language=language_code(book),
+        morphology=morphology,
     )
     from book_model import resolve_body_top
 
@@ -984,6 +1001,7 @@ def build(
             if obsolete != image:
                 (preview / obsolete.name).unlink(missing_ok=True)
     result = {
+        **({"word_wrap_lexicon": morphology.provenance} if morphology else {}),
         "source_sha256": source_hash,
         "epub_sha256": digest(target.read_bytes()),
         "source_pages": len(doc),

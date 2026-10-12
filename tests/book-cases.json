@@ -103,5 +103,19 @@
     "profile": "config/concentration-meditation/reading-book.json",
     "work": "work/concentration-meditation",
     "editorial": true
+  },
+  {
+    "name": "obryad-folklor",
+    "pdf": "input/Обряд и фольклор в сибирском шаманизме.pdf",
+    "profile": "config/obryad-folklor/book.json",
+    "work": "work/obryad-folklor",
+    "editorial": false
+  },
+  {
+    "name": "obryad-folklor-reading",
+    "pdf": "input/Обряд и фольклор в сибирском шаманизме.pdf",
+    "profile": "config/obryad-folklor/reading-book.json",
+    "work": "work/obryad-folklor",
+    "editorial": true
   }
 ]

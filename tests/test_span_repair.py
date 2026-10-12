@@ -301,3 +301,47 @@ class NumericShapeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CompositeCropTests(unittest.TestCase):
+    def test_parallel_audit_hash_uses_complete_rendered_bytes(self):
+        import tempfile
+        from types import SimpleNamespace
+        from concurrent.futures import ThreadPoolExecutor
+        from common import digest
+        from span_repair import composite_crop
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            parts = []
+            for index, size in enumerate([(40, 25), (50, 30)]):
+                path = root / f"part-{index}.png"
+                Image.new("RGB", size, "white").save(path)
+                parts.append(
+                    dict(cache_key=path.stem, crop_sha256=digest(path.read_bytes()))
+                )
+            original_read = Path.read_bytes
+
+            def contended_read(path):
+                # Reproduce an empty read during another writer's truncation.
+                return original_read(path) if path.stem.startswith("part-") else b""
+
+            with (
+                patch.object(Path, "read_bytes", contended_read),
+                ThreadPoolExecutor(max_workers=4) as pool,
+            ):
+                results = list(
+                    pool.map(
+                        lambda _: composite_crop(
+                            SimpleNamespace(work=root), parts, "слово"
+                        ),
+                        range(12),
+                    )
+                )
+            self.assertTrue(all(result == results[0] for result in results))
+            target = root / (results[0]["cache_key"] + ".png")
+            self.assertEqual(results[0]["crop_sha256"], digest(target.read_bytes()))
+            with Image.open(target) as image:
+                image.load()
+                self.assertEqual(image.size, (102, 30))
+            self.assertEqual(len(list(root.iterdir())), 3)

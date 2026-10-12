@@ -18,6 +18,7 @@ from typography import (
     inset_verse_evidence,
     image_only_headings,
     recover_scanned_headings,
+    recover_opening_epigraphs,
     attach_numeric_superscripts,
 )
 from native_pdf import extract_page
@@ -43,6 +44,102 @@ def row(text, i=0, width=0.35, italic=False, x=0.2):
 
 
 class TypographyTests(unittest.TestCase):
+    def test_opening_epigraph_requires_geometry_type_and_italic_credit(self):
+        from copy import deepcopy
+
+        quote = []
+        for i in range(6):
+            r = row("A wrapped line of the opening quotation", i, width=0.48, x=0.42)
+            r.update(font_size=8)
+            r["bbox"] = [0.42, 0.2 + i * 0.02, 0.9, 0.214 + i * 0.02]
+            quote.append(r)
+        quote[0]["bbox"][0] += 0.025  # First-line indent must not create a new block.
+        credit = row("An Author. A cited work", 6, width=0.3, x=0.6, italic=True)
+        credit.update(font_size=8, bbox=[0.6, 0.326, 0.9, 0.34])
+        body = [
+            row(
+                "Ordinary broad prose establishes the surrounding body type.",
+                i + 7,
+                width=0.8,
+                x=0.1,
+            )
+            for i in range(10)
+        ]
+        for i, r in enumerate(body):
+            r["bbox"] = [0.1, 0.36 + i * 0.025, 0.9, 0.38 + i * 0.025]
+        source = quote + [credit] + body
+        for variant in [
+            "accepted",
+            "unidentified-ocr",
+            "narrow-body",
+            "disabled",
+            "native",
+            "unstyled",
+            "full-size",
+            "body-first",
+            "separated",
+            "fontless",
+            "no-body",
+        ]:
+            with self.subTest(variant=variant):
+                rows = deepcopy(source)
+                book = dict(
+                    chapters=[[1, 1, "Test"]],
+                    chapter_body_starts={"1": 0.19},
+                    recover_opening_epigraphs=variant != "disabled",
+                )
+                if variant == "native":
+                    book["text_source"] = "native"
+                if variant == "unidentified-ocr":
+                    for r in rows:
+                        r.pop("row_id", None)
+                if variant == "unstyled":
+                    rows[6].pop("inline")
+                if variant == "full-size":
+                    for r in rows[:6]:
+                        r["font_size"] = 11
+                        r["bbox"][3] = r["bbox"][1] + 0.02
+                if variant == "body-first":
+                    rows.insert(
+                        0,
+                        dict(
+                            row(
+                                "Ordinary body before the inset passage.",
+                                20,
+                                width=0.8,
+                                x=0.1,
+                            ),
+                            bbox=[0.1, 0.19, 0.9, 0.21],
+                        ),
+                    )
+                if variant == "separated":
+                    rows[3]["bbox"][1] += 0.009
+                    rows[3]["bbox"][3] += 0.009
+                if variant == "narrow-body":
+                    for r in rows:
+                        r["bbox"][2] -= 0.1
+                    for r in rows[7:]:
+                        r["bbox"][0] = 0.2
+                if variant == "fontless":
+                    for r in rows[:6]:
+                        r.pop("font_size")
+                if variant == "no-body":
+                    rows = rows[:7]
+                before = [r["text"] for r in rows]
+                audit = []
+                recover_opening_epigraphs({1: rows}, book, audit)
+                expected = variant in {"accepted", "narrow-body", "unidentified-ocr"}
+                self.assertEqual(bool(audit), expected)
+                self.assertEqual([r["text"] for r in rows], before)
+                if expected:
+                    model = reconstruct({1: rows}, book, JoinPolicy(), [])
+                    self.assertEqual(model[0]["blocks"][0]["kind"], "quote")
+                    self.assertEqual(len(model[0]["blocks"][0]["lines"]), 6)
+                    self.assertEqual(model[0]["blocks"][1]["kind"], "attribution")
+                    self.assertAlmostEqual(
+                        model[0]["blocks"][0]["quote_font_scale"], 0.73
+                    )
+
     def test_index_digit_recovery_requires_complete_fresh_agreement(self):
         cases = [
             (

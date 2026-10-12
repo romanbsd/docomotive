@@ -20,6 +20,8 @@ dependencies = [
     "onnxruntime==1.30.0",
     "symspellpy==6.10.0",
     "spylls==0.1.7",
+    "pymorphy3==2.0.6",
+    "pymorphy3-dicts-ru==2.4.417150.4580142",
     "requests==2.34.2",
 ]
 

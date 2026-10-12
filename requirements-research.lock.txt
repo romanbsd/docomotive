@@ -13,6 +13,7 @@ colorlog==6.12.0
 contourpy==1.3.3
 cssselect2==0.10.1
 cycler==0.12.1
+dawg2-python==0.9.0
 distro==1.9.0
 doc-page-extractor==1.2.1
 doclayout_yolo==0.0.4
@@ -71,6 +72,8 @@ pycparser==3.1
 pydantic==2.14.0
 pydantic_core==2.46.5
 pydyf==0.12.1
+pymorphy3==2.0.6
+pymorphy3-dicts-ru==2.4.417150.4580142
 pymupdf==1.28.2
 pyparsing==3.3.3
 pyphen==0.18.1

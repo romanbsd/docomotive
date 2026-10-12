@@ -5,7 +5,14 @@ from repair_types import RepairPolicy
 import math
 import re
 
-BOOL_KEYS = {"recover_index_digits"} | set(
+BOOL_KEYS = {
+    "recover_index_digits",
+    "recover_opening_epigraphs",
+    "retain_uncertain_gap_rows",
+    "morphological_word_wraps",
+    "recover_footer_bounds",
+    "recover_reference_prefixes",
+} | set(
     """chapter_heading continuous_indented_rows native_small_numeric_sup native_heading_merge native_index_indents native_list_layout native_relative_font_sizes
     recover_centered_headings infer_full_width_quotes repair_ocr_punctuation repair_ocr_case inspect_partial_rows recover_gap_rows normalize_quotation_marks recover_figure_frames recover_body_top source_figure_anchors link_numeric_footnotes infer_verse infer_inset_verse link_symbol_footnotes recover_hanging_margins recover_ocr_regions recover_ocr_glyph_confusions recover_pdf_heading_styles recover_pdf_typography recover_pdf_numeric_superscripts recover_scan_font_metrics recover_scan_italics recover_scan_inline_italics
     research_missing_endnotes recover_scanned_endnotes recover_reference_markers recover_variable_superscripts recover_image_only_headings repair_lexical_confusions repair_word_wraps scan_raster_only section_navigation source_prose_indents source_relative_figures""".split()
@@ -21,7 +28,7 @@ LIST_KEYS = PAGE_LIST_KEYS | set(
     """artwork_pages artwork_overlay_exclusions chapters contributors
     endnote_sections figures frontmatter_endnotes line_join_words
     metadata_record_overrides native_excluded_fonts native_heading_sizes
-    native_heading_texts related_print_isbns row_heading_rules row_regions
+    native_heading_texts related_print_isbns row_heading_rules row_regions reference_regions
     statistics_excluded_chapters subjects metadata_author_aliases source_gaps""".split()
 )
 DICT_KEYS = set("""bottom_margin_cutoffs chapter_body_starts comments cover_file
@@ -83,6 +90,11 @@ def validate_profile(book, path="profile", page_count=None):
     for key in ("title", "author", "language"):
         if not book[key].strip():
             fail(key, "must not be empty")
+    if book.get("morphological_word_wraps"):
+        from languages import language_code
+
+        if language_code(book) != "ru":
+            fail("morphological_word_wraps", "currently requires Russian")
     if book.get("text_source", "ocr") not in ("ocr", "native"):
         fail("text_source", "expected ocr or native")
     if book.get("lexical_repair_policy", RepairPolicy.SOURCE_FAITHFUL) not in (
@@ -201,13 +213,15 @@ def validate_profile(book, path="profile", page_count=None):
             fail("row_heading_rules", "expected objects with pages")
         for value in rule["pages"]:
             page(value, "row_heading_rules")
-    for key in ("figures", "row_regions"):
+    for key in ("figures", "row_regions", "reference_regions"):
         for item in book.get(key, []):
             if not isinstance(item, dict) or "page" not in item:
                 fail(key, "expected objects with a page")
             page(item["page"], key)
             if key == "figures" and "rect" not in item:
                 fail(key, "rect is required")
+            if key == "reference_regions" and not {"lo", "hi"} <= item.keys():
+                fail(key, "lo and hi are required")
             if "rect" in item:
                 rect = item["rect"]
                 if not isinstance(rect, list) or len(rect) != 4:
@@ -221,3 +235,11 @@ def validate_profile(book, path="profile", page_count=None):
                 unit(item.get("hi"), key)
                 if item["lo"] >= item["hi"]:
                     fail(key, "lo must be less than hi")
+    regions = book.get("reference_regions", [])
+    for i, left in enumerate(regions):
+        if any(
+            left["page"] == right["page"]
+            and max(left["lo"], right["lo"]) < min(left["hi"], right["hi"])
+            for right in regions[i + 1 :]
+        ):
+            fail("reference_regions", "regions on the same page must not overlap")

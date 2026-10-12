@@ -12,6 +12,116 @@ from native_pdf import extract_page
 from ocr import nearest
 
 
+def recover_opening_epigraphs(pages, book, audit):
+    """Opening inset prose with a styled credit and smaller scan type."""
+    if book.get("text_source") == "native" or not book.get("recover_opening_epigraphs"):
+        return
+    for number, _, _ in book["chapters"]:
+        if number in book.get("reference_pages", []):
+            continue
+        cutoff = book.get("chapter_body_starts", {}).get(str(number), 0.27)
+        rows = sorted(
+            (
+                r
+                for r in pages.get(number, [])
+                if cutoff
+                <= r["bbox"][1]
+                < book.get("note_starts", {}).get(str(number), 1)
+            ),
+            key=lambda r: r["bbox"][1],
+        )
+        for i in range(4, min(33, len(rows) - 8)):
+            quote, credit, following = rows[:i], rows[i], rows[i + 1 :]
+            # Four wrapped lines and eight broad prose controls rule out short
+            # subtitles and sparse title leaves. The credit is a full italic run.
+            if (
+                credit.get("kind", "text") != "text"
+                or not 12 <= len(credit["text"]) <= 120
+                or credit["bbox"][1] > 0.7
+                or not all(
+                    not c.isalnum()
+                    or any(
+                        "em" in s.get("tags", []) and s["start"] <= j < s["end"]
+                        for s in credit.get("inline", [])
+                    )
+                    for j, c in enumerate(credit["text"])
+                )
+            ):
+                continue
+            eligible = [r for r in following if len(r["text"]) >= 30]
+            widths = sorted(r["bbox"][2] - r["bbox"][0] for r in eligible)
+            broad = widths[round(0.9 * (len(widths) - 1))] if widths else 0
+            controls = [
+                r for r in eligible if r["bbox"][2] - r["bbox"][0] >= 0.8 * broad
+            ]
+            if len(controls) < 8 or any(r.get("kind", "text") != "text" for r in quote):
+                continue
+            left = statistics.median(r["bbox"][0] for r in controls)
+            right = statistics.median(r["bbox"][2] for r in controls)
+            qleft = statistics.median(r["bbox"][0] for r in quote)
+            body_height = statistics.median(
+                r["bbox"][3] - r["bbox"][1] for r in controls
+            )
+            qheight = statistics.median(r["bbox"][3] - r["bbox"][1] for r in quote)
+            font = lambda r: r.get("scan_font_size", r.get("font_size", 0))
+            bfonts = [font(r) for r in controls if font(r)]
+            qfonts = [font(r) for r in quote if font(r)]
+            # Require both box-height and aligned source-font evidence:
+            # indentation or an old OCR font by itself cannot prove a quotation.
+            # The 6%/8% reductions exceed minor box and font-estimation noise.
+            if (
+                len(bfonts) < 8
+                or len(qfonts) < 0.8 * len(quote)
+                or qheight >= 0.94 * body_height
+                or statistics.median(qfonts) >= 0.92 * statistics.median(bfonts)
+                or qleft < left + 0.15 * (right - left)
+                or any(
+                    abs(r["bbox"][0] - qleft) > 0.04 or r["bbox"][2] > right + 0.035
+                    for r in quote
+                )
+                or credit["bbox"][0] < qleft + 0.05
+                or abs(credit["bbox"][2] - right) > 0.035
+                or following[0]["bbox"][1] - credit["bbox"][3] < 0.008
+                or following[0]["bbox"][2] - following[0]["bbox"][0]
+                < 0.8 * (right - left)
+                or abs(following[0]["bbox"][0] - left) > 0.04
+            ):
+                continue
+            centers = [(r["bbox"][1] + r["bbox"][3]) / 2 for r in quote]
+            pitches = [b - a for a, b in zip(centers, centers[1:])]
+            pitch = statistics.median(pitches)
+            if pitch <= 0 or any(
+                not 0.55 * pitch <= p <= 1.55 * pitch for p in pitches
+            ):
+                continue  # A separated paragraph must not join this epigraph.
+            scale = round(
+                # Keep very small inferred source type readable on EPUB screens.
+                max(0.7, statistics.median(qfonts) / statistics.median(bfonts)),
+                2,
+            )
+            # Typography runs before reconstruction assigns canonical IDs.
+            # Use the same identity helper so audits and later sources agree.
+            from book_model import row_id
+
+            for r in quote + [credit]:
+                r.setdefault("row_id", row_id(number, r, book.get("source_sha256", "")))
+            group = quote[0]["row_id"]
+            for r in quote:
+                r.update(kind="quote", epigraph_group=group, quote_font_scale=scale)
+            credit["kind"] = "attribution"
+            audit.append(
+                dict(
+                    page=number,
+                    kind="opening-scan-epigraph",
+                    rows=[r["row_id"] for r in quote],
+                    attribution=credit["row_id"],
+                    quote_font_scale=scale,
+                    evidence="opening inset smaller-type run, full italic credit and separated broad prose",
+                )
+            )
+            break
+
+
 def image_only_headings(rows, book, number, audit):
     """Isolated short labels between prose lines; no title/phrase whitelist."""
     if number in book.get("reference_pages", []) or str(number) in book.get(

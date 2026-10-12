@@ -8,6 +8,176 @@ from ocr import merge_rows
 from vocabulary import TOKEN
 
 
+def recover_reference_prefixes(pages, book, work, audit):
+    """Restore a dropped short label only from two fresh agreeing engines."""
+    if not book.get("recover_reference_prefixes"):
+        return
+    from common import cache_path, apply_edits
+
+    compact = lambda text: re.sub(r"\s+", "", text)
+    for n, rows in pages.items():
+        if n not in book.get("vision_primary_pages", []):
+            continue  # The two independent witnesses below exclude Vision.
+        eligible = [
+            r
+            for r in rows
+            if n in book.get("reference_pages", [])
+            or any(
+                zone["page"] == n and zone["lo"] <= r["bbox"][1] < zone["hi"]
+                for zone in book.get("reference_regions", [])
+            )
+        ]
+        if not eligible:
+            continue
+        peers = {
+            engine: merge_rows(
+                read_json(cache_path(work, engine) / f"{n:04}.json")["lines"]
+            )
+            for engine in ("tesseract", "rapid")
+        }
+        for row in eligible:
+            if not re.match(r"^[—–-]\s*\S", row["text"]):
+                continue
+            center = sum(row["bbox"][1::2]) / 2
+            aligned = (
+                lambda peer: peer.get("column", 0) == row.get("column", 0)
+                and abs(sum(peer["bbox"][1::2]) / 2 - center) <= 0.008
+            )
+            # An existing left-hand row is already represented and must not
+            # acquire a second copy just because its label and body are split.
+            if any(
+                other is not row
+                and aligned(other)
+                and other["bbox"][2] <= row["bbox"][0]
+                and re.search(r"\w", other["text"])
+                for other in rows
+            ):
+                continue
+            candidates = []
+            for peer in peers["tesseract"]:
+                label = re.fullmatch(r"([^\W\d_]{2,8})\s+([—–-].+)", peer["text"])
+                # Restrict this recovery to compact uppercase reference labels
+                # and an unchanged definition, not arbitrary missing prose.
+                if (
+                    not label
+                    or not label[1].isupper()
+                    or not aligned(peer)
+                    or row["bbox"][0] - peer["bbox"][0] < 0.05
+                    or compact(label[2]) != compact(row["text"])
+                ):
+                    continue
+                complete = [
+                    p
+                    for p in peers["rapid"]
+                    if aligned(p)
+                    and compact(p["text"]) == compact(label[1] + " " + row["text"])
+                    and abs(p["bbox"][0] - peer["bbox"][0]) <= 0.02
+                    and abs(p["bbox"][2] - row["bbox"][2]) <= 0.02
+                ]
+                if len(complete) == 1:
+                    candidates.append((label[1], peer, complete[0]))
+            if len(candidates) != 1:
+                continue
+            prefix, peer, independent = candidates[0]
+            before_box = list(row["bbox"])
+            start = len(audit)
+            apply_edits(
+                [row],
+                [
+                    dict(
+                        page=n,
+                        before=row["text"][0],
+                        after=prefix + " " + row["text"][0],
+                        whole_word=False,
+                        prefix="",  # Insert at the leading dash, preserving inline spans.
+                        count=1,
+                    )
+                ],
+                audit,
+                "two-engine-reference-prefix",
+            )
+            if len(audit) == start:
+                continue
+            row["bbox"][0] = min(peer["bbox"][0], independent["bbox"][0])
+            audit[-1].update(
+                source_bbox=before_box,
+                bbox=row["bbox"],
+                tesseract=dict(text=peer["text"], bbox=peer["bbox"]),
+                rapid=dict(text=independent["text"], bbox=independent["bbox"]),
+            )
+
+
+def recover_footer_bounds(pages, book, work, audit):
+    """Keep a raised footer label from stranding its first line in body prose."""
+    if not book.get("recover_footer_bounds"):
+        return
+    from common import cache_path
+
+    for number, cutoff in list(book.get("note_starts", {}).items()):
+        n = int(number)
+        rows = pages.get(n, [])
+        primary = "vision" if n in book.get("vision_primary_pages", []) else "tesseract"
+        peer_engine = "tesseract" if primary == "vision" else "vision"
+        peers = merge_rows(
+            read_json(cache_path(work, peer_engine) / f"{n:04}.json")["lines"]
+        )
+        supported = []
+        for row in rows:
+            box = row["bbox"]
+            # A crossing of less than half a typical line can come from a
+            # raised label. The majority of this compact box must be in footer.
+            if not (
+                0 < cutoff - box[1] <= 0.008
+                and (box[1] + box[3]) / 2 >= cutoff
+                and box[3] - box[1] <= 0.04
+            ):
+                continue
+            own = [w.lower() for w in re.findall(r"[^\W\d_]+", row["text"])]
+            anchors = {w for w in own if len(w) >= 4}
+            matches = []
+            for peer in peers:
+                pb = peer["bbox"]
+                other = [w.lower() for w in re.findall(r"[^\W\d_]+", peer["text"])]
+                if (
+                    peer.get("column", 0) == row.get("column", 0)
+                    and pb[1] >= cutoff
+                    and pb[3] <= box[3] + 0.005
+                    and pb[3] - pb[1] <= 0.025
+                    and abs(pb[0] - box[0]) <= 0.04
+                    and len(anchors & set(other)) >= 3
+                    and difflib.SequenceMatcher(None, own, other).ratio() >= 0.9
+                ):
+                    matches.append(peer)
+            if len(matches) == 1:
+                supported.append((row, matches[0]))
+        if not supported:
+            continue
+        floor = min(row["bbox"][1] for row, _ in supported)
+        # Moving a page boundary must not reclassify an unverified neighbor.
+        if any(
+            floor <= row["bbox"][1] < cutoff
+            and not any(row is own for own, _ in supported)
+            for row in rows
+        ):
+            continue
+        book["note_starts"][number] = floor
+        audit.append(
+            dict(
+                page=n,
+                kind="footer-boundary-recovery",
+                source_cutoff=cutoff,
+                effective_cutoff=floor,
+                primary_engine=primary,
+                peer_engine=peer_engine,
+                rows=[
+                    dict(text=row["text"], bbox=row["bbox"], peer_bbox=peer["bbox"])
+                    for row, peer in supported
+                ],
+                applied=True,
+            )
+        )
+
+
 def truncated_rows(primary, witnesses):
     findings = []
     for row in primary:
@@ -206,6 +376,48 @@ def corroborated_gap_text(candidate, cached, previous, dictionary):
     return False
 
 
+def uncertain_gap_supported(cached, readings, independent):
+    """Support whole-line presence without resolving its disputed glyphs."""
+
+    def tokens(text):
+        return re.findall(r"[^\W_]+", text.lower())
+
+    own = tokens(cached)
+    # Eight words and three long anchors exclude labels and incidental overlap;
+    # 97% character agreement limits the evidence to nearly identical lines.
+    if len(own) < 8 or len(readings) != 2:
+        return False
+    anchors = {w for w in own if len(w) >= 4}
+    normalized = " ".join(own)
+
+    def supported(text):
+        words = tokens(text)
+        comparison = difflib.SequenceMatcher(None, normalized, " ".join(words))
+        # Two character discrepancies cover an isolated glyph plus a space.
+        # This establishes line presence only; the original reading is retained.
+        changes = sum(
+            max(b - a, d - c)
+            for op, a, b, c, d in comparison.get_opcodes()
+            if op != "equal"
+        )
+        return (
+            len(anchors & set(words)) >= 3
+            and comparison.ratio() >= 0.97
+            and changes <= 2
+        )
+
+    if not all(supported(text) for text in readings):
+        return False
+    # A second engine is mandatory; two Tesseract scales are not independent.
+    # Its score is a recognition guard, not a correctness probability.
+    return any(
+        score >= 0.8 and supported(text)
+        for text, score in zip(
+            independent.get("readings", []), independent.get("scores", [])
+        )
+    )
+
+
 def recover_gap_rows(pages, book, cache, recognizer, dictionary, audit):
     import pymupdf
 
@@ -235,6 +447,7 @@ def recover_gap_rows(pages, book, cache, recognizer, dictionary, audit):
             )
             decisions.append(record)
             target = None
+            evidence = {}
             if readings[0] == readings[1] and corroborated_gap_text(
                 readings[0], peer["text"], proposal["left"]["text"], dictionary
             ):
@@ -285,6 +498,37 @@ def recover_gap_rows(pages, book, cache, recognizer, dictionary, audit):
                     action="correct", after=target, reason="source-verified-missing-row"
                 )
                 audit.append(dict(record, kind="recovered-gap-row", applied=True))
+            elif (
+                book.get("retain_uncertain_gap_rows")
+                and not proposal.get("represented_maybe")
+                and uncertain_gap_supported(peer["text"], readings, evidence)
+            ):
+                # Completeness and correction are different decisions: keep
+                # the source OCR verbatim and expose the uncertainty to review.
+                row.update(
+                    text=peer["text"],
+                    kind="text",
+                    recovered_source_row=True,
+                    uncertain_source_row=True,
+                )
+                rows.append(row)
+                rows.sort(key=lambda r: sum(r["bbox"][1::2]))
+                record.update(
+                    after=peer["text"],
+                    retained_for_review=True,
+                    reason="source-supported-gap-retained-for-review",
+                )
+                audit.append(dict(record, kind="recovered-gap-row", applied=True))
     return dict(
-        corrected=sum(d["action"] == "correct" for d in decisions), decisions=decisions
+        corrected=sum(d["action"] == "correct" for d in decisions),
+        decisions=decisions,
+        **(
+            {
+                "retained_for_review": sum(
+                    bool(d.get("retained_for_review")) for d in decisions
+                )
+            }
+            if book.get("retain_uncertain_gap_rows")
+            else {}
+        ),
     )

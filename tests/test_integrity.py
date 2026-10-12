@@ -55,6 +55,13 @@ class IntegrityTests(unittest.TestCase):
             ("quote_font_scale", 2),
             ("source_figure_anchors", "true"),
             ("link_numeric_footnotes", "true"),
+            ("morphological_word_wraps", True),
+            ("reference_regions", [{"page": 2, "lo": 0.5}]),
+            ("reference_regions", [{"page": 2, "lo": 0.8, "hi": 0.4}]),
+            (
+                "reference_regions",
+                [{"page": 2, "lo": 0.4, "hi": 0.8}, {"page": 2, "lo": 0.6, "hi": 0.9}],
+            ),
         ]
         for key, value in cases:
             with self.subTest(key=key, value=value), self.assertRaises(ValueError):

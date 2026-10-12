@@ -3193,6 +3193,330 @@
       "noterefs": 0,
       "backlinks": 0,
       "figures": []
+    },
+    "obryad-folklor": {
+      "source_sha256": "665054f261119cdb40c563f1667b92f5db352712877f03b6bc5bb78427fbe3c6",
+      "slug": "obryad-folklor",
+      "editorial": false,
+      "artifacts": {
+        "book-model.json": "0d3ed41a245977ee93d473b7f50e154a31a24ab4a5e7da69c7ad0d532d994cf5",
+        "corrected-pages.json": "f298061d2d2824b96274dca67a1bb213ed46d8e2465dd72ee83ae908233c0cad",
+        "text-coverage.json": "85940dbd082f0c21617ab8348dc6012722ec5d09c8d80489894f03969e3a7ad7",
+        "apparatus-analysis.json": "732c1bc3251fd7402fe93025453a572139daea62962ce0ff4a9ab7037e8b4bc3",
+        "obryad-folklor.txt": "6e23ed185a7e0e8acca385b55a543b00e0c880a3587a6e76a6fea711d3e78a11",
+        "lexical-repair.json": "35be4758c1149a351d11d3544c6e47959e4382a29548607b1e78ab216da099e7"
+      },
+      "epub_sha256": "c17d91ff6e7f6f3821602313d9789fc4301786c7028cbd4814186e14aa80bef2",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/back-cover.jpg": "e3fa9035c96ce20b5a71497e5f7e5248a9061b357b934db10d0c770efbfae2ec",
+        "OEBPS/back-cover.xhtml": "b0f66858a0a78016cc496937695f59dc76344d7136d9fbbfb9c27cf5008e100c",
+        "OEBPS/chapter-01.xhtml": "39b75f66ded17a7aab1739d9acc9041d98341dabbfbdad22a1eea14bd5410737",
+        "OEBPS/chapter-02.xhtml": "554b3330205fab2987d2f44e6296aa6f20327676b01b83f0f00a81ab15ba9cf4",
+        "OEBPS/chapter-03.xhtml": "0bd123d1fc75a2313b92662f9a7c9a306e2954381ec0fc34b6795a2b2bd657d2",
+        "OEBPS/chapter-04.xhtml": "7cc55af3d74ab90f9c5fcb53a3e2ea14de992937773a13e2ea5fbd4bb404e60e",
+        "OEBPS/chapter-05.xhtml": "f1feb962884621a1598b26174fe59e87f674678d2b4416078b0b573d60abad37",
+        "OEBPS/chapter-06.xhtml": "5bca62cedb924611b7a045c9022e6c9211d642fd0287876a6a9b3aa8e28c2eb5",
+        "OEBPS/chapter-07.xhtml": "e881052f2f801e4ab5ff56a0f3ea0e4bb67c2808dffad2b1f739e28913ecc84d",
+        "OEBPS/chapter-08.xhtml": "67edf3b66142252adceb0f7dfeb661d72f5280bdab836c4d4a94a98e1d5031fa",
+        "OEBPS/chapter-09.xhtml": "c2455be45abdd4d7dfc071951bbbf32aef17acdb738637ed5a73d21bce097e5d",
+        "OEBPS/chapter-10.xhtml": "e4fe48ec86f521e1f934b5b2b2d07e5d613b6a2a4a0dcd4c7ff76ceec0bb9fd0",
+        "OEBPS/chapter-11.xhtml": "cb5d68d99360a580e9dd0bf8a646a3eb40058fad2878449c66502359681a37f9",
+        "OEBPS/chapter-12.xhtml": "442f613cee79833c0c76964e1b229e218448cd666b2252c021509ab87354d358",
+        "OEBPS/chapter-13.xhtml": "94069d323e4841d89cbdbbbdb5ba8009267856634c3e29d251f924c8059074b4",
+        "OEBPS/chapter-14.xhtml": "68dfc8b379d38188e78776a19ea4664311f7a5a1eb76343b95a755e8da806a12",
+        "OEBPS/chapter-15.xhtml": "eb099a39949bf03dec9372b59d5e2a66b69aaa2f53e025b89f3682384af5ba3f",
+        "OEBPS/chapter-16.xhtml": "cbbe97b13a79a06b84ac3d22e108bc177188c4724741342f675aab87eff1e7e5",
+        "OEBPS/chapter-17.xhtml": "198e81eb48ec1ea2102d90b58b14bd385b9000f12fb91cd469762b4703e120e2",
+        "OEBPS/content.opf": "37dfd06a8324b7171cf5fcba58e67abf8faba3590d4b8a9e4e3dab48cd5228a8",
+        "OEBPS/copyright.xhtml": "7d75d26aa07fccb8b70ffdfe5488b351fe4ab1399ae9bb543e3763c9123346f5",
+        "OEBPS/cover.jpg": "b8350f65e1e9bacb31448e35c6f049cda51dc618a9ad8e75a23cc3341e5f9fee",
+        "OEBPS/cover.xhtml": "443777612568f68d60914c76f8596c9c6ef77f5f111cb4def9d0ecdc3d16db1d",
+        "OEBPS/diagram-107.jpg": "0c3116cefba24ee0f45e810ae8a631de7b1676d47eceb9879f3f0f4505d51ce4",
+        "OEBPS/edition-note.xhtml": "39f11d2fb7242f1342372f32b34d2abae5669b62c872a3b1b55ce46fc57e1b3f",
+        "OEBPS/figure-027.jpg": "cc98ae4830adb9a3226db9c900886ffed0083e74ff8c84fb4f68550155607487",
+        "OEBPS/figure-044.jpg": "19b2fdd1e8a508b13dec6a7865c034c22ff7ee00f41f1c5f9360198c354dd583",
+        "OEBPS/figure-059.jpg": "cb1a373c951ef62a6499b7e28405e99064b7807b36fbb5952bb8ac01d4468cf7",
+        "OEBPS/figure-104.jpg": "69e705ff8d63b7868cd414f1b9dda31e341744ffd23f3b961908de52e94576f3",
+        "OEBPS/figure-106.jpg": "9da626b703411d39c3fa0989518000c6dad506ae89a9257a0bed5b397e7a7554",
+        "OEBPS/figure-137.jpg": "19f3f81b864f0f7f1199a7aae983fdd099650499437abd1270da59df58cd6d06",
+        "OEBPS/figure-154.jpg": "624137219d44abaf27e5bdd1b331a055d240a7cad28c1cf3d0ca573d190dc625",
+        "OEBPS/figure-156.jpg": "3f97ea3ff56a2ceb4e5497240b6a074414ef27fe0fc4b28b6c09d387bbda674c",
+        "OEBPS/formula-105.jpg": "f2e878a4f2d6047b8d536223ced12496d17343156a5aa8ff4aff5b7bc5d65265",
+        "OEBPS/nav.xhtml": "799868ebc25c95b1b2b317b4b6a92db8c4f0b9cdd46c163b57ae4d18ee49468c",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/title.xhtml": "2254fee79ae1798b626e04e18ff6c81c4d8a706bb9ee251379cafd2f27bf2117",
+        "OEBPS/toc.ncx": "7c704890523878a6a6856494f776629bc2dd8df7309994c5ed9fc29e8231cd9f",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 456,
+        "body": 13551,
+        "note": 365
+      },
+      "chapters": [
+        {
+          "title": "От редколлегии",
+          "sha256": "154ede26cb20300b68747e11e842e0f45aa8beeb176774368b0b4df0261d28a3",
+          "blocks": 30
+        },
+        {
+          "title": "Введение",
+          "sha256": "092a93502d412d1388265306e09f7600bc417d51a63fc16da45c5613c4a96f01",
+          "blocks": 35
+        },
+        {
+          "title": "Часть 1. Структура камланий: вводные замечания",
+          "sha256": "4c1512d67ed8467c1a2f3dec590ef735ca7d783939cb072f542dae1adab06bf7",
+          "blocks": 16
+        },
+        {
+          "title": "Глава I. Функции шаманских мистерий и их сюжетные типы",
+          "sha256": "98e434c0632f8bf4f11e19d65eb3c7ab8cb2194ab0997f4e148168f8c5772886",
+          "blocks": 163
+        },
+        {
+          "title": "Глава II. Способы реализации синтагматической структуры",
+          "sha256": "0dc55daf090b47740c0b3a901d6c04c28eca57dc680ab9f8d5d771d164f947f9",
+          "blocks": 171
+        },
+        {
+          "title": "Предварительные итоги: диалогическая природа камланий",
+          "sha256": "7613eb748973d0fc9b44342fbebf6e80d1d3e31a8ae142a55a789d30cfadc946",
+          "blocks": 51
+        },
+        {
+          "title": "Часть 2. Типология обрядовых форм: вводные замечания",
+          "sha256": "0b1145ad689583e20d42c920a1bb1abd52012c8be935317c035b53854d7d2554",
+          "blocks": 23
+        },
+        {
+          "title": "Глава III. Единицы обряда",
+          "sha256": "bb081f962fe7bc7ecc2d996c63e84f1961a1683cd80508ae8e4ffefe64e3e6fa",
+          "blocks": 137
+        },
+        {
+          "title": "Глава IV. Уровни обрядовой деятельности",
+          "sha256": "8fb1ebd93bd41046fa082c7bbb1a0a78debfb323c17465d496b31f7eecca8926",
+          "blocks": 302
+        },
+        {
+          "title": "Выводы и предположения",
+          "sha256": "30bbf2ff138f5328cd50f558460fe7692925280861f610655e76a3ce38e2f959",
+          "blocks": 32
+        },
+        {
+          "title": "Часть 3. Архаическая эпика и ее связи с обрядом: вводные замечания",
+          "sha256": "25fba7b302ea3e0e3fdc51a92ff141b5e6854f615a94c3bd0a068c05731da5c5",
+          "blocks": 26
+        },
+        {
+          "title": "Глава V. Поэтика шаманских легенд",
+          "sha256": "d345632bde791b4ef710c68c7fb478ba3cc0cdce3dfb2232c4e6214fae38929b",
+          "blocks": 130
+        },
+        {
+          "title": "Глава VI. К вопросу о статусе фольклорного нарратива и его программирующей роли",
+          "sha256": "7d2c37c5c71ae5215bb1bba354ba258ccea55de8fc6a2f9f00917f290df34055",
+          "blocks": 67
+        },
+        {
+          "title": "Список литературы и сокращений",
+          "sha256": "b3e5baf66a1e76985ed846efe42b55787062c953c6d8deea7d2f164a26c1e393",
+          "blocks": 387
+        },
+        {
+          "title": "Приложение",
+          "sha256": "548aa7c9075921aad6f7488fb0f059d39bd3256bf5536ff67eaa0cf1754cdbf7",
+          "blocks": 46
+        },
+        {
+          "title": "Литература к приложению",
+          "sha256": "720b1d6b68c2145b91390bc864275437f67c3715dfe730c38a0edf05b3f9e706",
+          "blocks": 24
+        },
+        {
+          "title": "Выходные сведения",
+          "sha256": "27dd58a1c0a71bf8892ff803321fed75a8caa2d9054248ba5e155d0aa4ec0f57",
+          "blocks": 3
+        }
+      ],
+      "noterefs": 30,
+      "backlinks": 0,
+      "figures": [
+        "diagram-107.jpg",
+        "figure-027.jpg",
+        "figure-044.jpg",
+        "figure-059.jpg",
+        "figure-104.jpg",
+        "figure-106.jpg",
+        "figure-137.jpg",
+        "figure-154.jpg",
+        "figure-156.jpg",
+        "formula-105.jpg"
+      ]
+    },
+    "obryad-folklor-reading": {
+      "source_sha256": "665054f261119cdb40c563f1667b92f5db352712877f03b6bc5bb78427fbe3c6",
+      "slug": "obryad-folklor",
+      "editorial": true,
+      "artifacts": {
+        "book-model.json": "d85b4ba426aac213428c2c44dfa66beac9470ea373d2249aa32a748b8c1b2b59",
+        "corrected-pages.json": "a0cb6f1feae5d0891c79244f323082f32ec105ea1f227a27bebb9732998453de",
+        "text-coverage.json": "b88d80f9f1b53bf9190aa7ea4eacd03ed1ff3dc8d6b22e6b22e7ddfa3b372d20",
+        "apparatus-analysis.json": "732c1bc3251fd7402fe93025453a572139daea62962ce0ff4a9ab7037e8b4bc3",
+        "obryad-folklor.txt": "922fc410358dcbac0fa6d8c4539dafbbab6321fcfffa47d85b97e4661fdd0d6d",
+        "lexical-repair.json": "0f0ae41fea6f012ab80684d723affe96f88475c7d775d12eeac84bfaf41fafbd"
+      },
+      "epub_sha256": "f8ec5805970204344781dd2797d317491fbd8debcf7bed69540eb7ec99426789",
+      "epub_members": {
+        "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
+        "OEBPS/back-cover.jpg": "e3fa9035c96ce20b5a71497e5f7e5248a9061b357b934db10d0c770efbfae2ec",
+        "OEBPS/back-cover.xhtml": "b0f66858a0a78016cc496937695f59dc76344d7136d9fbbfb9c27cf5008e100c",
+        "OEBPS/chapter-01.xhtml": "39b75f66ded17a7aab1739d9acc9041d98341dabbfbdad22a1eea14bd5410737",
+        "OEBPS/chapter-02.xhtml": "554b3330205fab2987d2f44e6296aa6f20327676b01b83f0f00a81ab15ba9cf4",
+        "OEBPS/chapter-03.xhtml": "0bd123d1fc75a2313b92662f9a7c9a306e2954381ec0fc34b6795a2b2bd657d2",
+        "OEBPS/chapter-04.xhtml": "dc7eb017920b76272df9b558b30440a37b7aa6334af5ea82da0895593659f4ee",
+        "OEBPS/chapter-05.xhtml": "50cdc97592c8e1f6e0554b804089a112c5273fdff245293c226fa2c03e1a0435",
+        "OEBPS/chapter-06.xhtml": "5bca62cedb924611b7a045c9022e6c9211d642fd0287876a6a9b3aa8e28c2eb5",
+        "OEBPS/chapter-07.xhtml": "e881052f2f801e4ab5ff56a0f3ea0e4bb67c2808dffad2b1f739e28913ecc84d",
+        "OEBPS/chapter-08.xhtml": "67edf3b66142252adceb0f7dfeb661d72f5280bdab836c4d4a94a98e1d5031fa",
+        "OEBPS/chapter-09.xhtml": "1b71a28d2b02a968bad8356d4f51fe60b562e78a055bf9ae786aed4b079d15a9",
+        "OEBPS/chapter-10.xhtml": "e4fe48ec86f521e1f934b5b2b2d07e5d613b6a2a4a0dcd4c7ff76ceec0bb9fd0",
+        "OEBPS/chapter-11.xhtml": "cb5d68d99360a580e9dd0bf8a646a3eb40058fad2878449c66502359681a37f9",
+        "OEBPS/chapter-12.xhtml": "2856cd58f25c32806afff72e58639f1d68a5f91dc11391d5889491f921c65352",
+        "OEBPS/chapter-13.xhtml": "94069d323e4841d89cbdbbbdb5ba8009267856634c3e29d251f924c8059074b4",
+        "OEBPS/chapter-14.xhtml": "68dfc8b379d38188e78776a19ea4664311f7a5a1eb76343b95a755e8da806a12",
+        "OEBPS/chapter-15.xhtml": "eb099a39949bf03dec9372b59d5e2a66b69aaa2f53e025b89f3682384af5ba3f",
+        "OEBPS/chapter-16.xhtml": "cbbe97b13a79a06b84ac3d22e108bc177188c4724741342f675aab87eff1e7e5",
+        "OEBPS/chapter-17.xhtml": "198e81eb48ec1ea2102d90b58b14bd385b9000f12fb91cd469762b4703e120e2",
+        "OEBPS/content.opf": "37dfd06a8324b7171cf5fcba58e67abf8faba3590d4b8a9e4e3dab48cd5228a8",
+        "OEBPS/copyright.xhtml": "7d75d26aa07fccb8b70ffdfe5488b351fe4ab1399ae9bb543e3763c9123346f5",
+        "OEBPS/cover.jpg": "b8350f65e1e9bacb31448e35c6f049cda51dc618a9ad8e75a23cc3341e5f9fee",
+        "OEBPS/cover.xhtml": "443777612568f68d60914c76f8596c9c6ef77f5f111cb4def9d0ecdc3d16db1d",
+        "OEBPS/diagram-107.jpg": "0c3116cefba24ee0f45e810ae8a631de7b1676d47eceb9879f3f0f4505d51ce4",
+        "OEBPS/edition-note.xhtml": "39f11d2fb7242f1342372f32b34d2abae5669b62c872a3b1b55ce46fc57e1b3f",
+        "OEBPS/figure-027.jpg": "cc98ae4830adb9a3226db9c900886ffed0083e74ff8c84fb4f68550155607487",
+        "OEBPS/figure-044.jpg": "19b2fdd1e8a508b13dec6a7865c034c22ff7ee00f41f1c5f9360198c354dd583",
+        "OEBPS/figure-059.jpg": "cb1a373c951ef62a6499b7e28405e99064b7807b36fbb5952bb8ac01d4468cf7",
+        "OEBPS/figure-104.jpg": "69e705ff8d63b7868cd414f1b9dda31e341744ffd23f3b961908de52e94576f3",
+        "OEBPS/figure-106.jpg": "9da626b703411d39c3fa0989518000c6dad506ae89a9257a0bed5b397e7a7554",
+        "OEBPS/figure-137.jpg": "19f3f81b864f0f7f1199a7aae983fdd099650499437abd1270da59df58cd6d06",
+        "OEBPS/figure-154.jpg": "624137219d44abaf27e5bdd1b331a055d240a7cad28c1cf3d0ca573d190dc625",
+        "OEBPS/figure-156.jpg": "3f97ea3ff56a2ceb4e5497240b6a074414ef27fe0fc4b28b6c09d387bbda674c",
+        "OEBPS/formula-105.jpg": "f2e878a4f2d6047b8d536223ced12496d17343156a5aa8ff4aff5b7bc5d65265",
+        "OEBPS/nav.xhtml": "799868ebc25c95b1b2b317b4b6a92db8c4f0b9cdd46c163b57ae4d18ee49468c",
+        "OEBPS/style.css": "3fd46d6608beb301c9991bd9248c1ea1fd0f44fbf204319e000b4c3248c92d57",
+        "OEBPS/title.xhtml": "2254fee79ae1798b626e04e18ff6c81c4d8a706bb9ee251379cafd2f27bf2117",
+        "OEBPS/toc.ncx": "7c704890523878a6a6856494f776629bc2dd8df7309994c5ed9fc29e8231cd9f",
+        "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
+      },
+      "coverage": {
+        "excluded": 456,
+        "body": 13551,
+        "note": 365
+      },
+      "chapters": [
+        {
+          "title": "От редколлегии",
+          "sha256": "154ede26cb20300b68747e11e842e0f45aa8beeb176774368b0b4df0261d28a3",
+          "blocks": 30
+        },
+        {
+          "title": "Введение",
+          "sha256": "092a93502d412d1388265306e09f7600bc417d51a63fc16da45c5613c4a96f01",
+          "blocks": 35
+        },
+        {
+          "title": "Часть 1. Структура камланий: вводные замечания",
+          "sha256": "4c1512d67ed8467c1a2f3dec590ef735ca7d783939cb072f542dae1adab06bf7",
+          "blocks": 16
+        },
+        {
+          "title": "Глава I. Функции шаманских мистерий и их сюжетные типы",
+          "sha256": "5e59c4ffa788c4cb5ff5d5640095f82b87a06638fc7229a4251069702bbd2105",
+          "blocks": 163
+        },
+        {
+          "title": "Глава II. Способы реализации синтагматической структуры",
+          "sha256": "da62de546c0373cfae607077b1f96483a7d2f0a495ac679dd96dd9505de71fe8",
+          "blocks": 171
+        },
+        {
+          "title": "Предварительные итоги: диалогическая природа камланий",
+          "sha256": "7613eb748973d0fc9b44342fbebf6e80d1d3e31a8ae142a55a789d30cfadc946",
+          "blocks": 51
+        },
+        {
+          "title": "Часть 2. Типология обрядовых форм: вводные замечания",
+          "sha256": "0b1145ad689583e20d42c920a1bb1abd52012c8be935317c035b53854d7d2554",
+          "blocks": 23
+        },
+        {
+          "title": "Глава III. Единицы обряда",
+          "sha256": "bb081f962fe7bc7ecc2d996c63e84f1961a1683cd80508ae8e4ffefe64e3e6fa",
+          "blocks": 137
+        },
+        {
+          "title": "Глава IV. Уровни обрядовой деятельности",
+          "sha256": "a29907b3d2f1f37647ccdbff6653d7b9e016c854954e6c4ada1869f43dec3fb2",
+          "blocks": 302
+        },
+        {
+          "title": "Выводы и предположения",
+          "sha256": "30bbf2ff138f5328cd50f558460fe7692925280861f610655e76a3ce38e2f959",
+          "blocks": 32
+        },
+        {
+          "title": "Часть 3. Архаическая эпика и ее связи с обрядом: вводные замечания",
+          "sha256": "25fba7b302ea3e0e3fdc51a92ff141b5e6854f615a94c3bd0a068c05731da5c5",
+          "blocks": 26
+        },
+        {
+          "title": "Глава V. Поэтика шаманских легенд",
+          "sha256": "e69af9fb4367e946e2d07b2c7ac7932e7e94387db142a2c6b9a239ea59a36874",
+          "blocks": 130
+        },
+        {
+          "title": "Глава VI. К вопросу о статусе фольклорного нарратива и его программирующей роли",
+          "sha256": "7d2c37c5c71ae5215bb1bba354ba258ccea55de8fc6a2f9f00917f290df34055",
+          "blocks": 67
+        },
+        {
+          "title": "Список литературы и сокращений",
+          "sha256": "b3e5baf66a1e76985ed846efe42b55787062c953c6d8deea7d2f164a26c1e393",
+          "blocks": 387
+        },
+        {
+          "title": "Приложение",
+          "sha256": "548aa7c9075921aad6f7488fb0f059d39bd3256bf5536ff67eaa0cf1754cdbf7",
+          "blocks": 46
+        },
+        {
+          "title": "Литература к приложению",
+          "sha256": "720b1d6b68c2145b91390bc864275437f67c3715dfe730c38a0edf05b3f9e706",
+          "blocks": 24
+        },
+        {
+          "title": "Выходные сведения",
+          "sha256": "27dd58a1c0a71bf8892ff803321fed75a8caa2d9054248ba5e155d0aa4ec0f57",
+          "blocks": 3
+        }
+      ],
+      "noterefs": 30,
+      "backlinks": 0,
+      "figures": [
+        "diagram-107.jpg",
+        "figure-027.jpg",
+        "figure-044.jpg",
+        "figure-059.jpg",
+        "figure-104.jpg",
+        "figure-106.jpg",
+        "figure-137.jpg",
+        "figure-154.jpg",
+        "figure-156.jpg",
+        "formula-105.jpg"
+      ]
     }
   }
 }

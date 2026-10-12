@@ -21,6 +21,7 @@ class JoinPolicy:
         rare_wraps=False,
         language="en",
         noisy_wraps=False,
+        morphology=None,
     ):
         self.words = {w.lower() for w in protected} | {
             w.lower() for w, n in Counter(observed).items() if n >= observed_min_count
@@ -29,6 +30,7 @@ class JoinPolicy:
         self.rare_wraps = rare_wraps
         self.language = language
         self.noisy_wraps = noisy_wraps
+        self.morphology = morphology
 
     def accepts(self, word):
         low = word.lower()
@@ -69,11 +71,11 @@ class JoinPolicy:
                     and zipf_frequency(combined, self.language)
                     >= zipf_frequency(hyphenated, self.language) + 1
                 )
-                return (
-                    (trim, "", "remove")
-                    if self.accepts(combined) or rare_attested
-                    else ((0, "", "retain") if trim == 1 else (0, " ", "space"))
-                )
+                if self.accepts(combined) or rare_attested:
+                    return trim, "", "remove"
+                if self.morphology and self.morphology.supports(left[1], right[1]):
+                    return trim, "", "remove-morphological"
+                return (0, "", "retain") if trim == 1 else (0, " ", "space")
         return 0, (" " if a else ""), "space"
 
 
@@ -280,6 +282,48 @@ def classify_row(page, row, book, first=False):
 
 
 def page_blocks(n, rows, book, audit, first, policy=None):
+    """Reconstruct mixed prose/reference pages with each region's own margins."""
+    regions = [r for r in book.get("reference_regions", []) if r["page"] == n]
+    if not regions:
+        return _page_blocks(n, rows, book, audit, first, policy)
+    blocks, notes = [], []
+    groups = []
+    for row in sorted(rows, key=lambda r: (r.get("column", 0), r["bbox"][1])):
+        region = next(
+            (i for i, r in enumerate(regions) if r["lo"] <= row["bbox"][1] < r["hi"]),
+            None,
+        )
+        key = (row.get("column", 0), region)
+        if not groups or groups[-1][0] != key:
+            groups.append((key, []))
+        groups[-1][1].append(row)
+    for (_, region), cohort in groups:
+        settings = book
+        if region is not None:
+            settings = dict(
+                book,
+                reference_pages=sorted(set(book.get("reference_pages", [])) | {n}),
+                hanging_pages=sorted(
+                    set(book.get("hanging_pages", book.get("reference_pages", [])))
+                    | {n}
+                ),
+            )
+            audit.append(
+                dict(
+                    page=n,
+                    kind="reference-region-layout",
+                    lo=regions[region]["lo"],
+                    hi=regions[region]["hi"],
+                    rows=len(cohort),
+                )
+            )
+        body, footer = _page_blocks(n, cohort, settings, audit, first, policy)
+        blocks.extend(body)
+        notes.extend(footer)
+    return blocks, notes
+
+
+def _page_blocks(n, rows, book, audit, first, policy=None):
     notes = []
     body = []
     for original in rows:
@@ -478,7 +522,7 @@ def page_blocks(n, rows, book, audit, first, policy=None):
                 and re.match(r"^[^\W\d_]{2,}", text)
                 and text[:2].islower()
                 and (policy or DEFAULT_POLICY).boundary(last["text"], text)[2]
-                == "remove"
+                in {"remove", "remove-morphological"}
             ):
                 new = False
                 audit.append(
@@ -502,6 +546,16 @@ def page_blocks(n, rows, book, audit, first, policy=None):
                     or blocks[-1]["kind"] != "list-item"
                     or not r.get("list_continuation")
                 )
+            if (
+                kind == "quote"
+                and last
+                and r.get("epigraph_group")
+                and r["epigraph_group"] == last.get("epigraph_group")
+                and r.get("column", 0) == last.get("column", 0)
+            ):
+                # A source-verified wrapped epigraph can have a first-line
+                # indent. That indent does not split its continuing lines.
+                new = False
             if (
                 book.get("native_heading_merge")
                 and kind == "heading"
@@ -598,7 +652,14 @@ def normalize_block(block, policy, audit):
         sources.append(
             {
                 k: line[k]
-                for k in ["page", "row_id", "bbox", "text", "column"]
+                for k in [
+                    "page",
+                    "row_id",
+                    "bbox",
+                    "text",
+                    "column",
+                    "uncertain_source_row",
+                ]
                 if k in line
             }
             | {"start": start, "end": len(text)}
