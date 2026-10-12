@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from ocr import repair_confusions
+from ocr import comparable, repair_confusions, same_but_unaccented
 
 
 def repaired(text, witnesses=("", ""), language="en", index_digits=True):
@@ -71,6 +71,42 @@ class ConfusionTests(unittest.TestCase):
         )
         self.assertEqual(repaired("see [sic] and contro]")[0], "see [sic] and contro]")
         self.assertEqual(repaired("the here] end")[0], "the here] end")
+
+    def test_russian_rows_drop_letters_outside_the_alphabet(self):
+        witnesses = ("в Х1Х в., И. И. Гмелиным", "в XIХ в., И. И. Гмелиным")
+        self.assertEqual(
+            repaired("в ХІХ в., И. І. Імелиным", witnesses, "ru")[0],
+            "в XIX в., И. И. Гмелиным",
+        )
+        self.assertEqual(
+            repaired("оказываєтся такоє, т. є. 1928, Nº 1", language="ru")[0],
+            "оказывается такое, т. є. 1928, № 1",
+        )
+        # Disagreeing witnesses, or English rows, leave the token alone.
+        split = ("и т. д., т. е. речь", "и т. д., 1. е. речь")
+        self.assertEqual(
+            repaired("и т. д., І. е. речь", split, "ru")[0], "и т. д., І. е. речь"
+        )
+        self.assertEqual(repaired("Nº 5 and ХІХ")[0], "Nº 5 and ХІХ")
+        # Latin look-alike words between Russian words; not numerals,
+        # word fragments, non-words or Latin context.
+        for raw, fixed in [
+            ("снег, a снег Ha тундру", "снег, а снег на тундру"),
+            ("самка oT пяти, жира HO они", "самка от пяти, жира но они"),
+            ("озера H реки, быст po грубеет", "озера H реки, быст po грубеет"),
+            ("у XIX столетия, Te-дят", "у XIX столетия, Te-дят"),
+            ("Washington, 1899, p. 208", "Washington, 1899, p. 208"),
+        ]:
+            self.assertEqual(repaired(raw, language="ru")[0], fixed)
+
+    def test_witness_dropping_accents_confirms_only_rare_words(self):
+        agree = lambda a, b, lang="en": same_but_unaccented(
+            comparable(a), comparable(b), lang
+        )
+        self.assertTrue(agree("Max Delbrück, a", "Max Delbruck, a"))
+        self.assertFalse(agree("seems tó come", "seems to come"))
+        self.assertFalse(agree("ходьбе й спо", "ходьбе и спо", "ru"))
+        self.assertFalse(agree("Max Delbruck", "Max Delbrück"))
 
 
 if __name__ == "__main__":

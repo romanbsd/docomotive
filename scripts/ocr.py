@@ -4,6 +4,7 @@ import copy
 import difflib
 import re
 import statistics
+import unicodedata
 from wordfreq import zipf_frequency
 from build_resources import page_text
 
@@ -98,6 +99,23 @@ def nearest(line, rows):
 
 def comparable(text):
     return re.findall(r"[\w]+(?:['’-][\w]+)*", text.lower().replace("’", "'"))
+
+
+def same_but_unaccented(own, other, language):
+    """A witness that only drops accents from rare words (Delbrück/Delbruck)
+    confirms the row; a common bare word (tó/to, й/и) stays reviewable."""
+
+    def bare(word):
+        return "".join(
+            c
+            for c in unicodedata.normalize("NFKD", word)
+            if not unicodedata.combining(c)
+        )
+
+    return len(own) == len(other) and all(
+        a == b or (bare(a) == b and zipf_frequency(b, language) < 3)
+        for a, b in zip(own, other)
+    )
 
 
 INDEX_REFERENCE = re.compile(
@@ -208,6 +226,92 @@ def repair_confusions(row, fresh, page, audit, language, index_digits=False):
                     "bracket-letter-l",
                     "common word only with l; no opening bracket on the row",
                 )
+    if language == "ru":
+        repair_russian_letters(row, readings, change)
+
+
+ROMAN = re.compile(r"M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})")
+
+
+def repair_russian_letters(row, readings, change):
+    """Replace letters outside the Russian alphabet that OCR borrowed from
+    Ukrainian or Belarusian (І, є, ї, ...) and the Latin-script "Nº"."""
+    for match in reversed(list(re.finditer(r"N[º°](?=\s?\d)", row["text"]))):
+        change(match.start(), match.end(), "№", "russian-numero", "Nº before a number")
+    foreign = "ІіЇїЄєҐґЎў"
+    tokens = list(re.finditer(r"\w+", row["text"]))
+    # Whole words read in Latin look-alikes (Ha, OT, co) between Russian words.
+    cyrillic = str.maketrans("ABEKMHOPCTXaeopcyx", "АВЕКМНОРСТХаеорсух")
+    russian = lambda m: m and re.fullmatch(r"[а-яё]+", m.group(), re.I)
+    for k, match in reversed(list(enumerate(tokens))):
+        token, after = match.group(), match.group().translate(cyrillic)
+        # OCR case noise inside a sentence (оТ, НО) follows the previous word.
+        if after not in (after.lower(), after.capitalize()) or (
+            k and len(after) > 1 and tokens[k - 1].group().islower()
+        ):
+            after = after.lower()
+        if (
+            re.fullmatch(r"[ABEKMHOPCTXaeopcyx]+", token)
+            and not ROMAN.fullmatch(token)
+            and k
+            and k + 1 < len(tokens)
+            and russian(tokens[k - 1])
+            and russian(tokens[k + 1])
+            and not re.search(r"[-\w]", row["text"][match.end() : match.end() + 1])
+            and (
+                after.lower() in "аксоу"
+                if len(after) == 1
+                else zipf_frequency(after.lower(), "ru") >= 5
+            )
+        ):
+            change(
+                match.start(),
+                match.end(),
+                after,
+                "russian-latin-lookalike",
+                "Russian word in Latin look-alike letters between Russian words",
+            )
+    for k, match in reversed(list(enumerate(tokens))):
+        token = match.group()
+        if not any(c in foreign for c in token):
+            continue
+        # Roman numerals typed with Cyrillic Х and Ukrainian І (ХІХ в.).
+        latin = token.translate(str.maketrans("ІХ", "IX"))
+        lone = len(token) == 1 and row["text"][match.end() : match.end() + 1] == "."
+        if re.fullmatch(r"[IXV]+", latin) and ROMAN.fullmatch(latin) and not lone:
+            change(match.start(), match.end(), latin, "russian-roman-numeral", "")
+            continue
+        # Fresh engines that read Russian letters in those slots, at the same
+        # word position, and agree with each other.
+        pattern = re.compile(
+            "".join("[а-яё]" if c in foreign else re.escape(c) for c in token),
+            re.I,
+        )
+        slots = [r[k] for r in readings if k < len(r) and r[k] != token]
+        seen = set(slots)
+        if len(seen) == 1 and pattern.fullmatch(slots[0]):
+            change(
+                match.start(),
+                match.end(),
+                seen.pop(),
+                "russian-letter-witness",
+                "fresh engines read Russian letters in the slots",
+            )
+            continue
+        # Inside a word: the look-alike Russian letter when that gives a word.
+        after = token.translate(str.maketrans("єіїЄІЇ", "еииЕИИ"))
+        if (
+            not any(c in foreign for c in after)
+            and len(token) > 2
+            and zipf_frequency(after.lower(), "ru") >= 2.5
+        ):
+            change(
+                match.start(),
+                match.end(),
+                after,
+                "russian-letter-lookalike",
+                "common Russian word with the look-alike letter",
+            )
 
 
 def correct_page(
@@ -546,7 +650,7 @@ def correct_page(
         # Agreement on lexical content resolves harmless OCR typography differences.
         if (
             best
-            and not any(own == other for other in best)
+            and not any(same_but_unaccented(own, other, language) for other in best)
             and not (witnesses[0] and own == comparable(witnesses[0]["text"]))
         ):
             texts = {
