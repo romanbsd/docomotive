@@ -203,6 +203,12 @@ def repair_confusions(
     # quantities such as "150g of" are never touched.
     for match in reversed(list(CITATION_YEAR.finditer(row["text"]))):
         century, glyph, suffix = match.groups()
+        # After a comma, only an author or publisher (Osmond, 196la), never a
+        # list of quantities (50g, 196g, and).
+        if row["text"][: match.start()].endswith(", ") and not re.search(
+            r"(?:^|\s|\()[A-Z][\w.&'-]*, $", row["text"][: match.start()]
+        ):
+            continue
         change(
             match.start(),
             match.end(),

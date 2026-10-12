@@ -63,6 +63,10 @@ class ConfusionTests(unittest.TestCase):
             repaired("add 150g, stir; take 196g, then")[0],
             "add 150g, stir; take 196g, then",
         )
+        self.assertEqual(
+            repaired("doses were 50g, 196g, and 30g")[0],
+            "doses were 50g, 196g, and 30g",
+        )
 
     def test_bracket_l_only_for_common_words_without_open_bracket(self):
         self.assertEqual(
