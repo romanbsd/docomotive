@@ -16,10 +16,13 @@ def image_placements(page):
     if len(placements) != 1:
         return page.get_image_info(xrefs=True)
     drawn = set(re.findall(rb"/([^\s/\[\]()<>{}%]+)\s+Do\b", page.read_contents()))
+    # The pixel size must match too: a name inside a text string or a nested
+    # Form XObject image must not attach a different image's xref.
+    size = (placements[0]["width"], placements[0]["height"])
     xrefs = {
         image[0]
         for image in page.get_images(full=True)
-        if not image[9] and image[7].encode() in drawn
+        if not image[9] and image[7].encode() in drawn and image[2:4] == size
     }
     if len(xrefs) == 1:
         return [dict(placements[0], xref=xrefs.pop())]
