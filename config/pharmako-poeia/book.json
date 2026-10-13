@@ -2242,5 +2242,6 @@
       "pattern": "[1I]",
       "evidence": "Verified large reconstructed glyph artifacts over illustrations, absent from original page raster; preserve other reconstructed caption and title text"
     }
-  ]
+  ],
+  "repair_ocr_word_spacing": true
 }

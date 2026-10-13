@@ -6,6 +6,7 @@ import math
 import re
 
 BOOL_KEYS = {
+    "repair_ocr_word_spacing",
     "recover_index_digits",
     "recover_opening_epigraphs",
     "retain_uncertain_gap_rows",

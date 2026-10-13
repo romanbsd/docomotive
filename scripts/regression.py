@@ -46,6 +46,10 @@ def snapshot(output, book, editorial=False):
         artifacts["lexical-repair.json"] = json_digest(
             read_json(output / "lexical-repair.json")
         )
+    if book.get("repair_ocr_word_spacing") and book.get("text_source") != "native":
+        artifacts["word-spacing-repair.json"] = json_digest(
+            read_json(output / "word-spacing-repair.json")
+        )
     return dict(
         source_sha256=book["source_sha256"],
         slug=book["slug"],

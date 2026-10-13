@@ -1,0 +1,393 @@
+[
+  {
+    "book": "pharmako",
+    "page": 6,
+    "bbox": [
+      0.24319066393799563,
+      0.7209302326870355,
+      0.6186770359452728,
+      0.7355341248237875
+    ],
+    "row_text": "that dangerous orillegal practices be avoided",
+    "before": "orillegal",
+    "after": "or illegal",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-01"
+  },
+  {
+    "book": "pharmako",
+    "page": 92,
+    "bbox": [
+      0.5243664730656669,
+      0.3938953488207564,
+      0.8226120918953466,
+      0.40843023257459243
+    ],
+    "row_text": "shoes, cream ofkentucky, early times,",
+    "before": "ofkentucky",
+    "after": "of kentucky",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-02"
+  },
+  {
+    "book": "pharmako",
+    "page": 94,
+    "bbox": [
+      0.30933852702731085,
+      0.8008160239119797,
+      0.5856031003073197,
+      0.8139534882655015
+    ],
+    "row_text": "— Nietzsche, Twilight ofthe Gods",
+    "before": "ofthe",
+    "after": "of the",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-03"
+  },
+  {
+    "book": "pharmako",
+    "page": 111,
+    "bbox": [
+      0.29708738311204125,
+      0.5436046511942016,
+      0.574757276548153,
+      0.558139534488938
+    ],
+    "row_text": "The best oflife is but intoxication.",
+    "before": "oflife",
+    "after": "of life",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-04"
+  },
+  {
+    "book": "pharmako",
+    "page": 131,
+    "bbox": [
+      0.2942307699747293,
+      0.5347476221910508,
+      0.48269231025603987,
+      0.5494186046356074
+    ],
+    "row_text": "Than the angels oflife?",
+    "before": "oflife",
+    "after": "of life",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-05"
+  },
+  {
+    "book": "pharmako",
+    "page": 132,
+    "bbox": [
+      0.3099415245574656,
+      0.463649851879545,
+      0.6725146149162188,
+      0.47819767461674356
+    ],
+    "row_text": "- Erasmus Darwin, The Loves ofthe Plants",
+    "before": "ofthe",
+    "after": "of the",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-06"
+  },
+  {
+    "book": "pharmako",
+    "page": 186,
+    "bbox": [
+      0.21206227088132265,
+      0.39244186122444413,
+      0.5972762532431909,
+      0.40851851855499244
+    ],
+    "row_text": "The ancestors oftwo kingdoms await you.",
+    "before": "oftwo",
+    "after": "of two",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-07"
+  },
+  {
+    "book": "pharmako",
+    "page": 230,
+    "bbox": [
+      0.24513619317124213,
+      0.23546511659984337,
+      0.5330739283592376,
+      0.2529629627087392
+    ],
+    "row_text": "the symptoms ofivy poisoning.",
+    "before": "ofivy",
+    "after": "of ivy",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-08"
+  },
+  {
+    "book": "pharmako",
+    "page": 247,
+    "bbox": [
+      0.2621359366886672,
+      0.4084302325676077,
+      0.7825242748323677,
+      0.4215116277521599
+    ],
+    "row_text": "this power offascination can be — alternately or simultaneously —",
+    "before": "offascination",
+    "after": "of fascination",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-09"
+  },
+  {
+    "book": "otherworlds",
+    "page": 256,
+    "bbox": [
+      0.12780270467432528,
+      0.3343023262593303,
+      0.8923766866373335,
+      0.35185185218392356
+    ],
+    "row_text": "Deroy. O.. & Spence. C. (2013). Why we are not all sy nesthetes (not even weakly so).",
+    "before": "sy nesthetes",
+    "after": "synesthetes",
+    "source_sha256": "d78f1b9fb631bd72f65a6e49cd3eaea554e4b9e7a79c5077484e6c50f670e697",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-10"
+  },
+  {
+    "book": "natural",
+    "page": 99,
+    "bbox": [
+      0.07087126137841353,
+      0.6082304526748972,
+      0.8270481144343304,
+      0.6263374485596708
+    ],
+    "row_text": "exists when one thing is taken in relation to another. If I go ona",
+    "before": "exists when one thing is taken in relation to another. If I go ona",
+    "after": "exists when one thing is taken in relation to another. If I go on a",
+    "source_sha256": "8d5a7f67e67a73c39d0d0b0cb8be42c3eb6a6304b07239122760e31bd757c0f2",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-11"
+  },
+  {
+    "book": "pharmako",
+    "page": 30,
+    "bbox": [
+      0.14496523647221665,
+      0.2074697638968085,
+      0.6499032721372244,
+      0.22383720909235416
+    ],
+    "row_text": "The Plant Ilearned about this plant from a basket weav-",
+    "before": "Ilearned",
+    "after": "I learned",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-12"
+  },
+  {
+    "book": "pharmako",
+    "page": 137,
+    "bbox": [
+      0.30518234476528877,
+      0.8022578293360457,
+      0.792706318670412,
+      0.8168604647689678
+    ],
+    "row_text": "and physical processes. It may be thus stated: Ifto a system in",
+    "before": "Ifto",
+    "after": "If to",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-13"
+  },
+  {
+    "book": "wizard-upper-amazon",
+    "page": 61,
+    "bbox": [
+      0.12161115414407435,
+      0.32189032545697727,
+      0.8822618125484121,
+      0.3410610789121712
+    ],
+    "row_text": "sneeze that he was very close, and I was ready. Ina",
+    "before": "sneeze that he was very close, and I was ready. Ina",
+    "after": "sneeze that he was very close, and I was ready. In a",
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-14"
+  },
+  {
+    "book": "wizard-upper-amazon",
+    "page": 87,
+    "bbox": [
+      0.11868687356642678,
+      0.49554367179808556,
+      0.8787878612399705,
+      0.5174418607035804
+    ],
+    "row_text": "OF TEN in the afternoon groups of men and boys",
+    "before": "OF TEN in the afternoon groups of men and boys",
+    "after": "OFTEN in the afternoon groups of men and boys",
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-15"
+  },
+  {
+    "book": "wizard-upper-amazon",
+    "page": 119,
+    "bbox": [
+      0.15491866769945778,
+      0.6977262594739189,
+      0.8783888458559257,
+      0.7168970129291128
+    ],
+    "row_text": "He wrote down the balance, and I signed it ina",
+    "before": "He wrote down the balance, and I signed it ina",
+    "after": "He wrote down the balance, and I signed it in a",
+    "source_sha256": "3d4b59c4cdc0bd01e8cb1e75fb15cb8c3dc06cb1761fbd25bb70fbd2ce80968d",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-16"
+  },
+  {
+    "book": "otherworlds",
+    "page": 80,
+    "bbox": [
+      0.1406211480110266,
+      0.9199340233709835,
+      0.897457231761401,
+      0.9490278803303634
+    ],
+    "row_text": "less, there is considerableagreementthat inducer-concurrentassociations",
+    "before": "less, there is considerableagreementthat inducer-concurrentassociations",
+    "after": "less, there is considerable agreement that inducer-concurrent associations",
+    "source_sha256": "d78f1b9fb631bd72f65a6e49cd3eaea554e4b9e7a79c5077484e6c50f670e697",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-17"
+  },
+  {
+    "book": "otherworlds",
+    "page": 84,
+    "bbox": [
+      0.1210805620255838,
+      0.8981397512826386,
+      0.8957664993665345,
+      0.9285066989613789
+    ],
+    "row_text": "sy naesthesia-like symptoms. This has never been explored, although I",
+    "before": "sy naesthesia-like symptoms. This has never been explored, although I",
+    "after": "synaesthesia-like symptoms. This has never been explored, although I",
+    "source_sha256": "d78f1b9fb631bd72f65a6e49cd3eaea554e4b9e7a79c5077484e6c50f670e697",
+    "expected": "correct",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-18"
+  },
+  {
+    "book": "pharmako",
+    "page": 47,
+    "bbox": [
+      0.28543689169006853,
+      0.1482558140816247,
+      0.605825248809238,
+      0.1642441858145547
+    ],
+    "row_text": "And it will get you, if you play with it.",
+    "before": "if you",
+    "after": "ifyou",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "retain",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-19"
+  },
+  {
+    "book": "pharmako",
+    "page": 63,
+    "bbox": [
+      0.33918128264663233,
+      0.6816860465436246,
+      0.8927875190427764,
+      0.6962209302974607
+    ],
+    "row_text": "A cigarette is the perfect type of a perfect pleasure. It is exquisite, and",
+    "before": "of a",
+    "after": "ofa",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "retain",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-20"
+  },
+  {
+    "book": "pharmako",
+    "page": 67,
+    "bbox": [
+      0.2904483439477189,
+      0.25145348836339254,
+      0.8986354919197274,
+      0.26453488354794463
+    ],
+    "row_text": "memories half myth, halffairy tale. Up out of a tunnel-like darkness, some-",
+    "before": "half myth",
+    "after": "halfmyth",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "retain",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-21"
+  },
+  {
+    "book": "pharmako",
+    "page": 91,
+    "bbox": [
+      0.29961091372485193,
+      0.4940740738656556,
+      0.8871595240831894,
+      0.5074074071989889
+    ],
+    "row_text": "The Hurons, in the seventeenth century, obtaining a cask of rum from the",
+    "before": "of rum from",
+    "after": "ofrumfrom",
+    "source_sha256": "e9bc50bbd6a37bb0ea9476718243067cb953ebf23636d7d2fe2bc6eac142304a",
+    "expected": "retain",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-22"
+  },
+  {
+    "book": "otherworlds",
+    "page": 282,
+    "bbox": [
+      0.08782543507873904,
+      0.6741229458700674,
+      0.8820806293416625,
+      0.6949194448147499
+    ],
+    "row_text": "Smythics, J. R. (1965). ESP experiments with I.SD 25 and psilocybin. by R. Cavanna",
+    "before": "psilocybin",
+    "after": "psilocy bin",
+    "source_sha256": "d78f1b9fb631bd72f65a6e49cd3eaea554e4b9e7a79c5077484e6c50f670e697",
+    "expected": "retain",
+    "evidence": "Source crop inspected; expected word boundaries preserve the printed wording.",
+    "id": "spacing-23"
+  }
+]

@@ -388,6 +388,33 @@ def build(
 
         partial_report = inspect_partial_rows(pages, book, cache)
         write_json(out / "partial-row-analysis.json", partial_report)
+    from spylls.hunspell import Dictionary
+
+    dictionary = (
+        Dictionary.from_files(str(models / dictionary_locale(book)))
+        if (models / (dictionary_locale(book) + ".aff")).exists()
+        else None
+    )
+    if not native and book.get("repair_ocr_word_spacing"):
+        if dictionary is None:
+            raise ValueError("Word spacing repair requires the pinned dictionary")
+        from word_spacing import SpacingLexicon, repair_word_spacing
+        from lexical_repair import CropRecognizer
+
+        protected_spacing = [
+            w
+            for w in (config / "protected-words.txt").read_text().splitlines()
+            if w and not w.startswith("#")
+        ] + book.get("line_join_words", [])
+        spacing_report = repair_word_spacing(
+            pages,
+            book,
+            {"tesseract": cache, "vision": vision, "rapid": secondary},
+            SpacingLexicon(dictionary, language_code(book), protected_spacing),
+            CropRecognizer(doc, work, book, models),
+            audit,
+        )
+        write_json(out / "word-spacing-repair.json", spacing_report)
     apply_edits(
         [row for rows in pages.values() for row in rows],
         json.loads((config / "corrections.json").read_text()),
@@ -399,13 +426,6 @@ def build(
 
         restore_reviewed_bounds(pages, partial_report, audit)
         write_json(out / "partial-row-analysis.json", partial_report)
-    from spylls.hunspell import Dictionary
-
-    dictionary = (
-        Dictionary.from_files(str(models / dictionary_locale(book)))
-        if (models / (dictionary_locale(book) + ".aff")).exists()
-        else None
-    )
     if not native and book.get("recover_gap_rows"):
         from partial_rows import recover_gap_rows
         from lexical_repair import CropRecognizer

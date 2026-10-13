@@ -983,3 +983,59 @@ retains its coverage counts, noteref/backlink counts and figure inventory. The
 stored-hash runner reports additional `changed` cases on the unchanged commit
 too; those pre-existing differences were not attributed to these heuristics or
 accepted into the baseline.
+
+## Source-supported word spacing (2026-10-13)
+
+The shared opt-in `repair_ocr_word_spacing` stage fixes the seven additional
+Pharmako/Poeia errors found in the spacing survey. This is a generic detector,
+not seven profile corrections: two cached non-primary OCR engines must supply
+identical letter-preserving splits with two neighboring anchors, an unknown
+original must split into known words, and fresh 600/300-dpi line crops must
+corroborate the same anchored change. It runs before reviewed manual overlays.
+The existing page-30 `Ilearned` overlay remains because fresh crops lose the `I`.
+
+Every difference below matches the inspected print. All audits use
+`source-word-spacing`, reason `literal-row-and-crop-spacing`, with literal cached
+and fresh readings in `word-spacing-repair.json` and `corrections-applied.json`.
+Coordinates are normalized source-row boxes; full-precision boxes remain in the
+audit. Punctuation and every non-space character retain their original reading.
+
+| PDF page | Full-output word difference | Source bbox | Per-difference explanation |
+|---|---|---|---|
+| 6 | `orillegal → or illegal` | `[.2432,.7209,.6187,.7355]` | Print separates the conjunction and adjective; prose row. |
+| 92 | `ofkentucky, → of kentucky,` | `[.5244,.3939,.8226,.4084]` | Print separates the preposition; lowercase place name and comma retained. |
+| 111 | `oflife → of life` | `[.2971,.5436,.5748,.5581]` | Printed verse separates the two words; verse line retained. |
+| 131 | `oflife? → of life?` | `[.2942,.5347,.4827,.5494]` | Printed verse separates the two words; question mark and verse line retained. |
+| 186 | `oftwo → of two` | `[.2121,.3924,.5973,.4085]` | Printed verse separates the preposition and number word; verse line retained. |
+| 230 | `ofivy → of ivy` | `[.2451,.2355,.5331,.2530]` | Print separates the preposition and noun; prose row. |
+| 247 | `offascination → of fascination` | `[.2621,.4084,.7825,.4215]` | Print separates the preposition and noun; prose row. |
+
+Validation compares freshly rebuilt detached commit `c73c730` against this tree
+using identical caches. All 17 cases build; 16 snapshots are identical. Pharmako
+has exactly the seven word differences above, with associated corrected rows,
+canonical text, coverage text hashes, audit and affected XHTML changes. Coverage
+counts, figures, noterefs and backlinks are unchanged; the character-by-character
+formatting of all affected blocks is retained. Evidence is in
+`work/spacing-full-comparison.json`, `work/spacing-fix-comparison.json`, baseline
+`work/spacing-full-baseline/run-i2bn4il_` and changed
+`work/spacing-full-regression/run-24knvb31`. The added enabled-pass diagnostic is
+also a required hashed regression artifact; a focused rebuild under
+`work/spacing-audit-regression/` validates its snapshot inclusion.
+
+The refreshed published EPUB matches that validated focused build
+(`work/spacing-published-comparison.json`) and EPUBCheck reports zero fatals,
+errors, warnings or infos (`work/spacing-fix-epubcheck.json`). All 445 tests pass,
+including literal boundary guards, conflicting witnesses/crops, repeated
+occurrences, multiple edits and inline offsets, native bypass, and diagnostic
+snapshot integrity. Stored regression baselines are unchanged; the runner's
+`changed` status is expected for the reviewed seven fixes.
+
+Further research is reproducible with `scripts/spacing_research.py` and
+`tests/spacing-cases.json`: 18 reviewed positives and five source controls.
+Zero-edit segmentation gets 14 positive answers and retains all controls.
+Leave-source-row-out context improves ranking but still favors two erroneous
+controls; character gap distributions overlap. A dictionary-based original veto
+finds two additional source-confirmed `ofthe` splits, while a rare
+`synesthetes` join exposes remaining vocabulary/crop limitations. Those expansions
+are research-only. [Word-spacing research](word-spacing.md) records the primary
+sources, findings, benchmark command and proposed next bounded heuristic.
