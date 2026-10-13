@@ -847,6 +847,7 @@ class TypographyTests(unittest.TestCase):
         self.assertEqual(audit[0]["before"], "Cari")
         self.assertEqual(audit[0]["votes"], 2)
         self.assertEqual(review, [])
+
         # A common-word i/l confusion uses the same source-evidence rule.
         self.assertEqual(
             correct_page(
@@ -905,6 +906,42 @@ class TypographyTests(unittest.TestCase):
             ],
             "Cari",
         )
+
+    def test_spaced_initial_compound_needs_embedded_and_fresh_line_evidence(self):
+        primary = [row("Srory-TELLNc has been, through the ages, a serious business.")]
+        embedded = [
+            row("S to r y-t e l l in g has been, through the ages, a serious business.")
+        ]
+        vision = [row("STOrY-TELLING has been, through the ages, a serious business.")]
+        rapid = [row("Srory-reLLInc has been, through the ages, a serious business.")]
+        audit = []
+        result = correct_page(primary, embedded, vision, rapid, audit, [], 17)
+        self.assertEqual(
+            result[0]["text"],
+            "Story-telling has been, through the ages, a serious business.",
+        )
+        self.assertEqual(audit[0]["kind"], "spaced-initial-compound")
+        self.assertEqual(audit[0]["before"], "Srory-TELLNc")
+        self.assertEqual(audit[0]["after"], "Story-telling")
+        for baseline, fresh in (
+            ([], vision),
+            (
+                [row("Story-telling has been, through the ages, a serious business.")],
+                vision,
+            ),
+            (
+                embedded,
+                [
+                    row(
+                        "STOrY-TELLING has not been, through the ages, a serious business."
+                    )
+                ],
+            ),
+        ):
+            self.assertEqual(
+                correct_page(primary, baseline, fresh, rapid, [], [], 17)[0]["text"],
+                primary[0]["text"],
+            )
 
     def test_garbled_tall_row_is_replaced_by_two_fresh_consensus_lines(self):
         primary = [dict(text="garbled row", bbox=[0.2, 0.2, 0.7, 0.24], confidence=1)]

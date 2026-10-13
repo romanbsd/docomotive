@@ -478,6 +478,63 @@ def repair_russian_letters(row, readings, change):
             )
 
 
+def repair_spaced_initial_compound(row, embedded_row, fresh, page, audit):
+    """Recover a damaged initial compound from spaced PDF text and fresh OCR."""
+    match = re.match(r"([A-Za-z]{3,}(?:-[A-Za-z]{3,})+)(?=\s)", row["text"])
+    if not match or not embedded_row:
+        return
+    tail = comparable(row["text"])[1:]
+    if len(tail) < 3:
+        return
+    embedded_text = embedded_row["text"]
+    # Locate the unchanged prose after the spaced small-cap word. The whole
+    # remaining row must agree, so a repeated anchor word cannot supply a
+    # false prefix.
+    for anchor in re.finditer(rf"\b{re.escape(tail[0])}\b", embedded_text, re.I):
+        if comparable(embedded_text[anchor.start() :]) != tail:
+            continue
+        prefix = embedded_text[: anchor.start()].strip()
+        if not re.search(r"[A-Za-z]\s+[A-Za-z]", prefix):
+            continue
+        candidate = re.sub(r"\s+", "", prefix)
+        if not re.fullmatch(r"[A-Za-z]{3,}(?:-[A-Za-z]{3,})+", candidate):
+            continue
+        before = match.group()
+        if (
+            before.casefold() == candidate.casefold()
+            or difflib.SequenceMatcher(
+                None, before.casefold(), candidate.casefold()
+            ).ratio()
+            < 0.75
+        ):
+            continue
+        corroborating = next(
+            (
+                witness["text"]
+                for witness in fresh
+                if witness
+                and (tokens := comparable(witness["text"]))
+                and tokens[0] == candidate.casefold()
+                and tokens[1:] == tail
+            ),
+            None,
+        )
+        if corroborating is None:
+            continue
+        row["text"] = candidate + row["text"][match.end() :]
+        audit.append(
+            dict(
+                page=page,
+                kind="spaced-initial-compound",
+                before=before,
+                after=candidate,
+                bbox=row["bbox"],
+                evidence=dict(embedded=embedded_text, fresh=corroborating),
+            )
+        )
+        return
+
+
 def correct_page(
     primary,
     baseline,
@@ -659,6 +716,7 @@ def correct_page(
         # and otherwise match the entire line; embedded OCR is not a vote.
         normalize_quotes = lambda text: text.translate(str.maketrans("“”", '""'))
         fresh = witnesses[1:]
+        repair_spaced_initial_compound(row, witnesses[0], fresh, page, audit)
         if recover_index_digits and all(fresh):
             # Numeric index references often confuse serif 1/I/l and 0/O.
             # Both fresh witnesses must agree on every token; unchanged words
