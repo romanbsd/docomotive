@@ -433,6 +433,9 @@
     "359": "337",
     "360": "338"
   },
+  "chapter_page_splits": {
+    "148": 0.245
+  },
   "note_starts": {
     "29": 0.70163,
     "30": 0.74526,
@@ -503,10 +506,11 @@
     "323": 0.84385,
     "324": 0.80385,
     "328": 0.69233,
-    "332": 0.702,
+    "332": 0.499,
     "334": 0.74971
   },
   "link_numeric_footnotes": true,
+  "require_complete_numeric_footnotes": true,
   "vision_primary_pages": [
     341,
     342,

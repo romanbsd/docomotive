@@ -20,7 +20,7 @@ def link_symbol_footnotes(model, book):
                 r"""^\s*([*†‡]{1,3})(?![*†‡])(?=\s|[^\W\d_]|["'“‘«(…])""", note["text"]
             )
             if not marker and book.get("link_numeric_footnotes"):
-                marker = re.match(r"^\s*(\d{1,2})(?=\s)", note["text"])
+                marker = re.match(r"^\s*(\d{1,2})(?=\s|\[)", note["text"])
             if not marker:
                 unresolved.append(
                     dict(page=note["root_page"], reason="unrecognized-note-prefix")
@@ -38,7 +38,7 @@ def link_symbol_footnotes(model, book):
             multiple = (
                 (
                     sum(
-                        bool(re.match(r"^\s*\d{1,2}\s", s["text"]))
+                        bool(re.match(r"^\s*\d{1,2}(?=\s|\[)", s["text"]))
                         for s in note.get("sources", [])
                     )
                     != 1
@@ -50,33 +50,35 @@ def link_symbol_footnotes(model, book):
                 unresolved.append(dict(page=root, reason="multiple-note-symbols"))
                 continue
             candidates = []
-            for block in chapter["blocks"]:
-                if block["kind"] not in ("text", "quote", "verse"):
-                    continue
-                for match in pattern.finditer(block["text"]):
-                    if match.group() != symbol:
+            search_chapters = model if symbol.isdigit() else [chapter]
+            for source_chapter in search_chapters:
+                for block in source_chapter["blocks"]:
+                    if block["kind"] not in ("text", "quote", "verse"):
                         continue
-                    if symbol.isdigit() and not any(
-                        "sup" in style.get("tags", [])
-                        and style["start"] == match.start()
-                        and style["end"] == match.end()
-                        for style in block.get("inline", [])
-                    ):
-                        continue
-                    if match.start() == 0 or (
-                        block["text"][match.start() - 1].isdigit()
-                        and match.end() < len(block["text"])
-                        and block["text"][match.end()].isdigit()
-                    ):
-                        continue  # A leading bullet or multiplication is not a citation.
-                    # Source offsets disambiguate a paragraph crossing pages.
-                    if any(
-                        s["page"] == root
-                        and s["start"] <= match.start()
-                        and match.end() <= s["end"]
-                        for s in block["sources"]
-                    ):
-                        candidates.append((block, match))
+                    for match in pattern.finditer(block["text"]):
+                        if match.group() != symbol:
+                            continue
+                        if symbol.isdigit() and not any(
+                            "sup" in style.get("tags", [])
+                            and style["start"] == match.start()
+                            and style["end"] == match.end()
+                            for style in block.get("inline", [])
+                        ):
+                            continue
+                        if match.start() == 0 or (
+                            block["text"][match.start() - 1].isdigit()
+                            and match.end() < len(block["text"])
+                            and block["text"][match.end()].isdigit()
+                        ):
+                            continue  # A leading bullet or multiplication is not a citation.
+                        # Source offsets disambiguate a paragraph crossing pages.
+                        if any(
+                            s["page"] == root
+                            and s["start"] <= match.start()
+                            and match.end() <= s["end"]
+                            for s in block["sources"]
+                        ):
+                            candidates.append((source_chapter, block, match))
             if len(candidates) != 1:
                 unresolved.append(
                     dict(
@@ -86,28 +88,39 @@ def link_symbol_footnotes(model, book):
                     )
                 )
                 continue
-            block, match = candidates[0]
+            source_chapter, block, match = candidates[0]
             if any(
                 s.get("href") and s["start"] < match.end() and s["end"] > match.start()
                 for s in block.get("inline", [])
             ):
                 unresolved.append(dict(page=root, reason="existing-link"))
                 continue
-            anchor = f"footnoteref-{root}"
+            anchor = (
+                f"footnoteref-{root}"
+                if symbol == "1" or not symbol.isdigit()
+                else f"footnoteref-{root}-{symbol}"
+            )
+            target_href = "#" + note["id"]
+            backlink = "#" + anchor
+            if source_chapter is not chapter:
+                target_href = f'chapter-{chapter["chapter"]:02}.xhtml{target_href}'
+                backlink = f'chapter-{source_chapter["chapter"]:02}.xhtml{backlink}'
             block.setdefault("inline", []).append(
                 dict(
                     start=match.start(),
                     end=match.end(),
                     tags=["sup"],
-                    href="#" + note["id"],
+                    href=target_href,
                     anchor=anchor,
                     noteref=True,
                 )
             )
-            note["backlink"] = "#" + anchor
+            note["backlink"] = backlink
             # Suppress page-group fallbacks throughout the chapter, including
             # continuation leaves. The exact printed symbol now provides access.
             chapter.setdefault("linked_note_roots", []).append(root)
+            if source_chapter is not chapter:
+                source_chapter.setdefault("linked_note_roots", []).append(root)
             linked.append(
                 dict(page=root, symbol=symbol, anchor=anchor, target=note["id"])
             )

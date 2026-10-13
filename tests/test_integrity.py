@@ -43,6 +43,8 @@ class IntegrityTests(unittest.TestCase):
             ("source_sha256", "short"),
             ("slug", "../escape"),
             ("index_splits", {"2": 1.2}),
+            ("chapter_page_splits", {"2": 0.25}),
+            ("chapter_page_splits", {"4": 1.2}),
             ("figures", [{"page": 2, "rect": [0.8, 0.1, 0.2, 0.7]}]),
             ("endnote_chapter", 3),
             ("native_body_size", float("nan")),

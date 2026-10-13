@@ -839,6 +839,15 @@ def build(
         from apparatus import link_symbol_footnotes
 
         apparatus["footnotes"] = link_symbol_footnotes(model, book)
+    if book.get("require_complete_numeric_footnotes"):
+        unresolved_calls = numeric_report["unresolved"]
+        unresolved_links = apparatus["footnotes"]["unresolved"]
+        if unresolved_calls or unresolved_links:
+            raise ValueError(
+                "Numbered footnotes remain unresolved: "
+                f"{len(unresolved_calls)} call pages, "
+                f"{len(unresolved_links)} note links; inspect numeric-footnote-analysis.json"
+            )
     write_json(out / "apparatus-analysis.json", apparatus)
     text_coverage = coverage(pages, book, model)
     write_json(out / "text-coverage.json", text_coverage)

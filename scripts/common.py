@@ -65,7 +65,7 @@ def write_epub(target, files):
 # "comments" is free-form reviewer documentation that no code reads.
 PROFILE_KEYS = frozenset("""
     approved_cover_url archive_identifier artwork_overlay_exclusions artwork_pages
-    author author_sort bottom_margin_cutoffs chapter_body_starts chapter_heading
+    author author_sort bottom_margin_cutoffs chapter_body_starts chapter_page_splits chapter_heading
     chapters comments continuous_indented_rows contributors cover_file
     cover_imprint cover_source cross_page_continuations date description doi
     endnote_chapter endnote_marker_limit endnote_marker_min endnote_reference_mode
@@ -83,7 +83,7 @@ PROFILE_KEYS = frozenset("""
     source_prose_indents source_relative_figures source_sha256 source_version
     statistics_excluded_chapters subjects subtitle text_source title
     upper_margin_cutoff uppercase_margin_cutoff verse_regions vision_primary_pages recover_scan_italics recover_scan_inline_italics
-    recover_centered_headings infer_full_width_quotes repair_ocr_punctuation repair_ocr_case repair_ocr_word_spacing inspect_partial_rows recover_gap_rows normalize_quotation_marks recover_figure_frames recover_body_top source_figure_anchors quote_font_scale link_numeric_footnotes dictionary_locale ocr_tesseract_language ocr_vision_language ocr_rapid_language ocr_tessdata_dir metadata_author_aliases ocr_tesseract_page_languages source_gaps
+    recover_centered_headings infer_full_width_quotes repair_ocr_punctuation repair_ocr_case repair_ocr_word_spacing inspect_partial_rows recover_gap_rows normalize_quotation_marks recover_figure_frames recover_body_top source_figure_anchors quote_font_scale link_numeric_footnotes require_complete_numeric_footnotes dictionary_locale ocr_tesseract_language ocr_vision_language ocr_rapid_language ocr_tessdata_dir metadata_author_aliases ocr_tesseract_page_languages source_gaps
     """.split())
 
 

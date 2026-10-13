@@ -705,8 +705,18 @@ def reconstruct(pages, book, policy, audit, editorial_edits=()):
         blocks = []
         caption_blocks = []
         note_rows = []
-        for n in range(start, end + 1):
-            bb, nn = page_blocks(n, pages[n], book, audit, n == start, policy)
+        next_start = (
+            book["chapters"][index][0] if index < len(book["chapters"]) else None
+        )
+        split = book.get("chapter_page_splits", {}).get(str(next_start))
+        for n in range(start, end + 1 + (split is not None)):
+            rows = pages[n]
+            if n == start and str(n) in book.get("chapter_page_splits", {}):
+                cutoff = book["chapter_page_splits"][str(n)]
+                rows = [r for r in rows if r["bbox"][1] >= cutoff]
+            elif n == end + 1 and split is not None:
+                rows = [r for r in rows if r["bbox"][1] < split]
+            bb, nn = page_blocks(n, rows, book, audit, n == start, policy)
             for candidate in bb[:]:
                 caption = next(
                     (
@@ -779,13 +789,54 @@ def reconstruct(pages, book, policy, audit, editorial_edits=()):
                 root,
                 {"kind": "note", "id": f"note-{root}", "root_page": root, "lines": []},
             )["lines"].append(r)
+        if book.get("link_numeric_footnotes"):
+            split_notes = []
+            for note in notes.values():
+                lines = note["lines"]
+                starts = []
+                for i, row in enumerate(lines):
+                    match = re.match(r"^\s*([1-9])(?=\s|\[)", row["text"])
+                    if match and row["page"] == note["root_page"]:
+                        starts.append((i, int(match[1])))
+                # Only a complete 1,2,... run may divide a page note. This
+                # avoids treating a number in prose as a new apparatus entry.
+                if (
+                    len(starts) > 1
+                    and starts[0] == (0, 1)
+                    and [label for _, label in starts]
+                    == list(range(1, len(starts) + 1))
+                    and all(
+                        abs(lines[i]["bbox"][0] - lines[0]["bbox"][0]) < 0.04
+                        for i, _ in starts
+                    )
+                ):
+                    for j, (line_start, label) in enumerate(starts):
+                        line_end = (
+                            starts[j + 1][0] if j + 1 < len(starts) else len(lines)
+                        )
+                        split_notes.append(
+                            dict(
+                                kind="note",
+                                id=(
+                                    f"note-{note['root_page']}"
+                                    if label == 1
+                                    else f"note-{note['root_page']}-{label}"
+                                ),
+                                root_page=note["root_page"],
+                                label=str(label),
+                                lines=lines[line_start:line_end],
+                            )
+                        )
+                else:
+                    split_notes.append(note)
+            notes = {i: note for i, note in enumerate(split_notes)}
         for block in blocks + list(notes.values()):
             normalize_block(block, policy, audit)
         model.append(
             {
                 "title": title,
                 "chapter": index,
-                "source_pages": [start, end],
+                "source_pages": [start, end + (split is not None)],
                 "blocks": blocks,
                 "notes": list(notes.values()),
                 "note_targets": targets,
@@ -871,8 +922,10 @@ def coverage(pages, book, model):
     for n, rows in pages.items():
         for row in rows:
             ident = row_id(n, row, book.get("source_sha256", ""))
+            split = book.get("chapter_page_splits", {}).get(str(n))
+            first = n in starts and not (split is not None and row["bbox"][1] < split)
             role, reason = (
-                classify_row(n, row, book, n in starts)
+                classify_row(n, row, book, first)
                 if n in selected
                 else ("excluded", "outside-reflow-sections")
             )

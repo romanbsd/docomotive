@@ -144,6 +144,18 @@ class SourceAnchorTests(unittest.TestCase):
             0,
         )
 
+    def test_numeric_note_can_link_across_a_chapter_split_on_its_source_page(self):
+        model = self.numeric_model()
+        note = model[0]["notes"].pop()
+        model.append(dict(chapter=2, blocks=[], notes=[note]))
+        report = link_symbol_footnotes(model, {"link_numeric_footnotes": True})
+        self.assertEqual(report["numeric_links"], 1)
+        self.assertEqual(
+            model[0]["blocks"][0]["inline"][-1]["href"],
+            "chapter-02.xhtml#note-1",
+        )
+        self.assertEqual(note["backlink"], "chapter-01.xhtml#footnoteref-1")
+
     def test_multiple_footer_entries_cannot_share_one_numeric_target(self):
         model = self.numeric_model()
         model[0]["notes"][0]["sources"].append(dict(page=1, text="2 Other note."))
@@ -152,6 +164,75 @@ class SourceAnchorTests(unittest.TestCase):
                 link_symbol_footnotes(model, {"link_numeric_footnotes": True})["linked"]
             ),
             0,
+        )
+
+    def test_reconstruct_splits_consecutive_numeric_notes_for_distinct_links(self):
+        from book_model import JoinPolicy, reconstruct
+
+        rows = [
+            dict(
+                text="Alpha.1",
+                bbox=[0.1, 0.2, 0.4, 0.22],
+                inline=[dict(start=6, end=7, tags=["sup"])],
+            ),
+            dict(
+                text="Beta.2",
+                bbox=[0.1, 0.24, 0.4, 0.26],
+                inline=[dict(start=5, end=6, tags=["sup"])],
+            ),
+            dict(text="1 First note.", bbox=[0.13, 0.7, 0.5, 0.72]),
+            dict(text="2 Second note.", bbox=[0.13, 0.74, 0.5, 0.76]),
+        ]
+        book = dict(
+            chapters=[[1, 1, "Test"]],
+            chapter_body_starts={"1": 0},
+            upper_margin_cutoff=0,
+            note_starts={"1": 0.68},
+            link_numeric_footnotes=True,
+        )
+        model = reconstruct({1: rows}, book, JoinPolicy(), [])
+        self.assertEqual(
+            [note["id"] for note in model[0]["notes"]], ["note-1", "note-1-2"]
+        )
+        report = link_symbol_footnotes(model, book)
+        self.assertEqual(
+            [(item["symbol"], item["target"]) for item in report["linked"]],
+            [("1", "note-1"), ("2", "note-1-2")],
+        )
+
+    def test_shared_chapter_page_keeps_prior_prose_and_links_its_note(self):
+        from book_model import JoinPolicy, reconstruct
+
+        pages = {
+            1: [dict(text="Earlier chapter.", bbox=[0.1, 0.3, 0.7, 0.32])],
+            2: [
+                dict(
+                    text="Prior paragraph.1",
+                    bbox=[0.1, 0.1, 0.7, 0.12],
+                    inline=[dict(start=16, end=17, tags=["sup"])],
+                ),
+                dict(text="Next chapter prose.", bbox=[0.1, 0.3, 0.7, 0.32]),
+                dict(text="1 Printed note.", bbox=[0.1, 0.8, 0.7, 0.82]),
+            ],
+        }
+        book = dict(
+            chapters=[[1, 1, "First"], [2, 2, "Second"]],
+            chapter_page_splits={"2": 0.25},
+            chapter_body_starts={"1": 0, "2": 0.25},
+            upper_margin_cutoff=0,
+            note_starts={"2": 0.75},
+            link_numeric_footnotes=True,
+        )
+        model = reconstruct(pages, book, JoinPolicy(), [])
+        self.assertIn(
+            "Prior paragraph.1", " ".join(b["text"] for b in model[0]["blocks"])
+        )
+        self.assertNotIn(
+            "Prior paragraph.1", " ".join(b["text"] for b in model[1]["blocks"])
+        )
+        self.assertEqual(link_symbol_footnotes(model, book)["numeric_links"], 1)
+        self.assertEqual(
+            model[1]["notes"][0]["backlink"], "chapter-01.xhtml#footnoteref-2"
         )
 
 

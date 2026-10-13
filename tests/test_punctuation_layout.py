@@ -18,7 +18,15 @@ from case_repair import aligned_word
 from book_model import resolve_body_top
 from figure_bounds import framed_bounds
 from partial_rows import truncated_rows
-from numeric_footnotes import marker_boxes
+from numeric_footnotes import (
+    marker_boxes,
+    verified_caret_gap,
+    footer_entry_labels,
+    conflicting_digit,
+    preserve_source_marker_gap,
+    restore_numbered_bracket_gap,
+    printed_terminal_mark,
+)
 
 
 def model(text, kind="text"):
@@ -30,6 +38,84 @@ def model(text, kind="text"):
 
 
 class PunctuationTests(unittest.TestCase):
+    def test_source_gap_after_raised_call_survives_before_quotation(self):
+        change = dict(start=0, marker_end=2, after='.1"')
+        self.assertEqual(
+            preserve_source_marker_gap(change, "Bough. ^ “In", 7)["after"],
+            '.1 "',
+        )
+
+    def test_numbered_bracket_gap_uses_source_line_and_shifts_styles(self):
+        from types import SimpleNamespace
+
+        class Page:
+            rect = SimpleNamespace(height=100)
+
+            def get_text(self, mode):
+                self_mode = mode
+                assert self_mode == "blocks"
+                return [(0, 80, 90, 85, "1 [Printed note]")]
+
+        row = dict(
+            page=1,
+            text="1[Printed note]",
+            bbox=[0.1, 0.8, 0.9, 0.85],
+            inline=[dict(start=2, end=9, tags=["em"])],
+        )
+        audit = []
+        restore_numbered_bracket_gap(1, [row], Page(), audit)
+        self.assertEqual(row["text"], "1 [Printed note]")
+        self.assertEqual(row["inline"][0]["start"], 3)
+        self.assertEqual(audit[0]["kind"], "source-numbered-bracket-gap")
+
+    def test_question_mark_before_call_needs_a_separate_printed_dot(self):
+        stem = (10, 1, 13, 9)
+        dot = (11, 10, 12, 11)
+        marker = (20, 1, 24, 8)
+        self.assertFalse(printed_terminal_mark(8, marker, [stem], 12, 14))
+        self.assertTrue(printed_terminal_mark(8, marker, [stem, dot], 12, 14))
+
+    def test_clear_other_digit_blocks_shape_based_marker_relabeling(self):
+        self.assertTrue(conflicting_digit(["2"] * 3, "1"))
+        self.assertTrue(conflicting_digit(["1", "1", "3"], "1"))
+        self.assertFalse(conflicting_digit(["1", "1", "I"], "1"))
+
+    def test_separate_baseline_dot_can_support_damaged_embedded_digit(self):
+        from numeric_footnotes import anchored_caret_change, source_dot_before_marker
+
+        glyph = (262, 60, 268, 65)
+        dot = (259, 67, 261, 69)
+        self.assertTrue(source_dot_before_marker(glyph, [glyph, dot], 1))
+        self.assertFalse(source_dot_before_marker(glyph, [glyph], 1))
+        change = anchored_caret_change(
+            "in which it dwells.t A human head",
+            "in which it dwells.^ A human head",
+            len("in which it dwells."),
+            "1",
+        )
+        self.assertEqual(change["before"], ".t ")
+        self.assertEqual(verified_caret_gap(change)["after"], ".1 ")
+
+    def test_verified_caret_gap_replaces_one_false_quote_or_symbol(self):
+        for before, after in [(".’", ".1"), (".”?", '." 1'), (". + “", '. 1"')]:
+            change = dict(
+                start=10,
+                before=before,
+                after=after,
+                marker_start=10 + after.index("1"),
+            )
+            self.assertIsNotNone(verified_caret_gap(change))
+        change = dict(start=0, before="year 1972", after=".1", marker_start=1)
+        self.assertIsNone(verified_caret_gap(change))
+
+    def test_footer_entry_labels_need_complete_hanging_run(self):
+        rows = [
+            dict(text="1[First note]", bbox=[0.1, 0.7, 0.8, 0.72]),
+            dict(text="2 Second note", bbox=[0.1, 0.75, 0.8, 0.77]),
+        ]
+        self.assertEqual(footer_entry_labels(rows, 0.69), ["1", "2"])
+        self.assertEqual(footer_entry_labels(rows[1:], 0.69), [])
+
     def test_complete_pairs_preserve_offsets_and_nested_quotes(self):
         m, _ = model('Она сказала: „Внутри "другой" мир".')
         r = normalize_quotes(m, [])
@@ -487,6 +573,61 @@ class InteriorCallTests(unittest.TestCase):
             patch("numeric_footnotes.glyph_readings", return_value=["1", "2", "1"]),
         ):
             self.assertEqual(embedded_caret_calls(Page(), [row], 0.75, "1"), [])
+
+    def test_split_raised_two_joins_vertical_ink_not_side_by_side_quotes(self):
+        import io
+        from types import SimpleNamespace
+        from numeric_footnotes import embedded_caret_calls
+
+        witness = "Helen of Troy.” This follows"
+        marker = witness.index("”")
+        chars = [
+            dict(
+                c=value,
+                bbox=(135, 169, 140, 180) if i == marker else (0, 169, 1, 180),
+            )
+            for i, value in enumerate(witness)
+        ]
+        image = Image.new("L", (370, 594), 255)
+        buffer = io.BytesIO()
+        image.save(buffer, format="PNG")
+
+        class Page:
+            rect = SimpleNamespace(width=370, height=594)
+
+            def get_text(self, mode):
+                return {"blocks": [{"lines": [{"spans": [{"chars": chars}]}]}]}
+
+            def get_pixmap(self, **kwargs):
+                return SimpleNamespace(tobytes=lambda fmt: buffer.getvalue())
+
+        row = dict(
+            text="Helen of Troy.” This follows",
+            bbox=[0.1, 0.285, 0.9, 0.305],
+        )
+        with (
+            patch(
+                "numeric_footnotes.components",
+                return_value=[(136, 170, 139, 172), (136, 173, 139, 174)],
+            ),
+            patch("numeric_footnotes.glyph_readings", return_value=["2", "2"]),
+        ):
+            calls = embedded_caret_calls(
+                Page(), [row], 0.75, "2", include_confusions=True
+            )
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls[0]["change"]["after"], ".2 ")
+        with (
+            patch(
+                "numeric_footnotes.components",
+                return_value=[(136, 170, 138, 173), (140, 170, 142, 173)],
+            ),
+            patch("numeric_footnotes.glyph_readings", return_value=["2", "2"]),
+        ):
+            self.assertEqual(
+                embedded_caret_calls(Page(), [row], 0.75, "2", include_confusions=True),
+                [],
+            )
 
     def test_verified_caret_marker_attaches_without_space(self):
         from numeric_footnotes import attach_marker

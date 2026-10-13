@@ -38,6 +38,27 @@ def dot_below(stem, boxes, cap):
     )
 
 
+def printed_terminal_mark(anchor_right, marker_box, boxes, cap, baseline):
+    """A question or exclamation mark needs both its tall stroke and dot."""
+    return any(
+        anchor_right <= stem[0] < marker_box[0]
+        and stem[3] < baseline - 0.25 * cap
+        and dot_below(stem, boxes, cap)
+        for stem in boxes
+        if stem[3] - stem[1] > 0.5 * cap
+    )
+
+
+def conflicting_digit(readings, label):
+    return any(
+        value.isascii()
+        and value.isdigit()
+        and len(value) == len(label)
+        and value != label
+        for value in readings
+    )
+
+
 def marker_boxes(boxes, model):
     cap, baseline, slope = model
     return [
@@ -256,6 +277,39 @@ def recover_merged_footer(number, rows, cutoff, page, work, recognize, audit):
     return True
 
 
+def restore_numbered_bracket_gap(number, rows, page, audit):
+    """Restore a note-label space only when the PDF text independently has it."""
+    source_blocks = page.get_text("blocks")
+    for row in rows:
+        match = re.match(r"^(\d{1,2})\[", row["text"])
+        if not match:
+            continue
+        label = match[1]
+        if not any(
+            abs(block[1] / page.rect.height - row["bbox"][1]) < 0.015
+            and re.match(rf"^{re.escape(label)}\s+\[", block[4])
+            for block in source_blocks
+        ):
+            continue
+        before = label + "["
+        apply_edits(
+            [row],
+            [
+                dict(
+                    page=number,
+                    before=before,
+                    after=label + " [",
+                    prefix="",
+                    suffix=row["text"][len(before) :],
+                    count=1,
+                    whole_word=False,
+                )
+            ],
+            audit,
+            "source-numbered-bracket-gap",
+        )
+
+
 def recover_tail_quote(
     number,
     word,
@@ -386,16 +440,140 @@ def attach_marker(change):
     return change
 
 
-def embedded_caret_calls(page, rows, cutoff, label):
-    """Verify an ABBYY caret against one raised source glyph and one OCR gap.
+def preserve_source_marker_gap(change, witness, symbol_start):
+    """Retain a printed gap between a raised call and the next quotation."""
+    if not re.match(r"\s+[\"'“‘]", witness[symbol_start + 1 :]):
+        return change
+    offset = change["marker_end"] - change["start"]
+    if offset < len(change["after"]) and change["after"][offset] in "\"'“‘":
+        change["after"] = change["after"][:offset] + " " + change["after"][offset:]
+    return change
+
+
+def verified_caret_gap(change):
+    """Allow one OCR symbol mistaken for a pixel-verified source caret.
+
+    The ordinary gap policy deliberately protects quotation marks. A raised
+    numeral often becomes a spurious closing quote in the primary OCR, so the
+    source PDF's adjacent punctuation must also bound that substitution.
+    """
+    from citation_research import preserve_gap
+
+    guarded = preserve_gap(change)
+    if guarded:
+        return guarded
+    before, after = change["before"], change["after"]
+    marker = after[change["marker_start"] - change["start"]]
+    if (
+        len(before) > 8
+        or len(after) > 8
+        or not marker.isdigit()
+        or any(c.isalnum() and c not in "IltoOa" for c in before)
+        or any(c.isdigit() for c in before)
+    ):
+        return None
+    source_marks = re.sub(r"\s+", "", after.replace(marker, "", 1))
+    observed_marks = re.sub(r"\s+", "", before)
+    normalized = str.maketrans({"“": '"', "”": '"', "‘": "'", "’": "'"})
+    source_marks = source_marks.translate(normalized)
+    observed_marks = observed_marks.translate(normalized)
+    if not source_marks or any(c not in ".!?;:,)]'\"" for c in source_marks):
+        return None
+    # At most one extra OCR character may masquerade as the raised digit.
+    # One source punctuation mark may be absent from OCR (e.g. Hell^ -> Hell.1).
+    matcher = difflib.SequenceMatcher(None, observed_marks, source_marks)
+    removed = "".join(
+        observed_marks[a:aa]
+        for op, a, aa, _, _ in matcher.get_opcodes()
+        if op != "equal"
+    )
+    inserted = "".join(
+        source_marks[b:bb] for op, _, _, b, bb in matcher.get_opcodes() if op != "equal"
+    )
+    paired_punctuation_error = bool(
+        re.fullmatch(r"[,:;][*?+°]", observed_marks) and source_marks == "."
+    )
+    if not paired_punctuation_error and (
+        len(removed) > 1
+        or len(inserted) > 1
+        or any(c not in "*?+°ºIltoOa'\"!>" for c in removed)
+    ):
+        return None
+    return change
+
+
+def anchored_caret_change(primary, witness, caret_start, label):
+    """Map a tiny caret gap when one neighboring OCR word is misspelled."""
+    left_words = list(re.finditer(r"[A-Za-z]{3,}", witness[:caret_start]))
+    right = re.search(r"[A-Za-z]+", witness[caret_start + 1 :])
+    if not left_words:
+        return None
+    left = left_words[-1]
+    targets = list(re.finditer(r"[A-Za-z]+", primary))
+    matches = [
+        target
+        for target in targets
+        if difflib.SequenceMatcher(
+            None, left.group().casefold(), target.group().casefold()
+        ).ratio()
+        >= 0.75
+    ]
+    if len(matches) != 1:
+        return None
+    target_left = matches[0]
+    target_right = None
+    source_right_start = len(witness)
+    if right:
+        source_right_start = caret_start + 1 + right.start()
+        right_word = right.group()
+        following = [
+            target
+            for target in targets
+            if target.start() > target_left.end()
+            and target.group().casefold() == right_word.casefold()
+        ]
+        if len(following) != 1:
+            return None
+        target_right = following[0]
+    start = target_left.end()
+    end = target_right.start() if target_right else len(primary)
+    after = witness[left.end() : source_right_start].replace("^", label, 1)
+    if after.count(label) != 1 or len(primary[start:end]) > 16:
+        return None
+    offset = after.index(label)
+    return dict(
+        start=start,
+        end=end,
+        before=primary[start:end],
+        after=after,
+        marker_start=start + offset,
+        marker_end=start + offset + len(label),
+    )
+
+
+def source_dot_before_marker(box, boxes, scale):
+    """Find the separate baseline period immediately before a raised glyph."""
+    x = box[0] / scale
+    bottom = box[3] / scale
+    return any(
+        0.5 < x - (dot[0] + dot[2]) / (2 * scale) < 4
+        and 1 < dot[1] / scale - bottom < 4
+        and 0.5 <= (dot[2] - dot[0]) / scale < 2.5
+        and 0.5 <= (dot[3] - dot[1]) / scale < 2.5
+        for dot in boxes
+    )
+
+
+def embedded_caret_calls(
+    page, rows, cutoff, label, templates=(), include_confusions=False
+):
+    """Verify an ABBYY marker hint against a raised source glyph and OCR gap.
 
     The hidden text supplies a location, not the digit. This bounded fallback
     runs only where the wider raster search found no call.
     """
     if not hasattr(page, "get_text"):
         return []
-    from citation_research import preserve_gap
-
     carets = []
     for block in page.get_text("rawdict")["blocks"]:
         for line in block.get("lines", []):
@@ -406,7 +584,12 @@ def embedded_caret_calls(page, rows, cutoff, label):
                     witness += char["c"]
                     chars.append(dict(start=start, end=len(witness), bbox=char["bbox"]))
             for char in chars:
-                if witness[char["start"] : char["end"]] != "^":
+                symbol = witness[char["start"] : char["end"]]
+                if symbol != "^" and not (
+                    include_confusions
+                    and symbol in "d}“”'\"?®-"
+                    and (char["end"] == len(witness) or witness[char["end"]].isspace())
+                ):
                     continue
                 x, y, xx, yy = char["bbox"]
                 middle = (y + yy) / (2 * page.rect.height)
@@ -421,7 +604,16 @@ def embedded_caret_calls(page, rows, cutoff, label):
                     and row.get("kind", "text") == "text"
                 ]
                 if len(matching) == 1:
-                    carets.append((matching[0], witness, chars, char["bbox"]))
+                    carets.append(
+                        (
+                            matching[0],
+                            witness,
+                            chars,
+                            char["bbox"],
+                            symbol,
+                            char["start"],
+                        )
+                    )
     if not carets:
         return []
     image = Image.open(
@@ -430,26 +622,93 @@ def embedded_caret_calls(page, rows, cutoff, label):
     scale = image.width / page.rect.width
     boxes = components(image)
     candidates = []
-    for row, witness, chars, caret in carets:
+    for row, witness, chars, caret, symbol, symbol_start in carets:
         x, y, xx, yy = caret
+        nearby = []
         for box in boxes:
             bx, by, bxx, byy = (value / scale for value in box)
-            if not (
+            if (
                 x - 1 < (bx + bxx) / 2 < xx + 1
-                and y - 1 < (by + byy) / 2 < y + 0.6 * (yy - y)
-                and 2 <= byy - by <= 6
+                and y - 1 < (by + byy) / 2 < yy + 1
+                and 0.7 <= byy - by <= 7
             ):
-                continue
+                nearby.append(box)
+        options = []
+        for box in nearby:
+            height = (box[3] - box[1]) / scale
+            center_y = (box[1] + box[3]) / (2 * scale)
+            if (
+                2 <= height <= 6
+                and center_y < y + 0.6 * (yy - y)
+                and (symbol == "^" or height >= 3.5)
+            ):
+                options.append(box)
+        # A printed superscript 2 is often two disconnected vertical strokes.
+        # Nearby quotation marks form side-by-side strokes and cannot pass.
+        for upper in nearby:
+            for lower in nearby:
+                if lower[1] <= upper[1] or lower[1] - upper[3] > 1.3 * scale:
+                    continue
+                if (upper[1] + upper[3]) / (2 * scale) >= y + 0.6 * (yy - y):
+                    continue
+                overlap = min(upper[2], lower[2]) - max(upper[0], lower[0])
+                if overlap < 0.55 * min(upper[2] - upper[0], lower[2] - lower[0]):
+                    continue
+                union = (
+                    min(upper[0], lower[0]),
+                    upper[1],
+                    max(upper[2], lower[2]),
+                    lower[3],
+                )
+                height = (union[3] - union[1]) / scale
+                if 3.5 <= height <= 6 and union[2] - union[0] < union[3] - union[1]:
+                    options.append(union)
+        for box in options:
+            bx, by, bxx, byy = (value / scale for value in box)
             readings = glyph_readings(image, box, int(label))
             numeric = [
                 value for value in readings if value.isascii() and value.isdigit()
             ]
-            if readings.count(label) < 2 or any(value != label for value in numeric):
+            if any(value != label for value in numeric):
                 continue
-            change = replacement(row["text"], witness, chars, caret, label)
-            change = preserve_gap(change) if change else None
+            witnesses = None
+            if readings.count(label) < 2:
+                witnesses = font_match(
+                    image.crop(box),
+                    [t for t in templates if t["label"] == label],
+                    label,
+                )
+                if not witnesses:
+                    continue
+            surrogate = (
+                witness
+                if symbol == "^"
+                else witness[:symbol_start] + "^" + witness[symbol_start + 1 :]
+            )
+            dot_witness = (
+                symbol != "^"
+                and symbol_start > 0
+                and witness[symbol_start - 1].isalpha()
+                and source_dot_before_marker(box, boxes, scale)
+            )
+            if dot_witness:
+                surrogate = witness[:symbol_start] + ".^" + witness[symbol_start + 1 :]
+                change = anchored_caret_change(
+                    row["text"], surrogate, symbol_start + 1, label
+                )
+            else:
+                change = replacement(row["text"], surrogate, chars, caret, label)
+            if not change:
+                change = anchored_caret_change(
+                    row["text"],
+                    surrogate,
+                    symbol_start + int(dot_witness),
+                    label,
+                )
+            change = verified_caret_gap(change) if change else None
             if change:
                 change = attach_marker(change)
+                change = preserve_source_marker_gap(change, witness, symbol_start)
             if not change or any(
                 "sup" in style.get("tags", [])
                 and style["start"] < change["end"]
@@ -468,10 +727,29 @@ def embedded_caret_calls(page, rows, cutoff, label):
                         byy / page.rect.height,
                     ],
                     embedded_bbox=list(caret),
+                    embedded_char=symbol,
                     readings=readings,
+                    **({"font_witnesses": witnesses} if witnesses else {}),
                 )
             )
     return candidates
+
+
+def footer_entry_labels(rows, cutoff):
+    """Read a complete numbered run at the source footer's hanging margin."""
+    notes = sorted(
+        (row for row in rows if row["bbox"][1] >= cutoff),
+        key=lambda row: row["bbox"][1],
+    )
+    if not notes:
+        return []
+    labels = []
+    margin = notes[0]["bbox"][0]
+    for row in notes:
+        match = re.match(r"^\s*([1-9])(?=\s|\[)", row["text"])
+        if match and abs(row["bbox"][0] - margin) < 0.04:
+            labels.append(match[1])
+    return labels if labels == [str(i) for i in range(1, len(labels) + 1)] else []
 
 
 def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
@@ -481,9 +759,15 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
         + traineddata_digest().encode()
         + recognize.version.encode()
     )
-    found, unresolved, proposals, templates = [], [], [], []
+    found, unresolved, proposals, templates, alternates = [], [], [], [], []
     footer_evidence = {}
     for key, cutoff in book.get("note_starts", {}).items():
+        restore_numbered_bracket_gap(
+            int(key),
+            [r for r in pages[int(key)] if r["bbox"][1] >= cutoff],
+            doc[int(key) - 1],
+            audit,
+        )
         notes = [r for r in pages[int(key)] if r["bbox"][1] >= cutoff]
         if notes:
             number = int(key)
@@ -510,7 +794,7 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
         if not notes:
             continue
         first = min(notes, key=lambda r: r["bbox"][1])
-        prefix = re.match(r"^\s*(\d{1,2})\s", first["text"])
+        prefix = re.match(r"^\s*(\d{1,2})(?=\s|\[)", first["text"])
         evidence = footer_evidence.get(number)
         label = evidence and evidence["label"]
         font_witnesses = None
@@ -746,10 +1030,31 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
                             path,
                             dict(readings=readings, bbox=bbox, provenance=provenance),
                         )
-                    verified = readings.count(label) >= 2 and not any(
-                        v.isdigit() and len(v) == len(label) and v != label
-                        for v in readings
+                    # A rival OCR digit is decisive only when that digit also
+                    # labels a separate note in the printed footer. On pages
+                    # with a sole note 1, font evidence can still rescue 1
+                    # from a noisy OCR reading of 2 or 4.
+                    numeric_readings = [
+                        value
+                        for value in readings
+                        if value.isascii() and value.isdigit() and len(value) == 1
+                    ]
+                    footer_labels = footer_entry_labels(pages[number], cutoff)
+                    conflicts_footer = any(
+                        value != label and value in footer_labels
+                        for value in numeric_readings
                     )
+                    verified = readings.count(label) >= 2 and not conflicts_footer
+                    alternate_label = (
+                        numeric_readings[0]
+                        if len(numeric_readings) >= 2
+                        and len(set(numeric_readings)) == 1
+                        and numeric_readings[0] != label
+                        and numeric_readings[0] in footer_labels
+                        else None
+                    )
+                    if conflicts_footer and not alternate_label:
+                        continue
                     ambiguous_one = label == "1" and any(
                         v
                         in (
@@ -845,26 +1150,22 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
                     # OCR row box. Require a tiny baseline dot just after the digit.
                     if not after_punctuation and any(
                         box[2] < dot[0] <= box[2] + 0.7 * cap
-                        and dot[2] - dot[0] < 0.25 * cap
-                        and dot[3] - dot[1] < 0.25 * cap
+                        and dot[2] - dot[0] < 0.35 * cap
+                        and dot[3] - dot[1] < 0.35 * cap
                         and abs(dot[3] - baseline) <= 0.2 * cap
                         for dot in boxes
                     ):
                         after_punctuation = "."
-                    if (
-                        not before_punctuation
-                        and punctuation.endswith("!")
-                        and not any(
-                            anchor[2] * image.width / page.rect.width - left
-                            <= stem[0]
-                            < box[0]
-                            and stem[3] < baseline - 0.25 * cap
-                            and dot_below(stem, boxes, cap)
-                            for stem in boxes
-                            if stem[3] - stem[1] > 0.5 * cap
-                        )
+                    if any(
+                        mark in punctuation for mark in "!?"
+                    ) and not printed_terminal_mark(
+                        anchor[2] * image.width / page.rect.width - left,
+                        box,
+                        boxes,
+                        cap,
+                        baseline,
                     ):
-                        punctuation = punctuation.rstrip("!")
+                        punctuation = punctuation.replace("!", "").replace("?", "")
                     if (
                         punctuation == after_punctuation == "."
                         and not before_punctuation
@@ -888,6 +1189,7 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
                             marker_start=last.end() + len(punctuation),
                             bbox=bbox,
                             readings=readings,
+                            alternate_label=alternate_label,
                             **(
                                 {"quote_evidence": quote_evidence}
                                 if quote_evidence
@@ -900,6 +1202,18 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
         accepted = []
         for candidate in candidates:
             glyph = candidate.pop("glyph")
+            alternate_label = candidate.pop("alternate_label")
+            if alternate_label:
+                candidate.pop("verified")
+                offset = candidate["marker_start"] - candidate["start"]
+                candidate["after"] = (
+                    candidate["after"][:offset]
+                    + alternate_label
+                    + candidate["after"][offset + len(label) :]
+                )
+                candidate["observed_label"] = alternate_label
+                alternates.append((number, candidate))
+                continue
             if not candidate.pop("verified"):
                 matching = font_match(
                     glyph,
@@ -927,7 +1241,11 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
                 unique.append(candidate)
         if len(unique) == 0:
             caret = embedded_caret_calls(
-                doc[number - 1], pages[number], book["note_starts"][str(number)], label
+                doc[number - 1],
+                pages[number],
+                book["note_starts"][str(number)],
+                label,
+                templates,
             )
             if len(caret) == 1:
                 candidate = caret[0]
@@ -963,6 +1281,11 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
                     bbox=candidate["bbox"],
                     embedded_bbox=candidate["embedded_bbox"],
                     readings=candidate["readings"],
+                    **(
+                        {"font_witnesses": candidate["font_witnesses"]}
+                        if candidate.get("font_witnesses")
+                        else {}
+                    ),
                     before=change["before"],
                     after=change["after"],
                     marker_start=change["marker_start"],
@@ -1023,4 +1346,153 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
         record = dict(page=number, label=label, **candidate)
         audit.append(dict(record, kind="raised-page-footnote-call", applied=True))
         found.append(record)
-    return dict(linkable=len(found), found=found, unresolved=unresolved)
+    # Clear conflicting digit readings belong to their own numbered footer
+    # entry. They must never be shape-matched back to label 1.
+    for number, label in sorted({(n, c["observed_label"]) for n, c in alternates}):
+        if any(item["page"] == number and item["label"] == label for item in found):
+            continue
+        options = [
+            candidate
+            for n, candidate in alternates
+            if n == number and candidate["observed_label"] == label
+        ]
+        if len(options) != 1:
+            continue
+        candidate = dict(options[0])
+        row = candidate.pop("row")
+        candidate.pop("observed_label")
+        original = row["text"]
+        start, end = candidate["start"], candidate["end"]
+        apply_edits(
+            [row],
+            [
+                dict(
+                    page=number,
+                    before=candidate["before"],
+                    after=candidate["after"],
+                    prefix=original[:start],
+                    suffix=original[end:],
+                    count=1,
+                    whole_word=False,
+                )
+            ],
+            audit,
+            "raised-page-footnote-overlay",
+        )
+        row.setdefault("inline", []).append(
+            dict(
+                start=candidate["marker_start"],
+                end=candidate["marker_start"] + len(label),
+                tags=["sup"],
+            )
+        )
+        record = dict(
+            page=number, label=label, method="observed-other-digit", **candidate
+        )
+        audit.append(dict(record, kind="raised-page-footnote-call", applied=True))
+        found.append(record)
+    # A physical page may contain several independently numbered footnotes.
+    # The first, wider scan above stays intact; source carets then fill only
+    # labels that are still missing, one verified glyph per footer entry.
+    for key, cutoff in book.get("note_starts", {}).items():
+        if key in book.get("note_continuations", {}):
+            continue
+        number = int(key)
+        labels = footer_entry_labels(pages[number], cutoff)
+        present = {item["label"] for item in found if item["page"] == number}
+        for label in labels:
+            if label in present:
+                continue
+            candidates = embedded_caret_calls(
+                doc[number - 1],
+                pages[number],
+                cutoff,
+                label,
+                templates,
+                include_confusions=True,
+            )
+            candidates = [
+                candidate
+                for candidate in candidates
+                if not any(
+                    item["page"] == number
+                    and abs(item["bbox"][0] - candidate["bbox"][0]) < 0.005
+                    and abs(item["bbox"][1] - candidate["bbox"][1]) < 0.005
+                    for item in found
+                )
+            ]
+            # Independent OCR agreement is stronger evidence than a font-only
+            # match, which may also admit a nearby punctuation component.
+            agreeing = [
+                candidate
+                for candidate in candidates
+                if candidate["readings"].count(label) >= 2
+            ]
+            if agreeing:
+                candidates = agreeing
+            if len(candidates) != 1:
+                continue
+            candidate = candidates[0]
+            row, change = candidate["row"], candidate["change"]
+            original = row["text"]
+            if change["before"] != change["after"]:
+                apply_edits(
+                    [row],
+                    [
+                        dict(
+                            page=number,
+                            before=change["before"],
+                            after=change["after"],
+                            prefix=original[: change["start"]],
+                            suffix=original[change["end"] :],
+                            count=1,
+                            whole_word=False,
+                        )
+                    ],
+                    audit,
+                    "embedded-caret-footnote-overlay",
+                )
+            row.setdefault("inline", []).append(
+                dict(
+                    start=change["marker_start"],
+                    end=change["marker_end"],
+                    tags=["sup"],
+                )
+            )
+            record = dict(
+                page=number,
+                label=label,
+                bbox=candidate["bbox"],
+                embedded_bbox=candidate["embedded_bbox"],
+                embedded_char=candidate["embedded_char"],
+                readings=candidate["readings"],
+                before=change["before"],
+                after=change["after"],
+                marker_start=change["marker_start"],
+                method="embedded-caret-source-glyph",
+                **(
+                    {"font_witnesses": candidate["font_witnesses"]}
+                    if candidate.get("font_witnesses")
+                    else {}
+                ),
+            )
+            audit.append(dict(record, kind="raised-page-footnote-call", applied=True))
+            found.append(record)
+            present.add(label)
+    failures = {item["page"]: item for item in unresolved}
+    for key, cutoff in book.get("note_starts", {}).items():
+        number = int(key)
+        labels = footer_entry_labels(pages[number], cutoff)
+        if not labels:
+            continue
+        present = {item["label"] for item in found if item["page"] == number}
+        missing = [label for label in labels if label not in present]
+        if missing:
+            failures[number] = dict(
+                page=number,
+                reason="missing-note-calls",
+                labels=missing,
+            )
+        else:
+            failures.pop(number, None)
+    return dict(linkable=len(found), found=found, unresolved=list(failures.values()))

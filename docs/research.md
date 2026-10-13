@@ -1412,3 +1412,61 @@ An earlier numeric-footnote book, *Chosen by Spirits*, was rebuilt with the
 same caches at `cb3a6fc` and with this change. Its corrected rows, canonical
 model, coverage and all EPUB members are identical; the stored regression hash
 was already stale and was not accepted.
+
+### Complete numbered apparatus for *The King and the Corpse* (2026-10-14)
+
+The `01ffbea` baseline was rebuilt in a detached worktree against the same
+OCR/model caches. It found 37 numeric calls but left 34 call-bearing pages
+unresolved; 32 calls linked to notes and 39 note entries lacked exact links.
+The revised build finds **91 printed calls**, creates 91 distinct note targets,
+and links all 91 with backlinks. Both unresolved lists are empty. The source-row
+ledger passes: the total stays 12,838; seven lines at the top of PDF page 148
+move from excluded to body, and twelve lines at page 332 move from body to
+notes after the source-checked footer cutoff. All six reported figures remain.
+
+The word-by-word baseline diff was traced to the `raised-page-footnote-call`
+entries in `numeric-footnote-analysis.json` and `corrections-applied.json`.
+Each entry records the PDF page, physical glyph box, digit readings, and the
+exact before/after text. Enlarged source strips were checked for all 58 new
+page/label/position records, including these changed body pages: 55, 56, 57,
+59, 63, 64, 93, 96–100, 114, 120, 142, 148, 149, 151, 166, 169, 176,
+185, 186, 190, 192, 197–199, 202, 206, 207, 210, 212, 230, 237, 279,
+280, 323, and 332. On pages 56, 93, 100, 142, and 148 a formerly accepted
+“1” was actually the printed “2” or “3”; the independent glyph readings and
+separate footer labels now prevent that relabeling. The other changes replace
+OCR punctuation or a missing glyph with the printed superscript at its source
+position. Page 120 retains the printed gap before the following quotation.
+
+Several physical pages contain two or three numbered footer entries. A
+complete consecutive run at the same hanging margin now divides their note
+blocks and gives each a distinct target. This explains the added `Notes,
+original PDF page ...` headings in the plain-text diff on pages 56, 93,
+96–100, 142, 148, 149, 198, 206, 210, 280, and 332: the note wording is
+retained. PDF page 148 carries the preceding chapter's final paragraph above
+the new chapter's prose. Its reviewed split at normalized y=0.245 restores
+those seven lines, places them in the preceding chapter, and makes calls 1 and
+2 link across the chapter boundary to their notes. Source page 207 prints
+`1 O. Jones`, not OCR `10. Jones`; its profile correction is source-specific.
+Page 279 prints a gap in `1 [Kama`; the source text confirms the generic
+bracket-gap repair. Page 332 has two footer entries beginning at y=0.5006 and
+0.7034; the prior y=0.702 cutoff omitted the first and misnamed the second.
+
+King's profile now requires the build to stop before EPUB emission if any
+printed call or note link remains unresolved. *Chosen by Spirits* was rebuilt
+at both commits using the same caches: plain text, corrected rows, canonical
+model, lexical audit, apparatus, and coverage are byte-identical (23 numeric
+links, none unresolved). This required retaining independently verified font
+evidence for a sole note 1 on its PDF pages 107 and 194; page 194's scan
+visibly prints the raised 1 despite a noisy digit OCR vote. Stored regression
+hashes were not accepted merely to silence a changed report.
+
+The other earlier numeric-footnote book, *Obryad i folklor v sibirskom
+shamanizme*, was also rebuilt at both commits with the same caches. Its word
+diff changes only source-checked raised-call punctuation on PDF pages 15, 26,
+72, 102, 111, 112, and 234, and restores a printed full stop after call 5
+on page 131. Enlarged scan strips show the numeral before the full stop and
+no question/exclamation mark before it. Page 26's second printed call now
+links to its own note; a new plain-text note heading reflects that split.
+Numeric links rise 30 to 32, unresolved note entries fall 28 to 27, while
+source-row coverage counts and all ten figures are unchanged. The remaining
+unresolved entries in that older book were not accepted as a new baseline.

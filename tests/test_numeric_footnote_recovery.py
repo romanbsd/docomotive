@@ -162,7 +162,7 @@ class DamagedCallTests(unittest.TestCase):
         model = anchored_baseline(boxes, 18, row, 0, Image.new("L", (100, 100)))
         self.assertEqual(model[1], 44)
 
-    def test_conflicting_digit_ocr_requires_document_font_and_keeps_spaced_dash(self):
+    def test_sole_note_uses_document_font_when_digit_ocr_disagrees(self):
         from vocabulary import TOKEN
 
         text = 'слова..."! , - дальше'

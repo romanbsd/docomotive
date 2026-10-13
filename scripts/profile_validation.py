@@ -14,6 +14,7 @@ BOOL_KEYS = {
     "morphological_word_wraps",
     "recover_footer_bounds",
     "recover_reference_prefixes",
+    "require_complete_numeric_footnotes",
 } | set(
     """chapter_heading continuous_indented_rows native_small_numeric_sup native_heading_merge native_index_indents native_list_layout native_relative_font_sizes
     recover_centered_headings infer_full_width_quotes repair_ocr_punctuation repair_ocr_case inspect_partial_rows recover_gap_rows normalize_quotation_marks recover_figure_frames recover_body_top source_figure_anchors link_numeric_footnotes infer_verse infer_inset_verse link_symbol_footnotes recover_hanging_margins recover_ocr_regions recover_ocr_glyph_confusions recover_pdf_heading_styles recover_pdf_typography recover_pdf_numeric_superscripts recover_scan_font_metrics recover_scan_italics recover_scan_inline_italics
@@ -33,11 +34,13 @@ LIST_KEYS = PAGE_LIST_KEYS | set(
     native_heading_texts related_print_isbns row_heading_rules row_regions reference_regions
     statistics_excluded_chapters subjects metadata_author_aliases source_gaps""".split()
 )
-DICT_KEYS = set("""bottom_margin_cutoffs chapter_body_starts comments cover_file
+DICT_KEYS = set(
+    """bottom_margin_cutoffs chapter_body_starts chapter_page_splits comments cover_file
     cross_page_continuations excluded_pages glossary_terms index_splits
     native_font_styles native_typography note_continuations note_starts page_labels
     paragraph_margins publisher_mark small_caps_openings source_completeness
-    verse_regions ocr_tesseract_page_languages""".split())
+    verse_regions ocr_tesseract_page_languages""".split()
+)
 PAGE_MAP_KEYS = DICT_KEYS - set("""comments cover_file glossary_terms native_font_styles
     native_typography publisher_mark source_completeness""".split())
 INT_KEYS = {"printed_page_offset", "endnote_chapter"}
@@ -46,6 +49,11 @@ INT_KEYS = {"printed_page_offset", "endnote_chapter"}
 def validate_profile(book, path="profile", page_count=None):
     def fail(key, reason):
         raise ValueError(f"Profile {path}: {key}: {reason}")
+
+    if book.get("require_complete_numeric_footnotes") and not book.get(
+        "link_numeric_footnotes"
+    ):
+        fail("require_complete_numeric_footnotes", "requires numeric linking")
 
     def integer(value):
         return type(value) is int
@@ -164,6 +172,7 @@ def validate_profile(book, path="profile", page_count=None):
             page(int(value), key)
     for key in (
         "chapter_body_starts",
+        "chapter_page_splits",
         "paragraph_margins",
         "note_starts",
         "bottom_margin_cutoffs",
@@ -171,6 +180,16 @@ def validate_profile(book, path="profile", page_count=None):
     ):
         for value in book.get(key, {}).values():
             unit(value, key)
+    for value in book.get("chapter_page_splits", {}):
+        split_page = int(value)
+        if not any(
+            chapters[i][1] + 1 == split_page == chapters[i + 1][0]
+            for i in range(len(chapters) - 1)
+        ):
+            fail(
+                "chapter_page_splits",
+                "page must begin a chapter after the preceding chapter",
+            )
     for key in ("upper_margin_cutoff", "endnote_marker_min", "endnote_marker_limit"):
         if key in book:
             unit(book[key], key)
