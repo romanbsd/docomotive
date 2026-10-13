@@ -311,6 +311,14 @@ def build(
                 book.get("scan_raster_only")
             ):
                 raise ValueError("Scan pixel mode changed; rerun extraction")
+        index_page_labels = {
+            str(
+                book.get("page_labels", {}).get(
+                    str(p), p + book.get("printed_page_offset", 0)
+                )
+            )
+            for p in range(1, len(doc) + 1)
+        }
         for n in range(1, len(doc) + 1):
             v = json.loads((cache / f"{n:04}.json").read_text())
             r = json.loads((secondary / f"{n:04}.json").read_text())
@@ -360,6 +368,7 @@ def build(
                 language=language_code(book),
                 recover_index_digits=book.get("recover_index_digits", False)
                 and n in book.get("index_pages", []),
+                index_page_labels=index_page_labels,
             )
         provenance_records = [
             json.loads((p / "provenance.json").read_text())

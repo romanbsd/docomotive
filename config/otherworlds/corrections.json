@@ -52,19 +52,6 @@
     "exact_row": true
   },
   {
-    "page": 10,
-    "before": "Luke, D. (201 1). Discarnate entities and dimethyltryptamine (DMT):",
-    "after": "Luke, D. (2011). Discarnate entities and dimethyltryptamine (DMT):",
-    "bbox": [
-      0.1243654892731432,
-      0.5623188408834473,
-      0.9238578476304102,
-      0.5845410631056696
-    ],
-    "reason": "Source crop review-0.png item 4: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
     "page": 11,
     "before": "Luke. D. (2015). Drugs and psi phenomena. In E. Cardeña, J. Palmer,",
     "after": "Luke, D. (2015). Drugs and psi phenomena. In E. Cardeña, J. Palmer,",

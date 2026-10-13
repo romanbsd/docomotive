@@ -121,6 +121,13 @@ def same_but_unaccented(own, other, language):
 INDEX_REFERENCE = re.compile(
     r"(?:^|(?<=[,–-])|(?<=[,–-] ))([0-9IlO]{2,4})(?=$|[,.;–-])"
 )
+EXTENDED_INDEX_REFERENCE = re.compile(
+    r"(?:^|(?<=[,–-])|(?<=[,–-] ))([0-9IlOg]{2,4})(n?)(?=$|[,.;–-])"
+)
+SPLIT_CITATION_YEAR = re.compile(
+    r"(?:^|(?<=\()|(?<=, ))([12][0-9 \t]*[0-9])([a-z]?)(?=[,;)])"
+)
+INDEX_DIGIT_MAP = str.maketrans({"I": "1", "l": "1", "O": "0", "g": "9"})
 MONTHS = "January February March April May June July August September October November December".split()
 CITATION_YEAR = re.compile(
     r"(?:^|(?<=\()|(?<=, )|"
@@ -130,8 +137,34 @@ CITATION_YEAR = re.compile(
 BRACKET_L = re.compile(r"[^\W\d_]*\][^\W\d_]*")
 
 
+def numeric_slot_readings(text, start, end, after, witnesses, normalize=lambda s: s):
+    """Bind a numeric replacement to its slot and all other row tokens."""
+    left = re.findall(r"\w+", text[:start])
+    right = re.findall(r"\w+", text[end:])
+    before = re.findall(r"\w+", text[start:end])
+    target = re.findall(r"\w+", after)
+    values = []
+    for witness in witnesses:
+        tokens = re.findall(r"\w+", witness)
+        found = None
+        for value in (before, target):
+            expected = left + value + right
+            if list(map(normalize, tokens)) == list(map(normalize, expected)):
+                found = tokens[len(left) : len(left) + len(value)]
+                break
+        values.append(found)
+    return values
+
+
 def repair_confusions(
-    row, fresh, page, audit, language, index_digits=False, page_words=None
+    row,
+    fresh,
+    page,
+    audit,
+    language,
+    index_digits=False,
+    page_words=None,
+    index_page_labels=None,
 ):
     """Repair recurring glyph confusions with structural or witness evidence."""
 
@@ -197,6 +230,80 @@ def repair_confusions(
                 after,
                 "witnessed-index-digit",
                 "index list syntax and a fresh engine reading plain digits",
+            )
+
+    # Additional index confusions require positional agreement and a real
+    # printed page label. Keep note suffixes literal; never rewrite quantities.
+    def normalized_reference(token):
+        if re.fullmatch(r"[0-9IlOg]{2,4}n?", token) and any(c.isdigit() for c in token):
+            return token.translate(INDEX_DIGIT_MAP)
+        return token
+
+    if index_digits and index_page_labels is not None and len(witnesses) == 2:
+        for match in reversed(list(EXTENDED_INDEX_REFERENCE.finditer(row["text"]))):
+            token, suffix = match.groups()
+            digits = token.translate(INDEX_DIGIT_MAP)
+            after = digits + suffix
+            if (
+                token == digits
+                or not any(c.isdigit() for c in token)
+                or digits not in index_page_labels
+            ):
+                continue
+            values = numeric_slot_readings(
+                row["text"],
+                match.start(),
+                match.end(),
+                after,
+                witnesses,
+                normalized_reference,
+            )
+            if (
+                all(v in ([match.group()], [after]) for v in values)
+                and [after] in values
+            ):
+                change(
+                    match.start(),
+                    match.end(),
+                    after,
+                    "witnessed-index-digit",
+                    dict(
+                        rule="aligned-index-page-label",
+                        readings=values,
+                        witnesses=witnesses,
+                        printed_page=digits,
+                    ),
+                )
+    # Whitespace inside a four-digit citation year is a candidate, not proof.
+    # Both fresh engines must read the compact year at the same lexical slot.
+    for match in reversed(list(SPLIT_CITATION_YEAR.finditer(row["text"]))):
+        raw, suffix = match.groups()
+        year = re.sub(r"[ \t]", "", raw)
+        if raw == year or len(year) != 4 or not 1500 <= int(year) <= 2099:
+            continue
+        if row["text"][: match.start()].endswith(", ") and not re.search(
+            r"(?:^|\s|\()[A-Z][\w.&'-]*, $", row["text"][: match.start()]
+        ):
+            continue
+        after = year + suffix
+        values = numeric_slot_readings(
+            row["text"],
+            match.start(),
+            match.end(),
+            after,
+            witnesses,
+        )
+        if len(values) == 2 and all(v == [after] for v in values):
+            change(
+                match.start(),
+                match.end(),
+                after,
+                "witnessed-citation-year-spacing",
+                dict(
+                    rule="two-aligned-citation-years",
+                    readings=values,
+                    witnesses=witnesses,
+                ),
             )
     # Citation years such as "(Osmond, 196la, p. 76)" or "Books, 196g), p.":
     # a fourth year glyph read as g/l, only between citation punctuation, so
@@ -385,6 +492,7 @@ def correct_page(
     recover_glyphs=False,
     language="en",
     recover_index_digits=False,
+    index_page_labels=None,
 ):
     rows = merge_rows(primary)
     for row in rows:
@@ -705,7 +813,14 @@ def correct_page(
         for start, end, text in sorted(edits, reverse=True):
             row["text"] = row["text"][:start] + text + row["text"][end:]
         repair_confusions(
-            row, fresh, page, audit, language, recover_index_digits, page_words
+            row,
+            fresh,
+            page,
+            audit,
+            language,
+            recover_index_digits,
+            page_words,
+            index_page_labels,
         )
         own = comparable(row["text"])
         best = [comparable(w["text"]) for w in witnesses[1:] if w]

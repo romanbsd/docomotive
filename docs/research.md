@@ -904,3 +904,82 @@ The first parallel replay reproduced both EPUBs, all text, models, geometry and 
 
 
 After atomic publication, both independent cached replays match every reviewed canonical, text, EPUB and image hash. The runner reports `changed` only because the audit fingerprints the modified `span_repair.py`; that explicit resource-fingerprint change was recomputed from the current file and compared separately, with zero other snapshot differences. The independently rebuilt lexical audits were published, and initial baselines were added for the two new cases only after that comparison. Older baseline entries are unchanged. Evidence is in `replay-verification.json` under this book's work directory. The post-fix Basilov comparison likewise differs from clean HEAD only in that resource fingerprint: all 882 decisions, actions, crop evidence, text and EPUB bytes are identical. Its stored report baseline is not refreshed.
+
+
+### Witness-backed index digits and citation-year spacing (2026-10-13)
+
+Two shared OCR heuristics replace twelve source-reviewed overlays: eleven index
+references in *The Natural Mind* and one citation year in *Otherworlds*. Index
+recovery remains opt-in through `recover_index_digits` and is restricted to the
+profile's index pages. The Natural Mind profile now enables it; no book-specific
+phrase or coordinate rule was added.
+
+The extended index rule handles `g → 9` and preserves an optional `n` note suffix,
+including `16gn → 169n`. It requires a retained digit, reference-list syntax, a
+result matching a printed page label computed from `page_labels` and
+`printed_page_offset`, and two aligned fresh OCR rows. At least one witness must
+read the replacement; the other may repeat the original, but a different number,
+missing suffix, changed lexical anchor, or missing witness vetoes the edit. All
+row tokens must agree, apart from the same bounded numeric confusions in other
+reference slots. Existing `I/l/O` rules retain their previous behavior.
+
+The citation rule proposes compacting whitespace within a four-digit year
+(1500–2099), bounded by citation punctuation. Both fresh OCR witnesses must read
+the identical compact year in the same row token slot, with every other lexical
+token unchanged. Comma-led candidates require a capitalized author/publisher
+anchor; quantities, unmatched years and conflicting witnesses abstain. Each new
+audit records the source page, bbox, literal witness rows and accepted readings.
+
+Source-crop review confirmed every removed overlay below. Each replacement is
+now produced by the shared rule before checked overlays; its final row text
+matches the baseline's manually corrected row exactly.
+
+| Book / source PDF page | Removed manual correction | Printed evidence |
+|---|---|---|
+| Natural Mind / 230 | Christian Scientists, `16g → 169` | `169` |
+| Natural Mind / 231 | Crowley, Aleister, `6g → 69` | `69` |
+| Natural Mind / 232 | Gautama, `6g → 69` | `69` |
+| Natural Mind / 232 | Homeopathy, `16gn → 169n` | `169n` |
+| Natural Mind / 234 | effects reference, `86-8g → 86-89` | `86–89` |
+| Natural Mind / 234 | nology reference, `18g → 189` | `189` |
+| Natural Mind / 235 | Osteopathy, `168-16g → 168-169` | `168–169` |
+| Natural Mind / 235 | Prohibition, `18g → 189` | `189` |
+| Natural Mind / 235 | Rapture, `g0 → 90` | `90` |
+| Natural Mind / 236 | Soma, `6g → 69` | `69` |
+| Natural Mind / 237 | Withdrawal, `12g → 129` | `129` |
+| Otherworlds / 10 | Luke, `(201 1) → (2011)` | `(2011)` |
+
+The rules also add three corrections absent from the baseline commit:
+
+| Book / source PDF page | Full-output word difference | Source and audit explanation |
+|---|---|---|
+| Natural Mind / 232 | `172, 18g; and crime` → `172, 189; and crime` | Print reads `189`; fresh rows read `189` and `18g`, with all other tokens aligned. Audit rule: `aligned-index-page-label`. |
+| Natural Mind / 233 | `129, 188, 18g, 195; as active` → `129, 188, 189, 195; as active` | Print reads `189`; fresh rows read `189` and `18g`, with all other tokens aligned. Audit rule: `aligned-index-page-label`. |
+| Otherworlds / 263 | Hubbard bibliography entry `(201 1).` → `(2011).` | Print reads `(2011)`; both fresh engines read that exact year, with all other lexical tokens aligned. Audit rule: `two-aligned-citation-years`. |
+
+The two index differences occur in both Natural Mind editions. Corrected-page
+differences change only those rows' text. Canonical models, coverage row records
+and the affected XHTML chapters change consistently with those source edits;
+Otherworlds' later inline offsets move left by one character after its repaired
+year. No other textual or typographic changes are intended.
+
+Validation uses detached baseline commit `d7ffa22` in a git worktree sharing the
+same `work/` caches, not older published outputs or stored hashes alone. Evidence
+is in `work/heuristics-comparison.json`, the per-case build directories under
+`work/heuristics-baseline-regression/`, `work/heuristics-regression/` and
+`work/heuristics-final-regression/`, and `work/heuristics-source-crops-{1,2,3}.png`.
+Removed overlays with their replacement audits are retained in
+`work/heuristics-{natural,otherworlds}-removed-overlays.json`. The 430-test suite
+passes; focused tests cover missing/conflicting witnesses, positional reference
+conflicts, note suffixes, unavailable pages, Roman numerals, quantities and
+split-year boundaries. All three changed EPUBs pass EPUBCheck with zero fatals,
+errors, warnings or infos. Stored regression baselines are unchanged.
+
+All 17 cached source/reading cases rebuilt successfully on both trees. Fourteen
+have identical regression snapshots, including all EPUB members and lexical
+audits. Only `natural`, `natural-reading` and `otherworlds` differ from the fresh
+baseline commit, by the three source-confirmed corrections above. Every case
+retains its coverage counts, noteref/backlink counts and figure inventory. The
+stored-hash runner reports additional `changed` cases on the unchanged commit
+too; those pre-existing differences were not attributed to these heuristics or
+accepted into the baseline.

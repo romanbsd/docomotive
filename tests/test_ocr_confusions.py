@@ -8,11 +8,21 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from ocr import comparable, repair_confusions, same_but_unaccented
 
 
-def repaired(text, witnesses=("", ""), language="en", index_digits=True):
+def repaired(
+    text, witnesses=("", ""), language="en", index_digits=True, index_page_labels=None
+):
     row = dict(text=text, bbox=[0, 0, 1, 1])
     audit = []
     fresh = [dict(text=w) for w in witnesses]
-    repair_confusions(row, fresh, 1, audit, language, index_digits)
+    repair_confusions(
+        row,
+        fresh,
+        1,
+        audit,
+        language,
+        index_digits,
+        index_page_labels=index_page_labels,
+    )
     return row["text"], [a["kind"] for a in audit]
 
 
@@ -67,6 +77,89 @@ class ConfusionTests(unittest.TestCase):
             repaired("doses were 50g, 196g, and 30g")[0],
             "doses were 50g, 196g, and 30g",
         )
+
+    def test_extended_index_digits_preserve_note_suffix_and_bind_the_slot(self):
+        raw = "Homeopathy, 6g, 168-16gn"
+        fixed = "Homeopathy, 69, 168-169n"
+        labels = {"69", "168", "169"}
+        self.assertEqual(
+            repaired(raw, (fixed, raw), index_page_labels=labels)[0], fixed
+        )
+        self.assertEqual(
+            repaired(
+                "Rapture, 31, g0. See",
+                ("Rapture, 31, 90. See",) * 2,
+                index_page_labels={"90"},
+            )[0],
+            "Rapture, 31, 90. See",
+        )
+        self.assertEqual(
+            repaired("Notes, I12n", ("Notes, 112n",) * 2, index_page_labels={"112"})[0],
+            "Notes, 112n",
+        )
+        for witnesses, available, enabled in [
+            ((fixed, "Homeopathy, 69, 168-167n"), labels, True),
+            ((fixed, "Homeopathy, 169, 168-69n"), labels, True),
+            ((fixed, "Homeopathy, 69, 168-169"), labels, True),
+            ((fixed, "Homeopath, 69, 168-169n"), labels, True),
+            ((raw, raw), labels, True),
+            ((fixed, ""), labels, True),
+            ((fixed, fixed), set(), True),
+            ((fixed, fixed), None, True),
+            ((fixed, fixed), labels, False),
+        ]:
+            with self.subTest(witnesses=witnesses, labels=available, enabled=enabled):
+                result = repaired(
+                    raw, witnesses, index_digits=enabled, index_page_labels=available
+                )[0]
+                self.assertEqual(result, raw)
+        raw = "Soma, 6g, 69"
+        self.assertEqual(
+            repaired(raw, ("Soma, 68, 69", "Soma, 69, 69"), index_page_labels={"69"})[
+                0
+            ],
+            raw,
+        )
+        # A unit outside reference-list syntax and a pure Roman numeral stay put.
+        for raw, fixed in [
+            ("add 16g of salt", "add 169 of salt"),
+            ("Force, II", "Force, 11"),
+        ]:
+            self.assertEqual(
+                repaired(raw, (fixed,) * 2, index_page_labels={"169", "11"})[0], raw
+            )
+
+    def test_split_citation_year_needs_two_aligned_literal_witnesses(self):
+        raw = "Luke, D. (201 1). Discarnate entities"
+        fixed = "Luke, D. (2011). Discarnate entities"
+        self.assertEqual(
+            repaired(raw, (fixed,) * 2), (fixed, ["witnessed-citation-year-spacing"])
+        )
+        for raw, fixed in [
+            ("(Smith, 19 84a, p. 20)", "(Smith, 1984a, p. 20)"),
+            ("(2 0 1 1); title", "(2011); title"),
+            ("201 1), p. 20", "2011), p. 20"),
+        ]:
+            self.assertEqual(repaired(raw, (fixed,) * 2)[0], fixed)
+        raw = "Luke, D. (201 1). Discarnate entities"
+        fixed = "Luke, D. (2011). Discarnate entities"
+        for witnesses in [
+            (fixed, ""),
+            (fixed, raw),
+            (fixed, "Luke, D. (2017). Discarnate entities"),
+            (fixed, "Luke, D. (2011). Disparate entities"),
+            ("Luke, D. (201 1). Discarnate entities; 2011",) * 2,
+        ]:
+            # Reset the source after the accepted variants above.
+            source = "Luke, D. (201 1). Discarnate entities"
+            self.assertEqual(repaired(source, witnesses)[0], source)
+        for raw, fixed in [
+            ("take 201 1 tablets", "take 2011 tablets"),
+            ("doses, 201 1, stir", "doses, 2011, stir"),
+            ("(20 111)", "(20111)"),
+            ("(12 34)", "(1234)"),
+        ]:
+            self.assertEqual(repaired(raw, (fixed,) * 2)[0], raw)
 
     def test_bracket_l_only_for_common_words_without_open_bracket(self):
         self.assertEqual(

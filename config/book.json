@@ -320,5 +320,6 @@
     }
   ],
   "research_missing_endnotes": true,
-  "infer_full_width_quotes": true
+  "infer_full_width_quotes": true,
+  "recover_index_digits": true
 }
