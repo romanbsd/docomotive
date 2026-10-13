@@ -4,23 +4,72 @@ A local-first research pipeline for converting scanned DjVu files and scanned or
 
 See [docs/research.md](docs/research.md) for per-book findings, conversion recipes, measurements, artifacts and experiments.
 
+## Pipeline overview
+
+`scripts/pipeline.py` coordinates source diagnostics, extraction, building,
+correction proposals, the offline review sheet and EPUBCheck. `scripts/build.py`
+performs reconciliation, layout analysis, reconstruction and rendering from
+cached OCR or native PDF text. Book profiles select source-specific facts and
+optional repair rules; each accepted repair retains its source evidence.
+
+```mermaid
+flowchart TD
+    source["PDF or DjVu + reviewed book profile"] --> diagnostic["Source diagnostics"]
+    diagnostic --> mode{"Text source?"}
+    mode -->|Scanned| ocr["Tesseract, RapidOCR and Apple Vision"]
+    ocr --> cache["Fingerprint-checked page caches"]
+    mode -->|Native PDF| native["Embedded text and glyph geometry"]
+    cache --> build["Reconcile rows, apply checked edits and infer layout"]
+    native --> build
+    build --> model["Reconstruct canonical text, notes and figures"]
+    model --> repair["Optional source-backed repairs and final reconstruction"]
+    repair --> epub["Render EPUB, text and audit artifacts"]
+    epub --> lexical{"Lexical review enabled?"}
+    lexical -->|Yes| candidates["Generate advisory correction candidates"]
+    candidates --> sheet["Write offline proofreading review sheet"]
+    sheet --> check["EPUBCheck"]
+    lexical -->|No| check
+```
+
+For DjVu, the source adapter first creates a cached raster PDF shared by OCR,
+figures and review crops. Native extraction is PDF-only. `--skip-extraction`
+reuses complete compatible OCR caches; `--skip-lexical` skips candidate generation
+and the proofreading sheet, while profile-enabled repairs inside the build
+still run. The coordinator stops when a stage fails.
+
+The EPUB is built **before** advisory candidates and review decisions are
+produced. Accepting a browser proposal does not change the book: export checked
+corrections, merge them into the profile and rebuild.
+
+- [Setup and usage](#setup-and-usage)
+- [Stages and artifacts](#stages-and-artifacts)
+- [Profiles and source evidence](#profiles-and-source-evidence)
+- [Whole-book proofreading](#whole-book-proofreading)
+- [Regression checks](#regression-checks)
+- [Reproducibility and limits](#reproducibility-and-limits)
+- [Classical correction research and papers](docs/classical-ocr-correction.md)
+
 ## Setup and usage
 
-Python 3.14 is the tested interpreter. Use the existing `.venv` without activation:
+Run commands from the repository root. Python 3.14 is the tested interpreter.
+Create `.venv` if it is absent, then use it without activation. Fresh multi-engine
+OCR requires macOS, Swift/Xcode command-line tools and Apple Vision; Java is
+required for EPUBCheck.
 
 ```sh
-.venv/bin/pip install .
+python3.14 -m venv .venv
+.venv/bin/python -m pip install . --group dev
 brew install tesseract ocrmypdf djvulibre
 .venv/bin/python scripts/bootstrap.py
-.venv/bin/pip install --group dev
 
+# Use a source-matched, reviewed profile; see Profiles and source evidence.
 .venv/bin/python scripts/pipeline.py /path/to/book.pdf \
-  --profile profiles/my-book/book.json \
+  --profile config/my-book/book.json \
   --work work/my-book --output output/my-book
 
 # Replay complete extraction caches; apply separately reviewed editorial repairs.
 .venv/bin/python scripts/pipeline.py /path/to/book.pdf \
-  --profile profiles/my-book/book.json --work work/my-book \
+  --profile config/my-book/book.json --work work/my-book \
   --output output/my-book/reading-edition --skip-extraction --editorial
 
 .venv/bin/black --check scripts tests
@@ -77,11 +126,21 @@ Profiles can select a local `ocr_tessdata_dir`, override engine languages, and d
 .venv/bin/python scripts/regression.py
 # Select a case for a focused check.
 .venv/bin/python scripts/regression.py --book organism
-# After inspecting intended differences, explicitly accept selected baselines.
+# Accept only after every changed artifact is explained against the source.
 .venv/bin/python scripts/regression.py --book organism --accept-baseline
 ```
 
 Cases are declared in `tests/book-cases.json`; compact baselines live in `tests/baselines/books.json`. Source PDFs, profiles, covers and complete extraction caches must be available locally. Builds go into unique directories under `work/regression/`, with per-case logs and a JSON report naming changed artifacts. Comparisons cover canonical models, corrected rows, text, coverage, apparatus, note/backlink counts, figure inventory, EPUB members and package hashes. Volatile build reports are excluded. Missing inputs or failed builds fail the check; a failed batch never updates baselines. Baseline acceptance is explicit and must accompany review of the intended changes. This is a reproducibility/content-regression check, not a whole-book OCR accuracy measurement or EPUBCheck run.
+
+A `changed` result reports a difference, not an improvement. Run regression on a
+tree containing only the change under review. For each changed case, build the
+baseline commit in a separate `git worktree` using the same `work/` caches; do not
+assume an existing `output/` directory represents that commit. Compare the full
+outputs, diff text word by word, trace changes to correction audits and check the
+source page crops. Explain any lost coverage, notes, backlinks or figures, and
+confirm that narrowing a rule only removes edits and widening it only adds them.
+Record the reasoning in `docs/research.md` or the commit message before accepting
+a baseline. See [AGENTS.md](AGENTS.md) for the full review procedure.
 
 Profiles reject unknown keys, missing required fields, incorrect basic types, invalid normalized geometry and invalid page/chapter references. PDF bounds are checked when the source is opened. Cache preflight validates readable page JSON, page identity, dimensions, text rows, bounding boxes and confidences before reconstruction. A cache is selected only after every page passes; partial experiments retain the previous pointer. JSON and pointer writes use unique atomic staging files. Scanned-note caches include the actual Tesseract English traineddata checksum; changing that model reruns note recognition without invalidating full-page OCR caches.
 
@@ -108,9 +167,26 @@ This offline benchmark compares the current note-crop path, fixed thresholds, Ot
 | Infer margins | Header/footer recurrence, OCR variant clustering, median/MAD, parity and page-number consensus | `layout-analysis.json` |
 | Reconstruct | Canonical paragraphs, notes, verse and figures; source-linked spans and lexical line joins | `book-model.json`, `text-coverage.json` |
 | Analyze the whole book | Chapter TF-IDF, spelling recurrence and page/chapter spread; reference/index evidence separated | `vocabulary-analysis.json`, `protected-term-proposals.json` |
-| Propose corrections | Hunspell via Spylls, SymSpell, word frequency and protected vocabulary; optional KenLM/LanguageTool adapters | `correction-candidates.json` |
+| Render | Deterministic EPUB ZIP and XHTML/internal-link checks | EPUB, text, `report.json`, `preview/` |
+| Propose corrections | Hunspell via Spylls, SymSpell, word frequency, witnessed book vocabulary and anchored OCR disagreements; optional scoring adapters | `correction-candidates.json` |
 | Review | Offline scan crops, witnesses, text contexts and optional bounded Jev proposals | `proofreading-review.html`, `note-review.html`, JSON evidence |
-| Render and validate | Deterministic EPUB ZIP, XHTML/internal-link checks and EPUBCheck | EPUB, `report.json`, `epubcheck.json`, `preview/` |
+| Validate the EPUB | EPUBCheck runs after the optional candidate/review-sheet stages | `epubcheck.json` |
+
+For a profile with `slug: "my-book"`, the main deliverables in the selected
+output directory are:
+
+| Artifact | Use |
+|---|---|
+| `my-book.epub`, `my-book.txt` | Reading output; editorial EPUBs use `my-book-corrected.epub`, while the text keeps the base slug in its separate output directory |
+| `book-model.json`, `corrected-pages.json` | Canonical source-linked structure and corrected row evidence |
+| `report.json`, `text-coverage.json`, `corrections-applied.json` | Build summary, retained-source coverage and correction audit |
+| `correction-candidates.json`, `proofreading-review.html` | Advisory queue and scan-backed occurrence review, unless `--skip-lexical` |
+| `epubcheck.json` | External EPUB validation results from the coordinator |
+| `preview/` | XHTML and image assets for inspection |
+
+Optional rules write additional reports such as `lexical-repair.json` and
+`word-spacing-repair.json`. Keep the matching `work/` caches as well as the
+profile: output artifacts alone cannot replay recognition evidence.
 
 The primary OCR engine is profile-selected. Embedded text can be another witness; it is not assumed correct. Multiple modes of one engine are correlated observations, and even independent engines can agree on a mistake. Empty queues mean detected items were handled, not that the book is error-free.
 
@@ -235,11 +311,27 @@ explicit acknowledgement that every selected crop was checked. Changing a
 replacement clears its source acknowledgement. Legacy word-level browser
 selections are not copied to individual occurrences.
 
+```mermaid
+flowchart TD
+    evidence["Canonical model, source crops and cached OCR witnesses"] --> proposals["Advisory candidates grouped by edit pattern"]
+    proposals --> review["Inspect each occurrence and exclude exceptions"]
+    review --> decision{"Checked against the source?"}
+    decision -->|No or uncertain| pending["Keep pending; no text correction"]
+    decision -->|Yes| export["Export occurrence decisions from the browser"]
+    export --> validate["Validate hashes, source row, geometry and exact offsets"]
+    validate --> kind{"Correction kind?"}
+    kind -->|OCR error| ocr["Merge checked array into corrections.json"]
+    kind -->|Printed typo| editorial["Merge separate array into editorial-proposals.json"]
+    ocr --> rebuild["Rebuild and inspect text, audits and EPUBCheck"]
+    editorial --> rebuildEditorial["Rebuild with --editorial and inspect results"]
+    validate -->|Stale or ambiguous binding| reject["Reject; inspect the build phase and refresh evidence"]
+```
+
 Convert the exported decisions to exact config overlays with:
 
 ```sh
 .venv/bin/python scripts/review_edits.py /path/to/book.pdf \
-  --profile profiles/my-book/book.json --book-output output/my-book \
+  --profile config/my-book/book.json --book-output output/my-book \
   --input /path/to/proofreading-decisions.json \
   --output output/my-book/reviewed-corrections.json --kind ocr
 ```
@@ -260,7 +352,7 @@ Scan acknowledgements in `review-decisions.json` are separate from text correcti
 
 ```sh
 .venv/bin/python scripts/review_decisions.py /path/to/book.pdf \
-  --profile profiles/my-book/book.json --input output/my-book \
+  --profile config/my-book/book.json --input output/my-book \
   --output output/my-book/scan-review.html
 ```
 
@@ -270,7 +362,7 @@ For note-marker review:
 
 ```sh
 .venv/bin/python scripts/note_review.py /path/to/book.pdf \
-  --profile profiles/my-book/book.json --input output/my-book \
+  --profile config/my-book/book.json --input output/my-book \
   --output output/my-book/note-review.html
 ```
 
@@ -290,7 +382,7 @@ ISBN association does not approve a cover. Wrong editions, placeholders, conflic
 
 ```sh
 .venv/bin/python scripts/jev_rank.py --dry-run --output output/jev-request-preview.json
-.venv/bin/python scripts/jev_notes.py --profile profiles/my-book/book.json \
+.venv/bin/python scripts/jev_notes.py --profile config/my-book/book.json \
   --input output/my-book --output output/my-book/jev-note-request-preview.json --dry-run
 ```
 
