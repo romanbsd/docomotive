@@ -14,6 +14,50 @@ from wordfreq import zipf_frequency
 from common import ROOT, digest, write_json, load_profile
 from vocabulary import TOKEN, analyze, review_signals
 from languages import language_code, dictionary_locale
+from review_candidates import ReviewWitnesses
+
+
+def merge_suggestions(suggestions, proposals, *, front=False):
+    """Merge evidence for a term without losing its earlier generators."""
+    indexed = {c["term"]: c for c in suggestions}
+    for proposal in proposals:
+        old = indexed.get(proposal["term"])
+        if old is not None:
+            generators = set(old.get("generators", ["general-lexicon"])) | set(
+                proposal["generators"]
+            )
+            old.update(proposal)
+            old["generators"] = sorted(generators)
+        else:
+            candidate = dict(proposal)
+            if front:
+                suggestions.insert(0, candidate)
+            else:
+                suggestions.append(candidate)
+            indexed[candidate["term"]] = candidate
+
+
+def merge_review_items(results, proposals):
+    indexed = {r["word"]: r for r in results}
+    for item in proposals:
+        existing = indexed.get(item["word"])
+        if existing is None:
+            results.append(item)
+            indexed[item["word"]] = item
+            continue
+
+        def location(o):
+            return o["chapter"], o["paragraph"], o["offset"]
+
+        occurrences = {location(o): o for o in existing["occurrences"]}
+        for occurrence in item["occurrences"]:
+            old = occurrences.get(location(occurrence))
+            if old is not None:
+                old.update(occurrence)
+            else:
+                existing["occurrences"].append(occurrence)
+                occurrences[location(occurrence)] = occurrence
+        merge_suggestions(existing["suggestions"], item["suggestions"], front=True)
 
 
 def main():
@@ -29,6 +73,11 @@ def main():
     parser.add_argument("--profile", type=Path, default=ROOT / "config/book.json")
     parser.add_argument("--output", type=Path, default=ROOT / "output")
     parser.add_argument("--models", type=Path, default=ROOT / "work/models")
+    parser.add_argument(
+        "--work",
+        type=Path,
+        help="Source-bound OCR caches for witnessed review proposals",
+    )
     args = parser.parse_args()
     book = load_profile(args.profile)
     config = args.profile.parent
@@ -77,6 +126,9 @@ def main():
     unknown = defaultdict(list)
     grammar = []
     model = json.loads((args.output / "book-model.json").read_text())
+    witnesses = ReviewWitnesses(args.work, book) if args.work else None
+    if witnesses:
+        witnesses.collect(model)
     statistics = analyze(model, book)
     ranker = None
     if book.get("repair_lexical_confusions"):
@@ -187,6 +239,8 @@ def main():
                 if candidate["term"] in ranked:
                     candidate.update(ranked[candidate["term"]])
             suggestions.sort(key=lambda c: (-c.get("context_score", -1e30), c["term"]))
+        if witnesses:
+            merge_suggestions(suggestions, witnesses.suggestions(word, occurrences))
         results.append(
             {
                 "word": word,
@@ -201,6 +255,8 @@ def main():
                 **review_signals(word, statistics),
             }
         )
+    if witnesses:
+        merge_review_items(results, witnesses.disagreements(model))
     results.sort(key=lambda item: (item["review_priority"], item["word"]))
     write_json(
         args.output / "protected-term-proposals.json",
@@ -229,7 +285,10 @@ def main():
         ),
         "languagetool": args.languagetool_url,
         "context_ranking": ranker.resources if ranker else None,
-        "unknown_words": len(results),
+        "review_witnesses": witnesses.resources if witnesses else None,
+        "witnessed_book_vocabulary": len(witnesses.sym.words) if witnesses else 0,
+        "unknown_words": len(unknown),
+        "review_items": len(results),
         "candidates": results,
         "grammar": grammar,
     }

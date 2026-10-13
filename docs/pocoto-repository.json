@@ -1,0 +1,49 @@
+{
+  "original_repository": "https://github.com/thorstenv/PoCoTo",
+  "successor_repository": "https://github.com/cisocrgroup/PoCoTo",
+  "reviewed_commit": "737b4055ee9e38c5ea681c9a25c6d6b0944b787a",
+  "reviewed_on": "2026-10-13",
+  "scope": "Selected concordance, pattern and profiler client sources; application and service not executed",
+  "files": [
+    {
+      "path": "Concordance/src/jav/concordance/control/ConcordanceController.java",
+      "sha256": "d5d86d9a46d2336061b0ed6e13ca126f31e73c85579a219ce63ea929163b9cd1",
+      "url": "https://github.com/cisocrgroup/PoCoTo/blob/737b4055ee9e38c5ea681c9a25c6d6b0944b787a/Concordance/src/jav/concordance/control/ConcordanceController.java"
+    },
+    {
+      "path": "Concordance/src/jav/concordance/view/ConcordanceGlobalActions.java",
+      "sha256": "c66864974e4b20f9da3dbc7376b8a1cf2137f21a196dc49d02438769618c7781",
+      "url": "https://github.com/cisocrgroup/PoCoTo/blob/737b4055ee9e38c5ea681c9a25c6d6b0944b787a/Concordance/src/jav/concordance/view/ConcordanceGlobalActions.java"
+    },
+    {
+      "path": "Concordance/src/jav/concordance/view/ConcordanceTopComponent.java",
+      "sha256": "69ed52ded66465b26709c2ddfd385f55eaa084bc65bfc918009748d1cb75e1c3",
+      "url": "https://github.com/cisocrgroup/PoCoTo/blob/737b4055ee9e38c5ea681c9a25c6d6b0944b787a/Concordance/src/jav/concordance/view/ConcordanceTopComponent.java"
+    },
+    {
+      "path": "CorrectionBackend/src/jav/correctionBackend/Pattern.java",
+      "sha256": "2baae20e37e118fa1f7edba765d4b99053ae68c2f64073a8786f2c3c9db3c01c",
+      "url": "https://github.com/cisocrgroup/PoCoTo/blob/737b4055ee9e38c5ea681c9a25c6d6b0944b787a/CorrectionBackend/src/jav/correctionBackend/Pattern.java"
+    },
+    {
+      "path": "CorrectionBackend/src/jav/correctionBackend/PatternOccurrence.java",
+      "sha256": "c5cf760fb5276841204a8a9e3d28018e3f398ec7b4e45706d8abcb79cf1b9fb0",
+      "url": "https://github.com/cisocrgroup/PoCoTo/blob/737b4055ee9e38c5ea681c9a25c6d6b0944b787a/CorrectionBackend/src/jav/correctionBackend/PatternOccurrence.java"
+    },
+    {
+      "path": "MainControl/src/jav/gui/main/MainController.java",
+      "sha256": "92486cc5cb8aa698542086c27a020318a18710cb15505245d3560e78974ac1d8",
+      "url": "https://github.com/cisocrgroup/PoCoTo/blob/737b4055ee9e38c5ea681c9a25c6d6b0944b787a/MainControl/src/jav/gui/main/MainController.java"
+    },
+    {
+      "path": "ProfilerWebServiceConnector/src/cis/profiler/client/ProfilerWebServiceStub.java",
+      "sha256": "884d99ac64dcde6fde1428654a1e466d8bb8b9d6f26569f19d3d634c1ba13126",
+      "url": "https://github.com/cisocrgroup/PoCoTo/blob/737b4055ee9e38c5ea681c9a25c6d6b0944b787a/ProfilerWebServiceConnector/src/cis/profiler/client/ProfilerWebServiceStub.java"
+    },
+    {
+      "path": "Wizards/src/jav/gui/wizard/profiler/profileDocument/ProfileDocumentWizardAction.java",
+      "sha256": "c32a0dd2ad0effe8ad5354edc81070c5ad98890ddac4cb9b7845b5ba549abb80",
+      "url": "https://github.com/cisocrgroup/PoCoTo/blob/737b4055ee9e38c5ea681c9a25c6d6b0944b787a/Wizards/src/jav/gui/wizard/profiler/profileDocument/ProfileDocumentWizardAction.java"
+    }
+  ]
+}

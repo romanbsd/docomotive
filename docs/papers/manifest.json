@@ -1,0 +1,114 @@
+[
+  {
+    "file": "evershed-fitch-2014.pdf",
+    "title": "Correcting Noisy OCR: Context Beats Confusion",
+    "year": "2014",
+    "retrieved_on": "2026-10-13",
+    "download_url": "https://www.projectcomputing.com/resources/CorrectingNoisyOCR.pdf",
+    "citation_url": "https://doi.org/10.1145/2595188.2595200",
+    "kind": "classical",
+    "sha256": "df81f06e254c7b264e99349822dadc9e5b7f92b020246fcf1df72ef7017797dc",
+    "bytes": 650736
+  },
+  {
+    "file": "mei-et-al-2016.pdf",
+    "title": "Statistical Learning for OCR Text Correction",
+    "year": "2016 preprint; journal extension 2018",
+    "retrieved_on": "2026-10-13",
+    "download_url": "https://arxiv.org/pdf/1611.06950",
+    "citation_url": "https://arxiv.org/abs/1611.06950",
+    "kind": "classical",
+    "sha256": "953627d846f56486bef8b0a9d23e78ff57d6750f5d6995c606cc1e2df00f71fd",
+    "bytes": 173691
+  },
+  {
+    "file": "schulz-kuhn-2017.pdf",
+    "title": "Multi-modular domain-tailored OCR post-correction",
+    "year": "2017",
+    "retrieved_on": "2026-10-13",
+    "download_url": "https://aclanthology.org/D17-1288.pdf",
+    "citation_url": "https://aclanthology.org/D17-1288/",
+    "kind": "classical",
+    "sha256": "37a5b7f9d2ddde26e4bc02c478d53015c14c6e6f3436650743991a793ed24e00",
+    "bytes": 2487491
+  },
+  {
+    "file": "drobac-linden-2020.pdf",
+    "title": "Optical character recognition with neural networks and post-correction with finite state methods",
+    "year": "2020",
+    "retrieved_on": "2026-10-13",
+    "download_url": "https://helda.helsinki.fi/server/api/core/bitstreams/4933c957-29ec-4b1a-93ed-a669bcd5844d/content",
+    "citation_url": "https://doi.org/10.1007/s10032-020-00359-9",
+    "kind": "neural recognition; classical post-correction",
+    "sha256": "d09e5fba68dbf0c657ebc815fb10eddd1ac207084b686466e87f19bf49909f1e",
+    "bytes": 705086
+  },
+  {
+    "file": "afli-et-al-2016.pdf",
+    "title": "Using SMT for OCR Error Correction of Historical Texts",
+    "year": "2016",
+    "retrieved_on": "2026-10-13",
+    "download_url": "https://aclanthology.org/L16-1153.pdf",
+    "citation_url": "https://aclanthology.org/L16-1153/",
+    "kind": "classical",
+    "sha256": "40be378c1cb2c2a7197c657339ded6094909eb1d0e06ff96deabbe1ff326ff32",
+    "bytes": 589703
+  },
+  {
+    "file": "englmeier-et-al-2022.pdf",
+    "title": "Optimizing the Training of Models for Automated Post-Correction of Arbitrary OCR-ed Historical Texts",
+    "year": "2022",
+    "retrieved_on": "2026-10-13",
+    "download_url": "https://aclanthology.org/anthology-files/pdf/jlcl/2022.jlcl-1.1.pdf",
+    "citation_url": "https://aclanthology.org/2022.jlcl-1.1/",
+    "kind": "classical",
+    "sha256": "db523b3c4631abc40d44a21a5e69b372f2b76c3db388be60ac36828e33daf567",
+    "bytes": 821873
+  },
+  {
+    "file": "nguyen-et-al-2021-survey.pdf",
+    "title": "Survey of Post-OCR Processing Approaches",
+    "year": "2021 online; volume 54(6) 2022",
+    "retrieved_on": "2026-10-13",
+    "download_url": "https://adammo12.github.io/adamjatowt/cs21.pdf",
+    "citation_url": "https://doi.org/10.1145/3453476",
+    "kind": "survey",
+    "sha256": "5c630feaee1e7cda7c9529ebb1892820fe4a8e2bcf47913ed9a0353211f79d0a",
+    "bytes": 1995237
+  },
+  {
+    "file": "lyu-et-al-2021.pdf",
+    "title": "Neural OCR Post-Hoc Correction of Historical Corpora",
+    "year": "2021",
+    "retrieved_on": "2026-10-13",
+    "download_url": "https://aclanthology.org/2021.tacl-1.29.pdf",
+    "citation_url": "https://aclanthology.org/2021.tacl-1.29/",
+    "kind": "non-LLM neural; reserve",
+    "sha256": "de50e2e0f5fcd77326a4b7fe465ebb58329c1651f5e1ecbf52589de4c936f125",
+    "bytes": 2091925
+  },
+  {
+    "file": "ramirez-orta-et-al-2021.pdf",
+    "title": "Post-OCR Document Correction with large Ensembles of Character Sequence-to-Sequence Models",
+    "year": "2021 preprint; AAAI 2022",
+    "retrieved_on": "2026-10-13",
+    "download_url": "https://arxiv.org/pdf/2109.06264",
+    "citation_url": "https://arxiv.org/abs/2109.06264",
+    "kind": "non-LLM neural; reserve",
+    "sha256": "027a8abd710dfd4396afe6c3edce42484e76af87c8d9af1e343e3b8c3578979d",
+    "bytes": 356578
+  },
+  {
+    "file": "PoCoTo-2014.pdf",
+    "title": "PoCoTo - An Open Source System for Efficient Interactive Postcorrection of OCRed Historical Texts",
+    "year": "2014",
+    "received_on": "2026-10-13",
+    "provenance": "user-supplied PDF",
+    "citation_url": "https://doi.org/10.1145/2595188.2595197",
+    "repository_in_paper": "https://github.com/thorstenv/PoCoTo",
+    "successor_repository": "https://github.com/cisocrgroup/PoCoTo",
+    "kind": "interactive; classical profiling",
+    "sha256": "545d42e420a0aed4df599fc73669d82449c80f69a735c14dd0cd8fc1fb859c8c",
+    "bytes": 933190
+  }
+]

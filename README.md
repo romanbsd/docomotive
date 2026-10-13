@@ -199,6 +199,11 @@ remain review-only in `word-spacing-repair.json`. See
 [within-line spacing research](docs/word-spacing.md) for the rule, evaluation and
 limits of broader split/join proposals.
 
+[Classical OCR correction research](docs/classical-ocr-correction.md) reviews
+weighted edits, corpus ranking, finite-state methods and multi-engine agreement,
+with archived papers and a reproducible cross-book evaluation. These experiments
+generate review proposals and do not expand automatic correction.
+
 Vocabulary analysis runs after complete paragraph and note assembly, using the same canonical text as EPUB rendering. Chapters are IDF documents; notes contribute to their source chapters, while references/index remain separate. General-language Zipf frequency is an approximate background prior. High IDF alone cannot protect a token: OCR mistakes can also be rare. Recurrence, spread and competing spellings propose review priorities, without automatically extending the protected dictionary.
 
 The optional `repair_lexical_confusions: true` pass ranks unknown prose words after the whole book is assembled. For English it combines SymSpell's bundled unigram/bigram corpus, a smoothed bigram Markov model adapted to the book, and common scanned-glyph confusions. Russian uses wordfreq unigrams, dictionary-accepted inflected forms observed in the assembled book, and the same smoothed book-bigram Markov model with unigram backoff. Russian one-edit candidates (including missing letters) and title-case words are eligible only with dictionary acceptance, repeated book evidence, and corroborating source crops; protected vocabulary remains excluded. An automatic target must be common, occur at least twice elsewhere in the assembled prose, and be read identically by local Tesseract on a tight 600-dpi word crop in both single-word segmentation modes. Weak ranking margins additionally require agreement with the embedded PDF OCR. Two modes of one engine are not independent witnesses. Protected names and vocabulary, accepted words, references and indexes are excluded; conflicts remain review-only. Ranking scores are heuristic evidence, not calibrated confidence. For conflicting Cyrillic word crops, the pinned local RapidOCR model can supply two consistent readings at fixed raster scales, each scoring at least 0.90; dictionary, recurrence and context gates still apply. The audit retains the conflicting Tesseract readings and RapidOCR scores. This threshold is an empirical guard, not a calibrated probability. Dictionaries, selected-language traineddata, tool version and crops are fingerprinted; `lexical-repair.json` records accepted and rejected decisions. Cached recognition supports deterministic replay. For image-only PDFs, cached local line OCR supplies character boxes when embedded word boxes are absent; matching neighboring words must still establish the crop. That geometry pass is not an independent textual witness, and weak ranking margins still abstain without embedded corroboration. If neither geometry path is reliable, the repair abstains.
@@ -215,6 +220,41 @@ Numeric footnote recovery can split a merged footer when two cached OCR engines 
 `repair_word_wraps: true` enables a guarded reconstruction repair: an attested split word at the normal prose margin can override a spurious style-based paragraph flag. Real indents, gaps, columns, headings, verse and known hyphenated compounds retain their boundaries. Line joining also recognizes a stray dot after a wrap dash (`уме-.` / `ния`), removing it only at a source-line seam when the joined word is attested; unmatched fragments remain visible for review. Rare joined forms need at least Zipf 1 and a tenfold frequency advantage over the hyphenated form. Both options default off for existing profiles; enable them for a source and review the resulting changes.
 
 Open `OUTPUT/proofreading-review.html` in a browser to compare scan crops, witnesses and context-ranked suggestions and export decisions. When enabled, the sheet also shows already-applied local spelling repairs and their word crops. Remaining proposals need reviewed config overlays for application. Manual/editorial and automatic lexical edits share exact occurrence checks, and every retained source row must map once into the canonical model. Coverage cannot prove that OCR recognized every mark in the scan.
+
+The pipeline now supplies `--work` to `candidates.py`. Three cached engines must
+agree at aligned positions for a word to enter the witnessed book vocabulary;
+a proposed spelling needs attestations on at least two pages outside the pages
+being reviewed. Separately, two non-primary engines can flag an anchored word
+or spacing disagreement, including dictionary-valid words. These signals add
+review proposals, never automatic corrections or protected vocabulary.
+
+The review sheet groups proposed character/spacing patterns and shows **every
+occurrence**, with its own source crop, witnesses, replacement and decision.
+Select members individually to exclude exceptions. Batch decisions require an
+explicit acknowledgement that every selected crop was checked. Changing a
+replacement clears its source acknowledgement. Legacy word-level browser
+selections are not copied to individual occurrences.
+
+Convert the exported decisions to exact config overlays with:
+
+```sh
+.venv/bin/python scripts/review_edits.py /path/to/book.pdf \
+  --profile profiles/my-book/book.json --book-output output/my-book \
+  --input /path/to/proofreading-decisions.json \
+  --output output/my-book/reviewed-corrections.json --kind ocr
+```
+
+The exporter verifies source/model/profile hashes, row text, geometry and exact
+occurrence offsets, rejects unchecked, overlapping or ambiguous edits, and
+validates replacements with the build's checked-edit machinery. It preserves
+multiple edits in one line by rebasing them in order. Merge the resulting array
+after existing `corrections.json` entries, preserving its order; use
+`--kind editorial` for a separate `editorial-proposals.json` array. These commands
+do not modify profiles or EPUBs. Rebuild and check the source: a row changed by a
+later automatic repair can differ at the manual-overlay phase; reconstruction
+can also normalize a line differently at the editorial phase. In either case
+the build rejects the exact precondition. Do not loosen the anchors to bypass
+that rejection. Cross-row or ambiguous mappings remain manual review items.
 
 Scan acknowledgements in `review-decisions.json` are separate from text corrections. New entries bind the source PDF, exact reviewed text and OCR witness/glyph evidence with SHA-256 hashes. Changed evidence returns to review even if geometry matches. Identical evidence can follow a shifted row; repeated identical locations require unique geometric disambiguation. Legacy entries keep their historical effect but are labeled `legacy-geometry-only` and listed in `report.json`, alongside mismatch reasons. They are not silently upgraded.
 

@@ -1039,3 +1039,128 @@ finds two additional source-confirmed `ofthe` splits, while a rare
 `synesthetes` join exposes remaining vocabulary/crop limitations. Those expansions
 are research-only. [Word-spacing research](word-spacing.md) records the primary
 sources, findings, benchmark command and proposed next bounded heuristic.
+
+## Classical correction literature and cross-book ablation (2026-10-13)
+
+[The full review](classical-ocr-correction.md) verifies the requested primary
+papers and records practical qualifications: Evershed's decoder uses stochastic
+search; Drobac's finite-state token corrector cannot change spaces; period-mismatched
+language models worsened the French results in Afli's experiment. Ten useful
+PDFs and their provenance/checksum manifest are saved under [papers/](papers/README.md).
+The PoCoTo full text was subsequently supplied by the user and reviewed, along
+with its cited repository and successor; see the completion note below.
+
+`scripts/statistical_ocr_research.py` evaluates directed multi-character edit
+costs, bounded rewrite candidate generation, witnessed book vocabulary, word and
+character context, peer agreement and deterministic ridge ranking. It uses 91
+reviewed errors plus 90 paired correct-input controls across five books, holds
+out entire books for supervised training, and excludes all benchmark pages from
+raw book priors. Wrapped fragments and references/indexes are excluded.
+
+Candidate recall rises from 58/91 to 70/91 with witnessed book vocabulary;
+learned rewrite expansion adds no further answer. Weighted edits alone do not
+beat unit costs. Context plus peer agreement gets 40/91 top-1 and 56/91 top-3;
+adding character trigrams gets 41/91 top-1. A training-perfect ridge margin makes
+seven wrong held-out changes, ruling out deployment as an acceptance policy.
+A conservative cached-witness proposal gate produces three correct proposals
+and no wrong changes in this set, but requires fresh crops before any production
+use. These selected cases do not establish whole-book CER/WER or calibrated
+false-positive rates.
+
+The [case-level report](statistical-ocr-evaluation.json) retains source/overlay
+provenance, candidate rankings, fold rules and resource fingerprints. Evaluation
+replay is byte-identical and 451 tests pass. Production detection/correction,
+profiles, EPUB outputs and regression baselines are unchanged.
+
+### PoCoTo completion and error-series applicability
+
+The user supplied `docs/papers/PoCoTo-2014.pdf`; its checksum and provenance are
+in the paper manifest. The page-5 GitHub citation is `thorstenv/PoCoTo`, which
+points to `cisocrgroup/PoCoTo`. Successor source at
+`737b4055ee9e38c5ea681c9a25c6d6b0944b787a` confirms selective, token-ID-based
+batch correction and separately configured profiling-service calls. The paper's
+two-channel model distinguishes printed historical spelling from OCR corruption.
+Its user-study productivity numbers are not automatic-correction accuracy.
+
+Retrospective grouping of the 91 reviewed benchmark pairs finds 12 same-book
+error-pattern groups covering 28 pairs. A blanket substring rewrite would also
+expose 62 correct controls; grouping therefore belongs in a scan-concordance
+review interface with member exclusions. The experiment is oracle groupability,
+not new error discovery or measured review-time reduction. Reproduce with
+`scripts/pocoto_research.py`; group membership/provenance is saved in
+`docs/pocoto-grouping-evaluation.json`. Full details and pinned repository links
+are in [the completed review](classical-ocr-correction.md#pocoto-completed-paper-and-repository-review).
+
+
+## Witnessed vocabulary and occurrence-reviewed correction exports
+
+The classical-paper review now feeds shared review improvements: witnessed
+book vocabulary, two-peer anchored disagreements (including valid words and
+spacing), and PoCoTo-style pattern groups with every occurrence's source crop.
+Each member has its own decision and exclusion; grouped actions require an
+explicit checked-crop acknowledgement. Version-2 exports bind source, model,
+profile, row text, geometry and exact position. The exporter rejects stale,
+unchecked, conflicting, overlapping and ambiguous edits, derives unserialized
+row IDs with the build helper, and rebases multiple edits while preserving
+inline style offsets. OCR and editorial overlays remain separate. No automatic
+acceptance rule, book profile or published EPUB text changed.
+
+Validation: 471 Python tests passed, including 17 workflow tests; the shipped
+JavaScript passed DOM-double control tests. Candidate generation passed on
+seven earlier books, including Russian and native PDFs, plus the refreshed
+Pharmako sheet. Its 1,867 review occurrences include 1,812 exact row bindings
+and 55 cases retained for manual review. Vocabulary proposals on 338 word
+groups and 70 two-peer proposals measure review coverage, not verified errors.
+All ten archived paper checksums match. Actual browser rendering and downloads
+remain unverified because Chrome's local-file URL policy blocked the smoke test.
+
+All 17 cached build cases were compared with a fresh detached `4acc3b7`
+worktree using the same `work/` caches. Complete regression snapshots and
+correction audits are identical: text, canonical sources, coverage, noterefs,
+backlinks, figures, media and EPUB bytes. Both runs reported the same differences
+against the older stored baseline; those are unrelated to this review-only
+change. No baseline was accepted or modified.
+
+The exporter validates against current corrected rows. A later automatic repair
+or editorial reconstruction normalization may differ at the earlier overlay
+application phase; rebuild preconditions then reject the overlay. Preserve the
+exact anchors and review the phase mismatch. The exporter does not install
+overlays into profiles or rebuild books automatically. See
+[classical OCR correction](classical-ocr-correction.md) and
+[validation evidence](review-workflow-evaluation.json).
+
+
+### OpenCodeReview fixes and simplification
+
+OpenCodeReview completed an 11-file frozen-source pass with all selected files
+covered and zero failed tool calls. Its four low-severity findings were resolved:
+remove an unused research import, hoist invariant confusion-rule sorting,
+document that the renderer's HTML summary is internally generated and escaped
+at its caller, and use one source-bound replacement predicate for batch and
+export checks. A completed four-file recheck reported zero findings and zero
+failed tool calls; the other seven reviewed file hashes remained unchanged.
+Reports remain under ignored `work/`; Python tests and documentation were
+reviewed locally because of the tool's default path/extension exclusions.
+
+The preliminary pass also exposed useful fixes: browser/exporter whitespace
+agreement, source-document closure on crop failure, visible corrupt-state
+restoration warnings and skipped batch selections, and strict JavaScript DOM
+doubles with complete export assertions and storage-fingerprint checks. That
+preliminary pass had a transient file-read failure and was not treated as clean.
+
+Shared edit chunks remove review/research duplication without relaxing the
+separate automatic spacing rule. Oracle grouping now counts every edit chunk
+before enforcing its short single-error criterion, so a discarded long chunk
+cannot hide another error. The benchmark's 12 groups/28 pairs/62 exposed
+controls remain unchanged. Suggestion/occurrence merges preserve generators and
+attestations through indexes; review deduplication uses a set; rendering avoids
+a second compaction; exports index source rows and only deep-copy mutable rows.
+Case-folded patterns merge equivalent groups while member spelling stays
+literal: Pharmako's 1,867 occurrences are grouped into 845 patterns.
+
+The final suite passed 471 Python tests plus strict JavaScript checks; research
+case results, fold results and aggregate metrics replay identically. The prior
+17 fresh-HEAD build comparisons remain applicable: all subsequent changes are
+confined to review/research helpers, tests and documentation, and no build/OCR
+acceptance/reconstruction/rendering source changed. No stored baseline was
+accepted. Browser layout/download smoke testing remains unverified.

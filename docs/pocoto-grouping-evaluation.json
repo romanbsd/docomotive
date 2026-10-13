@@ -1,0 +1,247 @@
+{
+  "groups": [
+    {
+      "book": "natural",
+      "observed": "a",
+      "target": "á",
+      "member_ids": [
+        "natural-55",
+        "natural-56"
+      ],
+      "correct_controls_exposed_to_blanket_rewrite": [
+        "natural-10-retain",
+        "natural-55-retain",
+        "natural-56-retain"
+      ]
+    },
+    {
+      "book": "otherworlds",
+      "observed": "u",
+      "target": "a",
+      "member_ids": [
+        "otherworlds-19",
+        "otherworlds-157"
+      ],
+      "correct_controls_exposed_to_blanket_rewrite": [
+        "otherworlds-143-retain",
+        "otherworlds-152-retain",
+        "otherworlds-153-retain",
+        "otherworlds-167-retain",
+        "otherworlds-186-retain"
+      ]
+    },
+    {
+      "book": "otherworlds",
+      "observed": "h",
+      "target": "b",
+      "member_ids": [
+        "otherworlds-71",
+        "otherworlds-147"
+      ],
+      "correct_controls_exposed_to_blanket_rewrite": [
+        "otherworlds-133-retain",
+        "otherworlds-136-retain",
+        "otherworlds-143-retain",
+        "otherworlds-149-retain",
+        "otherworlds-156-retain",
+        "otherworlds-194-retain",
+        "otherworlds-219-retain"
+      ]
+    },
+    {
+      "book": "otherworlds",
+      "observed": "c",
+      "target": "e",
+      "member_ids": [
+        "otherworlds-118",
+        "otherworlds-225"
+      ],
+      "correct_controls_exposed_to_blanket_rewrite": [
+        "otherworlds-51-retain",
+        "otherworlds-69-retain",
+        "otherworlds-74-retain",
+        "otherworlds-83-retain",
+        "otherworlds-152-retain",
+        "otherworlds-156-retain",
+        "otherworlds-167-retain",
+        "otherworlds-194-retain"
+      ]
+    },
+    {
+      "book": "otherworlds",
+      "observed": "i",
+      "target": "t",
+      "member_ids": [
+        "otherworlds-38",
+        "otherworlds-104"
+      ],
+      "correct_controls_exposed_to_blanket_rewrite": [
+        "otherworlds-39-retain",
+        "otherworlds-46-retain",
+        "otherworlds-49-retain",
+        "otherworlds-51-retain",
+        "otherworlds-69-retain",
+        "otherworlds-71-retain",
+        "otherworlds-73-retain",
+        "otherworlds-115-retain",
+        "otherworlds-152-retain",
+        "otherworlds-153-retain",
+        "otherworlds-156-retain",
+        "otherworlds-167-retain",
+        "otherworlds-170-retain",
+        "otherworlds-194-retain",
+        "otherworlds-219-retain",
+        "otherworlds-225-retain"
+      ]
+    },
+    {
+      "book": "otherworlds",
+      "observed": "",
+      "target": "y",
+      "member_ids": [
+        "otherworlds-152",
+        "otherworlds-156"
+      ],
+      "correct_controls_exposed_to_blanket_rewrite": [
+        "otherworlds-0-retain",
+        "otherworlds-19-retain",
+        "otherworlds-38-retain",
+        "otherworlds-39-retain",
+        "otherworlds-46-retain",
+        "otherworlds-49-retain",
+        "otherworlds-50-retain",
+        "otherworlds-51-retain",
+        "otherworlds-61-retain",
+        "otherworlds-69-retain",
+        "otherworlds-71-retain",
+        "otherworlds-73-retain",
+        "otherworlds-74-retain",
+        "otherworlds-79-retain",
+        "otherworlds-83-retain",
+        "otherworlds-84-retain",
+        "otherworlds-99-retain",
+        "otherworlds-104-retain",
+        "otherworlds-115-retain",
+        "otherworlds-118-retain",
+        "otherworlds-120-retain",
+        "otherworlds-126-retain",
+        "otherworlds-133-retain",
+        "otherworlds-134-retain",
+        "otherworlds-136-retain",
+        "otherworlds-143-retain",
+        "otherworlds-147-retain",
+        "otherworlds-149-retain",
+        "otherworlds-152-retain",
+        "otherworlds-153-retain",
+        "otherworlds-156-retain",
+        "otherworlds-157-retain",
+        "otherworlds-160-retain",
+        "otherworlds-161-retain",
+        "otherworlds-163-retain",
+        "otherworlds-167-retain",
+        "otherworlds-170-retain",
+        "otherworlds-185-retain",
+        "otherworlds-186-retain",
+        "otherworlds-194-retain",
+        "otherworlds-219-retain",
+        "otherworlds-225-retain"
+      ]
+    },
+    {
+      "book": "pharmako",
+      "observed": "f",
+      "target": "j",
+      "member_ids": [
+        "pharmako-3",
+        "pharmako-4",
+        "pharmako-5"
+      ],
+      "correct_controls_exposed_to_blanket_rewrite": [
+        "pharmako-6-retain",
+        "pharmako-9-retain",
+        "pharmako-11-retain"
+      ]
+    },
+    {
+      "book": "pharmako",
+      "observed": "v",
+      "target": "p",
+      "member_ids": [
+        "pharmako-13",
+        "pharmako-14",
+        "pharmako-15"
+      ],
+      "correct_controls_exposed_to_blanket_rewrite": []
+    },
+    {
+      "book": "wizard-upper-amazon",
+      "observed": "t",
+      "target": "i",
+      "member_ids": [
+        "wizard-upper-amazon-48",
+        "wizard-upper-amazon-68"
+      ],
+      "correct_controls_exposed_to_blanket_rewrite": [
+        "wizard-upper-amazon-1-retain",
+        "wizard-upper-amazon-11-retain",
+        "wizard-upper-amazon-36-retain",
+        "wizard-upper-amazon-48-retain"
+      ]
+    },
+    {
+      "book": "wizard-upper-amazon",
+      "observed": "i",
+      "target": "l",
+      "member_ids": [
+        "wizard-upper-amazon-11",
+        "wizard-upper-amazon-31"
+      ],
+      "correct_controls_exposed_to_blanket_rewrite": [
+        "wizard-upper-amazon-3-retain",
+        "wizard-upper-amazon-6-retain",
+        "wizard-upper-amazon-8-retain",
+        "wizard-upper-amazon-12-retain",
+        "wizard-upper-amazon-28-retain",
+        "wizard-upper-amazon-48-retain",
+        "wizard-upper-amazon-54-retain",
+        "wizard-upper-amazon-63-retain",
+        "wizard-upper-amazon-68-retain",
+        "wizard-upper-amazon-70-retain"
+      ]
+    },
+    {
+      "book": "wizard-upper-amazon",
+      "observed": "k",
+      "target": "x",
+      "member_ids": [
+        "wizard-upper-amazon-5",
+        "wizard-upper-amazon-17",
+        "wizard-upper-amazon-38"
+      ],
+      "correct_controls_exposed_to_blanket_rewrite": [
+        "wizard-upper-amazon-22-retain"
+      ]
+    },
+    {
+      "book": "wizard-upper-amazon",
+      "observed": "z",
+      "target": "x",
+      "member_ids": [
+        "wizard-upper-amazon-3",
+        "wizard-upper-amazon-6",
+        "wizard-upper-amazon-9"
+      ],
+      "correct_controls_exposed_to_blanket_rewrite": []
+    }
+  ],
+  "summary": {
+    "repeated_groups": 12,
+    "reviewed_pairs_groupable": 28,
+    "total_reviewed_pairs": 91,
+    "correct_controls_exposed": 62
+  },
+  "input_sha256": "91e1c57175fba3e40de62c04fefb5bfaec83e7212a12c03560d0ee20af2fb035",
+  "helper_sha256": "ea1ced9b3c6d25e7a7b9160e1b01228181b4e5b508addd80dde31fdc0e108dee",
+  "edit_helper_sha256": "e50033423ea3ea5c3a8f2036a95d3887451c860eceaffec0f7bfd2f7ec1bc958",
+  "purpose": "oracle grouping from reviewed answers; no predictive accuracy or time-savings claim"
+}

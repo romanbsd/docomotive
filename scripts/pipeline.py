@@ -84,6 +84,8 @@ def main():
             a.output,
             "--models",
             a.models,
+            "--work",
+            a.work,
         )
         run(
             "proofread.py",

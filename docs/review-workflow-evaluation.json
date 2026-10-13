@@ -1,0 +1,516 @@
+{
+  "baseline_commit": "4acc3b7",
+  "comparison": "fresh HEAD worktree versus review-workflow changes, using the same work caches",
+  "stored_baseline_accepted": false,
+  "completed_cases": 17,
+  "expected_cases": 17,
+  "passed": true,
+  "cases": [
+    {
+      "book": "natural",
+      "editorial": false,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "242bdbe2e6665e6dabbab7cfa789e3d0fd6ce609a3059649511854bb5392e80f",
+      "artifacts": {
+        "book-model.json": "6c665933b5b66dd395286dd0c45351b49951e6ad83ebcc461cdee255e977d710",
+        "corrected-pages.json": "f059b802563c81bfa0af0ed4501a867a12a4160cdd14f07e2e849f07fbf90472",
+        "text-coverage.json": "1ffb5d63ae51c9a448c6f13b5dd646f4f4e1295c23799d7b5b17d13f2183dd37",
+        "apparatus-analysis.json": "210757fcc31cc76e2dfe9a0650876724e95ce19c91d56d91068550fd9b48ebbf",
+        "the-natural-mind.txt": "34e32990e2c8011aa2d066d1f102cf1d5fc830e8d30953e2aec28cca668bdcc7"
+      },
+      "coverage": {
+        "excluded": 581,
+        "body": 7128,
+        "note": 254
+      },
+      "noterefs": 66,
+      "backlinks": 45,
+      "figures": 0
+    },
+    {
+      "book": "natural-reading",
+      "editorial": true,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "531f81420bc4d468fb63e1cb697518004506230c90f16fe66d42f04c656c04a7",
+      "artifacts": {
+        "book-model.json": "52d7f8d8a6c7dd6c3768db94d6b723cc3548102ccc8ec8cec5abfc5fe63efb5d",
+        "corrected-pages.json": "f059b802563c81bfa0af0ed4501a867a12a4160cdd14f07e2e849f07fbf90472",
+        "text-coverage.json": "1ffb5d63ae51c9a448c6f13b5dd646f4f4e1295c23799d7b5b17d13f2183dd37",
+        "apparatus-analysis.json": "210757fcc31cc76e2dfe9a0650876724e95ce19c91d56d91068550fd9b48ebbf",
+        "the-natural-mind.txt": "2318b4c21d02938aa436c1ae96977b58846f6e907cb2db7ce9ec503e15dc7113"
+      },
+      "coverage": {
+        "excluded": 581,
+        "body": 7128,
+        "note": 254
+      },
+      "noterefs": 66,
+      "backlinks": 45,
+      "figures": 0
+    },
+    {
+      "book": "shamanic",
+      "editorial": false,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "77be1b49fd0a19165947f589267eeb74be778dc119e6457dacf8ad6d684903bd",
+      "artifacts": {
+        "book-model.json": "e25c1e298153b0c7718f57e7a56ebac948371b6f6ca24cef45d3e5fadfd1d7b2",
+        "corrected-pages.json": "fa08fabee461164014c831928d9d43612a019e591e1689689742c9c2a1ec8202",
+        "text-coverage.json": "f7aa643f21ae8733c5796b4348872aa8f65258b982e2fbd8e950a55bfa47a457",
+        "apparatus-analysis.json": "42be793ac6464a2eaf883ea9a2ac9be33e6031a5ee79105cd41f283b3f108776",
+        "shamanic-trance.txt": "dc58a88dab489b91e53ca006e81d660eaf6735b5e22935df8e5ba98a259b3e5f"
+      },
+      "coverage": {
+        "excluded": 324,
+        "body": 12163,
+        "note": 4
+      },
+      "noterefs": 745,
+      "backlinks": 745,
+      "figures": 0
+    },
+    {
+      "book": "letter",
+      "editorial": false,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "2c78aaf31cd113b46cbf220ddaf7680ed0488e5f068fa0a9062b49695d36c27c",
+      "artifacts": {
+        "book-model.json": "0287682aa1231f6203a123e1a0161ead68a4020f00c2f434f617d80a429a5638",
+        "corrected-pages.json": "b4bbf1c3ed7771c69b763d58e26e6ed302a3d85e9339be220fe2da6a8c601f89",
+        "text-coverage.json": "c801735f6c2757518e475916fb16644e8769a9271b23addcabb8796ab4eb1fa4",
+        "apparatus-analysis.json": "13a2cfd29fd482168bedda5416fdc6ad7fcf49d5b47b72d38439e8029031f181",
+        "letter-kills.txt": "eea707392c4e66496c40fe6c5700c855ffaa19695bc2df157cadf4148171e075"
+      },
+      "coverage": {
+        "excluded": 30,
+        "body": 977
+      },
+      "noterefs": 88,
+      "backlinks": 89,
+      "figures": 0
+    },
+    {
+      "book": "organism",
+      "editorial": false,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "d06fd9d56a71f495ecb2a87db6c3f93868fea34663c896030122d4d05747fa20",
+      "artifacts": {
+        "book-model.json": "1107d0fced0e526e6044682fcc280ebf98b66079f6c25ff35fba970eec107931",
+        "corrected-pages.json": "a897b221da82c5c641b41671e0efcce3697e9261ef81ac79715908fdf67dc2e9",
+        "text-coverage.json": "7150c7bc9d91500e5f905913300a0ec45ee5b9cfdc5a8b339727d4823f7c8bad",
+        "apparatus-analysis.json": "5baff273484bb0ed41599589e1ffae2dd9e5f5213dcd2b539989276759a2c5ee",
+        "feeling-organism.txt": "9516d80a18966402dd9d3a37b6003b33c282dc9ae9f54359887d8c722abf02f9"
+      },
+      "coverage": {
+        "excluded": 458,
+        "body": 8124
+      },
+      "noterefs": 157,
+      "backlinks": 157,
+      "figures": 18
+    },
+    {
+      "book": "organism-reading",
+      "editorial": true,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "e7c0a9645b30218234f4370e012317b0fe08eaa2fa54a2cbcdcd1e98680dcfa9",
+      "artifacts": {
+        "book-model.json": "22798380fdc70f0e3404dd85590a19663aba4d4006bc33fe517403b0a47efa89",
+        "corrected-pages.json": "a897b221da82c5c641b41671e0efcce3697e9261ef81ac79715908fdf67dc2e9",
+        "text-coverage.json": "7150c7bc9d91500e5f905913300a0ec45ee5b9cfdc5a8b339727d4823f7c8bad",
+        "apparatus-analysis.json": "5baff273484bb0ed41599589e1ffae2dd9e5f5213dcd2b539989276759a2c5ee",
+        "feeling-organism.txt": "63c0aa5b6d2ca75f1dc546c95b1abf74d6cb8bd03d0ea23ebf3c72a7c69c7a1d"
+      },
+      "coverage": {
+        "excluded": 458,
+        "body": 8124
+      },
+      "noterefs": 157,
+      "backlinks": 157,
+      "figures": 18
+    },
+    {
+      "book": "pharmako",
+      "editorial": false,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "919e890237a4cb948a250871d2262ba58880702cbcb444f7b80feabf98398e4a",
+      "artifacts": {
+        "book-model.json": "97c813d790960bd863f714a6c9aa39d54d0b2cb18d99400d569d4b4f53d37566",
+        "corrected-pages.json": "d74122c5412e0341a2b6199672fceef0b9dc82a4e6e7ff1741dcf9ba14aa5d2a",
+        "text-coverage.json": "32a2780a697fc016f69682e47578a4e6817c70b4e9d71d29a12de4eb4260987b",
+        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
+        "pharmako-poeia.txt": "f80ea8879cda0dbfcb76f43ccedbca0dbbd7a36d87cae01c4c3803081891fbf5",
+        "word-spacing-repair.json": "ba1d04b1804cf95bb1cf66868292c87dbe86d55a4a32b607a028b55ef5dcecda"
+      },
+      "coverage": {
+        "excluded": 338,
+        "body": 8248
+      },
+      "noterefs": 0,
+      "backlinks": 0,
+      "figures": 110
+    },
+    {
+      "book": "skilled-helper",
+      "editorial": false,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "baf60b8304332875dfc342ad8f45fc077ba3ce94b7a9232949c853eb44b50bd0",
+      "artifacts": {
+        "book-model.json": "5a948078f1f704a1140a80beef40c2ba80bc9076342699f9b7241ba749357d92",
+        "corrected-pages.json": "60578e90e21182381552e37aa4d2fba18f8bc5b3c8920a8480007a5b313e44ae",
+        "text-coverage.json": "d7074e2a63126eda2ca5b6ab58613106a1c2690da6d8884e3a313b866f216fad",
+        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
+        "skilled-helper.txt": "eb99a789be5737fb36620488bc88e0cbd050ad6282ab46a5e7c5c868ee954a8c"
+      },
+      "coverage": {
+        "excluded": 1580,
+        "body": 21651
+      },
+      "noterefs": 0,
+      "backlinks": 0,
+      "figures": 10
+    },
+    {
+      "book": "wizard-upper-amazon",
+      "editorial": false,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "e00cfed62c5a868ae12cf5cf724f42725926290ab7b0129132245d525d425add",
+      "artifacts": {
+        "book-model.json": "c857728c61ea2bd456bcc07794902313ffa61a45243a18670681fb4b765794bb",
+        "corrected-pages.json": "f0ed2d2da784650cad60b39b66414192adf43bc865fedd68c8e4bccd021fdaa0",
+        "text-coverage.json": "7f520e3964fe111b3c62bfef758cecfda5f6c5a79d50bb57c6d205013c520594",
+        "apparatus-analysis.json": "9a1e0cb9eead7a11b685e42d016be3c39196426570a27da74ee6107e7dd80565",
+        "wizard-upper-amazon.txt": "442cc3d190bbf61809d21fea0d095347f2098018aa0b2dc29c1f17df6986d091"
+      },
+      "coverage": {
+        "excluded": 500,
+        "body": 5947,
+        "note": 3
+      },
+      "noterefs": 3,
+      "backlinks": 0,
+      "figures": 3
+    },
+    {
+      "book": "otherworlds",
+      "editorial": false,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "5c7c8ef9d71fbf02337cb1fcd0a546f55a3cde8c57044435dc99a36a5fb44bce",
+      "artifacts": {
+        "book-model.json": "3e1421128474fe69a377299f9ee67069ac518fe6d5c7cec87978a3f8a4541e36",
+        "corrected-pages.json": "96fbd755be07d30e8aec4fb8fb3a9885c4039c1de902fdac1a3a04bd81e07a07",
+        "text-coverage.json": "1fa4ee8d97859b6ff842e34399e15a36f0c3d6625c787971d0eabaf21bd7785e",
+        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
+        "otherworlds.txt": "6509cb7f2561c7299c0db9662d414134b99c38285598f5a3f12cf6ed1a7b4fb0",
+        "lexical-repair.json": "f836f18c99385c2bf445991bc1c0d8c048fe6299d52d51546d1a663d2fc962e4"
+      },
+      "coverage": {
+        "excluded": 467,
+        "body": 10529
+      },
+      "noterefs": 0,
+      "backlinks": 0,
+      "figures": 29
+    },
+    {
+      "book": "daimonic-reality",
+      "editorial": false,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "96594bfaf7d70e7041fe1fb5e715521f54c3035cb5910801c8120029656cb649",
+      "artifacts": {
+        "book-model.json": "fdb9250795e0a4cb0ffa68137a7a1bdaf4895ac533431400fd99c5efd226243f",
+        "corrected-pages.json": "81962fbb0559abc99915822bef0cbbd36ba102d5adb6f6862421390a99b31787",
+        "text-coverage.json": "c5c23c2aa7e82bfc86b2695575dc5db16dcdf16249636c9d75391ae791a6fbda",
+        "apparatus-analysis.json": "099b4ee1339cab9123fc62068ae0c2d0384bfa219b0472b5788c0fcb44a3cb34",
+        "daimonic-reality.txt": "adde3ca407828c21101743317c6a2d755c0960941bb92a92d798ec05ba1c644b",
+        "lexical-repair.json": "477294e06a838dac0de6f9f63555e7d98dea19001b3d8e2cc24969224ce19c90"
+      },
+      "coverage": {
+        "excluded": 509,
+        "body": 10043
+      },
+      "noterefs": 404,
+      "backlinks": 477,
+      "figures": 11
+    },
+    {
+      "book": "chukchi-material-culture",
+      "editorial": false,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "67caf8ed6125b7bbd7ed73dc544bec196b6071645bc6b29e1fe487c52f738fe6",
+      "artifacts": {
+        "book-model.json": "29f6cdd41e898dcd12daf9ea00bb120ac0379466e0488e33084e28f0e441f7fe",
+        "corrected-pages.json": "80b0be56c9f8f508af2fd882137fd8f65e13cf3bd4bf92eeb80aae7b90b8a935",
+        "text-coverage.json": "0bcefab59642e3c5f1b0db733c06d7d8fd10e6cce19bbd64d33f06f0be3e25b2",
+        "apparatus-analysis.json": "84e2e6bf7c5bb60774bb30384e5658fabbfbc1f5d3e6e57d1440b362201a75ee",
+        "chukchi-material-culture.txt": "bcba9bcd8f7858e752246262a3a23fce308d94afe757e7680bd4eb1b17881580"
+      },
+      "coverage": {
+        "excluded": 473,
+        "body": 6678,
+        "note": 144
+      },
+      "noterefs": 7,
+      "backlinks": 0,
+      "figures": 154
+    },
+    {
+      "book": "chosen-by-spirits",
+      "editorial": false,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "f8e2ca1b7ac9551d7f96f5794070cf9086fc38389a9c0eff8cad6fda0489adde",
+      "artifacts": {
+        "book-model.json": "7c13f3241aec1ac8e3f1547912792a6c7d9f45cb1d2d45d278dbfada0b20ca03",
+        "corrected-pages.json": "a49a1633d25df618dd9d677edb879eda53596663eb04d62b84964016c2176b1c",
+        "text-coverage.json": "bb4f992e1af25a025a0f9a28fd588acddaa6e1f5e0b268d044a804bbc451b231",
+        "apparatus-analysis.json": "29a0616ffbc8ec355e2ba46db7f6f4e9432ed7e43b0d141befe499334a3e0077",
+        "chosen-by-spirits.txt": "02c8575d89737123d62804beb1519440e332ec22cc00081ac694ccef56104003",
+        "lexical-repair.json": "3d1ff001b4472abbfa1cd204fc9d603854491a490b7e0bb56dd19a8d669b6ad8"
+      },
+      "coverage": {
+        "excluded": 252,
+        "body": 6585,
+        "note": 44
+      },
+      "noterefs": 23,
+      "backlinks": 0,
+      "figures": 30
+    },
+    {
+      "book": "concentration-meditation",
+      "editorial": false,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "77abb786ca1a35cd9d684eea69797e04bbcc4e12a146cfb70250f310e6adfcb7",
+      "artifacts": {
+        "book-model.json": "13231e6394d58c2e4955dd703aeabe82bb599c9867d274fb922f5570ef562067",
+        "corrected-pages.json": "f4e2c1192271ef0cbda62ea5f8d5d38e08949449a2a1d43d5573835f9915e66c",
+        "text-coverage.json": "2e8ef8db74f5629e94ed821dc0b21621c67dcbdc0f1f048db9d92f09bce593d5",
+        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
+        "concentration-meditation.txt": "094ea66ab48bac2f4d77c78183192329d3b92968ac75a102e5fd93bba005ed75",
+        "lexical-repair.json": "3ba784da7c06927b51a964796123cc73e6e702573e19392a1e0b3c22ff835e75"
+      },
+      "coverage": {
+        "excluded": 385,
+        "body": 7558
+      },
+      "noterefs": 0,
+      "backlinks": 0,
+      "figures": 0
+    },
+    {
+      "book": "concentration-meditation-reading",
+      "editorial": true,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "77abb786ca1a35cd9d684eea69797e04bbcc4e12a146cfb70250f310e6adfcb7",
+      "artifacts": {
+        "book-model.json": "13231e6394d58c2e4955dd703aeabe82bb599c9867d274fb922f5570ef562067",
+        "corrected-pages.json": "f4e2c1192271ef0cbda62ea5f8d5d38e08949449a2a1d43d5573835f9915e66c",
+        "text-coverage.json": "2e8ef8db74f5629e94ed821dc0b21621c67dcbdc0f1f048db9d92f09bce593d5",
+        "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
+        "concentration-meditation.txt": "094ea66ab48bac2f4d77c78183192329d3b92968ac75a102e5fd93bba005ed75",
+        "lexical-repair.json": "8c4bc44a620edd6bec12977b52be1635a416d8dd34772bce8103df60c31253fa"
+      },
+      "coverage": {
+        "excluded": 385,
+        "body": 7558
+      },
+      "noterefs": 0,
+      "backlinks": 0,
+      "figures": 0
+    },
+    {
+      "book": "obryad-folklor",
+      "editorial": false,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "c676d337fb327d71e455f578cec022722e6dc2055eac9abcdf7e3265ff4e3e2c",
+      "artifacts": {
+        "book-model.json": "f2a5827a618f671dd55106ec62e91204dd3dfa5b4916de4b2cd51acde60eed38",
+        "corrected-pages.json": "8f156c218bc9c00268d577080b0df9da2f45e6c0c4751d095c23185eb56fed68",
+        "text-coverage.json": "2520798c7d0a13c67b3f32588eb8a99443bd81487951008ac943e78ed726a1d5",
+        "apparatus-analysis.json": "732c1bc3251fd7402fe93025453a572139daea62962ce0ff4a9ab7037e8b4bc3",
+        "obryad-folklor.txt": "f9c3dc729135ff037b8852fed70a276141616d74f2344300afe21b58a03b3f53",
+        "lexical-repair.json": "4da2363d1e27ad0777bccafbea63fa0811a9f535fbfe2e40d3b72994d4bc9a24"
+      },
+      "coverage": {
+        "excluded": 456,
+        "body": 13551,
+        "note": 365
+      },
+      "noterefs": 30,
+      "backlinks": 0,
+      "figures": 10
+    },
+    {
+      "book": "obryad-folklor-reading",
+      "editorial": true,
+      "differences": [],
+      "audit_identical": true,
+      "epub_sha256": "17824fd05c9e18444ccd987f7e5f415177db1db4dc9d469fb788d08d24a76fdf",
+      "artifacts": {
+        "book-model.json": "13719e6349129b64bef716d463d8a8670ed9b821428b8470443aaeb92b34324b",
+        "corrected-pages.json": "218c32601efd5e015cc6e9d2562e551ded97b814b6cf04697ac6869c3f710862",
+        "text-coverage.json": "37fd5aa9131590fd2aeb218d9f5a9ced35941f0f0d8c882203ddf295b988fbad",
+        "apparatus-analysis.json": "732c1bc3251fd7402fe93025453a572139daea62962ce0ff4a9ab7037e8b4bc3",
+        "obryad-folklor.txt": "40f1d05eafdf3c98fe8ff880242188425e3e59ec4946ed5c22db7276ade355f0",
+        "lexical-repair.json": "1438dc7cc79a85a679e79a0647b641073d4bf76f82c8e042be13c0a4dc071055"
+      },
+      "coverage": {
+        "excluded": 456,
+        "body": 13551,
+        "note": 365
+      },
+      "noterefs": 30,
+      "backlinks": 0,
+      "figures": 10
+    }
+  ],
+  "candidate_smoke_cases": [
+    {
+      "book": "natural",
+      "status": "passed",
+      "review_items": 124,
+      "witnessed_book_vocabulary": 3386,
+      "witnessed_vocabulary_proposal_groups": 40,
+      "peer_flagged_occurrences": 3
+    },
+    {
+      "book": "shamanic",
+      "status": "passed",
+      "review_items": 1609,
+      "witnessed_book_vocabulary": 0,
+      "witnessed_vocabulary_proposal_groups": 0,
+      "peer_flagged_occurrences": 0
+    },
+    {
+      "book": "organism",
+      "status": "passed",
+      "review_items": 190,
+      "witnessed_book_vocabulary": 3587,
+      "witnessed_vocabulary_proposal_groups": 58,
+      "peer_flagged_occurrences": 9
+    },
+    {
+      "book": "letter",
+      "status": "passed",
+      "review_items": 136,
+      "witnessed_book_vocabulary": 0,
+      "witnessed_vocabulary_proposal_groups": 0,
+      "peer_flagged_occurrences": 0
+    },
+    {
+      "book": "wizard-upper-amazon",
+      "status": "passed",
+      "review_items": 138,
+      "witnessed_book_vocabulary": 2667,
+      "witnessed_vocabulary_proposal_groups": 53,
+      "peer_flagged_occurrences": 3
+    },
+    {
+      "book": "concentration-meditation",
+      "status": "passed",
+      "review_items": 198,
+      "witnessed_book_vocabulary": 3036,
+      "witnessed_vocabulary_proposal_groups": 67,
+      "peer_flagged_occurrences": 23
+    },
+    {
+      "book": "chosen-by-spirits",
+      "status": "passed",
+      "review_items": 725,
+      "witnessed_book_vocabulary": 2150,
+      "witnessed_vocabulary_proposal_groups": 259,
+      "peer_flagged_occurrences": 91
+    }
+  ],
+  "validation": {
+    "python_tests": 471,
+    "focused_workflow_tests": 17,
+    "javascript_controls": "passed strict DOM-double tests: selectors, crop assets, proposals, exclusions, acknowledgements, trimmed exports, state fingerprints and restoration; actual browser smoke test remains unverified",
+    "archive_paper_checksums_verified": 10,
+    "baseline_accepted": false
+  },
+  "review_metrics": {
+    "book": "pharmako-poeia",
+    "vocabulary_terms": 4840,
+    "vocabulary_proposal_groups": 338,
+    "two_peer_proposal_occurrences": 70,
+    "review_occurrences": 1867,
+    "proposed_pattern_groups": 845,
+    "bound_occurrences": 1812,
+    "unbound_occurrences": 55,
+    "crop_assets": 1393,
+    "interpretation": "Review coverage, not confirmed errors, precision or time saved"
+  },
+  "helper_sha256": {
+    "review_candidates.py": "790d5cbc1d5b998948421641016ed7dd9054caa7757ae1886210c8275fff0aa7",
+    "review_sheet.py": "0edca1c42faa0901419a0ee140b406a94876171e3f900d0e91f911074ae45db6",
+    "review_edits.py": "4166c6c30203e22d1be4770763d464e768113acc8ef473f911d36510f788b3a8",
+    "proofread_review.js": "11fa8dc2802751dbee37a7ec6f28bd033119710be4348737c14bef8520d8e4e1",
+    "proofread.py": "1c4cc76a1bcb6ba46a13c9e1733806e68c162574e544b7ef49dd297bb67f9e2a",
+    "candidates.py": "31d22a56512f20889f8376ac786df074ecb99e9957ccce1b977679316b55d3a3",
+    "pipeline.py": "d6d6a0dd0f614f39bf761a46e713b973c9a4545e7e9a9adab73751148274f2ac",
+    "text_edits.py": "e50033423ea3ea5c3a8f2036a95d3887451c860eceaffec0f7bfd2f7ec1bc958"
+  },
+  "opencodereview": {
+    "passes": [
+      {
+        "report": "work/opencodereview-final.json",
+        "status": "complete",
+        "terminal_state": "complete",
+        "selected": 11,
+        "completed": 11,
+        "reused": 0,
+        "failed": 0,
+        "waived": 0,
+        "failed_tools": 0,
+        "comments": 4,
+        "run_id": "6cd2d697-76d2-45a6-a4eb-7bad3801309c"
+      },
+      {
+        "report": "work/opencodereview-targeted.json",
+        "status": "complete",
+        "terminal_state": "complete",
+        "selected": 4,
+        "completed": 4,
+        "reused": 0,
+        "failed": 0,
+        "waived": 0,
+        "failed_tools": 0,
+        "comments": 0,
+        "run_id": "7066b108-37bb-42f0-a200-05f1419eef8f"
+      }
+    ],
+    "current_files_covered": 11,
+    "resolved_findings": 4,
+    "remaining_findings": 0,
+    "coverage": "complete 11-file pass plus complete 4-file recheck; other seven file hashes unchanged",
+    "excluded": "PDF archives, generated evaluation/provenance JSON and unsupported Markdown; Python tests excluded by default tool rules and reviewed locally"
+  },
+  "simplifications": [
+    "shared directed edit chunks, preserving long chunks for grouping validation",
+    "indexed evidence-preserving candidate and occurrence merging",
+    "set-based occurrence deduplication",
+    "one acknowledgement reset and one changed-replacement guard",
+    "one rendering compaction pass",
+    "indexed export source rows and one deep copy",
+    "invariant confusion-rule sorting hoisted outside rewrite frontier loop",
+    "unused imports, counters and parameter removed"
+  ],
+  "build_validation_scope": "All 17 fresh-HEAD comparisons from the implementation step remain valid: later review fixes/refactors touch review/research only; build, OCR acceptance, reconstruction and rendering modules unchanged."
+}
