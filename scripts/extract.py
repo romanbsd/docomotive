@@ -22,12 +22,12 @@ from languages import ocr_settings, language_code
 
 
 def clipped_observation(box, width, height):
-    """Clip subpixel OCR edge overshoot; reject larger geometry errors."""
-    # Some recognizers extend edge glyph boxes a fraction of one raster pixel.
+    """Clip small OCR edge overshoot; reject larger geometry errors."""
+    # Vision can extend a glyph just over one pixel past a clipped column edge.
     # Preserve the raw box as evidence; this is not permission to clip text.
-    tolerance = [1 / width, 1 / height, 1 / width, 1 / height]
+    tolerance = [2 / width, 2 / height, 2 / width, 2 / height]
     if any(not -eps <= value <= 1 + eps for value, eps in zip(box, tolerance)):
-        raise ValueError("OCR bounding box exceeds the raster by more than one pixel")
+        raise ValueError("OCR bounding box exceeds the raster by more than two pixels")
     result = [max(0, min(1, value)) for value in box]
     if result[0] >= result[2] or result[1] >= result[3]:
         raise ValueError("OCR bounding box is empty after clipping")

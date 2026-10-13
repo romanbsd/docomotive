@@ -1,0 +1,447 @@
+{
+  "source_sha256": "9256c76c718734015a28afdca196f9691f7181cedb4d5c9e2e9a3f17dfc0b7ac",
+  "method": "Small-type footer marker and relative line-height proposals from Tesseract page OCR; representative pages visually checked against the PDF scan (29, 30, 51, 55, 81, 95, 97, 111, 148, 165, 178).",
+  "entries": [
+    {
+      "page": 29,
+      "cutoff": 0.70163,
+      "first_line": "1 From the Thamarat ul-Awrak (Fruits of Leaves) of Ibn Hijjat al-Hamawi.",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 30,
+      "cutoff": 0.74526,
+      "first_line": "1 While King Polycrates, the ruler of Samos, was entertaining the King of",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 51,
+      "cutoff": 0.80264,
+      "first_line": "1 For chess in its original aspect of a conflict in which the players stake them-",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 52,
+      "cutoff": 0.79415,
+      "first_line": "1 Mozart presents an allegory of this same way of initiation in The Magic",
+      "body_height": 0.020202020202020166,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 55,
+      "cutoff": 0.75779,
+      "first_line": "1[“Now the Gods, ascending, knew not the way to the heavenly world, but",
+      "body_height": 0.020606060606060628,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 56,
+      "cutoff": 0.76425,
+      "first_line": "1[One must remember that “the speech of birds” is the language of angelic",
+      "body_height": 0.020202020202020138,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 57,
+      "cutoff": 0.70971,
+      "first_line": "1 This is the secret of the Chinese formula of Wu Wei: the avoidance of re-",
+      "body_height": 0.020808080808080776,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 59,
+      "cutoff": 0.81355,
+      "first_line": "1 For the flaying motif, cf. Ananda K. Coomaraswamy, “Sir Gawayne and",
+      "body_height": 0.020606060606060544,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 63,
+      "cutoff": 0.80506,
+      "first_line": "1“There is no horse so tough as a black horse,” says the grandmother of the",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 64,
+      "cutoff": 0.80951,
+      "first_line": "1[“This self gives itself to that self, that self gives itself to this self. Thus they",
+      "body_height": 0.02000000000000001,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 81,
+      "cutoff": 0.72142,
+      "first_line": "1 John Chrysostom brought about consciously the crisis of transformation that",
+      "body_height": 0.02020202020202011,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 95,
+      "cutoff": 0.76223,
+      "first_line": "1 (“What is ‘beheading’? Slaying the carnal-soul (nafs=Heb. nefesh) in the",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 97,
+      "cutoff": 0.78445,
+      "first_line": "1 Chrétien de Troyes, Conte del Graal, and Wolfram von Eschenbach, Parzival,",
+      "body_height": 0.02020202020202015,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 98,
+      "cutoff": 0.73678,
+      "first_line": "1 Chrétien’s Conte del Graal.",
+      "body_height": 0.020606060606060544,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 99,
+      "cutoff": 0.71496,
+      "first_line": "1 Malory, Morte d’Arthur xxi, 3.",
+      "body_height": 0.020202020202020193,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 100,
+      "cutoff": 0.78526,
+      "first_line": "1 Hamlet in, i, 79-80.",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 102,
+      "cutoff": 0.73839,
+      "first_line": "1 Weston, op. cit., pp. 12-17. Like the animals of the sun-gods in other",
+      "body_height": 0.020202020202020193,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 111,
+      "cutoff": 0.78971,
+      "first_line": "1From The Weddynge of Sir Gawen and Dame Ragnell, a fifteenth-century",
+      "body_height": 0.020202020202020166,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 118,
+      "cutoff": 0.78405,
+      "first_line": "1Cf. Ananda K. Coomaraswamy, “Symplegades,” in Studies and Essays in the",
+      "body_height": 0.02020202020202015,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 120,
+      "cutoff": 0.80021,
+      "first_line": "1 Sir James G. Frazer, The Golden Bough, 1890, reissued in 12 volumes, 1907-",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 130,
+      "cutoff": 0.70203,
+      "first_line": "1 In the case of Perceval, the classic hero of the Grail Quest, we find again this",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 140,
+      "cutoff": 0.79698,
+      "first_line": "1 Chrétien de Troyes, Le Chevalier au Lion (Yvain), vv. 4533 ff., edited by",
+      "body_height": 0.020202020202020138,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 142,
+      "cutoff": 0.81355,
+      "first_line": "1 Chrétien de Troyes, op. cit., vv. 6527-6818.",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 148,
+      "cutoff": 0.70567,
+      "first_line": "1 Hector’s son, Astyanax, or Francillon, is supposed to have escaped from the",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 149,
+      "cutoff": 0.7089,
+      "first_line": "1 Sir Gawain is the real hero of early English chivalry (as often emphasized",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 151,
+      "cutoff": 0.85031,
+      "first_line": "1 Inferno v, 129-238.",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 165,
+      "cutoff": 0.84142,
+      "first_line": "1Malory, Morte d’Arthur, 11.",
+      "body_height": 0.019595959595959556,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 166,
+      "cutoff": 0.75173,
+      "first_line": "1 Malory’s source for this adventure is the French Prose Lancelot, whereas his",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 169,
+      "cutoff": 0.85072,
+      "first_line": "1 Malory, Morte d’Arthur, x1. 1-3.",
+      "body_height": 0.020202020202020193,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 174,
+      "cutoff": 0.83254,
+      "first_line": "1 [bid., xu, 1-9.",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 175,
+      "cutoff": 0.81557,
+      "first_line": "1 Ibid., xvi, 9-20. The story of the second Elaine is retold in Tennyson’s",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 176,
+      "cutoff": 0.83132,
+      "first_line": "1 Infra, pp. 239 ff.",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 178,
+      "cutoff": 0.76142,
+      "first_line": "1 Four of the epics of Chrétien de Troves are readily available in Evervman’s",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 185,
+      "cutoff": 0.82284,
+      "first_line": "1 Chrétien de Troyes, Le chevalier de la charrette, Foerster’s ed., p. 25, vv.",
+      "body_height": 0.0197979797979798,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 186,
+      "cutoff": 0.75173,
+      "first_line": "1[The exchange is a great degradation, representing, metaphysically, the",
+      "body_height": 0.02020202020202018,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 190,
+      "cutoff": 0.83375,
+      "first_line": "1 The Gospel of Nicodemus II: “The Harrowing of Hell,” xxi.",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 191,
+      "cutoff": 0.81516,
+      "first_line": "1 The Gospel of Nicodemus II: “The Harrowing of Hell,” xxi.",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 192,
+      "cutoff": 0.82365,
+      "first_line": "1 “A sharpened edge of a razor, hard to traverse,",
+      "body_height": 0.020202020202020193,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 193,
+      "cutoff": 0.79819,
+      "first_line": "1 Compare the brothers King Pellam and Garlon in the Balin story. Compare,",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 197,
+      "cutoff": 0.71617,
+      "first_line": "1 That supreme and cosmic adventure is precisely the typical one of the Divine",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 198,
+      "cutoff": 0.77759,
+      "first_line": "1 There have been proposed a number of interpretations of the Tarot symbol-",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 199,
+      "cutoff": 0.83375,
+      "first_line": "1 Compare the Oriental images of god and goddess, Zimmer, op. cit., Figs. 34,",
+      "body_height": 0.020202020202020193,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 202,
+      "cutoff": 0.78203,
+      "first_line": "1 For descriptions of the forest of Merlin, see Geoffrey of Monmouth, Vita",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 206,
+      "cutoff": 0.73678,
+      "first_line": "1 Geoffrey of Monmouth, Historia Britonum vi-v1i, Everyman’s Library, vol.",
+      "body_height": 0.019797979797979787,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 207,
+      "cutoff": 0.82971,
+      "first_line": "10. Jones et al., editors, The Myvyrian Archaiology of Wales, Denbigh, 1870,",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 208,
+      "cutoff": 0.84304,
+      "first_line": "1 Morte d’Arthur, xx1.",
+      "body_height": 0.020202020202020138,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 210,
+      "cutoff": 0.81799,
+      "first_line": "1 Roman de Merlin, 308-314, Sommer’s ed., pp. 245-251.",
+      "body_height": 0.020202020202020193,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 211,
+      "cutoff": 0.82688,
+      "first_line": "1 Roman de Merlin, 48-54, 177-206, 289, 410-414, Sommer’s ed., pp. 54-60,",
+      "body_height": 0.020606060606060628,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 212,
+      "cutoff": 0.82284,
+      "first_line": "1 Suite du Merlin, Huth MS., fol. 157-158, ed., Gaston Paris and Jacob Ulrich,",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 216,
+      "cutoff": 0.8192,
+      "first_line": "1 Roman de Merlin, 277-280, 526, 554-557, Sommer’s ed., pp. 223-226, 451-452,",
+      "body_height": 0.019797979797979787,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 219,
+      "cutoff": 0.84546,
+      "first_line": "1 Roman de Merlin, 558, 565-569, Sommer’s ed., pp. 484-485, 492-496.",
+      "body_height": 0.019797979797979703,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 230,
+      "cutoff": 0.77395,
+      "first_line": "1 Cf. Thomas Mann, The Transposed Heads, 1940.The inspiration for this short",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 237,
+      "cutoff": 0.69355,
+      "first_line": "1 Five Sanskrit versions of the Twenty-five Stories of the Specter in the Corpse",
+      "body_height": 0.020202020202020166,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 261,
+      "cutoff": 0.76062,
+      "first_line": "1 Curiously enough, though the Sanskrit text of the Kalika Purana was made",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 264,
+      "cutoff": 0.84344,
+      "first_line": "1 Brahmaloka; cf. supra, p. 83, footnote 2.",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 279,
+      "cutoff": 0.83052,
+      "first_line": "1[Kama, the God of Love, is called the “first born” of the seeds of mind:",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 283,
+      "cutoff": 0.77233,
+      "first_line": "1 Brahma’s yoga is the clarified spiritual form of the same desirousness that,",
+      "body_height": 0.020606060606060572,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 292,
+      "cutoff": 0.82243,
+      "first_line": "1 (Cf. “He Who Is” as the truest name of God: Katha Upanishad, Damascene,",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 295,
+      "cutoff": 0.76668,
+      "first_line": "1 In this great statement of Brahma the Creator to Shiva the Destroyer, the de-",
+      "body_height": 0.019999999999999962,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 323,
+      "cutoff": 0.84385,
+      "first_line": "1 Compare the river crossed by Lancelot on the “sword-bridge.”",
+      "body_height": 0.020202020202020166,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 324,
+      "cutoff": 0.80385,
+      "first_line": "1 This legend, well known to the popular lore of India, accounts for the wide",
+      "body_height": 0.020606060606060517,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 328,
+      "cutoff": 0.69233,
+      "first_line": "1 The Involuntary Creation, Kalika Purdna 1:1-5:10; the Involuntary Marriage,",
+      "body_height": 0.019797979797979814,
+      "detection": "small-type footer with reference marker; source review required"
+    },
+    {
+      "page": 334,
+      "cutoff": 0.74971,
+      "first_line": "1 This meaning, scarcely ever explained, yet unfolded and reiterated in the",
+      "body_height": 0.02020202020202022,
+      "detection": "small-type footer with reference marker; source review required"
+    }
+  ]
+}
