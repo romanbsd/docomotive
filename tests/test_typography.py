@@ -44,6 +44,45 @@ def row(text, i=0, width=0.35, italic=False, x=0.2):
 
 
 class TypographyTests(unittest.TestCase):
+    def test_centered_chapter_section_number_keeps_heading_role(self):
+        number = row("1", x=0.55, width=0.015)
+        prose = row(
+            "Once upon a time the story began in this kingdom.", 2, width=0.75, x=0.13
+        )
+        model = reconstruct(
+            {1: [number, prose]},
+            {"chapters": [[1, 1, "Chapter"]], "chapter_body_starts": {"1": 0.1}},
+            JoinPolicy(),
+            [],
+        )
+        first = model[0]["blocks"][0]
+        self.assertEqual(first["kind"], "heading")
+        self.assertTrue(first["lines"][0]["section_number"])
+        self.assertIn(
+            'class="section-number"',
+            block_html(first, {}, set(), [], "chapter.xhtml", set()),
+        )
+
+    def test_fallback_page_note_uses_source_number(self):
+        block = dict(
+            kind="text",
+            text="The sentence ends here.",
+            inline=[],
+            page_breaks=[dict(page=30, offset=0)],
+        )
+        markup = block_html(
+            block,
+            dict(
+                _note_targets={30: 30}, _note_labels={30: "1"}, printed_page_offset=-16
+            ),
+            set(),
+            [],
+            "chapter.xhtml",
+        )
+        self.assertIn('href="#note-30"', markup)
+        self.assertIn("<sup>1</sup>", markup)
+        self.assertNotIn("[note]", markup)
+
     def test_opening_epigraph_requires_geometry_type_and_italic_credit(self):
         from copy import deepcopy
 
@@ -940,6 +979,116 @@ class TypographyTests(unittest.TestCase):
         ):
             self.assertEqual(
                 correct_page(primary, baseline, fresh, rapid, [], [], 17)[0]["text"],
+                primary[0]["text"],
+            )
+
+    def test_spaced_initial_word_and_spurious_quote_need_source_witnesses(self):
+        cases = [
+            (
+                "Lis is much too horrible today.",
+                "L ife is much too horrible today.",
+                "LIFE is much too horrible today.",
+                "Lire is much too horrible today.",
+                "Life is much too horrible today.",
+            ),
+            (
+                "‘Tue involvement of the gods continues.",
+                "T h e involvement of the gods continues.",
+                "The involvement of the gods continues.",
+                "The involvement of the gods continues.",
+                "The involvement of the gods continues.",
+            ),
+        ]
+        for primary, embedded, vision, rapid, expected in cases:
+            with self.subTest(primary=primary):
+                audit = []
+                fixed = correct_page(
+                    [row(primary)],
+                    [row(embedded)],
+                    [row(vision)],
+                    [row(rapid)],
+                    audit,
+                    [],
+                    17,
+                )
+                self.assertEqual(fixed[0]["text"], expected)
+                self.assertEqual(audit[0]["kind"], "spaced-initial-word")
+                self.assertEqual(audit[0]["before"], primary.split()[0])
+                self.assertEqual(
+                    correct_page(
+                        [row(primary)], [], [row(vision)], [row(rapid)], [], [], 17
+                    )[0]["text"],
+                    primary,
+                )
+                self.assertEqual(
+                    correct_page(
+                        [row(primary)],
+                        [row(embedded)],
+                        [
+                            row(
+                                vision.replace("today", "tomorrow").replace(
+                                    "continues", "ends"
+                                )
+                            )
+                        ],
+                        [row(rapid)],
+                        [],
+                        [],
+                        17,
+                    )[0]["text"],
+                    primary,
+                )
+        self.assertEqual(
+            correct_page(
+                [row(cases[1][0])],
+                [row(cases[1][1])],
+                [row(cases[1][2])],
+                [],
+                [],
+                [],
+                17,
+            )[0]["text"],
+            cases[1][0],
+        )
+
+    def test_three_witness_initial_word_preserves_source_punctuation(self):
+        primary = [row("“J shall not doubt God,” John thought.")]
+        peers = [row('"I shall not doubt God," John thought.')]
+        audit = []
+        fixed = correct_page(primary, peers, peers, peers, audit, [], 72)
+        self.assertEqual(fixed[0]["text"], "“I shall not doubt God,” John thought.")
+        self.assertEqual(audit[0]["kind"], "three-witness-initial-word")
+        self.assertEqual(audit[0]["before"], "J")
+        self.assertEqual(audit[0]["after"], "I")
+        for bad, good in (
+            ("bais, Egyptian temple of, 312", "Sais, Egyptian temple of, 312"),
+            ("immer, Heinrich: Myths and Sym", "Zimmer, Heinrich: Myths and Sym"),
+        ):
+            fixed = correct_page(
+                [row(bad)], [row(good)], [row(good)], [row(good)], [], [], 357
+            )
+            self.assertEqual(fixed[0]["text"], good)
+        protected = correct_page(
+            [row("“T saw the bush he likes to live on over there,”")],
+            [row("“I saw the bush he likes to live on over there,”")],
+            [row("“I saw the bush he likes to live on over there,”")],
+            [row("“I saw the bush he likes to live on over there,”")],
+            [],
+            [],
+            67,
+            protected_edits=[
+                {
+                    "before": "“T saw the bush he likes to live on over there,”",
+                    "after": "“I saw the bush he likes to live on over there,”",
+                }
+            ],
+        )
+        self.assertEqual(
+            protected[0]["text"], "“T saw the bush he likes to live on over there,”"
+        )
+        for evidence in ([], [row('"I shall doubt God," John thought.')]):
+            self.assertEqual(
+                correct_page(primary, evidence, peers, peers, [], [], 72)[0]["text"],
                 primary[0]["text"],
             )
 

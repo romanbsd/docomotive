@@ -437,6 +437,18 @@ def _page_blocks(n, rows, book, audit, first, policy=None):
                 if verse
                 else "heading" if re.fullmatch(r"CHAPTER \d+", text) else "text"
             )
+            if (
+                first
+                and last is None
+                and re.fullmatch(r"\d{1,2}", text.strip())
+                and 0.15 < y < 0.65
+                and r["bbox"][2] - r["bbox"][0] < 0.06
+                and 0.4 < (r["bbox"][0] + r["bbox"][2]) / 2 < 0.62
+                and n
+                not in book.get("reference_pages", []) + book.get("index_pages", [])
+            ):
+                kind = r["kind"] = "heading"
+                r["section_number"] = True
             geo = geometry.get(r["row_id"], {}) if kind == "text" else {}
             if geo.get("kind"):
                 kind = r["kind"] = geo["kind"]

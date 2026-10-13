@@ -1,1 +1,51 @@
-[]
+[
+  {
+    "page": 13,
+    "before": "bo The Knight of the Cart 164",
+    "after": "2. The Knight of the Cart 164",
+    "count": 1,
+    "evidence": "PDF page 13 contents line visibly prints 2. The Knight of the Cart 164; checked source crop"
+  },
+  {
+    "page": 30,
+    "before": "ring of Polycrates.’",
+    "after": "ring of Polycrates.",
+    "count": 1,
+    "evidence": "PDF page 30 scan prints a superscript 1 after the period, not a closing apostrophe; numeric note fallback supplies the marker"
+  },
+  {
+    "page": 96,
+    "before": "8 The Gawain-poet here identifies",
+    "after": "3 The Gawain-poet here identifies",
+    "count": 1,
+    "evidence": "PDF page 96 footer visibly prints raised note number 3; checked source crop"
+  },
+  {
+    "page": 100,
+    "before": "2S. N. Kramer, Sumerian Mythology",
+    "after": "2 S. N. Kramer, Sumerian Mythology",
+    "count": 1,
+    "evidence": "PDF page 100 footer visibly separates raised note number 2 from S. N. Kramer; checked source crop"
+  },
+  {
+    "page": 155,
+    "before": "“J shall take the adventure,”",
+    "after": "“I shall take the adventure,”",
+    "count": 1,
+    "evidence": "PDF page 155 scan visibly prints I; Vision and Rapid agree on the complete line, embedded text disagrees only later in the line"
+  },
+  {
+    "page": 206,
+    "before": "8 Rabelais parodies",
+    "after": "3 Rabelais parodies",
+    "count": 1,
+    "evidence": "PDF page 206 note visibly begins with a raised 3; checked source crop"
+  },
+  {
+    "page": 354,
+    "before": "sO (Buddha's temptation)",
+    "after": "(Buddha's temptation)",
+    "count": 1,
+    "evidence": "PDF page 354 index continuation visibly begins (Buddha's temptation) without a leading token; checked source crop"
+  }
+]

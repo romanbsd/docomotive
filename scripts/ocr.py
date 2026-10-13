@@ -8,6 +8,7 @@ import statistics
 import unicodedata
 from wordfreq import zipf_frequency
 from build_resources import page_text
+from common import edit_pattern
 
 TOKEN = re.compile(r"[\w]+(?:['’-][\w]+)*|[^\w\s]", re.UNICODE)
 
@@ -478,9 +479,9 @@ def repair_russian_letters(row, readings, change):
             )
 
 
-def repair_spaced_initial_compound(row, embedded_row, fresh, page, audit):
-    """Recover a damaged initial compound from spaced PDF text and fresh OCR."""
-    match = re.match(r"([A-Za-z]{3,}(?:-[A-Za-z]{3,})+)(?=\s)", row["text"])
+def repair_spaced_initial_word(row, embedded_row, fresh, page, audit):
+    """Recover a damaged initial small-cap word from spaced PDF text and OCR."""
+    match = re.match(r"([‘“\"]?)([A-Za-z]{3,}(?:-[A-Za-z]{3,})*)(?=\s)", row["text"])
     if not match or not embedded_row:
         return
     tail = comparable(row["text"])[1:]
@@ -497,42 +498,95 @@ def repair_spaced_initial_compound(row, embedded_row, fresh, page, audit):
         if not re.search(r"[A-Za-z]\s+[A-Za-z]", prefix):
             continue
         candidate = re.sub(r"\s+", "", prefix)
-        if not re.fullmatch(r"[A-Za-z]{3,}(?:-[A-Za-z]{3,})+", candidate):
+        if not re.fullmatch(r"[A-Za-z]{3,}(?:-[A-Za-z]{3,})*", candidate):
             continue
-        before = match.group()
+        before = match.group(2)
         if (
             before.casefold() == candidate.casefold()
+            or before[0].casefold() != candidate[0].casefold()
+            or abs(len(before) - len(candidate)) > 2
             or difflib.SequenceMatcher(
                 None, before.casefold(), candidate.casefold()
             ).ratio()
-            < 0.75
+            < (0.75 if "-" in candidate else 0.5)
         ):
             continue
-        corroborating = next(
-            (
-                witness["text"]
-                for witness in fresh
-                if witness
-                and (tokens := comparable(witness["text"]))
-                and tokens[0] == candidate.casefold()
-                and tokens[1:] == tail
-            ),
-            None,
-        )
-        if corroborating is None:
+        corroborating = [
+            witness["text"]
+            for witness in fresh
+            if witness
+            and (tokens := comparable(witness["text"]))
+            and tokens[0] == candidate.casefold()
+            and tokens[1:] == tail
+        ]
+        # Removing an opening quote also changes punctuation, so require both
+        # independent fresh engines in addition to the embedded text.
+        if len(corroborating) < (2 if match.group(1) else 1):
             continue
         row["text"] = candidate + row["text"][match.end() :]
         audit.append(
             dict(
                 page=page,
-                kind="spaced-initial-compound",
-                before=before,
+                kind=(
+                    "spaced-initial-compound"
+                    if "-" in candidate
+                    else "spaced-initial-word"
+                ),
+                before=match.group(),
                 after=candidate,
                 bbox=row["bbox"],
-                evidence=dict(embedded=embedded_text, fresh=corroborating),
+                evidence=dict(embedded=embedded_text, fresh=corroborating[0]),
             )
         )
         return
+
+
+def repair_three_witness_initial_word(row, witnesses, page, audit):
+    """Replace one initial OCR word when three other readings match the line."""
+    if any(w is None for w in witnesses):
+        return
+    own = comparable(row["text"])
+    peers = [comparable(w["text"]) for w in witnesses]
+    if len(own) < 4 or not all(len(p) == len(own) for p in peers):
+        return
+    if not all(p[0] == peers[0][0] and p[1:] == own[1:] for p in peers):
+        return
+    match = re.match(r"[‘“\"]?([A-Za-z]+)(?=\b)", row["text"])
+    if not match or not peers[0][0].isascii() or not peers[0][0].isalpha():
+        return
+    before, after = match.group(1), peers[0][0]
+    if before.casefold() == after or abs(len(before) - len(after)) > 2:
+        return
+    witness_words = [
+        re.match(r"[‘“\"]?([A-Za-z]+)(?=\b)", w["text"]) for w in witnesses
+    ]
+    witness_spellings = [
+        m.group(1) if m and m.group(1).casefold() == after else None
+        for m in witness_words
+    ]
+    corrected = (
+        witness_spellings[0]
+        if witness_spellings[0]
+        and all(word == witness_spellings[0] for word in witness_spellings)
+        else (
+            after.upper()
+            if before.isupper()
+            else after.capitalize() if before.istitle() else after
+        )
+    )
+    row["text"] = (
+        row["text"][: match.start(1)] + corrected + row["text"][match.end(1) :]
+    )
+    audit.append(
+        dict(
+            page=page,
+            kind="three-witness-initial-word",
+            before=before,
+            after=corrected,
+            bbox=row["bbox"],
+            evidence=[w["text"] for w in witnesses],
+        )
+    )
 
 
 def correct_page(
@@ -550,6 +604,7 @@ def correct_page(
     language="en",
     recover_index_digits=False,
     index_page_labels=None,
+    protected_edits=None,
 ):
     rows = merge_rows(primary)
     for row in rows:
@@ -716,7 +771,13 @@ def correct_page(
         # and otherwise match the entire line; embedded OCR is not a vote.
         normalize_quotes = lambda text: text.translate(str.maketrans("“”", '""'))
         fresh = witnesses[1:]
-        repair_spaced_initial_compound(row, witnesses[0], fresh, page, audit)
+        manual_overlay = any(
+            re.search(edit_pattern(edit), row["text"])
+            for edit in (protected_edits or [])
+        )
+        if not manual_overlay:
+            repair_spaced_initial_word(row, witnesses[0], fresh, page, audit)
+            repair_three_witness_initial_word(row, witnesses, page, audit)
         if recover_index_digits and all(fresh):
             # Numeric index references often confuse serif 1/I/l and 0/O.
             # Both fresh witnesses must agree on every token; unchanged words

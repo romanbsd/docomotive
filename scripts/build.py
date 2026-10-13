@@ -269,6 +269,10 @@ def build(
     audit = []
     review = []
     pages = {}
+    manual_corrections = json.loads((config / "corrections.json").read_text())
+    corrections_by_page = {}
+    for edit in manual_corrections:
+        corrections_by_page.setdefault(edit["page"], []).append(edit)
     native = book.get("text_source") == "native"
     provenance_records = []
     if native:
@@ -369,6 +373,7 @@ def build(
                 recover_index_digits=book.get("recover_index_digits", False)
                 and n in book.get("index_pages", []),
                 index_page_labels=index_page_labels,
+                protected_edits=corrections_by_page.get(n),
             )
         provenance_records = [
             json.loads((p / "provenance.json").read_text())
@@ -417,7 +422,7 @@ def build(
         write_json(out / "word-spacing-repair.json", spacing_report)
     apply_edits(
         [row for rows in pages.values() for row in rows],
-        json.loads((config / "corrections.json").read_text()),
+        manual_corrections,
         audit,
         "scan-verified-manual",
     )
@@ -519,6 +524,16 @@ def build(
     recover_opening_epigraphs(pages, book, audit)
     recover_scanned_headings(pages, book, audit)
     write_json(out / "corrected-pages.json", pages)
+    from text_quality import unclassified_note_footers
+
+    note_gaps = unclassified_note_footers(pages, book)
+    write_json(out / "footnote-region-gaps.json", note_gaps)
+    if note_gaps:
+        raise ValueError(
+            "Unclassified numbered footnote footer on PDF pages "
+            + ", ".join(str(item["page"]) for item in note_gaps)
+            + "; inspect footnote-region-gaps.json and the source scans"
+        )
     layout = infer(pages)
     write_json(out / "layout-analysis.json", layout)
     book["_layout"] = {
@@ -782,6 +797,13 @@ def build(
             model = reconstruct(pages, book, policy, audit, editorial_edits)
         write_json(out / "punctuation-analysis.json", punctuation_report)
         write_json(out / "corrected-pages.json", pages)
+    if any(
+        block.get("section_number") for chapter in model for block in chapter["blocks"]
+    ):
+        files["OEBPS/style.css"] += (
+            b"\n.section-number {text-align:center; font-size:1em; "
+            b"font-weight:normal; margin:1.5em 0 .4em;}\n"
+        )
     from figures import incorporate_figures
 
     figure_report = incorporate_figures(
@@ -820,6 +842,10 @@ def build(
     write_json(out / "apparatus-analysis.json", apparatus)
     text_coverage = coverage(pages, book, model)
     write_json(out / "text-coverage.json", text_coverage)
+    if text_coverage["status"] != "passed":
+        raise ValueError(
+            "Source-row coverage failed; inspect text-coverage.json before publishing"
+        )
     note_page_refs = {}
     ambiguous_note_refs = set()
     for chapter in model:
@@ -848,6 +874,32 @@ def build(
                 n: root
                 for n, root in chapter["note_targets"].items()
                 if root not in chapter.get("linked_note_roots", [])
+            },
+            _note_labels={
+                note["root_page"]: (
+                    str(numbers[0])
+                    if len(numbers) == 1
+                    else (
+                        f"{numbers[0]}–{numbers[-1]}"
+                        if numbers
+                        and numbers == list(range(numbers[0], numbers[-1] + 1))
+                        else None
+                    )
+                )
+                for note in chapter["notes"]
+                if (
+                    numbers := sorted(
+                        {
+                            int(match.group(1))
+                            for line in note.get("lines", [])
+                            if (
+                                match := re.match(
+                                    r"^\s*(\d{1,2})(?:\s+|\[|\.)", line["text"]
+                                )
+                            )
+                        }
+                    )
+                )
             },
             _index_note_refs=note_page_refs,
             _hanging=start
@@ -983,7 +1035,6 @@ def build(
     from figure_cleanup import ebook_media_inventory
 
     image_inventory = ebook_media_inventory(files)
-    write_epub(target, files)
     write_json(out / "book-model.json", model)
     write_json(out / "corrections-applied.json", audit)
     # Remove exact duplicate review rows without hiding distinct evidence.
@@ -1029,6 +1080,27 @@ def build(
     write_json(out / "ocr-comparison.json", review)
     review = [r for r in review if r["status"] == "needs-review"]
     write_json(out / "review-queue.json", review)
+    from text_quality import findings
+
+    quality_findings = findings(model, review)
+    write_json(
+        out / "text-quality.json",
+        dict(
+            status="blocked" if quality_findings else "passed",
+            high_risk=quality_findings,
+            remaining_review_items=len(review),
+        ),
+    )
+    if quality_findings:
+        examples = ", ".join(
+            f'page {item["page"]}: {item["primary"][:36]}'
+            for item in quality_findings[:5]
+        )
+        raise ValueError(
+            f"Unresolved high-risk OCR text ({len(quality_findings)} rows): {examples}. "
+            "Check text-quality.json and review the source scans."
+        )
+    write_epub(target, files)
     (out / (book["slug"] + ".txt")).write_text(plain_text(model))
     preview = out / "preview"
     preview.mkdir(exist_ok=True)
@@ -1064,6 +1136,7 @@ def build(
         "original_page_anchors": len(page_links),
         "correction_events": len(audit),
         "review_items": len(review),
+        "text_quality": "passed",
         # Geometry-matched decisions go stale when OCR is rerun; list them so
         # reviewed rows cannot silently drop back into, or out of, the queue.
         "unmatched_review_decisions": [

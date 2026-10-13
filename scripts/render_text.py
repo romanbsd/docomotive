@@ -145,7 +145,10 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
             label = book.get("page_labels", {}).get(
                 str(n), str(n + book.get("printed_page_offset", 0))
             )
-            content += f' <a class="note-link" epub:type="noteref" role="doc-noteref" href="#note-{targets[n]}" aria-label="{ui_label(book, "notes_page")}{html.escape(label, quote=True)}"><sup>{ui_label(book, "note_ref")}</sup></a>'
+            note_label = book.get("_note_labels", {}).get(targets[n]) or ui_label(
+                book, "note_ref"
+            )
+            content += f' <a class="note-link" epub:type="noteref" role="doc-noteref" href="#note-{targets[n]}" aria-label="{ui_label(book, "notes_page")}{html.escape(label, quote=True)}"><sup>{html.escape(note_label)}</sup></a>'
     if block.get("endnote"):
         backlinks = " ".join(
             '<a role="doc-backlink" href="'
@@ -208,7 +211,12 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
             if block.get("heading_id")
             else ""
         )
-        return "<h2" + anchor + ">" + content + "</h2>"
+        css = (
+            ' class="section-number"'
+            if any(line.get("section_number") for line in block.get("lines", []))
+            else ""
+        )
+        return "<h2" + css + anchor + ">" + content + "</h2>"
     css = ' class="reference"' if book.get("_hanging") else ""
     if not css and book.get("source_prose_indents") and block.get("continuation"):
         # Reconstruction measures whether the first source line is indented;

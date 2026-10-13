@@ -1332,3 +1332,47 @@ range proposals for review, one four-page printed offset run (-16), 15 sampled
 OCR pages and 47 unresolved links with source crops. The 30 proposals include
 front-matter and heading false positives, so no profile facts were accepted
 automatically. OCR peer agreement likewise does not identify the source truth.
+
+### King text and footnote completeness review (2026-10-13)
+
+The `b0bac02` baseline was rebuilt in a detached worktree against the same
+`work/king-and-the-corpse` and `work/models` caches. The new build has 18 changed
+OCR rows. Source crops confirm the initial-word repairs on PDF pages 72, 106,
+111, 123, 155, 156, 203, 250, 259, 301, 329 and 360. The remaining changes
+are source-checked corrections of the contents numeral on page 13, a false
+apostrophe where page 30 prints a raised note 1, note numbers 3 and 2 on pages
+96 and 100, note number 3 on page 206, and a spurious index token on page 354.
+The source-checked case of `Sais` on page 357 remains intact: consensus repair
+now preserves the three witnesses' capitalization. No other OCR rows changed.
+
+Printed small-type numbered footers on PDF pages 40, 92, 93, 96, 114, 280,
+290 and 332 were previously inside body text. Their boundaries were checked
+on the scans and recorded as note starts. The new build retains those rows as
+notes: source-row coverage remains passed, body rows fall from 11,724 to 11,609,
+note rows rise from 269 to 384, and excluded rows remain 845. EPUB footnote
+links and backlinks rise together from 63 to 71; all seven figures remain. The
+source page 42 section numeral, and the same layout on page 83, are centered in
+the EPUB. Fallback links now show source note numbers or a page's contiguous
+number range rather than `[note]`. The recovered page 40 footer is consequently
+readable as a footnote, not a misplaced paragraph.
+
+The release preflight now stops before EPUB writing on failed source-row
+coverage, an unclassified numbered footer, or unresolved high-risk opening OCR
+disagreement. It records the specific findings in JSON for scan review. This
+is a targeted completeness gate, not a claim that the remaining OCR review
+queue has been proofread. Exact inline marker placement remains unresolved in
+49 numeric-footnote cases; their note text and page-level backlinks are retained
+and their marker labels state the source note numbers or range.
+
+Selected earlier-book regression builds used a `b0bac02` worktree and the
+same cached inputs. *A Feeling for the Organism* changes only PDF page 176
+`ft` to the printed `fit` and its corresponding chapter XHTML; *Pharmako
+Poeia* changes only PDF page 255 `SOLANACEE` to the printed `SOLANACEAE` and
+its chapter XHTML. Both changes were verified on source crops. *Wizard of the
+Upper Amazon* has identical corrected rows, coverage and EPUB members to the
+baseline build; its existing manual page 67 correction keeps priority over
+three-witness automation. *Chosen by Spirits* likewise has identical corrected
+rows, coverage and EPUB members after section-number CSS was limited to books
+where a centered number was detected. Stored regression hashes for these books
+were already stale when their baseline commit was rebuilt, so they were not
+accepted as new baselines.
