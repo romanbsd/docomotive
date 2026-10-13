@@ -69,7 +69,13 @@ def prepare(items, source):
                 proposal_evidence=occurrence.get("proposal_evidence"),
                 candidate_signals={
                     k: item[k]
-                    for k in ("suggestions", "statistics", "reasons", "recommendation")
+                    for k in (
+                        "suggestions",
+                        "statistics",
+                        "reasons",
+                        "recommendation",
+                        "unchanged_feedback",
+                    )
                     if k in item
                 },
                 evidence=[],
@@ -147,7 +153,7 @@ def render(payload, summary_html=""):
                 else "<p>Exact row binding unavailable; retain this item for manual review. It cannot export a correction overlay.</p>"
             )
             sections.append(
-                f'<article id="{ident}"><h3><label><input class="selected" type="checkbox" {"disabled" if not r["binding"] else ""}> {escape(r["word"])}</label></h3><p>{escape(r["category"])} · chapter {escape(str(o["chapter"]))}</p><p>{snippet}</p>{images}{comparisons}{binding_note}<div>{radios}</div><label>Proposal <select class="proposal">{options}</select></label><label>Verified replacement / note <input class="replacement"></label><label><input class="reviewed" type="checkbox"> I checked this source occurrence</label></article>'
+                f'<article id="{ident}"><h3><label><input class="selected" type="checkbox" {"disabled" if not r["binding"] else ""}> {escape(r["word"])}</label></h3><button class="review-timer">Start review timer</button><p>{escape(r["category"])} · chapter {escape(str(o["chapter"]))}</p><p>{snippet}</p>{images}{comparisons}{binding_note}<div>{radios}</div><label>Proposal <select class="proposal">{options}</select></label><label>Verified replacement / note <input class="replacement"></label><label><input class="reviewed" type="checkbox"> I checked this source occurrence</label></article>'
             )
         cards.append(
             f'<section class="group"><h2>{escape(group)} · {len(members)} occurrences</h2><button class="select-all">Select eligible occurrences</button> <button class="clear">Clear selection</button><label><input class="batch-reviewed" type="checkbox"> I checked every selected source crop</label><button class="batch">Mark selected as reviewed OCR errors</button>{"".join(sections)}</section>'
@@ -157,6 +163,7 @@ def render(payload, summary_html=""):
     return (
         '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Scan-backed proofreading</title><style>body{font:17px/1.5 system-ui;max-width:1000px;margin:2em auto;padding:0 1em;background:#f5f4ef}article{background:white;padding:1.3em;margin:1em 0;border:1px solid #ddd}img{max-width:100%;height:auto}figure{margin:1em 0}label{display:inline-block;margin:.5em}pre{white-space:pre-wrap}input.replacement{width:25em;max-width:90%}button{padding:.6em}.group{border-top:2px solid #aaa}</style><h1>Scan-backed proofreading</h1>'
         f'<p>{len(records)} occurrences in {len(cards)} proposed error-pattern groups. Select individual occurrences for batch decisions. Deselection retains prior decisions; choose Keep source to exclude a previous correction. Grouping is a review aid, not evidence of correctness. Decisions stay in this browser; export to retain them. OCR confidence is engine-specific.</p><p id="storage-status" role="status"></p><button id="download">Export reviewed decisions</button>'
+        + "<p>Optional review timer: start when inspecting an occurrence. It pauses when you switch timers, hide this tab, acknowledge a decision or export. Untracked occurrences have no time estimate. Measurements stay in this browser and accompany the decision export.</p>"
         + summary_html
         + "".join(cards)
         + '<script id="review-data" type="application/json">'

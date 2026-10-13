@@ -381,3 +381,12 @@ using the same caches. The older stored baseline was not accepted or changed.
 [Review-workflow validation](review-workflow-evaluation.json) records per-case
 hashes, source coverage, link/figure counts, candidate coverage and helper
 fingerprints.
+
+## Follow-up: adaptive profiling and review efficiency
+
+The [follow-up review](adaptive-ocr-profiling.md) examines nine additional full
+texts, the CIS Profiler implementation and a page-held-out feedback experiment.
+Confirmed rare spellings add a few new candidates; broad pattern propagation
+also exposes correct controls. The 2017 profiling paper's adaptive improvement
+primarily concerns false-positive reduction, while uninterpretable-token handling
+addresses recall. Only the Xu & Smith repeated-passage full text remains pending.

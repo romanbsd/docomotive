@@ -60,6 +60,47 @@ def merge_review_items(results, proposals):
         merge_suggestions(existing["suggestions"], item["suggestions"], front=True)
 
 
+def exclusion_reason(word, dictionary, protected, sym, language):
+    """Shared production lexical detector; peer disagreements bypass this filter."""
+    low = word.lower()
+    if len(word) < 4:
+        return "short-token"
+    if low in protected:
+        return "protected"
+    if dictionary.lookup(word) or dictionary.lookup(low):
+        return "dictionary-known"
+    if all(dictionary.lookup(w) or w in protected for w in low.split("-")):
+        return "known-hyphen-parts"
+    if zipf_frequency(low, language) >= 2:
+        return "frequency-known"
+    if sym.lookup(low, Verbosity.TOP, max_edit_distance=0):
+        return "frequency-lexicon-known"
+    return None
+
+
+def lexical_suggestions(word, dictionary, sym):
+    choices = sym.lookup(word, Verbosity.CLOSEST, max_edit_distance=2)
+    suggestions = [
+        dict(
+            term=s.term,
+            distance=s.distance,
+            frequency=s.count,
+            hunspell_accepts=dictionary.lookup(s.term),
+        )
+        for s in choices[:5]
+    ]
+    compound = sym.lookup_compound(word, max_edit_distance=2)
+    if compound and compound[0].term != word and " " in compound[0].term:
+        suggestions.append(
+            dict(
+                term=compound[0].term,
+                distance=compound[0].distance,
+                kind="split-or-join",
+            )
+        )
+    return suggestions
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -73,6 +114,11 @@ def main():
     parser.add_argument("--profile", type=Path, default=ROOT / "config/book.json")
     parser.add_argument("--output", type=Path, default=ROOT / "output")
     parser.add_argument("--models", type=Path, default=ROOT / "work/models")
+    parser.add_argument(
+        "--feedback",
+        type=Path,
+        help="Latest source-checked decision export; advisory feedback on later pages only",
+    )
     parser.add_argument(
         "--work",
         type=Path,
@@ -169,20 +215,8 @@ def main():
             for match in TOKEN.finditer(text):
                 word = match.group()
                 low = word.lower()
-                if (
-                    len(word) < 4
-                    or low in protected
-                    or dictionary.lookup(word)
-                    or dictionary.lookup(low)
-                ):
+                if exclusion_reason(word, dictionary, protected, sym, language):
                     continue
-                if all(dictionary.lookup(w) or w in protected for w in low.split("-")):
-                    continue
-                if zipf_frequency(low, language) >= 2:
-                    continue
-                exact = sym.lookup(low, Verbosity.TOP, max_edit_distance=0)
-                if exact:
-                    continue  # already recognized by the pinned frequency lexicon
                 unknown[low].append(
                     {
                         "chapter": chapter,
@@ -201,25 +235,7 @@ def main():
                 )
     results = []
     for word, occurrences in sorted(unknown.items()):
-        choices = sym.lookup(word, Verbosity.CLOSEST, max_edit_distance=2)
-        suggestions = [
-            {
-                "term": s.term,
-                "distance": s.distance,
-                "frequency": s.count,
-                "hunspell_accepts": dictionary.lookup(s.term),
-            }
-            for s in choices[:5]
-        ]
-        compound = sym.lookup_compound(word, max_edit_distance=2)
-        if compound and compound[0].term != word and " " in compound[0].term:
-            suggestions.append(
-                {
-                    "term": compound[0].term,
-                    "distance": compound[0].distance,
-                    "kind": "split-or-join",
-                }
-            )
+        suggestions = lexical_suggestions(word, dictionary, sym)
         if lm:
             context = occurrences[0]["context"]
             for candidate in suggestions:
@@ -257,6 +273,18 @@ def main():
         )
     if witnesses:
         merge_review_items(results, witnesses.disagreements(model))
+    if args.feedback:
+        from review_feedback import FeedbackLedger
+
+        ledger = FeedbackLedger(
+            json.loads(args.feedback.read_text()),
+            json.loads((args.output / "corrected-pages.json").read_text()),
+            book["source_sha256"],
+            digest((args.output / "book-model.json").read_bytes()),
+            digest(args.profile.read_bytes()),
+        )
+        for item in results:
+            ledger.annotate(item)
     results.sort(key=lambda item: (item["review_priority"], item["word"]))
     write_json(
         args.output / "protected-term-proposals.json",
@@ -292,6 +320,12 @@ def main():
         "candidates": results,
         "grammar": grammar,
     }
+    if args.feedback:
+        manifest["feedback"] = dict(
+            export_sha256=digest(args.feedback.read_bytes()),
+            mode="advisory; earlier pages only; original items retained",
+            confirmed_records=len(ledger.records),
+        )
     write_json(args.output / "correction-candidates.json", manifest)
     print(f"{len(results)} distinct words for review; book unchanged")
 

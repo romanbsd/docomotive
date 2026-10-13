@@ -3,14 +3,16 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const script = fs.readFileSync('scripts/proofread_review.js', 'utf8');
-function setup(restored, restoredKey, label = 'bad') {
+function setup(restored, restoredKey, label = 'bad', restoredMetrics) {
   let exported;
+  let now = 0, visibility;
   function article(id, disabled = false) {
     const fields = {
       '.selected': {checked: false, disabled},
       '.replacement': {value: ''}, '.reviewed': {checked: false},
       '.proposal': {value: ''}
     };
+    fields['.review-timer'] = {textContent: 'Start review timer'};
     const radios = ['keep', 'ocr-error', 'printed-typo', 'uncertain'].map(value => ({value, _checked: false}));
     for (const radio of radios) Object.defineProperty(radio, 'checked', {
       get() { return this._checked; },
@@ -49,15 +51,21 @@ function setup(restored, restoredKey, label = 'bad') {
   const expectedKey = "docomotive-proof-v2-source-model-profile";
   const stored = {};
   if (restored !== undefined) stored[restoredKey || expectedKey] = restored;
+  if (restoredMetrics !== undefined) stored[expectedKey + '-metrics-v1'] = restoredMetrics;
   const context = {document: {
+    hidden: false,
+    addEventListener(event, fn) { assert.equal(event, 'visibilitychange'); visibility = fn; },
     getElementById(id) { const result = {'review-data': {textContent: JSON.stringify(payload)}, 'storage-status': status, download}[id]; assert.ok(result); return result; },
     querySelectorAll(s) { if (s === 'article') return articles; if (s === '.group') return [group]; assert.fail('Unexpected document selector: ' + s); },
     createElement(s) { assert.equal(s, 'a'); return {click() {}}; }
   }, localStorage: {getItem: k => stored[k], setItem: (k,v) => stored[k] = v},
   URL: {createObjectURL(blob) { exported = blob.text; return 'blob:test'; }, revokeObjectURL() {}},
-  Blob: class {constructor(parts) { this.text = parts.join(''); }}, setTimeout: fn => fn()};
+  Blob: class {constructor(parts) { this.text = parts.join(''); }}, setTimeout: fn => fn(), performance: {now: () => now}};
   vm.runInNewContext(script, context);
-  return {articles, controls, group, payload, status, download, stored, expectedKey, exported: () => exported, clearExport: () => {exported = undefined;}};
+  return {articles, controls, group, payload, status, download, stored, expectedKey,
+    advance(ms) {now += ms;}, hide() {context.document.hidden = true; visibility();},
+    show() {context.document.hidden = false; visibility();},
+    exported: () => exported, clearExport: () => {exported = undefined;}};
 }
 function change(article, cls) { article.change({target: {classList: {contains: c => c === cls}, value: article.fields['.' + cls].value}}); }
 const t = setup();
@@ -132,3 +140,33 @@ differentLabel.controls['.batch'].onclick();
 assert.equal(differentLabel.articles[0].radios[1].checked, false);
 assert.match(differentLabel.status.textContent, /1 selected occurrences skipped/);
 console.log('Review controls passed: strict selectors, assets, proposals, exclusions, acknowledgements, trimmed exports and state restoration.');
+
+const timed = setup();
+timed.articles[0].fields['.review-timer'].onclick();
+timed.advance(100);
+timed.articles[1].fields['.review-timer'].onclick(); // Switch: no overlapping clocks.
+timed.advance(200); timed.hide();
+timed.advance(10000); timed.show(); // Hidden time never counted.
+timed.articles[0].fields['.review-timer'].onclick();
+timed.advance(50);
+timed.articles[0].radios[0].checked = true;
+timed.articles[0].fields['.reviewed'].checked = true; change(timed.articles[0], 'reviewed');
+timed.advance(1000); timed.download.onclick();
+let measured = JSON.parse(timed.exported()).review_metrics;
+assert.equal(measured.active_ms, 350);
+assert.equal(measured.tracked_occurrences.length, 2);
+assert.equal(measured.tracked_occurrences[0].active_ms, 150);
+assert.equal(measured.tracked_occurrences[0].starts, 2);
+assert.equal(measured.tracked_occurrences[1].active_ms, 200);
+assert.ok(!measured.tracked_occurrences.some(r => r.id === 'unbound'));
+const resumed = setup(undefined, undefined, 'bad', JSON.stringify({first: {active_ms: 150, starts: 2}, obsolete: {active_ms: 900, starts: 1}}));
+resumed.articles[0].fields['.review-timer'].onclick(); resumed.advance(25); resumed.download.onclick();
+measured = JSON.parse(resumed.exported()).review_metrics;
+assert.equal(measured.active_ms, 175);
+assert.equal(measured.tracked_occurrences.length, 1);
+assert.equal(measured.tracked_occurrences[0].starts, 3);
+const malformedTiming = setup(undefined, undefined, 'bad', JSON.stringify({first: {active_ms: -1, starts: 1}, excluded: {active_ms: 10, starts: 1.5}}));
+malformedTiming.download.onclick();
+assert.equal(JSON.parse(malformedTiming.exported()).review_metrics.active_ms, 0);
+assert.deepEqual(JSON.parse(malformedTiming.exported()).review_metrics.tracked_occurrences, []);
+console.log('Review timers passed: switching, hidden time, acknowledgements, resume, malformed state and untimed items.');

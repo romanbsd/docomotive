@@ -1,0 +1,45 @@
+{
+  "repository": "https://github.com/cisocrgroup/Profiler",
+  "revision": "59bd0f21141a26ea36aea24cce2b4aefa89dc02a",
+  "retrieved_on": "2026-10-13",
+  "inspection_scope": "README, adaptive candidate selection, adaptive lexicon, Profiler header and official manual; not a complete code audit",
+  "files": [
+    {
+      "file": "Profiler-README.md",
+      "url": "https://raw.githubusercontent.com/cisocrgroup/Profiler/59bd0f21141a26ea36aea24cce2b4aefa89dc02a/README.md",
+      "sha256": "d305e3ae3b29891344411d9bd6cdb46a4c3be49042f503165ea7eb4ef14ff3a4",
+      "bytes": 1225
+    },
+    {
+      "file": "AdaptiveProfiling.cxx",
+      "url": "https://raw.githubusercontent.com/cisocrgroup/Profiler/59bd0f21141a26ea36aea24cce2b4aefa89dc02a/Profiler/AdaptiveProfiling.cxx",
+      "sha256": "fb6242d41f7f49638b677a3dd6b4ec93f68e197c469cd78deea63394194e2029",
+      "bytes": 3231
+    },
+    {
+      "file": "Profiler.h",
+      "url": "https://raw.githubusercontent.com/cisocrgroup/Profiler/59bd0f21141a26ea36aea24cce2b4aefa89dc02a/Profiler/Profiler.h",
+      "sha256": "66d9dd6de762ef69705b5493871d35cfe80657ce0a0dcae89491cd4ba1c0ccf9",
+      "bytes": 14265
+    },
+    {
+      "file": "AdaptiveLex.cxx",
+      "url": "https://raw.githubusercontent.com/cisocrgroup/Profiler/59bd0f21141a26ea36aea24cce2b4aefa89dc02a/DictSearch/AdaptiveLex.cxx",
+      "sha256": "6899e98b07c0fd9160e176893d303a16b9b393413de7daa80466166e8f0a1ae7",
+      "bytes": 3848
+    },
+    {
+      "file": "profiler-manual.md",
+      "url": "https://raw.githubusercontent.com/cisocrgroup/Resources/master/manuals/profiler-manual.md",
+      "sha256": "bab36f8920238c37a2130fcbf9ac9368ddc0badd8e854ce2d21517206cbfda72",
+      "bytes": 51075
+    }
+  ],
+  "execution": "Not compiled or run; no profiling service called",
+  "findings": [
+    "Human correction metadata selects the adaptive candidate branch.",
+    "Corrections outside the existing lexicon can be added to the adaptive lexicon.",
+    "Adaptive lexicon lookup uses bounded Levenshtein matching; it does not prove that a candidate is correct.",
+    "Manual requires compiled language resources, historical patterns and an XML-oriented native toolchain; no drop-in integration was evaluated."
+  ]
+}

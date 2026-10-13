@@ -9,6 +9,42 @@ from common import apply_edits, digest, file_digest, load_profile, read_json, wr
 from book_model import row_id
 
 
+def checked_binding(record, row_index):
+    """Validate exact source evidence for corrections and confirmed keep decisions."""
+    binding = record.get("binding")
+    required = {
+        "row_id",
+        "page",
+        "start",
+        "end",
+        "row_text_sha256",
+        "before",
+        "bbox",
+    }
+    if not isinstance(binding, dict) or not required <= binding.keys():
+        raise ValueError("Correction needs a complete source-row binding")
+    if type(binding["page"]) != int or not isinstance(binding["row_id"], str):
+        raise ValueError("Invalid source-row identity")
+    matches = row_index.get((binding["page"], binding["row_id"]), [])
+    if len(matches) != 1:
+        raise ValueError("Reviewed source row is missing or ambiguous")
+    row = matches[0]
+    start, end = binding["start"], binding["end"]
+    if (
+        type(start) != int
+        or type(end) != int
+        or not 0 <= start < end <= len(row["text"])
+    ):
+        raise ValueError("Invalid reviewed occurrence offsets")
+    if (
+        digest(row["text"].encode()) != binding["row_text_sha256"]
+        or row["text"][start:end] != binding["before"]
+        or row["bbox"] != binding["bbox"]
+    ):
+        raise ValueError("Reviewed source row or occurrence changed")
+    return row
+
+
 def checked_overlays(payload, pages, source_hash, model_hash, profile_hash, kind="ocr"):
     if (
         not isinstance(payload, dict)
@@ -56,40 +92,12 @@ def checked_overlays(payload, pages, source_hash, model_hash, profile_hash, kind
         ):
             raise ValueError("Correction needs an occurrence ID and a text replacement")
         after = replacement.strip()
-        required = {
-            "row_id",
-            "page",
-            "start",
-            "end",
-            "row_text_sha256",
-            "before",
-            "bbox",
-        }
-        if not isinstance(binding, dict) or not required <= binding.keys():
-            raise ValueError("Correction needs a complete source-row binding")
+        row = checked_binding(record, row_index)
         if not after or after == binding["before"]:
             raise ValueError(
                 "A correction needs an exact row binding and a changed replacement"
             )
-        if type(binding["page"]) != int or not isinstance(binding["row_id"], str):
-            raise ValueError("Invalid source-row identity")
-        matches = row_index.get((binding["page"], binding["row_id"]), [])
-        if len(matches) != 1:
-            raise ValueError("Reviewed source row is missing or ambiguous")
-        row = matches[0]
         start, end = binding["start"], binding["end"]
-        if (
-            type(start) != int
-            or type(end) != int
-            or not 0 <= start < end <= len(row["text"])
-        ):
-            raise ValueError("Invalid reviewed occurrence offsets")
-        if (
-            digest(row["text"].encode()) != binding["row_text_sha256"]
-            or row["text"][start:end] != binding["before"]
-            or row["bbox"] != binding["bbox"]
-        ):
-            raise ValueError("Reviewed source row or occurrence changed")
         key = row["page"], row["row_id"], start, end
         if key in selected and selected[key][1] != after:
             raise ValueError("Conflicting replacements for one occurrence")

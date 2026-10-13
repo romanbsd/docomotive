@@ -48,6 +48,10 @@ corrections, merge them into the profile and rebuild.
 - [Regression checks](#regression-checks)
 - [Reproducibility and limits](#reproducibility-and-limits)
 - [Classical correction research and papers](docs/classical-ocr-correction.md)
+- [Adaptive profiling and review-efficiency research](docs/adaptive-ocr-profiling.md)
+- [Prioritized OCR improvements and simple-method evaluation](docs/ocr-improvement-plan.md)
+- [Production review-rule evaluation and local timing](docs/production-review-evaluation.md)
+- [Experimental source-bound book feedback](docs/review-feedback.md)
 
 ## Setup and usage
 

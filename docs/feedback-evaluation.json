@@ -1,0 +1,1733 @@
+{
+  "purpose": "Oracle earlier-page corrections and separate counterfactual keep feedback; advisory only",
+  "seed_policy": "First 20 percent of annotated pages, not book pages or all tokens",
+  "summary": {
+    "held_errors": 72,
+    "baseline_answers": 51,
+    "additional_answers": 0,
+    "errors_with_feedback_suggestions": 3,
+    "held_controls": 71,
+    "controls_with_feedback_suggestions": 0,
+    "deprioritized_errors": 0,
+    "deprioritized_controls": 0
+  },
+  "splits": [
+    {
+      "book": "natural",
+      "seed_pages": [
+        96,
+        110
+      ],
+      "correction_seed_ids": [
+        "natural-10",
+        "natural-50"
+      ],
+      "counterfactual_keep_seed_ids": [
+        "natural-10-retain",
+        "natural-50-retain"
+      ]
+    },
+    {
+      "book": "organism",
+      "seed_pages": [
+        68
+      ],
+      "correction_seed_ids": [
+        "organism-3"
+      ],
+      "counterfactual_keep_seed_ids": [
+        "organism-3-retain"
+      ]
+    },
+    {
+      "book": "otherworlds",
+      "seed_pages": [
+        4,
+        30,
+        49,
+        53,
+        59,
+        63
+      ],
+      "correction_seed_ids": [
+        "otherworlds-0",
+        "otherworlds-19",
+        "otherworlds-38",
+        "otherworlds-39",
+        "otherworlds-46",
+        "otherworlds-49",
+        "otherworlds-50"
+      ],
+      "counterfactual_keep_seed_ids": [
+        "otherworlds-0-retain",
+        "otherworlds-19-retain",
+        "otherworlds-38-retain",
+        "otherworlds-39-retain",
+        "otherworlds-46-retain",
+        "otherworlds-49-retain",
+        "otherworlds-50-retain"
+      ]
+    },
+    {
+      "book": "pharmako",
+      "seed_pages": [
+        38,
+        67,
+        73
+      ],
+      "correction_seed_ids": [
+        "pharmako-0",
+        "pharmako-3",
+        "pharmako-13",
+        "pharmako-15"
+      ],
+      "counterfactual_keep_seed_ids": [
+        "pharmako-0-retain",
+        "pharmako-3-retain",
+        "pharmako-13-retain",
+        "pharmako-15-retain"
+      ]
+    },
+    {
+      "book": "wizard-upper-amazon",
+      "seed_pages": [
+        20,
+        32,
+        39,
+        42,
+        45
+      ],
+      "correction_seed_ids": [
+        "wizard-upper-amazon-1",
+        "wizard-upper-amazon-3",
+        "wizard-upper-amazon-5",
+        "wizard-upper-amazon-6",
+        "wizard-upper-amazon-8"
+      ],
+      "counterfactual_keep_seed_ids": [
+        "wizard-upper-amazon-1-retain",
+        "wizard-upper-amazon-3-retain",
+        "wizard-upper-amazon-5-retain",
+        "wizard-upper-amazon-6-retain",
+        "wizard-upper-amazon-8-retain"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "natural-15",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "natural-15-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "natural-22",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "natural-22-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "natural-27",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "natural-27-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "natural-55",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "natural-55-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "natural-56",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "natural-56-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "organism-1",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "organism-1-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "organism-2",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "organism-2-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-51",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-51-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-61",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-61-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-69",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-69-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-71",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-71-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-73",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-73-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-74",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-74-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-79",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-79-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-83",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-83-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-84",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-84-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-99",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-99-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-104",
+      "expected": "correct",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-104-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-115",
+      "expected": "correct",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-115-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-118",
+      "expected": "correct",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-118-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-120",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-120-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-126",
+      "expected": "correct",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-126-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-133",
+      "expected": "correct",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-133-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-134",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-134-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-136",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-136-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-143",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-143-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-147",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-147-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-149",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-149-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-152",
+      "expected": "correct",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-152-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-153",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-153-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-156",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-156-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-157",
+      "expected": "correct",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-157-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-160",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-160-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-161",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-161-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-163",
+      "expected": "correct",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-163-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-167",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-167-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-170",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-170-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-185",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-185-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-186",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-186-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-194",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-194-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-219",
+      "expected": "correct",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-219-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-225",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "otherworlds-225-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-1",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-1-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-2",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-2-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-4",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-4-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-5",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-5-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-6",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-6-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-9",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-9-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-10",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-10-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-11",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-11-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-14",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-14-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-17",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "pharmako-17-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-9",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [
+        {
+          "term": "xuma",
+          "kind": "confirmed-book-feedback",
+          "generators": [
+            "aligned-ocr-witnesses",
+            "confirmed-book-feedback"
+          ],
+          "proposal_evidence": {
+            "engines": [
+              "vision",
+              "rapid"
+            ],
+            "readings": [
+              "Each of us drank his cupful of honi xuma, the",
+              "Each of us drank his cupful of honi xuma, the"
+            ],
+            "anchors": [
+              3,
+              3
+            ]
+          },
+          "distance": 1,
+          "attested_forms": [
+            "xuma"
+          ],
+          "feedback_records": [
+            {
+              "id": "wizard-upper-amazon-5",
+              "page": 39,
+              "form": "xuma",
+              "decision": "ocr-error",
+              "binding": {
+                "page": 39,
+                "row_id": "wizard-upper-amazon-5",
+                "bbox": [
+                  0.11696359411309062,
+                  0.792242532322782,
+                  0.879163439194423,
+                  0.8131966116807846
+                ],
+                "before": "kuma",
+                "start": 41,
+                "end": 45,
+                "row_text_sha256": "a34a28e4f61a639b47ab777abfb1a9059af276a82b485b4b527f1c0e015eb2db"
+              }
+            }
+          ]
+        }
+      ],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-9-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-11",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-11-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-12",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-12-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-17",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [
+        {
+          "term": "xuma",
+          "distance": 2,
+          "kind": "confirmed-book-feedback",
+          "generators": [
+            "confirmed-book-feedback",
+            "witnessed-book-vocabulary"
+          ],
+          "attested_count": 3,
+          "attested_pages": [
+            97,
+            141,
+            192
+          ],
+          "attested_forms": [
+            "xuma"
+          ],
+          "attestations": [
+            {
+              "page": 97,
+              "row_id": "raw-97-19",
+              "bbox": [
+                0.11928737412858248,
+                0.5626393223361569,
+                0.5213013168086754,
+                0.5813642443156487
+              ],
+              "form": "xuma"
+            },
+            {
+              "page": 141,
+              "row_id": "raw-141-23",
+              "bbox": [
+                0.12238574748257164,
+                0.6633972358448507,
+                0.48334624322230824,
+                0.6825679893000446
+              ],
+              "form": "xuma"
+            },
+            {
+              "page": 192,
+              "row_id": "raw-192-3",
+              "bbox": [
+                0.12626265004772697,
+                0.578431372359342,
+                0.8838383789926766,
+                0.6002906969115006
+              ],
+              "form": "xuma"
+            }
+          ],
+          "feedback_records": [
+            {
+              "id": "wizard-upper-amazon-5",
+              "page": 39,
+              "form": "xuma",
+              "decision": "ocr-error",
+              "binding": {
+                "page": 39,
+                "row_id": "wizard-upper-amazon-5",
+                "bbox": [
+                  0.11696359411309062,
+                  0.792242532322782,
+                  0.879163439194423,
+                  0.8131966116807846
+                ],
+                "before": "kuma",
+                "start": 41,
+                "end": 45,
+                "row_text_sha256": "a34a28e4f61a639b47ab777abfb1a9059af276a82b485b4b527f1c0e015eb2db"
+              }
+            }
+          ]
+        }
+      ],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-17-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-22",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-22-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-27",
+      "expected": "correct",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-28",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-28-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-30",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-30-retain",
+      "expected": "retain",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-31",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-31-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-33",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-33-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-36",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-36-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-38",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-38-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-41",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-41-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-48",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-48-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-54",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [
+        {
+          "term": "iuxibo",
+          "distance": 1,
+          "frequency": 1,
+          "hunspell_accepts": false,
+          "kind": "confirmed-book-feedback",
+          "generators": [
+            "aligned-ocr-witnesses",
+            "confirmed-book-feedback",
+            "general-lexicon"
+          ],
+          "proposal_evidence": {
+            "engines": [
+              "vision",
+              "rapid"
+            ],
+            "readings": [
+              "again. Sickness, they believed, came from Iuxibo,",
+              "again. Sickness, they believed, came from Iuxibo,"
+            ],
+            "anchors": [
+              2,
+              2
+            ]
+          },
+          "attested_forms": [
+            "iuxibo"
+          ],
+          "feedback_records": [
+            {
+              "id": "wizard-upper-amazon-8",
+              "page": 45,
+              "form": "iuxibo",
+              "decision": "ocr-error",
+              "binding": {
+                "page": 45,
+                "row_id": "wizard-upper-amazon-8",
+                "bbox": [
+                  0.11851278079008519,
+                  0.637539010254124,
+                  0.8807126258714174,
+                  0.6576014266607223
+                ],
+                "before": "iuaibo",
+                "start": 24,
+                "end": 30,
+                "row_text_sha256": "74fd4b3b47bec6ee6d1bc512687057ca217fec52d4f4fd81d0fc8f833dc21207"
+              }
+            }
+          ]
+        }
+      ],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-54-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-55",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-55-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-63",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-63-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-64",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-64-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-68",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-68-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-70",
+      "expected": "correct",
+      "detected": true,
+      "baseline_answer": true,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    },
+    {
+      "id": "wizard-upper-amazon-70-retain",
+      "expected": "retain",
+      "detected": false,
+      "baseline_answer": false,
+      "additional_answer": false,
+      "feedback_suggestions": [],
+      "unchanged_feedback": null,
+      "deprioritized": false
+    }
+  ],
+  "input_sha256": "744aaaf69ccae502e5dffec231460b77cbba527a09cc5aa1ba44a00dc198fcce",
+  "baseline_sha256": "f2d297e681a2228b49cd1bb5ce100691c812005bbed6de465d1d9d5726f7626d",
+  "helpers_sha256": {
+    "feedback_research.py": "44d4da56bc5e85760ff2d6cee0b1ed07c7bcbcf489d2554a87cb599f9cc45d3a",
+    "review_feedback.py": "bd5444afd696d88e3ff9dd3e64d5e907383e4f29b090f948d1557221b130d02b",
+    "review_edits.py": "49132d0d1e1c98b5e8e5cf519c0fe47a42a4ceab45067b4864363b43cdc7d974",
+    "candidates.py": "759dd5e62c3adf75baa2af7df46f0ce0dfecc32796d10af24e23e97125447f04"
+  }
+}

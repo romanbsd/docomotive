@@ -11,6 +11,32 @@ function persist() {
   try { localStorage.setItem(key, JSON.stringify(decisions)); }
   catch (e) { status.textContent = 'Browser storage unavailable; export before closing.'; }
 }
+// Explicit occurrence timing, local only. Pauses on switching, hiding or export.
+const metricsKey = key + '-metrics-v1';
+let metrics = {}, active = null;
+try {
+  const restored = JSON.parse(localStorage.getItem(metricsKey) || '{}');
+  for (const id of records.keys()) {
+    const m = restored && restored[id];
+    if (m && Number.isFinite(m.active_ms) && m.active_ms >= 0 && Number.isInteger(m.starts) && m.starts >= 0)
+      metrics[id] = {active_ms: m.active_ms, starts: m.starts};
+  }
+} catch (e) { /* Missing timing never invalidates a source decision. */ }
+function pauseReview() {
+  if (!active) return;
+  metrics[active.id].active_ms += Math.max(0, performance.now() - active.started);
+  active.button.textContent = 'Start review timer';
+  active = null;
+  try { localStorage.setItem(metricsKey, JSON.stringify(metrics)); }
+  catch (e) { status.textContent = 'Timing storage unavailable; export to retain measurements.'; }
+}
+document.addEventListener('visibilitychange', () => { if (document.hidden) pauseReview(); });
+function reviewMetrics() {
+  const tracked = payload.items.filter(r => metrics[r.id]).map(r => ({id: r.id, ...metrics[r.id]}));
+  return {format_version: 1, mode: 'Explicit local active time; no measured correctness or inferred time for untracked items',
+    active_ms: tracked.reduce((sum, r) => sum + r.active_ms, 0), tracked_occurrences: tracked,
+    groups_started: new Set(tracked.map(r => records.get(r.id).group).filter(Boolean)).size};
+}
 function hasChangedReplacement(value, binding) {
   return Boolean(binding && typeof value === 'string' && value.trim() && value.trim() !== binding.before);
 }
@@ -22,10 +48,21 @@ function save(article) {
   decisions[article.id] = {decision: choice ? choice.value : null,
     replacement_or_note: article.querySelector('.replacement').value,
     reviewed: article.querySelector('.reviewed').checked};
+  if (active && active.id === article.id && choice && decisions[article.id].reviewed) pauseReview();
   persist();
 }
 for (const article of document.querySelectorAll('article')) {
   const r = records.get(article.id), d = decisions[article.id] || {};
+  const timer = article.querySelector('.review-timer');
+  timer.onclick = () => {
+    const wasActive = active && active.id === article.id;
+    pauseReview();
+    if (wasActive || document.hidden) return;
+    metrics[article.id] ||= {active_ms: 0, starts: 0};
+    metrics[article.id].starts++;
+    active = {id: article.id, started: performance.now(), button: timer};
+    timer.textContent = 'Pause review timer';
+  };
   article.querySelector('.replacement').value = d.replacement_or_note || '';
   article.querySelector('.reviewed').checked = d.reviewed === true;
   for (const radio of article.querySelectorAll('input[type=radio]')) radio.checked = radio.value === d.decision;
@@ -67,10 +104,11 @@ for (const group of document.querySelectorAll('.group')) {
   };
 }
 document.getElementById('download').onclick = () => {
+  pauseReview();
   const selected = payload.items.filter(r => decisions[r.id] && decisions[r.id].decision).map(r => ({...r, candidate_signals: (payload.candidate_evidence || {})[r.candidate_signals_key], ...decisions[r.id]}));
   const invalid = selected.filter(r => ['ocr-error','printed-typo'].includes(r.decision) && (!r.reviewed || !hasChangedReplacement(r.replacement_or_note, r.binding)));
   if (invalid.length) { status.textContent = invalid.length + ' corrections need a changed replacement, an exact row binding and a checked-source acknowledgement before export.'; return; }
-  const output = {format_version: 2, source_sha256: payload.source_sha256, model_sha256: payload.model_sha256, profile_sha256: payload.profile_sha256, mode: 'review-only; not automatically applied', decisions: selected};
+  const output = {format_version: 2, source_sha256: payload.source_sha256, model_sha256: payload.model_sha256, profile_sha256: payload.profile_sha256, mode: 'review-only; not automatically applied', review_metrics: reviewMetrics(), decisions: selected};
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([JSON.stringify(output, null, 2)], {type: 'application/json'}));
   a.download = 'proofreading-decisions.json'; a.click();

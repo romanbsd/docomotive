@@ -1164,3 +1164,121 @@ case results, fold results and aggregate metrics replay identically. The prior
 confined to review/research helpers, tests and documentation, and no build/OCR
 acceptance/reconstruction/rendering source changed. No stored baseline was
 accepted. Browser layout/download smoke testing remains unverified.
+
+### Adaptive document profiling and review-efficiency follow-up
+
+[The follow-up review](adaptive-ocr-profiling.md) archives seven more primary PDFs
+(17 total), inspects pinned CIS Profiler adaptive candidate/lexicon code, and
+separates Fink et al.'s false-positive reduction from the recall gain supplied by
+uninterpretable-token handling. Three full texts remain pending retrieval.
+
+The offline `scripts/adaptive_profile_research.py` experiment adds confirmed
+same-book spellings and single short-chunk transformations as advisory candidates.
+Whole annotated pages are held out. First-20%-page feedback adds one correct
+candidate among 72 later errors and exposes 5/71 correct controls to alternatives;
+first-50% feedback adds two among 45 errors and exposes 10/45 controls. An
+optimistic every-other-page diagnostic increases candidate coverage from 70/91
+to 73/91 while exposing 35/90 controls. Two new answers are occurrences of the
+same rare `iuxibo` spelling; the third is `con → eon`. These are candidate-recall
+results, not detector precision, automatic edits or time savings. Fractions
+refer to annotated error pages, not the entire book or token population.
+
+Adaptive unchanged-form suppression, a no-suggestion unresolved queue, timed
+counterbalanced review studies and missing-candidate language classification
+remain separate hypotheses. The crowdsourcing study uses injected errors;
+AdaptOCR's pilot uses different samples and its handwriting route uses an LLM.
+Neither establishes measured efficiency for this pipeline. All 475 Python tests
+pass, four added tests guard feedback isolation and candidate scope, and the
+experiment replays identically. Production source and regression baselines are
+unchanged; no EPUB rebuild was needed.
+
+#### Supplied Reffle full texts: completed review
+
+The user supplied `docs/papers/reffle2013.pdf` and `reffle2011.pdf`; both were
+read in full and added to the manifest with source provenance and checksums.
+The archive now has 19 verified PDFs, and only Xu & Smith (2017) remains pending.
+The [updated follow-up](adaptive-ocr-profiling.md) distinguishes the 2011 virtual
+historical candidate generator from the 2013 EM-style document profiler.
+
+The 2013 ranking gains condition on the correct answer already being in the
+candidate pool; exact lexical matches bypass error interpretation. Recurring
+names, historical/OCR ambiguity and sparse errors in short documents are observed
+failure modes. The 2011 evaluation measures speed and candidate counts on injected
+errors, not source-faithful correction precision. Its nonoverlapping historical
+rewrites and separate traces are useful design constraints, but valid language/
+period resources and appropriate test labels are prerequisites. No EM or finite-
+state method was run, and the previous feedback experiment/results are unchanged.
+Document identity, key tables, PDF checksums and local links were checked; this
+update changes documentation only.
+
+### Simple-method research and prioritized improvement plan
+
+The [new plan](ocr-improvement-plan.md) adds four primary-source papers (Furrer &
+Volk 2011, Reynaert 2016, Smith 2011 and Neudecker et al. 2021), bringing the
+archive to 23 PDFs. The research-only `scripts/simple_ocr_research.py` evaluates
+literal/accent-key vocabulary lookup, edit-radius expansion, bounded shared
+trigrams, raw recurrence, peer candidate injection, queue ordering and simulated
+confirmed-unchanged feedback on frozen evidence.
+
+Peer strings add four answers to the previous 70/91 research pool. This is a
+benchmark omission: the production review CLI already merges anchored two-peer
+disagreements. It is not four newly demonstrated pipeline recoveries. Raw
+recurrence adds one distinct answer (`mapiá`); trigrams add only `university`,
+already supplied by peers. Radius 3 and accent lookup add none. Of 21 missing
+answers only one appears in the witnessed research bank; nine carry diacritics.
+The bank is weaker than production's aligned distinct-page vocabulary, and the
+paired controls are synthetic, so these results establish neither whole-book
+precision nor production gains.
+
+Unknown-first review ordering finds 37 errors in 50 selected-case slots versus
+32 for peer-first; no time savings were measured. Initial-20%-annotated-page
+unchanged feedback deprioritizes two synthetic controls and no held-out known
+error. The plan starts with production-equivalent evaluation and review telemetry,
+then book-local confirmed forms and timed group/context experiments. Broader
+fuzzy matching and complete EM/finite-state systems are deferred until their
+prerequisites and unique gains justify them. Frozen results are in
+`simple-ocr-evaluation.json`; production outputs and baselines remain unchanged.
+
+### Production review-rule benchmark and local timing
+
+[Implementation notes](production-review-evaluation.md) and
+[frozen results](production-candidate-evaluation.json) evaluate shared CLI detection
+and capped lexical suggestions plus production `ReviewWitnesses` rules on exact,
+unrepaired source-row fixtures. Whole annotated pages are excluded from vocabulary.
+These fixtures honor chapter ranges but do not reproduce full reconstructed-layout
+inclusion, so the result is not end-to-end built-book recall.
+
+Of 91 selected errors, 79 surface for review and 62 receive the reviewed answer.
+Six short tokens, five dictionary-valid words and one frequent word are filtered
+out. Peer proposals supply 29 answers, including 21 unique to that generator;
+general suggestions supply 38 and witnessed vocabulary 28, with overlap. The prior
+70/91 and 74/91 pools bypassed detection/display limits and used a weaker bank:
+the new figure exposes evaluation scope rather than an output regression.
+
+An optional occurrence timer records local explicit inspection time, pauses on
+switch/hide/acknowledgement/export, and adds source/model/profile-bound
+`review_metrics` to decision exports. Untimed occurrences receive no estimate;
+source correctness and actual efficiency remain prospective measurements.
+Queue ordering and automatic acceptance remain unchanged. All 488 Python tests
+and strict JavaScript tests pass. Full baseline/current candidate CLI outputs for
+Natural Mind and Wizard of the Upper Amazon match byte-for-byte; the benchmark
+also replays identically. No EPUB or baseline acceptance was required.
+
+### Confirmed-form feedback: implemented, no unique forward gain
+
+[The opt-in ledger](review-feedback.md) derives earlier-page advisory vocabulary
+and unchanged-form priority hints from the latest source/model/profile-bound
+decision snapshot. Exact row validation is shared with reviewed overlay export.
+Only acknowledged OCR-error and keep decisions with complete alphabetic token
+bindings qualify; editorial proposals and uncertainty do not seed forms. Removing
+a decision revokes it, and peer conflicts veto deprioritization. No items are
+hidden and no automatic edits are applied.
+
+`scripts/feedback_research.py` evaluates the shipped ledger against the frozen
+production-rule pool. First-20%-annotated-page feedback adds **zero** answers to
+51 baseline answers among 72 later selected errors. Three errors receive advisory
+suggestions but are already covered. No suggestions reach 71 later synthetic
+controls and no errors or controls are deprioritized. This does not demonstrate
+review savings or a useful detector expansion; the option remains experimental.
+Natural correct-text samples and further reviewed rare forms are prerequisites
+for promoting the direction. Results are in `feedback-evaluation.json`.
