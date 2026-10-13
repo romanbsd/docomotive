@@ -4,6 +4,9 @@ A local-first research pipeline for converting scanned DjVu files and scanned or
 
 See [docs/research.md](docs/research.md) for per-book findings, conversion recipes, measurements, artifacts and experiments.
 
+See [evaluation methods and calculations](docs/evaluation.md) for detection,
+candidate coverage, correction damage, CER/WER and timed-review measurements.
+
 ## Pipeline overview
 
 `scripts/pipeline.py` coordinates source diagnostics, extraction, building,

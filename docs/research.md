@@ -1282,3 +1282,21 @@ controls and no errors or controls are deprioritized. This does not demonstrate
 review savings or a useful detector expansion; the option remains experimental.
 Natural correct-text samples and further reviewed rare forms are prerequisites
 for promoting the direction. Results are in `feedback-evaluation.json`.
+
+### Formal evaluation tooling
+
+The offline [metrics evaluator](evaluation.md) computes detection confusion
+matrices, candidate Recall@k, generator contributions, exact correction precision
+and damage, full-page CER/WER, paired book/page bootstrap intervals and
+gold-scored timed-review outcomes. Complete-page inputs require full source-span
+coverage, checked source identities and calibration/test separation by book.
+This adds measurements without changing correction or review behavior.
+
+The frozen selected-case experiment gives 79/91 detection recall (86.8%), 62/91
+full-pool answer coverage (68.1%), and stored-order Recall@5 of 60/91 (65.9%).
+Its TP=79, FP=21, TN=69, FN=12 give diagnostic F1=82.7%. Counterfactual controls
+and omitted contextual reranking prevent interpreting these as population F1 or
+deployed top-k ranking performance. Representative precision, page CER/WER and
+review savings remain unmeasured pending new annotations and prospective timed
+sessions. Calculations and input/helper fingerprints are in
+`evaluation-metrics.json`; editable annotation and study templates are provided.

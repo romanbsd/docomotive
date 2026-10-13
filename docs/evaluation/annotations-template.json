@@ -1,0 +1,21 @@
+{
+  "format_version": 1,
+  "normalization": "NFC",
+  "unit": "source_span",
+  "sampling": "random_complete_pages",
+  "output_kind": "automatic",
+  "transcription_policy": "REPLACE: specify literal transcription, page scope, reading order and whitespace policy",
+  "pages": [
+    {
+      "book": "REPLACE",
+      "page": 1,
+      "source_sha256": null,
+      "source_checked": false,
+      "split": "test",
+      "before": "",
+      "truth": "",
+      "output": "",
+      "units": []
+    }
+  ]
+}

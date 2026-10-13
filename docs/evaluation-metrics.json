@@ -1,0 +1,295 @@
+{
+  "mode": "selected_case_diagnostic",
+  "scope": "Shipped candidate rules on raw source-row fixtures, not full reconstructed-layout recall or corpus precision",
+  "warning": "Selected errors and counterfactual correct controls; precision/F1/false alarms below are sample diagnostics, not population estimates. Context reranking omitted in input: Recall@k reflects stored generator order, not deployed contextual ranking.",
+  "summary": {
+    "case_control_diagnostic": {
+      "tp": 79,
+      "fp": 21,
+      "tn": 69,
+      "fn": 12,
+      "precision": 0.79,
+      "recall": 0.8681318681318682,
+      "f1": 0.8272251308900523,
+      "f0_5": 0.8044806517311609,
+      "false_positive_rate": 0.23333333333333334,
+      "correct_words": 90,
+      "false_alarm_units_per_1000_correct_words": 233.33333333333334
+    },
+    "candidate_availability": {
+      "errors": 91,
+      "detected_errors": 79,
+      "full_pool_answers": 62,
+      "full_pool_recall": 0.6813186813186813,
+      "conditional_full_pool_recall": 0.7848101265822784,
+      "recall_at_k": {
+        "1": {
+          "answers": 50,
+          "recall": 0.5494505494505495,
+          "conditional_recall": 0.6329113924050633
+        },
+        "3": {
+          "answers": 59,
+          "recall": 0.6483516483516484,
+          "conditional_recall": 0.7468354430379747
+        },
+        "5": {
+          "answers": 60,
+          "recall": 0.6593406593406593,
+          "conditional_recall": 0.759493670886076
+        }
+      },
+      "mean_proposals_per_detected_error": 3.3417721518987342
+    },
+    "review_budgets": {
+      "available": false,
+      "reason": "Need finite review scores for all surfaced units; no labels used to invent ranking"
+    }
+  },
+  "by_book": {
+    "natural": {
+      "case_control_diagnostic": {
+        "tp": 6,
+        "fp": 0,
+        "tn": 7,
+        "fn": 1,
+        "precision": 1.0,
+        "recall": 0.8571428571428571,
+        "f1": 0.9230769230769231,
+        "f0_5": 0.967741935483871,
+        "false_positive_rate": 0.0,
+        "correct_words": 7,
+        "false_alarm_units_per_1000_correct_words": 0.0
+      },
+      "candidate_availability": {
+        "errors": 7,
+        "detected_errors": 6,
+        "full_pool_answers": 5,
+        "full_pool_recall": 0.7142857142857143,
+        "conditional_full_pool_recall": 0.8333333333333334,
+        "recall_at_k": {
+          "1": {
+            "answers": 5,
+            "recall": 0.7142857142857143,
+            "conditional_recall": 0.8333333333333334
+          },
+          "3": {
+            "answers": 5,
+            "recall": 0.7142857142857143,
+            "conditional_recall": 0.8333333333333334
+          },
+          "5": {
+            "answers": 5,
+            "recall": 0.7142857142857143,
+            "conditional_recall": 0.8333333333333334
+          }
+        },
+        "mean_proposals_per_detected_error": 2.8333333333333335
+      },
+      "review_budgets": {
+        "available": false,
+        "reason": "Need finite review scores for all surfaced units; no labels used to invent ranking"
+      }
+    },
+    "organism": {
+      "case_control_diagnostic": {
+        "tp": 3,
+        "fp": 2,
+        "tn": 1,
+        "fn": 0,
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1": 0.75,
+        "f0_5": 0.6521739130434783,
+        "false_positive_rate": 0.6666666666666666,
+        "correct_words": 3,
+        "false_alarm_units_per_1000_correct_words": 666.6666666666666
+      },
+      "candidate_availability": {
+        "errors": 3,
+        "detected_errors": 3,
+        "full_pool_answers": 2,
+        "full_pool_recall": 0.6666666666666666,
+        "conditional_full_pool_recall": 0.6666666666666666,
+        "recall_at_k": {
+          "1": {
+            "answers": 0,
+            "recall": 0.0,
+            "conditional_recall": 0.0
+          },
+          "3": {
+            "answers": 2,
+            "recall": 0.6666666666666666,
+            "conditional_recall": 0.6666666666666666
+          },
+          "5": {
+            "answers": 2,
+            "recall": 0.6666666666666666,
+            "conditional_recall": 0.6666666666666666
+          }
+        },
+        "mean_proposals_per_detected_error": 4.666666666666667
+      },
+      "review_budgets": {
+        "available": false,
+        "reason": "Need finite review scores for all surfaced units; no labels used to invent ranking"
+      }
+    },
+    "otherworlds": {
+      "case_control_diagnostic": {
+        "tp": 33,
+        "fp": 9,
+        "tn": 33,
+        "fn": 9,
+        "precision": 0.7857142857142857,
+        "recall": 0.7857142857142857,
+        "f1": 0.7857142857142857,
+        "f0_5": 0.7857142857142857,
+        "false_positive_rate": 0.21428571428571427,
+        "correct_words": 42,
+        "false_alarm_units_per_1000_correct_words": 214.28571428571428
+      },
+      "candidate_availability": {
+        "errors": 42,
+        "detected_errors": 33,
+        "full_pool_answers": 21,
+        "full_pool_recall": 0.5,
+        "conditional_full_pool_recall": 0.6363636363636364,
+        "recall_at_k": {
+          "1": {
+            "answers": 18,
+            "recall": 0.42857142857142855,
+            "conditional_recall": 0.5454545454545454
+          },
+          "3": {
+            "answers": 21,
+            "recall": 0.5,
+            "conditional_recall": 0.6363636363636364
+          },
+          "5": {
+            "answers": 21,
+            "recall": 0.5,
+            "conditional_recall": 0.6363636363636364
+          }
+        },
+        "mean_proposals_per_detected_error": 2.727272727272727
+      },
+      "review_budgets": {
+        "available": false,
+        "reason": "Need finite review scores for all surfaced units; no labels used to invent ranking"
+      }
+    },
+    "pharmako": {
+      "case_control_diagnostic": {
+        "tp": 14,
+        "fp": 9,
+        "tn": 5,
+        "fn": 0,
+        "precision": 0.6086956521739131,
+        "recall": 1.0,
+        "f1": 0.7567567567567568,
+        "f0_5": 0.660377358490566,
+        "false_positive_rate": 0.6428571428571429,
+        "correct_words": 14,
+        "false_alarm_units_per_1000_correct_words": 642.8571428571429
+      },
+      "candidate_availability": {
+        "errors": 14,
+        "detected_errors": 14,
+        "full_pool_answers": 13,
+        "full_pool_recall": 0.9285714285714286,
+        "conditional_full_pool_recall": 0.9285714285714286,
+        "recall_at_k": {
+          "1": {
+            "answers": 11,
+            "recall": 0.7857142857142857,
+            "conditional_recall": 0.7857142857142857
+          },
+          "3": {
+            "answers": 12,
+            "recall": 0.8571428571428571,
+            "conditional_recall": 0.8571428571428571
+          },
+          "5": {
+            "answers": 13,
+            "recall": 0.9285714285714286,
+            "conditional_recall": 0.9285714285714286
+          }
+        },
+        "mean_proposals_per_detected_error": 4.928571428571429
+      },
+      "review_budgets": {
+        "available": false,
+        "reason": "Need finite review scores for all surfaced units; no labels used to invent ranking"
+      }
+    },
+    "wizard-upper-amazon": {
+      "case_control_diagnostic": {
+        "tp": 23,
+        "fp": 1,
+        "tn": 23,
+        "fn": 2,
+        "precision": 0.9583333333333334,
+        "recall": 0.92,
+        "f1": 0.9387755102040817,
+        "f0_5": 0.9504132231404959,
+        "false_positive_rate": 0.041666666666666664,
+        "correct_words": 24,
+        "false_alarm_units_per_1000_correct_words": 41.666666666666664
+      },
+      "candidate_availability": {
+        "errors": 25,
+        "detected_errors": 23,
+        "full_pool_answers": 21,
+        "full_pool_recall": 0.84,
+        "conditional_full_pool_recall": 0.9130434782608695,
+        "recall_at_k": {
+          "1": {
+            "answers": 16,
+            "recall": 0.64,
+            "conditional_recall": 0.6956521739130435
+          },
+          "3": {
+            "answers": 19,
+            "recall": 0.76,
+            "conditional_recall": 0.8260869565217391
+          },
+          "5": {
+            "answers": 19,
+            "recall": 0.76,
+            "conditional_recall": 0.8260869565217391
+          }
+        },
+        "mean_proposals_per_detected_error": 3.217391304347826
+      },
+      "review_budgets": {
+        "available": false,
+        "reason": "Need finite review scores for all surfaced units; no labels used to invent ranking"
+      }
+    }
+  },
+  "representative_detection_metrics": null,
+  "confidence_intervals": null,
+  "correction_metrics": null,
+  "page_cer_wer": null,
+  "review_efficiency": null,
+  "unavailable_reason": "Need complete source-checked natural pages, actual correction outputs and independently scored timed sessions",
+  "generator_contributions": {
+    "aligned-ocr-witnesses": {
+      "answers": 29,
+      "unique_answers": 21
+    },
+    "general-lexicon": {
+      "answers": 38,
+      "unique_answers": 9
+    },
+    "witnessed-book-vocabulary": {
+      "answers": 28,
+      "unique_answers": 1
+    }
+  },
+  "format_version": 1,
+  "input_sha256": "f2d297e681a2228b49cd1bb5ce100691c812005bbed6de465d1d9d5726f7626d",
+  "helper_sha256": "a8fd38ad7b00b0391642816240b83d6b40a5619e11d7cd129e8c31247035b81c",
+  "common_sha256": "1ccb3b2b97956d31adcc46c80fa5cd05d1051bc5be04eae6dde2465b17a2b4e2"
+}
