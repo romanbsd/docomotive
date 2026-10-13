@@ -11,6 +11,60 @@ from common import digest, write_json
 from build_resources import measured
 
 POLICY = "paper-field-v1"
+EBOOK_MAX_EDGE = 1600
+
+
+def ebook_size(image):
+    """Bound embedded artwork to an ebook-reader display, without upscaling."""
+    original = image.size
+    if max(original) <= EBOOK_MAX_EDGE:
+        return image, dict(
+            original=list(original), embedded=list(original), resized=False
+        )
+    output = image.copy()
+    output.thumbnail((EBOOK_MAX_EDGE, EBOOK_MAX_EDGE), Image.Resampling.LANCZOS)
+    return output, dict(
+        original=list(original), embedded=list(output.size), resized=True
+    )
+
+
+def ebook_jpeg_asset(data):
+    """Keep small source JPEGs intact; resize oversized cover/artwork assets."""
+    with Image.open(io.BytesIO(data)) as source:
+        image, evidence = ebook_size(source)
+        if not evidence["resized"]:
+            return data, evidence
+        return jpeg_export(image.convert("RGB"), quality=85), evidence
+
+
+def ebook_image_asset(data):
+    """Resize a source JPEG or PNG while preserving its packaged media type."""
+    with Image.open(io.BytesIO(data)) as source:
+        image, evidence = ebook_size(source)
+        if not evidence["resized"]:
+            return data, evidence
+        if source.format == "JPEG":
+            return jpeg_export(image.convert("RGB"), quality=85), evidence
+        if source.format == "PNG":
+            output = io.BytesIO()
+            image.save(output, format="PNG", optimize=True)
+            return output.getvalue(), evidence
+        raise ValueError("Unsupported embedded image format")
+
+
+def ebook_media_inventory(files):
+    """Fail if any image ingress bypassed the reader-size policy."""
+    result = []
+    for name, data in sorted(files.items()):
+        if not name.startswith("OEBPS/") or not name.lower().endswith(
+            (".jpg", ".jpeg", ".png")
+        ):
+            continue
+        with Image.open(io.BytesIO(data)) as image:
+            if max(image.size) > EBOOK_MAX_EDGE:
+                raise ValueError(f"Oversized EPUB image {name}: {image.size}")
+            result.append(dict(name=name, pixels=list(image.size), bytes=len(data)))
+    return result
 
 
 def design(x, y):

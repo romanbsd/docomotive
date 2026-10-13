@@ -73,7 +73,17 @@ def _verify_cleanup(output, book, editorial=False, baseline=None):
             before, after = pixels(original), pixels(master)
             exported = pixels(result)
             require(before.shape == after.shape, name + ": dimensions changed")
-            require(exported.shape == after.shape, name + ": export dimensions changed")
+            resized = evidence.get("ebook_resize", {})
+            expected_size = tuple(
+                resized.get("embedded", [after.shape[1], after.shape[0]])
+            )
+            require(
+                exported.shape[:2] == expected_size[::-1],
+                name + ": export dimensions changed",
+            )
+            target_master = np.asarray(
+                Image.fromarray(after).resize(expected_size, Image.Resampling.LANCZOS)
+            )
             check = dict(
                 name=name, status=evidence["status"], kind=evidence.get("kind")
             )
@@ -90,7 +100,14 @@ def _verify_cleanup(output, book, editorial=False, baseline=None):
                 )
                 check["protected_pixels_unchanged"] = True
             else:
-                source_lum, result_lum = before.mean(axis=2), exported.mean(axis=2)
+                source_for_export = np.asarray(
+                    Image.fromarray(before).resize(
+                        expected_size, Image.Resampling.LANCZOS
+                    )
+                )
+                source_lum, result_lum = source_for_export.mean(axis=2), exported.mean(
+                    axis=2
+                )
                 # A smoothed local reference avoids counting bright JPEG/paper
                 # noise spikes as faint ink. This is a diagnostic, not proof that
                 # every meaningful stroke survives; full-resolution review matters.
@@ -121,17 +138,18 @@ def _verify_cleanup(output, book, editorial=False, baseline=None):
                 )
             # JPEG error is separate from normalization; protected photo pixels
             # remain exact in the master, not necessarily in the final encoding.
-            target = after
+            target = target_master
             if evidence.get("color", {}).get("mode") == "L":
                 with Image.open(io.BytesIO(result)) as image:
                     require(image.mode == "L", name + ": grayscale codec mismatch")
-                gray = np.asarray(Image.fromarray(after).convert("L"))
+                gray = np.asarray(Image.fromarray(target_master).convert("L"))
                 target = np.repeat(gray[:, :, None], 3, axis=2)
                 check["grayscale_conversion_rgb_rmse"] = float(
                     np.sqrt(
                         np.mean(
                             np.square(
-                                target.astype(np.float64) - after.astype(np.float64)
+                                target.astype(np.float64)
+                                - target_master.astype(np.float64)
                             )
                         )
                     )

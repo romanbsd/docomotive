@@ -15,6 +15,12 @@ class SourceProposalTests(unittest.TestCase):
             clipped_observation([-0.0005, 0.1, 0.9, 1.0001], 1000, 1200),
             [0, 0.1, 0.9, 1],
         )
+        self.assertEqual(
+            clipped_observation([-0.0013617199080839, 0.2, 0.4, 0.3], 772, 2475),
+            [0, 0.2, 0.4, 0.3],
+        )
+        with self.assertRaises(ValueError):
+            clipped_observation([-0.003, 0.1, 0.9, 0.2], 772, 2475)
         with self.assertRaises(ValueError):
             clipped_observation([-0.01, 0.1, 0.9, 0.2], 1000, 1200)
         with self.assertRaises(ValueError):

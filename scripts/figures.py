@@ -10,12 +10,17 @@ from common import digest
 
 
 def crop_artwork(page, rect, dpi=300, excluded_overlays=(), raster_only=False):
-    """Legacy JPEG export; its encoding remains unchanged for existing books."""
+    """JPEG export with a bounded embedded size for ebook readers."""
     result, evidence = crop_artwork_pixels(
         page, rect, dpi, excluded_overlays, raster_only
     )
+    from figure_cleanup import ebook_size
+
+    result, evidence["ebook_resize"] = ebook_size(result)
     out = io.BytesIO()
-    options = dict(format="JPEG", quality=95)
+    options = dict(
+        format="JPEG", quality=90 if evidence["ebook_resize"]["resized"] else 95
+    )
     if evidence["method"] == "rendered-page":
         options["dpi"] = result.info["dpi"]
     result.save(out, **options)
@@ -324,12 +329,15 @@ def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
         cleanup_evidence = None
         data = crop
         if cleanup != "white" and color_export:
-            from figure_cleanup import export_color, jpeg_export
+            from figure_cleanup import export_color, jpeg_export, ebook_size
 
             # An explicit source-reviewed color policy also works without
             # paper normalization; encode once from uncompressed crop pixels.
             export, color_evidence = export_color(crop, book["figure_color_mode"])
-            data = jpeg_export(export, quality=95)
+            export, crop_evidence["ebook_resize"] = ebook_size(export)
+            data = jpeg_export(
+                export, quality=90 if crop_evidence["ebook_resize"]["resized"] else 95
+            )
             crop_evidence["color"] = color_evidence
         if cleanup == "white":
             from pathlib import Path
@@ -338,6 +346,7 @@ def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
                 png_bytes,
                 jpeg_export,
                 export_color,
+                ebook_size,
             )
 
             # Normalize the cropped source pixels before the sole JPEG encode.
@@ -350,6 +359,10 @@ def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
             export, color_evidence = export_color(
                 normalized, book.get("figure_color_mode", "auto")
             )
+            export, crop_evidence["ebook_resize"] = ebook_size(export)
+            if crop_evidence["ebook_resize"]["resized"]:
+                quality = min(quality, 90)
+            cleanup_evidence["ebook_resize"] = crop_evidence["ebook_resize"]
             data = jpeg_export(export, quality=quality)
             directory = Path(cleanup_dir)
             (directory / "originals").mkdir(parents=True, exist_ok=True)

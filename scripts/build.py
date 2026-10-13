@@ -538,6 +538,9 @@ def build(
             files[f"OEBPS/{name}.jpg"] = (
                 doc[n - 1].get_pixmap(dpi=200).pil_tobytes(format="JPEG", quality=90)
             )
+        from figure_cleanup import ebook_jpeg_asset
+
+        files[f"OEBPS/{name}.jpg"], _ = ebook_jpeg_asset(files[f"OEBPS/{name}.jpg"])
     downloaded_cover = None
     if book.get("cover_file"):
         from metadata import cover_info
@@ -547,7 +550,9 @@ def build(
         info = cover_info(data)
         if info["sha256"] != cover["sha256"] or info["format"] != "JPEG":
             raise ValueError("Supplied cover checksum or format changed")
-        files["OEBPS/cover.jpg"] = data
+        from figure_cleanup import ebook_jpeg_asset
+
+        files["OEBPS/cover.jpg"], _ = ebook_jpeg_asset(data)
     for candidate in enrichment.get("covers", []):
         if not candidate.get("accepted"):
             continue
@@ -559,13 +564,18 @@ def build(
             raise ValueError("Downloaded cover checksum mismatch")
         suffix = asset.suffix
         downloaded_cover = "downloaded-cover" + suffix
+        from figure_cleanup import ebook_image_asset
+
+        data, _ = ebook_image_asset(data)
         files["OEBPS/" + downloaded_cover] = data
         if (
             candidate["suitable_main_cover"]
             and suffix == ".jpg"
             and not book.get("cover_file")
         ):
-            files["OEBPS/cover.jpg"] = data
+            from figure_cleanup import ebook_jpeg_asset
+
+            files["OEBPS/cover.jpg"], _ = ebook_jpeg_asset(data)
         break
     publisher_image = ""
     if book.get("publisher_mark"):
@@ -573,6 +583,11 @@ def build(
             doc[book["publisher_mark"]["page"] - 1]
             .get_pixmap(dpi=300, clip=pymupdf.Rect(book["publisher_mark"]["rect"]))
             .tobytes("png")
+        )
+        from figure_cleanup import ebook_image_asset
+
+        files["OEBPS/publisher-mark.png"], _ = ebook_image_asset(
+            files["OEBPS/publisher-mark.png"]
         )
         publisher_image = '<img class="publisher-mark" src="publisher-mark.png" alt="Publisher mark"/>'
     spine = []
@@ -965,6 +980,9 @@ def build(
         b'<?xml version="1.0"?><container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container"><rootfiles><rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/></rootfiles></container>'
     )
     target = out / (book["slug"] + ("-corrected" if editorial else "") + ".epub")
+    from figure_cleanup import ebook_media_inventory
+
+    image_inventory = ebook_media_inventory(files)
     write_epub(target, files)
     write_json(out / "book-model.json", model)
     write_json(out / "corrections-applied.json", audit)
@@ -1035,6 +1053,7 @@ def build(
         "epub_sha256": digest(target.read_bytes()),
         "source_pages": len(doc),
         "figures": figure_report,
+        "embedded_images": image_inventory,
         "apparatus": apparatus,
         "ambiguous_index_note_references": sorted(ambiguous_note_refs),
         "chapter_count": len(book["chapters"]),
