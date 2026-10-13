@@ -192,7 +192,7 @@ This offline benchmark compares the current note-crop path, fixed thresholds, Ot
 | Analyze the whole book | Chapter TF-IDF, spelling recurrence and page/chapter spread; reference/index evidence separated | `vocabulary-analysis.json`, `protected-term-proposals.json` |
 | Render | Deterministic EPUB ZIP and XHTML/internal-link checks | EPUB, text, `report.json`, `preview/` |
 | Propose corrections | Hunspell via Spylls, SymSpell, word frequency, witnessed book vocabulary and anchored OCR disagreements; optional scoring adapters | `correction-candidates.json` |
-| Review | Offline scan crops, witnesses, text contexts and optional bounded Jev proposals | `proofreading-review.html`, `note-review.html`, JSON evidence |
+| Review | Focused OCR peer-consensus crops, full occurrence review and optional bounded Jev proposals | `review-focus.html`, `proofreading-review.html`, `note-review.html`, JSON evidence |
 | Validate the EPUB | EPUBCheck runs after the optional candidate/review-sheet stages | `epubcheck.json` |
 
 For a profile with `slug: "my-book"`, the main deliverables in the selected
@@ -204,6 +204,7 @@ output directory are:
 | `book-model.json`, `corrected-pages.json` | Canonical source-linked structure and corrected row evidence |
 | `report.json`, `text-coverage.json`, `corrections-applied.json` | Build summary, retained-source coverage and correction audit |
 | `correction-candidates.json`, `proofreading-review.html` | Advisory queue and scan-backed occurrence review, unless `--skip-lexical` |
+| `review-focus.html`, `review-focus.json` | Small first-pass source crops for OCR peer consensus; all other disagreements remain in `review-queue.json` |
 | `epubcheck.json` | External EPUB validation results from the coordinator |
 | `preview/` | XHTML and image assets for inspection |
 
@@ -411,6 +412,24 @@ For older books without a verified ISBN, `openlibrary_edition` accepts an exact 
 ISBN association does not approve a cover. Wrong editions, placeholders, conflicting records and low-resolution images require review. A supplied checked local cover or deterministic typographic cover can be used. Copyright text is reflowed without a copyright-page scan. Unsupported metadata is left absent rather than invented.
 
 ## Optional Jev review
+
+The coordinator creates `review-focus.html` from cached OCR disagreements.
+It puts three-peer and fresh-peer consensus first, with source crops beside the
+readings; this is an inspection order, not an automatic correction. Its decision
+export includes only entries explicitly marked as scan checked. The full queue
+remains in `review-queue.json`. To prepare at most 20 text-only Jev
+questions for single-token disagreements where the two fresh engines agree but
+the embedded witness does not, without sending excerpts:
+
+```sh
+.venv/bin/python scripts/review_focus.py SOURCE.pdf --profile config/my-book/book.json \
+  --input output/my-book --output output/my-book/review-focus.html \
+  --jev-preview output/my-book/jev-review-preview.json
+```
+
+The preview records `sent: false` and the exact request hash. Jev can rank
+contextual plausibility after local triage; it cannot read the source pixels,
+so a crop check remains necessary before an edit.
 
 `scripts/jev_rank.py` ranks supplied lexical candidates against context. `scripts/jev_notes.py` ranks existing OCR-backed ambiguous citation locations. Both use pinned `jev-1.13.0`, validated Choice responses and content-addressed caches. Jev accepts text rather than images; its confidence cannot establish scan fidelity. Results are review proposals, not automatic book edits.
 

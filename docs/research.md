@@ -1376,3 +1376,39 @@ rows, coverage and EPUB members after section-number CSS was limited to books
 where a centered number was detected. Stored regression hashes for these books
 were already stale when their baseline commit was rebuilt, so they were not
 accepted as new baselines.
+
+### Low-cost numeric call recovery and focused review (2026-10-13)
+
+A `cb3a6fc` baseline was rebuilt in a detached worktree using the same King OCR
+and model caches. On this ABBYY scan the hidden text uses `^` at many printed
+superscripts, including places where the main OCR reads `*`, `?`, a quote or
+nothing. The new shared fallback uses that caret only as a position proposal:
+it matches exactly one body row, finds one small raised component at that source
+coordinate, requires two agreeing local digit readings with no conflicting
+digit, and permits only a bounded punctuation-gap edit. Ambiguity abstains.
+It runs only after the wider numeric search finds zero verified calls, and never
+infers a digit from a note sequence or from Jev text ranking.
+
+For King, 15 formerly unresolved calls on PDF pages 30, 40, 51, 97, 102,
+118, 140, 174, 191, 208, 216, 219, 261, 283 and 292 were recovered. Every
+placement and numeral was checked on an enlarged source crop. The remaining
+unresolved count fell from 49 to 34; source-row coverage and its counts are
+identical to baseline. The word diff consists only of those 15 marker gaps.
+Only eight chapter XHTML members change; 71 noterefs, 71 backlinks and seven
+figures remain. This method needs no external request. Its repeated Tesseract
+crop modes are stability checks, not independent OCR engines.
+
+`review_focus.py` provides a smaller first pass over the existing OCR review
+queue. King has 51 rows where embedded, Vision and Rapid agree against the
+primary, 50 where Vision and Rapid agree, and 252 other disagreement rows. All
+353 stay in JSON; the 101 consensus rows get source crops in a 2.6 MB offline
+sheet. The sheet exports only explicitly scan-checked decisions and never edits
+the book. A 19-question, 16.8 KB Jev Choice request preview for single-token
+fresh-peer ambiguities was prepared with `sent: false`; Jev cannot inspect the
+scan. Neither the queue order nor this preview has measured review-time savings.
+A source-bound timed study remains necessary before claiming that it is faster.
+
+An earlier numeric-footnote book, *Chosen by Spirits*, was rebuilt with the
+same caches at `cb3a6fc` and with this change. Its corrected rows, canonical
+model, coverage and all EPUB members are identical; the stored regression hash
+was already stale and was not accepted.

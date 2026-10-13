@@ -441,6 +441,75 @@ class FontSizeGuardTests(unittest.TestCase):
 
 
 class InteriorCallTests(unittest.TestCase):
+    def test_embedded_caret_needs_one_source_glyph_and_checked_gap(self):
+        import io
+        from types import SimpleNamespace
+        from numeric_footnotes import embedded_caret_calls
+
+        witness = "ring of Poly crates.^"
+        caret_at = witness.index("^")
+        chars = [
+            dict(
+                c=c,
+                bbox=(
+                    [134.3, 169.7, 139.5, 180.7]
+                    if i == caret_at
+                    else [0, 169.7, 1, 180.7]
+                ),
+            )
+            for i, c in enumerate(witness)
+        ]
+        image = Image.new("L", (370, 594), 255)
+        buffer = io.BytesIO()
+        image.save(buffer, format="PNG")
+
+        class Page:
+            rect = SimpleNamespace(width=370, height=594)
+
+            def get_text(self, mode):
+                self_mode = mode
+                assert self_mode == "rawdict"
+                return {"blocks": [{"lines": [{"spans": [{"chars": chars}]}]}]}
+
+            def get_pixmap(self, **kwargs):
+                return SimpleNamespace(tobytes=lambda fmt: buffer.getvalue())
+
+        row = dict(text="ring of Polycrates.", bbox=[0.13, 0.285, 0.38, 0.305])
+        with (
+            patch("numeric_footnotes.components", return_value=[(136, 170, 139, 174)]),
+            patch("numeric_footnotes.glyph_readings", return_value=["I", "1", "1"]),
+        ):
+            calls = embedded_caret_calls(Page(), [row], 0.75, "1")
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls[0]["change"]["after"], ".1")
+        with (
+            patch("numeric_footnotes.components", return_value=[(136, 170, 139, 174)]),
+            patch("numeric_footnotes.glyph_readings", return_value=["1", "2", "1"]),
+        ):
+            self.assertEqual(embedded_caret_calls(Page(), [row], 0.75, "1"), [])
+
+    def test_verified_caret_marker_attaches_without_space(self):
+        from numeric_footnotes import attach_marker
+
+        change = dict(
+            start=38, end=41, before="! *", after="! 1", marker_start=40, marker_end=41
+        )
+        self.assertEqual(
+            attach_marker(change),
+            dict(
+                start=38,
+                end=41,
+                before="! *",
+                after="!1",
+                marker_start=39,
+                marker_end=40,
+            ),
+        )
+        change = dict(
+            start=7, end=10, before=":? ", after=": 1", marker_start=9, marker_end=10
+        )
+        self.assertEqual(attach_marker(change)["after"], ":1 ")
+
     def test_adaptive_marker_needs_primary_digit_character_location_and_font(self):
         import pymupdf
         from numeric_footnotes import recover_numeric_footnotes

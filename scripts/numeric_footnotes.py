@@ -23,6 +23,7 @@ from scanned_notes import (
     glyph_readings,
     retry_readings,
     nearby_cap,
+    replacement,
 )
 from vocabulary import TOKEN
 
@@ -368,6 +369,109 @@ def has_marker_character(observation, bbox, page):
         )
         for c in observation["characters"]
     )
+
+
+def attach_marker(change):
+    """Keep a source-verified superscript adjacent to its preceding punctuation."""
+    offset = change["marker_start"] - change["start"]
+    attached = change["after"][:offset].rstrip()
+    removed = offset - len(attached)
+    if removed:
+        change["after"] = attached + change["after"][offset:]
+        change["marker_start"] -= removed
+        change["marker_end"] -= removed
+    trailing = re.search(r"\s+$", change["before"])
+    if trailing and not change["after"][-1].isspace():
+        change["after"] += trailing.group()
+    return change
+
+
+def embedded_caret_calls(page, rows, cutoff, label):
+    """Verify an ABBYY caret against one raised source glyph and one OCR gap.
+
+    The hidden text supplies a location, not the digit. This bounded fallback
+    runs only where the wider raster search found no call.
+    """
+    if not hasattr(page, "get_text"):
+        return []
+    from citation_research import preserve_gap
+
+    carets = []
+    for block in page.get_text("rawdict")["blocks"]:
+        for line in block.get("lines", []):
+            witness, chars = "", []
+            for span in line["spans"]:
+                for char in span["chars"]:
+                    start = len(witness)
+                    witness += char["c"]
+                    chars.append(dict(start=start, end=len(witness), bbox=char["bbox"]))
+            for char in chars:
+                if witness[char["start"] : char["end"]] != "^":
+                    continue
+                x, y, xx, yy = char["bbox"]
+                middle = (y + yy) / (2 * page.rect.height)
+                if middle >= cutoff:
+                    continue
+                matching = [
+                    row
+                    for row in rows
+                    if row["bbox"][1] < middle < row["bbox"][3]
+                    and row["bbox"][1] < cutoff
+                    and len(row["text"]) >= 5
+                    and row.get("kind", "text") == "text"
+                ]
+                if len(matching) == 1:
+                    carets.append((matching[0], witness, chars, char["bbox"]))
+    if not carets:
+        return []
+    image = Image.open(
+        io.BytesIO(page.get_pixmap(dpi=400, colorspace=pymupdf.csGRAY).tobytes("png"))
+    ).convert("L")
+    scale = image.width / page.rect.width
+    boxes = components(image)
+    candidates = []
+    for row, witness, chars, caret in carets:
+        x, y, xx, yy = caret
+        for box in boxes:
+            bx, by, bxx, byy = (value / scale for value in box)
+            if not (
+                x - 1 < (bx + bxx) / 2 < xx + 1
+                and y - 1 < (by + byy) / 2 < y + 0.6 * (yy - y)
+                and 2 <= byy - by <= 6
+            ):
+                continue
+            readings = glyph_readings(image, box, int(label))
+            numeric = [
+                value for value in readings if value.isascii() and value.isdigit()
+            ]
+            if readings.count(label) < 2 or any(value != label for value in numeric):
+                continue
+            change = replacement(row["text"], witness, chars, caret, label)
+            change = preserve_gap(change) if change else None
+            if change:
+                change = attach_marker(change)
+            if not change or any(
+                "sup" in style.get("tags", [])
+                and style["start"] < change["end"]
+                and style["end"] > change["start"]
+                for style in row.get("inline", [])
+            ):
+                continue
+            candidates.append(
+                dict(
+                    row=row,
+                    change=change,
+                    bbox=[
+                        bx / page.rect.width,
+                        by / page.rect.height,
+                        bxx / page.rect.width,
+                        byy / page.rect.height,
+                    ],
+                    embedded_bbox=list(caret),
+                    readings=readings,
+                )
+            )
+    return candidates
 
 
 def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
@@ -821,6 +925,54 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
                 for c in unique
             ):
                 unique.append(candidate)
+        if len(unique) == 0:
+            caret = embedded_caret_calls(
+                doc[number - 1], pages[number], book["note_starts"][str(number)], label
+            )
+            if len(caret) == 1:
+                candidate = caret[0]
+                row = candidate["row"]
+                change = candidate["change"]
+                original = row["text"]
+                apply_edits(
+                    [row],
+                    [
+                        dict(
+                            page=number,
+                            before=change["before"],
+                            after=change["after"],
+                            prefix=original[: change["start"]],
+                            suffix=original[change["end"] :],
+                            count=1,
+                            whole_word=False,
+                        )
+                    ],
+                    audit,
+                    "embedded-caret-footnote-overlay",
+                )
+                row.setdefault("inline", []).append(
+                    dict(
+                        start=change["marker_start"],
+                        end=change["marker_end"],
+                        tags=["sup"],
+                    )
+                )
+                record = dict(
+                    page=number,
+                    label=label,
+                    bbox=candidate["bbox"],
+                    embedded_bbox=candidate["embedded_bbox"],
+                    readings=candidate["readings"],
+                    before=change["before"],
+                    after=change["after"],
+                    marker_start=change["marker_start"],
+                    method="embedded-caret-source-glyph",
+                )
+                audit.append(
+                    dict(record, kind="raised-page-footnote-call", applied=True)
+                )
+                found.append(record)
+                continue
         if len(unique) != 1:
             unresolved.append(
                 dict(

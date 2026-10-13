@@ -75,6 +75,16 @@ def main():
         a.models,
         *(["--editorial"] if a.editorial else []),
     )
+    run(
+        "review_focus.py",
+        a.pdf,
+        "--profile",
+        a.profile,
+        "--input",
+        a.output,
+        "--output",
+        a.output / "review-focus.html",
+    )
     if not a.skip_lexical:
         run(
             "candidates.py",
