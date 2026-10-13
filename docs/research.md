@@ -1164,3 +1164,35 @@ case results, fold results and aggregate metrics replay identically. The prior
 confined to review/research helpers, tests and documentation, and no build/OCR
 acceptance/reconstruction/rendering source changed. No stored baseline was
 accepted. Browser layout/download smoke testing remains unverified.
+
+### Reader-sized artwork and conversion preflight
+
+The King and the Corpse prompted a shared 1600-pixel longest-edge limit for
+embedded JPEG and PNG assets. The source scan and figure-review lossless masters
+remain full size. Its sword-bridge plate changed from 2079 × 909 pixels and
+1,045,883 bytes to 1600 × 700 pixels and 493,563 bytes; the tarot plate changed
+from 1065 × 2229 pixels and 1,183,023 bytes to 764 × 1600 pixels and 521,058
+bytes. Both resized plates were visually inspected. The complete EPUB changed
+from about 5.4 MB to about 2.9 MB; text, notes and source-row coverage did not
+change. EPUBCheck 5.4.0 reported zero findings.
+
+An earlier-book comparison rebuilt *A Feeling for the Organism* at pre-change
+commit `48f3845` in a detached worktree against the same OCR and model caches.
+The current build differs in only five EPUB members: `back-cover.jpg` and
+`figure-004.jpg`, `figure-008.jpg`, `figure-044.jpg`, `figure-053.jpg`. Their
+longest edges fell from 1608, 1732, 1756, 1626 and 1696 pixels to 1600;
+respective byte counts fell from 335010, 930656, 779190, 541062 and 258938
+to 303008, 583865, 466147, 353898 and 155930. The full text, canonical
+model, corrected pages, coverage, apparatus and correction audit are identical.
+The figure-cleanup verifier passed all 18 figures. The stored regression
+baseline was already stale on clean master in the preceding conversion; it was
+not accepted here.
+
+`conversion_preflight.py` combines existing local figure and footer detectors
+with chapter/page-label proposals, sampled OCR peer comparisons, index gutter
+measurements and abstained note-link review. Its JSON and source-page/cropped
+footer images are review artifacts only. On this book it produced 30 chapter
+range proposals for review, one four-page printed offset run (-16), 15 sampled
+OCR pages and 47 unresolved links with source crops. The 30 proposals include
+front-matter and heading false positives, so no profile facts were accepted
+automatically. OCR peer agreement likewise does not identify the source truth.

@@ -142,6 +142,22 @@ confirm that narrowing a rule only removes edits and widening it only adds them.
 Record the reasoning in `docs/research.md` or the commit message before accepting
 a baseline. See [AGENTS.md](AGENTS.md) for the full review procedure.
 
+After OCR caches are complete, generate source-backed profile proposals before
+accepting chapter and note boundaries:
+
+```sh
+.venv/bin/python scripts/conversion_preflight.py input/my-book.pdf \
+  --work work/my-book --output output/my-book/preflight \
+  --profile config/my-book/book.json --build-output output/my-book
+```
+
+`--profile` and `--build-output` are optional. `preflight.json` and `index.html`
+show proposed chapter ranges, printed-page offsets, figure regions, index
+gutters, note zones, representative OCR-engine comparisons, and unresolved note
+links with source-page previews. The report does not edit a profile or accept an
+OCR reading; every proposal remains a scan-review task. It uses local selected
+OCR caches and the supplied source file, without a network request.
+
 Profiles reject unknown keys, missing required fields, incorrect basic types, invalid normalized geometry and invalid page/chapter references. PDF bounds are checked when the source is opened. Cache preflight validates readable page JSON, page identity, dimensions, text rows, bounding boxes and confidences before reconstruction. A cache is selected only after every page passes; partial experiments retain the previous pointer. JSON and pointer writes use unique atomic staging files. Scanned-note caches include the actual Tesseract English traineddata checksum; changing that model reruns note recognition without invalidating full-page OCR caches.
 
 ## Local binarization experiments
@@ -250,15 +266,22 @@ Optional `recover_scan_italics` recovers whole-line emphasis inside existing ver
 
 Figure extraction prefers the original raster when its transform and overlays are verified; otherwise it renders the PDF crop. Captions normally remain reflowable; reviewed source crops can retain captions or notation as facsimiles when text recovery is unreliable. These portions do not adapt like prose and need descriptive alt text. `source_relative_figures` preserves reviewed artwork proportions. `recover_ocr_regions` replaces garbled rows where fresh engines agree on separate lines and geometry avoids duplication. An existing matching neighbor is retained once. A single extra digit-confusion token in one fresh engine requires exact lexical corroboration from embedded OCR; substitutions of prose words remain rejected.
 
+All embedded JPEG and PNG assets are limited to a 1600-pixel longest edge for
+ebook readers. Larger crops are downsampled with Lanczos and encoded once; smaller
+source JPEGs retain their existing bytes. Source crops and optional lossless
+figure-review masters remain at original resolution outside the EPUB. The build
+report lists packaged image dimensions and bytes, and packaging fails if an
+image path bypasses this limit.
+
 Optional `figure_cleanup: "white"` normalizes scanned paper with local NumPy/Pillow processing. A robust, coarse lighting field whitens sparse diagrams without binarizing gray strokes. Dense artwork receives margin cleanup around an estimated protected photo rectangle; narrow margins can use a simpler one-dimensional field. Strongly colored, dark, tiny or uncertain crops receive no pixel cleanup. Low-contrast dense regions are treated conservatively as potential photographs. This assumes exposed, light, approximately neutral paper; it is not semantic background removal.
 
-Cleanup operates directly on cropped source pixels, then encodes JPEG once at quality 98 for line art or 95 for dense artwork, with optimized progressive coding and full chroma resolution for RGB assets. Original pixel crops and normalized lossless PNG masters are kept outside the EPUB in `figure-cleanup/`; `index.html` compares originals and final JPEGs and links to the masters. The JSON evidence records source/master/export hashes, paper estimates, protected bounds and codec settings. PNG masters preserve exact protected photo pixels, while final JPEGs introduce measured compression differences. `figure_color_mode` controls cleaned-figure export: `auto` selects grayscale only for neutral pixels (maximum channel spread two levels), `rgb` retains color, and `grayscale` records a reviewed monochrome source fact. Tinted scans remain RGB under automatic detection; grayscale export removes tint and stores luminance only, while RGB masters remain available for audit. Defaults retain existing JPEG assets and encoding behavior. Covers and other full-page artwork are not included in this opt-in figure stage; transparency is not currently exported.
+Cleanup operates directly on cropped source pixels, then encodes JPEG once at quality 98 for line art or 95 for dense artwork when under the reader-size limit; oversized exports use quality 90 after downsampling. Encoding uses optimized progressive coding and full chroma resolution for RGB assets. Original pixel crops and normalized lossless PNG masters are kept outside the EPUB in `figure-cleanup/`; `index.html` compares originals and final JPEGs and links to the masters. The JSON evidence records source/master/export hashes, paper estimates, protected bounds and codec settings. PNG masters preserve exact protected photo pixels, while final JPEGs introduce measured compression differences. `figure_color_mode` controls cleaned-figure export: `auto` selects grayscale only for neutral pixels (maximum channel spread two levels), `rgb` retains color, and `grayscale` records a reviewed monochrome source fact. Tinted scans remain RGB under automatic detection; grayscale export removes tint and stores luminance only, while RGB masters remain available for audit. Covers and other full-page artwork are sized by the shared embedded-image rule; transparency is not currently exported.
 
 Run `scripts/verify_figure_cleanup.py OUTPUT --profile PROFILE` to check decoded master/export pixels and packaged assets. An optional `--baseline PRE_CLEANUP_OUTPUT` also verifies unchanged text, notes, canonical structure and non-image package content; add `--editorial` for the corrected edition. Its local ink-contrast diagnostic uses SciPy smoothing to avoid confusing bright scan noise with faint ink, and reports JPEG error separately. It complements full-resolution image review and EPUBCheck rather than proving every original detail is preserved.
 
 Native-text extraction masks reviewed diagram labels before horizontal merging. Positioned bold headings may contain unstyled separator spaces without losing their heading role. Optional `native_heading_merge` joins tightly wrapped heading lines with matching font sizes; `native_list_layout` preserves measured multi-span markers and hanging continuations as separate flowing items; `native_relative_font_sizes` retains relative sizes for smaller examples/quotations; `native_index_indents` preserves child-entry indentation. These options default off for existing profiles. Single-span list markers and cross-page list continuations remain conservative. Source markers currently render as hanging paragraphs rather than semantic nested lists. Mirrored references/index pages may need different reviewed gutter splits on odd and even pages.
 
-Coauthors with contributor role `aut` are emitted as EPUB creators and shown on the title page. A checksum-verified local cover takes precedence over an approved downloaded reference image, preserving its resolution.
+Coauthors with contributor role `aut` are emitted as EPUB creators and shown on the title page. A checksum-verified local cover takes precedence over an approved downloaded reference image; the source stays intact and the embedded cover follows the reader-size limit.
 
 Builds also write `performance.json`, which is excluded from deterministic book comparisons. It reports total and named-stage times (nested times overlap), scoped Tesseract calls, and observation/retry/resource cache hits and misses. OCR/render counters cover the shared scanned-note primitive and marker resources; they do not claim to measure full-page extraction, other OCR backends, or review/figure rendering.
 
