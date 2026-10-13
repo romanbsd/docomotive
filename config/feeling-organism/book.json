@@ -645,7 +645,8 @@
         0.775
       ],
       "alt": "Stages of mitosis",
-      "name": "figure-073"
+      "name": "figure-073",
+      "image_type": "line-art"
     },
     {
       "page": 75,
@@ -656,7 +657,8 @@
         0.74
       ],
       "alt": "Stages of meiosis",
-      "name": "figure-075"
+      "name": "figure-075",
+      "image_type": "line-art"
     },
     {
       "page": 81,
@@ -678,7 +680,8 @@
         0.625
       ],
       "alt": "The life cycle of corn",
-      "name": "figure-088"
+      "name": "figure-088",
+      "image_type": "line-art"
     },
     {
       "page": 114,
@@ -689,7 +692,8 @@
         0.475
       ],
       "alt": "The breakage-fusion-bridge cycle",
-      "name": "figure-114"
+      "name": "figure-114",
+      "image_type": "line-art"
     },
     {
       "page": 163,

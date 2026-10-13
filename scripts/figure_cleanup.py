@@ -11,20 +11,33 @@ from common import digest, write_json
 from build_resources import measured
 
 POLICY = "paper-field-v1"
-EBOOK_MAX_EDGE = 1600
+EBOOK_VIEWPORT = (1264, 1680)
+EBOOK_TARGET_PPI = 300
+EBOOK_PHOTO_PPI = EBOOK_TARGET_PPI // 2
 
 
-def ebook_size(image):
-    """Bound embedded artwork to an ebook-reader display, without upscaling."""
+def ebook_size(image, effective_ppi=EBOOK_TARGET_PPI):
+    """Fit the chosen reader viewport at the target PPI, without upscaling."""
+    if effective_ppi not in (EBOOK_PHOTO_PPI, EBOOK_TARGET_PPI):
+        raise ValueError("Effective image PPI must be 150 or 300")
+    bounds = tuple(round(v * effective_ppi / EBOOK_TARGET_PPI) for v in EBOOK_VIEWPORT)
     original = image.size
-    if max(original) <= EBOOK_MAX_EDGE:
+    if all(v <= limit for v, limit in zip(original, bounds)):
         return image, dict(
-            original=list(original), embedded=list(original), resized=False
+            original=list(original),
+            embedded=list(original),
+            resized=False,
+            target_ppi=effective_ppi,
+            viewport=list(bounds),
         )
     output = image.copy()
-    output.thumbnail((EBOOK_MAX_EDGE, EBOOK_MAX_EDGE), Image.Resampling.LANCZOS)
+    output.thumbnail(bounds, Image.Resampling.LANCZOS)
     return output, dict(
-        original=list(original), embedded=list(output.size), resized=True
+        original=list(original),
+        embedded=list(output.size),
+        resized=True,
+        target_ppi=effective_ppi,
+        viewport=list(bounds),
     )
 
 
@@ -61,7 +74,7 @@ def ebook_media_inventory(files):
         ):
             continue
         with Image.open(io.BytesIO(data)) as image:
-            if max(image.size) > EBOOK_MAX_EDGE:
+            if any(v > limit for v, limit in zip(image.size, EBOOK_VIEWPORT)):
                 raise ValueError(f"Oversized EPUB image {name}: {image.size}")
             result.append(dict(name=name, pixels=list(image.size), bytes=len(data)))
     return result

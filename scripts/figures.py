@@ -7,16 +7,24 @@ import copy
 import statistics
 from PIL import Image
 from common import digest
+from figure_cleanup import EBOOK_PHOTO_PPI, EBOOK_TARGET_PPI
 
 
-def crop_artwork(page, rect, dpi=300, excluded_overlays=(), raster_only=False):
+def crop_artwork(
+    page,
+    rect,
+    dpi=EBOOK_TARGET_PPI,
+    excluded_overlays=(),
+    raster_only=False,
+    effective_ppi=EBOOK_TARGET_PPI,
+):
     """JPEG export with a bounded embedded size for ebook readers."""
     result, evidence = crop_artwork_pixels(
         page, rect, dpi, excluded_overlays, raster_only
     )
     from figure_cleanup import ebook_size
 
-    result, evidence["ebook_resize"] = ebook_size(result)
+    result, evidence["ebook_resize"] = ebook_size(result, effective_ppi)
     out = io.BytesIO()
     options = dict(
         format="JPEG", quality=90 if evidence["ebook_resize"]["resized"] else 95
@@ -27,7 +35,9 @@ def crop_artwork(page, rect, dpi=300, excluded_overlays=(), raster_only=False):
     return out.getvalue(), evidence
 
 
-def crop_artwork_pixels(page, rect, dpi=300, excluded_overlays=(), raster_only=False):
+def crop_artwork_pixels(
+    page, rect, dpi=EBOOK_TARGET_PPI, excluded_overlays=(), raster_only=False
+):
     """Use isolated scan pixels only when no visible labels would be lost."""
     if raster_only:
         # Explicit source-reviewed mode: discard reconstructed PDF text overlays.
@@ -315,28 +325,54 @@ def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
             x1 * source.rect.width,
             y1 * source.rect.height,
         )
-        image = figure["name"] + ".jpg"
+        image_type = figure.get("image_type", "photograph")
+        effective_ppi = figure.get("effective_ppi", EBOOK_TARGET_PPI)
+        if image_type not in ("photograph", "line-art"):
+            raise ValueError("Unknown figure image_type")
+        if effective_ppi not in (EBOOK_PHOTO_PPI, EBOOK_TARGET_PPI) or (
+            effective_ppi == EBOOK_PHOTO_PPI and image_type != "photograph"
+        ):
+            raise ValueError("150 PPI is available only for reviewed photographs")
+        image = figure["name"] + (".png" if image_type == "line-art" else ".jpg")
         color_export = "figure_color_mode" in book
         cropper = (
-            crop_artwork_pixels if cleanup == "white" or color_export else crop_artwork
+            crop_artwork_pixels
+            if cleanup == "white"
+            or color_export
+            or "color_mode" in figure
+            or image_type == "line-art"
+            else crop_artwork
         )
         crop, crop_evidence = cropper(
             source,
             rect,
             excluded_overlays=book.get("artwork_overlay_exclusions", []),
             raster_only=book.get("scan_raster_only", False),
+            **({"effective_ppi": effective_ppi} if cropper is crop_artwork else {}),
         )
         cleanup_evidence = None
         data = crop
-        if cleanup != "white" and color_export:
-            from figure_cleanup import export_color, jpeg_export, ebook_size
+        if cleanup != "white" and (
+            color_export
+            or "color_mode" in figure
+            or image_type == "line-art"
+            or effective_ppi == EBOOK_PHOTO_PPI
+        ):
+            from figure_cleanup import export_color, jpeg_export, ebook_size, png_bytes
 
             # An explicit source-reviewed color policy also works without
             # paper normalization; encode once from uncompressed crop pixels.
-            export, color_evidence = export_color(crop, book["figure_color_mode"])
-            export, crop_evidence["ebook_resize"] = ebook_size(export)
-            data = jpeg_export(
-                export, quality=90 if crop_evidence["ebook_resize"]["resized"] else 95
+            export, color_evidence = export_color(
+                crop, figure.get("color_mode", book.get("figure_color_mode", "auto"))
+            )
+            export, crop_evidence["ebook_resize"] = ebook_size(export, effective_ppi)
+            data = (
+                png_bytes(export)
+                if image_type == "line-art"
+                else jpeg_export(
+                    export,
+                    quality=90 if crop_evidence["ebook_resize"]["resized"] else 95,
+                )
             )
             crop_evidence["color"] = color_evidence
         if cleanup == "white":
@@ -357,13 +393,18 @@ def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
             # faint strokes better; dense photographs use compact quality 95.
             quality = 98 if cleanup_evidence.get("kind") == "line-art" else 95
             export, color_evidence = export_color(
-                normalized, book.get("figure_color_mode", "auto")
+                normalized,
+                figure.get("color_mode", book.get("figure_color_mode", "auto")),
             )
-            export, crop_evidence["ebook_resize"] = ebook_size(export)
+            export, crop_evidence["ebook_resize"] = ebook_size(export, effective_ppi)
             if crop_evidence["ebook_resize"]["resized"]:
                 quality = min(quality, 90)
             cleanup_evidence["ebook_resize"] = crop_evidence["ebook_resize"]
-            data = jpeg_export(export, quality=quality)
+            data = (
+                png_bytes(export)
+                if image_type == "line-art"
+                else jpeg_export(export, quality=quality)
+            )
             directory = Path(cleanup_dir)
             (directory / "originals").mkdir(parents=True, exist_ok=True)
             (directory / "results").mkdir(exist_ok=True)
@@ -376,20 +417,28 @@ def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
             if lossless_path is None:
                 lossless_path = original_path
             cleanup_evidence.update(
-                format="JPEG",
+                format="PNG" if image_type == "line-art" else "JPEG",
                 source_sha256=digest(original),
                 sha256=digest(data),
                 lossless_sha256=digest(master),
                 color=color_evidence,
-                jpeg=dict(
-                    quality=quality, subsampling=0, optimize=True, progressive=True
+                jpeg=(
+                    None
+                    if image_type == "line-art"
+                    else dict(
+                        quality=quality, subsampling=0, optimize=True, progressive=True
+                    )
                 ),
             )
             result_path = "results/" + image
             (directory / original_path).write_bytes(original)
             (directory / result_path).write_bytes(data)
             # Remove the obsolete PNG export from this generated review folder.
-            (directory / "results" / (figure["name"] + ".png")).unlink(missing_ok=True)
+            (
+                directory
+                / "results"
+                / (figure["name"] + (".jpg" if image_type == "line-art" else ".png"))
+            ).unlink(missing_ok=True)
             cleanup_rows.append(
                 dict(
                     name=figure["name"],

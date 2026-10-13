@@ -17,7 +17,12 @@ from conversion_preflight import (
     printed_offset_runs,
     stratified_pages,
 )
-from figure_cleanup import EBOOK_MAX_EDGE, ebook_jpeg_asset, ebook_media_inventory
+from figure_cleanup import (
+    EBOOK_VIEWPORT,
+    ebook_size,
+    ebook_jpeg_asset,
+    ebook_media_inventory,
+)
 
 
 class ConversionPreflightTests(unittest.TestCase):
@@ -89,7 +94,7 @@ class ConversionPreflightTests(unittest.TestCase):
         image.save(stream, format="JPEG", quality=95)
         result, evidence = ebook_jpeg_asset(stream.getvalue())
         self.assertTrue(evidence["resized"])
-        self.assertEqual(Image.open(io.BytesIO(result)).size, (EBOOK_MAX_EDGE, 600))
+        self.assertEqual(Image.open(io.BytesIO(result)).size, (1264, 474))
         again, evidence = ebook_jpeg_asset(result)
         self.assertEqual(again, result)
         self.assertFalse(evidence["resized"])
@@ -97,8 +102,19 @@ class ConversionPreflightTests(unittest.TestCase):
             ebook_media_inventory({"OEBPS/large.jpg": stream.getvalue()})
         self.assertEqual(
             ebook_media_inventory({"OEBPS/resized.jpg": result})[0]["pixels"],
-            [EBOOK_MAX_EDGE, 600],
+            [1264, 474],
         )
+
+    def test_reader_viewport_and_reviewed_photo_budget(self):
+        portrait = Image.new("RGB", (1000, 2000), "white")
+        full, evidence = ebook_size(portrait)
+        self.assertEqual(full.size, (840, EBOOK_VIEWPORT[1]))
+        self.assertEqual(evidence["target_ppi"], 300)
+        photo, evidence = ebook_size(portrait, 150)
+        self.assertEqual(photo.size, (420, 840))
+        self.assertEqual(evidence["viewport"], [632, 840])
+        with self.assertRaises(ValueError):
+            ebook_size(portrait, 72)
 
 
 if __name__ == "__main__":

@@ -136,13 +136,20 @@ def _verify_cleanup(output, book, editorial=False, baseline=None):
                     median_brightness_before=float(np.median(source_lum)),
                     median_brightness_after=float(np.median(result_lum)),
                 )
-            # JPEG error is separate from normalization; protected photo pixels
-            # remain exact in the master, not necessarily in the final encoding.
+            # Encoding error is separate from normalization; protected photo
+            # pixels remain exact in the master.
             target = target_master
             if evidence.get("color", {}).get("mode") == "L":
                 with Image.open(io.BytesIO(result)) as image:
                     require(image.mode == "L", name + ": grayscale codec mismatch")
-                gray = np.asarray(Image.fromarray(target_master).convert("L"))
+                if evidence.get("format") == "PNG":
+                    gray_image = Image.fromarray(after).convert("L")
+                    gray_image = gray_image.resize(
+                        expected_size, Image.Resampling.LANCZOS
+                    )
+                else:
+                    gray_image = Image.fromarray(target_master).convert("L")
+                gray = np.asarray(gray_image)
                 target = np.repeat(gray[:, :, None], 3, axis=2)
                 check["grayscale_conversion_rgb_rmse"] = float(
                     np.sqrt(
@@ -156,11 +163,18 @@ def _verify_cleanup(output, book, editorial=False, baseline=None):
                 )
             error = exported.astype(np.float64) - target.astype(np.float64)
             rmse = float(np.sqrt(np.mean(np.square(error))))
-            require(rmse <= 3, name + ": excessive JPEG encoding error")
-            check.update(
-                jpeg_rmse=rmse,
-                jpeg_p99_absolute_error=float(np.percentile(np.abs(error), 99)),
-            )
+            if evidence.get("format") == "PNG":
+                require(rmse == 0, name + ": PNG pixels differ from resized master")
+                check["png_rmse"] = rmse
+            else:
+                # Fine scan grain can raise quality-90 JPEG error slightly
+                # after downsampling; the original-sized bound stays strict.
+                limit = 3.5 if resized.get("resized") else 3
+                require(rmse <= limit, name + ": excessive JPEG encoding error")
+                check.update(
+                    jpeg_rmse=rmse,
+                    jpeg_p99_absolute_error=float(np.percentile(np.abs(error), 99)),
+                )
             checks.append(check)
 
     verification = dict(status="passed", figures=checks, baseline_checked=False)

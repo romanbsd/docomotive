@@ -235,6 +235,67 @@ class FigureCleanupTests(unittest.TestCase):
                     incorporate_figures([], book, doc, {}, cleanup_dir=folder)
                 self.assertEqual(list(Path(folder).iterdir()), [])
 
+    def test_reviewed_line_art_exports_png(self):
+        with pymupdf.open() as doc:
+            page = doc.new_page(width=320, height=320)
+            pixels = paper()
+            pixels[100:104, 50:250] = 100
+            page.insert_image(page.rect, stream=encoded(pixels))
+            book = dict(
+                figures=[
+                    dict(
+                        page=1,
+                        rect=[0, 0, 1, 1],
+                        name="diagram",
+                        alt="Diagram",
+                        image_type="line-art",
+                        color_mode="grayscale",
+                    )
+                ]
+            )
+            model = [dict(chapter=1, source_pages=[1, 1], blocks=[])]
+            files = {}
+            report = incorporate_figures(model, book, doc, files)
+            self.assertEqual(report[0]["image"], "diagram.png")
+            self.assertEqual(model[0]["blocks"][0]["image"], "diagram.png")
+            with Image.open(io.BytesIO(files["OEBPS/diagram.png"])) as image:
+                self.assertEqual(image.format, "PNG")
+                self.assertEqual(image.mode, "L")
+
+    def test_reviewed_line_art_with_cleanup_retains_png_review_asset(self):
+        with pymupdf.open() as doc, tempfile.TemporaryDirectory() as folder:
+            page = doc.new_page(width=320, height=320)
+            pixels = paper()
+            pixels[100:104, 50:250] = 100
+            page.insert_image(page.rect, stream=encoded(pixels))
+            book = dict(
+                figure_cleanup="white",
+                figures=[
+                    dict(
+                        page=1,
+                        rect=[0, 0, 1, 1],
+                        name="diagram",
+                        alt="Diagram",
+                        image_type="line-art",
+                        color_mode="grayscale",
+                    )
+                ],
+            )
+            files = {}
+            report = incorporate_figures(
+                [dict(chapter=1, source_pages=[1, 1], blocks=[])],
+                book,
+                doc,
+                files,
+                cleanup_dir=Path(folder),
+            )
+            self.assertEqual(report[0]["cleanup"]["format"], "PNG")
+            self.assertIsNone(report[0]["cleanup"]["jpeg"])
+            self.assertEqual(
+                files["OEBPS/diagram.png"],
+                (Path(folder) / "results/diagram.png").read_bytes(),
+            )
+
     def test_independent_verifier_rejects_changed_photo_pixels_even_with_valid_hashes(
         self,
     ):

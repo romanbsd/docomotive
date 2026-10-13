@@ -1,6 +1,7 @@
 """Validate profile values without changing their representation or defaults."""
 
 from repair_types import RepairPolicy
+from figure_cleanup import EBOOK_PHOTO_PPI, EBOOK_TARGET_PPI
 
 import math
 import re
@@ -221,6 +222,20 @@ def validate_profile(book, path="profile", page_count=None):
             page(item["page"], key)
             if key == "figures" and "rect" not in item:
                 fail(key, "rect is required")
+            if key == "figures":
+                image_type = item.get("image_type", "photograph")
+                if image_type not in ("photograph", "line-art"):
+                    fail(key, "image_type must be photograph or line-art")
+                ppi = item.get("effective_ppi", EBOOK_TARGET_PPI)
+                if type(ppi) is not int or ppi not in (
+                    EBOOK_PHOTO_PPI,
+                    EBOOK_TARGET_PPI,
+                ):
+                    fail(key, "effective_ppi must be 150 or 300")
+                if ppi == EBOOK_PHOTO_PPI and image_type != "photograph":
+                    fail(key, "150 PPI is reserved for reviewed photographs")
+                if item.get("color_mode", "auto") not in ("auto", "rgb", "grayscale"):
+                    fail(key, "color_mode must be auto, rgb or grayscale")
             if key == "reference_regions" and not {"lo", "hi"} <= item.keys():
                 fail(key, "lo and hi are required")
             if "rect" in item:
