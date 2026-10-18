@@ -1,7 +1,8 @@
 # Python 3.14 core + visual + patched extractor + dev environment.
 # Build the local extractor wheel first; install with --find-links work/dependency-compat/dist.
 antlr4-python3-runtime==4.9.3
-black==26.10.0
+black==26.10.1
+brotli==1.2.0
 certifi==2026.7.22
 cffi==2.1.1
 charset-normalizer==3.5.2
@@ -11,7 +12,7 @@ cssselect2==0.10.1
 dawg2-python==0.9.0
 doc-page-extractor==1.2.1+docomotive.1
 flatbuffers==25.12.19
-fonttools==4.66.1
+fonttools==4.67.0
 ftfy==6.3.1
 idna==3.20
 langcodes==3.5.1
@@ -19,19 +20,18 @@ locate==1.1.1
 lxml==6.1.3
 msgpack==1.2.3
 mypy-extensions==1.1.0
-numpy==2.4.6
-omegaconf==2.3.1
-onnxruntime==1.30.0
-opencv-python==4.11.0.86
-opencv-python-headless==4.11.0.86
+numpy==2.5.4
+omegaconf==2.4.0
+onnxruntime==1.31.0
+opencv-python-headless==5.0.0.93
 packaging==25.0
 pathspec==1.1.1
-pillow==12.3.0
-platformdirs==4.12.2
+pillow==13.0.0
+platformdirs==4.13.4
 protobuf==7.36.2
 pyclipper==1.4.0
-pycparser==3.0
-pydyf==0.12.1
+pycparser==3.11
+pydyf==0.13.0
 pymorphy3==2.0.6
 pymorphy3-dicts-ru==2.4.417150.4580142
 pymupdf==1.28.2
@@ -41,9 +41,9 @@ pyyaml==6.0.3
 rapidocr==3.10.0
 regex==2026.9.29
 requests==2.34.2
-scipy==1.17.1
+scipy==1.18.1
 setuptools==84.0.0
-shapely==2.1.2
+shapely==2.2.0
 six==1.17.0
 spylls==0.1.7
 symspellpy==6.10.0
@@ -51,7 +51,8 @@ tinycss2==1.5.1
 tinyhtml5==2.1.0
 tqdm==4.70.1
 urllib3==2.8.0
-wcwidth==0.9.1
+wcwidth==0.9.2
 weasyprint==70.0
 webencodings==0.6.1
 wordfreq==3.1.1
+zopfli==0.4.3

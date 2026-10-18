@@ -1618,3 +1618,125 @@ occurrences in 2,559 pattern groups) and passes EPUBCheck with zero errors or
 warnings. The reviewed EPUB SHA-256 is
 `b54024972c161f013663275e2ef8523c605934f12af24f070d245440f6336220`.
 `work/altayskiy-shamanizm/delivery-validation.json` records the final checks.
+
+
+### Page-first prose incorrectly promoted to navigation (2026-10-18)
+
+The Potapov PDF 51 (printed 51) begins «М. Кашгарского. Упоминание о
+«шаманском языке» есть и у». This is a full-width prose continuation of PDF
+50, ending «встречается уже в словаре». An enlarged scan confirms ordinary
+body type and continuation on the following line. The image-only subheading
+rule had accepted the missing preceding row as if its spacing test passed,
+marking the line as a heading and adding `section-2-82` to EPUB navigation.
+
+The shared detector now requires independent title evidence for a page-first
+line: narrow measure (at most 65% of the local body width), uppercase lettering,
+or the existing opt-in centered italic style. Full-width mixed-case prose
+without a preceding row abstains. Interior labels still require the existing
+preceding sentence/spacing tests. Audit descriptions now distinguish page-first
+evidence from measured preceding spacing; there is no book/page/phrase override.
+Regression tests reproduce the false positive on ordinary and chapter-opening
+pages, with adaptive detection enabled and disabled; positives retain narrow,
+uppercase and centered italic headings. The final suite passes 552 tests.
+
+Both versions were rebuilt from commit `19d87c0` and the modified tree using the
+same OCR caches. Potapov's fresh baseline exactly matches its committed snapshot.
+The modified book retains every word, identical source coverage and apparatus,
+and all figures. Only the erroneous heading is removed; the paragraph joins
+across PDF 50–51, with a normal `<p>` and no contents entry. Canonical model,
+corrected rows and TXT whitespace change accordingly; EPUB changes are confined
+to chapter 2 and navigation. The reviewed Potapov snapshot is updated for these
+changes only.
+
+A detector replay over cached rows for Daimonic Reality (319 pages), both
+Concentration and Meditation profiles (252 pages), both Obryad profiles (308
+pages), and Potapov (321 pages) adds no headings and removes only this line and
+Obryad PDF 152's first prose line «В недавно вышедшем сборнике «Памятники
+культуры народов». The Obryad scan confirms ordinary opening prose below the
+printed chapter title; the actual title remains. Genuine page-first titles,
+including the centered Interlude title pair, survive the narrowed rule.
+Evidence and comparisons are retained in
+`work/altayskiy-shamanizm/heading-fix/`.
+
+Fresh Obryad baseline/current builds likewise retain identical word sequences,
+coverage, apparatus and complete lexical-repair audits. The sole heading removal
+on PDF 152 changes model/row classification and TXT whitespace; EPUB differences
+are confined to chapter 9 and navigation. No text corrections, notes, backlinks
+or media are lost. Its existing stored baseline already differs from fresh HEAD
+in the previously documented span-helper checksum; neither Obryad baseline was
+accepted here. Fresh-output comparisons isolate this change independently.
+
+The published rebuilt Potapov EPUB matches the reviewed snapshot and passes
+EPUBCheck with zero errors or warnings. Its SHA-256 is `6d2c19c272f554792c2bc69d64c8243afbde7318e274f2e52db2cac6bc91ecf9`.
+The offline review sheet is regenerated. Validation is recorded in
+`work/altayskiy-shamanizm/heading-fix/validation.json`.
+
+
+### Composite printer footers excluded from reading text (2026-10-18)
+
+On Potapov PDF 51, the printed gathering mark `4*` sits left of the folio `51`.
+OCR merged them into one wide row. The original layout detector recognized only
+pure numeric folios, and the short-footer fallback stopped at four characters,
+so `4* 51` entered prose. The same failure affected recurring author/gathering
+labels and OCR-damaged signatures. This is margin matter, not a textual typo.
+
+The shared layout analysis now extends the existing folio sequence using at
+least five distinct supporting pages. Repeated numeric observations on one page
+cannot outvote a sequence. Composite rows must agree with the printed/PDF offset,
+the local median/MAD footer band, compact line height and the outer folio edge.
+Two numeric groups must span a broad box, protecting compact arithmetic and
+citations. Decoration-prefixed folios can be narrow. Repeated textual printer
+labels require three exact seed pages with matching folios and geometry; damaged
+initials may match only an established family with an exact final long word,
+unique bounded similarity and no fuzzy propagation. Bare labels require the
+known family and a compact left-side box in the same footer band. There is no
+Potapov phrase, page or coordinate override.
+
+`corrections-applied.json` records each exclusion with rule, page, source box and
+geometry evidence. `layout-analysis.json/footer_analysis` records supporting pages, label families,
+accepted rows with their geometry controls, and plausible but unaccepted rows for
+review. Rows rejected by geometric evidence are retained. The final text-quality
+gate independently checks source coordinates and blocks EPUB publication if any
+detected footer row is reintroduced into body text or notes, including after a
+text edit. This check covers recognized footer matter; unrecognized OCR still
+requires source review. Tests cover sequence offsets, sparse/duplicate evidence,
+merged and damaged labels, wrong folios/positions, compact arithmetic and low
+prose, source preservation, and the final leakage check. All 560 tests pass.
+
+The preceding heading fix remains in place. A fresh baseline checkout at
+`19d87c0` plus that heading patch, against the same OCR caches, exactly reproduces
+the heading-only Potapov snapshot. Thus the following differences isolate footer
+analysis. All 34 accepted footer rows were visually checked in enlarged scan
+strips. PDF 3's `1* 3` was already excluded; the other 33 rows are newly excluded:
+
+| Source pages | Printed matter and reason for exclusion |
+| --- | --- |
+| 17, 33, 49, 65, 81, 97, 113, 129, 145, 161, 193, 209, 225, 241, 257, 273, 289 | Gathering number, author label and outer folio; all are printer matter in the scan, including damaged OCR initials/numbers. |
+| 35, 51, 67, 83, 99, 131, 147, 195, 227, 259, 275, 291, 307 | Starred gathering number and outer folio. PDF 147 prints `10*`, misread as `10%`; geometry excludes the row without rewriting its OCR. |
+| 177, 305 | The recurring gathering/author label, with the folio separately observed or absent from that OCR row. |
+| 274 | A decorated folio, misread as `• 274`; the scan confirms page-number matter. |
+
+Every retained source row and its text is identical; no source rows are added.
+Word-by-word diff deletes only the above printer matter and restores three
+previously interrupted page-turn joins: PDF 131–132 `перевод- / чиков`, PDF
+209–210 `Историко-этногра- / фический`, and PDF 307–308 `происхож- / дения`.
+Enlarged source strips confirm all three. Coverage changes from 354 excluded,
+13,998 body and 1,587 note rows to 387 excluded, 13,968 body and 1,584 note rows.
+Apparatus is identical, all figures and links survive, and EPUB changes are
+confined to chapters 1–5. Original page-navigation anchors remain available.
+The Potapov snapshot is updated only after this review. Evidence is retained in
+`work/altayskiy-shamanizm/footer-fix/`.
+
+Layout replay on 15 earlier profiles preserves every original header/footer row
+and inferred page-number offset. Fresh Chosen by Spirits and Obryad builds from
+the heading-only baseline and footer-fixed tree produce identical regression
+snapshots, EPUBs, text, correction audits and lexical audits. Stored earlier
+baselines remain unchanged; their previously documented stale fingerprints and
+heading differences are not accepted away. The final Potapov rebuild matches its
+reviewed snapshot, with the reported `4* 51` absent.
+
+The final EPUB passes EPUBCheck with zero errors or warnings; SHA-256 is
+`7f3ec04e421190f72f12f8c92e4906e242fea87f336b1a1a6d26e28d869c4bee`. An independent build with footer-exclusion audit records
+reproduces every regression snapshot field and EPUB byte. Its 34 new audit
+entries and matching build report are published alongside the same validated
+reading artifact. Validation is recorded in `footer-fix/validation.json`.

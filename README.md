@@ -58,7 +58,7 @@ corrections, merge them into the profile and rebuild.
 
 ## Setup and usage
 
-Run commands from the repository root. Python 3.14 is the tested interpreter.
+Run commands from the repository root. Python 3.12+ is required; Python 3.14 is the tested interpreter.
 Create `.venv` if it is absent, then use it without activation. Fresh multi-engine
 OCR requires macOS, Swift/Xcode command-line tools and Apple Vision; Java is
 required for EPUBCheck.
@@ -85,7 +85,7 @@ brew install tesseract ocrmypdf djvulibre
 
 Full multi-engine extraction currently requires macOS for Apple Vision and Swift/Xcode command-line tools. Tesseract and RapidOCR run locally on CPU. Cached JSON can be built elsewhere; fresh cross-platform OCR has not been validated. Java is needed for EPUBCheck. Vision may need execution outside the agent sandbox to contact the local macOS service; it does not upload pages.
 
-Runtime packages are pinned in `pyproject.toml`. Dependencies include PyMuPDF, Pillow, lxml, NumPy/SciPy, RapidOCR/ONNX Runtime, Spylls, SymSpell, wordfreq and Requests. Optional extras are `visual` (WeasyPrint rendering), `research` (the locally patched doc-page-extractor), and `kenlm` (an unevaluated scoring adapter requiring a separate language model). `requirements-research.lock.txt` pins the Python 3.14 core, visual, extractor and development environment; it is an environment snapshot rather than a cross-platform lockfile. The scripts run from this checkout; installation supplies dependencies.
+Runtime packages are pinned in `pyproject.toml`. Dependencies include PyMuPDF, Pillow, lxml, NumPy/SciPy, RapidOCR/ONNX Runtime, headless OpenCV, Spylls, SymSpell, wordfreq and Requests. Optional extras are `visual` (WeasyPrint rendering), `research` (the locally patched doc-page-extractor), and `kenlm` (an unevaluated scoring adapter requiring a separate language model). `requirements-research.lock.txt` pins the Python 3.14 core, visual, extractor and development environment; it is an environment snapshot rather than a cross-platform lockfile. The scripts run from this checkout; installation supplies dependencies.
 
 For the experimental extractor, build its Python 3.14-compatible wheel before installing the research extra:
 
@@ -187,7 +187,7 @@ This offline benchmark compares the current note-crop path, fixed thresholds, Ot
 | Diagnose the source | Deterministic page sampling; original scan versus composed PDF pixel comparison | `source-analysis.json` |
 | Recognize | 300-dpi Tesseract, Apple Vision and Paddle PP-OCRv4 through RapidOCR; native PDF extraction when configured | Per-page JSON and engine/model/source fingerprints |
 | Reconcile | Geometry alignment, conservative witness agreement, checked correction overlays | `corrected-pages.json`, `ocr-comparison.json`, `corrections-applied.json` |
-| Infer margins | Header/footer recurrence, OCR variant clustering, median/MAD, parity and page-number consensus | `layout-analysis.json` |
+| Infer margins | Header/footer recurrence, OCR variant clustering, median/MAD, parity, page-number consensus and merged printer labels | `layout-analysis.json` |
 | Reconstruct | Canonical paragraphs, notes, verse and figures; source-linked spans and lexical line joins | `book-model.json`, `text-coverage.json` |
 | Analyze the whole book | Chapter TF-IDF, spelling recurrence and page/chapter spread; reference/index evidence separated | `vocabulary-analysis.json`, `protected-term-proposals.json` |
 | Render | Deterministic EPUB ZIP and XHTML/internal-link checks | EPUB, text, `report.json`, `preview/` |
@@ -525,3 +525,9 @@ Symbol-footnote recovery can replace a confused `®`, `©`, `°` or `º` only wh
 `morphological_word_wraps` optionally adds pinned local pymorphy3/OpenCorpora evidence for Russian physical line-end joins that Hunspell and whole-word frequency miss. Dictionary-known inflections qualify; dictionary-backed `не` + noun/adjective analyses can qualify. Unknown-prefix, suffix and general compound guesses abstain. Corpus-attested hyphenated forms take precedence. Existing joins retain their audit action; additional joins use `remove-morphological`. The report fingerprints the analyzer, dictionary version and dictionary files. This joins printed fragments; it does not propose replacement letters.
 
 `recover_footer_bounds` can retain a first footnote line whose primary OCR box crosses a footer cutoff: a unique independent reading must place the same line inside the footer, and moving the cutoff must not capture an unverified neighbor. `recover_reference_prefixes` restores a dropped short uppercase reference label only when two fresh OCR engines agree on the complete label and unchanged definition. Both are opt-in, geometry constrained, and audited.
+
+Composite footer detection uses the learned folio sequence and local margin
+geometry to separate printer marks and recurring labels from low body text.
+`layout-analysis.json` records accepted and review-only candidates with source
+evidence. The final text-quality check blocks publication if a detected footer
+row survives in prose or notes.

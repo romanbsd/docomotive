@@ -1,8 +1,11 @@
 # Dependency compatibility
 
-The modern pipeline environment uses Python 3.14 with NumPy 2.4.6, Pillow
-12.3.0, RapidOCR 3.10.0 and Black 26.10.0. The updated core passes all 419
-pipeline tests and Black. Its dependency resolver and `pip check` pass.
+The modern pipeline requires Python 3.12+ and is tested on Python 3.14.8.
+The current environment uses NumPy 2.5.4, SciPy 1.18.1, Pillow 13.0.0,
+RapidOCR 3.10.0, ONNX Runtime 1.31.0, headless OpenCV 5.0.0.93 and Black
+26.10.1. NumPy and SciPy set the new Python 3.12 minimum. All 560 pipeline
+tests and the installed extractor's 30 lightweight tests pass; dependency
+checks pass in the active environment and a clean lockfile installation.
 
 ## doc-page-extractor on Python 3.14
 
@@ -69,7 +72,45 @@ Its dependency check and imports of pdf-craft, `DocExtractor` and `Rectangle`
 pass. Full legacy model extraction was not run. Python 3.12 was installed under
 `work/dependency-compat/python/`, without changing system Python.
 
-`requirements-research.lock.txt` now records the 55-distribution modern
+`requirements-research.lock.txt` now records the 56-distribution modern
 environment. The previous compatible research constraints are preserved in
 `requirements-pdf-craft.lock.txt`; incompatible independent upgrades of the
 legacy model/LLM stack are not mixed into the modern environment.
+
+
+## Dependency refresh, 2026-10-18
+
+RapidOCR 3.10.0 remains the [latest stable release](https://pypi.org/project/rapidocr/);
+it was already installed in the modern environment. The stale legacy constraint
+is updated from 3.9.2 to 3.10.0, and actual English OCR passes there with NumPy
+1.26.4, Pillow 10.4.0, OpenCV 4.11 and ONNX Runtime 1.30.0. Legacy numeric/image
+pins remain separate from the modern package set.
+
+The modern project now depends directly on `opencv-python-headless`, matching
+RapidOCR's dependency. No project code uses OpenCV GUI APIs. Both old OpenCV
+distributions were removed before installing the headless wheel, avoiding shared
+`cv2` files from overlapping installations. An unused DocLayout-YOLO duplicate
+was removed from the modern environment; it remains installed in the legacy
+environment. Packaging stays at 25.0 because an installed LangChain research
+package requires `<26`; upgrading it independently broke dependency checks.
+
+Other refreshed pins include FontTools, OmegaConf, Platformdirs, Pycparser,
+Pydyf, Shapely and wcwidth. Brotli and Zopfli are explicitly pinned so the frozen
+visual environment includes FontTools' WOFF dependencies. `requirements.txt`
+now mirrors all core `pyproject.toml` pins, including Russian morphology, NumPy
+and headless OpenCV. There are no prerelease dependencies or OCR-model changes.
+
+Fresh Russian/English RapidOCR probes produce 32/56 lines with the same model
+hashes. Small raw-reading differences remain: Russian `И` becomes `и`, English
+`shanans` becomes `shainans`, and dash spacing changes. Both English spellings
+are OCR errors for printed `shamans`; this smoke check establishes execution,
+not an accuracy improvement. ONNX-version fingerprints create separate cache
+keys, retaining previous observations. Existing book caches were preserved.
+
+A fresh Potapov build before/after the runtime update has identical EPUB bytes,
+text, canonical model, corrected source rows, coverage, apparatus and regression
+snapshot. Its correction audit has numerically identical JSON values; a few
+rounded slopes serialize as `-0.0` instead of `0.0`. No book baselines were
+updated for the dependency refresh. English/Cyrillic visual rendering also
+passes with the refreshed WeasyPrint dependencies. Evidence and resolver reports
+are in `work/dependency-upgrade-20261018/`.

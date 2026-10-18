@@ -3523,20 +3523,20 @@
       "slug": "altayskiy-shamanizm",
       "editorial": false,
       "artifacts": {
-        "book-model.json": "dddbced039e4dd92cc924436b2108b7e98fcf857246a2c2fd831ff5c9b602c43",
-        "corrected-pages.json": "2214e385afa7b9153d6c881477de68f368e562263b18f8d0fb8cfd02f63b0019",
-        "text-coverage.json": "83a84180116f44a58ee02e1b7fdca14a0f295bb5e79a90c3f2713ab3802906dd",
+        "book-model.json": "62648db0b449b516be465371fc96ae3c1b8ec38aff8df8ad4565df1b4473631e",
+        "corrected-pages.json": "9c206881f1cd30b21e76f1adec30d034e4b0e8a6720fb754b47dc6f7a8a720fd",
+        "text-coverage.json": "30c508d884f222a429f3336a3df9aadab9dec08cdff6d4019787646afbb3e83b",
         "apparatus-analysis.json": "66f717e31c5dca5201a68b053b34b18f53fd74d540f85c462e87b0df3e3c9af7",
-        "altayskiy-shamanizm.txt": "f922e9d77987f053bd1a764e0f926652d8106a3c8ffa11d3b0ab3eb5e714b8d0"
+        "altayskiy-shamanizm.txt": "62fa2fb60da449990e0820a867a2a066212d23b2dad07f7b89e64db6b4ec42f1"
       },
-      "epub_sha256": "b54024972c161f013663275e2ef8523c605934f12af24f070d245440f6336220",
+      "epub_sha256": "7f3ec04e421190f72f12f8c92e4906e242fea87f336b1a1a6d26e28d869c4bee",
       "epub_members": {
         "META-INF/container.xml": "8cb32381a21d57fe5202fe79f5252a9f1392f2de22d786dc2dd2b879a2a8f5ae",
-        "OEBPS/chapter-01.xhtml": "ffc2c94f4fbd6b69881d1a0b673426068a9a39aca6a5ea10a666d91fa9a1e50e",
-        "OEBPS/chapter-02.xhtml": "e4098a2921e7904f6517128203a28d9126133dc70c13e676766d117f57a7818f",
-        "OEBPS/chapter-03.xhtml": "50d1b1d538cbfeb9f1f6f231edb93ab14deb51ef3d1f1c936859486562a0ea13",
-        "OEBPS/chapter-04.xhtml": "2c8f030a0feca9f011b7f254cc66b8578fd50eba77af962a8706660c6b215109",
-        "OEBPS/chapter-05.xhtml": "2de28cda9dba5e6398a768e3497253f14bf9c6e56036f2bf5df9acbe77da7c51",
+        "OEBPS/chapter-01.xhtml": "131a13f0b83a6b4ae2591ccaa3647924c7ca1acd08c965d6299c4ae4033ba86d",
+        "OEBPS/chapter-02.xhtml": "87a5f4753481ba889dc49a6799f052561b43a7120f8a4dac1aa55afcff723ff3",
+        "OEBPS/chapter-03.xhtml": "5963ba1938a66f30bba5a501331664f262b94b0bf692993067aae3ed000abb50",
+        "OEBPS/chapter-04.xhtml": "b90bfec98bd2b9ab9a5fdab81fbb55374f43288728b06da0c820f79466010c35",
+        "OEBPS/chapter-05.xhtml": "9894b1a7a19ee411ece918ac2133c7722ec6b1b215ed274c761ab0f099acbead",
         "OEBPS/chapter-06.xhtml": "dfb0e1c18c962023228d2b7237e8c321e776c38a72fc27c6135002345c72657e",
         "OEBPS/chapter-07.xhtml": "ab92015af833389c1c6ef70edacda6def3e45f3227ce8dd4eb240b65600524b9",
         "OEBPS/chapter-08.xhtml": "06e6fa1532aaed5b67319172b365473673dd8d1fd3c38c9a7c1d11e76a8dbe6d",
@@ -3546,7 +3546,7 @@
         "OEBPS/cover.jpg": "ff3836955de2afc59ae99988ee48f2275529b8255e877e249fabc2ad91c68581",
         "OEBPS/cover.xhtml": "443777612568f68d60914c76f8596c9c6ef77f5f111cb4def9d0ecdc3d16db1d",
         "OEBPS/edition-note.xhtml": "e1bdb067cef7f0a115b566e8f5ec7b5462662091f4fea51fdcda00b04a7a5eeb",
-        "OEBPS/nav.xhtml": "54e78baa07954aba87430e0e129cbd5fdc63f2dea4c8301a7c847edcb196d001",
+        "OEBPS/nav.xhtml": "ac32d564ac1bcbd48b4ce53ec8b8f1cd6a4897a66f412f97ce0a873300b38ddb",
         "OEBPS/ornament-115.jpg": "677154b32376a03a2b76ccc5e82647c7dc76dd830d8f9ae62eff457aa3a54d81",
         "OEBPS/ornament-116.jpg": "87b8f4d9972c05a9b8534d0bb295aedef94b7d512a88171c3b43087968f30710",
         "OEBPS/ornament-21.jpg": "83a1444a46605fb09491ab8e9f351c523d5f802733b22cad223b0968357a2115",
@@ -3561,35 +3561,35 @@
         "mimetype": "e468e350d1143eb648f60c7b0bd6031101ec0544a361ca74ecef256ac901f48b"
       },
       "coverage": {
-        "excluded": 354,
-        "body": 13998,
-        "note": 1587
+        "excluded": 387,
+        "body": 13968,
+        "note": 1584
       },
       "chapters": [
         {
           "title": "Введение",
-          "sha256": "9174fc626b82160552503a81801fdb7372c6ee74c2ce2af5b998786f91bd2980",
-          "blocks": 50
+          "sha256": "7e66160e7468d24463bbb9204869407a8779b486d6a14f7a94af20056fab39b9",
+          "blocks": 49
         },
         {
           "title": "Глава 1. Алтайский шаманизм как религия",
-          "sha256": "00326f7a38abb2d94be971445fe13ac34d98a4dc22a3d66223ffbf008ad2e56e",
-          "blocks": 240
+          "sha256": "50b452882085a1be043fbd44a9e6ed3c0be88542f2354af87735402fdb2deb5a",
+          "blocks": 232
         },
         {
           "title": "Глава 2. Кам и его ритуальные атрибуты",
-          "sha256": "4c4b9b401cff2ab4ad426aa115028069ba3289b6ea4903398fba7ab5f1708cbf",
-          "blocks": 343
+          "sha256": "a56b3b476ba497c74a0f7a6a93b7b1d201bcf0c5535472a855037619fa7eac05",
+          "blocks": 335
         },
         {
           "title": "Глава 3. Пантеон алтайского шаманизма",
-          "sha256": "8ceab4dea12c940d62e53095bc7b15813ad81ba1575d7e5bdc9602c524040d4d",
-          "blocks": 165
+          "sha256": "2b99334d4a7ae4ba9c438e52554a6ecb3b564147c81955bc1949d418e382fbf6",
+          "blocks": 162
         },
         {
           "title": "Заключение",
-          "sha256": "3e42c567a680c350fdd2e34703841d85bc663e64f5691a05eaba80c5362b6157",
-          "blocks": 25
+          "sha256": "ba8455a403e519859f92f6a9b9e7039086b94db3fe5205eaab35ec5c2275c3bd",
+          "blocks": 24
         },
         {
           "title": "Список сокращений",

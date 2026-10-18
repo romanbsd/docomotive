@@ -14,6 +14,141 @@ def signature(text):
     return " ".join("".join(c if c.isalpha() else " " for c in text.upper()).split())
 
 
+def extend_footers(pages, offset, folios):
+    """Recognize merged folios and recurring printer labels from margin evidence."""
+    evidence = dict(
+        offset=offset,
+        supporting_pages=sorted({r["page"] for r in folios}),
+        accepted=[],
+        review=[],
+    )
+    if len(evidence["supporting_pages"]) < 5:
+        return [], evidence
+    # OCR may read a compact gathering number as a look-alike letter.
+    label = r"[0-9ЗзОоІIl]{1,3}\s*[*∗]?"
+    numbered = re.compile(r"^(\S{1,8})\s+(.+?)\s+(\d{1,4})$")
+    bare = re.compile(rf"^({label})\s+(.+?)$")
+    pair = re.compile(r"^\d{1,3}\s*(?:[*∗%]\s*|\s+)(\d{1,4})$")
+    decorated = re.compile(r"^[•·*∗—–-]\s*(\d{1,4})$")
+
+    def geometry(n, row, outer=True):
+        nearby = [r for r in folios if abs(r["page"] - n) <= 12]
+        controls = nearby if len(nearby) >= 3 else folios
+        centers = [(r["bbox"][1] + r["bbox"][3]) / 2 for r in controls]
+        center = statistics.median(centers)
+        mad = statistics.median(abs(v - center) for v in centers)
+        box = row["bbox"]
+        tolerance = min(0.035, max(0.015, 4 * mad))
+        aligned = (
+            box[1] > 0.84
+            and box[3] - box[1] <= 0.035
+            and abs((box[1] + box[3]) / 2 - center) <= tolerance
+        )
+        peers = [r for r in controls if r["page"] % 2 == n % 2]
+        peers = peers or controls
+        edge = statistics.median(r["bbox"][2] for r in peers)
+        return aligned and (not outer or abs(box[2] - edge) <= 0.04), dict(
+            control_pages=[r["page"] for r in controls],
+            center_y=center,
+            tolerance_y=tolerance,
+            outer_right=edge,
+        )
+
+    families = defaultdict(set)
+    for n, rows in pages.items():
+        n = int(n)
+        for row in rows:
+            match = numbered.fullmatch(row["text"].strip())
+            if (
+                match
+                and re.fullmatch(label, match[1])
+                and int(match[3]) == n + offset
+                and 4 <= len(signature(match[2])) <= 50
+                and row["bbox"][2] - row["bbox"][0] >= 0.4
+                and geometry(n, row)[0]
+            ):
+                families[signature(match[2])].add(n)
+    known = {key: sorted(ns) for key, ns in families.items() if len(ns) >= 3}
+    evidence["printer_label_families"] = known
+
+    def family_for(text):
+        key = signature(text)
+        if key in known:
+            return key
+        # Corrupt initials and compact gathering numbers must not defeat an
+        # established label. Keep its final long word exact and reject ties;
+        # fuzzy matches never become new seeds or form transitive chains.
+        words = key.split()
+        matches = [
+            candidate
+            for candidate in known
+            if words
+            and len(words[-1]) >= 5
+            and candidate.split()[-1] == words[-1]
+            and difflib.SequenceMatcher(None, candidate, key).ratio() >= 0.75
+        ]
+        return matches[0] if len(matches) == 1 else ""
+
+    existing = {(r["page"], tuple(r["bbox"]), r["text"]) for r in folios}
+    additions = []
+    for n, rows in pages.items():
+        n = int(n)
+        for row in rows:
+            text = row["text"].strip()
+            if (
+                row["bbox"][1] <= 0.84
+                or (n, tuple(row["bbox"]), row["text"]) in existing
+            ):
+                continue
+            match = numbered.fullmatch(text)
+            short = pair.fullmatch(text) or decorated.fullmatch(text)
+            family = family_for(match[2]) if match else ""
+            full_label = bare.fullmatch(text)
+            if not family and full_label:
+                family = family_for(full_label[2])
+            kind = None
+            if match and family in known and int(match[3]) == n + offset:
+                kind = "printer-label-and-folio"
+            elif short and int(short[1]) == n + offset:
+                # Two plain numbers need a broad box; compact mathematical or
+                # citation pairs cannot establish independent margin positions.
+                if decorated.fullmatch(text) or row["bbox"][2] - row["bbox"][0] >= 0.4:
+                    kind = "gathering-or-decoration-and-folio"
+            elif (
+                not match
+                and full_label
+                and family in known
+                and row["bbox"][0] < 0.4
+                and row["bbox"][2] - row["bbox"][0] <= 0.5
+            ):
+                kind = "recurring-printer-label"
+            if not kind:
+                continue
+            supported, proof = geometry(n, row, outer=kind != "recurring-printer-label")
+            item = dict(
+                page=n, bbox=row["bbox"], text=row["text"], kind=kind, evidence=proof
+            )
+            if family in known:
+                item["evidence"]["family_pages"] = known[family]
+            evidence["accepted" if supported else "review"].append(item)
+            if supported:
+                additions.append(dict(page=n, bbox=row["bbox"], text=row["text"]))
+    return additions, evidence
+
+
+def footer_leakage(model, layout):
+    """Catch classified margin rows reintroduced or edited after layout analysis."""
+    footers = {(r["page"], tuple(r["bbox"])): r for r in layout.get("footers", [])}
+    leaks = {}
+    for chapter in model:
+        for block in chapter["blocks"] + chapter["notes"]:
+            for source in block.get("sources", []):
+                key = source["page"], tuple(source["bbox"])
+                if key in footers:
+                    leaks[key] = dict(footers[key], rendered_text=source["text"])
+    return list(leaks.values())
+
+
 def infer(pages):
     candidates = defaultdict(list)
     for page, rows in sorted(pages.items()):
@@ -87,23 +222,28 @@ def infer(pages):
     offsets = defaultdict(list)
     for offset, n, r in numeric:
         offsets[offset].append((n, r))
-    offset = max(offsets, key=lambda k: (len(offsets[k]), -abs(k)), default=None)
+    offset = max(
+        offsets, key=lambda k: (len({n for n, _ in offsets[k]}), -abs(k)), default=None
+    )
     footers = (
         []
-        if offset is None or len(offsets[offset]) < 5
+        if offset is None or len({n for n, _ in offsets[offset]}) < 5
         else [
             {"page": n, "bbox": r["bbox"], "text": r["text"]}
             for n, r in offsets[offset]
         ]
     )
+    additional, footer_analysis = extend_footers(pages, offset, footers)
+    footers.extend(additional)
     return {
         "mode": "conservative-recurrence",
         "headers": groups,
         "printed_page_offset": offset,
         "footers": footers,
+        "footer_analysis": footer_analysis,
         "limitations": [
             "Beta intervals describe recurrence within the observed span, not probability of header correctness.",
-            "Unique ornaments and OCR-damaged page numbers require profile rules or review.",
+            "Unrecognized or ambiguously positioned margin matter still requires source review.",
         ],
     }
 

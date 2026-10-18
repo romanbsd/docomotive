@@ -536,6 +536,12 @@ def build(
         )
     layout = infer(pages)
     write_json(out / "layout-analysis.json", layout)
+    audit.extend(
+        dict(
+            item, rule=item["kind"], kind="composite-footer-exclusion", action="exclude"
+        )
+        for item in layout["footer_analysis"]["accepted"]
+    )
     book["_layout"] = {
         "excluded_rows": [r for g in layout["headers"] for r in g["rows"]]
         + layout["footers"]
@@ -1092,6 +1098,12 @@ def build(
     from text_quality import findings
 
     quality_findings = findings(model, review)
+    from layout import footer_leakage
+
+    quality_findings.extend(
+        dict(item, kind="footer-leakage", primary=item["rendered_text"])
+        for item in footer_leakage(model, layout)
+    )
     write_json(
         out / "text-quality.json",
         dict(

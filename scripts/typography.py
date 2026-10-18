@@ -224,6 +224,15 @@ def image_only_headings(rows, book, number, audit):
         )
         if (
             r.get("kind", "text") != "text"
+            # The page edge supplies no preceding line or spacing evidence.
+            # First-row labels need independent title geometry or case;
+            # full-width mixed-case prose can satisfy the other checks.
+            or (
+                previous is None
+                and not centered
+                and not text.isupper()
+                and r["bbox"][2] - r["bbox"][0] > 0.65 * (right - margin)
+            )
             or not 3 <= len(text) <= 55
             or not label
             or not label[0].isupper()
@@ -276,9 +285,13 @@ def image_only_headings(rows, book, number, audit):
                     text=item["text"],
                     bbox=item["bbox"],
                     evidence=(
-                        "centered styled label or title pair, prose neighbor and extra preceding spacing"
-                        if centered
-                        else "short margin-aligned label, prose neighbor and extra preceding spacing"
+                        "page-first label with narrow measure, uppercase or centered style and prose neighbor"
+                        if previous is None
+                        else (
+                            "centered styled label or title pair, prose neighbor and extra preceding spacing"
+                            if centered
+                            else "short margin-aligned label, prose neighbor and extra preceding spacing"
+                        )
                     ),
                 )
             )

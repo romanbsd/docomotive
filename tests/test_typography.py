@@ -541,6 +541,73 @@ class TypographyTests(unittest.TestCase):
                 self.assertEqual([r["text"] for r in rows], [r["text"] for r in source])
                 self.assertEqual(bool(audit), expected)
 
+    def test_page_first_prose_needs_more_than_missing_preceding_spacing(self):
+        for adaptive in (False, True):
+            for chapter_start in (False, True):
+                with self.subTest(adaptive=adaptive, chapter_start=chapter_start):
+                    rows = [
+                        row(
+                            "Another ordinary prose line establishes the page measure and line pitch.",
+                            i,
+                            width=0.7,
+                            x=0.1,
+                        )
+                        for i in range(12)
+                    ]
+                    rows[0][
+                        "text"
+                    ] = "An Author. The discussion of the subject continues in"
+                    book = dict(
+                        chapters=[[1, 2, "Test"]],
+                        chapter_body_starts={"1": 0.19},
+                        recover_centered_headings=adaptive,
+                    )
+                    audit = []
+                    before = [r["text"] for r in rows]
+                    image_only_headings(rows, book, 1 if chapter_start else 2, audit)
+                    self.assertNotEqual(rows[0].get("kind"), "heading")
+                    self.assertEqual(audit, [])
+                    self.assertEqual([r["text"] for r in rows], before)
+
+    def test_page_first_centered_italic_heading_retains_independent_evidence(self):
+        rows = [
+            row(
+                "Ordinary broad prose supplies the surrounding text measure.",
+                i,
+                width=0.7,
+                x=0.1,
+            )
+            for i in range(12)
+        ]
+        rows[0] = row("A Centered Heading", width=0.3, x=0.3, italic=True)
+        audit = []
+        image_only_headings(
+            rows,
+            dict(chapters=[[1, 2, "Test"]], recover_centered_headings=True),
+            2,
+            audit,
+        )
+        self.assertEqual(rows[0].get("kind"), "heading")
+        self.assertEqual(len(audit), 1)
+
+    def test_page_first_label_retains_narrow_measure_or_uppercase_evidence(self):
+        for text, width in (("A Section Heading", 0.3), ("A SECTION HEADING", 0.7)):
+            with self.subTest(text=text):
+                rows = [
+                    row(
+                        "Another broad prose line establishes the text measure and line pitch.",
+                        i,
+                        width=0.7,
+                        x=0.1,
+                    )
+                    for i in range(12)
+                ]
+                rows[0] = row(text, width=width, x=0.1)
+                audit = []
+                image_only_headings(rows, dict(chapters=[[1, 2, "Test"]]), 2, audit)
+                self.assertEqual(rows[0].get("kind"), "heading")
+                self.assertIn("page-first label", audit[0]["evidence"])
+
     def test_centered_italic_subheading_is_opt_in_and_needs_style_evidence(self):
         from copy import deepcopy
 
