@@ -1,7 +1,7 @@
 # Python 3.14 core + visual + patched extractor + dev environment.
 # Build the local extractor wheel first; install with --find-links work/dependency-compat/dist.
 antlr4-python3-runtime==4.9.3
-black==26.10.0
+black==26.10.1
 certifi==2026.7.22
 cffi==2.1.1
 charset-normalizer==3.5.2
