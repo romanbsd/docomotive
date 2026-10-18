@@ -77,7 +77,7 @@ pyphen==0.18.1
 python-dateutil==2.9.0.post0
 pytz==2026.4
 PyYAML==6.0.3
-rapidocr==3.9.2
+rapidocr==3.10.0
 regex==2026.9.29
 requests==2.34.2
 requests-toolbelt==1.0.0
