@@ -196,6 +196,29 @@ class ConfusionTests(unittest.TestCase):
         ]:
             self.assertEqual(repaired(raw, language="ru")[0], fixed)
 
+    def test_corroborated_dotted_letters_are_not_dictionary_normalized(self):
+        for source, witnesses in [
+            ("Акі башту 172", ("Ак! башту 172", "Акі башту 172")),
+            ("Мір и покой", ("мір и покой", "Мир и покой")),
+            (
+                "Акі баштыг 171 172 176",
+                ("Аки баштыг 171 172 176", "Акі баштыг 171 172 176"),
+            ),
+        ]:
+            with self.subTest(source=source):
+                text, kinds = repaired(source, witnesses, "ru")
+                self.assertEqual(text, source)
+                self.assertNotIn("russian-letter-lookalike", kinds)
+                self.assertNotIn("russian-letter-witness", kinds)
+        # The ordinary no-witness lexical fallback remains available.
+        self.assertEqual(
+            repaired("оказываєтся такоє", language="ru")[0], "оказывается такое"
+        )
+        self.assertEqual(
+            repaired("оказываєтся такоє", ("оказываєтся такоє",) * 2, "ru")[0],
+            "оказывается такое",
+        )
+
     def test_nonword_takes_a_fresh_common_word_one_letter_away(self):
         self.assertEqual(
             repaired("in the тувдре of the", ("in the тундре of the", ""), "ru")[0],

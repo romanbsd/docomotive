@@ -453,13 +453,13 @@ def recover_gap_rows(pages, book, cache, recognizer, dictionary, audit):
             ):
                 target = readings[0]
             elif recognizer.models is not None:
-                from common import digest
+                from common import digest, write_bytes_atomic
 
                 crop = recognizer.work / (
                     "gap-" + digest(repr((n, rect)).encode()) + ".png"
                 )
                 crop.parent.mkdir(parents=True, exist_ok=True)
-                page.get_pixmap(
+                pixels = page.get_pixmap(
                     dpi=600,
                     clip=pymupdf.Rect(
                         rect[0] * page.rect.width,
@@ -468,7 +468,8 @@ def recover_gap_rows(pages, book, cache, recognizer, dictionary, audit):
                         rect[3] * page.rect.height,
                     ),
                     colorspace=pymupdf.csGRAY,
-                ).save(crop)
+                )
+                write_bytes_atomic(crop, pixels.tobytes("png"))
                 evidence = recognizer.with_fallback(
                     dict(readings=readings), crop, "UNSPECIFIED"
                 ).get("alternate_crop", {})

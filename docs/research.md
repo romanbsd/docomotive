@@ -1470,3 +1470,151 @@ links to its own note; a new plain-text note heading reflects that split.
 Numeric links rise 30 to 32, unresolved note entries fall 28 to 27, while
 source-row coverage counts and all ten figures are unchanged. The remaining
 unresolved entries in that older book were not accepted as a new baseline.
+
+
+### Potapov: Алтайский шаманизм (2026-10-18)
+
+Source: `input/Potapov_Altayskiy-shamanizm.pdf`, 321 image-only pages.
+The title, full author name, publisher, date and ISBN 5-02-027324-4 are
+source-checked against PDF 1, 2 and 321. The title page supplies the EPUB cover;
+the dedication on PDF 3 is retained in the edition information. No external
+metadata or reconstructed missing material is imported.
+
+`config/altayskiy-shamanizm/book.json` records the source hash, reviewed main
+chapter ranges, opening cutoffs and artwork boxes. All 321 pages were inspected
+in contact sheets, with enlarged checks of the openings, bibliography boundaries,
+index, colophon and every retained image crop. The scan contains two photographic
+plates on PDF 204–205 (caption: «Рис. 5. Шаманка в маньяке»), three opening
+vignettes and three closing ornaments. Small photographic captions remain inside
+the facsimiles. The two-column terminology index is recognized column by column.
+This is sampled textual review and a full visual inventory, not complete
+proofreading or a measured whole-book OCR accuracy score.
+
+Notes follow the introduction and each main chapter: the reviewed note zones
+begin at PDF 18 (y=0.418), 107 (0.590), 233 (0.485) and 298 (0.262).
+Subsequent note leaves continue the same source groups. The conclusion ends on
+PDF 315 above its four references and the abbreviations list: a chapter split at
+y=0.535 preserves both parts. Hanging-reference layout on that mixed page applies
+only to abbreviations below y=0.59; the concluding prose and four references
+above it retain their ordinary first-line indents. Notes retain grouped
+page navigation; individual source superscripts have not been fully recovered or
+linked. Russian, foreign-language citations and indigenous transliterations remain
+subject to the offline review queue.
+
+Vision is primary except for the English summary (PDF 319–320), which uses
+English Tesseract. Bibliographic pages use Russian+English Tesseract witnesses;
+other pages use Russian. All three OCR engines retain their independent cached
+observations. Ten checked overlays restore four raised initial note labels read
+as apostrophes, three damaged conclusion-reference labels, two OCR errors
+in the English summary's first paragraph, and the visibly printed щ in the
+opening «непрекращающийся». The last is a reviewed exception: automatic seam
+letter substitution deliberately requires repeated corpus evidence, absent here.
+They preserve the printed wording; no editorial spelling normalization is used.
+
+The generic `separate_undotted_notes` option adds HTML line breaks for consecutive
+numbered note entries whose source starts are indented beyond the local
+continuation margin. It changes no canonical words, styles or source anchors.
+Sparse or absent geometry and nonconsecutive labels abstain. Numeric citation
+continuations at the ordinary margin remain joined. The option defaults off;
+existing profiles are unchanged. Focused tests cover these cases and preserve
+legacy dotted-note behavior.
+
+Rebuild recipe:
+
+```sh
+OMP_THREAD_LIMIT=1 .venv/bin/python scripts/pipeline.py \
+  input/Potapov_Altayskiy-shamanizm.pdf \
+  --profile config/altayskiy-shamanizm/book.json \
+  --work work/altayskiy-shamanizm --output output/altayskiy-shamanizm \
+  --skip-extraction
+```
+
+
+### Concurrent OCR cache publication (2026-10-18)
+
+Two forced-overlap tests reproduce the original failures at `e0449e0`: a word
+crop reader observes a truncated PNG while another build writes the same key,
+and a page extraction loses its image when an overlapping extraction deletes the
+shared filename. These are distinct races; retrying or merely using atomic JSON
+writes does not fix their image lifetimes.
+
+`write_bytes_atomic` now publishes complete binary cache entries through unique,
+closed staging files. Word crops, context crops and gap-recovery crops use it;
+fragment audit crops share the same helper. Crop digests come from the bytes
+rendered by that writer. Cached recognition is reused only when its PNG exists
+and matches its stored checksum, so damaged images from older runs are rebuilt.
+Page extraction uses a private temporary directory for each page/column and
+cleans it on both success and failure. Reused OCR-page JSON is also atomic.
+Cold Vision compiles use private build directories and atomically publish
+executables keyed by Swift source, allowing different source revisions to share
+a work directory without rewriting each other's binaries. Outputs remain in
+separate directories.
+
+The six concurrency tests cover suspended partial image writes, overlapping
+extraction cleanup, missing/corrupt cached crops, failed publication, failed OCR,
+and simultaneous cold compiles for matching and different Swift sources. Both
+forced overlaps fail on the original code and pass on the corrected code. Four
+real cold extraction jobs (two Tesseract and two Vision) sharing one work cache
+also passed; both engines' page JSON matched their previous cached observations
+exactly, and all private scratch directories were removed.
+
+The Potapov build additionally exposed a dictionary-only Russian-letter repair
+changing the correctly recognized Altai transcription «Акі» to «Аки». The dot is
+visible in the PDF 316 index crop. The generic rule now preserves an i-family
+letter when an aligned independent engine corroborates that original token,
+including case differences. This narrows substitutions; it adds no textual
+edits. Tests cover both transliteration and historical dotted-letter spellings,
+contradictory normalization, and the existing ordinary-Russian fallback.
+
+
+Regression review of the initially broader glyph guard found one unwanted word
+change: *Chosen by Spirits*, PDF 171, would restore OCR «соответствуєт» where the
+scan clearly prints «соответствует». An *Obryad* audit entry on PDF 272 changed
+without a text change; its header prints «Часть». Enlarged source strips were
+checked for both. The final guard is therefore limited to the visibly distinct
+i-family (І, і, Ї, ї), retaining the existing e/є look-alike behavior for ordinary
+Russian print. This is a general alphabet distinction, not a page/phrase exception.
+The narrowed tests cover agreeing-but-wrong e/є OCR as well as corroborated dotted
+letters. Stored older-book baselines have not been accepted to hide differences.
+
+
+Final checks of *Chosen by Spirits* and *Obryad* against fresh `e0449e0`
+worktree builds found byte-identical EPUBs, text, canonical models, corrected
+rows, coverage, apparatus and correction decisions. The only regression-snapshot
+difference is `lexical-repair.json/resources/span_repair.py`: that source checksum
+now records the shared atomic binary helper refactor. Removing just this resource
+checksum makes each complete lexical report identical. Full-output differences
+outside snapshots are runtime counters, the build-input fingerprint and review
+HTML's checkout-relative source links. No older baseline was updated. Two full
+*Obryad* builds also completed concurrently against the same work cache with
+identical outputs, reproducing the formerly failing execution pattern safely.
+The final suite passes all 549 tests.
+
+
+The optional lexical pass was evaluated and rejected for this profile. Its 59
+accepted proposals were inspected against enlarged source strips; several
+shortened valid inflected words or indigenous terms (for example PDF 271
+«молениях» and PDF 283 «Кудай»). Therefore `repair_lexical_confusions` is false
+for this book; none of those automatic proposals are published. This feature
+selection does not override a shared rule or change earlier profiles. Remaining
+OCR errors belong to the review queue; this conversion does not claim fully
+proofread text. Candidate-generation and source-crop evidence from the
+experimental run remain under `work/altayskiy-shamanizm/`.
+
+
+Delivery validation: the final Potapov profile passes source coverage (13,998
+body rows and 1,587 note rows, with 354 explicitly excluded rows), text-quality
+gates and a deterministic cached rebuild. The new `altayskiy-shamanizm`
+regression case and initial snapshot were added only after source/image review;
+all previous baseline entries are byte-for-byte unchanged as JSON values. The
+final chapter opening retains «Вопросы теологии» and reconstructs
+«непрекращающийся». UTF-8 render samples cover the introduction, first chapter,
+abbreviations, terminology index and English summary; all eight retained
+figures were checked against the scans. Grouped notes and remaining OCR review
+limitations described above still apply.
+
+The completed final pipeline also writes an offline review sheet (7,536
+occurrences in 2,559 pattern groups) and passes EPUBCheck with zero errors or
+warnings. The reviewed EPUB SHA-256 is
+`b54024972c161f013663275e2ef8523c605934f12af24f070d245440f6336220`.
+`work/altayskiy-shamanizm/delivery-validation.json` records the final checks.

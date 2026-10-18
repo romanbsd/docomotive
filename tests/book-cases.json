@@ -117,5 +117,12 @@
     "profile": "config/obryad-folklor/reading-book.json",
     "work": "work/obryad-folklor",
     "editorial": true
+  },
+  {
+    "name": "altayskiy-shamanizm",
+    "pdf": "input/Potapov_Altayskiy-shamanizm.pdf",
+    "profile": "config/altayskiy-shamanizm/book.json",
+    "work": "work/altayskiy-shamanizm",
+    "editorial": false
   }
 ]

@@ -251,11 +251,27 @@ def notes_html(notes, book, seen=None, page_links=None, name=""):
         # A source page group can contain a numbered list. Preserve canonical
         # words and styles while separating only source-bound consecutive entries.
         entries = []
+        margins = {}
+        if book.get("separate_undotted_notes"):
+            for source in note["sources"]:
+                if source.get("bbox"):
+                    margins.setdefault(source["page"], []).append(source["bbox"][0])
+            margins = {
+                page: sorted(values)[len(values) // 5]
+                for page, values in margins.items()
+                if len(values) >= 4
+            }
         for source in note["sources"]:
             start = source.get("start")
             if start is None:
                 continue
             marker = re.match(r"(\d{1,3})\.\s", note["text"][start:])
+            if not marker and source.get("bbox") and source["page"] in margins:
+                # Raised note labels often lose their typography in OCR. An
+                # indented source row and a consecutive peer are both needed;
+                # a volume/page number at the continuation margin is not a label.
+                if source["bbox"][0] - margins[source["page"]] >= 0.02:
+                    marker = re.match(r"(\d{1,3})\s", note["text"][start:])
             if marker:
                 entries.append((int(marker[1]), start))
         breaks = [

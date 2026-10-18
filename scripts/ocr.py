@@ -399,8 +399,7 @@ ROMAN = re.compile(r"M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})")
 
 
 def repair_russian_letters(row, readings, change):
-    """Replace letters outside the Russian alphabet that OCR borrowed from
-    Ukrainian or Belarusian (І, є, ї, ...) and the Latin-script "Nº"."""
+    """Repair borrowed letters while retaining corroborated source alphabets."""
     for match in reversed(list(re.finditer(r"N[º°](?=\s?\d)", row["text"]))):
         change(match.start(), match.end(), "№", "russian-numero", "Nº before a number")
     foreign = "ІіЇїЄєҐґЎў"
@@ -445,6 +444,16 @@ def repair_russian_letters(row, readings, change):
         lone = len(token) == 1 and row["text"][match.end() : match.end() + 1] == "."
         if re.fullmatch(r"[IXV]+", latin) and ROMAN.fullmatch(latin) and not lone:
             change(match.start(), match.end(), latin, "russian-roman-numeral", "")
+            continue
+        # The i-family also occurs in historical spelling and indigenous
+        # transliteration; its visible dot/stem differs from Russian и. Retain
+        # an independently corroborated reading rather than normalizing that
+        # distinction by dictionary frequency alone. The e/є look-alike repair
+        # retains its existing behavior on ordinary Russian print.
+        if any(c in "ІіЇї" for c in token) and any(
+            len(r) == len(tokens) and r[k].casefold() == token.casefold()
+            for r in readings
+        ):
             continue
         # Fresh engines that read Russian letters in those slots, at the same
         # word position, and agree with each other.

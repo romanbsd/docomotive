@@ -7,6 +7,7 @@ import math
 import re
 
 BOOL_KEYS = {
+    "separate_undotted_notes",
     "repair_ocr_word_spacing",
     "recover_index_digits",
     "recover_opening_epigraphs",

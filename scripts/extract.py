@@ -7,7 +7,7 @@ import platform
 import subprocess
 import csv
 import io
-import shutil
+import tempfile
 import ast
 import inspect
 from pathlib import Path
@@ -15,7 +15,13 @@ from pathlib import Path
 import pymupdf
 from source_document import open_source
 
-from common import ROOT, file_digest as sha, load_profile, write_json
+from common import (
+    ROOT,
+    file_digest as sha,
+    load_profile,
+    write_bytes_atomic,
+    write_json,
+)
 from ocr_cache import publish_cache, traineddata_digest, read_ocr_page
 from profile_validation import validate_profile
 from languages import ocr_settings, language_code
@@ -32,6 +38,27 @@ def clipped_observation(box, width, height):
     if result[0] >= result[2] or result[1] >= result[3]:
         raise ValueError("OCR bounding box is empty after clipping")
     return result
+
+
+def vision_binary(work, source):
+    """Compile privately, then publish an executable bound to the Swift source."""
+    binary = work / ("vision-ocr-" + sha(source)[:16])
+    if not binary.exists():
+        with tempfile.TemporaryDirectory(prefix=".vision-build-", dir=work) as scratch:
+            staged = Path(scratch) / "vision-ocr"
+            subprocess.run(
+                [
+                    "swiftc",
+                    "-module-cache-path",
+                    str(work / "swift-cache"),
+                    str(source),
+                    "-o",
+                    str(staged),
+                ],
+                check=True,
+            )
+            staged.replace(binary)
+    return binary
 
 
 def main():
@@ -186,27 +213,11 @@ def main():
         for other in cache.parent.glob("*/provenance.json"):
             if other.parent != cache:
                 peers.append((other.parent, json.loads(other.read_text())))
-    binary = work / "vision-ocr"
-    stamp = work / "swift-source.sha256"
-    if args.engine == "vision" and (
-        not binary.exists()
-        or not stamp.exists()
-        or sha(ROOT / "scripts/vision_ocr.swift") != stamp.read_text().strip()
-    ):
-        subprocess.run(
-            [
-                "swiftc",
-                "-module-cache-path",
-                str(work / "swift-cache"),
-                str(ROOT / "scripts/vision_ocr.swift"),
-                "-o",
-                str(binary),
-            ],
-            check=True,
-        )
-        (work / "swift-source.sha256").write_text(
-            sha(ROOT / "scripts/vision_ocr.swift")
-        )
+    binary = (
+        vision_binary(work, ROOT / "scripts/vision_ocr.swift")
+        if args.engine == "vision"
+        else None
+    )
     for n in numbers:
         target = cache / f"{n:04}.json"
         page = doc[n - 1]
@@ -259,7 +270,7 @@ def main():
                 ):
                     data = read_ocr_page(candidate, n)
                     if data.get("clips") == [list(c) for c in clips]:
-                        shutil.copyfile(candidate, target)
+                        write_bytes_atomic(target, candidate.read_bytes())
                         reused = True
                         break
             if reused:
@@ -270,132 +281,136 @@ def main():
                 continue
         lines = []
         for col, clip in enumerate(clips):
-            image = cache / f"{n:04}-{col}.png"
-            if book.get("scan_raster_only"):
-                from scan_pixels import isolated_scan
+            with tempfile.TemporaryDirectory(
+                prefix=f".page-{n:04}-{col}-", dir=cache
+            ) as scratch:
+                image = Path(scratch) / "page.png"
+                if book.get("scan_raster_only"):
+                    from scan_pixels import isolated_scan
 
-                pixels, _ = isolated_scan(page, clip)
-                # Preserve the original sampling: increasing DPI cannot add detail.
-                pixels.save(image)
-            else:
-                page.get_pixmap(dpi=args.dpi, clip=clip).save(image)
-            from PIL import Image
-
-            with Image.open(image) as raster:
-                raster_width, raster_height = raster.size
-            if args.engine == "tesseract":
+                    pixels, _ = isolated_scan(page, clip)
+                    # Preserve the original sampling: increasing DPI cannot add detail.
+                    pixels.save(image)
+                else:
+                    page.get_pixmap(dpi=args.dpi, clip=clip).save(image)
                 from PIL import Image
 
-                with Image.open(image) as im:
-                    width, height = im.size
-                raw = subprocess.check_output(
-                    [
-                        "tesseract",
-                        str(image),
-                        "stdout",
-                        "-l",
-                        page_language,
-                        *(
-                            ["--tessdata-dir", str(settings["tessdata"])]
-                            if settings["tessdata"]
-                            else []
-                        ),
-                        "--oem",
-                        "1",
-                        "--psm",
-                        "6" if len(clips) > 1 else "3",
-                        # Explicit output mode also works with model-only
-                        # tessdata directories lacking the packaged configs/.
-                        "-c",
-                        "tessedit_create_tsv=1",
-                    ],
-                    text=True,
-                    stderr=subprocess.DEVNULL,
-                )
-                grouped = {}
-                for word in csv.DictReader(
-                    io.StringIO(raw), delimiter="\t", quoting=csv.QUOTE_NONE
-                ):
-                    if word["level"] != "5" or not word["text"].strip():
-                        continue
-                    key = tuple(word[k] for k in ["block_num", "par_num", "line_num"])
-                    x, y, w, h = map(
-                        int, [word[k] for k in ["left", "top", "width", "height"]]
-                    )
-                    grouped.setdefault(key, []).append(
-                        {
-                            "text": word["text"],
-                            "confidence": float(word["conf"]) / 100,
-                            "bbox": [
-                                x / width,
-                                y / height,
-                                (x + w) / width,
-                                (y + h) / height,
-                            ],
-                        }
-                    )
-                result = {"lines": []}
-                for words in grouped.values():
-                    result["lines"].append(
-                        {
-                            "text": " ".join(w["text"] for w in words),
-                            "confidence": sum(w["confidence"] for w in words)
-                            / len(words),
-                            "bbox": [
-                                min(w["bbox"][0] for w in words),
-                                min(w["bbox"][1] for w in words),
-                                max(w["bbox"][2] for w in words),
-                                max(w["bbox"][3] for w in words),
-                            ],
-                        }
-                    )
-            elif engine is None:
-                raw = subprocess.check_output(
-                    [str(binary), "--language", settings["vision"], str(image)],
-                    text=True,
-                )
-                result = json.loads(raw)
-            else:
-                from PIL import Image
+                with Image.open(image) as raster:
+                    raster_width, raster_height = raster.size
+                if args.engine == "tesseract":
+                    from PIL import Image
 
-                with Image.open(image) as im:
-                    width, height = im.size
-                r = engine(str(image))
-                result = {
-                    "lines": (
-                        []
-                        if r.txts is None
-                        else [
+                    with Image.open(image) as im:
+                        width, height = im.size
+                    raw = subprocess.check_output(
+                        [
+                            "tesseract",
+                            str(image),
+                            "stdout",
+                            "-l",
+                            page_language,
+                            *(
+                                ["--tessdata-dir", str(settings["tessdata"])]
+                                if settings["tessdata"]
+                                else []
+                            ),
+                            "--oem",
+                            "1",
+                            "--psm",
+                            "6" if len(clips) > 1 else "3",
+                            # Explicit output mode also works with model-only
+                            # tessdata directories lacking the packaged configs/.
+                            "-c",
+                            "tessedit_create_tsv=1",
+                        ],
+                        text=True,
+                        stderr=subprocess.DEVNULL,
+                    )
+                    grouped = {}
+                    for word in csv.DictReader(
+                        io.StringIO(raw), delimiter="\t", quoting=csv.QUOTE_NONE
+                    ):
+                        if word["level"] != "5" or not word["text"].strip():
+                            continue
+                        key = tuple(
+                            word[k] for k in ["block_num", "par_num", "line_num"]
+                        )
+                        x, y, w, h = map(
+                            int, [word[k] for k in ["left", "top", "width", "height"]]
+                        )
+                        grouped.setdefault(key, []).append(
                             {
-                                "text": text,
-                                "confidence": float(score),
+                                "text": word["text"],
+                                "confidence": float(word["conf"]) / 100,
                                 "bbox": [
-                                    float(box[:, 0].min() / width),
-                                    float(box[:, 1].min() / height),
-                                    float(box[:, 0].max() / width),
-                                    float(box[:, 1].max() / height),
+                                    x / width,
+                                    y / height,
+                                    (x + w) / width,
+                                    (y + h) / height,
                                 ],
                             }
-                            for text, score, box in zip(r.txts, r.scores, r.boxes)
-                        ]
+                        )
+                    result = {"lines": []}
+                    for words in grouped.values():
+                        result["lines"].append(
+                            {
+                                "text": " ".join(w["text"] for w in words),
+                                "confidence": sum(w["confidence"] for w in words)
+                                / len(words),
+                                "bbox": [
+                                    min(w["bbox"][0] for w in words),
+                                    min(w["bbox"][1] for w in words),
+                                    max(w["bbox"][2] for w in words),
+                                    max(w["bbox"][3] for w in words),
+                                ],
+                            }
+                        )
+                elif engine is None:
+                    raw = subprocess.check_output(
+                        [str(binary), "--language", settings["vision"], str(image)],
+                        text=True,
                     )
-                }
-            for line in result["lines"]:
-                box = line["bbox"]
-                clipped = clipped_observation(box, raster_width, raster_height)
-                if clipped != box:
-                    line["raw_bbox"] = box
-                    line["geometry_adjustment"] = "subpixel-raster-edge-clipping"
-                box = clipped
-                line["bbox"] = [
-                    (clip.x0 + box[0] * clip.width) / page.rect.width,
-                    box[1],
-                    (clip.x0 + box[2] * clip.width) / page.rect.width,
-                    box[3],
-                ]
-                line["column"] = col
-                lines.append(line)
-            image.unlink()
+                    result = json.loads(raw)
+                else:
+                    from PIL import Image
+
+                    with Image.open(image) as im:
+                        width, height = im.size
+                    r = engine(str(image))
+                    result = {
+                        "lines": (
+                            []
+                            if r.txts is None
+                            else [
+                                {
+                                    "text": text,
+                                    "confidence": float(score),
+                                    "bbox": [
+                                        float(box[:, 0].min() / width),
+                                        float(box[:, 1].min() / height),
+                                        float(box[:, 0].max() / width),
+                                        float(box[:, 1].max() / height),
+                                    ],
+                                }
+                                for text, score, box in zip(r.txts, r.scores, r.boxes)
+                            ]
+                        )
+                    }
+                for line in result["lines"]:
+                    box = line["bbox"]
+                    clipped = clipped_observation(box, raster_width, raster_height)
+                    if clipped != box:
+                        line["raw_bbox"] = box
+                        line["geometry_adjustment"] = "subpixel-raster-edge-clipping"
+                    box = clipped
+                    line["bbox"] = [
+                        (clip.x0 + box[0] * clip.width) / page.rect.width,
+                        box[1],
+                        (clip.x0 + box[2] * clip.width) / page.rect.width,
+                        box[3],
+                    ]
+                    line["column"] = col
+                    lines.append(line)
         data = {
             "page": n,
             "width": page.rect.width,

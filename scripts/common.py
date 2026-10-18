@@ -21,25 +21,28 @@ def read_json(path):
     return json.loads(Path(path).read_text())
 
 
-def write_text_atomic(path, text):
+def write_bytes_atomic(path, data):
     """Publish a complete file; concurrent writers never share a staging name."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     temp = None
     try:
         with tempfile.NamedTemporaryFile(
-            mode="w",
-            encoding="utf-8",
+            mode="wb",
             dir=path.parent,
             prefix=f".{path.name}.",
             delete=False,
         ) as stream:
             temp = Path(stream.name)
-            stream.write(text)
+            stream.write(data)
         temp.replace(path)
     finally:
         if temp is not None:
             temp.unlink(missing_ok=True)
+
+
+def write_text_atomic(path, text):
+    write_bytes_atomic(path, text.encode("utf-8"))
 
 
 def write_json(path, value):
@@ -74,7 +77,7 @@ PROFILE_KEYS = frozenset("""
     language line_join_words link_symbol_footnotes metadata_record_overrides metadata_title_suffix openlibrary_edition
     native_body_size native_excluded_fonts native_font_styles native_heading_sizes
     native_heading_texts native_heading_merge native_index_indents native_list_layout native_quote_pages native_relative_font_sizes native_small_numeric_sup
-    native_superscript_max_size native_typography note_continuations note_starts
+    native_superscript_max_size native_typography note_continuations note_starts separate_undotted_notes
     infer_verse infer_inset_verse page_labels paragraph_margins printed_page_offset publisher publisher_mark
     quote_first_line_indent recover_hanging_margins recover_ocr_regions recover_ocr_glyph_confusions recover_pdf_heading_styles recover_pdf_typography recover_pdf_numeric_superscripts
     recover_scan_font_metrics research_missing_endnotes recover_scanned_endnotes recover_reference_markers recover_variable_superscripts recover_image_only_headings reference_pages repair_lexical_confusions repair_word_wraps

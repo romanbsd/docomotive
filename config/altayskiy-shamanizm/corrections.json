@@ -1,0 +1,130 @@
+[
+  {
+    "page": 18,
+    "before": "' Кратко об этом см.: Потапов Л. П. Некоторые аспекты изучения сибирского",
+    "after": "1 Кратко об этом см.: Потапов Л. П. Некоторые аспекты изучения сибирского",
+    "exact_row": true,
+    "bbox": [
+      0.13204676410977653,
+      0.42435305917031796,
+      0.9665236243118651,
+      0.44797588094665297
+    ],
+    "reason": "Source-checked first numbered bibliographic note: the scan prints a raised numeral 1, not the OCR apostrophe. The remaining row wording is preserved."
+  },
+  {
+    "page": 107,
+    "before": "' Маркс К. Капитал. Т. 1 // Маркс К., Энгельс Ф. Соч. 2-х изд. Т. 23. С. 82",
+    "after": "1 Маркс К. Капитал. Т. 1 // Маркс К., Энгельс Ф. Соч. 2-х изд. Т. 23. С. 82",
+    "exact_row": true,
+    "bbox": [
+      0.12405205176115935,
+      0.5973428712716738,
+      0.9224823801303002,
+      0.6167497175007401
+    ],
+    "reason": "Source-checked first numbered bibliographic note: the scan prints a raised numeral 1, not the OCR apostrophe. The remaining row wording is preserved."
+  },
+  {
+    "page": 233,
+    "before": "' Эти сведения мне сообщил Ф. А. Валеев, проводивший этнографическое",
+    "after": "1 Эти сведения мне сообщил Ф. А. Валеев, проводивший этнографическое",
+    "exact_row": true,
+    "bbox": [
+      0.10096109368324617,
+      0.4922414019061354,
+      0.943940405002168,
+      0.5117279366126581
+    ],
+    "reason": "Source-checked first numbered bibliographic note: the scan prints a raised numeral 1, not the OCR apostrophe. The remaining row wording is preserved."
+  },
+  {
+    "page": 298,
+    "before": "' Персидское происхождение термина khuda со значением «бог» давно уста-",
+    "after": "1 Персидское происхождение термина khuda со значением «бог» давно уста-",
+    "exact_row": true,
+    "bbox": [
+      0.12134805918932806,
+      0.26883562263991034,
+      0.9596505125482961,
+      0.29157817408507125
+    ],
+    "reason": "Source-checked first numbered bibliographic note: the scan prints a raised numeral 1, not the OCR apostrophe. The remaining row wording is preserved."
+  },
+  {
+    "page": 319,
+    "before": "Allaian Shamanisin",
+    "after": "Altaian Shamanism",
+    "bbox": [
+      0.04220779220779221,
+      0.17466329966329966,
+      0.935064935064935,
+      0.19234006734006734
+    ],
+    "reason": "Source-checked against an enlarged scan crop of the English summary opening; restores the printed letters without editing the source wording."
+  },
+  {
+    "page": 319,
+    "before": "begiiming",
+    "after": "beginning",
+    "bbox": [
+      0.044805194805194806,
+      0.2356902356902357,
+      0.9344155844155844,
+      0.2529461279461279
+    ],
+    "reason": "Source-checked against an enlarged scan crop of the English summary opening; restores the printed letters without editing the source wording."
+  },
+  {
+    "page": 315,
+    "before": "! Лишь у средневековых монголов были письменные шаманские обрядники.",
+    "after": "1 Лишь у средневековых монголов были письменные шаманские обрядники.",
+    "exact_row": true,
+    "bbox": [
+      0.08231862171569011,
+      0.38649090627160454,
+      0.9221254685596006,
+      0.4073641054277859
+    ],
+    "reason": "Source-checked numbered conclusion reference on PDF 315: restore the printed label (and Cyrillic «См.» for note 4). Citation wording otherwise remains unchanged."
+  },
+  {
+    "page": 315,
+    "before": "Потапов Л. П. Очерки по истории алтайцев. М.; Л., 1953. Гл. «Бурханизм».",
+    "after": "3 Потапов Л. П. Очерки по истории алтайцев. М.; Л., 1953. Гл. «Бурханизм».",
+    "exact_row": true,
+    "bbox": [
+      0.10244989273665851,
+      0.43299832506715874,
+      0.9220490100695775,
+      0.4505862647656512
+    ],
+    "reason": "Source-checked numbered conclusion reference on PDF 315: restore the printed label (and Cyrillic «См.» for note 4). Citation wording otherwise remains unchanged."
+  },
+  {
+    "page": 315,
+    "before": "• CM.: Potapor L. P. 1) Samanismus u narodnosti Sajansko-Altaiské vysočiny",
+    "after": "4 См.: Potapor L. P. 1) Samanismus u narodnosti Sajansko-Altaiské vysočiny",
+    "exact_row": true,
+    "bbox": [
+      0.08240534327506072,
+      0.4476549413234594,
+      0.9220489857152885,
+      0.46524288102195177
+    ],
+    "reason": "Source-checked numbered conclusion reference on PDF 315: restore the printed label (and Cyrillic «См.» for note 4). Citation wording otherwise remains unchanged."
+  },
+  {
+    "page": 3,
+    "before": "крашающийся интерес вызывает сибирское шаманство. Особое вни-",
+    "after": "кращающийся интерес вызывает сибирское шаманство. Особое вни-",
+    "exact_row": true,
+    "bbox": [
+      0.06345735837721705,
+      0.2934959351030505,
+      0.9190371833858337,
+      0.3126016261599611
+    ],
+    "reason": "Reviewed exception: enlarged PDF page 3 visibly prints щ. The generic seam repair deliberately requires repeated corpus evidence before substituting letters; this single-occurrence word does not satisfy that safeguard. Restore the observed letter, preserving the physical line wrap for normal reconstruction."
+  }
+]

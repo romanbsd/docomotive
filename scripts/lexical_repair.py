@@ -23,7 +23,7 @@ from PIL import Image, ImageOps
 from symspellpy import SymSpell, Verbosity
 from wordfreq import zipf_frequency
 
-from common import apply_edits, digest, read_json, write_json
+from common import apply_edits, digest, read_json, write_bytes_atomic, write_json
 from book_model import row_id
 from vocabulary import TOKEN
 from languages import language_code, ocr_settings
@@ -566,7 +566,7 @@ class CropRecognizer:
             + b"lexical-context-evidence-v1"
         )
         self.work.mkdir(parents=True, exist_ok=True)
-        (self.work / (key + ".png")).write_bytes(data)
+        write_bytes_atomic(self.work / (key + ".png"), data)
         return dict(
             proof,
             cache_key=key,
@@ -645,18 +645,24 @@ class CropRecognizer:
             + b"word-crop-v3-600dpi-psm8-13"
         )
         cache = self.work / (key + ".json")
+        crop = self.work / (key + ".png")
         if cache.exists():
-            return self.with_fallback(
-                read_json(cache), self.work / (key + ".png"), candidate
-            )
+            evidence = read_json(cache)
+            if crop.is_file() and digest(crop.read_bytes()) == evidence.get(
+                "crop_sha256"
+            ):
+                return self.with_fallback(evidence, crop, candidate)
         self.work.mkdir(parents=True, exist_ok=True)
-        image.save(self.work / (key + ".png"))
+        payload = io.BytesIO()
+        image.save(payload, format="PNG")
+        data = payload.getvalue()
+        write_bytes_atomic(crop, data)
         readings = []
         for psm in (8, 13):
             result = subprocess.run(
                 [
                     "tesseract",
-                    str(self.work / (key + ".png")),
+                    str(crop),
                     "stdout",
                     "--psm",
                     str(psm),
@@ -673,7 +679,7 @@ class CropRecognizer:
             readings=readings,
             embedded_word="" if image_only else located[4],
             cache_key=key,
-            crop_sha256=digest((self.work / (key + ".png")).read_bytes()),
+            crop_sha256=digest(data),
             traineddata_sha256=self.model_hash,
             rect=list(rect),
             engine="tesseract",
@@ -684,7 +690,7 @@ class CropRecognizer:
         if image_only:
             evidence["geometry_source"] = "local-line-ocr"
         write_json(cache, evidence)
-        return self.with_fallback(evidence, self.work / (key + ".png"), candidate)
+        return self.with_fallback(evidence, crop, candidate)
 
     def with_fallback(self, evidence, path, candidate):
         """Bound Cyrillic fallback to crop conflicts; never download models."""

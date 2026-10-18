@@ -304,6 +304,56 @@ class NotesOnlyPageTests(unittest.TestCase):
         markup = notes_html([note], {}, {1})
         self.assertNotIn("<br/>", markup)
 
+    def test_undotted_notes_require_consecutive_indented_source_labels(self):
+        from lxml import etree
+
+        rows = [
+            ("1 First citation", 0.14),
+            ("continued in volume", 0.08),
+            ("2 with its own pagination.", 0.08),
+            ("2 Second citation", 0.14),
+            ("continued across a wrap.", 0.08),
+            ("3 Third citation.", 0.14),
+        ]
+        text = ""
+        sources = []
+        for row, x in rows:
+            text += " " if text else ""
+            sources.append(dict(page=1, start=len(text), bbox=[x, 0.5, 0.9, 0.52]))
+            text += row
+        note = dict(
+            id="note-1",
+            root_page=1,
+            text=text,
+            sources=sources,
+            inline=[dict(start=2, end=7, tags=["em"])],
+        )
+        book = {"separate_undotted_notes": True}
+        markup = notes_html([note], book, {1})
+        node = etree.fromstring(
+            (
+                '<body xmlns:epub="http://www.idpf.org/2007/ops">' + markup + "</body>"
+            ).encode()
+        )
+        paragraph = node.find(".//aside/p")
+        self.assertEqual("".join(paragraph.itertext()), text)
+        self.assertEqual(
+            [br.tail for br in paragraph.findall("br")],
+            ["2 Second citation continued across a wrap. ", "3 Third citation."],
+        )
+        self.assertEqual(paragraph.find("em").text, "First")
+        self.assertNotIn("<br/>", notes_html([note], {}, {1}))
+        note["text"] = text.replace("2 Second", "5 Second").replace(
+            "3 Third", "7 Third"
+        )
+        self.assertNotIn("<br/>", notes_html([note], book, {1}))
+        note["text"] = text
+        # Sparse/missing geometry cannot establish a continuation margin.
+        note["sources"] = sources[:2]
+        self.assertNotIn("<br/>", notes_html([note], book, {1}))
+        note["sources"] = [{k: v for k, v in s.items() if k != "bbox"} for s in sources]
+        self.assertNotIn("<br/>", notes_html([note], book, {1}))
+
 
 if __name__ == "__main__":
     unittest.main()

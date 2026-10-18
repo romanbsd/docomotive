@@ -6,7 +6,6 @@ Never join across paragraphs, columns, page turns or protected compounds.
 
 import difflib
 from io import BytesIO
-import tempfile
 import re
 from pathlib import Path
 
@@ -220,19 +219,10 @@ def composite_crop(recognize, parts, target):
     payload = BytesIO()
     canvas.save(payload, format="PNG")
     data = payload.getvalue()
-    # Parallel editions share this cache: publish complete bytes atomically
-    # and hash our rendered bytes rather than a concurrently replaced file.
-    temp = None
-    try:
-        with tempfile.NamedTemporaryFile(
-            dir=root, suffix=".png", delete=False
-        ) as stream:
-            temp = Path(stream.name)
-            stream.write(data)
-        temp.replace(path)
-    finally:
-        if temp is not None:
-            temp.unlink(missing_ok=True)
+    # Parallel editions share this cache; hash our complete rendered bytes.
+    from common import write_bytes_atomic
+
+    write_bytes_atomic(path, data)
     return dict(
         readings=[target, target],
         engine="verified-fragment-crops",
