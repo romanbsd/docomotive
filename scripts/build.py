@@ -368,6 +368,7 @@ def build(
                 "tesseract" if primary_name == "vision" else "vision",
                 recover_regions=book.get("recover_ocr_regions", False),
                 recover_glyphs=book.get("recover_ocr_glyph_confusions", False),
+                recover_edge_artifacts=book.get("recover_ocr_edge_artifacts", False),
                 language=language_code(book),
                 recover_index_digits=book.get("recover_index_digits", False)
                 and n in book.get("index_pages", []),

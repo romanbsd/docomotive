@@ -2174,3 +2174,88 @@ fifteen complete snapshots are identical and three have identical quality
 blocks. This verifies that the pre-existing Antipodes conversion work did not
 mask earlier-book effects. The isolated supplemental King/Synchronicity pair
 is included in the twenty-case comparison above.
+
+## Concentration opening review (2026-10-19)
+
+The fresh committed baseline (442e7d6) blocks both editions on PDF 3,
+`It is now many years since I began to draft the material`. Source rendering
+(`work/concentration-fix/opening-source.png`) shows the small-cap opening It:
+the final glyph has the t crossbar, not r. Primary Vision reads It; the
+page-stage row also correctly reads I in `since I began`. RapidOCR reads Ir.
+The quality gate deliberately sends a chapter-opening single-peer conflict to
+review, so this is a review false positive, not evidence that the correct
+transcription should be rewritten or that the generic gate should be narrowed.
+
+Record one source-bound decision in the shared Concentration profile, covering
+both its conservative and editorial builds. `bound_decision` binds the source
+SHA-256, exact primary text and complete OCR evidence digest. The evidence field
+also records the source-crop hash. No wording, manual transcription, chapter
+boundary or quality-gate rule changes. An in-process probe verifies that the
+original risk is present, the exact reviewed row matches, and changing a witness
+invalidates the acknowledgement. All eight review-decision regression tests pass.
+
+Fresh before/after builds use 442e7d6 in an isolated worktree with the same
+caches. Both editions now pass the gate; corrected rows, the entire canonical
+model, coverage, apparatus and lexical-repair report are identical to their
+blocked baseline counterparts. The single decision matches with no orphaned or
+invalid bindings. Both EPUBs pass EPUBCheck with zero messages and replace
+`output/concentration-meditation/` and its `reading-edition/` child. Previous
+published copies remain in `work/concentration-fix/previous-output/`. No
+accepted baseline was changed, and no other book profile or shared code changes
+are involved in this fix.
+
+## Synchronicity scan-artifact recovery (2026-10-19)
+
+The committed baseline blocks seven rows. Source review in
+`work/synchronicity-fix/blocked-source-sheet.png` confirms six OCR underscores
+produced from isolated scan specks and one list-label confusion, `1].` for 11.
+These are actual transcription errors, so acknowledging the damaged text would
+be inappropriate. The shared page-correction path now provides the opt-in
+`recover_ocr_edge_artifacts` rule, enabled for this reviewed noisy scan. It has
+no book names, phrases, page lists, coordinates or fixed label values.
+
+Two independent fresh engines must agree with the complete proposed row after
+whitespace normalization; every other letter and punctuation mark must match.
+Only lowercase word-edge single underscores and a closing bracket shaped like
+1 in a numbered `N]. ` prefix are candidates. Internal/doubled underscores,
+uppercase identifiers, one-letter variables and remaining code/math delimiters
+are not candidates. Rows with pending manual overlays remain protected.
+A disabled flag preserves the old path. The profile key registry recognizes the flag, and boolean validation rejects
+non-boolean values. Five focused tests cover corroboration, conflicting
+witnesses, syntax controls, opt-in behavior and manual overlay protection.
+
+Every whole-book proposal matches one of the seven source-reviewed cases below;
+there are no additional prospective edits. Each audit records the original
+primary row and both complete witness rows, page and bbox, using kind
+`two-fresh-edge-artifact` and rule `two-independent-complete-prose-rows`.
+
+| Source page | Before | After | Source evidence |
+| --- | --- | --- | --- |
+| 32 | `_this` | `this` | Plain word this; tiny margin speck is not an underscore. |
+| 79 | `_normal` | `normal` | Plain normal; isolated margin dot. |
+| 85 | `_is` | `is` | Plain is; isolated margin speck. |
+| 156 | `1]` | `11` | Printed note label is 11. |
+| 160 | `_able` | `able` | Plain able; isolated margin speck. |
+| 172 | `an_` | `an` | Printed an followed by a space; small speck below baseline. |
+| 220 | `_outward` | `outward` | Plain outward; tiny isolated margin speck. |
+
+Exact source crops are `work/synchronicity-fix/source-<page>.png`; the candidate
+inventory is `proposed-edits.json`. Earlier profiles retain the disabled default.
+
+Final paired Synchronicity builds use the committed 442e7d6 baseline and the
+same caches. The complete word diff contains exactly the seven repairs above;
+all seven source rows retain their bounding boxes. Source-row coverage remains
+8,590 body / 192 note / 383 excluded. Chapter/block/note grouping, all nineteen
+figure names and the existing note/link counts are unchanged. The new build has
+zero high-risk rows and no unmatched/invalid review decisions. EPUBCheck reports
+zero messages. The editorial EPUB replaces the published Synchronicity package;
+its existing `synchronicity.epub` filename is preserved as an identical alias of
+`synchronicity-corrected.epub`. Prior files remain under
+`work/synchronicity-fix/previous-output/`.
+
+All 580 unit tests pass; Black checks all 128 Python files and diff whitespace
+checks pass. Fresh paired earlier-book builds of Natural Mind, Letter Kills,
+Otherworlds and Daimonic Reality have identical full snapshots. Together with
+the disabled-default and strict profile-boolean tests, these bound the generic
+opt-in change without accepting a new baseline. The library report now records
+21 published editions; only Chukchi retains its previously blocked version.

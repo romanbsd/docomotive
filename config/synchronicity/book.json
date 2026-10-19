@@ -387,5 +387,6 @@
     193
   ],
   "repair_lexical_confusions": true,
-  "lexical_repair_policy": "corrected-reading"
+  "lexical_repair_policy": "corrected-reading",
+  "recover_ocr_edge_artifacts": true
 }

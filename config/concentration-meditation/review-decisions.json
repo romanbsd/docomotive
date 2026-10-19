@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "page": 3,
+    "bbox": [
+      0.14061064521119687,
+      0.30227032905098017,
+      0.8463189581994782,
+      0.3302259320451125
+    ],
+    "text": "It is now many years since I began to draft the material",
+    "decision": "reviewed",
+    "format_version": 1,
+    "source_sha256": "809ace1ef53bcf1cf0ba325a631cffe317b83fd4daa435b927fd6db2cd5c842c",
+    "text_sha256": "4135c23465bef6967e176c30e2deee1a4eac30931c816514705dd5d143ed2108",
+    "evidence_sha256": "59eb4520d1310936a1d95cd443a42cba9986eafcb5392191d0f8fc386136469c",
+    "evidence": "Rendered source PDF 3, opening-source.png: printed small-cap It begins It is now many years since I began to draft the material. Primary It matches the print; RapidOCR Ir is a mistaken t/r reading. Source crop SHA-256 6f767d5cb9c046ac321d8e8d2e9e92e2d6646546527ee850bfce91ace748339e. No transcription change."
+  }
+]

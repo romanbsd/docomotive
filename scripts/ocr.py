@@ -641,6 +641,53 @@ def repair_three_witness_initial_word(row, witnesses, page, audit):
     )
 
 
+def repair_witnessed_edge_artifacts(row, fresh, page, audit):
+    """Opt-in scan-noise repair from two independently agreeing complete rows."""
+    if len(fresh) != 2 or not all(fresh):
+        return
+    before = row["text"]
+    label = re.match(r"^([1-9]\d?)\](?=\.\s+\S)", before)
+    # Identifier interiors, math and code syntax are outside this prose rule.
+    syntax = before[label.end() :] if label else before
+    if re.search(r"[`=<>\[\]{}]", syntax):
+        return
+    edges = list(re.finditer(r"(?<!\w)(?:_[^\W\d_]{2,}|[^\W\d_]{2,}_)(?!\w)", before))
+    edits = [
+        (m.start(), m.end(), m.group().replace("_", ""))
+        for m in edges
+        if m.group().replace("_", "").islower()
+    ]
+    if label:
+        edits.append((label.start(), label.end(), label.group(1) + "1"))
+    if not edits:
+        return
+    after = before
+    for start, end, value in sorted(edits, reverse=True):
+        after = after[:start] + value + after[end:]
+    if "_" in after or len(comparable(after)) < 4:
+        return
+    compact = lambda text: " ".join(text.split())
+    readings = [w["text"] for w in fresh]
+    if not all(compact(w) == compact(after) for w in readings):
+        return
+    row["text"] = after
+    for start, end, value in edits:
+        audit.append(
+            dict(
+                page=page,
+                kind="two-fresh-edge-artifact",
+                before=before[start:end],
+                after=value,
+                bbox=row["bbox"],
+                evidence=dict(
+                    rule="two-independent-complete-prose-rows",
+                    primary=before,
+                    witnesses=readings,
+                ),
+            )
+        )
+
+
 def correct_page(
     primary,
     baseline,
@@ -657,6 +704,7 @@ def correct_page(
     recover_index_digits=False,
     index_page_labels=None,
     protected_edits=None,
+    recover_edge_artifacts=False,
 ):
     rows = merge_rows(primary)
     for row in rows:
@@ -827,6 +875,8 @@ def correct_page(
             re.search(edit_pattern(edit), row["text"])
             for edit in (protected_edits or [])
         )
+        if recover_edge_artifacts and not manual_overlay:
+            repair_witnessed_edge_artifacts(row, fresh, page, audit)
         if not manual_overlay:
             repair_spaced_initial_word(row, witnesses[0], fresh, page, audit)
             repair_three_witness_initial_word(row, witnesses, page, audit)

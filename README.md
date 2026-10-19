@@ -240,6 +240,14 @@ Inspect representative pages and create transcribed evaluation regions before fu
 
 Correction overlays can use `exact_row: true` to match an entire OCR row. This is useful for removing standalone reader annotations without also changing matching punctuation in prose. Bounding boxes record evidence; wording and occurrence counts are the replacement preconditions.
 
+`recover_ocr_edge_artifacts: true` opts a reviewed noisy scan into word-edge
+underscore and damaged numbered-list-prefix recovery. Both independent fresh
+engines must agree on the complete corrected row, including its words and
+punctuation. Internal/doubled underscores, uppercase identifiers, one-letter
+variables and code syntax stay outside this rule. Manual overlay preconditions
+remain protected. Review every emitted `two-fresh-edge-artifact` event against
+the scan before publishing a newly enabled profile.
+
 ## Layout, typography and note heuristics
 
 Recurring margin text is clustered conservatively, with robust positions, parity and page-number consensus. Statistical recurrence is supporting evidence rather than a calibrated probability that text is a header.

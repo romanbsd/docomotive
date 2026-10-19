@@ -10,6 +10,7 @@ BOOL_KEYS = {
     "separate_undotted_notes",
     "repair_ocr_word_spacing",
     "recover_index_digits",
+    "recover_ocr_edge_artifacts",
     "recover_opening_epigraphs",
     "retain_uncertain_gap_rows",
     "morphological_word_wraps",
