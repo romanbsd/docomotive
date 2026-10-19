@@ -520,19 +520,6 @@
     "exact_row": true
   },
   {
-    "page": 50,
-    "before": "isin utilizes psychedelic plants, nor incorporation. so neither practice",
-    "after": "ism utilizes psychedelic plants, nor incorporation. so neither practice",
-    "bbox": [
-      0.14454977323385534,
-      0.3662790704329155,
-      0.9170615895623535,
-      0.38682926794119243
-    ],
-    "reason": "Source crop review-60.png item 67: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
     "page": 51,
     "before": "L it and numerous others, which stay with him all the time (Butt. Wavell",
     "after": "it and numerous others, which stay with him all the time (Butt. Wavell",
@@ -582,19 +569,6 @@
       0.1576308524206559
     ],
     "reason": "Source crop review-60.png item 72: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 53,
-    "before": "isin, such as among the Cashinahua (Lagrou, 2000). the Sharanahua",
-    "after": "ism, such as among the Cashinahua (Lagrou, 2000). the Sharanahua",
-    "bbox": [
-      0.12446556292594925,
-      0.27141254532911796,
-      0.8824888104563444,
-      0.3001380217658629
-    ],
-    "reason": "Source crop review-60.png item 74: printed text distinguished from OCR error or handwritten reader annotation.",
     "exact_row": true
   },
   {
@@ -1235,19 +1209,6 @@
     "exact_row": true
   },
   {
-    "page": 106,
-    "before": "io percepts with more than three spatial dimensions, given that it is not",
-    "after": "to percepts with more than three spatial dimensions, given that it is not",
-    "bbox": [
-      0.1210448952077009,
-      0.8296803729126462,
-      0.9004034421673469,
-      0.8512205018283001
-    ],
-    "reason": "Source crop review-160.png item 165: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
     "page": 111,
     "before": "an article in Nature announcing the discovery of DT in human blood, -",
     "after": "an article in Nature announcing the discovery of DMT in human blood,",
@@ -1284,32 +1245,6 @@
       0.40735709280838583
     ],
     "reason": "Source crop review-160.png item 173: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 115,
-    "before": "otten surpass normal percepts too, and were consistently categorized as",
-    "after": "often surpass normal percepts too, and were consistently categorized as",
-    "bbox": [
-      0.11368910316342737,
-      0.11477832484170947,
-      0.8909512810206404,
-      0.1337209304099798
-    ],
-    "reason": "Source crop review-160.png item 175: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 115,
-    "before": "Al this point the glorious geometries transcended what is even vaguely",
-    "after": "At this point the glorious geometries transcended what is even vaguely",
-    "bbox": [
-      0.14153131665246713,
-      0.30232558107543617,
-      0.8631090389739835,
-      0.32267441841584277
-    ],
-    "reason": "Source crop review-160.png item 176: printed text distinguished from OCR error or handwritten reader annotation.",
     "exact_row": true
   },
   {
@@ -1522,19 +1457,6 @@
   },
   {
     "page": 127,
-    "before": "iny being there and then, alarmed, the ominous luminous voluminous",
-    "after": "my being there and then, alarmed, the ominous luminous voluminous",
-    "bbox": [
-      0.10421793387542413,
-      0.4368900460710494,
-      0.8911077464897685,
-      0.4612435573407161
-    ],
-    "reason": "Source crop review-200.png item 203: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 127,
     "before": "con.",
     "after": "eon.",
     "bbox": [
@@ -1570,19 +1492,6 @@
       0.8808139533573798
     ],
     "reason": "Source crop review-200.png item 208: printed text distinguished from OCR error or handwritten reader annotation.",
-    "exact_row": true
-  },
-  {
-    "page": 129,
-    "before": "he there I clearly recall spending the duration of the trip trying to keep",
-    "after": "be there I clearly recall spending the duration of the trip trying to keep",
-    "bbox": [
-      0.10622775140565888,
-      0.669687153542618,
-      0.8729810847902555,
-      0.6974197557638393
-    ],
-    "reason": "Source crop review-200.png item 210: printed text distinguished from OCR error or handwritten reader annotation.",
     "exact_row": true
   },
   {

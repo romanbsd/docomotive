@@ -36,6 +36,7 @@ from book_model import (
 from render_text import block_html, notes_html, chapter_notes_navigation
 from ocr import center, merge_rows, embedded, correct_page
 from ocr_cache import preflight_cache
+from page_columns import page_clips
 from profile_validation import validate_profile
 from review_decisions import match_decisions
 from build_resources import profiled_build, measured
@@ -328,12 +329,7 @@ def build(
             r = json.loads((secondary / f"{n:04}.json").read_text())
             vv = json.loads((vision / f"{n:04}.json").read_text())
             if str(n) in book.get("index_splits", {}):
-                rect = doc[n - 1].rect
-                split = book["index_splits"][str(n)] * rect.width
-                expected = [
-                    [0, 0, split, rect.height],
-                    [split, 0, rect.width, rect.height],
-                ]
+                expected = [list(c) for c in page_clips(doc[n - 1], book, n)]
                 for data in [v, r, vv]:
                     if data.get("clips") != expected:
                         raise ValueError(
@@ -355,6 +351,9 @@ def build(
                             doc[n - 1],
                             book.get("index_splits", {}).get(str(n)),
                             raw=True,
+                            column_start=book.get("index_column_starts", {}).get(
+                                str(n), 0
+                            ),
                         ),
                         book,
                         n,

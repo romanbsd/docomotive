@@ -24,6 +24,7 @@ from common import (
 )
 from ocr_cache import publish_cache, traineddata_digest, read_ocr_page
 from profile_validation import validate_profile
+from page_columns import page_clips, page_box
 from languages import ocr_settings, language_code
 
 
@@ -222,15 +223,7 @@ def main():
         target = cache / f"{n:04}.json"
         page = doc[n - 1]
         # Two-column index must be recognized separately to avoid line interleaving.
-        split = book.get("index_splits", {}).get(str(n), 0.5) * page.rect.width
-        clips = (
-            [
-                pymupdf.Rect(0, 0, split, page.rect.height),
-                pymupdf.Rect(split, 0, page.rect.width, page.rect.height),
-            ]
-            if str(n) in book.get("index_splits", {})
-            else [page.rect]
-        )
+        clips = page_clips(page, book, n)
         if target.exists():
             cached = read_ocr_page(target, n)
             if cached.get("clips") == [list(c) for c in clips] or (
@@ -403,13 +396,8 @@ def main():
                         line["raw_bbox"] = box
                         line["geometry_adjustment"] = "subpixel-raster-edge-clipping"
                     box = clipped
-                    line["bbox"] = [
-                        (clip.x0 + box[0] * clip.width) / page.rect.width,
-                        box[1],
-                        (clip.x0 + box[2] * clip.width) / page.rect.width,
-                        box[3],
-                    ]
-                    line["column"] = col
+                    line["bbox"] = page_box(box, clip, page)
+                    line["column"] = col - int(len(clips) == 3)
                     lines.append(line)
         data = {
             "page": n,

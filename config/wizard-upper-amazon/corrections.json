@@ -192,18 +192,6 @@
     "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
   },
   {
-    "page": 67,
-    "before": "“T saw the bush he likes to live on over there,”",
-    "after": "“I saw the bush he likes to live on over there,”",
-    "bbox": [
-      0.15491866769945778,
-      0.6638430673205529,
-      0.8807126258714174,
-      0.6821221578243424
-    ],
-    "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
-  },
-  {
     "page": 71,
     "before": "mediate hubbub started. Chief Kumu was waiting",
     "after": "mediate hubbub started. Chief Xumu was waiting",
@@ -236,30 +224,6 @@
       0.5953358332236675,
       0.8814887068591489,
       0.6186856572348871
-    ],
-    "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
-  },
-  {
-    "page": 78,
-    "before": "“JT knew if I shot a monkey the jaguar would get",
-    "after": "“I knew if I shot a monkey the jaguar would get",
-    "bbox": [
-      0.15491866769945778,
-      0.6990637539010254,
-      0.8814872192099148,
-      0.7191261703076237
-    ],
-    "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
-  },
-  {
-    "page": 84,
-    "before": "“T chose three men to go with me to find him. We",
-    "after": "“I chose three men to go with me to find him. We",
-    "bbox": [
-      0.15646785437645236,
-      0.6388765046812305,
-      0.8799380325329204,
-      0.6589389210878288
     ],
     "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
   },
@@ -300,18 +264,6 @@
     "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
   },
   {
-    "page": 88,
-    "before": "T had seen any of our equipment, and it was a shock.",
-    "after": "I had seen any of our equipment, and it was a shock.",
-    "bbox": [
-      0.12006196746707977,
-      0.4850646455639768,
-      0.8822618125484121,
-      0.5051270619705751
-    ],
-    "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
-  },
-  {
     "page": 94,
     "before": "ever, I learned that in the forest one must never he",
     "after": "ever, I learned that in the forest one must never be",
@@ -332,18 +284,6 @@
       0.5101744184412839,
       0.8762626043714649,
       0.5320855618478986
-    ],
-    "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
-  },
-  {
-    "page": 104,
-    "before": "wil find this second cup even more illuminating. Lis-",
-    "after": "will find this second cup even more illuminating. Lis-",
-    "bbox": [
-      0.12238574748257164,
-      0.330806954971021,
-      0.8838109992254067,
-      0.35086937137761925
     ],
     "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
   },
@@ -444,18 +384,6 @@
     "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
   },
   {
-    "page": 132,
-    "before": "“J will show the people how to understand it,” he",
-    "after": "“I will show the people how to understand it,” he",
-    "bbox": [
-      0.12393493415956625,
-      0.4850646455639768,
-      0.8830364058869093,
-      0.5051270619705751
-    ],
-    "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
-  },
-  {
     "page": 133,
     "before": "his name; Apo, the Angry One, was called Kano,",
     "after": "his name; Apo, the Angry One, was called Xano,",
@@ -488,18 +416,6 @@
       0.5871600534997771,
       0.8799380325329204,
       0.6067766384306732
-    ],
-    "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
-  },
-  {
-    "page": 135,
-    "before": "Mano, the Angry One, went into a rage and",
-    "after": "Xano, the Angry One, went into a rage and",
-    "bbox": [
-      0.15491866769945778,
-      0.1761034329023629,
-      0.8822618125484121,
-      0.19527418635755683
     ],
     "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
   },
@@ -612,18 +528,6 @@
     "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
   },
   {
-    "page": 161,
-    "before": "“JT am an old man. Without a strong chief you will",
-    "after": "“I am an old man. Without a strong chief you will",
-    "bbox": [
-      0.15956622773044152,
-      0.14979937583593403,
-      0.8814872192099148,
-      0.1707534551939367
-    ],
-    "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
-  },
-  {
     "page": 162,
     "before": "raid, but it was clear that Kumu supported the",
     "after": "raid, but it was clear that Xumu supported the",
@@ -716,18 +620,6 @@
       0.33036112349531876,
       0.879163439194423,
       0.3522068658047258
-    ],
-    "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
-  },
-  {
-    "page": 201,
-    "before": "“J will be back before dark. Prepare my balance",
-    "after": "“I will be back before dark. Prepare my balance",
-    "bbox": [
-      0.15801704105344694,
-      0.38207757467677217,
-      0.8807126258714174,
-      0.4021399910833705
     ],
     "reason": "Checked against original embedded scan pixels in clean-review contact sheet, not reconstructed PDF text."
   },

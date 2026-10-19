@@ -44,6 +44,12 @@ The EPUB is built **before** advisory candidates and review decisions are
 produced. Accepting a browser proposal does not change the book: export checked
 corrections, merge them into the profile and rebuild.
 
+Two-column pages can declare a reviewed horizontal gutter in `index_splits`.
+When an introduction spans both columns, `index_column_starts` supplies the
+normalized vertical boundary on that page. Extraction reads the full-width upper
+region first, then each lower column, retaining page-relative coordinates. A
+changed boundary requires re-extraction of that page in all three OCR engines.
+
 - [Setup and usage](#setup-and-usage)
 - [Stages and artifacts](#stages-and-artifacts)
 - [Profiles and source evidence](#profiles-and-source-evidence)
@@ -213,6 +219,14 @@ Optional rules write additional reports such as `lexical-repair.json` and
 profile: output artifacts alone cannot replay recognition evidence.
 
 The primary OCR engine is profile-selected. Embedded text can be another witness; it is not assumed correct. Multiple modes of one engine are correlated observations, and even independent engines can agree on a mistake. Empty queues mean detected items were handled, not that the book is error-free.
+
+Citation suffix repairs (such as `19782` → `1978a`) require two fresh engines
+reading the same suffix at the same position, with every other lexical token
+and four-digit year base aligned. Existing manual overlays retain their exact
+preconditions. Native PDF accents are composed from overlapping glyph origins;
+a misencoded currency glyph additionally needs verified raised-dot shape
+rather than a literal text replacement. Each repair records source geometry
+and evidence in `corrections-applied.json`.
 
 ## Profiles and source evidence
 
@@ -531,3 +545,9 @@ geometry to separate printer marks and recurring labels from low body text.
 `layout-analysis.json` records accepted and review-only candidates with source
 evidence. The final text-quality check blocks publication if a detected footer
 row survives in prose or notes.
+
+For sources whose footer numbers continue through a chapter, set
+`numeric_footnote_numbering: "chapter"` alongside `link_numeric_footnotes`.
+The default remains `"page"`. Chapter mode accepts consecutive runs starting
+above 1 and verifies each isolated footer prefix, including two-digit labels,
+against scan glyph evidence. Uncertain calls remain grouped notes.

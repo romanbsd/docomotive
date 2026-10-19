@@ -29,11 +29,11 @@ def small_type_proposals(rows, figure_rects=()):
     body = statistics.median(r["bbox"][3] - r["bbox"][1] for r in prose)
     for i, row in enumerate(rows):
         box = row["bbox"]
-        # Bottom third, smaller tail type, and a gap before a reference marker
+        # Lower half, smaller tail type, and a gap before a reference marker
         # distinguish apparatus from ordinary paragraph endings. OCR boxes
         # vary with descenders, so compare the tail's median, not one row.
         if not (
-            0.68 < box[1] < 0.98
+            0.50 < box[1] < 0.98
             and i > 0
             and re.match(
                 r"^\s*(?:[＊*†‡•'\"]|\d{1,2}(?!\d)|[¹²³⁴⁵⁶⁷⁸⁹])\s*", row["text"]

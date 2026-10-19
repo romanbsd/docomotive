@@ -1,0 +1,813 @@
+{
+  "title": "The Antipodes of the Mind",
+  "subtitle": "Charting the Phenomenology of the Ayahuasca Experience",
+  "author": "Benny Shanon",
+  "author_sort": "Shanon, Benny",
+  "language": "en",
+  "date": "2002",
+  "publisher": "Oxford University Press",
+  "rights": "© Benny Shanon. All rights reserved.",
+  "slug": "antipodes-of-the-mind",
+  "source_sha256": "eb6dfa0ed49ce75af562aa9b94501a77e2dbb2ddf83299680b940521d99c3f5e",
+  "source_version": "Oxford University Press, first published 2002",
+  "source_note": "Converted from the supplied 488-page scan. Four table pages are split across separate PDF leaves; original print page references are retained. The surviving illustration and quantitative tables are preserved as source images. Hidden OCR style flags are unreliable (entire prose pages marked bold), so typography uses scan geometry and does not transfer those flags. Running heads lie above y=0.098.",
+  "chapters": [
+    [
+      4,
+      5,
+      "Contents"
+    ],
+    [
+      6,
+      6,
+      "Figures"
+    ],
+    [
+      7,
+      7,
+      "List of Tables"
+    ],
+    [
+      8,
+      9,
+      "Epigraph"
+    ],
+    [
+      10,
+      19,
+      "Prologue"
+    ],
+    [
+      20,
+      21,
+      "Part I: Preliminaries"
+    ],
+    [
+      22,
+      38,
+      "1. General Background"
+    ],
+    [
+      39,
+      49,
+      "2. Theoretical Foundations"
+    ],
+    [
+      50,
+      61,
+      "3. Methodology and General Structure"
+    ],
+    [
+      62,
+      63,
+      "Part II: The Phenomenology of the Ayahuasca Experience"
+    ],
+    [
+      64,
+      77,
+      "4. Atmosphere and General Effects"
+    ],
+    [
+      78,
+      94,
+      "5. Open-Eye Visualizations"
+    ],
+    [
+      95,
+      107,
+      "6. A Structural Typology of Ayahuasca Visualizations"
+    ],
+    [
+      108,
+      121,
+      "7. Interaction and Narration"
+    ],
+    [
+      122,
+      149,
+      "8. The Contents of Visions"
+    ],
+    [
+      150,
+      168,
+      "9. The Themes of Visions"
+    ],
+    [
+      169,
+      189,
+      "10. Ideas, Insights, and Reflections"
+    ],
+    [
+      190,
+      202,
+      "11. Non-Visual Perceptions"
+    ],
+    [
+      203,
+      218,
+      "12. Consciousness I"
+    ],
+    [
+      219,
+      234,
+      "13. Transformations"
+    ],
+    [
+      235,
+      250,
+      "14. Time"
+    ],
+    [
+      251,
+      264,
+      "15. Meaning and Semantics"
+    ],
+    [
+      265,
+      281,
+      "16. Consciousness II"
+    ],
+    [
+      282,
+      293,
+      "17. Light"
+    ],
+    [
+      294,
+      295,
+      "Part III: Theoretical Issues"
+    ],
+    [
+      296,
+      313,
+      "18. Stages and Order"
+    ],
+    [
+      314,
+      339,
+      "19. Contextual Considerations"
+    ],
+    [
+      340,
+      352,
+      "20. Cognitive Parameters"
+    ],
+    [
+      353,
+      369,
+      "21. Dynamics"
+    ],
+    [
+      370,
+      394,
+      "22. A General Theoretical Perspective"
+    ],
+    [
+      395,
+      413,
+      "23. Concluding Philosophical Reflections"
+    ],
+    [
+      414,
+      417,
+      "Epilogue"
+    ],
+    [
+      418,
+      447,
+      "Appendix: Quantitative Data"
+    ],
+    [
+      448,
+      465,
+      "References"
+    ],
+    [
+      466,
+      488,
+      "Index"
+    ]
+  ],
+  "printed_page_offset": -9,
+  "index_pages": [
+    466,
+    467,
+    468,
+    469,
+    470,
+    471,
+    472,
+    473,
+    474,
+    475,
+    476,
+    477,
+    478,
+    479,
+    480,
+    481,
+    482,
+    483,
+    484,
+    485,
+    486,
+    487,
+    488
+  ],
+  "index_splits": {
+    "466": 0.5224,
+    "467": 0.5146,
+    "468": 0.5047,
+    "469": 0.4995,
+    "470": 0.5036,
+    "471": 0.5043,
+    "472": 0.5118,
+    "473": 0.5093,
+    "474": 0.5129,
+    "475": 0.4861,
+    "476": 0.5061,
+    "477": 0.4864,
+    "478": 0.5143,
+    "479": 0.5029,
+    "480": 0.507,
+    "481": 0.4916,
+    "482": 0.4913,
+    "483": 0.499,
+    "484": 0.5072,
+    "485": 0.491,
+    "486": 0.5085,
+    "487": 0.482,
+    "488": 0.5004
+  },
+  "reference_pages": [
+    448,
+    449,
+    450,
+    451,
+    452,
+    453,
+    454,
+    455,
+    456,
+    457,
+    458,
+    459,
+    460,
+    461,
+    462,
+    463,
+    464,
+    465,
+    466,
+    467,
+    468,
+    469,
+    470,
+    471,
+    472,
+    473,
+    474,
+    475,
+    476,
+    477,
+    478,
+    479,
+    480,
+    481,
+    482,
+    483,
+    484,
+    485,
+    486,
+    487,
+    488
+  ],
+  "excluded_pages": {
+    "9": "Blank scan page",
+    "19": "Blank scan page",
+    "21": "Blank scan page",
+    "63": "Blank scan page",
+    "293": "Blank scan page",
+    "295": "Blank scan page",
+    "1": "Title represented by generated EPUB title and cover",
+    "2": "Repeated half title",
+    "412": "Blank page before the unnumbered illustration",
+    "3": "Publication details reflowed in copyright.xhtml"
+  },
+  "figures": [
+    {
+      "page": 413,
+      "name": "source-illustration",
+      "rect": [
+        0.15,
+        0.105,
+        0.925,
+        0.79
+      ],
+      "alt": "Surviving monochrome illustration from the supplied scan; artwork credited to Ceu in the source."
+    },
+    {
+      "page": 419,
+      "name": "table-1",
+      "rect": [
+        0.285,
+        0.103,
+        0.8,
+        0.34
+      ],
+      "alt": "Quantitative data table from source PDF page 419; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 425,
+      "name": "table-2",
+      "rect": [
+        0.18,
+        0.105,
+        0.86,
+        0.85
+      ],
+      "alt": "Quantitative data table from source PDF page 425; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 426,
+      "name": "table-3",
+      "rect": [
+        0.18,
+        0.103,
+        0.84,
+        0.765
+      ],
+      "alt": "Quantitative data table from source PDF page 426; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 433,
+      "name": "table-6",
+      "rect": [
+        0.14,
+        0.105,
+        0.92,
+        0.9
+      ],
+      "alt": "Quantitative data table from source PDF page 433; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 427,
+      "name": "table-427",
+      "rect": [
+        0.1454,
+        0.1345,
+        0.8817,
+        0.8835
+      ],
+      "alt": "Quantitative data table from source PDF page 427; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 428,
+      "name": "table-428",
+      "rect": [
+        0.3835,
+        0.1193,
+        0.9558,
+        0.6583
+      ],
+      "alt": "Quantitative data table from source PDF page 428; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 429,
+      "name": "table-429",
+      "rect": [
+        0,
+        0.17,
+        0.792,
+        0.5653
+      ],
+      "alt": "Quantitative data table from source PDF page 429; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 430,
+      "name": "table-430",
+      "rect": [
+        0.234,
+        0.1672,
+        0.9953,
+        0.8488
+      ],
+      "alt": "Quantitative data table from source PDF page 430; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 431,
+      "name": "table-431",
+      "rect": [
+        0.0006,
+        0.2071,
+        0.8357,
+        0.8426
+      ],
+      "alt": "Quantitative data table from source PDF page 431; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 432,
+      "name": "table-432",
+      "rect": [
+        0.1014,
+        0.1218,
+        0.9241,
+        0.7784
+      ],
+      "alt": "Quantitative data table from source PDF page 432; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 439,
+      "name": "table-439",
+      "rect": [
+        0.2215,
+        0.1578,
+        0.9871,
+        0.8789
+      ],
+      "alt": "Quantitative data table from source PDF page 439; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 440,
+      "name": "table-440",
+      "rect": [
+        0.026,
+        0.1992,
+        0.8254,
+        0.8723
+      ],
+      "alt": "Quantitative data table from source PDF page 440; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 441,
+      "name": "table-441",
+      "rect": [
+        0.2254,
+        0.1359,
+        0.9865,
+        0.4723
+      ],
+      "alt": "Quantitative data table from source PDF page 441; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 442,
+      "name": "table-442",
+      "rect": [
+        0.0243,
+        0.1779,
+        0.8308,
+        0.4253
+      ],
+      "alt": "Quantitative data table from source PDF page 442; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    },
+    {
+      "page": 447,
+      "name": "table-447",
+      "rect": [
+        0.1034,
+        0.1271,
+        0.9247,
+        0.909
+      ],
+      "alt": "Quantitative data table from source PDF page 447; original rows, columns and values preserved.",
+      "image_type": "line-art"
+    }
+  ],
+  "repair_word_wraps": true,
+  "recover_pdf_typography": false,
+  "recover_pdf_numeric_superscripts": true,
+  "section_navigation": true,
+  "source_relative_figures": true,
+  "chapter_body_starts": {
+    "4": 0.14,
+    "6": 0.17,
+    "7": 0.17,
+    "8": 0,
+    "10": 0.18,
+    "20": 0.9,
+    "22": 0.21,
+    "39": 0.21,
+    "50": 0.21,
+    "62": 0.9,
+    "64": 0.21,
+    "78": 0.21,
+    "95": 0.21,
+    "108": 0.21,
+    "122": 0.21,
+    "150": 0.21,
+    "169": 0.21,
+    "190": 0.21,
+    "203": 0.21,
+    "219": 0.21,
+    "235": 0.21,
+    "251": 0.21,
+    "265": 0.21,
+    "282": 0.21,
+    "294": 0.9,
+    "296": 0.21,
+    "314": 0.21,
+    "340": 0.21,
+    "353": 0.21,
+    "370": 0.21,
+    "395": 0.21,
+    "414": 0.21,
+    "418": 0.2,
+    "448": 0.17,
+    "466": 0.16
+  },
+  "index_column_starts": {
+    "466": 0.24
+  },
+  "note_starts": {
+    "22": 0.82604,
+    "23": 0.72739,
+    "25": 0.82922,
+    "28": 0.81389,
+    "33": 0.85002,
+    "34": 0.85732,
+    "40": 0.78798,
+    "41": 0.82958,
+    "43": 0.82557,
+    "48": 0.84053,
+    "54": 0.79856,
+    "55": 0.82447,
+    "56": 0.8117,
+    "57": 0.84235,
+    "60": 0.82849,
+    "65": 0.82484,
+    "66": 0.85622,
+    "67": 0.85659,
+    "75": 0.8544,
+    "81": 0.81462,
+    "91": 0.7044,
+    "96": 0.85257,
+    "98": 0.85513,
+    "100": 0.83871,
+    "102": 0.84053,
+    "104": 0.74564,
+    "115": 0.82958,
+    "123": 0.77155,
+    "126": 0.85659,
+    "127": 0.77385,
+    "131": 0.80075,
+    "134": 0.84381,
+    "135": 0.84454,
+    "141": 0.84272,
+    "147": 0.8033,
+    "161": 0.82776,
+    "164": 0.73214,
+    "167": 0.83725,
+    "173": 0.78565,
+    "174": 0.84418,
+    "176": 0.79939,
+    "193": 0.81352,
+    "201": 0.85732,
+    "205": 0.85294,
+    "207": 0.85659,
+    "217": 0.85768,
+    "223": 0.85304,
+    "229": 0.87082,
+    "235": 0.85513,
+    "236": 0.82385,
+    "239": 0.86754,
+    "240": 0.62228,
+    "241": 0.81133,
+    "242": 0.81681,
+    "244": 0.7971,
+    "261": 0.87009,
+    "266": 0.80038,
+    "267": 0.82739,
+    "273": 0.76973,
+    "279": 0.83944,
+    "291": 0.86863,
+    "300": 0.81717,
+    "308": 0.64965,
+    "320": 0.84345,
+    "321": 0.85695,
+    "328": 0.79053,
+    "335": 0.84418,
+    "342": 0.84465,
+    "344": 0.85815,
+    "357": 0.84308,
+    "362": 0.85595,
+    "364": 0.85706,
+    "365": 0.85659,
+    "374": 0.7336,
+    "389": 0.85732,
+    "398": 0.58031,
+    "402": 0.77557,
+    "407": 0.85403,
+    "410": 0.7545,
+    "419": 0.85682,
+    "422": 0.82958,
+    "423": 0.78944,
+    "437": 0.84538,
+    "444": 0.85914,
+    "140": 0.8702,
+    "336": 0.87082,
+    "354": 0.87265,
+    "409": 0.87338,
+    "52": 0.86608,
+    "259": 0.8606,
+    "269": 0.74783,
+    "101": 0.87218,
+    "139": 0.85655,
+    "159": 0.86909,
+    "170": 0.86609,
+    "178": 0.85747,
+    "182": 0.86764,
+    "271": 0.86764,
+    "298": 0.86759,
+    "311": 0.8698,
+    "378": 0.8676,
+    "334": 0.85841,
+    "339": 0.57583
+  },
+  "recover_pdf_heading_styles": false,
+  "recover_opening_epigraphs": true,
+  "link_numeric_footnotes": true,
+  "page_labels": {
+    "3": "iv",
+    "4": "v",
+    "5": "vi",
+    "6": "vii",
+    "7": "ix",
+    "8": "xi",
+    "429": "419b",
+    "431": "420b",
+    "440": "428b",
+    "442": "429b",
+    "430": "419",
+    "432": "421",
+    "433": "422",
+    "434": "423",
+    "435": "424",
+    "436": "425",
+    "437": "426",
+    "438": "427",
+    "443": "430",
+    "444": "431",
+    "445": "432",
+    "446": "433",
+    "447": "434",
+    "448": "435",
+    "449": "436",
+    "450": "437",
+    "451": "438",
+    "452": "439",
+    "453": "440",
+    "454": "441",
+    "455": "442",
+    "456": "443",
+    "457": "444",
+    "458": "445",
+    "459": "446",
+    "460": "447",
+    "461": "448",
+    "462": "449",
+    "463": "450",
+    "464": "451",
+    "465": "452",
+    "466": "453",
+    "467": "454",
+    "468": "455",
+    "469": "456",
+    "470": "457",
+    "471": "458",
+    "472": "459",
+    "473": "460",
+    "474": "461",
+    "475": "462",
+    "476": "463",
+    "477": "464",
+    "478": "465",
+    "479": "466",
+    "480": "467",
+    "481": "468",
+    "482": "469",
+    "483": "470",
+    "484": "471",
+    "485": "472",
+    "486": "473",
+    "487": "474",
+    "488": "475",
+    "428": "419",
+    "439": "428",
+    "441": "429"
+  },
+  "comments": {
+    "boundaries": "Chapter starts checked against contents and opening-page previews. Opening epigraphs begin near y=0.24 and are retained above the former default title cutoff.",
+    "notes": "103 footer zones checked against rendered source crops in work/antipodes-of-the-mind/notes-*.png. Inline superscripts and smaller quotations were rejected as footer starts; actual footer boundaries are recorded. Source-font sizes and damaged numeric prefixes are proposals, not automatic proof. PDF 339 has a long note beginning near y=0.58; verified after the unclassified-footer build guard detected it.",
+    "index": "Column gutter midpoints measured between source text envelopes on each page. PDF 466 has a full-width introduction ending before y=0.24; OCR uses one upper region followed by two lower columns.",
+    "pagination": "PDF 428/429 split printed page 419; 430/431 split 420; 439/440 split 428; 441/442 split 429. Continued halves get b labels so printed-page links resolve to the first half.",
+    "figures": "The source Figures notice describes four illustrations, but this supplied scan contains one visible uncaptioned artwork leaf (PDF 413). Do not invent missing artwork. Quantitative tables are image crops; PDF 419 and 426 retain surrounding reflowable prose."
+  },
+  "artwork_pages": [],
+  "cover_source": "typographic",
+  "vision_primary_pages": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    448,
+    449,
+    450,
+    451,
+    452,
+    453,
+    454,
+    455,
+    456,
+    457,
+    458,
+    459,
+    460,
+    461,
+    462,
+    463,
+    464,
+    465,
+    466,
+    467,
+    468,
+    469,
+    470,
+    471,
+    472,
+    473,
+    474,
+    475,
+    476,
+    477,
+    478,
+    479,
+    480,
+    481,
+    482,
+    483,
+    484,
+    485,
+    486,
+    487,
+    488
+  ],
+  "source_figure_anchors": true,
+  "numeric_footnote_numbering": "chapter",
+  "recover_scan_font_metrics": true,
+  "recover_image_only_headings": true,
+  "recover_centered_headings": true,
+  "upper_margin_cutoff": 0.098,
+  "verse_regions": {
+    "4": [
+      [
+        0.1,
+        0.9
+      ]
+    ],
+    "5": [
+      [
+        0.1,
+        0.9
+      ]
+    ],
+    "6": [
+      [
+        0.1,
+        0.9
+      ]
+    ],
+    "7": [
+      [
+        0.1,
+        0.9
+      ]
+    ],
+    "8": [
+      [
+        0.1,
+        0.9
+      ]
+    ],
+    "9": [
+      [
+        0.1,
+        0.9
+      ]
+    ]
+  }
+}

@@ -37,7 +37,7 @@ LIST_KEYS = PAGE_LIST_KEYS | set(
 )
 DICT_KEYS = set(
     """bottom_margin_cutoffs chapter_body_starts chapter_page_splits comments cover_file
-    cross_page_continuations excluded_pages glossary_terms index_splits
+    cross_page_continuations excluded_pages glossary_terms index_splits index_column_starts
     native_font_styles native_typography note_continuations note_starts page_labels
     paragraph_margins publisher_mark small_caps_openings source_completeness
     verse_regions ocr_tesseract_page_languages""".split()
@@ -55,6 +55,8 @@ def validate_profile(book, path="profile", page_count=None):
         "link_numeric_footnotes"
     ):
         fail("require_complete_numeric_footnotes", "requires numeric linking")
+    if book.get("numeric_footnote_numbering", "page") not in ("page", "chapter"):
+        fail("numeric_footnote_numbering", "expected page or chapter")
 
     def integer(value):
         return type(value) is int
@@ -178,9 +180,16 @@ def validate_profile(book, path="profile", page_count=None):
         "note_starts",
         "bottom_margin_cutoffs",
         "index_splits",
+        "index_column_starts",
     ):
         for value in book.get(key, {}).values():
             unit(value, key)
+    for key, value in book.get("index_column_starts", {}).items():
+        if key not in book.get("index_splits", {}) or not 0 < value < 1:
+            fail(
+                "index_column_starts",
+                "requires a column split and a boundary in 0..1 exclusive",
+            )
     for value in book.get("chapter_page_splits", {}):
         split_page = int(value)
         if not any(

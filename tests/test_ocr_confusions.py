@@ -63,6 +63,31 @@ class ConfusionTests(unittest.TestCase):
             repaired("Chapter I: II", ("Chapter 1: 11", ""))[0], "Chapter I: II"
         )
 
+    def test_citation_suffixes_require_two_positional_readings(self):
+        raw = "Smith (19734, 19734, 19862), with evidence."
+        fixed = "Smith (1973a, 1973b, 1986b), with evidence."
+        self.assertEqual(repaired(raw, (fixed, fixed))[0], fixed)
+        for witnesses in (
+            (fixed, raw),
+            (fixed, fixed.replace("evidence", "other")),
+            (fixed, fixed.replace("1973b", "1973c")),
+        ):
+            result = repaired(raw, witnesses)[0]
+            self.assertIn("19734", result)
+        for raw in ("Quantity 19782 mg.", "Year (1978).", "Identifier X19782."):
+            self.assertEqual(repaired(raw, (raw, raw))[0], raw)
+        row = dict(text="Smith (19782).", bbox=[0, 0, 1, 1])
+        audit = []
+        repair_confusions(
+            row,
+            [dict(text="Smith (1978a).")] * 2,
+            1,
+            audit,
+            "en",
+            protected_edits=[dict(before="19782", after="1978a")],
+        )
+        self.assertEqual(row["text"], "Smith (19782).")
+
     def test_citation_years_but_not_quantities(self):
         self.assertEqual(
             repaired("(December 196g), p. 11; (Osmond, 196la, p.76)")[0],

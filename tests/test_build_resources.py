@@ -206,6 +206,54 @@ class ResourceTests(unittest.TestCase):
                 key(image_placements(page)), key(page.get_image_info(xrefs=True))
             )
 
+    def test_text_extraction_preserves_later_fax_scan_crop_pixels(self):
+        import numpy as np
+        import pymupdf
+
+        # A deterministic Group 4 scan exercises MuPDF's cold-image rendering
+        # path. Ordinary RGB PNG fixtures do not reproduce the subsampling drift.
+        pixels = np.random.default_rng(37).integers(0, 2, (889, 612), dtype=np.uint8)
+        image = Image.fromarray(pixels * 255).convert("1")
+        png, tiff = io.BytesIO(), io.BytesIO()
+        image.save(png, format="PNG")
+        image.save(tiff, format="TIFF", compression="group4")
+        tiff.seek(0)
+        with Image.open(tiff) as encoded:
+            offset = encoded.tag_v2[273][0]
+            length = encoded.tag_v2[279][0]
+        with pymupdf.open() as doc:
+            page = doc.new_page(width=146.88, height=213.36)
+            xref = page.insert_image(page.rect, stream=png.getvalue())
+            doc.update_stream(
+                xref, tiff.getvalue()[offset : offset + length], compress=False
+            )
+            doc.xref_set_key(xref, "Filter", "/CCITTFaxDecode")
+            doc.xref_set_key(xref, "DecodeParms", "<< /K -1 /Columns 612 /Rows 889 >>")
+            page.insert_text((20, 40), "Retain source text")
+            data = doc.tobytes()
+
+        def render(mode):
+            with pymupdf.open(stream=data, filetype="pdf") as doc:
+                page = doc[0]
+                if mode == "reference":
+                    page.get_text("dict")
+                elif mode == "cold":
+                    page.get_text(
+                        "dict",
+                        flags=pymupdf.TEXTFLAGS_DICT & ~pymupdf.TEXT_PRESERVE_IMAGES,
+                    )
+                else:
+                    resources.page_text(page)
+                return page.get_pixmap(
+                    dpi=600, clip=pymupdf.Rect(79.4, 102.2, 95.08, 106.84)
+                ).samples
+
+        from hashlib import sha256
+
+        reference = sha256(render("reference")).hexdigest()
+        self.assertNotEqual(sha256(render("cold")).hexdigest(), reference)
+        self.assertEqual(sha256(render("shared")).hexdigest(), reference)
+
 
 if __name__ == "__main__":
     unittest.main()

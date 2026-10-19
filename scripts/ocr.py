@@ -9,6 +9,7 @@ import unicodedata
 from wordfreq import zipf_frequency
 from build_resources import page_text
 from common import edit_pattern
+from page_columns import text_column
 
 TOKEN = re.compile(r"[\w]+(?:['’-][\w]+)*|[^\w\s]", re.UNICODE)
 
@@ -67,7 +68,7 @@ def merge_rows(lines):
     return rows
 
 
-def embedded(page, split=None, raw=False):
+def embedded(page, split=None, raw=False, column_start=0):
     lines = []
     for b in page_text(page)["blocks"]:
         for l in b.get("lines", []):
@@ -82,7 +83,7 @@ def embedded(page, split=None, raw=False):
                 {
                     "text": "".join(s["text"] for s in l["spans"]),
                     "bbox": box,
-                    "column": int(split is not None and box[0] > split),
+                    "column": text_column(box, split, column_start),
                     "confidence": 0,
                 }
             )
@@ -166,6 +167,7 @@ def repair_confusions(
     index_digits=False,
     page_words=None,
     index_page_labels=None,
+    protected_edits=(),
 ):
     """Repair recurring glyph confusions with structural or witness evidence."""
 
@@ -324,6 +326,47 @@ def repair_confusions(
             "citation-year-digit",
             "four-digit year in citation punctuation",
         )
+
+    # A fifth digit can be a damaged bibliographic suffix. Two independent
+    # readings must agree at this exact slot, preserving every other word and
+    # each four-digit year base (including repeated years with different suffixes).
+    def year_base(token):
+        return (
+            token[:4] if re.fullmatch(r"(?:18|19|20)\d{2}[a-z0-9¢]?", token) else token
+        )
+
+    protected = any(
+        re.search(edit_pattern(edit), row["text"]) for edit in (protected_edits or [])
+    )
+    if len(witnesses) == 2 and not protected:
+        pattern = r"(?<!\w)((?:18|19|20)\d{2})([0-9¢])(?=[),.;:])"
+        for match in reversed(list(re.finditer(pattern, row["text"]))):
+            year = match.group(1)
+            candidates = {
+                year + suffix
+                for witness in witnesses
+                for suffix in re.findall(rf"(?<!\w){year}([a-z])(?!\w)", witness)
+            }
+            agreed = []
+            for after in sorted(candidates):
+                values = numeric_slot_readings(
+                    row["text"], match.start(), match.end(), after, witnesses, year_base
+                )
+                if all(value == [after] for value in values):
+                    agreed.append((after, values))
+            if len(agreed) == 1:
+                after, values = agreed[0]
+                change(
+                    match.start(),
+                    match.end(),
+                    after,
+                    "witnessed-citation-year-suffix",
+                    dict(
+                        rule="two-aligned-citation-suffixes",
+                        readings=values,
+                        witnesses=witnesses,
+                    ),
+                )
     # A closing bracket inside a word, without an opening bracket on the row,
     # is a damaged "l" when that yields a common word and the raw token is not.
     if "[" not in row["text"]:
@@ -949,6 +992,7 @@ def correct_page(
             recover_index_digits,
             page_words,
             index_page_labels,
+            protected_edits=protected_edits,
         )
         own = comparable(row["text"])
         best = [comparable(w["text"]) for w in witnesses[1:] if w]

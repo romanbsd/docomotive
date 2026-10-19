@@ -1740,3 +1740,437 @@ The final EPUB passes EPUBCheck with zero errors or warnings; SHA-256 is
 reproduces every regression snapshot field and EPUB byte. Its 34 new audit
 entries and matching build report are published alongside the same validated
 reading artifact. Validation is recorded in `footer-fix/validation.json`.
+
+
+## The Antipodes of the Mind conversion (2026-10-19)
+
+The supplied Benny Shanon PDF has 488 scanned leaves and an ABBYY hidden text
+layer, no PDF bookmarks, and a source SHA-256 of
+`eb6dfa0ed49ce75af562aa9b94501a77e2dbb2ddf83299680b940521d99c3f5e`.
+The source diagnostic finds no painted-text overlay evidence in its deterministic
+sample; this does not certify unsampled pages. Fresh Tesseract, RapidOCR and
+Apple Vision observations are retained in `work/antipodes-of-the-mind/`. Vision
+requires access to the local macOS recognition service outside the agent sandbox.
+No book excerpts were sent to a remote language-model service.
+
+### Reviewed source structure
+
+`config/antipodes-of-the-mind/book.json` records the prologue, three parts, all
+23 chapters, epilogue, quantitative appendix, references and index. The opening
+epigraphs begin around y=0.24, above the old default chapter-body cutoff of 0.27;
+reviewed title boundaries retain their first lines. The title and publication
+page are represented by the generated title and checked reflowed publication
+text. The cover is typographic: the supplied file starts with a title page, not
+an identified cover. Both print ISBNs are retained in the publication text; the
+binding of this scan is not inferred.
+
+The appendix splits printed 419 into PDF 428/429, 420 into 430/431, 428 into
+439/440, and 429 into 441/442. Continued halves receive b labels, retaining the
+ordinary printed label on the first half. Quantitative tables use checked source
+crops and lossless PNG exports rather than flattening unrelated cells into prose.
+The surrounding text on mixed PDF 419 and 426 remains reflowable. The single
+visible uncaptioned artwork leaf, PDF 413, is preserved. The Figures notice
+describes four illustrations, but additional artwork is not invented.
+
+The index's first page (PDF 466) has a full-width introduction above its two
+columns. A full-height split would cut that introduction in half. The shared
+`index_column_starts` setting now describes the vertical transition: one upper
+OCR clip, then left and right lower clips. `page_columns.py` supplies both fresh
+OCR clipping and embedded/native witness column assignment. Crop coordinates
+map through both axes back to page coordinates, and build preflight rejects
+changed clip geometry until it is re-extracted. Other profiles omit the setting
+and retain their previous two-column behavior. Tests cover complete region
+coverage, nonzero crop origins, separate column order, native/embedded agreement
+and invalid boundaries. Reviewed per-page gutters avoid cutting the ends of
+left-column entries.
+
+Footer review combined embedded-type proposals with independent fresh-engine
+proposals and enlarged source crops. Inline superscripts and smaller quotations
+were rejected as cutoffs. A malformed first label can hide an earlier note in a
+multiple-note footer: PDF 273's note 5 was read as `s` in the old layer, while
+note 6 was recognizable. The cutoff was moved to the actual beginning of note 5,
+without changing its text. The unclassified-footer build guard then caught the
+long note on PDF 339 beginning near y=0.58. The proposal helper now considers the
+lower half rather than only the bottom third, preserving its small-type, gap
+and no-body-prose-below checks. This remains review-only; a regression test
+protects small quotations followed by body prose.
+
+### Rejected text-extraction optimization
+
+`build_resources.page_text()` decodes and serializes scan image blocks before
+filtering them out. Removing `TEXT_PRESERVE_IMAGES` preserved text and geometry
+and appeared faster, but changed later OCR crop pixels through MuPDF's image
+store. Chosen by Spirits PDF 96 lost the correct repair “шапка”. Warming the image
+store using `get_image_info(xrefs=True)` fixed that book and a synthetic Group 4
+fax-scan probe, but the wider audit then found Daimonic Reality PDF 298 changed
+note 11 to 1 and failed its endnote sequence check. The unchanged HEAD build
+succeeded and preserved 11. The optimization is therefore entirely rejected;
+the original unrestricted dictionary extraction remains in production. A new
+synthetic test explicitly demonstrates the cold-crop drift and requires the
+shared helper to preserve the original crop pixels. Text and bbox equality alone
+are insufficient evidence for an extraction performance change. Intermediate
+optimized builds and their lexical gains are not accepted baselines.
+
+### Earlier-book difference review
+
+Stored snapshots are not treated as quality scores. Fresh builds at HEAD
+`26afe21` using the same caches reproduce the task tree's complete snapshots for
+The Natural Mind (both editions), Shamanic Trance and A Feeling for the Organism.
+Their observed differences from older accepted snapshots therefore predate this
+conversion's changes. Historical accepted snapshots are also rebuilt in detached
+worktrees. The Natural Mind at `5ec849d` exactly reproduces both accepted
+snapshots. The earliest `3ec72d2` snapshot commit omitted the then-local book
+profiles; recovering them from their first tracked revision `cfc288a` allows its
+Shamanic Trance and Pharmako/Poeia builds to reproduce their accepted snapshots
+exactly. This recovered-profile provenance is retained in the audit evidence.
+
+Source-checked differences so far:
+
+| Book | Difference and source evidence | Assessment |
+| --- | --- | --- |
+| The Natural Mind, both editions | PDF 223 prints 1969; PDF 232 and 233 print 189. Audits use `citation-year-digit` and `witnessed-index-digit`; old OCR had 196g/18g. | Three improvements; identical coverage counts and apparatus. |
+| A Feeling for the Organism, both editions | Fresh historical `89817d2` outputs preserve the accepted text; 63 source rows differ in the new build. Enlarged crops of all 63 confirm 64 printed em dashes (`two-fresh-em-dash`), “thoughtful” on PDF 13 (`fresh-word-for-nonword`), and “fit” on PDF 176 (`three-witness-initial-word`). | Improvements. Coverage, notes and backlinks are identical; all 18 figure stems survive, with four line-art exports changing JPEG to PNG. |
+| Pharmako/Poeia | PDF 6, 92, 111, 131, 186, 230 and 247 visibly separate or illegal, of kentucky, of life (twice), of two, of ivy and of fascination. `source-word-spacing` retains fresh row/crop witnesses. PDF 255 prints SOLANACEAE, restored by `three-witness-initial-word`. | Eight improvements; all eight full source-row crops checked. |
+| Shamanic Trance | No words, coverage, apparatus, notes, backlinks or figure inventory change against the historical accepted build. Cover and back cover resize from 1200×1800 to 1120×1680 under the existing reader-viewport export rule. | Image-size tradeoff, not a text-quality improvement. |
+
+Word diffs, source-row mappings, audit links and enlarged source strips are under
+`work/antipodes-of-the-mind/`; accepted historical builds and fresh HEAD builds
+are separate from the current regression outputs. Baselines are not accepted
+merely because a build reports changed.
+
+The Organism historical replay's only deviations from its stored snapshot are
+JPEG asset hashes under today's rendering/encoding environment; its text and
+canonical snapshot fields reproduce the accepted values. Pixel verification of
+all 18 current figure-cleanup exports passes. This does not convert an encoding
+difference into a textual improvement. `organism-audit-0.png` through
+`organism-audit-6.png`, `organism-audit-links.json`, and the historical word diffs
+record the full row-by-row inspection. Some other OCR errors remain unchanged;
+this is a difference review, not a claim of complete proofreading.
+
+The Skilled Helper historical `cfc288a` replay exactly reproduces its accepted
+snapshot. All ten changed diagrams were compared side by side with the fixed
+current build (`skilled-image-review-0.png` and `-1.png`): the existing export rule
+reduces their widths to 1264 pixels, retaining aspect ratio and the complete
+content. This is a resolution/size tradeoff, with identical text and apparatus,
+not evidence of improved transcription.
+
+Chosen by Spirits has 27 word-level differences and 39 changed source rows after
+the pixel-stability fix. All 39 were mapped to their audit entries and inspected
+against fresh enlarged source crops (`chosen-final-0.png` through `-5.png`,
+`chosen-final-audit-links.json`). The lexical changes restore printed Russian
+letters/words, initials, running headings and caption text; numero and Roman
+numeral changes normalize encoding. One important limitation: PDF 22's changed
+`ХІ` → `XI` is encoding normalization of an already incomplete reading; the
+print says XVII. It is not counted as an OCR accuracy improvement. Other unchanged
+errors remain visible (for example missing letters beside corrected words).
+The fixed task tree and unchanged HEAD have identical full Chosen snapshots, so
+these changes predate this task. No blanket baseline acceptance is justified.
+
+### Chapter-continuous note labels and technical notation
+
+Antipodes uses chapter-continuous numeric footnote labels. The opt-in
+`numeric_footnote_numbering: "chapter"` recognizes consecutive footer runs that
+start above 1 and verifies every footer prefix against its own scan glyph. It
+supports two-digit labels only when aligned raised components and crop readings
+agree. Known conflicting digits cannot be replaced by the legacy “1” shape
+heuristic. Default page numbering retains earlier-book behavior. Dedicated tests
+cover arbitrary consecutive runs, contradictory digits, two-component labels,
+and a later note whose own scan establishes its label.
+
+The source's Consciousness₁–₅ and Self₁–₃ technical notation on PDF 278–280 is
+badly damaged by all OCR engines; the hidden layer also lacks reliable subscript
+geometry. Exact row overlays preserve the scanned subscripts after visual review
+of the defining passages, including the later Consciousness₄ reference on PDF
+366. These are source-specific, preconditioned transcriptions, not a general
+word-replacement rule. The bibliography's case-only GOSWAMI correction is also
+bound to its source and review evidence: the quality gate's case-folded token
+comparison otherwise cannot distinguish the corrected initial token.
+
+Wizard of the Upper Amazon's historical `c95b485` build reproduces its accepted
+snapshot. The fixed current build has identical rendered text, canonical model,
+coverage counts, notes and backlinks. Its sole corrected-row change is on the
+excluded scanned contents page (PDF 10): `Pision-Causing` → `Vision-Causing`,
+confirmed by `wizard-toc-source.png` and `fresh-word-for-nonword` evidence. Both
+maps retain their full content and aspect ratio while shrinking from 1059×1956
+to 910×1680 (`wizard-maps-review.png`). Thus the row change is an improvement;
+the map changes are the same existing viewport-size tradeoff.
+
+Otherworlds has 63 word-level changes across 62 corrected source rows, all mapped
+to audit entries and inspected in `otherworlds-final-0.png` through `-7.png`.
+They largely restore printed letters in prose and bibliography and year digits.
+The fresh unchanged HEAD reproduces the current rendered text, model, coverage
+and package; only the lexical decision report differs. These changes therefore
+predate the Antipodes work. The review does **not** approve the set wholesale:
+PDF 252 now retains `Soci-ely` where the earlier output joined the already damaged
+`Sociely`; the scan prints a physical `Soci-` / `ety` wrap. This remains defective
+and the added retained hyphen is not an improvement. Other partial repairs, such
+as `Fi-rotherapia` → `Fi-totherapia` and `chorac-five` → `chorac-tive`, improve a
+letter while leaving earlier wrap/spacing errors. Their source rows are retained
+for further generic reconstruction work. No baseline is accepted from this set.
+
+The first visual Antipodes preview exposed why hidden OCR typography must be
+reviewed: whole appendix prose was tagged bold and became a sequence of headings.
+The source profile now disables PDF style transfer, uses existing scan-geometry
+heading/font-metric recovery, and excludes the measured running-head band above
+normalized y=0.098. Scanned contents/list/epigraph leaves preserve source line
+breaks. These are measured source-format facts, not phrase-based text overrides.
+
+After fully restoring unrestricted image decoding, Daimonic Reality's complete
+current snapshot exactly matches the fresh unchanged HEAD snapshot
+(`daimonic-final-head-differences.json`, zero differences). Against accepted
+`89817d2`, its single word change is `spacecraff` → `spacecraft` on PDF 173,
+verified in the full source row (`daimonic-spacecraft-source.png`) and its
+`fresh-word-for-nonword` audit. Notes, backlinks and coverage counts remain equal;
+the back cover's only content-preserving change is existing viewport resizing.
+This is one textual improvement, independent of the rejected optimization.
+
+Both Concentration and Meditation editions hit the same newer quality gate on
+unchanged HEAD: PDF 3's first “It” conflicts with fresh OCR “Ir”. Enlarged source
+review confirms the existing “It” is correct (`concentration-gate-source.png`).
+The historical `c793c7c` replay preserves accepted text, model, EPUB and apparatus;
+only lexical-decision report hashes differ. This is a pre-existing gate false
+alarm, not demonstrated text damage. Chukchi's historical `e1d5310` replay exactly
+passes its accepted snapshot, while unchanged HEAD and the task tree share the
+same 46 unresolved high-risk rows. Those disagreements are not 46 proven errors;
+no gate or baseline is waived merely to obtain a green batch.
+
+All 47 proposed chapter-footer prefix edits were visually inspected in
+`footer-label-review-0.png` through `-3.png`. Two crop-consensus readings would
+have damaged correct existing 8s (PDF 33 and 131), and another read PDF 437's
+printed 6 as 4. Chapter mode now refuses to overturn **any** different existing
+numeric prefix from crop consensus alone; it retains the conflicting evidence
+for review and abstains from linking. A regression test captures that failure.
+Three genuinely damaged numeric prefixes (104, 308, 437) are restored through
+exact source-reviewed row overlays. The other source-confirmed symbol-to-digit
+recoveries remain generic. This review demonstrates why OCR agreement cannot
+substitute for source review, even when all crop passes agree.
+
+Обряд и фольклор в сибирском шаманизме has 116 changed source rows against
+historical `0f4ed46`. Every row was visually checked in `obryad-source-0.png`
+through `-12.png` and linked to its audit in `obryad-final-source-rows.json`.
+Printed em dashes, Russian initials/letters and final note punctuation are
+restored; many differences only normalize № or Latin Roman-numeral encoding.
+Some normalized running heads retain pre-existing wrong numerals, and the dot
+added after note 5 on PDF 131 leaves an older stray bullet intact: neither is
+presented as complete error correction. The two additional links are PDF 26's
+printed calls 1 and 2, source checked in `obryad-added-call-1.png` and source sheet
+0. No old call disappears when compared by source page, label and target instead
+of the changed anchor-ID format. Body/note/excluded coverage counts remain
+13,551/365/456. All eight figures/diagrams remain; side-by-side `obryad-images-0.png`
+and `-1.png` show complete content at the existing smaller viewport dimensions.
+
+### Final verification and delivery
+
+The final profile's upper margin is 0.098 rather than the initial 0.10 estimate:
+review of every long excluded margin row found two genuine first body lines at
+0.09927 (PDF 11 and 77). Both are retained; all remaining long margin exclusions
+are running heads. This catches a limitation of coverage accounting: a row can
+be explicitly excluded and still need a source-based justification.
+
+Final delivery is `output/antipodes-of-the-mind/antipodes-of-the-mind.epub`.
+EPUBCheck reports zero fatals, errors, warnings or infos. Source-row coverage
+passes with 19,514 body rows, 446 note rows and 566 explicitly excluded rows.
+There are 35 reflow sections and 16 source-image assets (one artwork and fifteen
+table crops). The numeric stage recovers 59 call markers; 55 calls are linked.
+52 unresolved call locations retain grouped page notes and return links rather
+than guessed associations. This is not a claim of complete manual proofreading
+or complete numeric linkage. Review sheets and OCR candidates remain beside the
+EPUB. The profile contains 39 exact, source-reviewed transcription overlays.
+
+A fresh final replay has zero differences across the complete regression
+snapshot, including text, model, coverage, apparatus, image inventory, EPUB
+members and EPUB bytes (`delivery-replay-differences.json`). Final package SHA-256:
+`07a46e251d967a9f1f25ad83b48082f4b2c52b35417c07cd10424221ee58f4e2`;
+the report hash matches the delivered bytes. Final visual review uses offline
+rendered PNGs from the actual delivery XHTML, including contents, technical
+subscripts, appendix/table layout and index. Browser file preview was unavailable;
+no browser policy was bypassed.
+
+All 570 unit tests pass, Black leaves all 125 Python files unchanged, and
+`git diff --check` passes. The final earlier-book replay covers all 18 cases:
+15 complete snapshots are identical to fresh unchanged HEAD builds; the other
+three reproduce the same pre-existing quality blocks (Chukchi and both
+Concentration editions). Against the older stored accepted hashes the batch has
+2 passes, 13 changed cases and those 3 failures. The historical/source audit above
+explains why “changed” is not a quality verdict. **No earlier baseline was
+accepted or modified.** Exact HEAD comparisons are saved in
+`final-earlier-head-comparisons.json`; historical word diffs, source strips and
+per-row audit mappings remain under the book's work directory.
+
+The Обряд reading edition has one additional word change beyond the conservative
+edition's 116 word diffs: PDF 47 `внебнем` → `внешнем`, verified against
+`obryad-reading-extra-source.png` and its `fresh-word-for-nonword` audit. Both
+reading and conservative final snapshots independently match unchanged HEAD.
+
+
+## Cross-book manual-correction audit and shared repairs (2026-10-19)
+
+The audit covered 17 profiles, 510 transcription overlays, 26 separate editorial
+entries, 658 scan acknowledgements and 22 line-join decisions. Page-stage replay
+identified 17 overlays whose complete replacement rows and bounding boxes were
+already reproduced by `three-witness-initial-word`: Natural Mind (1), Otherworlds
+(7), and Wizard of the Upper Amazon (9). Their full before/after builds retain
+identical text, corrected pages, canonical models and EPUB bytes. Retire only
+those proven overlays; page-stage non-reproduction does not prove the remaining
+entries necessary, since reconstruction and lexical repair also run later.
+
+Citation suffix repair now requires two independent fresh readings at the same
+lexical slot. It keeps every non-year word and four-digit year base aligned,
+handles repeated years with different suffixes, and derives the letter from
+witnesses rather than a digit-to-letter map. A valid four-digit year is never
+extended. Rows with pending manual overlays remain protected, preserving their
+replacement preconditions. Each event has rule `two-aligned-citation-suffixes`,
+page, bbox, both witness rows and positional readings. Antipodes gains 72
+source-verified repairs; the word diff contains only these suffix changes.
+The following table records every changed occurrence (repeated entries on a
+page represent separate source locations). All replacements match the print.
+Exact bboxes and source-strip panels are in
+`work/manual-edit-improvements/reviewed-suffixes.json`; panels 1–71 are in
+`suffixes-1.png` through `suffixes-6.png`, and bibliography PDF 462 is in
+`suffix-p462.png`. The fixed Vision/Rapid diagnostic found 71 eligible occurrences. Production
+uses the profile-selected independent pair: on Vision-primary bibliography
+PDF 462, Tesseract and Rapid both read `1993b`, supplying the 72nd repair.
+Vision itself is the damaged primary there and is not counted as a fresh vote.
+
+| PDF page | Source-verified suffix changes |
+| --- | --- |
+| 23 | `19782` → `1978a`; `19862` → `1986a` |
+| 25 | `19734` → `1973a`; `19738` → `1973b` |
+| 36 | `19842` → `1984a`; `19844` → `1984b`; `19865` → `1986b`; `19732` → `1973a`; `19734` → `1973a`; `19732` → `1973a`; `19734` → `1973b` |
+| 41 | `19736` → `1973b` |
+| 42 | `19932` → `1993a`; `19934` → `1993a` |
+| 43 | `19892` → `1989a`; `19934` → `1993b`; `19894` → `1989b` |
+| 44 | `19934` → `1993a` |
+| 55 | `19734` → `1973b` |
+| 56 | `1973¢` → `1973c` |
+| 81 | `19662` → `1966a` |
+| 93 | `19892` → `1989a` |
+| 96 | `20025` → `2002b` |
+| 106 | `19784` → `1978b` |
+| 114 | `19842` → `1984a`; `19862` → `1986b` |
+| 126 | `19732` → `1973a`; `19736` → `1973b` |
+| 156 | `19842` → `1984a`; `19864` → `1986b` |
+| 167 | `19882` → `1988a`; `19932` → `1993a` |
+| 174 | `19932` → `1993a` |
+| 176 | `19932` → `1993a` |
+| 186 | `19782` → `1978a` |
+| 188 | `20002` → `2000a` |
+| 191 | `19732` → `1973a` |
+| 225 | `19732` → `1973a` |
+| 235 | `19982` → `1998a` |
+| 257 | `19854` → `1985b`; `19854` → `1985a` |
+| 259 | `19852` → `1985a` |
+| 260 | `19792` → `1979a` |
+| 275 | `19885` → `1988b`; `19892` → `1989a` |
+| 296 | `19892` → `1989a` |
+| 318 | `19934` → `1993a` |
+| 319 | `19732` → `1973a` |
+| 320 | `19932` → `1993a` |
+| 328 | `19784` → `1978b` |
+| 329 | `19934` → `1993a` |
+| 332 | `19794` → `1979b`; `19842` → `1984a` |
+| 335 | `19784` → `1978b` |
+| 344 | `19932` → `1993a` |
+| 345 | `19932` → `1993a` |
+| 347 | `19934` → `1993a` |
+| 349 | `19932` → `1993a` |
+| 355 | `19894` → `1989b` |
+| 356 | `19732` → `1973a`; `19792` → `1979a` |
+| 357 | `19934` → `1993b` |
+| 365 | `19934` → `1993a` |
+| 370 | `19794` → `1979a` |
+| 378 | `19982` → `1998a` |
+| 381 | `19932` → `1993a` |
+| 385 | `19934` → `1993a` |
+| 389 | `19842` → `1984a` |
+| 409 | `19932` → `1993a` |
+| 422 | `19732` → `1973a`; `19864` → `1986b` |
+| 462 | `19936` → `1993b` |
+
+Native PDF extraction now composes separately positioned accents before
+constructing inline ranges. Unicode accent identity, overlapping glyph boxes,
+near-coincident origins, a unique adjacent base and NFC composition are required.
+For a glyph encoded as `€`, the embedded font must independently draw two raised
+similarly sized dots. The renderer checks that glyph in a separate in-memory
+font probe; actual euro glyphs and nonoverlapping marks remain literal. Source
+font names, phrases and page coordinates are not overrides.
+
+Letter Kills PDF 20 has `u¨` → `ü` twice and `o¨` → `ö` once; PDF 22 has
+`u¨` → `ü` three times and `€a` → `ä` three times. These reproduce the nine
+accents in six reviewed overlays, which were removed. The complex Polish
+transcription on PDF 7 remains manual. Full-book plain text is unchanged.
+Two style differences are improvements: PDF 22 keeps only `Hebräer` italic,
+leaving `, übersetzt` roman; the second row keeps `Hebrär,”` roman and begins
+italics at `Jahrbücher für Speculative Philosophie`. The old multi-span manual
+replacements had widened these ranges. Embedded font spans and source crops
+confirm both boundaries. No other native model differences occur in that book.
+
+The same generic rule repairs Shamanic Trance PDF 200 and 264, `Aves´a` →
+`Aveśa`. Both acute marks sit over the printed s; rendered source crops confirm
+`Aveśa` in each bibliography entry. The two `native-detached-accent` audits
+record their glyph origins and boxes. These are the only new word changes in
+that book. Skilled Helper remains unchanged.
+
+The quality gate now compares the actual rendered first word before deciding
+whether its raw OCR disagreement remains unresolved. A checked case-only repair
+can resolve that word even when case-folded tokens are equal. Punctuation-only
+changes, edits later in the row, and capitalization that still contains damaged
+mixed case do not resolve it. Antipodes' `GOswAMI` → `GOSWAMI` transcription now
+passes without its separate acknowledgement workaround; the exact source-checked
+transcription overlay remains. Removing the acknowledgement does not waive any
+other review row.
+
+One report-only difference needs explicit accounting: Otherworlds lexical
+crop evidence for PDF 139 `beliets` → `beliefs` and a second `each` crop has
+changed cache and PNG hashes. The two crops retain their dimensions and OCR
+readings; 20/27,025 and 33/19,950 pixels respectively differ by exactly one
+gray level at most. The lexical decisions, corrected pages, canonical model,
+plain text and EPUB are identical. An unchanged baseline replay reproduces its
+original fingerprints, and the isolated candidate reproduces the candidate
+fingerprints. The observed change is limited to grayscale rounding in evidence; its trigger
+was not isolated. It introduces no additional text edit; the accepted regression baseline is deliberately not refreshed.
+Both source readings remain correct. Pixel comparisons and full JSON diffs
+are retained under `work/manual-edit-improvements/`.
+
+Validation uses a HEAD worktree plus the preserved pre-existing conversion
+patch for fresh before builds, and a second HEAD worktree containing only the
+new pipeline/profile changes for isolated candidate regression. Both share the
+same source/cache trees. The Antipodes profile is separately checked with the
+existing conversion changes present on both sides. No baseline acceptance flag
+is used. Tests cover positional suffix agreement and contradictions, protected
+overlays, accent geometry and style offsets, real currency preservation,
+glyph-shape rejection and checked capitalization versus unrelated edits.
+
+
+Final validation: all 575 unit tests pass; the final added assertions also pass
+in focused reruns. Black checks all 127 Python files and `git diff --check`
+passes. Twenty earlier-book edition cases cover the sixteen earlier source
+profiles: thirteen snapshots are identical, three have the explained native
+text/style or crop-evidence differences above, and four reproduce unchanged
+quality blocks. The standard eighteen-case suite has fifteen successful builds
+and its same three blocked cases; supplemental King and the Corpse is identical,
+while Synchronicity reproduces seven high-risk rows. For all four blocked cases,
+corrected pages, model, coverage, apparatus and quality reports are identical on
+both sides. Their gates were not waived. The Antipodes fresh before build is
+identical to its previous delivery; its after build has exactly 72 changed word
+tokens, each matched to a source-verified audit. Note calls, backlinks, figure
+inventory and coverage counts are unchanged throughout the paired comparisons.
+No accepted baseline has been modified.
+
+The three changed deliverable EPUBs pass EPUBCheck 5.4.0 with zero fatal, error,
+warning or informational messages and replace their corresponding `output/`
+directories. Previous outputs are preserved under
+`work/manual-edit-improvements/superseded-output/`. Updated Antipodes SHA-256:
+`3d674357d68d6f282d7313e8151dd7abcae46e1cbc4ffd0cf3ea19b29bce7b3f`.
+Replay comparisons, word diffs, source crops, retired-overlay evidence, unchanged
+quality-block checks and published artifact hashes remain in
+`work/manual-edit-improvements/`. This work removes 23 proven redundant manual
+overlays (510 → 487) and one obsolete case-only acknowledgement; it adds no
+book-specific text or coordinate exception to shared repair logic.
+
+The isolated HEAD candidate contains only this improvement patch. Its complete
+eighteen-case replay matches the corresponding main-tree candidate outputs:
+fifteen complete snapshots are identical and three have identical quality
+blocks. This verifies that the pre-existing Antipodes conversion work did not
+mask earlier-book effects. The isolated supplemental King/Synchronicity pair
+is included in the twenty-case comparison above.

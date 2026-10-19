@@ -116,7 +116,7 @@ def font_match(glyph, templates, label, isolated_prefix=False):
     return None
 
 
-def footer_label(page, row, recognize):
+def footer_label(page, row, recognize, allow_multiple=False):
     """Read the isolated raised footer prefix without masking it as noise."""
     observation = recognize.line_words(page, row, raw=True)
     words = [w for w in observation["words"] if re.search(r"[А-Яа-яA-Za-z]", w[4])]
@@ -136,9 +136,25 @@ def footer_label(page, row, recognize):
         for b in components(crop)
         if 0.3 * cap < b[3] - b[1] < cap and b[2] - b[0] > 0.06 * cap
     ]
-    if len(regions) != 1:
+    if len(regions) == 1:
+        box = regions[0]
+    elif allow_multiple and len(regions) == 2:
+        left_digit, right_digit = sorted(regions)
+        overlap = min(left_digit[3], right_digit[3]) - max(
+            left_digit[1], right_digit[1]
+        )
+        if not 0 <= right_digit[0] - left_digit[2] <= 0.5 * cap or overlap < 0.65 * min(
+            left_digit[3] - left_digit[1], right_digit[3] - right_digit[1]
+        ):
+            return None
+        box = (
+            left_digit[0],
+            min(left_digit[1], right_digit[1]),
+            right_digit[2],
+            max(left_digit[3], right_digit[3]),
+        )
+    else:
         return None
-    box = regions[0]
     bbox = [
         (box[0] + left) / image.width,
         (box[1] + top) / image.height,
@@ -154,6 +170,8 @@ def footer_label(page, row, recognize):
             v for v in readings if v.isascii() and v.isdigit() and 1 <= int(v) <= 99
         ]
     label = digits[0] if len(digits) >= 2 and len(set(digits)) == 1 else None
+    if len(regions) == 2 and label and len(label) != 2:
+        label = None  # Reading only one of two printed components is incomplete.
     return dict(label=label, readings=readings, bbox=bbox, glyph=crop.crop(box))
 
 
@@ -735,7 +753,7 @@ def embedded_caret_calls(
     return candidates
 
 
-def footer_entry_labels(rows, cutoff):
+def footer_entry_labels(rows, cutoff, numbering="page"):
     """Read a complete numbered run at the source footer's hanging margin."""
     notes = sorted(
         (row for row in rows if row["bbox"][1] >= cutoff),
@@ -746,13 +764,30 @@ def footer_entry_labels(rows, cutoff):
     labels = []
     margin = notes[0]["bbox"][0]
     for row in notes:
-        match = re.match(r"^\s*([1-9])(?=\s|\[)", row["text"])
+        pattern = (
+            r"^\s*([1-9]\d?)(?=\s|\[)"
+            if numbering == "chapter"
+            else r"^\s*([1-9])(?=\s|\[)"
+        )
+        match = re.match(pattern, row["text"])
         if match and abs(row["bbox"][0] - margin) < 0.04:
             labels.append(match[1])
-    return labels if labels == [str(i) for i in range(1, len(labels) + 1)] else []
+    start = int(labels[0]) if labels and numbering == "chapter" else 1
+    return (
+        labels if labels == [str(i) for i in range(start, start + len(labels))] else []
+    )
+
+
+def nonconflicting_footer_evidence(row, evidence):
+    """Crop consensus alone cannot overturn a different existing numeric label."""
+    known = re.match(r"^\s*([1-9]\d?)(?=\s|\[)", row["text"])
+    if evidence and known and evidence["label"] != known[1]:
+        return dict(evidence, label=None)
+    return evidence
 
 
 def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
+    numbering = book.get("numeric_footnote_numbering", "page")
     cache = Path(work) / "numeric-footnote-crops"
     provenance = digest(
         Path(inspect.getsourcefile(glyph_readings)).read_bytes()
@@ -773,7 +808,9 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
             number = int(key)
             page = doc[number - 1]
             first = min(notes, key=lambda r: r["bbox"][1])
-            evidence = footer_label(page, first, recognize)
+            evidence = footer_label(
+                page, first, recognize, allow_multiple=numbering == "chapter"
+            )
             if evidence is None and recover_merged_footer(
                 number, pages[number], cutoff, page, work, recognize, audit
             ):
@@ -781,7 +818,58 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
                     (r for r in pages[number] if r["bbox"][1] >= cutoff),
                     key=lambda r: r["bbox"][1],
                 )
-                evidence = footer_label(page, first, recognize)
+                evidence = footer_label(
+                    page, first, recognize, allow_multiple=numbering == "chapter"
+                )
+            if numbering == "chapter":
+                evidence = nonconflicting_footer_evidence(first, evidence)
+                # Chapter runs can continue across leaves, and later notes on
+                # one leaf can have their own misread raised labels. Verify each
+                # prefix; neither sequence nor the first note's number supplies it.
+                margin = first["bbox"][0]
+                for row in sorted(notes, key=lambda r: r["bbox"][1]):
+                    if row is not first and not (
+                        abs(row["bbox"][0] - margin) < 0.04
+                        and re.match(r"^\s*(?:\d{1,2}|[sIl'‘’*])(?=\s|\[)", row["text"])
+                    ):
+                        continue
+                    observed = (
+                        evidence
+                        if row is first
+                        else footer_label(page, row, recognize, allow_multiple=True)
+                    )
+                    observed = nonconflicting_footer_evidence(row, observed)
+                    if not observed or not observed["label"]:
+                        continue
+                    label = observed["label"]
+                    prefix = re.match(r"^\s*(?:\d{1,2}|[^\w\s]+|[sIl])\s*", row["text"])
+                    if not prefix or prefix[0].strip() == label:
+                        continue
+                    apply_edits(
+                        [row],
+                        [
+                            dict(
+                                page=number,
+                                before=prefix[0],
+                                after=label + " ",
+                                prefix="",
+                                suffix=row["text"][prefix.end() :],
+                                count=1,
+                                whole_word=False,
+                            )
+                        ],
+                        audit,
+                        "verified-chapter-footer-label",
+                    )
+                    audit.append(
+                        dict(
+                            page=number,
+                            kind="isolated-chapter-footer-label",
+                            label=label,
+                            readings=observed["readings"],
+                            bbox=observed["bbox"],
+                        )
+                    )
             footer_evidence[number] = evidence
     footer_templates = [
         dict(page=n, **e) for n, e in footer_evidence.items() if e and e["label"] == "1"
@@ -798,7 +886,14 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
         evidence = footer_evidence.get(number)
         label = evidence and evidence["label"]
         font_witnesses = None
-        if evidence and label != "1":
+        if (
+            evidence
+            and label != "1"
+            and (
+                numbering == "page"
+                or (not label and not conflicting_digit(evidence["readings"], "1"))
+            )
+        ):
             font_witnesses = font_match(
                 evidence["glyph"],
                 [t for t in footer_templates if t["page"] != number],
@@ -1039,9 +1134,12 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
                         for value in readings
                         if value.isascii() and value.isdigit() and len(value) == 1
                     ]
-                    footer_labels = footer_entry_labels(pages[number], cutoff)
+                    footer_labels = footer_entry_labels(
+                        pages[number], cutoff, numbering
+                    )
                     conflicts_footer = any(
-                        value != label and value in footer_labels
+                        value != label
+                        and (value in footer_labels or numbering == "chapter")
                         for value in numeric_readings
                     )
                     verified = readings.count(label) >= 2 and not conflicts_footer
@@ -1398,7 +1496,7 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
         if key in book.get("note_continuations", {}):
             continue
         number = int(key)
-        labels = footer_entry_labels(pages[number], cutoff)
+        labels = footer_entry_labels(pages[number], cutoff, numbering)
         present = {item["label"] for item in found if item["page"] == number}
         for label in labels:
             if label in present:
@@ -1482,7 +1580,7 @@ def recover_numeric_footnotes(pages, doc, book, work, audit, recognize):
     failures = {item["page"]: item for item in unresolved}
     for key, cutoff in book.get("note_starts", {}).items():
         number = int(key)
-        labels = footer_entry_labels(pages[number], cutoff)
+        labels = footer_entry_labels(pages[number], cutoff, numbering)
         if not labels:
             continue
         present = {item["label"] for item in found if item["page"] == number}

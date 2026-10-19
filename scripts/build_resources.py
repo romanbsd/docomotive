@@ -107,8 +107,9 @@ def page_text(page):
     """Shared page.get_text("dict") without image blocks; callers must not mutate."""
 
     def extract():
+        # Keep image decoding: downstream OCR crop pixels depend on MuPDF's
+        # warmed image store. Text-only flags change some bilevel scan renders.
         data = page.get_text("dict")
-        # Image blocks carry decoded pixels but no lines; text readers skip them.
         return dict(data, blocks=[b for b in data["blocks"] if b.get("lines")])
 
     active = _ACTIVE.get()

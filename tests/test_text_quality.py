@@ -102,6 +102,19 @@ class TextQualityTests(unittest.TestCase):
             [],
         )
 
+    def test_case_only_repair_resolves_suspect_word(self):
+        bad = "GOswAMI, A. describes the evidence."
+        peer = "Goswam1, A. describes the evidence."
+        row = disagreement(bad, peer, peer)
+        self.assertEqual(findings(model(bad.replace("GOswAMI", "GOSWAMI")), [row]), [])
+        for current in (
+            bad,
+            bad.replace("GOswAMI", "GosWAMI"),
+            bad.replace("evidence.", "evidence!"),
+            bad.replace(",", ";", 1),
+        ):
+            self.assertEqual(len(findings(model(current), [row])), 1)
+
     def test_unrelated_disagreements_do_not_block(self):
         primary = "The original sentence ends here."
         row = disagreement(

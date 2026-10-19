@@ -15,6 +15,9 @@ from common import write_json
 from numeric_footnotes import (
     anchored_baseline,
     footer_tokens,
+    footer_entry_labels,
+    footer_label,
+    nonconflicting_footer_evidence,
     has_marker_character,
     recover_merged_footer,
     recover_numeric_footnotes,
@@ -23,6 +26,143 @@ from numeric_footnotes import (
 
 
 class MergedFooterTests(unittest.TestCase):
+    def test_two_digit_footer_reads_both_aligned_raised_components(self):
+        from types import SimpleNamespace
+
+        with pymupdf.open() as doc:
+            page = doc.new_page(width=100, height=100)
+            row = dict(text="2 Source note", bbox=[0.1, 0.8, 0.9, 0.89])
+            recognize = SimpleNamespace(
+                line_words=lambda *a, **k: dict(words=[(20, 80, 70, 88, "Source")])
+            )
+            with (
+                patch(
+                    "numeric_footnotes.components",
+                    return_value=[(3, 2, 8, 23), (12, 2, 24, 23)],
+                ),
+                patch(
+                    "numeric_footnotes.glyph_readings", return_value=["12", "12", "12"]
+                ),
+            ):
+                self.assertIsNone(footer_label(page, row, recognize))
+                evidence = footer_label(page, row, recognize, allow_multiple=True)
+            self.assertEqual(evidence["label"], "12")
+
+    def test_later_chapter_footer_entry_uses_its_own_scan_digit(self):
+        from types import SimpleNamespace
+
+        with tempfile.TemporaryDirectory() as work, pymupdf.open() as doc:
+            doc.new_page(width=100, height=100)
+            notes = [
+                dict(page=1, text="5 First source note", bbox=[0.1, 0.8, 0.9, 0.82]),
+                dict(page=1, text="* Second source note", bbox=[0.1, 0.85, 0.9, 0.87]),
+            ]
+            evidence = [
+                dict(
+                    label=v,
+                    readings=[v, v],
+                    bbox=[0.1, 0.8, 0.12, 0.81],
+                    glyph=Image.new("L", (8, 16), 0),
+                )
+                for v in ["5", "6"]
+            ]
+            audit = []
+            with (
+                patch("numeric_footnotes.footer_label", side_effect=evidence),
+                patch("numeric_footnotes.traineddata_digest", return_value="test"),
+            ):
+                report = recover_numeric_footnotes(
+                    {1: notes},
+                    doc,
+                    dict(note_starts={"1": 0.8}, numeric_footnote_numbering="chapter"),
+                    work,
+                    audit,
+                    SimpleNamespace(version="test"),
+                )
+            self.assertEqual(
+                [n["text"] for n in notes],
+                ["5 First source note", "6 Second source note"],
+            )
+            self.assertEqual(report["unresolved"][0]["labels"], ["5", "6"])
+            self.assertEqual(audit[-1]["readings"], ["6", "6"])
+
+    def test_crop_consensus_cannot_overturn_existing_footer_digit(self):
+        evidence = dict(
+            label="3", readings=["3", "3", "3"], bbox=[0.1, 0.8, 0.12, 0.82]
+        )
+        for original in ("8 Source note", "13 Source note"):
+            with self.subTest(original=original):
+                result = nonconflicting_footer_evidence(dict(text=original), evidence)
+                self.assertIsNone(result["label"])
+                self.assertEqual(result["readings"], evidence["readings"])
+        self.assertEqual(evidence["label"], "3")
+        self.assertIs(
+            nonconflicting_footer_evidence(dict(text="3 Source note"), evidence),
+            evidence,
+        )
+        self.assertIs(
+            nonconflicting_footer_evidence(dict(text="* Source note"), evidence),
+            evidence,
+        )
+
+    def test_chapter_numbering_retains_continuing_and_two_digit_footer_runs(self):
+        def rows(labels):
+            return [
+                dict(
+                    text=f"{label} Source note",
+                    bbox=[0.1, 0.7 + i * 0.04, 0.8, 0.72 + i * 0.04],
+                )
+                for i, label in enumerate(labels)
+            ]
+
+        self.assertEqual(footer_entry_labels(rows([3, 4]), 0.69, "chapter"), ["3", "4"])
+        self.assertEqual(
+            footer_entry_labels(rows([10, 11]), 0.69, "chapter"), ["10", "11"]
+        )
+        self.assertEqual(footer_entry_labels(rows([3]), 0.69, "chapter"), ["3"])
+        self.assertEqual(footer_entry_labels(rows([3]), 0.69), [])
+        for labels in [[3, 5], [3, 2], [3, 3], [1991]]:
+            with self.subTest(labels=labels):
+                self.assertEqual(footer_entry_labels(rows(labels), 0.69, "chapter"), [])
+
+    def test_chapter_footer_digit_is_not_replaced_by_a_similar_one_template(self):
+        from types import SimpleNamespace
+
+        for label in ["3", None]:
+            with self.subTest(label=label), tempfile.TemporaryDirectory() as work:
+                doc = pymupdf.open()
+                doc.new_page(width=100, height=100)
+                footer = dict(page=1, text="3 Source note", bbox=[0.1, 0.8, 0.9, 0.84])
+                evidence = dict(
+                    label=label,
+                    readings=["3", "3"],
+                    bbox=[0.1, 0.8, 0.12, 0.81],
+                    glyph=Image.new("L", (8, 16), 0),
+                )
+                with (
+                    patch("numeric_footnotes.footer_label", return_value=evidence),
+                    patch(
+                        "numeric_footnotes.font_match",
+                        return_value=[dict(page=2), dict(page=3)],
+                    ) as shape,
+                    patch("numeric_footnotes.traineddata_digest", return_value="test"),
+                ):
+                    report = recover_numeric_footnotes(
+                        {1: [footer]},
+                        doc,
+                        dict(
+                            note_starts={"1": 0.8}, numeric_footnote_numbering="chapter"
+                        ),
+                        work,
+                        [],
+                        SimpleNamespace(version="test"),
+                    )
+                self.assertEqual(footer["text"], "3 Source note")
+                self.assertFalse(shape.called)
+                self.assertEqual(report["linkable"], 0)
+                self.assertEqual(report["unresolved"][0]["labels"], ["3"])
+                doc.close()
+
     def test_citation_comparison_preserves_observed_roman_number(self):
         self.assertEqual(
             footer_tokens("АН СCСР, т. ХУШ, с. 12—15."),

@@ -57,6 +57,35 @@ class SourceProposalTests(unittest.TestCase):
         ImageDraw.Draw(image).line((20, 1000, 130, 1000), fill=0, width=2)
         self.assertEqual(len(separator_proposals(image)), 1)
 
+    def test_long_numbered_note_can_begin_above_the_bottom_third(self):
+        body = [
+            dict(
+                text="Broad ordinary prose establishes the local body type.",
+                bbox=[0.1, 0.13 + i * 0.02, 0.9, 0.145 + i * 0.02],
+            )
+            for i in range(20)
+        ]
+        footer = [
+            dict(
+                text=("7 " if i == 0 else "")
+                + "Smaller text continuing a long source note.",
+                bbox=[0.1, 0.58 + i * 0.013, 0.9, 0.589 + i * 0.013],
+            )
+            for i in range(22)
+        ]
+        proposal = small_type_proposals(body + footer)
+        self.assertEqual(len(proposal), 1)
+        self.assertAlmostEqual(proposal[0]["cutoff"], 0.579)
+        # A numbered small quotation followed by ordinary prose is not a footer.
+        self.assertEqual(
+            small_type_proposals(
+                body
+                + footer[:3]
+                + [dict(text=body[0]["text"], bbox=[0.1, 0.65, 0.9, 0.665])]
+            ),
+            [],
+        )
+
     def test_graphic_group_does_not_swallow_intervening_prose(self):
         a = dict(rect=[0.1, 0.1, 0.8, 0.2], ink_pixels=300, caption="")
         b = dict(rect=[0.1, 0.23, 0.8, 0.3], ink_pixels=300, caption="")

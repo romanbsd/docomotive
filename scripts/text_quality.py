@@ -63,7 +63,7 @@ def findings(model, review):
     """List unresolved high-risk rows; ordinary peer disagreements remain review-only."""
     openings = opening_rows(model)
     rendered = {
-        (source["page"], tuple(source["bbox"])): comparable(source["text"])
+        (source["page"], tuple(source["bbox"])): source["text"]
         for chapter in model
         for block in chapter["blocks"] + chapter["notes"]
         for source in block.get("sources", [])
@@ -88,9 +88,24 @@ def findings(model, review):
         key = row["page"], tuple(row["bbox"])
         if not initial_conflicts or key not in rendered:
             continue
-        if rendered[key] and rendered[key][0] != primary[0]:
+        current = comparable(rendered[key])
+        if current and current[0] != primary[0]:
             continue  # A later checked edit changed the suspected initial word.
         raw_initial = re.match(r"[‘“\"]?[^\s]+", row["primary"])
+        current_initial = re.match(r'[‘“"]?[^\s]+', rendered[key])
+        # Case-folding hides checked capitalization repairs. Compare the letters
+        # of the suspect word, so changing punctuation or later text cannot waive it.
+        if raw_initial and current_initial:
+            letters = lambda value: "".join(c for c in value if c.isalpha())
+            before, after = letters(raw_initial.group()), letters(
+                current_initial.group()
+            )
+            if (
+                before != after
+                and before.casefold() == after.casefold()
+                and not re.search(r"[a-z][A-Z]", after)
+            ):
+                continue
         irregular_case = bool(
             raw_initial
             and re.search(r"[a-z][A-Z]", raw_initial.group())
