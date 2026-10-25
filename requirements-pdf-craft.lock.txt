@@ -119,6 +119,6 @@ webencodings==0.6.1
 websockets==17.1
 wordfreq==3.1.1
 x-transformers==0.15.0
-xxhash==4.0.1
+xxhash==4.0.2
 zopfli==0.4.3
 zstandard==0.25.0
