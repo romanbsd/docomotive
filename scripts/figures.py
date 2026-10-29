@@ -48,6 +48,28 @@ def crop_artwork_pixels(
     from scan_pixels import image_placements
 
     images = image_placements(page)
+    # When a reviewed figure crop exactly matches one upright embedded image,
+    # export that source object directly. Rendering the page rectangle can pull
+    # separate OCR/text overlays into the artwork and duplicate those words in
+    # the reflowed text. Text that is part of the image pixels remains intact.
+    exact = [
+        im
+        for im in images
+        if im.get("xref")
+        and abs(im["transform"][1]) < 1e-6
+        and abs(im["transform"][2]) < 1e-6
+        and im["transform"][0] > 0
+        and im["transform"][3] > 0
+        and all(abs(a - b) <= 0.5 for a, b in zip(im["bbox"], rect))
+    ]
+    if len(exact) == 1 and not exact[0].get("has-mask"):
+        raw = page.parent.extract_image(exact[0]["xref"])
+        result = Image.open(io.BytesIO(raw["image"])).convert("RGB")
+        return result, dict(
+            method="embedded-figure-image",
+            xref=exact[0]["xref"],
+            pixel_size=list(result.size),
+        )
     scans = [
         im
         for im in images
@@ -268,7 +290,22 @@ def split_source_block(block, source_index):
     return parts
 
 
-def figure_position(blocks, page, y, split=False):
+def figure_position(blocks, page, y, split=False, join_words=()):
+    join_words = {word.lower() for word in join_words}
+
+    def wrapped_word(previous, following):
+        left = re.search(r"([\w]+)-\.?$", previous.get("text", "").rstrip())
+        right = re.match(r"^([^\W\d_]+)", following.get("text", "").lstrip())
+        known_compound = bool(
+            left and right and f"{left[1]}-{right[1]}".lower() in join_words
+        )
+        return bool(
+            left
+            and right
+            and previous["page"] == following["page"] == page
+            and (right[1][:1].islower() or known_compound)
+        )
+
     for index, block in enumerate(blocks):
         sources = block.get("sources", [])
         after = [
@@ -278,14 +315,72 @@ def figure_position(blocks, page, y, split=False):
         ]
         if not after:
             continue
-        if after[0] == 0:
+        split_at = after[0]
+        if split and 0 < split_at < len(sources):
+            previous, following = sources[split_at - 1], sources[split_at]
+            if wrapped_word(previous, following):
+                if split_at > 1 and wrapped_word(
+                    sources[split_at - 2], previous
+                ):
+                    # The preceding row is itself the suffix of another
+                    # wrapped word, so moving the figure before it would cut
+                    # that word. Keep this text block intact and anchor after.
+                    return index + 1
+                # A source-positioned image must not land between the two
+                # printed rows of a wrapped word. Move it before that word.
+                split_at -= 1
+        if split_at == 0:
+            if split and index > 0 and block["kind"] in ("text", "quote"):
+                previous_block = blocks[index - 1]
+                previous_sources = previous_block.get("sources", [])
+                following_sources = block.get("sources", [])
+                if (
+                    previous_block.get("kind") in ("text", "quote")
+                    and previous_sources
+                    and following_sources
+                    and wrapped_word(previous_sources[-1], following_sources[0])
+                ):
+                    parts = split_source_block(
+                        previous_block, len(previous_sources) - 1
+                    )
+                    if parts:
+                        blocks[index - 1 : index] = parts
+                        return index
+                    # The preceding block cannot be split because it contains
+                    # another joined word at an earlier source seam. Keep the
+                    # current wrapped word intact and place the image after it.
+                    return index + 1
             return index
         if split and block["kind"] in ("text", "quote"):
-            parts = split_source_block(block, after[0])
+            parts = split_source_block(block, split_at)
             if parts:
                 blocks[index : index + 1] = parts
                 return index + 1
     return len(blocks)
+
+
+def figure_flow(blocks, page, rect):
+    """Infer a side float only when source rows occupy the opposite side."""
+    x0, y0, x1, y1 = rect
+    if x1 - x0 > 0.62:
+        return None
+    left_text = right_text = 0
+    tolerance = 0.06  # OCR line boxes include some whitespace around glyphs.
+    for block in blocks:
+        if block.get("kind") not in ("text", "quote"):
+            continue
+        for source in block.get("sources", []):
+            if source.get("page") != page:
+                continue
+            _, top, _, bottom = source["bbox"]
+            if bottom <= y0 or top >= y1:
+                continue
+            sx0, _, sx1, _ = source["bbox"]
+            right_text += sx0 >= x1 - tolerance
+            left_text += sx1 <= x0 + tolerance
+    if max(left_text, right_text) < 3:
+        return None
+    return "float-left" if right_text > left_text else "float-right"
 
 
 def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
@@ -462,6 +557,12 @@ def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
             "page_breaks": [dict(page=page, offset=0)],
             "source_page": page,
             "rect": figure["rect"],
+            "flow": figure.get("flow")
+            or (
+                figure_flow(chapter["blocks"], page, figure["rect"])
+                if book.get("source_figure_anchors")
+                else None
+            ),
             "narrow": rect.width / rect.height < 0.22,
             "display_width": (
                 round(min(100, max(10, (x1 - x0) / 0.8 * 100)), 1)
@@ -474,7 +575,11 @@ def incorporate_figures(model, book, doc, files, *, cleanup_dir=None):
         if captions:
             blocks[:] = [b for b in blocks if b not in captions]
         position = figure_position(
-            blocks, page, y0, book.get("source_figure_anchors", False)
+            blocks,
+            page,
+            y0,
+            book.get("source_figure_anchors", False),
+            book.get("line_join_words", []),
         )
         blocks[position:position] = [block] + captions
         report.append(

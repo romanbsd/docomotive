@@ -40,17 +40,35 @@ def block_html(block, book, seen, page_links, name, index_refs=None):
         anchor = f'<span epub:type="pagebreak" role="doc-pagebreak" id="page-{n}" aria-label="{label}"/>'
         marks.append((mark["offset"], anchor))
     if block["kind"] == "figure":
-        return (
-            "".join(anchor for _, anchor in marks)
-            + ('<figure class="narrow">' if block.get("narrow") else "<figure>")
-            + '<img src="'
-            + html.escape(block["image"], quote=True)
-            + (
-                '" style="width:' + str(block["display_width"]) + "%"
+        figure_class = {
+            "float-left": "figure-float-left",
+            "float-right": "figure-float-right",
+        }.get(block.get("flow"), "")
+        classes = " ".join(
+            value for value in (figure_class, "narrow" if block.get("narrow") else "") if value
+        )
+        class_attr = f' class="{classes}"' if classes else ""
+        figure_width = (
+            f' style="width:{block["display_width"]}%"'
+            if figure_class and block.get("display_width")
+            else ""
+        )
+        image_width = (
+            ' style="width:100%"'
+            if figure_class
+            else (
+                ' style="width:' + str(block["display_width"]) + '%"'
                 if block.get("display_width") and not block.get("narrow")
                 else ""
             )
-            + '" alt="'
+        )
+        return (
+            "".join(anchor for _, anchor in marks)
+            + "<figure" + class_attr + figure_width + ">"
+            + '<img src="'
+            + html.escape(block["image"], quote=True)
+            + '"' + image_width
+            + ' alt="'
             + html.escape(block["alt"], quote=True)
             + '"/></figure>'
         )

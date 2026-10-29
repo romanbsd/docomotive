@@ -1,1 +1,692 @@
-[]
+[
+  {
+    "page": 7,
+    "bbox": [
+      0.1295971978984238,
+      0.1831069108092144,
+      0.9054290718038529,
+      0.20082693443591257
+    ],
+    "text": "Группы оленеводов. Одомашнение оленя среди племен, насе",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "238c242373f57d66c5cae87088818fd006a1a9b3c87ee4f60db327c33ca96d23",
+    "evidence_sha256": "ff39da982a714cd098adf49f25d4d4952db5f1a7ced33704f09f469b5c4abf99"
+  },
+  {
+    "page": 11,
+    "bbox": [
+      0.09719789842381786,
+      0.5079740106320142,
+      0.9080560420315237,
+      0.5245126993502658
+    ],
+    "text": "мучить чукотского оленя, который дешевле и более годен для",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "b648812dd6c6e2b06915067cd06ac89454910886242e4863b69022c45992d915",
+    "evidence_sha256": "dd81506719af20848caee746e7db499a9a76d0331ef0632a488d6ed649beeafe"
+  },
+  {
+    "page": 14,
+    "bbox": [
+      0.0945709281961471,
+      0.14825753101004135,
+      0.8975481611208406,
+      0.16538688718251623
+    ],
+    "text": "pa, так называемые «выпоротки». Из них наиболее ценными яв-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "929989355d727608a5538a7eb95bd5e8a367d77b32fe1568792946d911489380",
+    "evidence_sha256": "b77100669d9982fed91e88be8446979142ab23eb4a16560a5b0207bf3d852a6c"
+  },
+  {
+    "page": 14,
+    "bbox": [
+      0.09719789842381786,
+      0.25221500295333726,
+      0.9001751313485113,
+      0.2687536916715889
+    ],
+    "text": "дят с белыми пятнами. Чисто белые шкуры ценятся повсюду. Для",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "fd69b1ae19d0099f1a65d30d6d29458fa95bfaa34d30b5da95068f55ac044502",
+    "evidence_sha256": "3271f46d71ed419bf993bb94b5b2fc6339a404abc90651ca3560cb3aeccd05fc"
+  },
+  {
+    "page": 23,
+    "bbox": [
+      0.09194395796847636,
+      0.1854695806261075,
+      0.5148861646234676,
+      0.20200826934435911
+    ],
+    "text": "<ещения друг друга и увеселений,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "49abf520d10a6e93db5ff40d6d2a33966be2d5a6816119716c0c2e94cfb0faa2",
+    "evidence_sha256": "3ea6915a544c9b0a8372d5d18b9d06e3af7f4893c2a1ec1945d6cfa54484bff4"
+  },
+  {
+    "page": 27,
+    "bbox": [
+      0.0884413309982487,
+      0.5953927938570585,
+      0.9054290718038529,
+      0.6125221500295334
+    ],
+    "text": "зана. На эти нарты накладываются жерди от шатра, связан-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "76a22f17bc5e4b3ddb7e5f89d3aea896c7243054474375c9cf01431770d366ed",
+    "evidence_sha256": "3c611dcc2365005a3af5bd0522c9b20b5e6bb9af35bd33dc50cd0f2c6846a0e0"
+  },
+  {
+    "page": 28,
+    "bbox": [
+      0.10332749562171628,
+      0.7844063792085056,
+      0.8966725043782837,
+      0.8003544004725339
+    ],
+    "text": "чей — от 250 до 400 фунтов, ламутский вьючный олень — от 40",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "71f0f39341a893afb2dfbeee714f79e663131290b0d460728595f597359dd11a",
+    "evidence_sha256": "1b59cf501a6cb32c4631afa8050ff6e7aab828b565f43ac2e24f0abdc2893a06"
+  },
+  {
+    "page": 38,
+    "bbox": [
+      0.0893169877408056,
+      0.12463083284111046,
+      0.9045534150612959,
+      0.13762551683402244
+    ],
+    "text": "aM, представляет ее в следующем виде: впереди впряжена одна",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "7225d0fd481e46d36ef367fa5110cd82567fd26466feaaf06f4ce4c26b90ef7b",
+    "evidence_sha256": "9e8139bf4d0d70bc0153698bedb713835792cff5bb7faba07ba0ac3f1b4f54e8"
+  },
+  {
+    "page": 39,
+    "bbox": [
+      0.09281961471103327,
+      0.6308328411104548,
+      0.9080560420315237,
+      0.6479621972829297
+    ],
+    "text": "нуть. Такой же способ собачьей упряжки был в употреблении у",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "1581217b50d2bef63e9316108eea231564924c1c9cb4ddc1b1eb0ee6ac9ce1fb",
+    "evidence_sha256": "327828377579a703e92d40ddca9182e1a9d1f63c709b3c8ffd2957e20ebeb013"
+  },
+  {
+    "page": 42,
+    "bbox": [
+      0.09544658493870403,
+      0.5883047844063792,
+      0.8931698774080561,
+      0.6048434731246308
+    ],
+    "text": "яи, часто когда им всего только два месяца от роду. Иногда суку",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "4dd576552acb733d0a0b5cf78b95ee7bb43d3e1adad50def981f283bc53406ab",
+    "evidence_sha256": "87a78612bc253a4de235dbedba0ecf2c1a1ba8a36750524168182ca5cb92c86b"
+  },
+  {
+    "page": 43,
+    "bbox": [
+      0.07355516637478109,
+      0.5310100413467218,
+      0.9133099824868651,
+      0.5475487300649734
+    ],
+    "text": "<я. Если бешеная собака не будет своевременно убита, то она",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "45fc8fd91b9abb69c7c5cbc71d20dafbaef14d8c78aa961c8d92d6c34eaac63c",
+    "evidence_sha256": "b9fe51acbd9e3c0fd608c42a1c1128372378fe69aecd11a08497fb595f580489"
+  },
+  {
+    "page": 43,
+    "bbox": [
+      0.07355516637478109,
+      0.5658594211458948,
+      0.9141856392294221,
+      0.5829887773183697
+    ],
+    "text": "<обаководы обычно надевают намордник на взбесившихся собак,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "fffde092e2d2ac1f78997ebc785224f6bea7e0b4d1b1dc82d799614fef931573",
+    "evidence_sha256": "963bcdb639c820d683ea20cd927179a61c89dfb540cb95af2832a94c5930b291"
+  },
+  {
+    "page": 44,
+    "bbox": [
+      0.10420315236427322,
+      0.8877731836975783,
+      0.8949211908931699,
+      0.9054932073242764
+    ],
+    "text": "мныльев крепкими завязками (темляками) (рис. 21с). Другая,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "dbab04d103de6d84579ae77c959e58606dcf17633b7ecb15cbd276ed7707c680",
+    "evidence_sha256": "34ade9c26180155e718f79f891a5e03db0318fce15b0c95228d4af99b2b89c50"
+  },
+  {
+    "page": 64,
+    "bbox": [
+      0.1287215411558669,
+      0.9084465445953928,
+      0.9185639229422067,
+      0.9232132309509746
+    ],
+    "text": "* Ha рисунке лед прорисован только с одной стороны, чтобы показать",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "b15c0922d2bef777960c6a63ef6fa8dd128d56772580524375ec0aa7e7e15623",
+    "evidence_sha256": "dcb44c1a64ad03553bb78d6866c2a1e76699773fdadb5854fe9361b718524f3a"
+  },
+  {
+    "page": 70,
+    "bbox": [
+      0.07267950963222417,
+      0.5398700531600709,
+      0.9194395796847635,
+      0.5558180744240993
+    ],
+    "text": "сается близко к воде носом вперед, так, чтобы ее не достигали",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "94b206d9bb6cd89e4e51fa7513c4707fb2c5d3e18b2f9e4eb76510f7b33f4564",
+    "evidence_sha256": "5507e99e58ef75d086bc0321ccc15bdb63232421240ce241a7f9ae699c1264ed"
+  },
+  {
+    "page": 70,
+    "bbox": [
+      0.07267950963222417,
+      0.6101594802126403,
+      0.9211908931698775,
+      0.6261075014766686
+    ],
+    "text": "взыкинута волной на берег. На узких косах байдара разгружает-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "4fc155512694b41f2b69ab2b209d0e4b52f5360241a0c5d87571123cc4b6ef91",
+    "evidence_sha256": "f936c5e52bac15ce52cfc54bfd731ab59a9f12779001a258e5cce3f473cb48e0"
+  },
+  {
+    "page": 74,
+    "bbox": [
+      0.08056042031523643,
+      0.8753691671588896,
+      0.9080560420315237,
+      0.8907265209686946
+    ],
+    "text": "тциком считается помесь домашнего оленя с диким. Молодая",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "cc69717ebeac371b47112a366e3f19f7626113741f46e6949781124429cb10ac",
+    "evidence_sha256": "97a8455b7ae19dadcd85b35349d305c571efe3894bf454d1e27baf292077ecbc"
+  },
+  {
+    "page": 79,
+    "bbox": [
+      0.084938704028021,
+      0.90253987005316,
+      0.3169877408056042,
+      0.9113998818665091
+    ],
+    "text": "тивщее его животное.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "998fce73d32d774b2afe3ad18ec9d3fffd6690baa3c83b9ad343bcf99b97acc9",
+    "evidence_sha256": "d4c481e49d0416b4ba7a8341070128cbf771a4ecd4d54a2de617b1f5a6bd96b8"
+  },
+  {
+    "page": 106,
+    "bbox": [
+      0.09544658493870403,
+      0.13880685174246898,
+      0.9246935201401051,
+      0.1553455404607206
+    ],
+    "text": "ив самых толстых шкур волосом внутрь. Он должен возобнов-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "54dfc788fc181bee1df8dde5eca5e14739efa053f4398faa6508ed0817e0cb24",
+    "evidence_sha256": "f2b1711986c43c31e6e8c9c4b8f237f4dc47d17f3177f4cc774af9cfc985f79d"
+  },
+  {
+    "page": 106,
+    "bbox": [
+      0.0945709281961471,
+      0.1772002362669817,
+      0.425569176882662,
+      0.18901358535144713
+    ],
+    "text": "иткур — проводник холода.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "2e91d99974f5eb92db012326adce3420581d585f2d35e1594681606ecdfae6b5",
+    "evidence_sha256": "cbc9dc7947c358e14f5c8dffce96498c85713fc42adff45f6317c1d363cf9b4b"
+  },
+  {
+    "page": 110,
+    "bbox": [
+      0.07530647985989491,
+      0.9149438865918488,
+      0.2819614711033275,
+      0.9320732427643237
+    ],
+    "text": "това) (рис. 98).",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "e14a411737e9e1382d82c1f96dd10381fb5b2c1362bb4fd85facc251d0cfd416",
+    "evidence_sha256": "04e593159b264bbae034a91643d01e9689c1a0612374463c041299f983a7495a"
+  },
+  {
+    "page": 113,
+    "bbox": [
+      0.12784588441331,
+      0.22031896042528057,
+      0.9080560420315237,
+      0.24276432368576492
+    ],
+    "text": "Ог-та’п — «деревянный дом» представляет собой хижинку,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "9bc879c92a9fa639d087698a10231a304b5409bacd843aee6dc25260743ca28d",
+    "evidence_sha256": "1e52b58b14d4d6174ce26b7246215df7ee15e92fad9d891495751ea954327131"
+  },
+  {
+    "page": 117,
+    "bbox": [
+      0.09194395796847636,
+      0.3195510927347903,
+      0.9115586690017513,
+      0.3360897814530419
+    ],
+    "text": "тда, таких спальных возвышений было четыре, а само жилище",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "dd22f32cfec15ccc98d073de73951f51bf85ab30aa7cc596bc27674251fd8f4b",
+    "evidence_sha256": "a8c51201f8a2a2853504bb39873bb9d06e8fc438b43533c3ef22b3b7df42b4fe"
+  },
+  {
+    "page": 118,
+    "bbox": [
+      0.08669001751313485,
+      0.3390431187241583,
+      0.9141856392294221,
+      0.3561724748966332
+    ],
+    "text": "mje имеет летом и весной. С осени оно покрывается толстым",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "49350672c0ccaca811f18226202400b1b89d2b779f29fa97db5efdb98fde5140",
+    "evidence_sha256": "5effd621b92871349b4930e93ba0cb9aaa9560c5671000011aed4fb04acb0a38"
+  },
+  {
+    "page": 127,
+    "bbox": [
+      0.10507880910683012,
+      0.40224453632604845,
+      0.9115586690017513,
+      0.4193738924985233
+    ],
+    "text": "ма, рискуя безопасностью своего стада, отправляют сыновей за",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "2003958ad24bed01fe67af584f54313d2c6247101820762b346e69598252f60b",
+    "evidence_sha256": "b5a0ad40c83c9210cb70af98c2aebc35e37aa1f8e4c20730b1d9f52009a536f2"
+  },
+  {
+    "page": 127,
+    "bbox": [
+      0.10332749562171628,
+      0.9084465445953928,
+      0.287215411558669,
+      0.9226225634967513
+    ],
+    "text": "©Пб., 1900, с. 353.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "2c0ba9d3078f409fa990924b439198f1a45e66565be5aae26234a1c8f1d62b9e",
+    "evidence_sha256": "3f1a6dd866dd6c0a55553d903e25b6c407fecc8351d39b634737e5e127786f34"
+  },
+  {
+    "page": 130,
+    "bbox": [
+      0.084938704028021,
+      0.22445363260484347,
+      0.9010507880910683,
+      0.24040165386887183
+    ],
+    "text": "дия летнего пропитания. Мясо убитых животных сначала просто",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "1bd16186c94dd85b932b7388b6090966ee2cb5f9d81cf211d885fb28d9b51a88",
+    "evidence_sha256": "dafd8bec0665e9dd6a37944a25d02399ff7ead2179038faae79c38c59ef7cec2"
+  },
+  {
+    "page": 132,
+    "bbox": [
+      0.12521891418563924,
+      0.9149438865918488,
+      0.4115586690017513,
+      0.9291199054932073
+    ],
+    "text": "5 См. примечание на с. 78.",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "773375eb0503bf9dcb412fdce3608cc4619ea50f2ead56251e2b9e599caebba8",
+    "evidence_sha256": "f1eb1d0f51e14beb0e686d7f550764f0b4f159cb981229a12e314421021742e0"
+  },
+  {
+    "page": 146,
+    "bbox": [
+      0.07793345008756568,
+      0.3555818074424099,
+      0.6900175131348512,
+      0.3733018310691081
+    ],
+    "text": "зпенно невозможно справляться с ним без ножа.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "caff55dedf0186f0f0e65f4e32c626e8d6221156aa93eac4463e1096fb435c0a",
+    "evidence_sha256": "dac9601a688875b6d56a198d529780ba404f72e93cb1c0e0c285dd8f2858122f"
+  },
+  {
+    "page": 148,
+    "bbox": [
+      0.07705779334500876,
+      0.5186060248080331,
+      0.9045534150612959,
+      0.5351447135262847
+    ],
+    "text": "иожность работать без постоянного сгибания. Режется железо",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "ef865c4df12c5cc88c1822b051c1bec3c75ee6d2be0548d4ccd7bb0194f6ac25",
+    "evidence_sha256": "6076f967b002325ee47b4ec133d5cb2a694dc0870553abcd43020ed2108e39a9"
+  },
+  {
+    "page": 150,
+    "bbox": [
+      0.13047285464098074,
+      0.36089781453041936,
+      0.9115586690017513,
+      0.37802717070289427
+    ],
+    "text": "Оленьи шкуры растягиваются также на земле, края их при-",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "30e24e55d99bc460e13c0f709bd66c49c033befec53f9ca9605418428aa556a7",
+    "evidence_sha256": "eb1a2263ea0fc0526ba168fc596eebf18faf7a82fa57f2852202f6ecbb62d4b1"
+  },
+  {
+    "page": 152,
+    "bbox": [
+      0.0893169877408056,
+      0.7725930301240401,
+      0.6436077057793345,
+      0.7891317188422918
+    ],
+    "text": "ния сока из некоторых съедобных растений.",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "e547c8d95fc516a53410bc15e7013ba00f2d9bbfde9717bc38ff0ae8f7239da8",
+    "evidence_sha256": "112f3c60b70693665a909c1d84a7cca00a3f071ac3f3d24378d08097e447b8d3"
+  },
+  {
+    "page": 153,
+    "bbox": [
+      0.09632224168126094,
+      0.5363260484347312,
+      0.46234676007005254,
+      0.5522740696987596
+    ],
+    "text": "тпенной внутренней стороной.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "e78390d8149b2080815a933a5940cc432b1e4bffd3d22e5037cd889e8471e141",
+    "evidence_sha256": "5cf48666b10d53c29bec4cf44e1dc9856703e9fd24a3f305375cb85aa6ff944e"
+  },
+  {
+    "page": 161,
+    "bbox": [
+      0.09281961471103327,
+      0.16715888954518607,
+      0.9098073555166375,
+      0.1831069108092144
+    ],
+    "text": "па спине женской верхней одежды в тех местах. где прикреп-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "96a78e4cb93fe25ae21bd3fa80b3b338a51cb9972356e2b9b711eb3f42148a9d",
+    "evidence_sha256": "c04482c089abe046c8d8a4f7aa36bfe2e1d75483cad4ec1a4065fc09010743c9"
+  },
+  {
+    "page": 162,
+    "bbox": [
+      0.11558669001751314,
+      0.5221500295333728,
+      0.8739054290718039,
+      0.5386887182516243
+    ],
+    "text": "дамуток или аляскинских эскимосок. Самостоятельная работа",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "63bceb6bdd9eaa678eb96beb6fd97f2f5704b9edea749a1079096e8eeb89e09d",
+    "evidence_sha256": "3775e7081f578e0d8ea7f0f7fd5acc988beb0095bfbb577784232c964921b144"
+  },
+  {
+    "page": 165,
+    "bbox": [
+      0.084938704028021,
+      0.6190194920259894,
+      0.9045534150612959,
+      0.6396928529238038
+    ],
+    "text": "канне огня из кремня посредством стальной пластинки. Среди",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "5841516f6ad8628c74cbb938af9ebf1904d5acf8753be3263117a5b0412b30f1",
+    "evidence_sha256": "f033c55c2a73cbe0865fe7af110de22f9ef841ce83cd60032eb3b20b5399ad1f"
+  },
+  {
+    "page": 167,
+    "bbox": [
+      0.09019264448336252,
+      0.28706438275251034,
+      0.9080560420315237,
+      0.303603071470762
+    ],
+    "text": "ну какого-пибудь вместительного мешка. чтобы надежнее предо-",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "a539a39ebe38f7673590ce8ac0b078bd0d717f4b65cff4fc88b9f185cfa6daf9",
+    "evidence_sha256": "5407bf1796d89effa628d20f9e46c72db8a7a6f3ac6aed2d9b7fda9e767496c3"
+  },
+  {
+    "page": 170,
+    "bbox": [
+      0.10507880910683012,
+      0.4075605434140579,
+      0.8931698774080561,
+      0.42350856467808623
+    ],
+    "text": "стня рукавов несколько стянуты и окаймлены узкой полоской",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "f8fb91097e8d20ed34c595802a5364d96ba496912fae49fbc5cf9855166fcbb9",
+    "evidence_sha256": "26ff7d3b3cfa960990bb57933c5f0d515393dd620581cbee7b0f8736011c5310"
+  },
+  {
+    "page": 173,
+    "bbox": [
+      0.08669001751313485,
+      0.30655640874187834,
+      0.9133099824868651,
+      0.3242764323685765
+    ],
+    "text": "вё материала для обуви, Шкуры белого медведя употребляются",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "c791365f30a9f212eb53914d2b72f3592128f3e613ff0a85e4a7cfeed178564d",
+    "evidence_sha256": "6ceb9961e3047706b1fd9891c825c8fb38cd65b0eb0cc5be3188856258a53cbd"
+  },
+  {
+    "page": 173,
+    "bbox": [
+      0.084938704028021,
+      0.8570584760779681,
+      0.9159369527145359,
+      0.874187832250443
+    ],
+    "text": "неудобна для носки даже летом. Приморские жители запасают",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "5147da0a9b55bc46c327257c78adb8a15c3ed9e8578796d5be29382eab4b8d4f",
+    "evidence_sha256": "d023b8d0e90b99c7a3c2bfbd36572882b10b5bdba888cb25b7d4e2b5e1981262"
+  },
+  {
+    "page": 186,
+    "bbox": [
+      0.08581436077057793,
+      0.674542232722977,
+      0.9028021015761821,
+      0.6916715888954519
+    ],
+    "text": "али угольным порошком. Татуируются девочки в возрасте десяти",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "1e85b4bd67d2b237bfe15c5281936edf71009ad4c253a3fceddce9e9276e6fbc",
+    "evidence_sha256": "e86a3420dbaec831da6e5324108999c8d8c1ace6c3988489ac8b9b87e70c57e1"
+  },
+  {
+    "page": 236,
+    "bbox": [
+      0.0980735551663748,
+      0.5316007088009451,
+      0.6225919439579685,
+      0.5469580626107502
+    ],
+    "text": "иногда до десяти английских миль и более.",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "77062eb3a571d50c6c5b218ceaafb52d27336acffaa160c30dd5b9169134bde3",
+    "evidence_sha256": "8179d6b8b4229fc7c8a239049a3587cf12b920fb91e58655ca60b007eddaec1b"
+  },
+  {
+    "page": 251,
+    "bbox": [
+      0.0989492119089317,
+      0.5091553455404607,
+      0.9115586690017513,
+      0.5256940342587123
+    ],
+    "text": "тораз занимался и этнографией приколымского населения, что",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "4f6a3e28a5422d0c3e808c7e3e9176cb324b8f2023f905f7db238fcf7d8103fa",
+    "evidence_sha256": "b03b8431b672cc208a1ab3e0374a73935b1193659e65edf6d843e31412e46908"
+  },
+  {
+    "page": 252,
+    "bbox": [
+      0.10245183887915937,
+      0.7909037212049616,
+      0.8984238178633975,
+      0.8056704075605434
+    ],
+    "text": "по видел и понимал сложность стоявшей перед ним научной за-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "1029fd60682ec6e30954c3256fc26337892d445660dac863ffebc3820dde6b91",
+    "evidence_sha256": "1792a776061d6ec2a8781fbbaeb9267a544cc9d4827c724b62f52420d3c074f6"
+  },
+  {
+    "page": 253,
+    "bbox": [
+      0.09982486865148861,
+      0.570584760779681,
+      0.9133099824868651,
+      0.5883047844063792
+    ],
+    "text": "трафии Академии наук. Еще по пути в Петербург в октябре",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "58c41b77af660af0ef8aea53a06c82368e0781e95486f890fd893f8465ac5255",
+    "evidence_sha256": "eb4e53a07c680dcc34f8cc2f7b7ba967990bfb16aab4bb2b4375b31a36661c22"
+  },
+  {
+    "page": 255,
+    "bbox": [
+      0.07705779334500876,
+      0.8044890726520969,
+      0.9264448336252189,
+      0.8210277613703485
+    ],
+    "text": "‚отсутствин условий для ведения записей. К тому же местные",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "bbcc7799b2bf2e4a334f8cb51f58e7ad80e4bd1f62c67f19cf4b48d448b97fcf",
+    "text_sha256": "75b59e4c15dad2648614fa4e799625c2b79dd63385a32243213f9668a2441d9f",
+    "evidence_sha256": "4fec220bfd8d8bc438cd3c1eaaedc320a3dd2d90fb0b20126ca67d67e18f379f"
+  }
+]

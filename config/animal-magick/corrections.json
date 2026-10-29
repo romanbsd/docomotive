@@ -1,0 +1,1362 @@
+[
+  {
+    "page": 15,
+    "before": "humans life. Deceased pets often return in this capacity.",
+    "after": "human's life. Deceased pets often return in this capacity.",
+    "reason": "Verified against the page image: the printed possessive includes an apostrophe.",
+    "bbox": [
+      0.08190476190476191,
+      0.49896394529631166,
+      0.7409523809523809,
+      0.517612929962702
+    ]
+  },
+  {
+    "page": 283,
+    "before": "2 Gorilla, 99",
+    "after": "Gorilla, 99",
+    "reason": "Verified against the index page image: the entry reads Gorilla, 99; the leading 2 is an OCR artifact.",
+    "bbox": [
+      0.11559975139838409,
+      0.7999236349751814,
+      0.6109384711000622,
+      0.8144329896907216
+    ]
+  },
+  {
+    "page": 20,
+    "before": "| have found",
+    "after": "I have found",
+    "reason": "Source checked against the page scan: The scan clearly reads “I have found.”",
+    "bbox": [
+      0.08,
+      0.8296726067136345,
+      0.9161904761904762,
+      0.8483215913800248
+    ]
+  },
+  {
+    "page": 26,
+    "before": "acat",
+    "after": "a cat",
+    "reason": "Source checked against the page scan: The scan has a space between the article and noun.",
+    "bbox": [
+      0.08126984126984127,
+      0.2523829258184832,
+      0.9193650793650793,
+      0.2743472855366763
+    ]
+  },
+  {
+    "page": 28,
+    "before": "I ama strong",
+    "after": "I am a strong",
+    "reason": "Source checked against the page scan: The scan separates “am” and “a.”",
+    "bbox": [
+      0.07746031746031747,
+      0.5872358060505595,
+      0.9117460317460317,
+      0.6058847907169499
+    ]
+  },
+  {
+    "page": 31,
+    "before": "amental adaptation",
+    "after": "a mental adaptation",
+    "reason": "Source checked against the page scan: The scan has a space between the article and “mental.”",
+    "bbox": [
+      0.08063492063492063,
+      0.7074181516784086,
+      0.9161904761904762,
+      0.726067136344799
+    ]
+  },
+  {
+    "page": 35,
+    "before": "TOGET! HER",
+    "after": "TOGETHER",
+    "reason": "Source checked against the page scan: The scan prints the single word “TOGETHER.”",
+    "bbox": [
+      0.2749206349206349,
+      0.596353087443017,
+      0.7180952380952381,
+      0.6340654786572731
+    ]
+  },
+  {
+    "page": 38,
+    "before": "fora few",
+    "after": "for a few",
+    "reason": "Source checked against the page scan: The scan has a space between “for” and “a.”",
+    "bbox": [
+      0.08126984126984127,
+      0.8002486531288852,
+      0.9155555555555556,
+      0.8184832159138002
+    ]
+  },
+  {
+    "page": 39,
+    "before": "amovement",
+    "after": "a movement",
+    "reason": "Source checked against the page scan: The scan has a space between “a” and “movement.”",
+    "bbox": [
+      0.14539682539682539,
+      0.3945296311645255,
+      0.853968253968254,
+      0.4127641939494405
+    ]
+  },
+  {
+    "page": 42,
+    "before": "Thesnake",
+    "after": "The snake",
+    "reason": "Source checked against the page scan: The scan has a space between “The” and “snake.”",
+    "bbox": [
+      0.14412698412698413,
+      0.38002486531288854,
+      0.8533333333333334,
+      0.39784500621632823
+    ]
+  },
+  {
+    "page": 42,
+    "before": "Yousit",
+    "after": "You sit",
+    "reason": "Source checked against the page scan: The scan has a space between “You” and “sit.”",
+    "bbox": [
+      0.14222222222222222,
+      0.8006630750103605,
+      0.8514285714285713,
+      0.8184832159138002
+    ]
+  },
+  {
+    "page": 44,
+    "before": "“Tam Verthandi",
+    "after": "“I am Verthandi",
+    "reason": "Source checked against the page scan: The scan reads “I am Verthandi.”",
+    "bbox": [
+      0.1473015873015873,
+      0.07791131371736428,
+      0.8558730158730158,
+      0.09904682967260671
+    ]
+  },
+  {
+    "page": 50,
+    "before": "toa standstill",
+    "after": "to a standstill",
+    "reason": "Source checked against the page scan: The scan has a space between “to” and “a.”",
+    "bbox": [
+      0.08317460317460318,
+      0.904268545379196,
+      0.9174603174603175,
+      0.9225031081641111
+    ]
+  },
+  {
+    "page": 52,
+    "before": "youslide",
+    "after": "you slide",
+    "reason": "Source checked against the page scan: The scan has a space between “you” and “slide.”",
+    "bbox": [
+      0.14603174603174604,
+      0.5105677579776212,
+      0.852063492063492,
+      0.5288023207625363
+    ]
+  },
+  {
+    "page": 53,
+    "before": "which | have used",
+    "after": "which I have used",
+    "reason": "Source checked against the page scan: The scan reads “I have used.”",
+    "bbox": [
+      0.09015873015873016,
+      0.7509324492333195,
+      0.923809523809524,
+      0.7691670120182346
+    ]
+  },
+  {
+    "page": 53,
+    "before": "years. | have found",
+    "after": "years. I have found",
+    "reason": "Source checked against the page scan: The scan reads “I have found.”",
+    "bbox": [
+      0.09015873015873016,
+      0.7509324492333195,
+      0.923809523809524,
+      0.7691670120182346
+    ]
+  },
+  {
+    "page": 59,
+    "before": "Run tome from",
+    "after": "Run to me from",
+    "reason": "Source checked against the page scan: The scan prints “to me.”",
+    "bbox": [
+      0.21269841269841266,
+      0.9208454206382097,
+      0.5917460317460318,
+      0.9390799834231246
+    ]
+  },
+  {
+    "page": 64,
+    "before": "you sit fortabl tion. Y h y ou sit in a comfortable position. You can use a chair since you",
+    "after": "You sit in a comfortable position. You can use a chair since you",
+    "reason": "Source checked against the page scan: The scan has one clean sentence; OCR duplicated and corrupted the line.",
+    "bbox": [
+      0.14603174603174604,
+      0.3336096145876502,
+      0.8526984126984127,
+      0.35142975549108996
+    ]
+  },
+  {
+    "page": 67,
+    "before": "Atone time! had",
+    "after": "At one time I had",
+    "reason": "Source checked against the page scan: The scan reads “At one time I had.”",
+    "bbox": [
+      0.08063492063492063,
+      0.15292167426440115,
+      0.9212698412698412,
+      0.17157065893079154
+    ]
+  },
+  {
+    "page": 67,
+    "before": "upand raced",
+    "after": "up and raced",
+    "reason": "Source checked against the page scan: The scan separates “up” and “and.”",
+    "bbox": [
+      0.08126984126984127,
+      0.17364276833816825,
+      0.9161904761904762,
+      0.19560712805636138
+    ]
+  },
+  {
+    "page": 67,
+    "before": "If 1 hadn’t",
+    "after": "If I hadn’t",
+    "reason": "Source checked against the page scan: The scan reads the pronoun “I.”",
+    "bbox": [
+      0.08063492063492063,
+      0.403646912556983,
+      0.9161904761904762,
+      0.42105263157894735
+    ]
+  },
+  {
+    "page": 71,
+    "before": "fora day",
+    "after": "for a day",
+    "reason": "Source checked against the page scan: The scan has a space between “for” and “a.”",
+    "bbox": [
+      0.14603174603174604,
+      0.07749689183588894,
+      0.853968253968254,
+      0.09904682967260671
+    ]
+  },
+  {
+    "page": 72,
+    "before": "mie, here",
+    "after": "me, here",
+    "reason": "Source checked against the page scan: The scan reads “me.”",
+    "bbox": [
+      0.20952380952380953,
+      0.6353087443016991,
+      0.6038095238095238,
+      0.6518856195607128
+    ]
+  },
+  {
+    "page": 73,
+    "before": "Asa further aid, youcan",
+    "after": "As a further aid, you can",
+    "reason": "Source checked against the page scan: The scan separates both word pairs.",
+    "bbox": [
+      0.14412698412698413,
+      0.05677579776212185,
+      0.8533333333333334,
+      0.07542478242851222
+    ]
+  },
+  {
+    "page": 74,
+    "before": "aroom full",
+    "after": "a room full",
+    "reason": "Source checked against the page scan: The scan has a space between “a” and “room.”",
+    "bbox": [
+      0.08126984126984127,
+      0.5544964774140074,
+      0.9199999999999999,
+      0.5731454620803978
+    ]
+  },
+  {
+    "page": 83,
+    "before": "temporarily took",
+    "after": "I temporarily took",
+    "reason": "Source checked against the page scan: The scan reads “I temporarily took.”",
+    "bbox": [
+      0.08190476190476191,
+      0.7326978864484045,
+      0.9174603174603175,
+      0.7513468711147948
+    ]
+  },
+  {
+    "page": 88,
+    "before": ", _~ #&E,_ ",
+    "after": "",
+    "reason": "Source checked against the page scan: These marks come from the adjacent leopard illustration, not the printed sentence.",
+    "bbox": [
+      0.17714285714285713,
+      0.529631164525487,
+      0.9161904761904762,
+      0.5520099461251554
+    ]
+  },
+  {
+    "page": 88,
+    "before": "=< 3% ",
+    "after": "",
+    "reason": "Source checked against the page scan: These marks come from the adjacent illustration; the printed sentence begins “which has…”.",
+    "bbox": [
+      0.4361904761904762,
+      0.7985909656029838,
+      0.9161904761904762,
+      0.824285122254455
+    ]
+  },
+  {
+    "page": 88,
+    "before": "“a2: ",
+    "after": "",
+    "reason": "Source checked against the page scan: These marks come from the adjacent illustration; the printed sentence begins “than most…”.",
+    "bbox": [
+      0.4552380952380952,
+      0.8226274347285537,
+      0.9149206349206348,
+      0.840033153750518
+    ]
+  },
+  {
+    "page": 91,
+    "before": "are bom dead",
+    "after": "are born dead",
+    "reason": "Source checked against the page scan: The scan clearly prints “born.”",
+    "bbox": [
+      0.08,
+      0.7898881060920017,
+      0.9149206349206348,
+      0.8085370907583921
+    ]
+  },
+  {
+    "page": 98,
+    "before": "adeath",
+    "after": "a death",
+    "reason": "Source checked against the page scan: The scan has a space between “a” and “death.”",
+    "bbox": [
+      0.08190476190476191,
+      0.5888934935764608,
+      0.7892063492063491,
+      0.6075424782428512
+    ]
+  },
+  {
+    "page": 102,
+    "before": "thana red",
+    "after": "than a red",
+    "reason": "Source checked against the page scan: The scan has a space between “than” and “a.”",
+    "bbox": [
+      0.08317460317460318,
+      0.20099461251554082,
+      0.9174603174603175,
+      0.21964359718193122
+    ]
+  },
+  {
+    "page": 117,
+    "before": " ae ee",
+    "after": "",
+    "reason": "Source checked against the page scan: The scan has no text here; these are artifacts from the nearby bison illustration.",
+    "bbox": [
+      0.07369101486748546,
+      0.9136720363486163,
+      0.5319974143503555,
+      0.9330855018587361
+    ]
+  },
+  {
+    "page": 117,
+    "before": " BS 2",
+    "after": "",
+    "reason": "Source checked against the page scan: The scan has no text here; these are artifacts from the nearby bison illustration.",
+    "bbox": [
+      0.07433742727860375,
+      0.9277158199091283,
+      0.5462184873949579,
+      0.9591078066914497
+    ]
+  },
+  {
+    "page": 121,
+    "before": "pigcan",
+    "after": "pig can",
+    "reason": "Source checked against the page scan: The scan has a space between “pig” and “can.”",
+    "bbox": [
+      0.07239819004524888,
+      0.6402313093762908,
+      0.7918552036199095,
+      0.6588186699710863
+    ],
+    "count": 2
+  },
+  {
+    "page": 126,
+    "before": "goa long",
+    "after": "go a long",
+    "reason": "Source checked against the page scan: The scan has a space between “go” and “a.”",
+    "bbox": [
+      0.07627666451195864,
+      0.5811648079306072,
+      0.9230769230769231,
+      0.6001652209830648
+    ]
+  },
+  {
+    "page": 129,
+    "before": "royalty, _ intelligence",
+    "after": "royalty, intelligence",
+    "reason": "Source checked against the page scan: The scan has no mark between “royalty” and “intelligence.”",
+    "bbox": [
+      0.07433742727860375,
+      0.8831061544816192,
+      0.5235940530058177,
+      0.9045848822800496
+    ]
+  },
+  {
+    "page": 142,
+    "before": "Ithasa very",
+    "after": "It has a very",
+    "reason": "Source checked against the page scan: The scan reads “It has a very.”",
+    "bbox": [
+      0.3600517129928894,
+      0.2965716646014044,
+      0.9243697478991597,
+      0.3151590251961999
+    ]
+  },
+  {
+    "page": 148,
+    "before": "ahare",
+    "after": "a hare",
+    "reason": "Source checked against the page scan: The scan has a space between “a” and “hare.”",
+    "bbox": [
+      0.08274078862314156,
+      0.7728211482858323,
+      0.929541047188106,
+      0.7914085088806279
+    ]
+  },
+  {
+    "page": 154,
+    "before": "x symbol of Daikoku",
+    "after": "symbol of Daikoku",
+    "reason": "Source checked against the page scan: The leading x is an image artifact from the adjacent rat illustration.",
+    "bbox": [
+      0.3484162895927602,
+      0.1503510945890128,
+      0.9224305106658048,
+      0.16893845518380834
+    ]
+  },
+  {
+    "page": 155,
+    "before": "Iam a",
+    "after": "I am a",
+    "reason": "Source checked against the page scan: The scan has a space between “I” and “am.”",
+    "bbox": [
+      0.1383322559793148,
+      0.8104089219330854,
+      0.3400129282482224,
+      0.8323007021891781
+    ]
+  },
+  {
+    "page": 156,
+    "before": "Scandinavian- Norse",
+    "after": "Scandinavian-Norse",
+    "reason": "Source checked against the page scan: The scan has no space after the hyphen.",
+    "bbox": [
+      0.07498383968972204,
+      0.49318463444857497,
+      0.9230769230769231,
+      0.5150764147046675
+    ]
+  },
+  {
+    "page": 156,
+    "before": "ry, a ny. ",
+    "after": "",
+    "reason": "Source checked against the page scan: These marks are from the nearby squirrel illustration; the sentence continues “Use as a spiritual watch-dog…”.",
+    "bbox": [
+      0.14479638009049775,
+      0.8905410987195373,
+      0.9256625727213963,
+      0.909128459314333
+    ]
+  },
+  {
+    "page": 156,
+    "before": "Yas — ",
+    "after": "",
+    "reason": "Source checked against the page scan: These marks are from the nearby squirrel illustration, not the printed sentence.",
+    "bbox": [
+      0.1383322559793148,
+      0.9087154068566707,
+      0.5539754363283775,
+      0.9339116067740604
+    ]
+  },
+  {
+    "page": 157,
+    "before": "itis impossible",
+    "after": "it is impossible",
+    "reason": "Source checked against the page scan: The scan has a space between “it” and “is.”",
+    "bbox": [
+      0.06851971557853911,
+      0.8228004956629492,
+      0.8157724628312863,
+      0.8434531185460553
+    ]
+  },
+  {
+    "page": 160,
+    "before": "youare patient",
+    "after": "you are patient",
+    "reason": "Source checked against the page scan: The scan separates “you” and “are.”",
+    "bbox": [
+      0.07627666451195864,
+      0.5229244114002478,
+      0.9243697478991597,
+      0.5415117719950434
+    ]
+  },
+  {
+    "page": 166,
+    "before": "acock stays",
+    "after": "a cock stays",
+    "reason": "Source checked against the page scan: The scan has a space between “a” and “cock.”",
+    "bbox": [
+      0.07498383968972204,
+      0.24080958281701773,
+      0.5481577246283129,
+      0.2593969434118133
+    ]
+  },
+  {
+    "page": 182,
+    "before": "I f one",
+    "after": "If one",
+    "reason": "Source checked against the page scan: The scan prints “If” as one word.",
+    "bbox": [
+      0.07563025210084033,
+      0.6402313093762908,
+      0.9243697478991597,
+      0.6588186699710863
+    ]
+  },
+  {
+    "page": 183,
+    "before": "asongbird",
+    "after": "a songbird",
+    "reason": "Source checked against the page scan: The scan separates the article and noun.",
+    "bbox": [
+      0.07369101486748546,
+      0.10532837670384139,
+      0.9263089851325146,
+      0.12391573729863693
+    ]
+  },
+  {
+    "page": 191,
+    "before": "kfe,",
+    "after": "life,",
+    "reason": "Source checked against the page scan: The scan clearly prints “life.”",
+    "bbox": [
+      0.1396250808015514,
+      0.503510945890128,
+      0.38332255979314805,
+      0.5245766212308963
+    ]
+  },
+  {
+    "page": 197,
+    "before": "wisha child",
+    "after": "wish a child",
+    "reason": "Source checked against the page scan: The scan has a space between “wish” and “a.”",
+    "bbox": [
+      0.1396250808015514,
+      0.7955390334572491,
+      0.4305106658047835,
+      0.8145394465097068
+    ]
+  },
+  {
+    "page": 198,
+    "before": "signof good",
+    "after": "sign of good",
+    "reason": "Source checked against the page scan: The scan separates “sign” and “of.”",
+    "bbox": [
+      0.07433742727860375,
+      0.6224700536968195,
+      0.7795733678086618,
+      0.641057414291615
+    ]
+  },
+  {
+    "page": 201,
+    "before": "bya stick",
+    "after": "by a stick",
+    "reason": "Source checked against the page scan: The scan has a space between “by” and “a.”",
+    "bbox": [
+      0.07239819004524888,
+      0.18711276332094176,
+      0.9243697478991597,
+      0.2057001239157373
+    ]
+  },
+  {
+    "page": 212,
+    "before": "* “Sg \" ",
+    "after": "",
+    "reason": "Source checked against the page scan: These marks are from the nearby illustration; the scan sentence begins “Sheng…”.",
+    "bbox": [
+      0.08203853325046613,
+      0.8888888888888888,
+      0.9148539465506526,
+      0.9110347460862925
+    ]
+  },
+  {
+    "page": 213,
+    "before": "If adogeats",
+    "after": "If a dog eats",
+    "reason": "Source checked against the page scan: The scan clearly reads “If a dog eats…”; trailing mark is an illustration artifact.",
+    "bbox": [
+      0.08887507768800497,
+      0.8854524627720503,
+      0.6233685518955874,
+      0.9102710958381061
+    ]
+  },
+  {
+    "page": 214,
+    "before": "Joy ina new",
+    "after": "Joy in a new",
+    "reason": "Source checked against the page scan: The scan has a space between “in” and “a.”",
+    "bbox": [
+      0.09136109384711001,
+      0.16456662848415426,
+      0.9073958980733374,
+      0.1817487590683467
+    ]
+  },
+  {
+    "page": 218,
+    "before": "Egypt hasa small",
+    "after": "Egypt has a small",
+    "reason": "Source checked against the page scan: The scan has a space between “has” and “a.”",
+    "bbox": [
+      0.09011808576755749,
+      0.7323405880106911,
+      0.906152889993785,
+      0.7495227185948835
+    ]
+  },
+  {
+    "page": 224,
+    "before": "NS fertility",
+    "after": "fertility",
+    "reason": "Source checked against the page scan: These letters are captured from the adjacent illustration, not the text.",
+    "bbox": [
+      0.38471100062150404,
+      0.8461244749904544,
+      0.9080174021131138,
+      0.8648339060710195
+    ]
+  },
+  {
+    "page": 230,
+    "before": "anda slip",
+    "after": "and a slip",
+    "reason": "Source checked against the page scan: The scan separates “and” and “a.”",
+    "bbox": [
+      0.1528899937849596,
+      0.7541046200840015,
+      0.5344934742075823,
+      0.7709049255441008
+    ],
+    "count": 2
+  },
+  {
+    "page": 233,
+    "before": "ina strong",
+    "after": "in a strong",
+    "reason": "Source checked against the page scan: The scan has a space between “in” and “a.”",
+    "bbox": [
+      0.15226848974518334,
+      0.4791905307369224,
+      0.46923555003107525,
+      0.4959908361970218
+    ]
+  },
+  {
+    "page": 238,
+    "before": "Vr crops",
+    "after": "crops",
+    "reason": "Source checked against the page scan: The initial marks come from the nearby ant illustration.",
+    "bbox": [
+      0.2442510876320696,
+      0.1046200840015273,
+      0.9080174021131138,
+      0.1366933944253532
+    ]
+  },
+  {
+    "page": 238,
+    "before": "rans Greece",
+    "after": "Greece",
+    "reason": "Source checked against the page scan: The scan reads “…India, and Greece…”; the leading letters are illustration noise.",
+    "bbox": [
+      0.09509011808576756,
+      0.12180221458571974,
+      0.90863890615289,
+      0.1718213058419244
+    ]
+  },
+  {
+    "page": 238,
+    "before": "\\\\\\__ symbols",
+    "after": "symbols",
+    "reason": "Source checked against the page scan: The scan begins this phrase with “symbols”; the preceding marks are illustration noise.",
+    "bbox": [
+      0.2324425108763207,
+      0.14700267277586865,
+      0.90863890615289,
+      0.16762122947689959
+    ]
+  },
+  {
+    "page": 241,
+    "before": "T he Scots",
+    "after": "The Scots",
+    "reason": "Source checked against the page scan: The scan prints “The Scots” as one word.",
+    "bbox": [
+      0.09073958980733375,
+      0.8090874379534173,
+      0.9067743940335612,
+      0.8297059946544484
+    ]
+  },
+  {
+    "page": 260,
+    "before": "homs.",
+    "after": "horns.",
+    "reason": "Source checked against the page scan: The scan clearly prints “horns.”",
+    "bbox": [
+      0.09011808576755749,
+      0.6494845360824743,
+      0.9055313859540086,
+      0.6632302405498282
+    ]
+  },
+  {
+    "page": 261,
+    "before": "unicom",
+    "after": "unicorn",
+    "reason": "Source checked against the page scan: The scan clearly prints “unicorn.”",
+    "bbox": [
+      0.15040397762585456,
+      0.7109583810614738,
+      0.54816656308266,
+      0.7273768613974799
+    ],
+    "count": 2
+  },
+  {
+    "page": 48,
+    "before": "ina",
+    "after": "in a",
+    "reason": "Source checked against the page scan: The scan separates “in” and “a.”",
+    "bbox": [
+      0.14539682539682539,
+      0.7177786987152922,
+      0.8533333333333334,
+      0.7355988396187318
+    ]
+  },
+  {
+    "page": 89,
+    "before": "andall-beast",
+    "after": "and all-beast",
+    "reason": "Source checked against the page scan: The scan separates “and” and “all-beast.”",
+    "bbox": [
+      0.08126984126984127,
+      0.24989639452963114,
+      0.9174603174603175,
+      0.26854537919602156
+    ]
+  },
+  {
+    "page": 122,
+    "before": "hornsat",
+    "after": "horns at",
+    "reason": "Source checked against the page scan: The scan separates “horns” and “at.”",
+    "bbox": [
+      0.07563025210084033,
+      0.5390334572490706,
+      0.6703296703296703,
+      0.5576208178438662
+    ]
+  },
+  {
+    "page": 125,
+    "before": "sharp hors.",
+    "after": "sharp horns.",
+    "reason": "Source checked against the page scan: The scan clearly prints “sharp horns.”",
+    "bbox": [
+      0.14285714285714285,
+      0.9012804626187527,
+      0.6186166774402069,
+      0.9202808756712103
+    ]
+  },
+  {
+    "page": 137,
+    "before": "Ta-Urrt",
+    "after": "Ta-Urt",
+    "reason": "Source checked against the page scan: The scan prints the name “Ta-Urt.”",
+    "bbox": [
+      0.1389786683904331,
+      0.24824452705493597,
+      0.5591467356173239,
+      0.2664188351920694
+    ]
+  },
+  {
+    "page": 138,
+    "before": "Yger was",
+    "after": "Yggr was",
+    "reason": "Source checked against the page scan: The scan prints “Yggr.”",
+    "bbox": [
+      0.07692307692307693,
+      0.5683601817430813,
+      0.9256625727213963,
+      0.587360594795539
+    ]
+  },
+  {
+    "page": 146,
+    "before": "Noman shall",
+    "after": "No man shall",
+    "reason": "Source checked against the page scan: The scan has two words: “No man.”",
+    "bbox": [
+      0.1396250808015514,
+      0.36968194960760015,
+      0.4848093083387201,
+      0.38413878562577447
+    ]
+  },
+  {
+    "page": 177,
+    "before": "Fillour lives",
+    "after": "Fill our lives",
+    "reason": "Source checked against the page scan: The scan separates “Fill” and “our.”",
+    "bbox": [
+      0.14027149321266968,
+      0.24948368442792235,
+      0.6457659987071752,
+      0.26765799256505574
+    ]
+  },
+  {
+    "page": 178,
+    "before": "andcombined",
+    "after": "and combined",
+    "reason": "Source checked against the page scan: The scan separates “and” and “combined.”",
+    "bbox": [
+      0.07627666451195864,
+      0.12185047501032631,
+      0.9250161603102781,
+      0.14043783560512185
+    ]
+  },
+  {
+    "page": 225,
+    "before": "lear from",
+    "after": "learn from",
+    "reason": "Source checked against the page scan: The scan clearly prints “learn.”",
+    "bbox": [
+      0.15475450590428838,
+      0.7766323024054983,
+      0.5779987569919205,
+      0.7934326078655976
+    ]
+  },
+  {
+    "page": 283,
+    "before": "Eri King",
+    "after": "Erl King",
+    "reason": "Source checked against the page scan: The scan prints the index entry “Erl King.”",
+    "bbox": [
+      0.09073958980733375,
+      0.11225658648339061,
+      0.622747047855811,
+      0.12523864070255822
+    ]
+  },
+  {
+    "page": 283,
+    "before": "Dea Arrtia",
+    "after": "Dea Artia",
+    "reason": "Source checked against the page scan: The scan prints “Dea Artia.”",
+    "bbox": [
+      0.09260410192666252,
+      0.2260404734631539,
+      0.6693598508390305,
+      0.2458953799159985
+    ]
+  },
+  {
+    "page": 284,
+    "before": "Kadmu,",
+    "after": "Kadru,",
+    "reason": "Source checked against the page scan: The scan prints “Kadru.”",
+    "bbox": [
+      0.09073958980733375,
+      0.4413898434516992,
+      0.6544437538844002,
+      0.4570446735395189
+    ]
+  },
+  {
+    "page": 285,
+    "before": "Mur, 192",
+    "after": "Mut, 192",
+    "reason": "Source checked against the page scan: The scan prints the entry “Mut.”",
+    "bbox": [
+      0.09011808576755749,
+      0.1420389461626575,
+      0.6389061528899938,
+      0.15387552500954563
+    ]
+  },
+  {
+    "page": 285,
+    "before": "Ore Triath",
+    "after": "Orc Triath",
+    "reason": "Source checked against the page scan: The scan prints “Orc Triath.”",
+    "bbox": [
+      0.09011808576755749,
+      0.7926689576174112,
+      0.6500932256059664,
+      0.8045055364642993
+    ]
+  },
+  {
+    "page": 285,
+    "before": "Onrphic",
+    "after": "Orphic",
+    "reason": "Source checked against the page scan: The scan prints “Orphic.”",
+    "bbox": [
+      0.09011808576755749,
+      0.8094692630775105,
+      0.6606587942821628,
+      0.822069492172585
+    ]
+  },
+  {
+    "page": 287,
+    "before": "Umi Bou",
+    "after": "Umi Bozu",
+    "reason": "Source checked against the page scan: The scan prints “Umi Bozu.”",
+    "bbox": [
+      0.08949658172778123,
+      0.2058037418862161,
+      0.6873834679925418,
+      0.21802214585719737
+    ]
+  },
+  {
+    "page": 66,
+    "before": "comers",
+    "after": "corners",
+    "reason": "Source checked against the page scan: The scan prints “corners of your eyes.”",
+    "bbox": [
+      0.14857142857142858,
+      0.4579361790302528,
+      0.8546031746031747,
+      0.47575631993369255
+    ]
+  },
+  {
+    "page": 82,
+    "before": "B.c.£.",
+    "after": "B.C.E.",
+    "reason": "Source checked against the page scan: The scan prints B.C.E. in both dates.",
+    "bbox": [
+      0.08825396825396825,
+      0.5756319933692499,
+      0.9244444444444444,
+      0.5942809780356403
+    ],
+    "count": 2
+  },
+  {
+    "page": 89,
+    "before": "bum,",
+    "after": "burn,",
+    "reason": "Source checked against the page scan: The scan reads “burn.”",
+    "bbox": [
+      0.14539682539682539,
+      0.6589307915457936,
+      0.6342857142857142,
+      0.677579776212184
+    ]
+  },
+  {
+    "page": 91,
+    "before": "Lear to relax",
+    "after": "Learn to relax",
+    "reason": "Source checked against the page scan: The scan reads “Learn to relax.”",
+    "bbox": [
+      0.08063492063492063,
+      0.8823041856610029,
+      0.9123809523809524,
+      0.9013675922088686
+    ]
+  },
+  {
+    "page": 97,
+    "before": "Norther Africa",
+    "after": "Northern Africa",
+    "reason": "Source checked against the page scan: The scan prints “Northern Africa.”",
+    "bbox": [
+      0.08126984126984127,
+      0.888520513883133,
+      0.9149206349206348,
+      0.9071694985495234
+    ]
+  },
+  {
+    "page": 115,
+    "before": "are bom formless",
+    "after": "are born formless",
+    "reason": "Source checked against the page scan: The scan clearly prints “born.”",
+    "bbox": [
+      0.06851971557853911,
+      0.8979760429574556,
+      0.8319327731092437,
+      0.9165634035522512
+    ]
+  },
+  {
+    "page": 168,
+    "before": "erm Asia",
+    "after": "ern Asia",
+    "reason": "Source checked against the page scan: The scan line wraps “northern” as “north- / ern.”",
+    "bbox": [
+      0.07563025210084033,
+      0.43700950020652624,
+      0.9237233354880414,
+      0.4555968608013218
+    ]
+  },
+  {
+    "page": 173,
+    "before": "I The triangular",
+    "after": "1 The triangular",
+    "reason": "Source checked against the page scan: The scan uses a numeric footnote marker 1.",
+    "bbox": [
+      0.07692307692307693,
+      0.9537381247418423,
+      0.6160310277957337,
+      0.9677819083023544
+    ]
+  },
+  {
+    "page": 176,
+    "before": "—~ __ ",
+    "after": "",
+    "reason": "Source checked against the page scan: These marks are from the adjacent illustration; the scan begins this line with “goose.”",
+    "bbox": [
+      0.5585003232062056,
+      0.6959933911606774,
+      0.9237233354880414,
+      0.714580751755473
+    ]
+  },
+  {
+    "page": 186,
+    "before": "o\\ belonging",
+    "after": "belonging",
+    "reason": "Source checked against the page scan: The leading marks come from the nearby illustration; the scan begins “belonging.”",
+    "bbox": [
+      0.2786037491919845,
+      0.5927302767451467,
+      0.9230769230769231,
+      0.6113176373399422
+    ]
+  },
+  {
+    "page": 195,
+    "before": "new-bom",
+    "after": "new-born",
+    "reason": "Source checked against the page scan: The scan prints “new-born.”",
+    "bbox": [
+      0.14027149321266968,
+      0.9384551838083437,
+      0.5016160310277957,
+      0.9566294919454772
+    ]
+  },
+  {
+    "page": 198,
+    "before": "killa swallow",
+    "after": "kill a swallow",
+    "reason": "Source checked against the page scan: The scan separates “kill” and “a.”",
+    "bbox": [
+      0.07369101486748546,
+      0.771581990912846,
+      0.9217840982546864,
+      0.7901693515076414
+    ]
+  },
+  {
+    "page": 212,
+    "before": "ee, In China",
+    "after": "In China",
+    "reason": "Source checked against the page scan: The leading marks are from the adjacent frog illustration.",
+    "bbox": [
+      0.17899316345556246,
+      0.8694158075601376,
+      0.9160969546302051,
+      0.8888888888888888
+    ]
+  },
+  {
+    "page": 224,
+    "before": "eat West Africa",
+    "after": "West Africa",
+    "reason": "Source checked against the page scan: The scan line begins “West Africa”; the leading text is image noise.",
+    "bbox": [
+      0.18955873213175886,
+      0.806032836960672,
+      0.906152889993785,
+      0.8258877434135165
+    ]
+  },
+  {
+    "page": 244,
+    "before": "y humans",
+    "after": "humans",
+    "reason": "Source checked against the page scan: The leading mark comes from the adjacent illustration.",
+    "bbox": [
+      0.28216283405842135,
+      0.3631156930126002,
+      0.9080174021131138,
+      0.3818251240931653
+    ]
+  },
+  {
+    "page": 258,
+    "before": "CH. ed ears",
+    "after": "ed ears",
+    "reason": "Source checked against the page scan: The marks are from the adjacent illustration; “ed ears” continues the printed “point-ed ears.”",
+    "bbox": [
+      0.2958359229334991,
+      0.4681176021382207,
+      0.90863890615289,
+      0.49713631156930127
+    ]
+  },
+  {
+    "page": 260,
+    "before": "va a)",
+    "after": "250",
+    "reason": "Source checked against the page scan: The scan shows printed page number 250.",
+    "bbox": [
+      0.48290863890615293,
+      0.9347079037800687,
+      0.5177128651336234,
+      0.9484536082474226
+    ]
+  },
+  {
+    "page": 270,
+    "before": "corm",
+    "after": "corn",
+    "reason": "Source checked against the page scan: The scan prints the index entry “corn.”",
+    "bbox": [
+      0.1230577998756992,
+      0.413516609392898,
+      0.17029210689869484,
+      0.42115311187476134
+    ]
+  },
+  {
+    "page": 282,
+    "before": "Aeargatis",
+    "after": "Atargatis",
+    "reason": "Source checked against the page scan: The scan prints the index entry “Atargatis.”",
+    "bbox": [
+      0.09260410192666252,
+      0.18403970981290568,
+      0.9105034182722188,
+      0.20351279114165713
+    ]
+  },
+  {
+    "page": 282,
+    "before": "Chi-lin",
+    "after": "Ch'i-lin",
+    "reason": "Source checked against the page scan: The scan prints the name with an apostrophe: “Ch’i-lin.”",
+    "bbox": [
+      0.09260410192666252,
+      0.4837724322260405,
+      0.6302050963331262,
+      0.49560901107292854
+    ]
+  },
+  {
+    "page": 283,
+    "before": "Fox, i 64-45, 82, 85, 90-92, 103, 260-261,",
+    "after": "Fox, 7, 64-65, 82, 85, 90-92, 103, 260-261, 263",
+    "reason": "Source checked against the page scan: The scan index reads “Fox, 7, 64–65, 82, 85, 90–92, 103, 260–261, 263.”",
+    "bbox": [
+      0.09260410192666252,
+      0.4440626193203513,
+      0.9080174021131138,
+      0.4681176021382207
+    ]
+  },
+  {
+    "page": 284,
+    "before": "Huiwilopochtli",
+    "after": "Huitzilopochtli",
+    "reason": "Source checked against the page scan: The scan prints “Huitzilopochtli.”",
+    "bbox": [
+      0.09011808576755749,
+      0.7926689576174112,
+      0.6873834679925418,
+      0.8079419625811378
+    ]
+  },
+  {
+    "page": 285,
+    "before": "Mounagain lion",
+    "after": "Mountain lion",
+    "reason": "Source checked against the page scan: The scan prints “Mountain lion.”",
+    "bbox": [
+      0.09011808576755749,
+      0.09125620465826652,
+      0.6737103791174642,
+      0.10500190912562046
+    ]
+  },
+  {
+    "page": 285,
+    "before": "Medieation",
+    "after": "Meditation",
+    "reason": "Source checked against the page scan: The scan prints the index entry “Meditation.”",
+    "bbox": [
+      0.09011808576755749,
+      0.5517373043146239,
+      0.7147296457426974,
+      0.5693012600229095
+    ]
+  },
+  {
+    "page": 285,
+    "before": "257~258",
+    "after": "257–258",
+    "reason": "Source checked against the page scan: The scan uses a range dash in this index reference.",
+    "bbox": [
+      0.08949658172778123,
+      0.6456662848415425,
+      0.6737103791174642,
+      0.6647575410462009
+    ]
+  },
+  {
+    "page": 286,
+    "before": "267 268-270",
+    "after": "267",
+    "reason": "Source checked against the page scan: The scan entry Quetzalcoatl ends at 267; 268–270 belongs to adjacent index text.",
+    "bbox": [
+      0.08949658172778123,
+      0.764413898434517,
+      0.6171535114978247,
+      0.7789232531500573
+    ]
+  },
+  {
+    "page": 287,
+    "before": "Vulture, 183, 191-192, 258-259, 261-263,",
+    "after": "Vulture, 183, 191-192, 258-259, 261-263, 265-268",
+    "reason": "Source checked against the page scan: The scan includes 265–268 in the Vulture entry.",
+    "bbox": [
+      0.5239279055313859,
+      0.4238258877434135,
+      0.9098819142324424,
+      0.43566246659030167
+    ]
+  },
+  {
+    "page": 287,
+    "before": "268 265-268",
+    "after": "268",
+    "reason": "Source checked against the page scan: The scan ends the Stag entry at 268; 265–268 belongs to Vulture.",
+    "bbox": [
+      0.09073958980733375,
+      0.4314623902252769,
+      0.6183965195773773,
+      0.447880870561283
+    ]
+  },
+  {
+    "page": 287,
+    "before": "Xochiquewal",
+    "after": "Xochiquetzal",
+    "reason": "Source checked against the page scan: The scan prints “Xochiquetzal.”",
+    "bbox": [
+      0.08887507768800497,
+      0.7594501718213058,
+      0.709136109384711,
+      0.7773959526536847
+    ]
+  },
+  {
+    "page": 287,
+    "before": "Yegdrasil",
+    "after": "Yggdrasil",
+    "reason": "Source checked against the page scan: The scan prints “Yggdrasil.”",
+    "bbox": [
+      0.08887507768800497,
+      0.7976326842306224,
+      0.6351771286513362,
+      0.824360442917144
+    ]
+  }
+]

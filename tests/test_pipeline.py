@@ -219,6 +219,28 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(len(blocks), 1)
         self.assertIn("associators)", blocks[0]["fragments"][0]["text"])
 
+    def test_verified_wrap_can_shift_around_an_illustration(self):
+        book = dict(self.book(), repair_word_wraps=True, infer_verse=False)
+        lines = [
+            row("anyone threatening their human. Some-", 0.3, 0.39),
+            row("times dogs will do this even though they", 0.322, 0.43),
+        ]
+        blocks, _ = page_blocks(16, lines, book, [], False, JoinPolicy(rare_wraps=True))
+        self.assertEqual(len(blocks), 1)
+        self.assertIn("Sometimes dogs", blocks[0]["fragments"][0]["text"])
+
+    def test_verified_hyphenated_name_keeps_dash_across_layout_boundary(self):
+        book = dict(self.book(), repair_word_wraps=True, infer_verse=False)
+        lines = [
+            row("change, trust, discovery, truth, balance, Ice-", 0.3, 0.36),
+            row("Leaper rules the northern direction", 0.322, 0.44),
+        ]
+        blocks, _ = page_blocks(
+            54, lines, book, [], False, JoinPolicy(protected=["Ice-Leaper"])
+        )
+        self.assertEqual(len(blocks), 1)
+        self.assertIn("Ice-Leaper rules", blocks[0]["fragments"][0]["text"])
+
     def test_wrap_does_not_override_indented_new_paragraph(self):
         book = dict(self.book(), repair_word_wraps=True, infer_verse=False)
         lines = [

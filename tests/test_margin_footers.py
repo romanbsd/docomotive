@@ -15,6 +15,42 @@ def row(text, x0=0.1, x1=0.94, y=0.95):
 
 
 class MarginFooterTests(unittest.TestCase):
+    def test_repeated_mixed_case_running_heads_survive_ocr_initial_errors(self):
+        pages = {
+            n: [
+                row(
+                    "Birps & WINGED CREATURES"
+                    if n in {11, 15, 19}
+                    else "Birds & WINGED CREATURES",
+                    x0=0.34,
+                    x1=0.66,
+                    y=0.138 if n == 15 else 0.05 + (n % 2) * 0.004,
+                ),
+                row("Ordinary prose starts below the running head.", y=0.2),
+            ]
+            for n in range(10, 21)
+            if n % 2 == 0 or n in {11, 15, 19}
+        }
+
+        model = infer(pages)
+
+        self.assertEqual(
+            sorted({page for group in model["headers"] for page in group["pages"]}),
+            sorted(pages),
+        )
+        excluded = [row for group in model["headers"] for row in group["rows"]]
+        self.assertTrue(any("Birps" in row["text"] for row in excluded))
+
+    def test_repeated_body_subheadings_below_top_band_are_preserved(self):
+        pages = {
+            n: [row("CORRESPONDENCES", x0=0.33, x1=0.68, y=0.146)]
+            for n in (55, 70, 76, 147, 178, 199, 204)
+        }
+
+        model = infer(pages)
+
+        self.assertFalse(model["headers"])
+
     def pages(self):
         return {
             n: [

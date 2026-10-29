@@ -73,7 +73,15 @@ def validate_profile(book, path="profile", page_count=None):
         if not number(value) or not 0 <= value <= 1:
             fail(key, "expected a finite normalized coordinate in 0..1")
 
-    for key in ("title", "author", "language", "slug", "source_sha256", "chapters"):
+    for key in (
+        "title",
+        "author",
+        "language",
+        "slug",
+        "source_sha256",
+        "chapters",
+        "artwork_pages",
+    ):
         if key not in book:
             fail(key, "required field is missing")
     for key, value in book.items():
@@ -253,6 +261,8 @@ def validate_profile(book, path="profile", page_count=None):
             if key == "figures" and "rect" not in item:
                 fail(key, "rect is required")
             if key == "figures":
+                if item.get("flow") not in (None, "float-left", "float-right"):
+                    fail(key, "flow must be float-left or float-right")
                 image_type = item.get("image_type", "photograph")
                 if image_type not in ("photograph", "line-art"):
                     fail(key, "image_type must be photograph or line-art")

@@ -55,6 +55,7 @@ h1 {font-size:1.6em; text-align:center; margin:2em 0; font-weight:normal;}
 h2 {font-size:1.15em; margin:1.5em 0 .7em;}
 p {margin:0; text-indent:1.25em; orphans:2; widows:2;}
 h1+p, .noindent {text-indent:0;}
+#toc ol {list-style:none; padding-left:0;}
 .title {text-align:center; margin-top:15%;} .title p {text-indent:0;margin:1em 0;}
 blockquote {margin:1em 1.5em;} .verse {margin:1em 1.5em;} .verse p {text-indent:0;}
 .notes {font-size:.9em; border-top:1px solid; margin-top:2em; padding-top:1em;}
@@ -66,6 +67,9 @@ img {max-width:100%; height:auto;} .facsimile {text-align:center; margin:0;}
 .note-backlinks {font-size:.75em; text-indent:0; margin:.2em 0 .8em;}
 .attribution {text-align:right; text-indent:0; margin:.3em 1.5em .8em;}
 figure {margin:1.2em 0 .3em; text-align:center; break-inside:avoid;}
+.figure-float-left,.figure-float-right {width:38%; margin:.2em 1em .6em 0;}
+.figure-float-left {float:left;}
+.figure-float-right {float:right; margin:.2em 0 .6em 1em;}
 .narrow img {max-height:16em; width:auto;}
 .narrow {float:right; width:2.5em; margin:.5em 0 .5em 1em;}
 .caption {font-size:.85em; text-indent:0; margin:0 0 1.2em;}

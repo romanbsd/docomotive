@@ -24,6 +24,7 @@ class IntegrityTests(unittest.TestCase):
             slug="book",
             source_sha256="a" * 64,
             chapters=[[1, 3, "Chapter"], [4, 5, "Notes"]],
+            artwork_pages=[],
         )
 
     def test_existing_profiles_are_valid(self):
@@ -70,6 +71,10 @@ class IntegrityTests(unittest.TestCase):
                 validate_profile(dict(self.profile(), **{key: value}))
         with self.assertRaisesRegex(ValueError, "required"):
             validate_profile({})
+        incomplete = self.profile()
+        del incomplete["artwork_pages"]
+        with self.assertRaisesRegex(ValueError, "artwork_pages: required"):
+            validate_profile(incomplete)
         with self.assertRaisesRegex(ValueError, "PDF page"):
             validate_profile(self.profile(), page_count=4)
         with self.assertRaisesRegex(ValueError, "chapter reference"):

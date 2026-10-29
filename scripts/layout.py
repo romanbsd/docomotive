@@ -157,9 +157,13 @@ def infer(pages):
             y = row["bbox"][1]
             letters = [c for c in text if c.isalpha()]
             if (
-                0.025 < y < 0.11
+                0.025 < y < 0.14
                 and len(letters) > 4
-                and sum(c.isupper() for c in letters) / len(letters) > 0.8
+                # Scanned running heads often use small caps or OCR damages a
+                # single initial, leaving the rest of an otherwise uppercase
+                # line intact. Recurrence and aligned margin geometry below
+                # provide the stronger evidence; keep one-off title case out.
+                and sum(c.isupper() for c in letters) / len(letters) >= 0.55
             ):
                 candidates[signature(text)].append((int(page), row))
     # Join OCR variants only to a frequent seed; no transitive fuzzy chains.
@@ -188,7 +192,7 @@ def infer(pages):
         accepted = [
             (n, r)
             for n, r in members
-            if abs(r["bbox"][1] - median) <= max(0.015, 4 * mad)
+            if abs(r["bbox"][1] - median) <= max(0.1, 4 * mad)
         ]
         ns = sorted({n for n, _ in accepted})
         parity = max(sum(n % 2 == p for n in ns) for p in [0, 1]) / len(ns)

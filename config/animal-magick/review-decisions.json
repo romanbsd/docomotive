@@ -1,0 +1,2072 @@
+[
+  {
+    "page": 15,
+    "bbox": [
+      0.08190476190476191,
+      0.49896394529631166,
+      0.7409523809523809,
+      0.517612929962702
+    ],
+    "text": "humans life. Deceased pets often return in this capacity.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "23c725269f55b2f8912dda480110eed9304af68fae890820a0d64e9feba96ea6",
+    "evidence_sha256": "657e874eaeb70b8ddc3e6751edf865e13b133bc51ad7f8fd60b4b8bf2bc86f76"
+  },
+  {
+    "page": 283,
+    "bbox": [
+      0.11559975139838409,
+      0.7999236349751814,
+      0.6109384711000622,
+      0.8144329896907216
+    ],
+    "text": "2 Gorilla, 99",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "71c4bdd235f1942ec9460d0815e49d20879dc6797420a4cec2499a4090829f8b",
+    "evidence_sha256": "94844661258a479f6934cdfd16539c4e7746373d8a90f9db5cb5dd8a6c681135"
+  },
+  {
+    "page": 20,
+    "bbox": [
+      0.08,
+      0.8296726067136345,
+      0.9161904761904762,
+      0.8483215913800248
+    ],
+    "text": "ders, or other crawling creatures, yet more than once | have found",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "138bde5db71be91af2aa823fb4f03ac33b4c281ac2577c5c182066ae26ea6448",
+    "evidence_sha256": "e8071e28ce18564d5c30d40a59ebecb36167bb04da403e7ecb00faf01c9cfb7e"
+  },
+  {
+    "page": 26,
+    "bbox": [
+      0.08126984126984127,
+      0.2523829258184832,
+      0.9193650793650793,
+      0.2743472855366763
+    ],
+    "text": "ally acat) while chanting a curse against someone, followed by a streak of",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "b69fd2a8277fda17403bc4249f7de08ade6e119b13aa8f013599ee1af876ca0c",
+    "evidence_sha256": "16fd93abca41d6caabfe149146d3b6879f7cb42da887ad95d06b36193242cf76"
+  },
+  {
+    "page": 28,
+    "bbox": [
+      0.07746031746031747,
+      0.5872358060505595,
+      0.9117460317460317,
+      0.6058847907169499
+    ],
+    "text": "I ama strong advocate of staying away from drugs that cloud your mind",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "49c0cd244438da75c0fd55fa5ec42ba0884f3bf7c47eed5d00747ac282c979c1",
+    "evidence_sha256": "85ed174a66b71fe41e260a5867ceeb527bc91e696a888a5de45d64327fab32c5"
+  },
+  {
+    "page": 31,
+    "bbox": [
+      0.08063492063492063,
+      0.7074181516784086,
+      0.9161904761904762,
+      0.726067136344799
+    ],
+    "text": "tion of an animal's form; it is amental adaptation of certain characteris-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "087de0539a1ab8c1ce69c6557df5c4c3499026fde6387a737985d1ced0d2b53c",
+    "evidence_sha256": "acb5d891c0d845d1234d9be9e31179107f1156fde13e2edb055731a7e14e899a"
+  },
+  {
+    "page": 35,
+    "bbox": [
+      0.2749206349206349,
+      0.596353087443017,
+      0.7180952380952381,
+      0.6340654786572731
+    ],
+    "text": "TOGET! HER",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "bd40058897d738d003a83cdc01ea7ab4753227b3d136e33e62ab925c93ca07f2",
+    "evidence_sha256": "d4c4bdefa323566bbaf4f349d812baa9fc1b7046a521d6f3f50e3616dd4183da"
+  },
+  {
+    "page": 38,
+    "bbox": [
+      0.08126984126984127,
+      0.8002486531288852,
+      0.9155555555555556,
+      0.8184832159138002
+    ],
+    "text": "ly fora few moments. After several sessions, you will realize that you have",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "19a497b926fa447437a5a9523f6c10c50a9327623b3fefd90cf6c97f6a1dcf06",
+    "evidence_sha256": "103cf15b9da3ea7de6fc16cd9d32aea95e80994aa83de8eefa82e6fc1f4a2fc1"
+  },
+  {
+    "page": 39,
+    "bbox": [
+      0.14539682539682539,
+      0.3945296311645255,
+      0.853968253968254,
+      0.4127641939494405
+    ],
+    "text": "up the cold water with your hand. As you drink, amovement on",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "33c9124332ee827d6b289628417d26423f7fa34b01db7bf7097efd6cb38b3532",
+    "evidence_sha256": "4aa9345300113be7bc82c36d7710d04d6c29e75f5a5e777eb015cadd57e23e20"
+  },
+  {
+    "page": 42,
+    "bbox": [
+      0.14412698412698413,
+      0.38002486531288854,
+      0.8533333333333334,
+      0.39784500621632823
+    ],
+    "text": "snake. It is the length of her arm. Thesnake coils about her arm",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "a94ce5ceae0e05663a32792eeee574f4168d63e284ca6cc6ea75d7ec68c41323",
+    "evidence_sha256": "9b4d3691d58f9f06d0964fc8fe94ba91289fdaf7fa5709ec0a5b98b7a821627f"
+  },
+  {
+    "page": 42,
+    "bbox": [
+      0.14222222222222222,
+      0.8006630750103605,
+      0.8514285714285713,
+      0.8184832159138002
+    ],
+    "text": "Yousit in the chair and watch the woman sprinkle more incense",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "bf9719334fc684d6791ff9093f3df8aaae4641b5dd8b61551f01c46f4a85037d",
+    "evidence_sha256": "61e425ce40541d1c78b16de29607ee4d864f9edc145973054c155c774dce862b"
+  },
+  {
+    "page": 44,
+    "bbox": [
+      0.1473015873015873,
+      0.07791131371736428,
+      0.8558730158730158,
+      0.09904682967260671
+    ],
+    "text": "“Tam Verthandi, Sister-keeper of the present,” says the woman",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "76952a6477137d5247c23695bf5af367f04bcc14afba0d4d27e71ac3e257b6b5",
+    "evidence_sha256": "6bdc67b9822be4927ce7f67a501b1a9050c2d6366bf3d94e5e66480c15133b97"
+  },
+  {
+    "page": 50,
+    "bbox": [
+      0.08317460317460318,
+      0.904268545379196,
+      0.9174603174603175,
+      0.9225031081641111
+    ],
+    "text": "that productive meditation comes toa standstill. After all, astral travel is",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "d24df3e967035809a1f179e6e2196e7c2e1e70128744d95a41534d13375024cf",
+    "evidence_sha256": "5d37233fcbc80fe8a00b066680fc4ef33255bb132a796553f1498f87c1005b9f"
+  },
+  {
+    "page": 52,
+    "bbox": [
+      0.14603174603174604,
+      0.5105677579776212,
+      0.852063492063492,
+      0.5288023207625363
+    ],
+    "text": "As youslide from his back, you reunite with your physical form.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "361e9b0e874298535329caf8cd27a1f5335dc5d8abf6d99ab9c00df3056ec5b8",
+    "evidence_sha256": "7d53ab15d9aedbce170032f9cefa208d3e6ff51c3d7bb7ca2ef3a8f29da57e48"
+  },
+  {
+    "page": 53,
+    "bbox": [
+      0.09015873015873016,
+      0.7509324492333195,
+      0.923809523809524,
+      0.7691670120182346
+    ],
+    "text": "uals, are the names which | have used for years. | have found these",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "0732957e17cebbf7ba1cbdd0b6230b52186fa5d6aa788f54d1107e1597f463d6",
+    "evidence_sha256": "209fd867d83585b8b49d7ee7e53f728f738e778dbdeee4f9dd8a8b5c6bbd9f5d"
+  },
+  {
+    "page": 59,
+    "bbox": [
+      0.21269841269841266,
+      0.9208454206382097,
+      0.5917460317460318,
+      0.9390799834231246
+    ],
+    "text": "Run tome from your twilight spaces.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "9d5032ffd72c15ff532dd2f16303f4af7ae2ac52cbcf5239e8983678829adee2",
+    "evidence_sha256": "5c901d7ada2abf9a911fd7711b81d95cc05b380cd3d98b0c8f3e59135a3544b7"
+  },
+  {
+    "page": 64,
+    "bbox": [
+      0.14603174603174604,
+      0.3336096145876502,
+      0.8526984126984127,
+      0.35142975549108996
+    ],
+    "text": "you sit fortabl tion. Y h y ou sit in a comfortable position. You can use a chair since you",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "a829afb00ba033f867a3e7c4113b0652eecd3d6cd416f0ec42e9ecddc9fc59e4",
+    "evidence_sha256": "9c84fc7e7a54842a320d52550722d4ff0872baa4352693e59d12a1b02d2e83fb"
+  },
+  {
+    "page": 67,
+    "bbox": [
+      0.08063492063492063,
+      0.15292167426440115,
+      0.9212698412698412,
+      0.17157065893079154
+    ],
+    "text": "Atone time! had a dream about horses dropping out of the sky. Most of",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "e2563da0aa5a5c7748c0cc93f6ebfa850369af535d5733d5d3fd5cde60239d50",
+    "evidence_sha256": "18f910aaf963870b5f14c8dbc19d4637b74c7d0ac6a894a7499d5bb168390c35"
+  },
+  {
+    "page": 67,
+    "bbox": [
+      0.08126984126984127,
+      0.17364276833816825,
+      0.9161904761904762,
+      0.19560712805636138
+    ],
+    "text": "them got upand raced off around a track, but several of them were dead.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "06ed2df9a7f30f401e9742d89ea638cfae580cc9081ee6c987ee620443efdade",
+    "evidence_sha256": "cf3cb608cce946983ce61c9dc1e4fde2b1d6d0839dfb7a0f9c5e88a0cb71eb76"
+  },
+  {
+    "page": 67,
+    "bbox": [
+      0.08063492063492063,
+      0.403646912556983,
+      0.9161904761904762,
+      0.42105263157894735
+    ],
+    "text": "tal and emotional difficulties. If 1 hadn’t written them down, I would",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "acc8effe70a6280d7e4b61331ea5a326a45b0119a85fa0a55f063f5cb61b30d1",
+    "evidence_sha256": "ae557a4d636dd20edf22ed869ecd455e3956f0e76fc3d0aad77062215b271041"
+  },
+  {
+    "page": 71,
+    "bbox": [
+      0.14603174603174604,
+      0.07749689183588894,
+      0.853968253968254,
+      0.09904682967260671
+    ],
+    "text": "Then I did it fora day. In little bits of time like this, the sacri-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "e8dd7ae338daf464feb39c55dfc3c44a59c3035b95fd5a0817865a5e8ee214b7",
+    "evidence_sha256": "62684836bd672dd9883ca4f74a2eae2e96c2e21dea11344eeb9116354e3dfd45"
+  },
+  {
+    "page": 72,
+    "bbox": [
+      0.20952380952380953,
+      0.6353087443016991,
+      0.6038095238095238,
+      0.6518856195607128
+    ],
+    "text": "No threats can reach mie, here behind.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "e20b5ab6db17cf3e15f64de188a60d70a15d36456d184ab0f74ef8a045cec210",
+    "evidence_sha256": "56c4dbfb5cf6979dbcdeb6b389bd01fa9717531c25f58854c6497f644ff66941"
+  },
+  {
+    "page": 73,
+    "bbox": [
+      0.14412698412698413,
+      0.05677579776212185,
+      0.8533333333333334,
+      0.07542478242851222
+    ],
+    "text": "Asa further aid, youcan place small amounts of the herbs listed",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "1ed9e9530a914a90068133e0435bc9af648417de72fb1fd1270d2c3716783d4b",
+    "evidence_sha256": "e9e7004c329a84303e14f58ecbd446fe335aac24d2e586f2bff4cba81917acc9"
+  },
+  {
+    "page": 74,
+    "bbox": [
+      0.08126984126984127,
+      0.5544964774140074,
+      0.9199999999999999,
+      0.5731454620803978
+    ],
+    "text": "tures as the fox or mouse and pass unnoticed into or out of aroom full of",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "88336a1b4f03e1535e525797e9dbd0d6a958f8ba68207695e31bf0612099112f",
+    "evidence_sha256": "be6a747200cef43b103091d97fc6214536b0e57b326584430740fea1f2d41f52"
+  },
+  {
+    "page": 83,
+    "bbox": [
+      0.08190476190476191,
+      0.7326978864484045,
+      0.9174603174603175,
+      0.7513468711147948
+    ],
+    "text": "of this was my cat Flash. At one time | temporarily took care of my son’s",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "a26b04f86b2603f260fb3d11a2c00c8dbf51fd070c01e295320f9ce2f88c97d8",
+    "evidence_sha256": "19c73e4bf419f73226a7f3df70648bb41ed5dd4bdc90eeba73bc4ba21a15960a"
+  },
+  {
+    "page": 88,
+    "bbox": [
+      0.17714285714285713,
+      0.529631164525487,
+      0.9161904761904762,
+      0.5520099461251554
+    ],
+    "text": ", _~ #&E,_ The leopard can be found over a",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "8b884c67dadde898635885e3b890d3f0bc42fc0fbea5b313bead1ab04db974c9",
+    "evidence_sha256": "7638c8834c7970f7102dbfdf629a4437f776c279cf09cfcf12df913949c6f650"
+  },
+  {
+    "page": 88,
+    "bbox": [
+      0.4361904761904762,
+      0.7985909656029838,
+      0.9161904761904762,
+      0.824285122254455
+    ],
+    "text": "=< 3% which has a better disposition",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "c5142fe9b816e61e028d4226473a7316379d61e4f564e2ac2f537267ef03ef51",
+    "evidence_sha256": "de33bf8a510d7b1026eaf9958c808d135bb7e4c841c9e61ad4f141031a828e36"
+  },
+  {
+    "page": 88,
+    "bbox": [
+      0.4552380952380952,
+      0.8226274347285537,
+      0.9149206349206348,
+      0.840033153750518
+    ],
+    "text": "“a2: than most, is different in color-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "d03c2eb4f35cc20082569643c527db40c44e6200d7ef453b4fc2d76ee5ff13ff",
+    "evidence_sha256": "0edf196f29a7a337ba75a93e31cac052ea6605a670514afa3a13bc69e42bbf03"
+  },
+  {
+    "page": 91,
+    "bbox": [
+      0.08,
+      0.7898881060920017,
+      0.9149206349206348,
+      0.8085370907583921
+    ],
+    "text": "Lion cubs are bom dead and stay that way for three days until the father licks",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "fe683bc46cc44bbbe15bd5d91d77c435c8382cd3e1d94cf7ada26af48a31530c",
+    "evidence_sha256": "85992b5639bb5a2963aac761fbab32abf196d714b9c45f80205a8828170967e2"
+  },
+  {
+    "page": 98,
+    "bbox": [
+      0.08190476190476191,
+      0.5888934935764608,
+      0.7892063492063491,
+      0.6075424782428512
+    ],
+    "text": "adeath in the family. If a dog licks a human’s wound, it will heal.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "bbfc42df68159d8c6b63d120b1973b90730ec762d7bad6b0c19e7bc85676f64e",
+    "evidence_sha256": "7df3f24c9f8dd65f33d1886f8d5478daaf19c0d21a7fb505e6a7475d6615979f"
+  },
+  {
+    "page": 102,
+    "bbox": [
+      0.08317460317460318,
+      0.20099461251554082,
+      0.9174603174603175,
+      0.21964359718193122
+    ],
+    "text": "thana red fox. Jackals are nocturnal animals, hunting only at night, usu-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "03c4256b33b7b6021926a636c2caf048351935c93c80bade187e38bf671acc1a",
+    "evidence_sha256": "ca55a26eb5cb8332d8dd2fa42a381dae4af2cf96b5184b1396efe803a2ed29b3"
+  },
+  {
+    "page": 117,
+    "bbox": [
+      0.07369101486748546,
+      0.9136720363486163,
+      0.5319974143503555,
+      0.9330855018587361
+    ],
+    "text": "over most of the country, ae ee",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "cbabe487bb80177eb0942c6784b7e45bb33cadbdb2b3395435fe701e0f17727d",
+    "evidence_sha256": "f030f2c09a5060e0b588091924f4586604124a508f050215541da70063388f70"
+  },
+  {
+    "page": 117,
+    "bbox": [
+      0.07433742727860375,
+      0.9277158199091283,
+      0.5462184873949579,
+      0.9591078066914497
+    ],
+    "text": "except for the arid deserts BS 2",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "a125df1fe50bcc3033af9c27c5b41ad733069aba63ff40c57e1ec0144ae87458",
+    "evidence_sha256": "2dd85410c849f376040fc1fc96fd0b43609dc12cca42b49fd63d768c7cdfdd1c"
+  },
+  {
+    "page": 121,
+    "bbox": [
+      0.07239819004524888,
+      0.6402313093762908,
+      0.7918552036199095,
+      0.6588186699710863
+    ],
+    "text": "A pigcan get hair balls like a cat does. This happens to be true.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "76760de5dc318fa104a526fcb6179c9962b7461ee8b412c43ec742519d02fa17",
+    "evidence_sha256": "e6a2bca9bb54a024aea7bdd96a92e0b6620a47b69e4f7856a5398201adef164a"
+  },
+  {
+    "page": 126,
+    "bbox": [
+      0.07627666451195864,
+      0.5811648079306072,
+      0.9230769230769231,
+      0.6001652209830648
+    ],
+    "text": "world. The deer can goa long time without water and still maintain its",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "31959841bf3750a0614a10f604300652b384016c34fb7a724c6641e0e1486eae",
+    "evidence_sha256": "3834440956b613f53012e7f13005fecc4a13269d1ebddde17c8b81e2a183fe33"
+  },
+  {
+    "page": 129,
+    "bbox": [
+      0.07433742727860375,
+      0.8831061544816192,
+      0.5235940530058177,
+      0.9045848822800496
+    ],
+    "text": "symbolizes royalty, _ intelligence,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "4cd45130a667c55fe79991b8a8d2b82f3d8423ea5b850be19bf6342b559b519b",
+    "evidence_sha256": "ca15e9dad5c9060367fe3cc794ce8c71388163f5cb9ad3f43f890a9e72cbde55"
+  },
+  {
+    "page": 142,
+    "bbox": [
+      0.3600517129928894,
+      0.2965716646014044,
+      0.9243697478991597,
+      0.3151590251961999
+    ],
+    "text": "Ithasa very long tail, builds its spherical nest in",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "5a9833449cc8a5ab5ef2e2709bbd4cfc7d652b87467490e42f1137253616b20c",
+    "evidence_sha256": "7a1d081bab4f1bc6455d46357da4750da5551aa9aee58b6cd7c4ed9295b183c1"
+  },
+  {
+    "page": 148,
+    "bbox": [
+      0.08274078862314156,
+      0.7728211482858323,
+      0.929541047188106,
+      0.7914085088806279
+    ],
+    "text": "ants shaped it into the rough form of ahare and used it in rituals. To the",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "0757803b32b8d7561878049d382ed865533bf32dd449fa9df6f37e94ca05d1dd",
+    "evidence_sha256": "50cae22d7b4dd31b4bc79b4c6edab3b1eca6914a8c1e8445de76c947aa03d6b0"
+  },
+  {
+    "page": 154,
+    "bbox": [
+      0.3484162895927602,
+      0.1503510945890128,
+      0.9224305106658048,
+      0.16893845518380834
+    ],
+    "text": "x symbol of Daikoku, the god of prosperity.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "31bddd38a5c89e2fd656b79ce380a2eddfdbd5bc8fbd0ed3060e9290b2c99f7f",
+    "evidence_sha256": "bf4a7604b59e4e6366ea283cf23ad684f814598855065c9679c3190a7a78ac9a"
+  },
+  {
+    "page": 155,
+    "bbox": [
+      0.1383322559793148,
+      0.8104089219330854,
+      0.3400129282482224,
+      0.8323007021891781
+    ],
+    "text": "Iam a divine child!",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "05876dcd9c1a700708aa112b343edd9233b41bbed0938e1869167f2c49d21771",
+    "evidence_sha256": "0a03747fa560b08631bdd05bc32a894369dc7cc58fea367df9c9f4fd0d35336d"
+  },
+  {
+    "page": 156,
+    "bbox": [
+      0.07498383968972204,
+      0.49318463444857497,
+      0.9230769230769231,
+      0.5150764147046675
+    ],
+    "text": "The squirrel Ratatosk was said to dwell in the Scandinavian- Norse",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "8cfde92e8c14b0f63aaf48daae8c3ac0460a57fc02a61db82c500d3674a2ab53",
+    "evidence_sha256": "4d1c62e6c7b9fabf05b43467a828d57c9505c9d683143a70c2ccf999087ebb3d"
+  },
+  {
+    "page": 156,
+    "bbox": [
+      0.14479638009049775,
+      0.8905410987195373,
+      0.9256625727213963,
+      0.909128459314333
+    ],
+    "text": "ry, a ny. Use as a spiritual watch-dog to warn you of",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "67d4268f168116a50dfc6a72b251bc6c44d9b17e39e3ab0740dc96e8a257f37d",
+    "evidence_sha256": "9ed5b0fba67874c2a6c2f74f3d5d27881cd6f0fdc5fa8311c547fb4c02b6d387"
+  },
+  {
+    "page": 156,
+    "bbox": [
+      0.1383322559793148,
+      0.9087154068566707,
+      0.5539754363283775,
+      0.9339116067740604
+    ],
+    "text": "Yas — danger on any level.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "82378ea3ae0fb8a70a30883ba931ae06805dbc7954e7bc786559850deb8bdb5e",
+    "evidence_sha256": "8a1aa77ad1c798601183717bdce90ba87d9b3a4cec5fc69679bd175964213189"
+  },
+  {
+    "page": 157,
+    "bbox": [
+      0.06851971557853911,
+      0.8228004956629492,
+      0.8157724628312863,
+      0.8434531185460553
+    ],
+    "text": "In parts of Europe, they say itis impossible to catch a weasel asleep.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "05361f14bb688df2a3b12a84c5b1f9b1c74e2af748cfba375c1558f54693139e",
+    "evidence_sha256": "fc34266afec262fea83b280494a5a04896dd099f3530e84cc7d7887c8ed50cb8"
+  },
+  {
+    "page": 160,
+    "bbox": [
+      0.07627666451195864,
+      0.5229244114002478,
+      0.9243697478991597,
+      0.5415117719950434
+    ],
+    "text": "Some wild birds can be enticed to eat from your hand if youare patient.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "65994be621a3eb66eaa6c075029d3a02cae6086aa0cba923bbb8c86982361791",
+    "evidence_sha256": "c76f989da333bca7995d8d95d1a23c53ee96ecf07fe9d2f32c6da3c29da7fb78"
+  },
+  {
+    "page": 166,
+    "bbox": [
+      0.07498383968972204,
+      0.24080958281701773,
+      0.5481577246283129,
+      0.2593969434118133
+    ],
+    "text": "If acock stays on the roost, rain is coming.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "00cfe80a1abe66268630c93b447d3aa3211a9b8b41cff6a8f77a99df4a6f9719",
+    "evidence_sha256": "5795b442cdab990fecb99db437bdcce1cf3591835435a294a9e91d3c83378721"
+  },
+  {
+    "page": 182,
+    "bbox": [
+      0.07563025210084033,
+      0.6402313093762908,
+      0.9243697478991597,
+      0.6588186699710863
+    ],
+    "text": "Superstitions: I f one of a caged pair of lovebirds dies, the other will not live",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "457764e0d6353a5e2b6929e0d49d5106f0c2174d20fcbad9cf39bd3b086d0342",
+    "evidence_sha256": "dde7755f296bf0eadc348a8ccd7d3267191bded6958cb896ef0611687ccb5479"
+  },
+  {
+    "page": 183,
+    "bbox": [
+      0.07369101486748546,
+      0.10532837670384139,
+      0.9263089851325146,
+      0.12391573729863693
+    ],
+    "text": "The magpie is asongbird of the crow family. It has a long, graduated tail",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "4bceb37fb760852301654a76c8533da186bc8d9bc942542587524c078847ab54",
+    "evidence_sha256": "5032e566a886d3c6440f6ae072747bcdeeb89690899f70b773a93f94c197f301"
+  },
+  {
+    "page": 191,
+    "bbox": [
+      0.1396250808015514,
+      0.503510945890128,
+      0.38332255979314805,
+      0.5245766212308963
+    ],
+    "text": "Open to the tide of kfe,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "625ee65916bbb434a0e1c5961c818c381fba48a8d90364b3a2bedf414458ff4b",
+    "evidence_sha256": "e724eb9677024f37b1991c9193df2a2cd0abe3be8721320ea0a61a10695a70d9"
+  },
+  {
+    "page": 197,
+    "bbox": [
+      0.1396250808015514,
+      0.7955390334572491,
+      0.4305106658047835,
+      0.8145394465097068
+    ],
+    "text": "I wisha child, a gift of love,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "a45a708208eca74f942dcf3cccd57e39d0b8e7a9ef38f9f2d5549cb2de09a38b",
+    "evidence_sha256": "491a9ec8e483515e856f94d2babfa334f027e8d139cc94c484921d6ee8ec8da1"
+  },
+  {
+    "page": 198,
+    "bbox": [
+      0.07433742727860375,
+      0.6224700536968195,
+      0.7795733678086618,
+      0.641057414291615
+    ],
+    "text": "It is a signof good luck if a swallow builds a nest on your house.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "49b4f3182128b12e5730a5fbf6226f993c0aaeb979b8ba9271609a04d59c1d6a",
+    "evidence_sha256": "e9048427b8283cd11794422d07d1840c4afc92e3fd5c7190da83e0612405059a"
+  },
+  {
+    "page": 201,
+    "bbox": [
+      0.07239819004524888,
+      0.18711276332094176,
+      0.9243697478991597,
+      0.2057001239157373
+    ],
+    "text": "grain that led into a large box held up bya stick. The turkey would eat the",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "e930333f4e06d8bb9636c3a51409730af8ebbf140afb53884ac88b4ab8e828ae",
+    "evidence_sha256": "6e3d19d3e75b3b0fd10c761bd52051b9f08ccd5d5fe2dd26433a9bab50e1233d"
+  },
+  {
+    "page": 212,
+    "bbox": [
+      0.08203853325046613,
+      0.8888888888888888,
+      0.9148539465506526,
+      0.9110347460862925
+    ],
+    "text": "* “Sg \" Sheng, was worshiped both as a healer and as a",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "a99f8b1f4eaa8bc3cf5403bb67c15efbff690488d82ed98ae873b03f78d8d9f9",
+    "evidence_sha256": "92c9b9486f65e9ea6e5be7e58b96fc324465ba0741bde3ca8730b096449c0f67"
+  },
+  {
+    "page": 213,
+    "bbox": [
+      0.08887507768800497,
+      0.8854524627720503,
+      0.6233685518955874,
+      0.9102710958381061
+    ],
+    "text": "If adogeats a live frog, it will be unable to bark. }",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "65b7cc0d5a0b3cf6c625fb75e8ad5a5589ee5bd3f63532edd4e8b208a6ef8d3c",
+    "evidence_sha256": "d90eb86292125df5eb00f7f02c3ef41a8e3dff2155df3411d60f1f497c07aa10"
+  },
+  {
+    "page": 214,
+    "bbox": [
+      0.09136109384711001,
+      0.16456662848415426,
+      0.9073958980733374,
+      0.1817487590683467
+    ],
+    "text": "energy. Joy ina new cycle of life. Being reborn after a period of seeming-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "8a8e4a9ad97b4575d38b59bc45e904a5cef3ec67cb653472e30723e0739b1f0f",
+    "evidence_sha256": "f395d91fdd7663d14496fd2766baa7f8b4a1f448623521f0dccc7631d92e67a1"
+  },
+  {
+    "page": 218,
+    "bbox": [
+      0.09011808576755749,
+      0.7323405880106911,
+      0.906152889993785,
+      0.7495227185948835
+    ],
+    "text": "Egypt hasa small desert snake with a horny knob above each eye which was",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "b22faa595bafa629a53074f370c9d44500a2817359cd4637e5466c10a8ba427a",
+    "evidence_sha256": "e90c89540473c7902d4c062bf7722b9b6b7bd0e85380c7e1806985ca702ab6ec"
+  },
+  {
+    "page": 224,
+    "bbox": [
+      0.38471100062150404,
+      0.8461244749904544,
+      0.9080174021131138,
+      0.8648339060710195
+    ],
+    "text": "NS fertility. The Nigerians say",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "6648e59bf9ff98490b61089615e8be8a39b583dd0fb27a0d8b86a5fd6632df20",
+    "evidence_sha256": "c23d0ded689495028a72749343267e4b101e4732e8c9656a1fa93062989d39ab"
+  },
+  {
+    "page": 230,
+    "bbox": [
+      0.1528899937849596,
+      0.7541046200840015,
+      0.5344934742075823,
+      0.7709049255441008
+    ],
+    "text": "With a twist anda slip, the eel is free,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "4b61428510523644b32a93ff33d21b7f678b6d5770426975e9f78d36f1749c15",
+    "evidence_sha256": "cb126f439da23c4e4371556ad5ce9c642405e9da501024fe0664d85c72cb72e8"
+  },
+  {
+    "page": 233,
+    "bbox": [
+      0.15226848974518334,
+      0.4791905307369224,
+      0.46923555003107525,
+      0.4959908361970218
+    ],
+    "text": "Me ina strong protective shield",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "b307d8092277eb4035bd3df60b87ebdb5e5c3833b5d9db3313370aff6b5ddb04",
+    "evidence_sha256": "8ac2f95b7ec841ee1ad9422dc1edbe5350bc21f5296d3ddc97f6deee20803a00"
+  },
+  {
+    "page": 238,
+    "bbox": [
+      0.2442510876320696,
+      0.1046200840015273,
+      0.9080174021131138,
+      0.1366933944253532
+    ],
+    "text": "Vr crops. In the legends of China, Persia, India, and",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "4d2b50078da34f7433843a4774a12c825e5394717b1aeb64ec3a239a3be92d78",
+    "evidence_sha256": "af98b2a785488387fc53fd29ef01d81466861dfd60096150644d7bb1d7c636b6"
+  },
+  {
+    "page": 238,
+    "bbox": [
+      0.09509011808576756,
+      0.12180221458571974,
+      0.90863890615289,
+      0.1718213058419244
+    ],
+    "text": "rans Greece, huge ants guard treasures. Ants were also",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "3a242deee79b28faddd5cb2e44349093887509c25fcff859484a66da8cc4eff4",
+    "evidence_sha256": "6dbeda2b487298726fcd4cf483e009378eafc9500582ea74828803af64aa4ede"
+  },
+  {
+    "page": 238,
+    "bbox": [
+      0.2324425108763207,
+      0.14700267277586865,
+      0.90863890615289,
+      0.16762122947689959
+    ],
+    "text": "\\\\\\__ symbols of the Greek goddess Demeter. As creatures",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "adbbd7e60e1f4f3a6d85c9518395696ce26a73bb497c7be0da10a5a0458ebd20",
+    "evidence_sha256": "45b0c41c61dcb103189f46d80edac2d2cadd07707e25edf59b05735f48c6add1"
+  },
+  {
+    "page": 241,
+    "bbox": [
+      0.09073958980733375,
+      0.8090874379534173,
+      0.9067743940335612,
+      0.8297059946544484
+    ],
+    "text": "Superstitions: T he Scots say that if a beetle enters a room while the family is",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "e91fadeb24b8710935365f7cb64e8b0f8a4f8da009fdd939d4081d19aa5a783f",
+    "evidence_sha256": "bdedfe89cce4fea1d6fdf201a9305eaa164a0b5780ba30b6047c8a50a9a43301"
+  },
+  {
+    "page": 260,
+    "bbox": [
+      0.09011808576755749,
+      0.6494845360824743,
+      0.9055313859540086,
+      0.6632302405498282
+    ],
+    "text": "could have either one or two homs. This creature was said to have the",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "6b721e2627a825892130cd71b56a13991fcf967d7883bcdd77d4b3c3fa7c2f47",
+    "evidence_sha256": "1da6216fde49862d7c6b98a5d46ee6e8a67699494db4853851945b7c1bc14ee1"
+  },
+  {
+    "page": 261,
+    "bbox": [
+      0.15040397762585456,
+      0.7109583810614738,
+      0.54816656308266,
+      0.7273768613974799
+    ],
+    "text": "A child of the unicom, that would I be.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "7b141a11ddfdd59e3e84dd4d6e50479efa09471e73e194ca09c71907640f4cb1",
+    "evidence_sha256": "1b8c7410027413b4019ac6e3c7526254e5f72efa6cfa29802201364286b10a9a"
+  },
+  {
+    "page": 48,
+    "bbox": [
+      0.14539682539682539,
+      0.7177786987152922,
+      0.8533333333333334,
+      0.7355988396187318
+    ],
+    "text": "The cave tunnel makes a sudden turn and you find yourself ina",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "3f715c56e8e169254a2a46acdb2e156cb9113a1088650a1ed904fa917bbffb0d",
+    "evidence_sha256": "7d43a2175757ec96184cecf345a59a125189f3dfcafd00307b1f83a7ed2f790c"
+  },
+  {
+    "page": 89,
+    "bbox": [
+      0.08126984126984127,
+      0.24989639452963114,
+      0.9174603174603175,
+      0.26854537919602156
+    ],
+    "text": "beast.” The word panther andall-beast also connected it with the god Pan.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "ae78a531df4f82e4f9e62cac20d840a703a3880a4f12045f4f22e488ecf41e36",
+    "evidence_sha256": "ae5c04966b5ccdf968366dfd1e22f827d5fd9c224fcab4576936692eb2f11038"
+  },
+  {
+    "page": 122,
+    "bbox": [
+      0.07563025210084033,
+      0.5390334572490706,
+      0.6703296703296703,
+      0.5576208178438662
+    ],
+    "text": "and non-shedding horns, if they have hornsat all.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "385cc35894e7d7cb4a97159a20f4aaec999a5e72112718a627a91e744c8c35f9",
+    "evidence_sha256": "d2f043faea542bbe8a75cae094850c3c963f501db1bbb943ca9f331501526a68"
+  },
+  {
+    "page": 125,
+    "bbox": [
+      0.14285714285714285,
+      0.9012804626187527,
+      0.6186166774402069,
+      0.9202808756712103
+    ],
+    "text": "Frighten them with your tossing, sharp hors.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "bd6e7fbabc6a070076b515a5d36a66577f8832e81f2873d6660b65b68c914d07",
+    "evidence_sha256": "dd26234b9074a2c3beb1e41dc3d4cbc484b999cffe3d63b875d28154ec7e94d2"
+  },
+  {
+    "page": 137,
+    "bbox": [
+      0.1389786683904331,
+      0.24824452705493597,
+      0.5591467356173239,
+      0.2664188351920694
+    ],
+    "text": "Great Ta-Urrt, the little ones are crying.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "bb01021507eb186cdd13f28166bb4ecb92318980188957004a901931e151f0b2",
+    "evidence_sha256": "56446cc16aad365f073adfa124ab6cf1eb3903b72ecb9a0260185ab1821102de"
+  },
+  {
+    "page": 138,
+    "bbox": [
+      0.07692307692307693,
+      0.5683601817430813,
+      0.9256625727213963,
+      0.587360594795539
+    ],
+    "text": "while Yger was one of Odhinn’s names. The Eddas mention special hors-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "0b4ba2dfb1b14f89f660d932957d9b1fe1e9d665490434ec090a39fb70b43ea5",
+    "evidence_sha256": "83372211280c9fa64126c7e3e2fcc6421c906662ddc9049aa28560aec367a5b8"
+  },
+  {
+    "page": 146,
+    "bbox": [
+      0.1396250808015514,
+      0.36968194960760015,
+      0.4848093083387201,
+      0.38413878562577447
+    ],
+    "text": "Noman shall tell me what is sin.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "c52640f352518d6cd560c77f81732f4d45d42b484a1734e1b8bd67a089c10954",
+    "evidence_sha256": "2c741d617fd23782a102bb8ad95b6bdfe229d88355fe48255a986fff78ab54fe"
+  },
+  {
+    "page": 177,
+    "bbox": [
+      0.14027149321266968,
+      0.24948368442792235,
+      0.6457659987071752,
+      0.26765799256505574
+    ],
+    "text": "Fillour lives with children, abundance, and joy,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "32b0fc3bbb5957ab61ae9a6bd449b06f370546a881b4f9a3a1aaf4fa5fe49539",
+    "evidence_sha256": "5483e15b59da4e4d72ce0e05a8d83ca8b19e1bd95a1abb7fd1a9d245f1c1a286"
+  },
+  {
+    "page": 178,
+    "bbox": [
+      0.07627666451195864,
+      0.12185047501032631,
+      0.9250161603102781,
+      0.14043783560512185
+    ],
+    "text": "The hawk is related to the falcon andcombined in the family Accipitri-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "0660d6d657ed3d13422a8fab74ef4c22107f61212b72e7292ebe6855ea13c64d",
+    "evidence_sha256": "8a3415ed60a869ba3c927069b826956c94ce4919073f08c5599c620bc6d53fa0"
+  },
+  {
+    "page": 225,
+    "bbox": [
+      0.15475450590428838,
+      0.7766323024054983,
+      0.5779987569919205,
+      0.7934326078655976
+    ],
+    "text": "Patience, old wisdom, I’ll lear from you,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "517f2a2dcc4eaaf2078502972690c8900c7dd1179f4487e51f7ca6d9fe08011d",
+    "evidence_sha256": "f56e5f1e4c09f3bb4eaf3a9f22c1df14d55664c8fccff328012d2a1c3848270c"
+  },
+  {
+    "page": 283,
+    "bbox": [
+      0.09073958980733375,
+      0.11225658648339061,
+      0.622747047855811,
+      0.12523864070255822
+    ],
+    "text": "Crow, 156, 158-159, 169, 173, 184, 258-259, Eri King, 86",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "183a3d00e983895eaea939335ce6f7bdb3d4cab2be6ecdc72b4ef92fad0e73e5",
+    "evidence_sha256": "51ba9388c2ad666ee17278465b59101b498011abef49792541492bdb9905f790"
+  },
+  {
+    "page": 283,
+    "bbox": [
+      0.09260410192666252,
+      0.2260404734631539,
+      0.6693598508390305,
+      0.2458953799159985
+    ],
+    "text": "Dea Arrtia, 105, 260 Eye-Goddess, 176",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "b2d01fc9c60c6478af40a44ee2f431ef8a5cc1e8d90500f7a1a8d2b10d2d9867",
+    "evidence_sha256": "7b41b9ef1969e224f40a061f4812b4839e758da11b581977ed4e6775e39cfd70"
+  },
+  {
+    "page": 284,
+    "bbox": [
+      0.09073958980733375,
+      0.4413898434516992,
+      0.6544437538844002,
+      0.4570446735395189
+    ],
+    "text": "Heimdall, 110, 142, 262 Kadmu, 208, 210",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "17dbba5ce4f3b6d8077b9876bced0c33a0a563d1c9c0b419bbf92c2ad8cee4b0",
+    "evidence_sha256": "0d8bd634bd9f5a0cd2feea75a414f34e9bcdb516cab0a0a73b7bf8ed21e35aa4"
+  },
+  {
+    "page": 285,
+    "bbox": [
+      0.09011808576755749,
+      0.1420389461626575,
+      0.6389061528899938,
+      0.15387552500954563
+    ],
+    "text": "Lizard, 199, 204-206, 257, 262-263, 265 Mur, 192, 265",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "488000aa976b30d916dbfa238edefec74bd811fd00ad29e58814187b6a0451b1",
+    "evidence_sha256": "cf56be452420f24e1289267a43c07552945680dcc81b5182dcff5e5f8a1ab019"
+  },
+  {
+    "page": 285,
+    "bbox": [
+      0.09011808576755749,
+      0.7926689576174112,
+      0.6500932256059664,
+      0.8045055364642993
+    ],
+    "text": "Mithras, 114, 128, 155, 163, 168, 208, 242, 265 Ore Triath, 111",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "cda55b26d82b4a710d67e7c3f9db808763aa238c6af1a3c1769aae60af132593",
+    "evidence_sha256": "6fd1fcf0efb9b68b7949f59b4d08a6009ca0450a3818940e2dd2b78da9d22ee8"
+  },
+  {
+    "page": 285,
+    "bbox": [
+      0.09011808576755749,
+      0.8094692630775105,
+      0.6606587942821628,
+      0.822069492172585
+    ],
+    "text": "Mohammed, 16 Onrphic, 116, 183",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "723475edaf41d816d72a6a6891b45fefc1018ec36e1ee4cb925e770dbb69ff8a",
+    "evidence_sha256": "01cae0ad46ec91e6f564ff2eac7f29be764c57e4b6a4e5071aa5f6bca2ce8be1"
+  },
+  {
+    "page": 287,
+    "bbox": [
+      0.08949658172778123,
+      0.2058037418862161,
+      0.6873834679925418,
+      0.21802214585719737
+    ],
+    "text": "Solar, 72, 80, 86, 98, 113, 128, 142, 155, 157, Umi Bou, 223, 270",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "9becfc5d1da9bc9324dd1555b6c39bb6e28f0c96ae2f1648ace210bdb6e739bc",
+    "evidence_sha256": "653bcdbd1042a956b7df073bf70e8a63910aa2b152333152e10c8366feb4c485"
+  },
+  {
+    "page": 66,
+    "bbox": [
+      0.14857142857142858,
+      0.4579361790302528,
+      0.8546031746031747,
+      0.47575631993369255
+    ],
+    "text": "in the comers of your eyes that will disappear if you turn to look",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "f598c5e9ae90d69827e23bc9826f722fdc3e953014e62338b70bac1ab5c4e177",
+    "evidence_sha256": "7fa138d3ac2969e05aa444b7262016c87e7eb7e34d651abaaabebeff97f34244"
+  },
+  {
+    "page": 82,
+    "bbox": [
+      0.08825396825396825,
+      0.5756319933692499,
+      0.9244444444444444,
+      0.5942809780356403
+    ],
+    "text": "established by at least 1570 B.c.£., and by 950 B.c.£. was found in all of",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "d13ea9fcf56ba021b8cad96b33ead0338565909a12bb2c3a61ce6e2357d16c25",
+    "evidence_sha256": "86a3e171dc75cc6fd9174e45424295a8833e4f8eee00bf7396e2dead6c45d411"
+  },
+  {
+    "page": 89,
+    "bbox": [
+      0.14539682539682539,
+      0.6589307915457936,
+      0.6342857142857142,
+      0.677579776212184
+    ],
+    "text": "With wisdom I'll bum, while I confidently turn",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "86df4658adaef9afcf7b9e9ffb269b1692bbad8a2ca4e82713f4c551cca3e4ac",
+    "evidence_sha256": "ecdf159150be41eafb9ca552f04eff2cd83dedb75de744c192146dbb87346596"
+  },
+  {
+    "page": 91,
+    "bbox": [
+      0.08063492063492063,
+      0.8823041856610029,
+      0.9123809523809524,
+      0.9013675922088686
+    ],
+    "text": "Magickal Attributes: Lear to relax; don’t carry the stress of one situa-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "5d271f7cd10022c1f27c6b7bfcba0ea146facf51809c32ef98ec88eb0cdeffa2",
+    "evidence_sha256": "d3271a1a9dfdb74722c49292a46da15791a7b83d59423722bb63ca152bd87600"
+  },
+  {
+    "page": 97,
+    "bbox": [
+      0.08126984126984127,
+      0.888520513883133,
+      0.9149206349206348,
+      0.9071694985495234
+    ],
+    "text": "it is considered a protector against evil. The Berbers of Norther Africa",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "7dbdb77d10dabae8fc8ca093adf7e59e1a0f4babe9b8698f983997aaa12028d7",
+    "evidence_sha256": "03b76f10b86c154bfa976d4ea7e89ca1a644dcd97aaa331249b81412116890af"
+  },
+  {
+    "page": 115,
+    "bbox": [
+      0.06851971557853911,
+      0.8979760429574556,
+      0.8319327731092437,
+      0.9165634035522512
+    ],
+    "text": "Bear cubs are bom formless and licked into their shape by the mother.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "8a74ba85d69dad063becda4e41559e6a8c7f39f812bb1e5da7464f923ed797e5",
+    "evidence_sha256": "aba84f6aacc908e07d94aaa7ac81993566c2000e88dacb7691709789973e0da9"
+  },
+  {
+    "page": 168,
+    "bbox": [
+      0.07563025210084033,
+      0.43700950020652624,
+      0.9237233354880414,
+      0.4555968608013218
+    ],
+    "text": "erm Asia. It is black, but the sides of the head are silver-gray. Its eyes are",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "f7bf2139c0437ea35c2d66b0948d22b9238b3f70ec87107075ddd0302640919d",
+    "evidence_sha256": "07bbf477b2addb83dfff7d6dbd556c1ff11a5ff96b395145d0b467c179468e66"
+  },
+  {
+    "page": 173,
+    "bbox": [
+      0.07692307692307693,
+      0.9537381247418423,
+      0.6160310277957337,
+      0.9677819083023544
+    ],
+    "text": "I The triangular space that forms the gable of a pitched roof.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "58e1a1a5f9fe668788c40b213b2b9e99b35dfc6945e9e46ce4c2c6e9e2c29703",
+    "evidence_sha256": "5c6da332081f7101b0eb6bb3947c22a184734142c358381e07fae7ea8777225a"
+  },
+  {
+    "page": 176,
+    "bbox": [
+      0.5585003232062056,
+      0.6959933911606774,
+      0.9237233354880414,
+      0.714580751755473
+    ],
+    "text": "—~ __ goose with horns. The",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "ac956f59f4ab32b82259b3c2188833413d96d1164b57e867b1bc2dd88c881092",
+    "evidence_sha256": "082cfbd16942df1aa200e4d2fdff6e5320186c4c073fe5ce6a1228ae41b42cac"
+  },
+  {
+    "page": 186,
+    "bbox": [
+      0.2786037491919845,
+      0.5927302767451467,
+      0.9230769230769231,
+      0.6113176373399422
+    ],
+    "text": "o\\ belonging to the Megalithic era of France, Spain,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "9018dfd0b66e7d0db3881797624d7c1227b86d9e88d1cd1e045b4d51228e07f0",
+    "evidence_sha256": "3adf361ee57cd9d93a2aa089d2d95944c5db7e26e0f431982bf66603a3a4b82d"
+  },
+  {
+    "page": 195,
+    "bbox": [
+      0.14027149321266968,
+      0.9384551838083437,
+      0.5016160310277957,
+      0.9566294919454772
+    ],
+    "text": "To find my new-bom place at last.",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "a701c960dbc5d2c3cdc8489b76aafc7c10ad2c537b13cb29300cba403dd7adff",
+    "evidence_sha256": "85133d8e3254e9ce1e7ea20406b4e8ceb0b4b4fce5b5108ba99ff7014f7e08c8"
+  },
+  {
+    "page": 198,
+    "bbox": [
+      0.07369101486748546,
+      0.771581990912846,
+      0.9217840982546864,
+      0.7901693515076414
+    ],
+    "text": "European farmers say that to killa swallow will ruin the milk yield. If you dis-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "17fdd3c6522908a1e087f6aba0277189e41f3fa3a83e9b7132d6bc3f972d099c",
+    "evidence_sha256": "52868294f3f2b7ff12f0cf03343d1420dda3f4c8d896da4a3f14dac62d67b881"
+  },
+  {
+    "page": 212,
+    "bbox": [
+      0.17899316345556246,
+      0.8694158075601376,
+      0.9160969546302051,
+      0.8888888888888888
+    ],
+    "text": "ee, In China, the Frog Spirit, called Ch’ing-Wa",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "30d5a8fcdb7d80594b2f3b351fce571408d4ea84273ca2054b104ab770abc0d7",
+    "evidence_sha256": "b759931e0fd3a95458f5e154dc8ae14cac439fa1f53ed76a0711bd534242feea"
+  },
+  {
+    "page": 224,
+    "bbox": [
+      0.18955873213175886,
+      0.806032836960672,
+      0.906152889993785,
+      0.8258877434135165
+    ],
+    "text": "eat West Africa the tortoise sym-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "fbbd171e3ad12394fabb0edd9cecff4754fc25b07521985495defb51ed007f3b",
+    "evidence_sha256": "273fbdbf97446de3edfb6a509edd586d4f49516705a304621f9ea26750c6c0dd"
+  },
+  {
+    "page": 244,
+    "bbox": [
+      0.28216283405842135,
+      0.3631156930126002,
+      0.9080174021131138,
+      0.3818251240931653
+    ],
+    "text": "y humans and animals, regardless of some of the grue-",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "aa3cf082f29be78b262e94aca35fe2300610b1eaa70897aeb0b2b7a0d4de367c",
+    "evidence_sha256": "570f9417209e33bb47fa61a277d932071b95c0bcde22d4e77a10f719d3f84b2c"
+  },
+  {
+    "page": 258,
+    "bbox": [
+      0.2958359229334991,
+      0.4681176021382207,
+      0.90863890615289,
+      0.49713631156930127
+    ],
+    "text": "CH. ed ears, and a goat tail. As companions of the",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "f9e87bbb9eed3aa562f530b103476a2c2aa553c35ebe60638177c3ef990aa456",
+    "evidence_sha256": "ff7db48763af3de253586dbeed384bd045d8f3932904b52a1cd0e0c470391cbb"
+  },
+  {
+    "page": 260,
+    "bbox": [
+      0.48290863890615293,
+      0.9347079037800687,
+      0.5177128651336234,
+      0.9484536082474226
+    ],
+    "text": "va a)",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "a1c8b7e858d21f3230f051d0762f5759e8ae3412250b705b769f9b8bb6f700d9",
+    "evidence_sha256": "5fbe5ac531ed5e22e97a3ad2fc1e94ae63ee2269ed3af437b4996e35be199a50"
+  },
+  {
+    "page": 270,
+    "bbox": [
+      0.1230577998756992,
+      0.413516609392898,
+      0.17029210689869484,
+      0.42115311187476134
+    ],
+    "text": "corm",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "67168ee2f6da3bfb3e35b14770d3db8338624f3410afb1df6bd54633c6aeb71b",
+    "evidence_sha256": "39f14e6a4bb974a85e90cebe4a3eca54898cd4628e7cc33c7163a2be574a6f34"
+  },
+  {
+    "page": 282,
+    "bbox": [
+      0.09260410192666252,
+      0.18403970981290568,
+      0.9105034182722188,
+      0.20351279114165713
+    ],
+    "text": "Aeargatis, 161, 209, 221, 236, 258 Canada, 76, 82, 98, 104, 107-108, 131, 140,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "99b06191c81555724872266ba5fb01b1b8bf1062242f0919685a616e2a124c36",
+    "evidence_sha256": "094606f1b3f688056246ba2ec3fb36d40e22f2bba4f0417cdd0166082afebd94"
+  },
+  {
+    "page": 282,
+    "bbox": [
+      0.09260410192666252,
+      0.4837724322260405,
+      0.6302050963331262,
+      0.49560901107292854
+    ],
+    "text": "Bassareus, 91 Chi-lin, 250",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "198bd97911b107c6d00dd948593df6e36a6fa2de33e4df2567c162b74b29c3c2",
+    "evidence_sha256": "a0e454c435248087e8680e3a7f3a77d14afd289569d851d33d7d3f8b73545bf3"
+  },
+  {
+    "page": 283,
+    "bbox": [
+      0.09260410192666252,
+      0.4440626193203513,
+      0.9080174021131138,
+      0.4681176021382207
+    ],
+    "text": "Donkey, 101-102, 260, 264 Fox, i 64-45, 82, 85, 90-92, 103, 260-261,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "8140c22a44f9ea6d01b5cecd2743a62a3b946367a299c21faa33030139e83d1a",
+    "evidence_sha256": "44598b7dca8a5485f1dedc0a6f3d441859f75949321fb6598261718aa5f0eb3a"
+  },
+  {
+    "page": 284,
+    "bbox": [
+      0.09011808576755749,
+      0.7926689576174112,
+      0.6873834679925418,
+      0.8079419625811378
+    ],
+    "text": "Huiwilopochtli, 170, 211, 263 Lemminkainen, 229",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "03e29d7f435ad60b325dc21f0e5c4f42228849384087f068215a1ad1d4c53f83",
+    "evidence_sha256": "0e52e074f88b56893bc9550b75f9d6101d6e696efa1a9bf2fa3275be07f13ce1"
+  },
+  {
+    "page": 285,
+    "bbox": [
+      0.09011808576755749,
+      0.09125620465826652,
+      0.6737103791174642,
+      0.10500190912562046
+    ],
+    "text": "Lion-Dog, 87 Mounagain lion, 76",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "b100d20acf9f39472393750901dfdbb0840a0c649745c154f2eebb3d59b50ddf",
+    "evidence_sha256": "0d5c07ba9354f79e6e18e2067c0815ed17bbb07253c189c3b8757f233d6e7d45"
+  },
+  {
+    "page": 285,
+    "bbox": [
+      0.09011808576755749,
+      0.5517373043146239,
+      0.7147296457426974,
+      0.5693012600229095
+    ],
+    "text": "Medieation, 10-12, 18-20, 22-23, 27-31, 33, Noms, 33-34, 236, 266",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "7f661040fbf94b90d086e79c68b554696c217b4eacc898ba63d3942f5970f99e",
+    "evidence_sha256": "8beb249bd19f39eb816bef24ecda6fe69bc781004a0bf19e2a5cee82ac9fbdb6"
+  },
+  {
+    "page": 285,
+    "bbox": [
+      0.08949658172778123,
+      0.6456662848415425,
+      0.6737103791174642,
+      0.6647575410462009
+    ],
+    "text": "Mesopotamia, 21, 113, 257~258, 260-261, 263, Oceanos, 210, 266",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "d77007171eb25ca44862b98ceec552644adbe645fa73015a7e1412e157299819",
+    "evidence_sha256": "7929047a272f87354b4ac598d483be9c0c9d826bc9e43e876daf7bb84eab7217"
+  },
+  {
+    "page": 286,
+    "bbox": [
+      0.08949658172778123,
+      0.764413898434517,
+      0.6171535114978247,
+      0.7789232531500573
+    ],
+    "text": "Quetzalcoatl, 87, 170, 210-211, 267 268-270",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "b7389fb4dc06296c07583db04ad1d550d33dcdb01b40721da8e851bef0fe8425",
+    "evidence_sha256": "fed92259b9ebc0f76ef6b7ff0bf6b2a8ca8e16ec378aca162887dad201aaf326"
+  },
+  {
+    "page": 287,
+    "bbox": [
+      0.5239279055313859,
+      0.4238258877434135,
+      0.9098819142324424,
+      0.43566246659030167
+    ],
+    "text": "Vulture, 183, 191-192, 258-259, 261-263,",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "0aa511165db09f9e8939070a01c86dc510f646e84b92e89558d53b2e8370a9dc",
+    "evidence_sha256": "62d4b727e26fd9dd433474a525abba239ee1f6c161a5655520f3b18af6219313"
+  },
+  {
+    "page": 287,
+    "bbox": [
+      0.09073958980733375,
+      0.4314623902252769,
+      0.6183965195773773,
+      0.447880870561283
+    ],
+    "text": "Stag, 116-118, 250-251, 258-260, 264, 268 265-268",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "b07c0c56e5b9f72f4ace54cc3febdd77e2ed2a2ab7a09ab659b79a3f3d6f034d",
+    "evidence_sha256": "19fb8af4341494b4d5fcb144f03a92ad1ec63ff012fef17f46e552d20c76e93d"
+  },
+  {
+    "page": 287,
+    "bbox": [
+      0.08887507768800497,
+      0.7594501718213058,
+      0.709136109384711,
+      0.7773959526536847
+    ],
+    "text": "Tibet, 80, 101 Xochiquewal, 233, 270",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "f1b1ff969da3e05af101fd31fc569610f1ffb71a99c901b4ba119f43f036efc1",
+    "evidence_sha256": "49bf5a105a705874fdf5acbca2761068252a547ec0a11b0f722102e18ba36856"
+  },
+  {
+    "page": 287,
+    "bbox": [
+      0.08887507768800497,
+      0.7976326842306224,
+      0.6351771286513362,
+      0.824360442917144
+    ],
+    "text": "Toad, 66, 205, 212-213, 240, 257, 262, 264, Yegdrasil, 163",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "ac540ccdf1c0dc57671b8560048cd3369c7f084125f295ddba5f5bcbfcb49e3c",
+    "evidence_sha256": "00f141e18d3e6e566a48830be1514a86ee106da7b59e0639382b1d5dc64c1360"
+  },
+  {
+    "page": 230,
+    "bbox": [
+      0.1528899937849596,
+      0.8690339824360442,
+      0.5239279055313859,
+      0.8858342878961436
+    ],
+    "text": "With a twist anda slip, I free myself",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "a04a8e1327485ab6dcf88680ae8b1d6dd211315c56f8c44ee505484765039c7c",
+    "evidence_sha256": "351fac382c184cdc72aa5592ca8552ba74b0fa427fc8a63060438927be56286d"
+  },
+  {
+    "page": 261,
+    "bbox": [
+      0.08763206960845245,
+      0.3955708285605193,
+      0.9073958980733374,
+      0.4093165330278732
+    ],
+    "text": "sons. The unicom lived in the forests and was so swift no one could",
+    "decision": "corrected",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "611ac015799f46cc1c452bf838cb1001912d850fd36935c742bea824d904bbfe",
+    "evidence_sha256": "7c9b94409c2a70f659e2de9c19aa96ce8d09ad0cd7b5fa046ca63033963ba893"
+  },
+  {
+    "page": 24,
+    "bbox": [
+      0.08190476190476191,
+      0.5992540406133444,
+      0.8247619047619047,
+      0.6179030252797347
+    ],
+    "text": "Mask), Helkappe (Hel’s Cap), or Tarnkappe (Cap of Darkness).",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "ebc2576001f861d8efb5d1a82d8dffba5181a8bc67da5336a834217104c06b5e",
+    "evidence_sha256": "4c7da5230e3acfba4be7eec41203c978594b3c5a0651c5970428f991d5e7496f"
+  },
+  {
+    "page": 24,
+    "bbox": [
+      0.08253968253968254,
+      0.9096560298383753,
+      0.9174603174603175,
+      0.9233319519270616
+    ],
+    "text": "1 It could well be that our word “mascara,” or eye-makeup, came from this word. Women in India",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "3a93e64f283703a89fcee6bf16b591f2b2a22f006e36f787e9685c44a53c09eb",
+    "evidence_sha256": "78d4545b60002d81e2c78aa230d8e08281892180a9e570187790e4f5e86b5165"
+  },
+  {
+    "page": 24,
+    "bbox": [
+      0.11301587301587301,
+      0.940737670949026,
+      0.8673015873015874,
+      0.9548280149191878
+    ],
+    "text": "wearer. It could be the remnant of an ancient goddess custom, taking the place of masks.",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "c92e3da733b1049987813690470be8786fba951b3a772e9642399be0db3c55c4",
+    "evidence_sha256": "47b2ba5013a18a8509a990615442946948eedb1cc87f28e662b3e8a13ddc1d94"
+  },
+  {
+    "page": 25,
+    "bbox": [
+      0.08253968253968254,
+      0.9548280149191878,
+      0.8971428571428571,
+      0.9685039370078738
+    ],
+    "text": "2 This book by Rudyard Kipling (1894-95) is still selling strong, a century after it was written.",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "b4762a2765ac1207ace1d3c4727a3fe6845c786a0ff708abc5d11c755e38cc15",
+    "evidence_sha256": "34080a7305ff8d51d4063343344eace3c75ba5b955cc8d07d3421527e52f10c9"
+  },
+  {
+    "page": 40,
+    "bbox": [
+      0.08253968253968254,
+      0.9270617488603398,
+      0.9187301587301586,
+      0.9411520928305015
+    ],
+    "text": "1 Obviously, you are interested in magick, or you wouldn’t be doing this meditation. However, if",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "08e66d8e84eb9b67f43ab097646c32da9637ec599a8d4f945d135e52263a08fa",
+    "evidence_sha256": "1f7de05888380ff153d0798e7940776ec9f48578bcb9dd3f91559353afd3d358"
+  },
+  {
+    "page": 58,
+    "bbox": [
+      0.08571428571428572,
+      0.9548280149191878,
+      0.9168253968253969,
+      0.9689183588893495
+    ],
+    "text": "1 If you don't use incense charcoal in a burner you can choose appropriate incense sticks to burn.",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "412656e87b97886890ca92a9e78b827d717d4efdf34b74fc57ab1caadb62b364",
+    "evidence_sha256": "1bf2f474c9253f2b8e1df59ffc89d6cd3ab72dd0b3c9edc3d3385d85efd0f1a9"
+  },
+  {
+    "page": 70,
+    "bbox": [
+      0.14666666666666667,
+      0.2987981765437215,
+      0.8526984126984127,
+      0.31703273932863657
+    ],
+    "text": "either ceramic or metal—hold it in your hands as a contact",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "0408c4d1fbcdce04dcb4ddd8b0f42367da1ac1a42ea2524acd01b0d0c23ae074",
+    "evidence_sha256": "49840c8e49813ee1508e0caa55ec6bbd1df4548dd49d98ed125d324246c2a16f"
+  },
+  {
+    "page": 78,
+    "bbox": [
+      0.08190476190476191,
+      0.38707003729796935,
+      0.9149206349206348,
+      0.4053046000828844
+    ],
+    "text": "trainer were not there. After all, wild means just that—untamed. So I",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "81981d59ecb6db49819c05fb22bb047c7f06e3af726c7a0979d3f7bd045f0d70",
+    "evidence_sha256": "98ccb74763d285c164af3a4d1e33e15fcc913abebdb70838e2d0cfcf5dde336f"
+  },
+  {
+    "page": 82,
+    "bbox": [
+      0.32063492063492066,
+      0.7318690426854538,
+      0.9199999999999999,
+      0.7505180273518441
+    ],
+    "text": "mourned upon their deaths—the family shaved",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "68fe361e2609891e0d9dad7855641ae475c8594a88acac4a23ce90e42c706f48",
+    "evidence_sha256": "60b4fc0229bfc62e78d7aa3dc6e08587b03a9bc6c9fccd7532829c270182e795"
+  },
+  {
+    "page": 126,
+    "bbox": [
+      0.14221073044602456,
+      0.08343659644774887,
+      0.5313510019392372,
+      0.09995869475423379
+    ],
+    "text": "Homed Isis, Great Goddess Mother,",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "be2fc570d3d087aad165767892fcc5d7ad8521c007e73043d36dbb57a9482abd",
+    "evidence_sha256": "ff3984dfac35216e0e80b2af8b2e1653f61ba0740611e18169d3df6d3313f1f5"
+  },
+  {
+    "page": 133,
+    "bbox": [
+      0.07433742727860375,
+      0.2874845105328377,
+      0.9250161603102781,
+      0.30648492358529533
+    ],
+    "text": "tives in Siberia. It is sure-footed, lives in high rugged areas, and can bea",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "26233e716a72b00f054b295b7f69f8575d5c921dac6e9a4989d96a84aa60d857",
+    "evidence_sha256": "586efe7baafdca1cf492cc90c88f3ddca26ee8f0d883f27c30c94336d1ac5cdf"
+  },
+  {
+    "page": 139,
+    "bbox": [
+      0.07498383968972204,
+      0.37587773647253203,
+      0.9256625727213963,
+      0.3948781495249897
+    ],
+    "text": "white feet are considered unlucky in racing. Non-racing horses that have spots",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "483de091378688422e0503151a456258bb8d46658422066958832b3182f6adb0",
+    "evidence_sha256": "3d09c18b852a9c2566902a56448d63044f6c8c09807c6dce6fcbaa59cc4b10f8"
+  },
+  {
+    "page": 186,
+    "bbox": [
+      0.07433742727860375,
+      0.9429987608426271,
+      0.9217840982546864,
+      0.9574555968608013
+    ],
+    "text": "2 This term wasn't used until after the 1957 publication of The Eye Goddess by O. G. S. Crawford.",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "5f9260ba59fa8213d300e397b0762c17821a13266c9b02ec8ccd518fa175c2a1",
+    "evidence_sha256": "86c954b94b85e910ad56f665d5cb5dbc6c77bee8c52d1642a49cd506bced98e3"
+  },
+  {
+    "page": 282,
+    "bbox": [
+      0.09073958980733375,
+      0.6968308514700268,
+      0.6749533871970168,
+      0.7163039327987781
+    ],
+    "text": "Blodeuwedd, 177, 259 Cocidius, 117, 260",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "352220c0c144c37a1d846fafdb7fba8b8aa3a873d5d26830af5f0159e3c30122",
+    "evidence_sha256": "964c9c420d168015fd73b1fafeb616d2e4d755a1b7de46e114ba2fb2bc6db8ec"
+  },
+  {
+    "page": 283,
+    "bbox": [
+      0.09198259788688626,
+      0.3531882397861779,
+      0.6681168427594779,
+      0.37953417334860634
+    ],
+    "text": "Diana, 16, 72, 86, 98, 115-116, 229, 250, Finland, 104, 226",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "14e37d69094a1d63a6cd93dfb5e54ec9eb7d1a63923378e201bdc5c2184f281c",
+    "evidence_sha256": "e186768ceff0d7c357bb489785b24f0ab27dc8eceedd9ff901d3150b597956c4"
+  },
+  {
+    "page": 283,
+    "bbox": [
+      0.09198259788688626,
+      0.4646811760213822,
+      0.2044748290863891,
+      0.4765177548682703
+    ],
+    "text": "Dormarth, 86",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "59d9d080d52adb7f2bad73e601333c865d44f7f7e8dfd1017fc6a9a54b879839",
+    "evidence_sha256": "b5401d71a62842a78d1f49e652245ed75c18900963759f310881cd1c730c18ba"
+  },
+  {
+    "page": 283,
+    "bbox": [
+      0.5239279055313859,
+      0.47537227949599087,
+      0.7402113113735239,
+      0.4868270332187858
+    ],
+    "text": "France, 108, 176, 178, 194",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "a27122787d9567536c7a8d8a0740c090da0e8bf5fdee81f2cae1bc17566d73e7",
+    "evidence_sha256": "83a139d3cac88cf975a9c737a44250a192ce7a740d3dff6319af79a692cf90d0"
+  },
+  {
+    "page": 283,
+    "bbox": [
+      0.09011808576755749,
+      0.47995418098510884,
+      0.9080174021131138,
+      0.5074455899198167
+    ],
+    "text": "Dove: 120, 160-162, 189, 193, 257-263, 267, Freyja, 29-31, 73, 105, 110, 112, 128, 138, 165,",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "ee9aa04a2f611f94cc8d0b397cf573bd8047a2c3ef8fa0f5991128a08909fba9",
+    "evidence_sha256": "aee679985f0969bd7e1fd40e6e6c72678939624bb858b559d1eaf8452ef67467"
+  },
+  {
+    "page": 283,
+    "bbox": [
+      0.09198259788688626,
+      0.7586865215731196,
+      0.9067743940335612,
+      0.7865597556319206
+    ],
+    "text": "Elements, 43-44, 84, 135, 159, 215, 236, 243, Goose, 166-167, 189, 257-258, 261-263,",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "7041de253d7a09a4cba99f3a401205c2177ad184d7c591eaa663621ef08f3a48",
+    "evidence_sha256": "77073db48b07e16a7a22aa80d8abda86bac266481ea9043ddc2d9d638572306d"
+  },
+  {
+    "page": 285,
+    "bbox": [
+      0.09073958980733375,
+      0.3329515082092402,
+      0.6861404599129893,
+      0.3531882397861779
+    ],
+    "text": "Magickal power, 7, 117 Nekhebet, 192, 266",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "d9edae3cd266d731cf5da76ac0f97cf166a1515ded0a766b9d3b6b486bd314ac",
+    "evidence_sha256": "f5c948dfab9426291280f67f707134df56318d607be04d006b05d6ca8db63a4a"
+  },
+  {
+    "page": 285,
+    "bbox": [
+      0.11311373523927906,
+      0.56815578465063,
+      0.9080174021131137,
+      0.5830469644902635
+    ],
+    "text": "35-36, 38-41, 45, 54, 67-68, 88, 118, 153, Norse, 29, 73, 86-87, 102, 105, 110, 123, 128,",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "6e54b50559f47f2b6d5d210d99c6e71374176cd4db8b39b8b28c3c1499b555fe",
+    "evidence_sha256": "944e872f24c9e81b3d73ddba4417d4bfd478b2ca2e4b62da0e457c1f90972e7f"
+  },
+  {
+    "page": 286,
+    "bbox": [
+      0.5251709136109385,
+      0.3654066437571592,
+      0.7035425730267246,
+      0.37800687285223367
+    ],
+    "text": "Sarapis, 113, 205, 268",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "5798e4508343a7c486273f2c3e9fc04a04a33942f1f45c71f0cd2f49a84a568a",
+    "evidence_sha256": "c1c56c9b018dfca9b7c85579a5e8585f493bfd3c4d37d2788c175f4eb5e416df"
+  },
+  {
+    "page": 287,
+    "bbox": [
+      0.08887507768800497,
+      0.7098129056891943,
+      0.6904909881914233,
+      0.7269950362733868
+    ],
+    "text": "Thor, 105, 123, 185, 224, 269 Wren, 194-195, 259",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "04de6780b7998ee54069773b1c33db1d13b8ad9c42eb0517aa0307e7d4d49d4b",
+    "evidence_sha256": "4e4f5cbf86c4005b1d5a151d37f2e1e037a460731c8364525103ce509db3a96d"
+  },
+  {
+    "page": 287,
+    "bbox": [
+      0.08887507768800497,
+      0.7430316914852997,
+      0.6277190801740211,
+      0.7605956471935853
+    ],
+    "text": "Tiamat, 174, 269 Wyvern, 253",
+    "decision": "keep",
+    "format_version": 1,
+    "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+    "text_sha256": "35b97e0722590dd5462856da7a555ae0875245f567fa92b4d0d6bd8c31075786",
+    "evidence_sha256": "9e6b67891e7a0303043465212b21991529e1317da85a92fbcf1a74c11b0877c9"
+  }
+]

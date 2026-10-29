@@ -517,6 +517,20 @@ def _page_blocks(n, rows, book, audit, first, policy=None):
             )
             if not hanging and last and r.get("column", 0) != last.get("column", 0):
                 new = True
+            wrap_policy = policy or DEFAULT_POLICY
+            split_left = re.search(r"([\w]+)-\.?$", last["text"]) if last else None
+            split_right = re.match(r"^([^\W\d_]+)", text)
+            boundary_action = (
+                wrap_policy.boundary(last["text"], text)[2] if last else None
+            )
+            known_compound = bool(
+                split_left
+                and split_right
+                and boundary_action == "retain"
+                and f"{split_left[1]}-{split_right[1]}".lower()
+                in wrap_policy.words
+            )
+            supported_wrap = boundary_action in {"remove", "remove-morphological"} or known_compound
             if (
                 book.get("repair_word_wraps")
                 and new
@@ -527,14 +541,15 @@ def _page_blocks(n, rows, book, audit, first, policy=None):
                 and r.get("column", 0) == last.get("column", 0)
                 and not hanging
                 and not gap
-                # A normal-margin continuation can inherit a bogus style-based
-                # paragraph flag. An indented new paragraph cannot override it.
-                and not paragraph_indent
+                # A wrapped line can shift horizontally around an illustration.
+                # Keep an explicit paragraph-start decision, but do not treat a
+                # changing left edge alone as a paragraph when a lexical wrap
+                # is otherwise strongly supported.
+                and not (paragraph_indent and r.get("paragraph_start"))
                 and re.search(r"[^\W\d_]{2,}-\.?$", last["text"])
                 and re.match(r"^[^\W\d_]{2,}", text)
-                and text[:2].islower()
-                and (policy or DEFAULT_POLICY).boundary(last["text"], text)[2]
-                in {"remove", "remove-morphological"}
+                and (text[:2].islower() or known_compound)
+                and supported_wrap
             ):
                 new = False
                 audit.append(

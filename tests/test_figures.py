@@ -6,11 +6,11 @@ import unittest
 from pathlib import Path
 import pymupdf
 import io
-from PIL import Image
+from PIL import Image, ImageChops
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from book_model import classify_row, reconstruct, JoinPolicy
-from figures import incorporate_figures, crop_artwork_pixels
+from figures import incorporate_figures, crop_artwork_pixels, figure_flow, figure_position
 from render_text import block_html
 
 
@@ -19,6 +19,95 @@ def row(text, y, x=0.1, kind="text"):
 
 
 class FigureTests(unittest.TestCase):
+    def test_source_flow_figure_renders_as_a_float(self):
+        block = dict(
+            kind="figure",
+            image="figure-016-01.png",
+            alt="Original illustration",
+            flow="float-left",
+            sources=[],
+            page_breaks=[],
+        )
+        rendered = block_html(block, {}, set(), [], "chapter.xhtml")
+        self.assertIn('<figure class="figure-float-left">', rendered)
+
+    def test_figure_flow_uses_source_text_side_and_vertical_overlap(self):
+        blocks = [
+            {
+                "kind": "text",
+                "sources": [
+                    {"page": 4, "bbox": [0.43, 0.3 + i * 0.02, 0.92, 0.315 + i * 0.02]}
+                    for i in range(4)
+                ],
+            }
+        ]
+        self.assertEqual(figure_flow(blocks, 4, [0.08, 0.3, 0.46, 0.39]), "float-left")
+        self.assertIsNone(figure_flow(blocks, 4, [0.08, 0.6, 0.46, 0.7]))
+
+    def test_figure_anchor_moves_before_a_wrapped_word(self):
+        block = {
+            "kind": "text",
+            "text": "It was sacred to Ea-Oannes in Sumeria.",
+            "sources": [
+                {"page": 224, "start": 0, "end": 25, "text": "It was sacred to Ea-", "bbox": [0.4, 0.76, 0.9, 0.78]},
+                {"page": 224, "start": 25, "end": 38, "text": "Oannes in Sumeria.", "bbox": [0.45, 0.78, 0.9, 0.8]},
+            ],
+            "lines": [],
+            "inline": [],
+        }
+        position = figure_position([block], 224, 0.77, True, ["Ea-Oannes"])
+        self.assertEqual(position, 0)
+
+    def test_figure_anchor_does_not_split_a_word_across_blocks(self):
+        before = {
+            "kind": "text",
+            "text": "Earlier Hermes/Mercury. It was sacred to Ea-",
+            "sources": [
+                {"page": 224, "start": 0, "end": 8, "text": "Earlier ", "bbox": [0.1, 0.7, 0.9, 0.72]},
+                {"page": 224, "start": 8, "end": 11, "text": "Her-", "bbox": [0.1, 0.73, 0.9, 0.75]},
+                {"page": 224, "start": 11, "end": 45, "text": "mes/Mercury. It was sacred to Ea-", "bbox": [0.4, 0.76, 0.9, 0.78]},
+            ],
+            "lines": [],
+            "inline": [],
+            "page_breaks": [],
+        }
+        after = {
+            "kind": "text",
+            "text": "Oannes in Sumeria.",
+            "sources": [
+                {"page": 224, "start": 0, "end": 19, "text": "Oannes in Sumeria.", "bbox": [0.45, 0.78, 0.9, 0.8]}
+            ],
+            "lines": [],
+            "inline": [],
+            "page_breaks": [],
+        }
+        blocks = [before, after]
+        position = figure_position(blocks, 224, 0.77, True, ["Ea-Oannes"])
+        self.assertEqual(position, 2)
+        self.assertEqual(len(blocks), 2)
+        self.assertTrue(blocks[0]["text"].endswith("Ea-"))
+        self.assertTrue(blocks[1]["text"].startswith("Oannes"))
+
+    def test_figure_anchor_keeps_compound_intact_after_prior_wrapped_word(self):
+        text = "Hermes/Mercury. It was sacred to Ea-Oannes."
+        block = {
+            "kind": "text",
+            "text": text,
+            "sources": [
+                {"page": 224, "start": 0, "end": 3, "text": "Her-", "bbox": [0.1, 0.74, 0.9, 0.76]},
+                {"page": 224, "start": 3, "end": text.index("Oannes"), "text": "mes/Mercury. It was sacred to Ea-", "bbox": [0.4, 0.76, 0.9, 0.78]},
+                {"page": 224, "start": text.index("Oannes"), "end": len(text), "text": "Oannes.", "bbox": [0.45, 0.78, 0.9, 0.8]},
+            ],
+            "lines": [],
+            "inline": [],
+            "page_breaks": [],
+        }
+        blocks = [block]
+        position = figure_position(blocks, 224, 0.77, True, ["Ea-Oannes"])
+        self.assertEqual(position, 1)
+        self.assertEqual(len(blocks), 1)
+        self.assertEqual(blocks[0]["text"], text)
+
     def test_framed_scan_keeps_native_pixels_but_visible_text_requires_render(self):
         doc = pymupdf.open()
         page = doc.new_page(width=100, height=100)
@@ -31,6 +120,21 @@ class FigureTests(unittest.TestCase):
         page.insert_text((20, 40), "Visible overlay", fontsize=8)
         _, evidence = crop_artwork_pixels(page, pymupdf.Rect(10, 10, 90, 90))
         self.assertEqual(evidence["method"], "rendered-page")
+
+    def test_exact_embedded_figure_excludes_separate_text_overlay(self):
+        doc = pymupdf.open()
+        page = doc.new_page(width=100, height=100)
+        raw = io.BytesIO()
+        Image.new("RGB", (120, 80), "white").save(raw, format="PNG")
+        rect = pymupdf.Rect(20, 20, 80, 60)
+        page.insert_image(rect, stream=raw.getvalue())
+        page.insert_text((25, 40), "Overlay", fontsize=10)
+
+        crop, evidence = crop_artwork_pixels(page, rect)
+
+        self.assertEqual(evidence["method"], "embedded-figure-image")
+        self.assertEqual(crop.size, (120, 80))
+        self.assertIsNone(ImageChops.difference(crop, Image.new("RGB", crop.size, "white")).getbbox())
 
     def test_only_image_region_and_reviewed_blank_page_are_excluded(self):
         b = dict(

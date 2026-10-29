@@ -1,0 +1,1147 @@
+{
+  "title": "Animal Magick",
+  "subtitle": "The Art of Recognizing & Working with Familiars",
+  "author": "D. J. Conway",
+  "author_sort": "Conway, D. J.",
+  "language": "en",
+  "date": "1995",
+  "publisher": "Llewellyn Publications",
+  "isbn": "1567181686",
+  "rights": "Animal Magick © 1995 by D. J. Conway. All rights reserved.",
+  "slug": "animal-magick",
+  "source_sha256": "ef7ca849d29693d76558ca3f61fb01fcb4f7405601210f63859fc4418edc991f",
+  "text_source": "ocr",
+  "repair_word_wraps": true,
+  "line_join_words": [
+    "Ice-Leaper",
+    "trouble-spots",
+    "Troglodytidae",
+    "Ireland",
+    "Ea-Oannes",
+    "Titaness",
+    "half-goat",
+    "Parsiphae"
+  ],
+  "row_heading_rules": [
+    {
+      "pages": [29],
+      "pattern": "[—–-] A Meditation for a Familiar [—–-]",
+      "kind": "heading"
+    }
+  ],
+  "printed_page_offset": -10,
+  "artwork_pages": [],
+  "chapters": [
+    [
+      11,
+      12,
+      "Part I: A Familiar What?"
+    ],
+    [
+      13,
+      18,
+      "1 Familiars & Humans"
+    ],
+    [
+      19,
+      22,
+      "2 How to Attract a Familiar"
+    ],
+    [
+      23,
+      26,
+      "3 Legends & Deities"
+    ],
+    [
+      27,
+      34,
+      "4 Animal Familiars & Magick"
+    ],
+    [
+      35,
+      36,
+      "Part II: Working Together"
+    ],
+    [
+      37,
+      52,
+      "5 Meditations"
+    ],
+    [
+      53,
+      76,
+      "6 Rituals"
+    ],
+    [
+      77,
+      78,
+      "7 The Beauty of Friendship"
+    ],
+    [
+      79,
+      80,
+      "Part III: Animal Allies of Fur, Feather, Fin & Scale"
+    ],
+    [
+      81,
+      94,
+      "8 The Cat Family"
+    ],
+    [
+      95,
+      106,
+      "9 The Wolf Family"
+    ],
+    [
+      107,
+      158,
+      "10 Land Creatures"
+    ],
+    [
+      159,
+      206,
+      "11 Birds & Winged Creatures"
+    ],
+    [
+      207,
+      226,
+      "12 Amphibians & Reptiles"
+    ],
+    [
+      227,
+      236,
+      "13 Aquatic Creatures"
+    ],
+    [
+      237,
+      248,
+      "14 Spiders & Insects"
+    ],
+    [
+      249,
+      264,
+      "15 Mythical Creatures"
+    ],
+    [
+      265,
+      266,
+      "Part IV"
+    ],
+    [
+      267,
+      278,
+      "Appendix: Deities & Their Familiars"
+    ],
+    [
+      279,
+      280,
+      "Bibliography"
+    ],
+    [
+      281,
+      287,
+      "Index"
+    ]
+  ],
+  "index_pages": [
+    281,
+    282,
+    283,
+    284,
+    285,
+    286,
+    287
+  ],
+  "repair_ocr_punctuation": true,
+  "excluded_pages": {
+    "1": "Blank scan page",
+    "2": "Blank scan page",
+    "3": "Back-cover promotional copy",
+    "4": "About the author",
+    "5": "Printed title page",
+    "6": "Copyright and publication data",
+    "7": "Dedication",
+    "8": "Other books by the author",
+    "9": "Contents",
+    "10": "Contents",
+    "288": "Publisher catalog advertisement",
+    "289": "Publisher catalog advertisement",
+    "290": "Publisher catalog advertisement",
+    "291": "Blank or advertising leaf",
+    "292": "Back-cover promotional copy"
+  },
+  "comments": {
+    "source": "PDF page labels and chapter starts follow the printed contents (PDF page 11 is printed page 1; offset -10). The profile uses the 1995 first-edition copyright and the 1998 fourth-printing scan. Contents and preliminary leaves are replaced by EPUB navigation/title metadata. The embedded text layer misreads printed headings (for example, 'Chapter r' and 'FAMILIARS 8l'); sampled local Tesseract reads match the page image more closely, so use scan OCR. The index occupies PDF pages 281-287; pages 288-292 are publisher ads and back-cover copy.",
+    "artwork": "80 source-reviewed embedded line-art illustrations are retained on pages 15-263. Section-title cards, frontmatter artwork and publisher advertisements are excluded; the page image objects isolate the illustration pixels from OCR text overlays."
+  },
+  "figures": [
+    {
+      "page": 15,
+      "name": "figure-015-01",
+      "rect": [
+        0.5079365079365079,
+        0.07956900507593456,
+        0.9193651310350529,
+        0.4508910024153953
+      ],
+      "alt": "Original illustration from source page 15",
+      "image_type": "line-art"
+    },
+    {
+      "page": 16,
+      "name": "figure-016-01",
+      "rect": [
+        0.06984127892388238,
+        0.6493990178643133,
+        0.460952395484561,
+        0.9709903837377858
+      ],
+      "alt": "Original illustration from source page 16",
+      "image_type": "line-art",
+      "flow": "float-left"
+    },
+    {
+      "page": 37,
+      "name": "figure-037-02",
+      "rect": [
+        0.06603174360971602,
+        0.44757549875625796,
+        0.2336507928434503,
+        0.6597596703814866
+      ],
+      "alt": "Original illustration from source page 37",
+      "image_type": "line-art"
+    },
+    {
+      "page": 82,
+      "name": "figure-082-02",
+      "rect": [
+        0.08637566541237805,
+        0.7326979052732512,
+        0.43685186476934523,
+        0.9680895485830868
+      ],
+      "alt": "Original illustration from source page 82",
+      "image_type": "line-art"
+    },
+    {
+      "page": 83,
+      "name": "figure-083-01",
+      "rect": [
+        0.5028835881954778,
+        0.08618246447046057,
+        0.919391531162161,
+        0.39782771459002886
+      ],
+      "alt": "Original illustration from source page 83",
+      "image_type": "line-art"
+    },
+    {
+      "page": 85,
+      "name": "figure-085-01",
+      "rect": [
+        0.5485978706803902,
+        0.4641352056458574,
+        0.919391531162161,
+        0.6531115894076728
+      ],
+      "alt": "Original illustration from source page 85",
+      "image_type": "line-art"
+    },
+    {
+      "page": 88,
+      "name": "figure-088-01",
+      "rect": [
+        0.07619047417211786,
+        0.5304600338395637,
+        0.5333333494802001,
+        0.8454206558771
+      ],
+      "alt": "Original illustration from source page 88",
+      "image_type": "line-art"
+    },
+    {
+      "page": 90,
+      "name": "figure-090-01",
+      "rect": [
+        0.08126983945331877,
+        0.2652300169197819,
+        0.4774603061575107,
+        0.5503522653473719
+      ],
+      "alt": "Original illustration from source page 90",
+      "image_type": "line-art"
+    },
+    {
+      "page": 92,
+      "name": "figure-092-01",
+      "rect": [
+        0.07619047417211786,
+        0.4939734211664005,
+        0.2946034184208623,
+        0.6763192191816829
+      ],
+      "alt": "Original illustration from source page 92",
+      "image_type": "line-art"
+    },
+    {
+      "page": 94,
+      "name": "figure-094-01",
+      "rect": [
+        0.08126983945331877,
+        0.22211271310715025,
+        0.528253989244895,
+        0.35141250773847627
+      ],
+      "alt": "Original illustration from source page 94",
+      "image_type": "line-art"
+    },
+    {
+      "page": 96,
+      "name": "figure-096-02",
+      "rect": [
+        0.07619047417211786,
+        0.22542824311452145,
+        0.3606351822141617,
+        0.44755837240425106
+      ],
+      "alt": "Original illustration from source page 96",
+      "image_type": "line-art"
+    },
+    {
+      "page": 99,
+      "name": "figure-099-01",
+      "rect": [
+        0.5384391502097801,
+        0.4608198600761232,
+        0.9143121305596892,
+        0.6365347561660664
+      ],
+      "alt": "Original illustration from source page 99",
+      "image_type": "line-art"
+    },
+    {
+      "page": 108,
+      "name": "figure-108-01",
+      "rect": [
+        0.08126983945331877,
+        0.0795517206345245,
+        0.4723809459222057,
+        0.3381509673701364
+      ],
+      "alt": "Original illustration from source page 108",
+      "image_type": "line-art"
+    },
+    {
+      "page": 109,
+      "name": "figure-109-01",
+      "rect": [
+        0.7416137210906498,
+        0.6232905529356043,
+        0.9193917733651621,
+        0.9680895485830868
+      ],
+      "alt": "Original illustration from source page 109",
+      "image_type": "line-art"
+    },
+    {
+      "page": 111,
+      "name": "figure-111-01",
+      "rect": [
+        0.5130423086660879,
+        0.7260671087408475,
+        0.9244709317646329,
+        0.9614587520506831
+      ],
+      "alt": "Original illustration from source page 111",
+      "image_type": "line-art"
+    },
+    {
+      "page": 114,
+      "name": "figure-114-01",
+      "rect": [
+        0.07756948753434029,
+        0.7633207416280181,
+        0.5429864435637278,
+        0.9483684408397314
+      ],
+      "alt": "Original illustration from source page 114",
+      "image_type": "line-art"
+    },
+    {
+      "page": 117,
+      "name": "figure-117-01",
+      "rect": [
+        0.44475868731343143,
+        0.7534077280737884,
+        0.9256895161910104,
+        0.9681949931715709
+      ],
+      "alt": "Original illustration from source page 117",
+      "image_type": "line-art"
+    },
+    {
+      "page": 119,
+      "name": "figure-119-02",
+      "rect": [
+        0.485815059298255,
+        0.19816596599302036,
+        0.930259462671453,
+        0.38313723291345414
+      ],
+      "alt": "Original illustration from source page 119",
+      "image_type": "line-art"
+    },
+    {
+      "page": 122,
+      "name": "figure-122-01",
+      "rect": [
+        0.07239818802290265,
+        0.6939280710782699,
+        0.48093082887757893,
+        0.9516728312134792
+      ],
+      "alt": "Original illustration from source page 122",
+      "image_type": "line-art"
+    },
+    {
+      "page": 127,
+      "name": "figure-127-01",
+      "rect": [
+        0.6154115660536492,
+        0.6311441287536795,
+        0.9256898449733657,
+        0.9516728312134792
+      ],
+      "alt": "Original illustration from source page 127",
+      "image_type": "line-art"
+    },
+    {
+      "page": 129,
+      "name": "figure-129-01",
+      "rect": [
+        0.4912734176260056,
+        0.641040230115069,
+        0.9256625560378702,
+        0.9417424327653673
+      ],
+      "alt": "Original illustration from source page 129",
+      "image_type": "line-art"
+    },
+    {
+      "page": 131,
+      "name": "figure-131-01",
+      "rect": [
+        0.548184656993287,
+        0.28416286588767636,
+        0.9308607694674293,
+        0.5617341258323871
+      ],
+      "alt": "Original illustration from source page 131",
+      "image_type": "line-art"
+    },
+    {
+      "page": 133,
+      "name": "figure-133-01",
+      "rect": [
+        0.6722958452677904,
+        0.730276732845863,
+        0.9256895161910104,
+        0.961586107379399
+      ],
+      "alt": "Original illustration from source page 133",
+      "image_type": "line-art"
+    },
+    {
+      "page": 136,
+      "name": "figure-136-01",
+      "rect": [
+        0.07756948753434029,
+        0.7600165088212842,
+        0.5326438548153012,
+        0.961586107379399
+      ],
+      "alt": "Original illustration from source page 136",
+      "image_type": "line-art"
+    },
+    {
+      "page": 138,
+      "name": "figure-138-01",
+      "rect": [
+        0.06722688851146501,
+        0.7071457376179376,
+        0.5171299305948668,
+        0.9516728312134792
+      ],
+      "alt": "Original illustration from source page 138",
+      "image_type": "line-art"
+    },
+    {
+      "page": 142,
+      "name": "figure-142-01",
+      "rect": [
+        0.07239818802290265,
+        0.21478709440018387,
+        0.3775051057844899,
+        0.3271375357296335
+      ],
+      "alt": "Original illustration from source page 142",
+      "image_type": "line-art"
+    },
+    {
+      "page": 147,
+      "name": "figure-147-01",
+      "rect": [
+        0.5895550530847882,
+        0.7302767853682011,
+        0.9205184273057692,
+        0.9186287173866481
+      ],
+      "alt": "Original illustration from source page 147",
+      "image_type": "line-art"
+    },
+    {
+      "page": 150,
+      "name": "figure-150-01",
+      "rect": [
+        0.07756948753434029,
+        0.8294091793710324,
+        0.5378151491895145,
+        0.9714993835453187
+      ],
+      "alt": "Original illustration from source page 150",
+      "image_type": "line-art"
+    },
+    {
+      "page": 151,
+      "name": "figure-151-01",
+      "rect": [
+        0.5998976418332148,
+        0.7567119083581842,
+        0.9205184273057692,
+        0.961586107379399
+      ],
+      "alt": "Original illustration from source page 151",
+      "image_type": "line-art"
+    },
+    {
+      "page": 154,
+      "name": "figure-154-01",
+      "rect": [
+        0.07239818802290265,
+        0.07267980733545881,
+        0.4343891384118645,
+        0.19824792833516058
+      ],
+      "alt": "Original illustration from source page 154",
+      "image_type": "line-art"
+    },
+    {
+      "page": 155,
+      "name": "figure-155-01",
+      "rect": [
+        0.5223281440244258,
+        0.22798770431058182,
+        0.9308607694674293,
+        0.4592970788441178
+      ],
+      "alt": "Original illustration from source page 155",
+      "image_type": "line-art"
+    },
+    {
+      "page": 156,
+      "name": "figure-156-01",
+      "rect": [
+        0.07239818802290265,
+        0.6807105095832783,
+        0.3361347096929888,
+        0.9318463839263158
+      ],
+      "alt": "Original illustration from source page 156",
+      "image_type": "line-art"
+    },
+    {
+      "page": 161,
+      "name": "figure-161-02",
+      "rect": [
+        0.5843837587105748,
+        0.6113004016173098,
+        0.9256895161910104,
+        0.7765213909301696
+      ],
+      "alt": "Original illustration from source page 161",
+      "image_type": "line-art"
+    },
+    {
+      "page": 164,
+      "name": "figure-164-01",
+      "rect": [
+        0.07756948753434029,
+        0.574968862131909,
+        0.35164834622886226,
+        0.7798430611531237
+      ],
+      "alt": "Original illustration from source page 164",
+      "image_type": "line-art"
+    },
+    {
+      "page": 165,
+      "name": "figure-165-01",
+      "rect": [
+        0.548184656993287,
+        0.35025125110835265,
+        0.9256895161910104,
+        0.5914739018078083
+      ],
+      "alt": "Original illustration from source page 165",
+      "image_type": "line-art"
+    },
+    {
+      "page": 167,
+      "name": "figure-167-01",
+      "rect": [
+        0.6257541548020759,
+        0.11235024437068207,
+        0.9308610982497847,
+        0.4692275823369058
+      ],
+      "alt": "Original illustration from source page 167",
+      "image_type": "line-art"
+    },
+    {
+      "page": 168,
+      "name": "figure-168-01",
+      "rect": [
+        0.07239818802290265,
+        0.20816121763166484,
+        0.34647705185464894,
+        0.3832954699798598
+      ],
+      "alt": "Original illustration from source page 168",
+      "image_type": "line-art"
+    },
+    {
+      "page": 172,
+      "name": "figure-172-01",
+      "rect": [
+        0.06722688851146501,
+        0.5947955195084246,
+        0.4602456513807256,
+        0.9714993835453187
+      ],
+      "alt": "Original illustration from source page 172",
+      "image_type": "line-art"
+    },
+    {
+      "page": 175,
+      "name": "figure-175-01",
+      "rect": [
+        0.682638434016217,
+        0.20816117823991132,
+        0.9308607694674293,
+        0.42294846959886273
+      ],
+      "alt": "Original illustration from source page 175",
+      "image_type": "line-art"
+    },
+    {
+      "page": 176,
+      "name": "figure-176-01",
+      "rect": [
+        0.07239818802290265,
+        0.5881864761492387,
+        0.6308985301209434,
+        0.7864518419006196
+      ],
+      "alt": "Original illustration from source page 176",
+      "image_type": "line-art"
+    },
+    {
+      "page": 179,
+      "name": "figure-179-01",
+      "rect": [
+        0.5223281440244258,
+        0.6179264622140119,
+        0.9308607694674293,
+        0.9714993835453187
+      ],
+      "alt": "Original illustration from source page 179",
+      "image_type": "line-art"
+    },
+    {
+      "page": 185,
+      "name": "figure-185-01",
+      "rect": [
+        0.5585272457417136,
+        0.1189590776405159,
+        0.9308607694674293,
+        0.5220983010179144
+      ],
+      "alt": "Original illustration from source page 185",
+      "image_type": "line-art"
+    },
+    {
+      "page": 186,
+      "name": "figure-186-02",
+      "rect": [
+        0.07756948753434029,
+        0.4097307767980261,
+        0.3051066557631478,
+        0.6773887868379861
+      ],
+      "alt": "Original illustration from source page 186",
+      "image_type": "line-art"
+    },
+    {
+      "page": 189,
+      "name": "figure-189-01",
+      "rect": [
+        0.5947263474590014,
+        0.07600163512542701,
+        0.9308607694674293,
+        0.32052870245979964
+      ],
+      "alt": "Original illustration from source page 189",
+      "image_type": "line-art"
+    },
+    {
+      "page": 190,
+      "name": "figure-190-01",
+      "rect": [
+        0.07239818802290265,
+        0.6311441812760176,
+        0.5429864435637278,
+        0.9549773266319032
+      ],
+      "alt": "Original illustration from source page 190",
+      "image_type": "line-art"
+    },
+    {
+      "page": 196,
+      "name": "figure-196-01",
+      "rect": [
+        0.07756948753434029,
+        0.3271201508357512,
+        0.46541694575493897,
+        0.49564574061171085
+      ],
+      "alt": "Original illustration from source page 196",
+      "image_type": "line-art"
+    },
+    {
+      "page": 197,
+      "name": "figure-197-01",
+      "rect": [
+        0.563698540115927,
+        0.3238158917678483,
+        0.9153468452469948,
+        0.5617341258323871
+      ],
+      "alt": "Original illustration from source page 197",
+      "image_type": "line-art"
+    },
+    {
+      "page": 200,
+      "name": "figure-200-01",
+      "rect": [
+        0.07239818802290265,
+        0.7401900615341208,
+        0.35681992828763653,
+        0.9681949931715709
+      ],
+      "alt": "Original illustration from source page 200",
+      "image_type": "line-art"
+    },
+    {
+      "page": 201,
+      "name": "figure-201-03",
+      "rect": [
+        0.5998976418332148,
+        0.7335811757419489,
+        0.9256897627777769,
+        0.9582817170056511
+      ],
+      "alt": "Original illustration from source page 201",
+      "image_type": "line-art"
+    },
+    {
+      "page": 203,
+      "name": "figure-203-01",
+      "rect": [
+        0.7395227543281526,
+        0.4527054729011522,
+        0.9308610982497847,
+        0.7930607276927913
+      ],
+      "alt": "Original illustration from source page 203",
+      "image_type": "line-art"
+    },
+    {
+      "page": 204,
+      "name": "figure-204-01",
+      "rect": [
+        0.06722688851146501,
+        0.769929784987204,
+        0.35681992828763653,
+        0.9714993835453187
+      ],
+      "alt": "Original illustration from source page 204",
+      "image_type": "line-art"
+    },
+    {
+      "page": 208,
+      "name": "figure-208-01",
+      "rect": [
+        0.07756948753434029,
+        0.1387856037111864,
+        0.3309631687320089,
+        0.43287897309165074
+      ],
+      "alt": "Original illustration from source page 208",
+      "image_type": "line-art"
+    },
+    {
+      "page": 209,
+      "name": "figure-209-01",
+      "rect": [
+        0.5326438137175068,
+        0.7071457901402756,
+        0.9256625560378702,
+        0.9714993835453187
+      ],
+      "alt": "Original illustration from source page 209",
+      "image_type": "line-art"
+    },
+    {
+      "page": 211,
+      "name": "figure-211-01",
+      "rect": [
+        0.07239818802290265,
+        0.3006849753234299,
+        0.9204915493482178,
+        0.3899043032496936
+      ],
+      "alt": "Original illustration from source page 211",
+      "image_type": "line-art"
+    },
+    {
+      "page": 212,
+      "name": "figure-212-01",
+      "rect": [
+        0.09946654102743618,
+        0.7697435709703139,
+        0.34309613692953306,
+        0.9224736212008028
+      ],
+      "alt": "Original illustration from source page 212",
+      "image_type": "line-art"
+    },
+    {
+      "page": 214,
+      "name": "figure-214-01",
+      "rect": [
+        0.08952247609017795,
+        0.6964490445875335,
+        0.5568934787486117,
+        0.8949980904665389
+      ],
+      "alt": "Original illustration from source page 214",
+      "image_type": "line-art"
+    },
+    {
+      "page": 216,
+      "name": "figure-216-01",
+      "rect": [
+        0.08952247609017795,
+        0.5498121199686123,
+        0.22873938521179316,
+        0.739197541503586
+      ],
+      "alt": "Original illustration from source page 216",
+      "image_type": "line-art"
+    },
+    {
+      "page": 222,
+      "name": "figure-222-01",
+      "rect": [
+        0.09449451349807736,
+        0.7941802100477097,
+        0.3629845236461045,
+        0.9224736212008028
+      ],
+      "alt": "Original illustration from source page 222",
+      "image_type": "line-art"
+    },
+    {
+      "page": 224,
+      "name": "figure-224-01",
+      "rect": [
+        0.08952247609017795,
+        0.7819618662332241,
+        0.5419774356746976,
+        0.9316373426479855
+      ],
+      "alt": "Original illustration from source page 224",
+      "image_type": "line-art"
+    },
+    {
+      "page": 228,
+      "name": "figure-228-01",
+      "rect": [
+        0.08952247609017795,
+        0.7819618176816486,
+        0.6712502304663517,
+        0.9224736212008028
+      ],
+      "alt": "Original illustration from source page 228",
+      "image_type": "line-art"
+    },
+    {
+      "page": 230,
+      "name": "figure-230-01",
+      "rect": [
+        0.08952247609017795,
+        0.31766261646187777,
+        0.4773409592505459,
+        0.4001368377601527
+      ],
+      "alt": "Original illustration from source page 230",
+      "image_type": "line-art"
+    },
+    {
+      "page": 231,
+      "name": "figure-231-01",
+      "rect": [
+        0.44253676654503415,
+        0.4032073364926167,
+        0.9148797769757456,
+        0.5651012052734391
+      ],
+      "alt": "Original illustration from source page 231",
+      "image_type": "line-art"
+    },
+    {
+      "page": 232,
+      "name": "figure-232-01",
+      "rect": [
+        0.08952247609017795,
+        0.7575249843979512,
+        0.4425368060591965,
+        0.9346920135668638
+      ],
+      "alt": "Original illustration from source page 232",
+      "image_type": "line-art"
+    },
+    {
+      "page": 233,
+      "name": "figure-233-01",
+      "rect": [
+        0.3679562745763272,
+        0.7911255876804067,
+        0.9049358009453526,
+        0.9072005579158634
+      ],
+      "alt": "Original illustration from source page 233",
+      "image_type": "line-art"
+    },
+    {
+      "page": 234,
+      "name": "figure-234-02",
+      "rect": [
+        0.09449451349807736,
+        0.7239244782186466,
+        0.4127048384538551,
+        0.9316373426479855
+      ],
+      "alt": "Original illustration from source page 234",
+      "image_type": "line-art"
+    },
+    {
+      "page": 235,
+      "name": "figure-235-01",
+      "rect": [
+        0.2734617709567904,
+        0.7789072924174966,
+        0.9098818676700735,
+        0.9316373426479855
+      ],
+      "alt": "Original illustration from source page 235",
+      "image_type": "line-art"
+    },
+    {
+      "page": 242,
+      "name": "figure-242-01",
+      "rect": [
+        0.09449451349807736,
+        0.7666888029482847,
+        0.4673969437059906,
+        0.9224736212008028
+      ],
+      "alt": "Original illustration from source page 242",
+      "image_type": "line-art"
+    },
+    {
+      "page": 244,
+      "name": "figure-244-01",
+      "rect": [
+        0.09449451349807736,
+        0.3115533717272718,
+        0.35801221951760953,
+        0.4856656328741552
+      ],
+      "alt": "Original illustration from source page 244",
+      "image_type": "line-art"
+    },
+    {
+      "page": 245,
+      "name": "figure-245-01",
+      "rect": [
+        0.6960844863368325,
+        0.4398465886740633,
+        0.9098821047550474,
+        0.6017404574548856
+      ],
+      "alt": "Original illustration from source page 245",
+      "image_type": "line-art"
+    },
+    {
+      "page": 250,
+      "name": "figure-250-01",
+      "rect": [
+        0.08952247609017795,
+        0.10691105458197239,
+        0.4226486169134366,
+        0.3207331151943418
+      ],
+      "alt": "Original illustration from source page 250",
+      "image_type": "line-art"
+    },
+    {
+      "page": 251,
+      "name": "figure-251-01",
+      "rect": [
+        0.4872850538234259,
+        0.17715093432166215,
+        0.9148797769757456,
+        0.5406484470730052
+      ],
+      "alt": "Original illustration from source page 251",
+      "image_type": "line-art"
+    },
+    {
+      "page": 252,
+      "name": "figure-252-01",
+      "rect": [
+        0.08455044856081913,
+        0.6200680945555526,
+        0.5867257229530893,
+        0.9285827688322579
+      ],
+      "alt": "Original illustration from source page 252",
+      "image_type": "line-art"
+    },
+    {
+      "page": 254,
+      "name": "figure-254-01",
+      "rect": [
+        0.08952247609017795,
+        0.1466049534065096,
+        0.5568934787486117,
+        0.4062460339431832
+      ],
+      "alt": "Original illustration from source page 254",
+      "image_type": "line-art"
+    },
+    {
+      "page": 255,
+      "name": "figure-255-01",
+      "rect": [
+        0.43756473901567533,
+        0.40626193458413196,
+        0.9049358009453526,
+        0.6536846227547445
+      ],
+      "alt": "Original illustration from source page 255",
+      "image_type": "line-art"
+    },
+    {
+      "page": 256,
+      "name": "figure-256-01",
+      "rect": [
+        0.08952247609017795,
+        0.7391973472972843,
+        0.37292834161984834,
+        0.9285827688322579
+      ],
+      "alt": "Original illustration from source page 256",
+      "image_type": "line-art"
+    },
+    {
+      "page": 258,
+      "name": "figure-258-01",
+      "rect": [
+        0.08952247609017795,
+        0.16800306496385287,
+        0.5171172585137411,
+        0.4948453763412251
+      ],
+      "alt": "Original illustration from source page 258",
+      "image_type": "line-art"
+    },
+    {
+      "page": 259,
+      "name": "figure-259-01",
+      "rect": [
+        0.4673969437059906,
+        0.48872006103515647,
+        0.9099077889605491,
+        0.6445048792876746
+      ],
+      "alt": "Original illustration from source page 259",
+      "image_type": "line-art"
+    },
+    {
+      "page": 260,
+      "name": "figure-260-01",
+      "rect": [
+        0.08952247609017795,
+        0.2596252041715125,
+        0.5817536559095682,
+        0.574249098907036
+      ],
+      "alt": "Original illustration from source page 260",
+      "image_type": "line-art"
+    },
+    {
+      "page": 262,
+      "name": "figure-262-01",
+      "rect": [
+        0.08952247609017795,
+        0.36348161211039426,
+        0.5270613135724588,
+        0.6078497021894915
+      ],
+      "alt": "Original illustration from source page 262",
+      "image_type": "line-art"
+    },
+    {
+      "page": 263,
+      "name": "figure-263-01",
+      "rect": [
+        0.6265019431879599,
+        0.3207331151943418,
+        0.9099077889605491,
+        0.5925926123728641
+      ],
+      "alt": "Original illustration from source page 263",
+      "image_type": "line-art"
+    }
+  ],
+  "source_figure_anchors": true,
+  "source_relative_figures": true,
+  "cover_file": {
+    "path": "input/animal magic.jpg",
+    "sha256": "d37cabe039002de62ceb6db7af6adef016b0e01557769378fc96ec334548cc75",
+    "evidence": "User supplied as the requested Animal Magick cover; visually checked."
+  }
+}
