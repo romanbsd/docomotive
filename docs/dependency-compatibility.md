@@ -2,10 +2,11 @@
 
 The modern pipeline requires Python 3.12+ and is tested on Python 3.14.8.
 The current environment uses NumPy 2.5.4, SciPy 1.18.1, Pillow 13.0.0,
-RapidOCR 3.10.0, ONNX Runtime 1.31.0, headless OpenCV 5.0.0.93 and Black
-26.10.1. NumPy and SciPy set the new Python 3.12 minimum. All 560 pipeline
-tests and the installed extractor's 30 lightweight tests pass; dependency
-checks pass in the active environment and a clean lockfile installation.
+RapidOCR 3.10.0, ONNX Runtime 1.31.1, SymSpell 6.10.1, headless OpenCV
+5.0.0.93 and Black 26.10.1. NumPy and SciPy set the new Python 3.12 minimum.
+Earlier validation recorded 560 passing pipeline tests and 30 passing
+extractor tests. Those suites have not been rerun after the 2026-10-29 patch
+refresh; the updated environment passes `pip check`.
 
 ## doc-page-extractor on Python 3.14
 
@@ -77,6 +78,17 @@ environment. The previous compatible research constraints are preserved in
 `requirements-pdf-craft.lock.txt`; incompatible independent upgrades of the
 legacy model/LLM stack are not mixed into the modern environment.
 
+
+## Dependency patch refresh, 2026-10-29
+
+PyPI reported compatible patch releases for ONNX Runtime (1.31.1) and SymSpell
+(6.10.1). The project pins, `requirements.txt`, and modern Python 3.14
+environment lock snapshot were updated together. The environment was upgraded
+and reinstalled from the project metadata; `pip check` reports no broken
+requirements. No book regression or OCR accuracy claim has been made for this
+patch refresh. The Python 3.12 `pdf-craft` constraints environment remains
+separate because its NumPy, Pillow, and legacy extractor API requirements are
+incompatible with the modern dependency set.
 
 ## Dependency refresh, 2026-10-18
 
