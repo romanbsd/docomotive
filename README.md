@@ -315,6 +315,45 @@ Cleanup operates directly on cropped source pixels, then encodes JPEG once at qu
 
 Run `scripts/verify_figure_cleanup.py OUTPUT --profile PROFILE` to check decoded master/export pixels and packaged assets. An optional `--baseline PRE_CLEANUP_OUTPUT` also verifies unchanged text, notes, canonical structure and non-image package content; add `--editorial` for the corrected edition. Its local ink-contrast diagnostic uses SciPy smoothing to avoid confusing bright scan noise with faint ink, and reports encoding error separately. It complements full-resolution image review and EPUBCheck rather than proving every original detail is preserved.
 
+### Reduce an existing EPUB
+
+`scripts/optimize_epub.py` applies the same reader-size limits to an existing
+EPUB without running OCR or reconstructing its text. Supply the source and
+destination paths in place of `INPUT.epub` and `OUTPUT.epub`:
+
+```sh
+.venv/bin/python scripts/optimize_epub.py INPUT.epub OUTPUT.epub --paperwhite
+```
+
+The default preserves color, selecting grayscale only for neutral pixels.
+`--paperwhite` makes interior images grayscale and uses 16 gray levels for
+opaque PNG artwork; identified covers retain their color and full pixel budget.
+New JPEG encodes use optimized progressive coding at quality 85, configurable
+with `--jpeg-quality`. Bounded JPEGs already at that quality or lower retain
+their bytes when no color/orientation change is needed, avoiding repeated
+compression loss. Reviewed photographs can use the smaller 632 × 840 limit:
+repeat `--photo 'EPUB/images/photos/*.jpg'` with globs matching their actual
+paths inside the ZIP. Other raster images fit 1264 × 1680 without upscaling.
+Photo type and cover status are never inferred from filenames.
+
+Static, self-contained SVG illustrations can become PNGs when that reduces
+their payload, with simple JPEG/PNG fallbacks collapsed into one image. This
+requires `rsvg-convert` from librsvg; `--keep-svg` retains the vectors. Shared
+assets and CSS references are followed before removing unused media. Complex
+objects, dynamic or externally dependent SVGs, image maps, encrypted media and
+animated images are retained. Scripts, inherited XML bases or escaped CSS
+references disable media pruning when dependencies cannot be proved.
+
+The script discovers the package through `META-INF/container.xml` and checks
+preservation of text, IDs, hyperlinks, image counts, metadata and spine order.
+It writes one EPUB plus `OUTPUT.optimization.json`, including asset changes,
+skipped transformations and source/output hashes. Input is never overwritten;
+existing destinations require `--force`. Signed and multi-package EPUBs are
+rejected. `--fix-markup` optionally repairs multi-heading `hgroup` wrappers and
+redundant navigation heading labels. Run EPUBCheck and visually review the
+result, especially small map labels; the optimizer's preservation checks do
+not establish rendering quality on a physical reader.
+
 Native-text extraction masks reviewed diagram labels before horizontal merging. Positioned bold headings may contain unstyled separator spaces without losing their heading role. Optional `native_heading_merge` joins tightly wrapped heading lines with matching font sizes; `native_list_layout` preserves measured multi-span markers and hanging continuations as separate flowing items; `native_relative_font_sizes` retains relative sizes for smaller examples/quotations; `native_index_indents` preserves child-entry indentation. These options default off for existing profiles. Single-span list markers and cross-page list continuations remain conservative. Source markers currently render as hanging paragraphs rather than semantic nested lists. Mirrored references/index pages may need different reviewed gutter splits on odd and even pages.
 
 Coauthors with contributor role `aut` are emitted as EPUB creators and shown on the title page. A checksum-verified local cover takes precedence over an approved downloaded reference image; the source stays intact and the embedded cover follows the reader-size limit.
