@@ -60,7 +60,7 @@ opencv-python-headless==4.11.0.86
 orjson==3.12.0
 packaging==26.3
 pandas==2.3.3
-pdf-craft==0.2.1
+pdf-craft==2.6.7
 pillow==10.4.0
 pix2tex==0.1.4
 protobuf==7.36.2
